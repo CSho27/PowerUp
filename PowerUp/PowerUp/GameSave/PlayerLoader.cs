@@ -29,8 +29,9 @@ namespace PowerUp.GameSave
         if (gameSaveAttribute == null)
           break;
 
-        //if(gameSaveAttribute is GSBooleanAttribute boolAttr) property.SetValue(loadedPlayer, _reader.)
-        if (gameSaveAttribute is GSUInt16Attribute uint16Attr)
+        if (gameSaveAttribute is GSBooleanAttribute boolAttr)
+          property.SetValue(loadedPlayer, _reader.ReadBool(playerOffset + boolAttr.Offset, boolAttr.BitOffset));
+        else if (gameSaveAttribute is GSUInt16Attribute uint16Attr)
           property.SetValue(loadedPlayer, _reader.ReadUInt16(playerOffset + uint16Attr.Offset));
         else if (gameSaveAttribute is GSStringAttribute stringAttribute)
           property.SetValue(loadedPlayer, _reader.ReadString(playerOffset + stringAttribute.Offset, stringAttribute.StringLength));

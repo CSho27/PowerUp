@@ -15,8 +15,8 @@ namespace PowerUp.GameSave
 
   public abstract class GSPartialByteAttribute : GSAttribute
   {
-    public long BitOffset { get; }
-    public GSPartialByteAttribute(long offset, long bitOffset) 
+    public int BitOffset { get; }
+    public GSPartialByteAttribute(long offset, int bitOffset) 
       : base(offset) 
     {
       BitOffset = bitOffset;
@@ -25,7 +25,7 @@ namespace PowerUp.GameSave
 
   public class GSBooleanAttribute : GSPartialByteAttribute
   {
-    public GSBooleanAttribute(long offset, long bitOffset) : base(offset, bitOffset) { }
+    public GSBooleanAttribute(long offset, int bitOffset) : base(offset, bitOffset) { }
   }
 
   public class GSUInt2Attribute : GSPartialByteAttribute

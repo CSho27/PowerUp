@@ -13,5 +13,8 @@
 
     [GSString(0x32, stringLength: 14)]
     public string? FirstName { get; set; }
+
+    [GSBoolean(0x50, bitOffset: 4)]
+    public bool? IsEdited { get; set; }
   }
 }
