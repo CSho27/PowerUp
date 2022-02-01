@@ -10,9 +10,11 @@ namespace PowerUp
       var filePath = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_after.dat";
       using var loader = new PlayerLoader(filePath);
 
-      for(int i=1; i<30; i++)
+      string lastName = "";
+      for(int i=1; i<970 && lastName != "Giambi"; i++)
       {
         var player = loader.Load(playerId: i);
+        lastName = player.LastName ?? "";
         Console.WriteLine($@"{player.PowerProsId}: ({player.SavedName}) {player.LastName}, {player.FirstName}
           IsEdited: {player.IsEdited}
         ");
