@@ -1,6 +1,6 @@
 ﻿namespace PowerUp.GameSave
 {
-  public class LoadablePlayer
+  public class GSPlayer
   {
     [GSUInt16(0x00)]
     public int PowerProsId { get; set; }

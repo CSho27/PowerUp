@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
 using PowerUp.GameSave;
 using Shouldly;
-using System;
-using System.Configuration;
-using System.IO;
 
 namespace PowerUp.Tests.GameSave
 {

@@ -16,11 +16,11 @@ namespace PowerUp.GameSave
       _reader = new GameSaveReader(fileName);
     }
 
-    public LoadablePlayer Load(int playerId)
+    public GSPlayer Load(int playerId)
     {
       var playerOffset = PLAYER_START_OFFSET + PLAYER_SIZE * (playerId - 1);
-      var loadedPlayer = new LoadablePlayer();
-      foreach(var property in typeof(LoadablePlayer).GetProperties())
+      var loadedPlayer = new GSPlayer();
+      foreach(var property in typeof(GSPlayer).GetProperties())
       {
         var gameSaveAttribute = property
           .GetCustomAttributes(inherit: false)
