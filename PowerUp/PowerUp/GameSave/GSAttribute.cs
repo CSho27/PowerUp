@@ -33,14 +33,19 @@ namespace PowerUp.GameSave
     public GSUInt2Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
   }
 
+  public class GSUInt3Attribute : GSPartialByteAttribute
+  {
+    public GSUInt3Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
+  }
+
   public class GSUInt4Attribute : GSPartialByteAttribute
   {
     public GSUInt4Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
   }
 
-  public class GSUInt8Attribute : GSPartialByteAttribute
+  public class GSUInt8Attribute : GSAttribute
   {
-    public GSUInt8Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
+    public GSUInt8Attribute(long offset) : base(offset) { }
   }
 
   public class GSUInt16Attribute : GSAttribute
@@ -55,6 +60,17 @@ namespace PowerUp.GameSave
     public GSStringAttribute(long offset, int stringLength) : base(offset)
     {
       StringLength = stringLength;
+    }
+  }
+
+  public class GSBytesAttribute : GSAttribute
+  {
+    public int NumberOfBytes { get; }
+    
+    public GSBytesAttribute(long offset, int numberOfBytes) 
+      : base(offset) 
+    {
+      NumberOfBytes = numberOfBytes;
     }
   }
 }

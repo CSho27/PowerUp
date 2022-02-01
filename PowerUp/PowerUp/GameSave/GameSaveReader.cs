@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerUp.DebugUtils;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -6,12 +7,21 @@ namespace PowerUp.GameSave
 {
   public class GameSaveReader : IDisposable
   {
-    private const int BYTE_LENGTH = 8;
     private readonly Stream _stream;
 
     public GameSaveReader(string filePath)
     {
       _stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+    }
+
+    public byte[] ReadBytes(long offset, int numberOfBytes)
+    {
+      var reader = GetReaderFor(offset);
+      var bytes = Enumerable.Empty<byte>();
+      for (int i = 0; i < numberOfBytes; i++)
+        bytes = bytes.Append(reader.ReadByte());
+
+      return bytes.ToArray();
     }
 
     public string ReadString(long offset, int stringLength)
@@ -24,58 +34,12 @@ namespace PowerUp.GameSave
     }
 
     public char ReadChar(long offset) => GetChar(ReadUInt16(offset));
-
     public ushort ReadUInt16(long offset) => GetReaderFor(offset).ReadUInt16();
-
-    public ushort ReadUInt8(long offset)
-    {
-      var @byte = GetReaderFor(offset).ReadByte();
-      return GetBitsValue(@byte, 0, 8);
-    }
-
-    public ushort ReadUInt4(long offset, int bitOffset)
-    {
-      var @byte = GetReaderFor(offset).ReadByte();
-      return GetBitsValue(@byte, bitOffset, 4);
-    }
-
-    public ushort ReadUInt2(long offset, int bitOffset)
-    {
-      var @byte = GetReaderFor(offset).ReadByte();
-      return GetBitsValue(@byte, bitOffset, 2);
-    }
-
-    public bool ReadBool(long offset, int bitOffset)
-    {
-      var @byte = GetReaderFor(offset).ReadByte();
-      return GetBitsValue(@byte, bitOffset, 1) == 1;
-    }
-
-    private ushort GetBitsValue(byte @byte, int start, int length)
-    {
-      var bits = new byte[length];
-      for (int i = 0; i < length; i++)
-        bits[i] = GetBit(@byte, i + start);
-      return BitsToUInt16(bits);
-    }
-
-    private byte GetBit(byte @byte, int position)
-    {
-      var shift = BYTE_LENGTH - position - 1;
-      return (byte)((@byte >> shift) & 1);
-    }
-
-    private ushort BitsToUInt16(byte[] bits)
-    {
-      var value = 0;
-      var digits = 0;
-      for (int i = bits.Length - 1; i >= 0; i--)
-      {
-        value += (int)Math.Pow(2, digits) * bits[i];
-        digits++;
-      }
-      return (ushort)value;
-    }
+    public ushort ReadUInt8(long offset) => GetReaderFor(offset).ReadByte().GetBitsValue(0, 8);
+    public ushort ReadUInt4(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 4);
+    public ushort ReadUInt3(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 3);
+    public ushort ReadUInt2(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 2);
+    public bool ReadBool(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 1) == 1;
 
     private BigEndianBinaryReader GetReaderFor(long offset)
     {
