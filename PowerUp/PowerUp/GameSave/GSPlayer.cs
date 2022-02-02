@@ -40,11 +40,35 @@ namespace PowerUp.GameSave
       }
     }
 
-    [GSUInt8(0x54)]
-    public int Face { get; set; }
+    //[GSUInt8(0x54)]
+    public int Face
+    {
+      get
+      {
+        if (FaceBytes == null)
+          return 0;
 
-    [GSUInt8(0x55)]
-    public int Skin { get; set; }
+        var bits = new byte[10];
+        for (int i = 0; i < 3; i++)
+          bits[i] = FaceBytes[0].GetBit(i + 5);
+
+        for (int i = 3; i < 8; i++)
+          bits[i] = FaceBytes[1].GetBit(i - 3);
+
+        return bits.ToUInt16();
+      }
+    }
+
+    [GSBytes(0x54, numberOfBytes: 2)]
+    public byte[]? FaceBytes { get; set; }
+
+    [GSUInt4(0x55, 4)]
+    public int SkinAndEyes { get; set; }
+    public int Skin => SkinAndEyes % 5;
+    public bool AreEyesBlue => SkinAndEyes < 5;
+
+    [GSBytes(0x55, numberOfBytes: 1)]
+    public byte[]? SkinBytes { get; set; }
 
     [GSUInt3(0x56, 4)]
     public int Bat { get; set; }

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using PowerUp.DebugUtils;
 using PowerUp.GameSave;
 using Shouldly;
 
@@ -8,8 +7,6 @@ namespace PowerUp.Tests.GameSave
   public class PlayerLoaderTests
   {
     private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
-    private const string ANALYSIS_BEFORE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_before.dat";
-    private const string ANALYSIS_AFTER_PATH = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_after.dat";
     private const int JASON_GIAMBI_ID = 55;
     private const int SAMMY_SPEEDSTER_ID = 20;
     private const int PAUL_PITCHER_ID = 32;
@@ -82,13 +79,24 @@ namespace PowerUp.Tests.GameSave
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
-    [TestCase(PAUL_PITCHER_ID, 5)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
     public void Loads_Skin(int playerId, int skin)
     {
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Load(playerId);
       player.Skin.ShouldBe(skin);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Loads_AreEyesBlue(int playerId, bool areEyesBlue)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.AreEyesBlue.ShouldBe(areEyesBlue);
     }
 
     [Test]
@@ -111,24 +119,6 @@ namespace PowerUp.Tests.GameSave
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Load(playerId);
       player.Glove.ShouldBe(glove);
-    }
-
-    /*
-    [Test]
-    [TestCase(JASON_GIAMBI_ID, false)]
-    */
-    public void BeforeAfterComparison(int playerId, bool isEdited)
-    {
-      using var beforeLoader = new PlayerLoader(ANALYSIS_BEFORE_PATH);
-      using var afterLoader = new PlayerLoader(ANALYSIS_AFTER_PATH);
-
-      var beforePlayer = beforeLoader.Load(playerId);
-      var afterPlayer = afterLoader.Load(playerId);
-
-      var beforeBitString = beforePlayer.PlayerNumberBytes.ToBitString();
-      var afterBitString = afterPlayer.PlayerNumberBytes.ToBitString();
-
-      beforeBitString.ShouldBe(afterBitString);
     }
   }
 }
