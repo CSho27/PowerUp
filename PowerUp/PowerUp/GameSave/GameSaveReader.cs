@@ -61,10 +61,10 @@ namespace PowerUp.GameSave
     public char ReadChar(long offset) => GetChar(ReadUInt(offset, 0, 16));
     public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
 
-    private BigEndianBinaryReader GetReaderFor(long offset)
+    private BinaryReader GetReaderFor(long offset)
     {
       _stream.Seek(offset, SeekOrigin.Begin);
-      return new BigEndianBinaryReader(_stream);
+      return new BinaryReader(_stream);
     }
 
     public void Dispose() => _stream.Dispose();
