@@ -37,6 +37,7 @@ namespace PowerUp.GameSave
     public ushort ReadUInt16(long offset) => GetReaderFor(offset).ReadUInt16();
     public ushort ReadUInt8(long offset) => GetReaderFor(offset).ReadByte().GetBitsValue(0, 8);
     public ushort ReadUInt4(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 4);
+    public ushort ReadUInt5(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 5);
     public ushort ReadUInt3(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 3);
     public ushort ReadUInt2(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 2);
     public bool ReadBool(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 1) == 1;

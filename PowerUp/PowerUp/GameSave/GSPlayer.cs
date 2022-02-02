@@ -62,18 +62,35 @@ namespace PowerUp.GameSave
     [GSBytes(0x54, numberOfBytes: 2)]
     public byte[]? FaceBytes { get; set; }
 
-    [GSUInt4(0x55, 4)]
+    [GSUInt4(0x55, bitOffset: 4)]
     public int SkinAndEyes { get; set; }
     public int Skin => SkinAndEyes % 5;
     public bool AreEyesBrown => SkinAndEyes >= 5;
 
-    [GSBytes(0x55, numberOfBytes: 1)]
-    public byte[]? SkinBytes { get; set; }
-
-    [GSUInt3(0x56, 4)]
+    [GSUInt3(0x56, bitOffset: 1)]
     public int Bat { get; set; }
 
-    [GSUInt3(0x56, 0)]
+    [GSUInt3(0x56, bitOffset: 4)]
     public int Glove { get; set; }
+    
+    [GSUInt5(0x58, bitOffset: 0)]
+    public int Hair { get; set; }
+
+    [GSBytes(0x58, numberOfBytes: 2)]
+    public byte[]? HairColorBytes { get; set; }
+    public int HairColor
+    {
+      get
+      {
+        var bits = new byte[4];
+        for (int i = 0; i < 3; i++)
+          bits[i] = HairColorBytes![0].GetBit(i + 5);
+        bits[3] = HairColorBytes![1].GetBit(0);
+        return bits.ToUInt16();
+      }
+    }
+
+    [GSBytes(0x58, numberOfBytes: 2)]
+    public byte[]? HairBytes { get; set; }
   }
 }

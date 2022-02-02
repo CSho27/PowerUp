@@ -43,6 +43,11 @@ namespace PowerUp.GameSave
     public GSUInt4Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
   }
 
+  public class GSUInt5Attribute : GSPartialByteAttribute
+  {
+    public GSUInt5Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
+  }
+
   public class GSUInt8Attribute : GSAttribute
   {
     public GSUInt8Attribute(long offset) : base(offset) { }

@@ -100,9 +100,9 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
-    [TestCase(PAUL_PITCHER_ID, 6)]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
     public void Loads_Bat(int playerId, int bat)
     {
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
@@ -111,14 +111,36 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
-    [TestCase(PAUL_PITCHER_ID, 5)]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
     public void Loads_Glove(int playerId, int glove)
     {
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Load(playerId);
       player.Glove.ShouldBe(glove);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 17)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 12)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Loads_Hair(int playerId, int hair)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.Hair.ShouldBe(hair);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Loads_HairColor(int playerId, int hairColor)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.HairColor.ShouldBe(hairColor);
     }
   }
 }

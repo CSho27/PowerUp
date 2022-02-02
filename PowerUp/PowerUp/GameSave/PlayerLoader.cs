@@ -41,6 +41,8 @@ namespace PowerUp.GameSave
           property.SetValue(loadedPlayer, _reader.ReadUInt3(playerOffset + uint3Attr.Offset, uint3Attr.BitOffset));
         else if (gameSaveAttribute is GSUInt4Attribute uint4Attr)
           property.SetValue(loadedPlayer, _reader.ReadUInt4(playerOffset + uint4Attr.Offset, uint4Attr.BitOffset));
+        else if (gameSaveAttribute is GSUInt5Attribute uint5Attr)
+          property.SetValue(loadedPlayer, _reader.ReadUInt5(playerOffset + uint5Attr.Offset, uint5Attr.BitOffset));
         else if (gameSaveAttribute is GSUInt8Attribute uint8Attr)
           property.SetValue(loadedPlayer, _reader.ReadUInt8(playerOffset + uint8Attr.Offset));
         else if (gameSaveAttribute is GSUInt16Attribute uint16Attr)
