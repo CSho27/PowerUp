@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PowerUp.GameSave
 {
   public class PlayerLoader : IDisposable
   {
-    private const long PLAYER_START_OFFSET = 0x68c74;
-    private const long PLAYER_SIZE = 0xb0;
     private readonly GameSaveReader _reader;
 
     public PlayerLoader(string fileName)
@@ -16,16 +12,13 @@ namespace PowerUp.GameSave
       _reader = new GameSaveReader(fileName);
     }
 
-    public GSPlayer Load(int playerId)
+    public GSPlayer Load(int powerProsId)
     {
-      var playerOffset = PLAYER_START_OFFSET + PLAYER_SIZE * (playerId - 1);
+      var playerOffset = OffsetUtils.GetPlayerOffset(powerProsId);
       var loadedPlayer = new GSPlayer();
       foreach(var property in typeof(GSPlayer).GetProperties())
       {
-        var gameSaveAttribute = property
-          .GetCustomAttributes(inherit: false)
-          .SingleOrDefault(a => typeof(GSAttribute).IsAssignableFrom(a.GetType()));
-
+        var gameSaveAttribute = property.GetGSAttribute();
         if (gameSaveAttribute == null)
           continue;
 

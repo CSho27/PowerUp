@@ -26,6 +26,20 @@ namespace PowerUp.DebugUtils
       return (byte)((@byte >> shift) & 1);
     }
 
+    public static byte SetBit(this byte @byte, int position, byte newValue)
+    {
+      if (newValue != 0 && newValue != 1) 
+        throw new ArgumentException("New value can only be 0 or 1");
+      
+      var shift = BYTE_LENGTH - position - 1;
+      if (newValue == 1)
+        @byte = (byte)(@byte | (1 << shift));
+      else
+        @byte = (byte)(@byte & ~(1 << shift));
+
+      return @byte;
+    }
+
     public static ushort ToUInt16(this byte[] bits)
     {
       if (bits.Length > 16) 
@@ -39,6 +53,26 @@ namespace PowerUp.DebugUtils
         digits++;
       }
       return (ushort)value;
+    }
+
+    public static byte[] ToBitArray(this ushort @uint, int numberOfBits)
+    {
+      var bits = new byte[numberOfBits];
+      var currentValue = 0;
+
+      for (int i = 0; i < numberOfBits; i++)
+      {
+        var positionValue = (int)Math.Pow(2, numberOfBits - i - 1);
+        if (currentValue + positionValue <= @uint)
+        {
+          bits[i] = 1;
+          currentValue += positionValue;
+        }
+        else
+          bits[i] = 0;
+      }
+
+      return bits;
     }
   }
 }

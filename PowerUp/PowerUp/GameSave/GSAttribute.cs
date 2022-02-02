@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace PowerUp.GameSave
 {
@@ -57,5 +58,12 @@ namespace PowerUp.GameSave
     {
       NumberOfBytes = numberOfBytes;
     }
+  }
+  
+  public static class GSAttributeExtensions
+  {
+    public static GSAttribute GetGSAttribute(this PropertyInfo property) => (GSAttribute)property
+      .GetCustomAttributes(inherit: false)
+      .SingleOrDefault(a => typeof(GSAttribute).IsAssignableFrom(a.GetType()));
   }
 }
