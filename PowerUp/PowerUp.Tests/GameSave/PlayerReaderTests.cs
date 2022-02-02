@@ -4,7 +4,7 @@ using Shouldly;
 
 namespace PowerUp.Tests.GameSave
 {
-  public class PlayerLoaderTests
+  public class PlayerReaderTests
   {
     private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
     private const int JASON_GIAMBI_ID = 55;
