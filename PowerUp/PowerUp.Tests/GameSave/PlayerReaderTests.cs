@@ -17,8 +17,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, "Pitch")]
     public void Loads_SavedName(int playerId, string savedName)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.SavedName.ShouldBe(savedName);
     }
 
@@ -28,8 +28,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, "Pitcher")]
     public void Loads_LastName(int playerId, string lastName)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.LastName.ShouldBe(lastName);
     }
 
@@ -39,8 +39,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, "Paul")]
     public void Loads_FirstName(int playerId, string firstName)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.FirstName.ShouldBe(firstName);
     }
 
@@ -50,8 +50,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Loads_IsEdited(int playerId, bool isEdited)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.IsEdited.ShouldBe(isEdited);
     }
 
@@ -61,8 +61,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 36)]
     public void Loads_PlayerNumber(int playerId, int playerNumber)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.PlayerNumber.ShouldBe(playerNumber);
     }
 
@@ -72,8 +72,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 3)]
     public void Loads_PlayerNumberNumberOfDigits(int playerId, int numberOfDigits)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
     }
 
@@ -84,8 +84,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, "036")]
     public void Loads_PlayerNumberDisplay(int playerId, string playerNumberDisplay)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.PlayerNumberDisplay.ShouldBe(playerNumberDisplay);
     }
 
@@ -109,8 +109,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 4)]
     public void Loads_Skin(int playerId, int skin)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.Skin.ShouldBe(skin);
     }
 
@@ -120,8 +120,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Loads_AreEyesBlue(int playerId, bool areEyesBlue)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.AreEyesBrown.ShouldBe(areEyesBlue);
     }
 
@@ -131,8 +131,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 5)]
     public void Loads_Bat(int playerId, int bat)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.Bat.ShouldBe(bat);
     }
 
@@ -142,8 +142,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 4)]
     public void Loads_Glove(int playerId, int glove)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.Glove.ShouldBe(glove);
     }
 
@@ -153,8 +153,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 6)]
     public void Loads_Hair(int playerId, int hair)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.Hair.ShouldBe(hair);
     }
 
@@ -164,8 +164,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 4)]
     public void Loads_HairColor(int playerId, int hairColor)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.HairColor.ShouldBe(hairColor);
     }
 
@@ -175,8 +175,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 2)]
     public void Loads_FacialHair(int playerId, int facialHair)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.FacialHair.ShouldBe(facialHair);
     }
 
@@ -186,8 +186,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 13)]
     public void Loads_FacialHairColor(int playerId, int facialHairColor)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.FacialHairColor.ShouldBe(facialHairColor);
     }
 
@@ -197,8 +197,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 5)]
     public void Loads_GlassesType(int playerId, int glassesType)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.GlassesType.ShouldBe(glassesType);
     }
 
@@ -208,8 +208,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 2)]
     public void Loads_GlassesColor(int playerId, int glassesColor)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.GlassesColor.ShouldBe(glassesColor);
     }
 
@@ -219,8 +219,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 1)]
     public void Loads_EarringType(int playerId, int earringType)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.EarringType.ShouldBe(earringType);
     }
 
@@ -230,8 +230,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 8)]
     public void Loads_EarringColor(int playerId, int earringColor)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.EarringColor.ShouldBe(earringColor);
     }
 
@@ -241,8 +241,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 2)]
     public void Loads_RightWristband(int playerId, int rightWristband)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.RightWristband.ShouldBe(rightWristband);
     }
 
@@ -252,8 +252,8 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, 4)]
     public void Loads_LeftWristband(int playerId, int leftWristband)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.LeftWristband.ShouldBe(leftWristband);
     }
   }

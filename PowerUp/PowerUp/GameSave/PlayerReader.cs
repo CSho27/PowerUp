@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Linq;
 
 namespace PowerUp.GameSave
 {
-  public class PlayerLoader : IDisposable
+  public class PlayerReader : IDisposable
   {
     private readonly GameSaveReader _reader;
 
-    public PlayerLoader(string fileName)
+    public PlayerReader(string fileName)
     {
       _reader = new GameSaveReader(fileName);
     }
 
-    public GSPlayer Load(int powerProsId)
+    public GSPlayer Read(int powerProsId)
     {
       var playerOffset = OffsetUtils.GetPlayerOffset(powerProsId);
       var loadedPlayer = new GSPlayer();

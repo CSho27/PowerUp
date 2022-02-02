@@ -14,8 +14,8 @@ namespace PowerUp
       while (true) 
       {
         Console.ReadLine(); 
-        using var loader = new PlayerLoader(GAME_SAVE_PATH);
-        var player = loader.Load(PLAYER_ID);
+        using var loader = new PlayerReader(GAME_SAVE_PATH);
+        var player = loader.Read(PLAYER_ID);
         var bitString = player.AccessoriesBytes!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
