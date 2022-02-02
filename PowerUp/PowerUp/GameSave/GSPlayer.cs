@@ -34,27 +34,8 @@ namespace PowerUp.GameSave
       }
     }
 
-    //[GSUInt8(0x54)]
-    public int Face
-    {
-      get
-      {
-        if (FaceBytes == null)
-          return 0;
-
-        var bits = new byte[10];
-        for (int i = 0; i < 3; i++)
-          bits[i] = FaceBytes[0].GetBit(i + 5);
-
-        for (int i = 3; i < 8; i++)
-          bits[i] = FaceBytes[1].GetBit(i - 3);
-
-        return bits.ToUInt16();
-      }
-    }
-
-    [GSBytes(0x54, numberOfBytes: 2)]
-    public byte[]? FaceBytes { get; set; }
+    [GSUInt(0x54, bits: 8, bitOffset: 5)]
+    public int Face { get; set; }
 
     [GSUInt(0x55, bits: 4, bitOffset: 4)]
     public int SkinAndEyes { get; set; }
@@ -70,19 +51,8 @@ namespace PowerUp.GameSave
     [GSUInt(0x58, bits: 5, bitOffset: 0)]
     public int Hair { get; set; }
 
-    [GSBytes(0x58, numberOfBytes: 2)]
-    public byte[]? HairColorBytes { get; set; }
-    public int HairColor
-    {
-      get
-      {
-        var bits = new byte[4];
-        for (int i = 0; i < 3; i++)
-          bits[i] = HairColorBytes![0].GetBit(i + 5);
-        bits[3] = HairColorBytes![1].GetBit(0);
-        return bits.ToUInt16();
-      }
-    }
+    [GSUInt(0x58, bits: 4, bitOffset: 5)]
+    public int HairColor { get; set; }
 
     [GSBytes(0x58, numberOfBytes: 2)]
     public byte[]? HairBytes { get; set; }
