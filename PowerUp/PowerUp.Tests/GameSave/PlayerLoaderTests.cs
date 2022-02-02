@@ -247,7 +247,7 @@ namespace PowerUp.Tests.GameSave
     [TestCase(JASON_GIAMBI_ID, 1)]
     [TestCase(SAMMY_SPEEDSTER_ID, 5)]
     [TestCase(PAUL_PITCHER_ID, 4)]
-    public void Loads_LEftWristband(int playerId, int leftWristband)
+    public void Loads_LeftWristband(int playerId, int leftWristband)
     {
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Load(playerId);

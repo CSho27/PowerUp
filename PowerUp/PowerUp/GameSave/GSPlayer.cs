@@ -79,7 +79,10 @@ namespace PowerUp.GameSave
     [GSUInt(0x57, bits: 4, bitOffset: 3)]
     public int LeftWristband { get; set; }
 
-    [GSBytes(0x56, numberOfBytes: 2)]
+    // TODO: Add Batting Form
+    // TODO: Add Pitching Form
+    
+    [GSBytes(0x5a, numberOfBytes: 2)]
     public byte[]? AccessoriesBytes { get; set; }
   }
 }
