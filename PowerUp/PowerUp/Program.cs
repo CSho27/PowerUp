@@ -1,7 +1,6 @@
 ﻿using PowerUp.DebugUtils;
 using PowerUp.GameSave;
 using System;
-using System.IO;
 
 namespace PowerUp
 {
@@ -17,10 +16,9 @@ namespace PowerUp
         Console.ReadLine(); 
         using var loader = new PlayerLoader(GAME_SAVE_PATH);
         var player = loader.Load(PLAYER_ID);
-        var bitString = player.HairBytes!.ToBitString();
+        var bitString = player.AccessoriesBytes!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
-        Console.WriteLine($"Hair/Color: {player.Hair}/{player.HairColor}");
       }
     }
   }

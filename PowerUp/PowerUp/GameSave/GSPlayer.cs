@@ -54,7 +54,13 @@ namespace PowerUp.GameSave
     [GSUInt(0x58, bits: 4, bitOffset: 5)]
     public int HairColor { get; set; }
 
-    [GSBytes(0x58, numberOfBytes: 2)]
-    public byte[]? HairBytes { get; set; }
+    [GSUInt(0x59, bits: 5, bitOffset: 1)]
+    public int FacialHair { get; set; }
+
+    [GSUInt(0x59, bits: 4, bitOffset: 6)]
+    public int FacialHairColor { get; set; }
+
+    [GSBytes(0x5A, numberOfBytes: 2)]
+    public byte[]? AccessoriesBytes { get; set; }
   }
 }
