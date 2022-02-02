@@ -67,6 +67,12 @@ namespace PowerUp.GameSave
     [GSUInt(0x5c, bits: 4, bitOffset: 0)]
     public int GlassesColor { get; set; }
 
+    [GSUInt(0x5A, bits: 2, bitOffset: 4)]
+    public int EarringType { get; set; }
+
+    [GSUInt(0x5A, bits: 4, bitOffset: 6)]
+    public int EarringColor { get; set; }
+
     [GSBytes(0x5A, numberOfBytes: 3)]
     public byte[]? AccessoriesBytes { get; set; }
   }
