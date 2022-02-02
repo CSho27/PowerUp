@@ -96,7 +96,7 @@ namespace PowerUp.Tests.GameSave
     {
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Load(playerId);
-      player.AreEyesBlue.ShouldBe(areEyesBlue);
+      player.AreEyesBrown.ShouldBe(areEyesBlue);
     }
 
     [Test]

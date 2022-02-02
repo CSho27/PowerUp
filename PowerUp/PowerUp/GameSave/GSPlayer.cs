@@ -65,7 +65,7 @@ namespace PowerUp.GameSave
     [GSUInt4(0x55, 4)]
     public int SkinAndEyes { get; set; }
     public int Skin => SkinAndEyes % 5;
-    public bool AreEyesBlue => SkinAndEyes < 5;
+    public bool AreEyesBrown => SkinAndEyes >= 5;
 
     [GSBytes(0x55, numberOfBytes: 1)]
     public byte[]? SkinBytes { get; set; }

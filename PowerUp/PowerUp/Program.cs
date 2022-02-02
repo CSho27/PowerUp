@@ -10,8 +10,6 @@ namespace PowerUp
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
     private const int PLAYER_ID = 20;
 
-    private static DateTime lastLog = DateTime.Now;
-
     static void Main(string[] args)
     {
       while (true) 
