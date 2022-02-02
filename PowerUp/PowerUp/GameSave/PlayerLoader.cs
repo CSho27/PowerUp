@@ -29,24 +29,10 @@ namespace PowerUp.GameSave
         if (gameSaveAttribute == null)
           continue;
 
-        var type = property.PropertyType;
-
-        
-
         if (gameSaveAttribute is GSBooleanAttribute boolAttr)
           property.SetValue(loadedPlayer, _reader.ReadBool(playerOffset + boolAttr.Offset, boolAttr.BitOffset));
-        else if (gameSaveAttribute is GSUInt2Attribute uint2Attr)
-          property.SetValue(loadedPlayer, _reader.ReadUInt2(playerOffset + uint2Attr.Offset, uint2Attr.BitOffset));
-        else if (gameSaveAttribute is GSUInt3Attribute uint3Attr)
-          property.SetValue(loadedPlayer, _reader.ReadUInt3(playerOffset + uint3Attr.Offset, uint3Attr.BitOffset));
-        else if (gameSaveAttribute is GSUInt4Attribute uint4Attr)
-          property.SetValue(loadedPlayer, _reader.ReadUInt4(playerOffset + uint4Attr.Offset, uint4Attr.BitOffset));
-        else if (gameSaveAttribute is GSUInt5Attribute uint5Attr)
-          property.SetValue(loadedPlayer, _reader.ReadUInt5(playerOffset + uint5Attr.Offset, uint5Attr.BitOffset));
-        else if (gameSaveAttribute is GSUInt8Attribute uint8Attr)
-          property.SetValue(loadedPlayer, _reader.ReadUInt8(playerOffset + uint8Attr.Offset));
-        else if (gameSaveAttribute is GSUInt16Attribute uint16Attr)
-          property.SetValue(loadedPlayer, _reader.ReadUInt16(playerOffset + uint16Attr.Offset));
+        else if (gameSaveAttribute is GSUIntAttribute uintAttr)
+          property.SetValue(loadedPlayer, _reader.ReadUInt(playerOffset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits));
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           property.SetValue(loadedPlayer, _reader.ReadString(playerOffset + stringAttr.Offset, stringAttr.StringLength));
         else if(gameSaveAttribute is GSBytesAttribute bytesAttr)

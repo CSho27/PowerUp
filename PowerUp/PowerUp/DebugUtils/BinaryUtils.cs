@@ -7,7 +7,7 @@ namespace PowerUp.DebugUtils
 {
   public static class BinaryUtils
   {
-    private const int BYTE_LENGTH = 8;
+    public const int BYTE_LENGTH = 8;
 
     public static string ToBitString(this byte @byte)
     {
@@ -26,17 +26,11 @@ namespace PowerUp.DebugUtils
       return (byte)((@byte >> shift) & 1);
     }
 
-    public static ushort GetBitsValue(this byte @byte, int start, int length)
-    {
-      var bits = new byte[length];
-      for (int i = 0; i < length; i++)
-        bits[i] = GetBit(@byte, i + start);
-      return bits.ToUInt16();
-    }
-
-
     public static ushort ToUInt16(this byte[] bits)
     {
+      if (bits.Length > 16) 
+        throw new ArgumentException("Number of bits exceeded 16 bit maximum");
+
       var value = 0;
       var digits = 0;
       for (int i = bits.Length - 1; i >= 0; i--)

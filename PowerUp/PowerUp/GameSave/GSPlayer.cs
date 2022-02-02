@@ -4,7 +4,7 @@ namespace PowerUp.GameSave
 {
   public class GSPlayer
   {
-    [GSUInt16(0x00)]
+    [GSUInt(0x00, bits: 16)]
     public int PowerProsId { get; set; }
 
     [GSString(0x02, stringLength: 10)]
@@ -19,24 +19,18 @@ namespace PowerUp.GameSave
     [GSBoolean(0x50, bitOffset: 4)]
     public bool? IsEdited { get; set; }
 
-    [GSBytes(0x51, numberOfBytes: 3)]
-    public byte[]? PlayerNumberBytes { get; set; }
-    public string? PlayerNumber
+    [GSUInt(0x51, bits: 10, bitOffset: 7)]
+    public int PlayerNumber { get; set; }
+
+    [GSUInt(0x51, bits: 2, bitOffset: 5)]
+    public int PlayerNumberNumberOfDigits { get; set; }
+
+    public string? PlayerNumberDisplay
     {
-      get 
+      get
       {
-        if (PlayerNumberBytes == null)
-          return null;
-
-        var bits = new byte[10];
-        bits[0] = PlayerNumberBytes[0].GetBit(7);
-        for (int i = 1; i < 9; i++)
-          bits[i] = PlayerNumberBytes[1].GetBit(i - 1);
-        bits[9] = PlayerNumberBytes[2].GetBit(0);
-
-        var numberOfDigits = PlayerNumberBytes[0].GetBitsValue(5, 2);
-        var trimmedNumber = bits.ToUInt16().ToString();
-        return $"{new string('0', numberOfDigits - trimmedNumber.Length)}{trimmedNumber}";
+        var trimmedNumber = PlayerNumber.ToString();
+        return $"{new string('0', PlayerNumberNumberOfDigits - trimmedNumber.Length)}{trimmedNumber}";
       }
     }
 
@@ -62,18 +56,18 @@ namespace PowerUp.GameSave
     [GSBytes(0x54, numberOfBytes: 2)]
     public byte[]? FaceBytes { get; set; }
 
-    [GSUInt4(0x55, bitOffset: 4)]
+    [GSUInt(0x55, bits: 4, bitOffset: 4)]
     public int SkinAndEyes { get; set; }
     public int Skin => SkinAndEyes % 5;
     public bool AreEyesBrown => SkinAndEyes >= 5;
 
-    [GSUInt3(0x56, bitOffset: 1)]
+    [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public int Bat { get; set; }
 
-    [GSUInt3(0x56, bitOffset: 4)]
+    [GSUInt(0x56, bits: 3, bitOffset: 4)]
     public int Glove { get; set; }
     
-    [GSUInt5(0x58, bitOffset: 0)]
+    [GSUInt(0x58, bits: 5, bitOffset: 0)]
     public int Hair { get; set; }
 
     [GSBytes(0x58, numberOfBytes: 2)]

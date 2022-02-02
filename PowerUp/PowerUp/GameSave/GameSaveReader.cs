@@ -33,14 +33,33 @@ namespace PowerUp.GameSave
       return new string(chars.ToArray()).TrimEnd();
     }
 
-    public char ReadChar(long offset) => GetChar(ReadUInt16(offset));
-    public ushort ReadUInt16(long offset) => GetReaderFor(offset).ReadUInt16();
-    public ushort ReadUInt8(long offset) => GetReaderFor(offset).ReadByte().GetBitsValue(0, 8);
-    public ushort ReadUInt4(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 4);
-    public ushort ReadUInt5(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 5);
-    public ushort ReadUInt3(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 3);
-    public ushort ReadUInt2(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 2);
-    public bool ReadBool(long offset, int bitOffset) => GetReaderFor(offset).ReadByte().GetBitsValue(bitOffset, 1) == 1;
+    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits)
+    {
+      var reader = GetReaderFor(offset);
+      var valueBits = new byte[numberOfBits];
+
+      int bitsRead = 0;
+      int bitOfCurrentByte = bitOffset;
+      byte currentByte = reader.ReadByte();
+      while (bitsRead < numberOfBits)
+      {
+        if (bitOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
+        {
+          currentByte = reader.ReadByte();
+          bitOfCurrentByte = 0;
+        }
+
+        valueBits[bitsRead] = currentByte.GetBit(bitOfCurrentByte);
+
+        bitsRead++;
+        bitOfCurrentByte++;
+      }
+
+      return valueBits.ToUInt16();
+    }
+
+    public char ReadChar(long offset) => GetChar(ReadUInt(offset, 0, 16));
+    public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
 
     private BigEndianBinaryReader GetReaderFor(long offset)
     {

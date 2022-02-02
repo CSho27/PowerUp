@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.GameSave
 {
@@ -13,49 +15,27 @@ namespace PowerUp.GameSave
     }
   }
 
-  public abstract class GSPartialByteAttribute : GSAttribute
+  public class GSUIntAttribute : GSAttribute
   {
+    public int Bits { get; }
     public int BitOffset { get; }
-    public GSPartialByteAttribute(long offset, int bitOffset) 
+
+    public GSUIntAttribute(long offset, int bits, int bitOffset = 0) 
       : base(offset) 
     {
+      Bits = bits;
       BitOffset = bitOffset;
     }
   }
 
-  public class GSBooleanAttribute : GSPartialByteAttribute
+  public class GSBooleanAttribute : GSAttribute
   {
-    public GSBooleanAttribute(long offset, int bitOffset) : base(offset, bitOffset) { }
-  }
+    public int BitOffset { get; }
 
-  public class GSUInt2Attribute : GSPartialByteAttribute
-  {
-    public GSUInt2Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
-  }
-
-  public class GSUInt3Attribute : GSPartialByteAttribute
-  {
-    public GSUInt3Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
-  }
-
-  public class GSUInt4Attribute : GSPartialByteAttribute
-  {
-    public GSUInt4Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
-  }
-
-  public class GSUInt5Attribute : GSPartialByteAttribute
-  {
-    public GSUInt5Attribute(long offset, int bitOffset) : base(offset, bitOffset) { }
-  }
-
-  public class GSUInt8Attribute : GSAttribute
-  {
-    public GSUInt8Attribute(long offset) : base(offset) { }
-  }
-
-  public class GSUInt16Attribute : GSAttribute
-  {
-    public GSUInt16Attribute(long offset) : base(offset) { }
+    public GSBooleanAttribute(long offset, int bitOffset) : base(offset) 
+    {
+      BitOffset = bitOffset;
+    }
   }
 
   public class GSStringAttribute : GSAttribute

@@ -56,14 +56,37 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, "25")]
-    [TestCase(SAMMY_SPEEDSTER_ID, "999")]
-    [TestCase(PAUL_PITCHER_ID, "036")]
-    public void Loads_PlayerNumer(int playerId, string playerNumber)
+    [TestCase(JASON_GIAMBI_ID, 25)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 999)]
+    [TestCase(PAUL_PITCHER_ID, 36)]
+    public void Loads_PlayerNumber(int playerId, int playerNumber)
     {
       using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Load(playerId);
       player.PlayerNumber.ShouldBe(playerNumber);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Loads_PlayerNumberNumberOfDigits(int playerId, int numberOfDigits)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
+    }
+
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, "25")]
+    [TestCase(SAMMY_SPEEDSTER_ID, "999")]
+    [TestCase(PAUL_PITCHER_ID, "036")]
+    public void Loads_PlayerNumberDisplay(int playerId, string playerNumberDisplay)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.PlayerNumberDisplay.ShouldBe(playerNumberDisplay);
     }
 
     [Test]
