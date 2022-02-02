@@ -187,5 +187,27 @@ namespace PowerUp.Tests.GameSave
       var player = loader.Load(playerId);
       player.FacialHairColor.ShouldBe(facialHairColor);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Loads_GlassesType(int playerId, int glassesType)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.GlassesType.ShouldBe(glassesType);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Loads_GlassesColor(int playerId, int glassesColor)
+    {
+      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Load(playerId);
+      player.GlassesColor.ShouldBe(glassesColor);
+    }
   }
 }

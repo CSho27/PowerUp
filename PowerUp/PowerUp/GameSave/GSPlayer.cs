@@ -60,7 +60,14 @@ namespace PowerUp.GameSave
     [GSUInt(0x59, bits: 4, bitOffset: 6)]
     public int FacialHairColor { get; set; }
 
-    [GSBytes(0x5A, numberOfBytes: 2)]
+    // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
+    [GSUInt(0x5b, bits: 4, bitOffset: 2)]
+    public int GlassesType { get; set; }
+
+    [GSUInt(0x5c, bits: 4, bitOffset: 0)]
+    public int GlassesColor { get; set; }
+
+    [GSBytes(0x5A, numberOfBytes: 3)]
     public byte[]? AccessoriesBytes { get; set; }
   }
 }
