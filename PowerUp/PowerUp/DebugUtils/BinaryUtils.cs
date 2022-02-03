@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,13 +31,9 @@ namespace PowerUp.DebugUtils
     {
       if (newValue != 0 && newValue != 1) 
         throw new ArgumentException("New value can only be 0 or 1");
-      
-      var shift = BYTE_LENGTH - position - 1;
-      if (newValue == 1)
-        @byte = (byte)(@byte | (1 << shift));
-      else
-        @byte = (byte)(@byte & ~(1 << shift));
 
+      var shift = BYTE_LENGTH - position - 1;
+      @byte ^= (byte)((-newValue ^ @byte) & (1 << shift));
       return @byte;
     }
 

@@ -23,27 +23,27 @@ namespace PowerUp.GameSave
     public void WriteUInt(long offset, int bitOffset, int numberOfBits, ushort @uint)
     {
       _stream.Seek(offset, SeekOrigin.Begin);
-      var reader = new BinaryReader(_stream);
-      var writer = new BinaryWriter(_stream);
+      var writer = new PeekingBinaryWriter(_stream);
       var valueBits = @uint.ToBitArray(numberOfBits);
 
       int bitsWritten = 0;
       int bitsOfCurrentByte = bitOffset;
-      byte currentByte = reader.ReadByte();
+      byte currentByte = writer.PeekByte();
       while(bitsWritten < numberOfBits)
       {
         if(bitsOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
         {
           writer.Write(currentByte);
-          currentByte = reader.ReadByte();
+          currentByte = writer.PeekByte();
           bitsOfCurrentByte = 0;
         }
 
-        currentByte.SetBit(bitsOfCurrentByte, valueBits[bitsWritten]);
+        currentByte = currentByte.SetBit(bitsOfCurrentByte, valueBits[bitsWritten]);
 
         bitsWritten++;
         bitsOfCurrentByte++;
       }
+      writer.Write(currentByte);
     }
 
     public void Dispose() => _stream.Dispose();
