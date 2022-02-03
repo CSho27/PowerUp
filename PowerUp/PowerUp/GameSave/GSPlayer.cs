@@ -5,7 +5,7 @@ namespace PowerUp.GameSave
   public class GSPlayer
   {
     [GSUInt(0x00, bits: 16)]
-    public int PowerProsId { get; set; }
+    public ushort PowerProsId { get; set; }
 
     [GSString(0x02, stringLength: 10)]
     public string? SavedName { get; set; }
@@ -20,10 +20,10 @@ namespace PowerUp.GameSave
     public bool? IsEdited { get; set; }
 
     [GSUInt(0x51, bits: 10, bitOffset: 7)]
-    public int PlayerNumber { get; set; }
+    public ushort PlayerNumber { get; set; }
 
     [GSUInt(0x51, bits: 2, bitOffset: 5)]
-    public int PlayerNumberNumberOfDigits { get; set; }
+    public ushort PlayerNumberNumberOfDigits { get; set; }
 
     public string? PlayerNumberDisplay
     {
@@ -35,49 +35,49 @@ namespace PowerUp.GameSave
     }
 
     [GSUInt(0x54, bits: 8, bitOffset: 5)]
-    public int Face { get; set; }
+    public ushort Face { get; set; }
 
     [GSUInt(0x55, bits: 4, bitOffset: 4)]
-    public int SkinAndEyes { get; set; }
-    public int Skin => SkinAndEyes % 5;
+    public ushort SkinAndEyes { get; set; }
+    public ushort Skin => (ushort)(SkinAndEyes % 5);
     public bool AreEyesBrown => SkinAndEyes >= 5;
 
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
-    public int Bat { get; set; }
+    public ushort Bat { get; set; }
 
     [GSUInt(0x56, bits: 3, bitOffset: 4)]
-    public int Glove { get; set; }
+    public ushort Glove { get; set; }
     
     [GSUInt(0x58, bits: 5, bitOffset: 0)]
-    public int Hair { get; set; }
+    public ushort Hair { get; set; }
 
     [GSUInt(0x58, bits: 4, bitOffset: 5)]
-    public int HairColor { get; set; }
+    public ushort HairColor { get; set; }
 
     [GSUInt(0x59, bits: 5, bitOffset: 1)]
-    public int FacialHair { get; set; }
+    public ushort FacialHair { get; set; }
 
     [GSUInt(0x59, bits: 4, bitOffset: 6)]
-    public int FacialHairColor { get; set; }
+    public ushort FacialHairColor { get; set; }
 
     // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
     [GSUInt(0x5b, bits: 4, bitOffset: 2)]
-    public int GlassesType { get; set; }
+    public ushort GlassesType { get; set; }
 
     [GSUInt(0x5c, bits: 4, bitOffset: 0)]
-    public int GlassesColor { get; set; }
+    public ushort GlassesColor { get; set; }
 
     [GSUInt(0x5A, bits: 2, bitOffset: 4)]
-    public int EarringType { get; set; }
+    public ushort EarringType { get; set; }
 
     [GSUInt(0x5A, bits: 4, bitOffset: 6)]
-    public int EarringColor { get; set; }
+    public ushort EarringColor { get; set; }
 
     [GSUInt(0x56, bits: 4, bitOffset: 7)]
-    public int RightWristband { get; set; }
+    public ushort RightWristband { get; set; }
 
     [GSUInt(0x57, bits: 4, bitOffset: 3)]
-    public int LeftWristband { get; set; }
+    public ushort LeftWristband { get; set; }
 
     // TODO: Add Batting Form
     // TODO: Add Pitching Form

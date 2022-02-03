@@ -56,10 +56,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 25)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 999)]
-    [TestCase(PAUL_PITCHER_ID, 36)]
-    public void Loads_PlayerNumber(int playerId, int playerNumber)
+    [TestCase(JASON_GIAMBI_ID, (ushort)25)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)999)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)36)]
+    public void Loads_PlayerNumber(int playerId, ushort playerNumber)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -67,10 +67,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
-    [TestCase(PAUL_PITCHER_ID, 3)]
-    public void Loads_PlayerNumberNumberOfDigits(int playerId, int numberOfDigits)
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Loads_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -104,10 +104,10 @@ namespace PowerUp.Tests.GameSave
     */
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
-    [TestCase(PAUL_PITCHER_ID, 4)]
-    public void Loads_Skin(int playerId, int skin)
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Loads_Skin(int playerId, ushort skin)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -126,10 +126,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
-    [TestCase(PAUL_PITCHER_ID, 5)]
-    public void Loads_Bat(int playerId, int bat)
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Loads_Bat(int playerId, ushort bat)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -137,10 +137,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
-    [TestCase(PAUL_PITCHER_ID, 4)]
-    public void Loads_Glove(int playerId, int glove)
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Loads_Glove(int playerId, ushort glove)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -148,10 +148,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 17)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 12)]
-    [TestCase(PAUL_PITCHER_ID, 6)]
-    public void Loads_Hair(int playerId, int hair)
+    [TestCase(JASON_GIAMBI_ID, (ushort)17)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Loads_Hair(int playerId, ushort hair)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -159,10 +159,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
-    [TestCase(PAUL_PITCHER_ID, 4)]
-    public void Loads_HairColor(int playerId, int hairColor)
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Loads_HairColor(int playerId, ushort hairColor)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -170,10 +170,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
-    [TestCase(PAUL_PITCHER_ID, 2)]
-    public void Loads_FacialHair(int playerId, int facialHair)
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Loads_FacialHair(int playerId, ushort facialHair)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -181,10 +181,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 8)]
-    [TestCase(PAUL_PITCHER_ID, 13)]
-    public void Loads_FacialHairColor(int playerId, int facialHairColor)
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)8)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)13)]
+    public void Loads_FacialHairColor(int playerId, ushort facialHairColor)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -192,10 +192,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
-    [TestCase(PAUL_PITCHER_ID, 5)]
-    public void Loads_GlassesType(int playerId, int glassesType)
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Loads_GlassesType(int playerId, ushort glassesType)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -203,10 +203,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
-    [TestCase(PAUL_PITCHER_ID, 2)]
-    public void Loads_GlassesColor(int playerId, int glassesColor)
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Loads_GlassesColor(int playerId, ushort glassesColor)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -214,10 +214,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
-    [TestCase(PAUL_PITCHER_ID, 1)]
-    public void Loads_EarringType(int playerId, int earringType)
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Loads_EarringType(int playerId, ushort earringType)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -225,10 +225,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
-    [TestCase(PAUL_PITCHER_ID, 8)]
-    public void Loads_EarringColor(int playerId, int earringColor)
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
+    public void Loads_EarringColor(int playerId, ushort earringColor)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -236,10 +236,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
-    [TestCase(PAUL_PITCHER_ID, 2)]
-    public void Loads_RightWristband(int playerId, int rightWristband)
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Loads_RightWristband(int playerId, ushort rightWristband)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
@@ -247,10 +247,10 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
-    [TestCase(PAUL_PITCHER_ID, 4)]
-    public void Loads_LeftWristband(int playerId, int leftWristband)
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Loads_LeftWristband(int playerId, ushort leftWristband)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
