@@ -19,6 +19,59 @@ namespace PowerUp.Tests.GameSave
       File.Copy(TEST_READ_GAME_SAVE_FILE_PATH, TEST_WRITE_GAME_SAVE_FILE_PATH, overwrite: true);
     }
 
+
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, "Gambini")]
+    [TestCase(SAMMY_SPEEDSTER_ID, "Sausage")]
+    [TestCase(PAUL_PITCHER_ID, "Vegetables")]
+    public void Writes_SavedName(int playerId, string savedName)
+    {
+      var playerToWrite = new GSPlayer { SavedName = savedName };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SavedName.ShouldBe(savedName);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, "(3 - 4)/[+]?")]
+    [TestCase(SAMMY_SPEEDSTER_ID, "Williams")]
+    [TestCase(PAUL_PITCHER_ID, "{}^^^Stout")]
+    public void Writes_LastName(int playerId, string lastName)
+    {
+      var playerToWrite = new GSPlayer { LastName = lastName };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.LastName.ShouldBe(lastName);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, "Willy")]
+    [TestCase(SAMMY_SPEEDSTER_ID, "Sammy")]
+    [TestCase(PAUL_PITCHER_ID, "Jojo?")]
+    public void Writes_FirstName(int playerId, string firstName)
+    {
+      var playerToWrite = new GSPlayer { FirstName = firstName };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.FirstName.ShouldBe(firstName);
+    }
+
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)8)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)777)]
@@ -27,15 +80,12 @@ namespace PowerUp.Tests.GameSave
     {
       var playerToWrite = new GSPlayer { PlayerNumber = playerNumber };
       using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
-      {
         writer.Write(playerId, playerToWrite);
-      }
 
       GSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
-      {
         loadedPlayer = reader.Read(playerId); 
-      }
+      
       loadedPlayer.PlayerNumber.ShouldBe(playerNumber);
     }
   }

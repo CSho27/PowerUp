@@ -1,23 +1,24 @@
 ﻿using PowerUp.DebugUtils;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace PowerUp.GameSave
 {
   public class GameSaveWriter : IDisposable
   {
     private readonly Stream _stream;
+    private readonly CharacterLibrary _characterLibrary;
 
     public GameSaveWriter(string filePath)
     {
       _stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
+      _characterLibrary = CharacterLibrary.Default;
     }
 
-    public void WriteString(long offset, string @string)
+    public void WriteString(long offset, int stringLength, string @string)
     {
-      
+      for (int i = 0; i < stringLength; i++)
+        WriteChar(offset + 2 * i, i < @string.Length ? @string[i] : ' ');
     }
 
     public void WriteUInt(long offset, int bitOffset, int numberOfBits, ushort @uint)
@@ -45,6 +46,15 @@ namespace PowerUp.GameSave
       }
       writer.Write(currentByte);
     }
+
+    public void WriteChar(long offset, char @char) 
+    {
+      var charNum = _characterLibrary[@char];
+      if(charNum.HasValue)
+        WriteUInt(offset, 0, 16, charNum.Value);
+    }
+
+    public void WriteBool(long offset, int bitOffset, bool @bool) => WriteUInt(offset, bitOffset, 1, (ushort)(@bool ? 1 : 0));
 
     public void Dispose() => _stream.Dispose();
   }
