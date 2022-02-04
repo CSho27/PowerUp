@@ -62,7 +62,7 @@ namespace PowerUp.GameSave
   
   public static class GSAttributeExtensions
   {
-    public static GSAttribute GetGSAttribute(this PropertyInfo property) => (GSAttribute)property
+    public static GSAttribute? GetGSAttribute(this PropertyInfo property) => (GSAttribute?)property
       .GetCustomAttributes(inherit: false)
       .SingleOrDefault(a => typeof(GSAttribute).IsAssignableFrom(a.GetType()));
   }
