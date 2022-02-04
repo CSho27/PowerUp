@@ -1,0 +1,43 @@
+{
+  "name": "powerup",
+  "version": "1.0.0",
+  "description": "A Game Save Reader and Writer for the Wii version of MLB Power Pros",
+  "main": "main.js",
+  "scripts": {
+    "build-react": "webpack --mode development --config webpack.react.config.js",
+    "build": "webpack --mode development",
+    "start": "electron ./dist/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSho27/PowerUp.git"
+  },
+  "keywords": [],
+  "author": "Christopher Shorter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSho27/PowerUp/issues"
+  },
+  "homepage": "https://github.com/CSho27/PowerUp#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.17.0",
+    "@babel/core": "^7.17.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-transform-arrow-functions": "^7.16.7",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "babel-loader": "^8.2.3",
+    "electron": "^17.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "typescript": "^4.5.5",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

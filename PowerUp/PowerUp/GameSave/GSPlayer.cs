@@ -31,8 +31,8 @@ namespace PowerUp.GameSave
       {
         if (!PlayerNumberNumberOfDigits.HasValue || PlayerNumberNumberOfDigits == 0) return "";
 
-        var trimmedNumber = PlayerNumber.ToString();
-        return $"{new string('0', PlayerNumberNumberOfDigits.Value - trimmedNumber.Length)}{trimmedNumber}";
+        var trimmedNumber = PlayerNumber!.ToString();
+        return $"{new string('0', PlayerNumberNumberOfDigits.Value - trimmedNumber!.Length)}{trimmedNumber}";
       }
     }
 
