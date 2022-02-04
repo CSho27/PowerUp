@@ -15,11 +15,19 @@ namespace PowerUp.Tests.GameSave
 
     [SetUp]
     public void SetUp()
-    {
-      File.Copy(TEST_READ_GAME_SAVE_FILE_PATH, TEST_WRITE_GAME_SAVE_FILE_PATH, overwrite: true);
+    { 
+      var success = false;
+      while (!success)
+      {
+        try
+        {
+          File.Copy(TEST_READ_GAME_SAVE_FILE_PATH, TEST_WRITE_GAME_SAVE_FILE_PATH, overwrite: true);
+          success = true;
+        }
+        catch(IOException _) { }
+      }
+
     }
-
-
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, "Gambini")]
