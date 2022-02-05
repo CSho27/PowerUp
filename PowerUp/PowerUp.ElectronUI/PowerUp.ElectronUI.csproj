@@ -16,9 +16,7 @@
     <Content Remove="electron\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="electron\.babelrc" />
     <None Remove="electron\webpack.config.js" />
-    <None Remove="electron\webpack.react.config.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />
