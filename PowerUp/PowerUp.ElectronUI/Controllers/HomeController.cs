@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PowerUp.ElectronUI.Shared;
 using PowerUp.GameSave;
 
 namespace PowerUp.ElectronUI.Controllers
@@ -10,7 +11,7 @@ namespace PowerUp.ElectronUI.Controllers
 
     public IActionResult Index()
     {
-      return base.PhysicalFile(ProjectPath.Relative("electron/dist/index.html"), "text/html");
+      return new ScreenBootstrappingResult(ProjectPath.Relative("electron/dist/index.html"), new { Result = "Great Success!" });
     }
 
     [Route("/Test")]
@@ -20,10 +21,5 @@ namespace PowerUp.ElectronUI.Controllers
       var player = loader.Read(PLAYER_ID);
       return new JsonResult(new { Result = player.SavedName });
     }
-  }
-
-  public class ScreenBootstrappingResult : ViewResult
-  {
-
   }
 }

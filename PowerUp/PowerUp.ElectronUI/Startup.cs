@@ -1,5 +1,6 @@
 ﻿using ElectronNET.API;
 using ElectronNET.API.Entities;
+using System.Reflection;
 
 namespace PowerUp.ElectronUI
 {
@@ -21,6 +22,10 @@ namespace PowerUp.ElectronUI
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+      /*
+      AppDomain currentDomain = AppDomain.CurrentDomain;
+      currentDomain.AssemblyResolve += new ResolveEventHandler(ResolveAssembly);
+      */
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
@@ -65,5 +70,13 @@ namespace PowerUp.ElectronUI
       browserWindow.OnReadyToShow += () => browserWindow.Show();
       browserWindow.SetTitle("Electron.NET API Demos");
     }
+
+    /*
+    private static Assembly ResolveAssembly(object? sender, ResolveEventArgs args)
+    {
+      Console.WriteLine("Resolving");
+      if(args.RequestingAssembly == "")
+    }
+    */
   }
 }
