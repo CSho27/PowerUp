@@ -8,6 +8,12 @@ namespace PowerUp.ElectronUI.Controllers
     {
       return base.PhysicalFile(ProjectPath.Relative("electron/dist/index.html"), "text/html");
     }
+
+    [Route("/Test")]
+    public JsonResult Test()
+    {
+      return new JsonResult(new { Result = "Great Success!" });
+    }
   }
 
   public class ScreenBootstrappingResult : ViewResult
