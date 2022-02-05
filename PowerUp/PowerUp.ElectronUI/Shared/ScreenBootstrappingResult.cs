@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Shared
 {
@@ -7,7 +8,8 @@ namespace PowerUp.ElectronUI.Shared
   {
     public ScreenBootstrappingResult(string fileName, object? indexResponse = null)
     {
-      var serializerSettings = new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml };
+      DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
+      var serializerSettings = new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
       string dataDiv = indexResponse == null
         ? ""
         : $@"
