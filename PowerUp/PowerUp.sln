@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUp.Tests", "PowerUp.Te
 		{DAA78496-700F-442D-A734-2C0B0A8CEE02} = {DAA78496-700F-442D-A734-2C0B0A8CEE02}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerUp.ElectronUI", "PowerUp.Electron\PowerUp.ElectronUI.csproj", "{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerUp.ElectronUI", "PowerUp.ElectronUI\PowerUp.ElectronUI.csproj", "{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

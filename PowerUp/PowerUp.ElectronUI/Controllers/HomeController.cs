@@ -6,7 +6,12 @@ namespace PowerUp.ElectronUI.Controllers
   {
     public IActionResult Index()
     {
-      return View();
+      return base.PhysicalFile(ProjectPath.Relative("electron/dist/index.html"), "text/html");
     }
+  }
+
+  public class ScreenBootstrappingResult : ViewResult
+  {
+
   }
 }
