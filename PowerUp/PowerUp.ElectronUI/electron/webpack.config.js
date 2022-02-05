@@ -1,11 +1,17 @@
 const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+
+const htmlPlugin = new HtmlWebPackPlugin({
+  template: "./src/index.html",
+  filename: "./index.html"
+});
 
 const config = {
-  target: "electron-main",
+  target: "electron-renderer",
   devtool: "source-map",
-  entry: "./src/main.ts",
+  entry: "./src/app/renderer.tsx",
   output: {
-    filename: "main.js",
+    filename: "renderer.js",
     path: path.resolve(__dirname, "dist")
   },
   module: {
@@ -22,10 +28,7 @@ const config = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
   },
-  node: {
-    __dirname: false,
-    __filename: false
-  }
+  plugins: [htmlPlugin]
 };
 
 module.exports = (env, argv) => {
