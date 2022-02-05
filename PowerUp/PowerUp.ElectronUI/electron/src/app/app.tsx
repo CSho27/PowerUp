@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { SlantedOutlineHeader } from '../components/SlantedHeader';
+import { COLORS } from '../style/colors';
+import { GlobalStyles } from './globalStyles';
 
-export interface DashboardProps {
+export interface AppIndexResponse {
   powerProsId: number;
   firstName: string;
   lastName: string;
@@ -9,17 +12,18 @@ export interface DashboardProps {
   playerNumber: string;
 }
 
-export function Dashboard(props: DashboardProps) {
+export function App(props: AppIndexResponse) {
   const { powerProsId, firstName, lastName, savedName, position, playerNumber } = props;
   const [state, setState] = React.useState<string|undefined>(undefined)
 
   return <div>
     <div style={{ display: 'flex' }}>
-      <h1>Edit Player</h1>
+      <SlantedOutlineHeader textColor={COLORS.BB_Blue70} strokeColor={COLORS.PP_Blue45}>Edit Player</SlantedOutlineHeader>
       <div>{savedName}</div>
       <div>{playerNumber}</div>
       <div>{position}</div>
     </div>
+    <GlobalStyles />
   </div>
 
   async function fetchContent() {
