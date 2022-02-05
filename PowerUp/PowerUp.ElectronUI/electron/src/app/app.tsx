@@ -1,6 +1,8 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import { PlayerBubble } from '../components/PlayerBubble';
 import { SlantedOutlineHeader } from '../components/SlantedHeader';
-import { COLORS } from '../style/colors';
+import { COLORS } from '../style/constants';
 import { GlobalStyles } from './globalStyles';
 
 export interface AppIndexResponse {
@@ -17,12 +19,12 @@ export function App(props: AppIndexResponse) {
   const [state, setState] = React.useState<string|undefined>(undefined)
 
   return <div>
-    <div style={{ display: 'flex' }}>
-      <SlantedOutlineHeader textColor={COLORS.BB_Blue70} strokeColor={COLORS.PP_Blue45}>Edit Player</SlantedOutlineHeader>
-      <div>{savedName}</div>
+    <HeaderWrapper>
+      <SlantedOutlineHeader textColor={COLORS.PP_Blue70} strokeColor={COLORS.PP_Blue45}>Edit Player</SlantedOutlineHeader>
+      <PlayerBubble savedName={savedName} positionType='Infielder' />
       <div>{playerNumber}</div>
       <div>{position}</div>
-    </div>
+    </HeaderWrapper>
     <GlobalStyles />
   </div>
 
@@ -32,3 +34,9 @@ export function App(props: AppIndexResponse) {
     setState(responseJson.result);
   }
 };
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`
