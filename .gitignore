@@ -5,6 +5,7 @@
 
 # PowerUp Specific Ignores
 SaveFileAnalysis/*.dat
+PowerUp/PowerUp.ElectronUI/electron/dist/*
 
 
 # User-specific files
