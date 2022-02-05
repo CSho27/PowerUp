@@ -55,8 +55,10 @@ namespace PowerUp.ElectronUI
       {
         Width = 1152,
         Height = 940,
-        Show = false
+        Show = false,
       });
+
+      browserWindow.Maximize();
 
       await browserWindow.WebContents.Session.ClearCacheAsync();
 
