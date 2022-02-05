@@ -1,14 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUp", "PowerUp\PowerUp.csproj", "{DAA78496-700F-442D-A734-2C0B0A8CEE02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerUp.Tests", "PowerUp.Tests\PowerUp.Tests.csproj", "{A639F357-B006-45F0-873F-5A9821D0DC1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUp.Tests", "PowerUp.Tests\PowerUp.Tests.csproj", "{A639F357-B006-45F0-873F-5A9821D0DC1E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DAA78496-700F-442D-A734-2C0B0A8CEE02} = {DAA78496-700F-442D-A734-2C0B0A8CEE02}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerUp.ElectronUI", "PowerUp.ElectronUI\PowerUp.ElectronUI.csproj", "{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,10 @@ Global
 		{A639F357-B006-45F0-873F-5A9821D0DC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A639F357-B006-45F0-873F-5A9821D0DC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A639F357-B006-45F0-873F-5A9821D0DC1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

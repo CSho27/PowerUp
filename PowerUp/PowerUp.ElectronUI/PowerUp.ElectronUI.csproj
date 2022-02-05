@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="electron\src\**" />
+    <Content Remove="electron\src\**" />
+    <EmbeddedResource Remove="electron\src\**" />
+    <None Remove="electron\src\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="electron\package-lock.json" />
+    <Content Remove="electron\package.json" />
+    <Content Remove="electron\tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="electron\.babelrc" />
+    <None Remove="electron\webpack.config.js" />
+    <None Remove="electron\webpack.react.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ElectronNET.API" Version="13.5.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="electron.manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
