@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { COLORS } from '../style/constants';
 
 export const GlobalStyles = createGlobalStyle`
 *, *::before, *::after {
@@ -17,6 +18,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Exo 2';
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    background-color: ${COLORS.gray_82};
   }
 
   img, picture, video, canvas, svg {
