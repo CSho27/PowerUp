@@ -4,7 +4,8 @@
   "description": "A Game Save Reader and Writer for the Wii version of MLB Power Pros",
   "main": "main.js",
   "scripts": {
-    "build": "webpack --mode development"
+    "build": "webpack --mode development",
+    "watch": "webpack watch --mode development "
   },
   "repository": {
     "type": "git",
