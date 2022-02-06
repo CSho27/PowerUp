@@ -43,7 +43,9 @@ export function PlayerEditor(props: PlayerEditorProps) {
         <FieldLabel>First Name</FieldLabel>
         <TextField 
           value={state.firstName} 
-          onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })} />
+          onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })}
+          autoFocus
+        />
       </ContentRowItem> 
       <ContentRowItem>
         <FieldLabel>Last Name</FieldLabel>

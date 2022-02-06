@@ -4,16 +4,18 @@ import { COLORS } from "../../style/constants";
 export interface TextFieldProps {
   value: string | undefined;
   placeholder?: string;
+  autoFocus?: boolean;
   onChange: (value: string) => void;
 }
 
 export function TextField(props: TextFieldProps) {
-  const { value, placeholder, onChange } = props;
+  const { value, placeholder, autoFocus, onChange } = props;
 
   return <TextInput
     placeholder={placeholder ?? 'Enter text'}
     value={value ?? ''}
     onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
+    autoFocus={autoFocus}
   />
 }
 
