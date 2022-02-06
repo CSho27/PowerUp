@@ -3,6 +3,8 @@ export const COLORS = {
   white: 'hsl(0deg 100% 100%)',
   black: 'hsl(0deg 0% 0%)',
   gray_82: 'hsl(0deg 0% 82%)',
+  gray_20: 'hsl(0deg 0% 20%)',
+  PP_Blue23: 'hsl(203deg 93% 23%)',
   PP_Blue45: 'hsl(203deg 93% 45%)',
   PP_Blue70: 'hsl(203deg 93% 70%)',
   PP_CatcherBlue: 'hsl(219deg 97% 55%)',
