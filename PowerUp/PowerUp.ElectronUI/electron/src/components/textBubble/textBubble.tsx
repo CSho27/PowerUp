@@ -45,6 +45,7 @@ const bubbleText = styled.div`
   line-height: 1;
   margin-top: -4px;
   color: ${COLORS.white};
+  white-space: nowrap;
 `
 
 export const PlayerName = styled(bubbleText)`
