@@ -8,12 +8,10 @@ namespace PowerUp.ElectronUI.Shared
   {
     public ScreenBootstrappingResult(string fileName, object? indexResponse = null)
     {
-      DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
-      var serializerSettings = new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
       string dataDiv = indexResponse == null
         ? ""
         : $@"
-            <div id=""index-response-json-data"" data=""{JsonConvert.SerializeObject(indexResponse, serializerSettings).Replace("\"", "'")}"" />
+            <div id=""index-response-json-data"" data=""{JsonConvert.SerializeObject(indexResponse).Replace("\"", "'")}"" />
           ";
 
       Content = File.ReadAllText(fileName) + dataDiv;

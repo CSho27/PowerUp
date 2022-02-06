@@ -6,23 +6,24 @@ export interface ButtonProps {
   variant: ButtonVariant;
   size: ButtonSize;
   children?: React.ReactNode;
+  onClick: () => void;
 }
 
 export type ButtonVariant = 'Fill' | 'Outline' | 'Ghost';
 export type ButtonSize = 'Small' | 'Medium' | 'Large';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, children} = props;
+  const { variant, size, children, onClick } = props;
 
   switch (variant) {
     case "Fill":
-      return <FillButton size={size}>{children}</FillButton>;
+      return <FillButton onClick={onClick} size={size}>{children}</FillButton>;
     case "Outline":
-      return <OutlineButton size={size}>{children}</OutlineButton>;
+      return <OutlineButton onClick={onClick} size={size}>{children}</OutlineButton>;
     case "Ghost":
-      return <GhostButton size={size}>{children}</GhostButton>;
+      return <GhostButton onClick={onClick} size={size}>{children}</GhostButton>;
     default:
-      return <BaseButton size={size}>{children}</BaseButton>;
+      return <BaseButton onClick={onClick} size={size}>{children}</BaseButton>;
   }
 };
 

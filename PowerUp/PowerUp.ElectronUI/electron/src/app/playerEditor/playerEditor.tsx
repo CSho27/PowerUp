@@ -7,6 +7,7 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader"
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble"
 import { TextField } from "../../components/textField/textField";
 import { COLORS } from "../../style/constants"
+import { AppIndexResponse } from "../app";
 import { PlayerEditorStateReducer } from "./playerEditorState";
 
 export interface PlayerEditorProps {
@@ -62,10 +63,33 @@ export function PlayerEditor(props: PlayerEditorProps) {
     </ContentRow>
   </ContentBox>
   <FooterButtonsWrapper>
-    <Button variant='Outline' size='Medium'>Cancel</Button>
-    <Button variant='Fill' size='Medium'>Save</Button>
+    <Button onClick={() => {}} variant='Outline' size='Medium'>Cancel</Button>
+    <Button onClick={save} variant='Fill' size='Medium'>Save</Button>
   </FooterButtonsWrapper>
   </>
+
+  async function save() {
+    const saveRequest: AppIndexResponse = {
+      powerProsId: props.powerProsId,
+      firstName: state.firstName,
+      lastName: state.lastName,
+      savedName: state.savedName,
+      playerNumber: props.playerNumber,
+      position: props.position
+    }
+    try {
+      const response = await fetch('/edit-player/save', {
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(saveRequest)
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 const HeaderWrapper = styled.div`

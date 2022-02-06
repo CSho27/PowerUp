@@ -17,10 +17,10 @@ namespace PowerUp.ElectronUI.Controllers
     }
 
     [Route("/edit-player/save"), HttpPost]
-    public JsonResult SavePlayer(PlayerEditorDTO request)
+    public JsonResult SavePlayer([FromBody]PlayerEditorDTO request)
     {
       using var writer = new PlayerWriter(GAME_SAVE_PATH);
-      writer.Write(request.PowerProsId, request.ToGSPlayer());
+      writer.Write(request.PowerProsId!.Value, request.ToGSPlayer());
       return new JsonResult(new { Result = "Great Success!" });
     }
 
@@ -35,40 +35,23 @@ namespace PowerUp.ElectronUI.Controllers
 
   public class PlayerEditorDTO
   {
-    public int PowerProsId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string SavedName { get; set; }
-    public string Position { get; set; }
-    public string PlayerNumber { get; set; }
-
-    private PlayerEditorDTO(
-      int powerProsId,
-      string firstName,
-      string lastName,
-      string savedName,
-      string position,
-      string playerNumber
-    )
-    {
-      PowerProsId = powerProsId;
-      FirstName = firstName;
-      LastName = lastName;
-      SavedName = savedName;
-      Position = position;
-      PlayerNumber = playerNumber;
-    }
-
+    public int? PowerProsId { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? SavedName { get; set; }
+    public string? Position { get; set; }
+    public string? PlayerNumber { get; set; }
     public static PlayerEditorDTO FromGSPlayer(GSPlayer player)
     {
-      return new PlayerEditorDTO(
-        powerProsId: (int)player.PowerProsId!,
-        firstName: player.FirstName!,
-        lastName: player.LastName!,
-        savedName: player.SavedName!,
-        position: "1B",
-        playerNumber: player.PlayerNumberDisplay!
-      );
+      return new PlayerEditorDTO
+      {
+        PowerProsId = (int)player.PowerProsId!,
+        FirstName = player.FirstName!,
+        LastName = player.LastName!,
+        SavedName = player.SavedName!,
+        Position = "1B",
+        PlayerNumber = player.PlayerNumberDisplay!
+      };
     }
 
     public GSPlayer ToGSPlayer()

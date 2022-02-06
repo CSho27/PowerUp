@@ -1,6 +1,7 @@
 ﻿using ElectronNET.API;
 using ElectronNET.API.Entities;
-using System.Reflection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace PowerUp.ElectronUI
 {
@@ -22,10 +23,6 @@ namespace PowerUp.ElectronUI
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      /*
-      AppDomain currentDomain = AppDomain.CurrentDomain;
-      currentDomain.AssemblyResolve += new ResolveEventHandler(ResolveAssembly);
-      */
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
@@ -48,10 +45,11 @@ namespace PowerUp.ElectronUI
             pattern: "{controller=Home}/{action=Index}/{id?}");
       });
 
+      DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
+      JsonConvert.DefaultSettings = () => new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
+
       if (HybridSupport.IsElectronActive)
-      {
         ElectronBootstrap();
-      }
     }
 
     public async void ElectronBootstrap()
@@ -68,15 +66,7 @@ namespace PowerUp.ElectronUI
       await browserWindow.WebContents.Session.ClearCacheAsync();
 
       browserWindow.OnReadyToShow += () => browserWindow.Show();
-      browserWindow.SetTitle("Electron.NET API Demos");
+      browserWindow.SetTitle("PowerUp");
     }
-
-    /*
-    private static Assembly ResolveAssembly(object? sender, ResolveEventArgs args)
-    {
-      Console.WriteLine("Resolving");
-      if(args.RequestingAssembly == "")
-    }
-    */
   }
 }
