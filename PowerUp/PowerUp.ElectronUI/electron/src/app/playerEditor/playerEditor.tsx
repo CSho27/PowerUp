@@ -62,7 +62,6 @@ export function PlayerEditor(props: PlayerEditorProps) {
     </ContentRow>
   </ContentBox>
   <FooterButtonsWrapper>
-    <Button variant='Ghost' size='Medium'>Restore</Button>
     <Button variant='Outline' size='Medium'>Cancel</Button>
     <Button variant='Fill' size='Medium'>Save</Button>
   </FooterButtonsWrapper>
@@ -89,4 +88,5 @@ const FooterButtonsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  padding: 8px;
 `
