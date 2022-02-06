@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     color: ${COLORS.gray_20};
-    background-color: ${COLORS.gray_82};
+    background-color: ${COLORS.gray_90};
   }
 
   img, picture, video, canvas, svg {

@@ -1,6 +1,6 @@
 import { MaxWidthWrapper } from '../components/maxWidthWrapper/maxWidthWrapper';
 import { GlobalStyles } from './globalStyles';
-import { PlayerEditor } from './playerEditor';
+import { PlayerEditor } from './playerEditor/playerEditor';
 
 export interface AppIndexResponse {
   powerProsId: number;
