@@ -1,0 +1,96 @@
+import React from "react";
+import styled from "styled-components";
+import { COLORS, FONT_SIZES } from "../../style/constants";
+
+export interface ButtonProps {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  children?: React.ReactNode;
+}
+
+export type ButtonVariant = 'Fill' | 'Outline' | 'Ghost';
+export type ButtonSize = 'Small' | 'Medium' | 'Large';
+
+export function Button(props: ButtonProps) {
+  const { variant, size, children} = props;
+
+  switch (variant) {
+    case "Fill":
+      return <FillButton size={size}>{children}</FillButton>;
+    case "Outline":
+      return <OutlineButton size={size}>{children}</OutlineButton>;
+    case "Ghost":
+      return <GhostButton size={size}>{children}</GhostButton>;
+    default:
+      return <BaseButton size={size}>{children}</BaseButton>;
+  }
+};
+
+const sizingStyles = {
+  Small: `
+    --horizontal-padding: 12px;
+    --vertical-padding: 4px;
+    --border-radius: 2px;
+    --font-size: ${FONT_SIZES.default_16};
+  `,
+  Medium: `
+    --horizontal-padding: 20px;
+    --vertical-padding: 12px;
+    --border-radius: 2px;
+    --font-size: ${FONT_SIZES._18};
+  `,
+  Large: `
+    --horizontal-padding: 32px;
+    --vertical-padding: 16px;
+    --border-radius: 4px;
+    --font-size: ${FONT_SIZES._36};
+  `
+}
+
+
+// Default is fill button
+const BaseButton = styled.button<{ size: ButtonSize }>`
+  ${p => sizingStyles[p.size]}
+  padding: var(--vertical-padding) var(--horizontal-padding);
+  border-style: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: var(--font-size);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--text-color);
+  background-color: var(--background-color);
+
+  &:focus {
+    outline: solid var(--focus-border-color);
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+`;
+
+const FillButton = styled(BaseButton)`
+  --text-color: ${COLORS.white};
+  --background-color: ${COLORS.PP_Blue45};
+  --focus-border-color: ${COLORS.PP_Blue45};
+  --hover-color: ${COLORS.PP_Blue50};
+`;
+
+const OutlineButton = styled(BaseButton)`
+  --text-color: ${COLORS.PP_Blue45};
+  --background-color: ${COLORS.white};
+  --focus-border-color: ${COLORS.PP_Blue45};
+  --hover-color: ${COLORS.offwhite};
+  border: solid 2px ${COLORS.PP_Blue45};
+`;
+const GhostButton = styled(BaseButton)`
+  --text-color: ${COLORS.gray_50};
+  --focus-border-color: ${COLORS.gray_50_transparent75};
+  --hover-color: ${COLORS.gray_50_transparent15};
+
+  &:hover {
+    --text-color: ${COLORS.black};
+  }
+`;

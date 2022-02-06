@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components"
+import { Button } from "../../components/button/button";
 import { ContentBox } from "../../components/contentBox.tsx/contentBox";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader"
@@ -57,8 +58,12 @@ export function PlayerEditor(props: PlayerEditorProps) {
           onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })} />
       </ContentRowItem> 
     </ContentRow>
-    
   </ContentBox>
+  <FooterButtonsWrapper>
+    <Button variant='Ghost' size='Medium'>Restore</Button>
+    <Button variant='Outline' size='Medium'>Cancel</Button>
+    <Button variant='Fill' size='Medium'>Save</Button>
+  </FooterButtonsWrapper>
   </>
 }
 
@@ -76,4 +81,10 @@ const ContentRow = styled.div<{ gap?: string }>`
 
 const ContentRowItem = styled.div<{ flex?: string }>`
   flex: ${p => p.flex ?? '1 1 auto'};
+`
+
+const FooterButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 `
