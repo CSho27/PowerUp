@@ -29,7 +29,9 @@ namespace PowerUp.ElectronUI
       }
       else
       {
-        app.UseExceptionHandler("/Home/Error");
+        // TODO: Create Better Error Page
+        app.UseDeveloperExceptionPage();
+        //app.UseExceptionHandler("/Home/Error");
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
@@ -42,7 +44,7 @@ namespace PowerUp.ElectronUI
       {
         endpoints.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller=Electron}/{action=Index}");
       });
 
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
