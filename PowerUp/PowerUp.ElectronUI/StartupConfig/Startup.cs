@@ -2,6 +2,9 @@
 using ElectronNET.API.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using PowerUp.ElectronUI.StartupConfig;
+using PowerUp.ElectronUI.Api.PlayerEditor;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PowerUp.ElectronUI
 {
@@ -18,6 +21,7 @@ namespace PowerUp.ElectronUI
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddControllersWithViews();
+      services.RegisterCommandsForDI();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,8 +54,14 @@ namespace PowerUp.ElectronUI
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
       JsonConvert.DefaultSettings = () => new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
 
+
       if (HybridSupport.IsElectronActive)
         ElectronBootstrap();
+
+      app.ApplicationServices
+        .CreateScope()
+        .ServiceProvider
+        .AddCommandsToRegistry();
     }
 
     public async void ElectronBootstrap()

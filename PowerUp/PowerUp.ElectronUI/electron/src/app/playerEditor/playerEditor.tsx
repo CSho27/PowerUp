@@ -78,13 +78,13 @@ export function PlayerEditor(props: PlayerEditorProps) {
       position: props.position
     }
     try {
-      const response = await fetch('/edit-player/save', {
+      const response = await fetch('/command', {
         method: 'POST',
         mode: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(saveRequest)
+        body: JSON.stringify({ commandName: 'SavePlayer', request: saveRequest })
       });
     } catch (error) {
       console.error(error);

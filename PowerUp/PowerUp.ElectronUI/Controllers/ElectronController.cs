@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using PowerUp.ElectronUI.Api;
 using PowerUp.ElectronUI.Shared;
 using PowerUp.GameSave;
@@ -7,8 +8,17 @@ namespace PowerUp.ElectronUI.Controllers
 {
   public class ElectronController : Controller
   {
+    private const string COMMAND_URL = "/command";
+
     private const string GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_after.dat";
     private const int PLAYER_ID = 20;
+
+    private readonly CommandRegistry _commandRegistry;
+
+    public ElectronController(CommandRegistry commandRegistry)
+    {
+      _commandRegistry = commandRegistry;
+    }
 
     public IActionResult Index()
     {
@@ -17,20 +27,10 @@ namespace PowerUp.ElectronUI.Controllers
       return new ScreenBootstrappingResult(ProjectPath.Relative("electron/dist/index.html"), PlayerEditorDTO.FromGSPlayer(player));
     }
 
-    [Route("/edit-player/save"), HttpPost]
-    public JsonResult SavePlayer([FromBody]PlayerEditorDTO request)
+    [Route(COMMAND_URL), HttpPost]
+    public JsonResult ExecuteCommand([FromBody]CommandRequest request)
     {
-      using var writer = new PlayerWriter(GAME_SAVE_PATH);
-      writer.Write(request.PowerProsId!.Value, request.ToGSPlayer());
-      return new JsonResult(new { Result = "Great Success!" });
-    }
-
-    [Route("/Test"), HttpGet]
-    public JsonResult Test()
-    {
-      using var loader = new PlayerReader(GAME_SAVE_PATH);
-      var player = loader.Read(PLAYER_ID);
-      return new JsonResult(new { Result = player.SavedName });
+      return new JsonResult(_commandRegistry.ExecuteCommand(request));
     }
   }
 }
