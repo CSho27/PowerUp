@@ -118,11 +118,11 @@ namespace PowerUp.Tests.GameSave
     [TestCase(JASON_GIAMBI_ID, false)]
     [TestCase(SAMMY_SPEEDSTER_ID, true)]
     [TestCase(PAUL_PITCHER_ID, false)]
-    public void Loads_AreEyesBlue(int playerId, bool areEyesBlue)
+    public void Loads_AreEyesBrown(int playerId, bool areEyesBrown)
     {
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.AreEyesBrown.ShouldBe(areEyesBlue);
+      player.AreEyesBrown.ShouldBe(areEyesBrown);
     }
 
     [Test]

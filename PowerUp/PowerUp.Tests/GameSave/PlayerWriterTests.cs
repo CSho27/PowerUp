@@ -96,5 +96,245 @@ namespace PowerUp.Tests.GameSave
       
       loadedPlayer.PlayerNumber.ShouldBe(playerNumber);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Writes_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
+    {
+      var playerToWrite = new GSPlayer { PlayerNumberNumberOfDigits = numberOfDigits };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Writes_SkinAndEyes(int playerId, ushort skinAndEyes)
+    {
+      var playerToWrite = new GSPlayer { SkinAndEyes = skinAndEyes };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SkinAndEyes.ShouldBe(skinAndEyes);
+      loadedPlayer.Skin.ShouldBe((ushort)(skinAndEyes % 5));
+      loadedPlayer.AreEyesBrown.ShouldBe(skinAndEyes >= 5);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Writes_Bat(int playerId, ushort bat)
+    {
+      var playerToWrite = new GSPlayer { Bat = bat };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Bat.ShouldBe(bat);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Writes_Glove(int playerId, ushort glove)
+    {
+      var playerToWrite = new GSPlayer { Glove = glove };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Glove.ShouldBe(glove);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)25)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)30)]
+    public void Writes_Hair(int playerId, ushort hair)
+    {
+      var playerToWrite = new GSPlayer { Hair = hair };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Hair.ShouldBe(hair);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)14)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
+    public void Writes_HairColor(int playerId, ushort hairColor)
+    {
+      var playerToWrite = new GSPlayer { HairColor = hairColor };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HairColor.ShouldBe(hairColor);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)25)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)30)]
+    public void Writes_FacialHair(int playerId, ushort facialHair)
+    {
+      var playerToWrite = new GSPlayer { FacialHair = facialHair };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.FacialHair.ShouldBe(facialHair);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)14)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
+    public void Writes_FacialHairColor(int playerId, ushort facialHairColor)
+    {
+      var playerToWrite = new GSPlayer { FacialHairColor = facialHairColor };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.FacialHairColor.ShouldBe(facialHairColor);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)13)]
+    public void Writes_GlassesType(int playerId, ushort glassesType)
+    {
+      var playerToWrite = new GSPlayer { GlassesType = glassesType };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.GlassesType.ShouldBe(glassesType);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)9)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)10)]
+    public void Writes_GlassesColor(int playerId, ushort glassesColor)
+    {
+      var playerToWrite = new GSPlayer { GlassesColor = glassesColor };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.GlassesColor.ShouldBe(glassesColor);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_EarringType(int playerId, ushort earringType)
+    {
+      var playerToWrite = new GSPlayer { EarringType = earringType };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.EarringType.ShouldBe(earringType);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Writes_EarringColor(int playerId, ushort earringColor)
+    {
+      var playerToWrite = new GSPlayer { EarringColor = earringColor };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.EarringColor.ShouldBe(earringColor);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)11)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
+    public void Writes_RightWristband(int playerId, ushort rightWristband)
+    {
+      var playerToWrite = new GSPlayer { RightWristband = rightWristband };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.RightWristband.ShouldBe(rightWristband);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)6)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)10)]
+    public void Writes_LeftWristband(int playerId, ushort leftWristband)
+    {
+      var playerToWrite = new GSPlayer { LeftWristband = leftWristband };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.LeftWristband.ShouldBe(leftWristband);
+    }
   }
 }
