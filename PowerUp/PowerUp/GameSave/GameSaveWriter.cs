@@ -17,6 +17,9 @@ namespace PowerUp.GameSave
 
     public void WriteString(long offset, int stringLength, string @string)
     {
+      if (@string.Length > stringLength)
+        throw new ArgumentException("String longer than specified length", nameof(@string));
+
       for (int i = 0; i < stringLength; i++)
         WriteChar(offset + 2 * i, i < @string.Length ? @string[i] : ' ');
     }

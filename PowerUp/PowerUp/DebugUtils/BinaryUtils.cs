@@ -69,6 +69,9 @@ namespace PowerUp.DebugUtils
           bits[i] = 0;
       }
 
+      if(currentValue < @uint)
+        throw new ArgumentException("uint value is too large for the number of bits specified", nameof(@uint));
+
       return bits;
     }
   }
