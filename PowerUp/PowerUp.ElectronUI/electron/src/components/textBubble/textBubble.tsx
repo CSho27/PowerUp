@@ -42,7 +42,7 @@ const colors: { [key in PositionType]: string } = {
 
 const bubbleText = styled.div`
   font-size: ${FONT_SIZES._48};
-  line-height: 1;
+  line-height: 1.2;
   margin-top: -4px;
   color: ${COLORS.white};
   white-space: nowrap;
