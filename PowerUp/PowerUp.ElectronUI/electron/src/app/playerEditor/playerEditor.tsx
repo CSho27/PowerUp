@@ -7,10 +7,16 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader"
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble"
 import { TextField } from "../../components/textField/textField";
 import { COLORS } from "../../style/constants"
-import { AppIndexResponse } from "../app";
+import { IAppContext } from "../appContext";
 import { PlayerEditorStateReducer } from "./playerEditorState";
+import { SavePlayerApiClient } from "./savePlayerApiClient";
 
 export interface PlayerEditorProps {
+  appContext: IAppContext;
+  editorDTO: PlayerEditorDTO;
+}
+
+export interface PlayerEditorDTO {
   powerProsId: number;
   firstName: string;
   lastName: string;
@@ -20,11 +26,15 @@ export interface PlayerEditorProps {
 }
 
 export function PlayerEditor(props: PlayerEditorProps) {
+  const { appContext, editorDTO } = props;
+
+  const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
+
   const [state, update] = React.useReducer(PlayerEditorStateReducer, {
-    firstName: props.firstName,
-    lastName: props.lastName,
-    savedName: props.savedName,
-    playerNumber: props.playerNumber
+    firstName: editorDTO.firstName,
+    lastName: editorDTO.lastName,
+    savedName: editorDTO.savedName,
+    playerNumber: editorDTO.playerNumber
   });
 
   return <>
@@ -34,7 +44,7 @@ export function PlayerEditor(props: PlayerEditorProps) {
       <PlayerName>{state.savedName}</PlayerName>
     </TextBubble>
     <TextBubble positionType='Infielder' style={{ position: 'relative', bottom: '-2px' }}>
-      <Position>{props.position}</Position>
+      <Position>{editorDTO.position}</Position>
     </TextBubble>
     <OutlineHeader textColor={COLORS.PP_Blue45} strokeColor={COLORS.white}>{state.playerNumber}</OutlineHeader>
   </HeaderWrapper>
@@ -69,26 +79,16 @@ export function PlayerEditor(props: PlayerEditorProps) {
   </>
 
   async function save() {
-    const saveRequest: AppIndexResponse = {
-      powerProsId: props.powerProsId,
+    const saveRequest: PlayerEditorDTO = {
+      powerProsId: editorDTO.powerProsId,
       firstName: state.firstName,
       lastName: state.lastName,
       savedName: state.savedName,
-      playerNumber: props.playerNumber,
-      position: props.position
+      playerNumber: editorDTO.playerNumber,
+      position: editorDTO.position
     }
-    try {
-      const response = await fetch('/command', {
-        method: 'POST',
-        mode: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ commandName: 'SavePlayer', request: saveRequest })
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    var response = await apiClientRef.current.execute(saveRequest);
+    console.log(response);
   }
 }
 

@@ -24,7 +24,7 @@ namespace PowerUp.ElectronUI.Controllers
     {
       using var reader = new PlayerReader(GAME_SAVE_PATH);
       var player = reader.Read(PLAYER_ID);
-      return new ScreenBootstrappingResult(ProjectPath.Relative("electron/dist/index.html"), PlayerEditorDTO.FromGSPlayer(player));
+      return new ApplicationStartupResult(COMMAND_URL, PlayerEditorDTO.FromGSPlayer(player));
     }
 
     [Route(COMMAND_URL), HttpPost]
