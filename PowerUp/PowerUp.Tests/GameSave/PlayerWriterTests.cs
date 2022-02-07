@@ -336,5 +336,175 @@ namespace PowerUp.Tests.GameSave
 
       loadedPlayer.LeftWristband.ShouldBe(leftWristband);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)6)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_PrimaryPosition(int playerId, ushort primaryPosition)
+    {
+      var playerToWrite = new GSPlayer { PrimaryPosition = primaryPosition };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.PrimaryPosition.ShouldBe(primaryPosition);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Writes_PitcherCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { PitcherCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.PitcherCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_CatcherCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { CatcherCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.CatcherCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Writes_FirstBaseCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { FirstBaseCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.FirstBaseCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_SecondBaseCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { SecondBaseCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SecondBaseCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)7)]
+    public void Writes_ThirdBaseCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { ThirdBaseCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.ThirdBaseCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Writes_ShortstopCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { ShortstopCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.ShortstopCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Writes_LeftFieldCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { LeftFieldCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.LeftFieldCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Writes_CenterFieldCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { CenterFieldCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.CenterFieldCapability.ShouldBe(capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_RightFieldCapability(int playerId, ushort capability)
+    {
+      var playerToWrite = new GSPlayer { RightFieldCapability = capability };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.RightFieldCapability.ShouldBe(capability);
+    }
   }
 }
