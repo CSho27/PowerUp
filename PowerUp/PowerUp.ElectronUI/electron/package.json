@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack --mode development",
-    "start": "electron ./dist/main.js"
+    "watch": "webpack watch --mode development "
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "@types/regenerator-runtime": "^0.13.1",
+    "@types/styled-components": "^5.1.22",
     "babel-loader": "^8.2.3",
     "electron": "^17.0.0",
     "html-webpack-plugin": "^5.5.0",
@@ -34,6 +35,7 @@
     "core-js": "^3.21.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "regenerator-runtime": "^0.13.9"
+    "regenerator-runtime": "^0.13.9",
+    "styled-components": "^5.3.3"
   }
 }

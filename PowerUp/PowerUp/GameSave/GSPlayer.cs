@@ -43,10 +43,10 @@ namespace PowerUp.GameSave
     public ushort? SkinAndEyes { get; set; }
     public ushort? Skin => SkinAndEyes.HasValue
       ? (ushort)(SkinAndEyes % 5)
-      : (ushort?)null;
+      : null;
     public bool? AreEyesBrown => SkinAndEyes.HasValue
       ? SkinAndEyes >= 5
-      : (bool?)null;
+      : null;
 
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Bat { get; set; }
@@ -87,8 +87,38 @@ namespace PowerUp.GameSave
 
     // TODO: Add Batting Form
     // TODO: Add Pitching Form
-    
-    [GSBytes(0x5a, numberOfBytes: 2)]
-    public byte[]? AccessoriesBytes { get; set; }
+
+    [GSUInt(0x5e, bits: 4, bitOffset: 4)]
+    public ushort? PrimaryPosition { get; set; }
+
+    [GSUInt(0x5f, bits: 3, bitOffset: 0)]
+    public ushort? PitcherCapability { get; set; }
+
+    [GSUInt(0x5f, bits: 3, bitOffset: 3)]
+    public ushort? CatcherCapability { get; set; }
+
+    [GSUInt(0x60, bits: 3, bitOffset: 0)]
+    public ushort? FirstBaseCapability { get; set; }
+
+    [GSUInt(0x60, bits: 3, bitOffset: 3)]
+    public ushort? SecondBaseCapability { get; set; }
+
+    [GSUInt(0x60, bits: 3, bitOffset: 6)]
+    public ushort? ThirdBaseCapability { get; set; }
+
+    [GSUInt(0x61, bits: 3, bitOffset: 1)]
+    public ushort? ShortstopCapability { get; set; }
+
+    [GSUInt(0x61, bits: 3, bitOffset: 4)]
+    public ushort? LeftFieldCapability { get; set; }
+
+    [GSUInt(0x61, bits: 3, bitOffset: 7)]
+    public ushort? CenterFieldCapability { get; set; }
+
+    [GSUInt(0x62, bits: 3, bitOffset: 2)]
+    public ushort? RightFieldCapability { get; set; }
+
+    [GSBytes(0x5e, numberOfBytes: 2)]
+    public byte[]? TestBytes { get; set; }
   }
 }
