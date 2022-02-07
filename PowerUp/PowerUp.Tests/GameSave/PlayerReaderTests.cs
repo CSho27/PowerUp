@@ -366,5 +366,38 @@ namespace PowerUp.Tests.GameSave
       var player = loader.Read(playerId);
       player.RightFieldCapability.ShouldBe(capability);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Loads_IsStarter(int playerId, bool isStarter)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsStarter.ShouldBe(isStarter);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Loads_IsReliever(int playerId, bool isReliever)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsReliever.ShouldBe(isReliever);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Loads_IsCloser(int playerId, bool isCloser)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsCloser.ShouldBe(isCloser);
+    }
   }
 }

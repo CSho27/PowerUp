@@ -506,5 +506,56 @@ namespace PowerUp.Tests.GameSave
 
       loadedPlayer.RightFieldCapability.ShouldBe(capability);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_IsStarter(int playerId, bool isStarter)
+    {
+      var playerToWrite = new GSPlayer { IsStarter = isStarter };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsStarter.ShouldBe(isStarter);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Writes_IsReliever(int playerId, bool isReliever)
+    {
+      var playerToWrite = new GSPlayer { IsReliever = isReliever };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsReliever.ShouldBe(isReliever);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Writes_IsCloser(int playerId, bool isCloser)
+    {
+      var playerToWrite = new GSPlayer { IsCloser = isCloser };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsCloser.ShouldBe(isCloser);
+    }
   }
 }

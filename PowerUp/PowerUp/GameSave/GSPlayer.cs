@@ -118,7 +118,16 @@ namespace PowerUp.GameSave
     [GSUInt(0x62, bits: 3, bitOffset: 2)]
     public ushort? RightFieldCapability { get; set; }
 
-    [GSBytes(0x5e, numberOfBytes: 2)]
+    [GSBoolean(0x62, bitOffset: 7)]
+    public bool? IsStarter { get; set; }
+
+    [GSBoolean(0x63, bitOffset: 2)]
+    public bool? IsReliever { get; set; }
+
+    [GSBoolean(0x63, bitOffset: 5)]
+    public bool? IsCloser { get; set; }
+
+    [GSBytes(0x62, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }
