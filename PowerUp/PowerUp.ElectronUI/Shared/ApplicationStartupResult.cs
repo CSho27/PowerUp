@@ -11,8 +11,8 @@ namespace PowerUp.ElectronUI.Shared
     {
       var startupData = new ApplicationStartupData(commandUrl, indexResponse);
       var dataDiv = $@"
-            <div id=""index-response-json-data"" data=""{JsonConvert.SerializeObject(startupData).Replace("\"", "'")}"" />
-          ";
+        <div id=""index-response-json-data"" data=""{JsonConvert.SerializeObject(startupData).Replace("\"", "'")}"" />
+      ";
 
       Content = File.ReadAllText(INDEX_PAGE_PATH) + dataDiv;
       ContentType = "text/html";

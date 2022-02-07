@@ -9,6 +9,7 @@ export const COLORS = {
   gray_50_transparent75: 'hsl(0deg 0% 50% / .75)',
   gray_82: 'hsl(0deg 0% 82%)',
   gray_90: 'hsl(0deg 0% 90%)',
+  blueish_gray: 'hsl(203deg 15% 80%)',
   PP_Blue23: 'hsl(203deg 93% 23%)',
   PP_Blue45: 'hsl(203deg 93% 45%)',
   PP_Blue50: 'hsl(203deg 93% 50%)',
