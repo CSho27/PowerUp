@@ -498,5 +498,38 @@ namespace PowerUp.Tests.GameSave
       var player = loader.Read(playerId);
       player.HotZoneDownAndAway.ShouldBe(hzValue);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Loads_BattingSide(int playerId, ushort battingSide)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BattingSide.ShouldBe(battingSide);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Loads_Trajectory(int playerId, ushort trajectory)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Trajectory.ShouldBe(trajectory);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)13)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Loads_Contact(int playerId, ushort contact)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Contact.ShouldBe(contact);
+    }
   }
 }

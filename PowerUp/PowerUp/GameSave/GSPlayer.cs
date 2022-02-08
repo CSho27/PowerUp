@@ -158,7 +158,20 @@ namespace PowerUp.GameSave
     public ushort? HotZoneDownAndAway { get; set; }
 
 
-    [GSBytes(0x67, numberOfBytes: 2)]
+    [GSUInt(0x69, bits: 2, bitOffset: 6)]
+    public ushort? BattingSide { get; set; }
+
+    
+    /// <summary>
+    /// Game value is value loaded plus 1
+    /// </summary>
+    [GSUInt(0x6a, bits: 2, bitOffset: 5)]
+    public ushort? Trajectory { get; set; }
+
+    [GSUInt(0x6a, bits: 4, bitOffset: 7)]
+    public ushort? Contact { get; set; }
+
+    [GSBytes(0x6a, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }

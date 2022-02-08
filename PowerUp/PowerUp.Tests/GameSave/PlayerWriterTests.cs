@@ -693,5 +693,56 @@ namespace PowerUp.Tests.GameSave
 
       loadedPlayer.HotZoneDownAndAway.ShouldBe(hzValue);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_BattingSide(int playerId, ushort battingSide)
+    {
+      var playerToWrite = new GSPlayer { BattingSide = battingSide };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.BattingSide.ShouldBe(battingSide);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)12)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)15)]
+    public void Writes_Contact(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Contact = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Contact.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Writes_Trajectory(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Trajectory = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Trajectory.ShouldBe(value);
+    }
   }
 }
