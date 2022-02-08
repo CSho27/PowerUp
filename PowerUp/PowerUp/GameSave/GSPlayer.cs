@@ -127,7 +127,38 @@ namespace PowerUp.GameSave
     [GSBoolean(0x63, bitOffset: 5)]
     public bool? IsCloser { get; set; }
 
-    [GSBytes(0x62, numberOfBytes: 2)]
+    /// <summary>
+    /// For switch hitters hot zones follow righty conventions
+    /// </summary>
+    [GSUInt(0x67, bits: 2, bitOffset: 3)]
+    public ushort? HotZoneUpAndIn { get; set; }
+
+    [GSUInt(0x67, bits: 2, bitOffset: 5)]
+    public ushort? HotZoneUp { get; set; }
+
+    [GSUInt(0x68, bits: 2, bitOffset: 0)]
+    public ushort? HotZoneUpAndAway { get; set; }
+
+    [GSUInt(0x68, bits: 2, bitOffset: 2)]
+    public ushort? HotZoneMiddleIn { get; set; }
+
+    [GSUInt(0x68, bits: 2, bitOffset: 4)]
+    public ushort? HotZoneMiddle { get; set; }
+
+    [GSUInt(0x68, bits: 2, bitOffset: 6)]
+    public ushort? HotZoneMiddleAway { get; set; }
+
+    [GSUInt(0x69, bits: 2, bitOffset: 0)]
+    public ushort? HotZoneDownAndIn { get; set; }
+
+    [GSUInt(0x69, bits: 2, bitOffset: 2)]
+    public ushort? HotZoneDown { get; set; }
+
+    [GSUInt(0x69, bits: 2, bitOffset: 4)]
+    public ushort? HotZoneDownAndAway { get; set; }
+
+
+    [GSBytes(0x67, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }

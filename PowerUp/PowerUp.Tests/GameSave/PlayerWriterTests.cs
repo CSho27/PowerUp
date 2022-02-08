@@ -557,5 +557,141 @@ namespace PowerUp.Tests.GameSave
 
       loadedPlayer.IsCloser.ShouldBe(isCloser);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneUpAndIn(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneUpAndIn = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneUpAndIn.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneUp(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneUp = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneUp.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneUpAndOut(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneUpAndAway = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneUpAndAway.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneMiddleIn(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneMiddleIn = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneMiddleIn.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneMiddle(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneMiddle = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneMiddle.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneDownAndIn(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneDownAndIn = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneDownAndIn.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneDown(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneDown = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneDown.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_HotZoneDownAndAway(int playerId, ushort hzValue)
+    {
+      var playerToWrite = new GSPlayer { HotZoneDownAndAway = hzValue };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HotZoneDownAndAway.ShouldBe(hzValue);
+    }
   }
 }

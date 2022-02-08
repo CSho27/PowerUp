@@ -399,5 +399,104 @@ namespace PowerUp.Tests.GameSave
       var player = loader.Read(playerId);
       player.IsCloser.ShouldBe(isCloser);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Loads_HotZoneUpAndIn(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneUpAndIn.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Loads_HotZoneUp(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneUp.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
+    public void Loads_HotZoneUpAndOut(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneUpAndAway.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Loads_HotZoneMiddleIn(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneMiddleIn.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Loads_HotZoneMiddle(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneMiddle.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Loads_HotZoneMiddleAway(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneMiddleAway.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Loads_HotZoneDownAndIn(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneDownAndIn.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Loads_HotZoneDown(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneDown.ShouldBe(hzValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Loads_HotZoneDownAndAway(int playerId, ushort hzValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HotZoneDownAndAway.ShouldBe(hzValue);
+    }
   }
 }
