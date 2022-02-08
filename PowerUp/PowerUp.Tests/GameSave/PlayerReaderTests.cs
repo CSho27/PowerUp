@@ -531,5 +531,60 @@ namespace PowerUp.Tests.GameSave
       var player = loader.Read(playerId);
       player.Contact.ShouldBe(contact);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)206)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)138)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)56)]
+    public void Loads_Power(int playerId, ushort power)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Power.ShouldBe(power);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)5)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Loads_RunSpeed(int playerId, ushort runSpeed)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.RunSpeed.ShouldBe(runSpeed);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)14)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Loads_ArmStrength(int playerId, ushort armStrength)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.ArmStrength.ShouldBe(armStrength);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)7)]
+    public void Loads_Fielding(int playerId, ushort fielding)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Fielding.ShouldBe(fielding);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Loads_ErrorResistance(int playerId, ushort errorResistance)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.ErrorResistance.ShouldBe(errorResistance);
+    }
   }
 }

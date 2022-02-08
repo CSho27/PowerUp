@@ -171,6 +171,22 @@ namespace PowerUp.GameSave
     [GSUInt(0x6a, bits: 4, bitOffset: 7)]
     public ushort? Contact { get; set; }
 
+    [GSUInt(0x6c, bits: 8, bitOffset: 0)]
+    public ushort? Power { get; set; }
+
+    [GSUInt(0x6d, bits: 4, bitOffset: 0)]
+    public ushort? RunSpeed { get; set; }
+
+    [GSUInt(0x6d, bits: 4, bitOffset: 4)]
+    public ushort? ArmStrength { get; set; }
+
+    [GSUInt(0x6e, bits: 4, bitOffset: 0)]
+    public ushort? Fielding { get; set; }
+
+    [GSUInt(0x6e, bits: 4, bitOffset: 4)]
+    public ushort? ErrorResistance { get; set; }
+
+
     [GSBytes(0x6a, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }

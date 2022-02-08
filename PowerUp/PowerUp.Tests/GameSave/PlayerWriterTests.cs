@@ -712,6 +712,23 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Writes_Trajectory(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Trajectory = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Trajectory.ShouldBe(value);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)12)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
     [TestCase(PAUL_PITCHER_ID, (ushort)15)]
@@ -729,12 +746,12 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_Trajectory(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, (ushort)255)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)105)]
+    public void Writes_Power(int playerId, ushort value)
     {
-      var playerToWrite = new GSPlayer { Trajectory = value };
+      var playerToWrite = new GSPlayer { Power = value };
       using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -742,7 +759,75 @@ namespace PowerUp.Tests.GameSave
       using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Trajectory.ShouldBe(value);
+      loadedPlayer.Power.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
+    public void Writes_RunSpeed(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { RunSpeed = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.RunSpeed.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
+    public void Writes_ArmStrength(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { ArmStrength = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.ArmStrength.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
+    public void Writes_Fielding(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Fielding = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Fielding.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
+    public void Writes_ErrorResistance(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { ErrorResistance = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.ErrorResistance.ShouldBe(value);
     }
   }
 }
