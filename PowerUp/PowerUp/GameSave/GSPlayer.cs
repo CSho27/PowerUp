@@ -336,7 +336,32 @@ namespace PowerUp.GameSave
     [GSUInt(0x7b, bits: 8, bitOffset: 0)]
     public ushort? Stamina { get; set; }
 
-    // Pitching Speical Abilities
+    [GSSInt(0x7c, bits: 2, bitOffset: 0)]
+    public short? Recovery { get; set; }
+
+    [GSSInt(0x7c, bits: 2, bitOffset: 2)]
+    public short? PitchingConsistency { get; set; }
+
+    [GSSInt(0x7c, bits: 2, bitOffset: 4)]
+    public short? GroundBallOrFlyBallPitcher { get; set; }
+
+    [GSSInt(0x7c, bits: 2, bitOffset: 6)]
+    public short? SafeOrFatPitch { get; set; }
+
+    [GSSInt(0x7d, bits: 2, bitOffset: 6)]
+    public short? WithRunnersInScoringPosition { get; set; }
+
+    [GSSInt(0x7d, bits: 2, bitOffset: 0)]
+    public short? Spin { get; set; }
+
+    [GSSInt(0x7d, bits: 2, bitOffset: 2)]
+    public short? FastballLife { get; set; }
+
+    [GSBoolean(0x7d, bitOffset: 4)]
+    public bool? Gyroball { get; set; }
+
+    [GSBoolean(0x7d, bitOffset: 5)]
+    public bool? ShuttoSpin { get; set; }
 
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
