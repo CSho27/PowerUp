@@ -217,6 +217,27 @@ namespace PowerUp.GameSave
     [GSBoolean(0x70, bitOffset: 7)]
     public bool? IsRallyHitter { get; set; }
 
+    [GSBoolean(0x71, bitOffset: 0)]
+    public bool? IsHotHitter { get; set; }
+
+    [GSBoolean(0x71, bitOffset: 1)]
+    public bool? IsBackToBackHitter { get; set; }
+
+    [GSBoolean(0x71, bitOffset: 2)]
+    public bool? IsToughOut { get; set; }
+
+    [GSBoolean(0x71, bitOffset: 3)]
+    public bool? IsPushHitter { get; set; }
+
+    [GSBoolean(0x71, bitOffset: 4)]
+    public bool? IsSprayHitter { get; set; }
+
+    [GSUInt(0x71, bits: 2, bitOffset: 5)]
+    public ushort? InfieldHitter { get; set; }
+
+    [GSBoolean(0x71, bitOffset: 7)]
+    public bool? IsContactHitter { get; set; }
+
     // MPH/KMH = .618 (for game purposes not in real life)
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
@@ -298,7 +319,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x6f, numberOfBytes: 2)]
+    [GSBytes(0x70, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }

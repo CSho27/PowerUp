@@ -698,6 +698,83 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Reads_IsHotHitter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsHotHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Reads_IsBackToBackHitter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsBackToBackHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsToughOut(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsToughOut.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsPushHitter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsPushHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsSprayHitter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsSprayHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsContactHitter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsContactHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Reads_InfieldHitter(int playerId, ushort abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.InfieldHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)120)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)141)]
     [TestCase(PAUL_PITCHER_ID, (ushort)169)]
