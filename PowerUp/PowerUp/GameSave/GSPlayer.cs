@@ -205,6 +205,18 @@ namespace PowerUp.GameSave
     [GSSInt(0x70, bits: 3, bitOffset: 0)]
     public short? ClutchHit { get; set; }
 
+    [GSBoolean(0x70, bitOffset: 3)]
+    public bool? IsTableSetter { get; set; }
+
+    [GSSInt(0x70, bits: 2, bitOffset: 4)]
+    public short? Morale { get; set; }
+
+    [GSBoolean(0x70, bitOffset: 6)]
+    public bool? IsSparkplug { get; set; }
+
+    [GSBoolean(0x70, bitOffset: 7)]
+    public bool? IsRallyHitter { get; set; }
+
     // MPH/KMH = .618 (for game purposes not in real life)
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }

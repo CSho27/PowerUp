@@ -932,6 +932,74 @@ namespace PowerUp.Tests.GameSave
       loadedPlayer.ClutchHit.ShouldBe(value);
     }
 
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_IsTableSetter(int playerId, bool value)
+    {
+      var playerToWrite = new GSPlayer { IsTableSetter = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsTableSetter.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)-1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Writes_Morale(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { Morale = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Morale.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_IsSparkplug(int playerId, bool value)
+    {
+      var playerToWrite = new GSPlayer { IsSparkplug = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsSparkplug.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_IsRallyHitter(int playerId, bool value)
+    {
+      var playerToWrite = new GSPlayer { IsRallyHitter = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsRallyHitter.ShouldBe(value);
+    }
+
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)155)]

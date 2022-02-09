@@ -654,6 +654,50 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsTableSetter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsTableSetter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Reads_Morale(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Morale.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Reads_IsSparkplug(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsSparkplug.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsRallyHitter(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsRallyHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)120)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)141)]
     [TestCase(PAUL_PITCHER_ID, (ushort)169)]
