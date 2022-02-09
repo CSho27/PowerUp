@@ -634,6 +634,17 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)35052)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35675)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)35194)]
+    public void Reads_VoiceId(int playerId, ushort voiceId)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.VoiceId.ShouldBe(voiceId);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)0)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]

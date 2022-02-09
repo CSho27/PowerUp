@@ -203,6 +203,9 @@ namespace PowerUp.GameSave
 
     // Pitching Speical Abilities
 
+    [GSUInt(0x92, bits: 16, bitOffset: 0)]
+    public ushort? VoiceId { get; set; }
+
     [GSUInt(0x95, bits: 5, bitOffset: 0)]
     public ushort? Slider1Type { get; set; }
 
@@ -269,7 +272,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x6a, numberOfBytes: 2)]
+    [GSBytes(0x92, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }

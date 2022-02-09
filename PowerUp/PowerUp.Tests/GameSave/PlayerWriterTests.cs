@@ -901,6 +901,25 @@ namespace PowerUp.Tests.GameSave
       loadedPlayer.Stamina.ShouldBe(value);
     }
 
+    // Pitching Special Abilities
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)35612)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35440)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)35069)]
+    public void Writes_VoiceId(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { VoiceId = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.VoiceId.ShouldBe(value);
+    }
+
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)3)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
