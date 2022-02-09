@@ -405,6 +405,27 @@ namespace PowerUp.GameSave
     [GSBoolean(0x7f, bitOffset: 7)]
     public bool? HasPokerFace { get; set; }
 
+    [GSBoolean(0x80, bitOffset: 0)]
+    public bool? IsIntimidatingPitcher { get; set; }
+
+    [GSBoolean(0x80, bitOffset: 1)]
+    public bool? IsBattler { get; set; }
+
+    [GSBoolean(0x80, bitOffset: 2)]
+    public bool? IsHotHead { get; set; }
+
+    [GSBoolean(0x80, bitOffset: 3)]
+    public bool? IsSlowStarter { get; set; }
+
+    [GSBoolean(0x80, bitOffset: 4)]
+    public bool? IsStarterFinisher { get; set; }
+
+    [GSBoolean(0x80, bitOffset: 5)]
+    public bool? IsChokeArtist { get; set; }
+
+    [GSBoolean(0x80, bitOffset: 6)]
+    public bool? HasGoodReflexes { get; set; }
+
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
 
