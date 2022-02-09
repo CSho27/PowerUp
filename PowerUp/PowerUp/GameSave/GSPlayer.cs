@@ -286,6 +286,9 @@ namespace PowerUp.GameSave
     [GSBoolean(0x74, bitOffset: 7)]
     public bool? CanBarehandCatch { get; set; }
 
+    [GSBoolean(0x75, bitOffset: 0)]
+    public bool? CanSpiderCatch { get; set; }
+
     [GSBoolean(0x75, bitOffset: 1)]
     public bool? IsErrorProne { get; set; }
 
@@ -363,6 +366,18 @@ namespace PowerUp.GameSave
     [GSBoolean(0x7d, bitOffset: 5)]
     public bool? ShuttoSpin { get; set; }
 
+    [GSSInt(0x7e, bits: 2, bitOffset: 0)]
+    public short? Poise { get; set; }
+
+    [GSSInt(0x7e, bits: 2, bitOffset: 2)]
+    public short? Luck { get; set; }
+
+    [GSSInt(0x7e, bits: 2, bitOffset: 4)]
+    public short? Release { get; set; }
+
+    [GSSInt(0x7e, bits: 2, bitOffset: 6)]
+    public short? VersusLeftHandedBatter { get; set; }
+
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
 
@@ -432,7 +447,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x77, numberOfBytes: 2)]
+    [GSBytes(0x72, numberOfBytes: 6)]
     public byte[]? TestBytes { get; set; }
   }
 }
