@@ -302,7 +302,17 @@ namespace PowerUp.GameSave
     [GSBoolean(0x75, bitOffset: 7)]
     public bool? HasCannonArm { get; set; }
 
+    [GSBoolean(0x76, bitOffset: 2)]
+    public bool? IsStar { get; set; }
 
+    [GSSInt(0x76, bits: 2, bitOffset: 3)]
+    public short? SmallBall { get; set; }
+
+    [GSSInt(0x76, bits: 2, bitOffset: 5)]
+    public short? SlugOrSlap { get; set; }
+
+    [GSSInt(0x76, bits: 2, bitOffset: 7)]
+    public short? AggressiveOrPatientHitter { get; set; }
 
     [GSBoolean(0x78, bitOffset: 0)]
     public bool? IsPivotMan { get; set; }
@@ -388,7 +398,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x75, numberOfBytes: 2)]
+    [GSBytes(0x76, numberOfBytes: 9)]
     public byte[]? TestBytes { get; set; }
   }
 }

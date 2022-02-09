@@ -1005,6 +1005,49 @@ namespace PowerUp.Tests.GameSave
       player.IsErrorProne.ShouldBe(abilityValue);
     }
 
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsStar(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsStar.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
+    [TestCase(PAUL_PITCHER_ID, (short)-1)]
+    public void Reads_SmallBall(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.SmallBall.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
+    [TestCase(PAUL_PITCHER_ID, (short)0)]
+    public void Reads_SlugOrSlap(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.SlugOrSlap.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)-1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
+    [TestCase(PAUL_PITCHER_ID, (short)0)]
+    public void Reads_AggressiveOrPatientHitter(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.AggressiveOrPatientHitter.ShouldBe(abilityValue);
+    }
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, false)]
