@@ -729,6 +729,23 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
+    [TestCase(PAUL_PITCHER_ID, (short)-1)]
+    public void Writes_Durability(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { Durability = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Durability.ShouldBe(value);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)0)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
@@ -847,7 +864,73 @@ namespace PowerUp.Tests.GameSave
       loadedPlayer.ErrorResistance.ShouldBe(value);
     }
 
-    // Hitting Special Abilities
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
+    [TestCase(PAUL_PITCHER_ID, (short)-1)]
+    public void Writes_HittingConsistency(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { HittingConsistency = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HittingConsistency.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)-3)]
+    public void Writes_HittingVersusLefty1(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { HittingVersusLefty1 = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HittingVersusLefty1.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
+    [TestCase(PAUL_PITCHER_ID, (short)-1)]
+    public void Writes_HittingVersusLefty2(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { HittingVersusLefty2 = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HittingVersusLefty2.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)-3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Writes_ClutchHit(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { ClutchHit = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.ClutchHit.ShouldBe(value);
+    }
 
 
     [Test]

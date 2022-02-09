@@ -164,6 +164,10 @@ namespace PowerUp.GameSave
     [GSBoolean(0x6a, bitOffset: 1)]
     public bool? ThrowsLefty { get; set; }
 
+
+    [GSSInt(0x6a, bits: 2, bitOffset: 2)]
+    public short? Durability { get; set; }
+
     /// <summary>
     /// Game value is value loaded plus 1
     /// </summary>
@@ -188,8 +192,18 @@ namespace PowerUp.GameSave
     [GSUInt(0x6e, bits: 4, bitOffset: 4)]
     public ushort? ErrorResistance { get; set; }
 
-    // Hitting Special Abilities
+    [GSSInt(0x6f, bits: 2, bitOffset: 0)]
+    public short? HittingConsistency { get; set; }
 
+    // These two properties are signed ints but -3 represents -1
+    [GSSInt(0x6f, bits: 3, bitOffset: 2)]
+    public short? HittingVersusLefty1 { get; set; }
+
+    [GSSInt(0x6f, bits: 3, bitOffset: 5)]
+    public short? HittingVersusLefty2 { get; set; }
+
+    [GSSInt(0x70, bits: 3, bitOffset: 0)]
+    public short? ClutchHit { get; set; }
 
     // MPH/KMH = .618 (for game purposes not in real life)
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
@@ -272,7 +286,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x92, numberOfBytes: 2)]
+    [GSBytes(0x6f, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }

@@ -522,6 +522,17 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Reads_Durability(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Durability.ShouldBe(abilityValue);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)3)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
@@ -598,7 +609,49 @@ namespace PowerUp.Tests.GameSave
       player.ErrorResistance.ShouldBe(errorResistance);
     }
 
-    // Hitting Special Abilities
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Reads_HittingConsistency(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HittingConsistency.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-3)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Reads_HittingVersusLefty1(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HittingVersusLefty1.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-3)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Reads_HittingVersusLefty2(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HittingVersusLefty2.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)2)]
+    [TestCase(PAUL_PITCHER_ID, (short)-3)]
+    public void Reads_ClutchHit(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.ClutchHit.ShouldBe(abilityValue);
+    }
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)120)]
