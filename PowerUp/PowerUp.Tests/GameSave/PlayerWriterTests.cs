@@ -712,6 +712,23 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_ThrowsLefty(int playerId, bool throwsLeft)
+    {
+      var playerToWrite = new GSPlayer { ThrowsLefty = throwsLeft };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.ThrowsLefty.ShouldBe(throwsLeft);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)0)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
@@ -828,6 +845,434 @@ namespace PowerUp.Tests.GameSave
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ErrorResistance.ShouldBe(value);
+    }
+
+    // Hitting Special Abilities
+
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)155)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)90)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)130)]
+    public void Writes_TopThrowingSpeedKMH(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { TopThrowingSpeedKMH = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.TopThrowingSpeedKMH.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)155)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)90)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)130)]
+    public void Writes_Control(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Control = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Control.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)155)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)90)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)130)]
+    public void Writes_Stamina(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Stamina = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Stamina.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Slider1Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Slider1Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Slider1Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Slider1Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Slider1Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Slider1Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)11)]
+    public void Writes_Curve1Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Curve1Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Curve1Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Curve1Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Curve1Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Curve1Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)13)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)16)]
+    public void Writes_Fork1Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Fork1Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Fork1Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Fork1Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Fork1Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Fork1Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)20)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)21)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)22)]
+    public void Writes_Sinker1Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Sinker1Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Sinker1Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Sinker1Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Sinker1Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Sinker1Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)23)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)24)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)25)]
+    public void Writes_SinkingFastball1Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { SinkingFastball1Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SinkingFastball1Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_SinkingFastball1Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { SinkingFastball1Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SinkingFastball1Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Writes_TwoSeamType(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { TwoSeamType = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.TwoSeamType.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Writes_TwoSeamMovement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { TwoSeamMovement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.TwoSeamMovement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Slider2Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Slider2Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Slider2Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Slider2Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Slider2Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Slider2Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)11)]
+    public void Writes_Curve2Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Curve2Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Curve2Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Curve2Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Curve2Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Curve2Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)13)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)16)]
+    public void Writes_Fork2Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Fork2Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Fork2Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Fork2Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Fork2Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Fork2Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)20)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)21)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)22)]
+    public void Writes_Sinker2Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Sinker2Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Sinker2Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_Sinker2Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { Sinker2Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.Sinker2Movement.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)23)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)24)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)25)]
+    public void Writes_SinkingFastball2Type(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { SinkingFastball2Type = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SinkingFastball2Type.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Writes_SinkingFastball2Movement(int playerId, ushort value)
+    {
+      var playerToWrite = new GSPlayer { SinkingFastball2Movement = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.SinkingFastball2Movement.ShouldBe(value);
     }
   }
 }

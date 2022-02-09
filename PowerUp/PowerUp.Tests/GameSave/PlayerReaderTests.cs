@@ -511,6 +511,17 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_ThrowsLefty(int playerId, bool throwsLefty)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.ThrowsLefty.ShouldBe(throwsLefty);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)3)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
@@ -585,6 +596,283 @@ namespace PowerUp.Tests.GameSave
       using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
       player.ErrorResistance.ShouldBe(errorResistance);
+    }
+
+    // Hitting Special Abilities
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)120)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)141)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)169)]
+    public void Reads_TopThrowingSpeedKMH(int playerId, ushort topSpeedKMH)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.TopThrowingSpeedKMH.ShouldBe(topSpeedKMH);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)52)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)246)]
+    public void Reads_Control(int playerId, ushort control)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Control.ShouldBe(control);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)67)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)237)]
+    public void Reads_Stamina(int playerId, ushort stamina)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Stamina.ShouldBe(stamina);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Reads_Slider1Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Slider1Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Reads_Slider1Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Slider1Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)9)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Reads_Curve1Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Curve1Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Reads_Curve1Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Curve1Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)19)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)18)]
+    public void Reads_Fork1Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Fork1Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Reads_Fork1Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Fork1Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)22)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)20)]
+    public void Reads_Sinker1Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Sinker1Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    public void Reads_Sinker1Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Sinker1Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)23)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)25)]
+    public void Reads_SinkingFastball1Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.SinkingFastball1Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Reads_SinkingFastball1Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.SinkingFastball1Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Reads_TwoSeamType(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.TwoSeamType.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Reads_TwoSeamMovement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.TwoSeamMovement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    public void Reads_Slider2Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Slider2Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Reads_Slider2Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Slider2Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)11)]
+    public void Reads_Curve2Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Curve2Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Reads_Curve2Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Curve2Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)17)]
+    public void Reads_Fork2Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Fork2Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Reads_Fork2Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Fork2Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)21)]
+    public void Reads_Sinker2Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Sinker2Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Reads_Sinker2Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.Sinker2Movement.ShouldBe(movement);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)24)]
+    public void Reads_SinkingFastball2Type(int playerId, ushort type)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.SinkingFastball2Type.ShouldBe(type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    public void Reads_SinkingFastball2Movement(int playerId, ushort movement)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.SinkingFastball2Movement.ShouldBe(movement);
     }
   }
 }

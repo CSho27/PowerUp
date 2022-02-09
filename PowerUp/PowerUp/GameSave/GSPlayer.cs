@@ -161,7 +161,9 @@ namespace PowerUp.GameSave
     [GSUInt(0x69, bits: 2, bitOffset: 6)]
     public ushort? BattingSide { get; set; }
 
-    
+    [GSBoolean(0x6a, bitOffset: 1)]
+    public bool? ThrowsLefty { get; set; }
+
     /// <summary>
     /// Game value is value loaded plus 1
     /// </summary>
@@ -186,6 +188,86 @@ namespace PowerUp.GameSave
     [GSUInt(0x6e, bits: 4, bitOffset: 4)]
     public ushort? ErrorResistance { get; set; }
 
+    // Hitting Special Abilities
+
+
+    // MPH/KMH = .618 (for game purposes not in real life)
+    [GSUInt(0x79, bits: 8, bitOffset: 0)]
+    public ushort? TopThrowingSpeedKMH { get; set; }
+
+    [GSUInt(0x7a, bits: 8, bitOffset: 0)]
+    public ushort? Control { get; set; }
+
+    [GSUInt(0x7b, bits: 8, bitOffset: 0)]
+    public ushort? Stamina { get; set; }
+
+    // Pitching Speical Abilities
+
+    [GSUInt(0x95, bits: 5, bitOffset: 0)]
+    public ushort? Slider1Type { get; set; }
+
+    [GSUInt(0x95, bits: 3, bitOffset: 5)]
+    public ushort? Slider1Movement { get; set; }
+
+    [GSUInt(0x96, bits: 5, bitOffset: 0)]
+    public ushort? Curve1Type { get; set; }
+
+    [GSUInt(0x96, bits: 3, bitOffset: 5)]
+    public ushort? Curve1Movement { get; set; }
+
+    [GSUInt(0x97, bits: 5, bitOffset: 0)]
+    public ushort? Fork1Type { get; set; }
+
+    [GSUInt(0x97, bits: 3, bitOffset: 5)]
+    public ushort? Fork1Movement { get; set; }
+
+    [GSUInt(0x98, bits: 5, bitOffset: 0)]
+    public ushort? Sinker1Type { get; set; }
+
+    [GSUInt(0x98, bits: 3, bitOffset: 5)]
+    public ushort? Sinker1Movement { get; set; }
+
+    [GSUInt(0x99, bits: 5, bitOffset: 0)]
+    public ushort? SinkingFastball1Type { get; set; }
+
+    [GSUInt(0x99, bits: 3, bitOffset: 5)]
+    public ushort? SinkingFastball1Movement { get; set; }
+
+    [GSUInt(0x9a, bits: 5, bitOffset: 0)]
+    public ushort? TwoSeamType { get; set; }
+
+    [GSUInt(0x9a, bits: 3, bitOffset: 5)]
+    public ushort? TwoSeamMovement { get; set; }
+
+    [GSUInt(0x9b, bits: 5, bitOffset: 0)]
+    public ushort? Slider2Type { get; set; }
+
+    [GSUInt(0x9b, bits: 3, bitOffset: 5)]
+    public ushort? Slider2Movement { get; set; }
+
+    [GSUInt(0x9c, bits: 5, bitOffset: 0)]
+    public ushort? Curve2Type { get; set; }
+
+    [GSUInt(0x9c, bits: 3, bitOffset: 5)]
+    public ushort? Curve2Movement { get; set; }
+
+    [GSUInt(0x9d, bits: 5, bitOffset: 0)]
+    public ushort? Fork2Type { get; set; }
+
+    [GSUInt(0x9d, bits: 3, bitOffset: 5)]
+    public ushort? Fork2Movement { get; set; }
+
+    [GSUInt(0x9e, bits: 5, bitOffset: 0)]
+    public ushort? Sinker2Type { get; set; }
+
+    [GSUInt(0x9e, bits: 3, bitOffset: 5)]
+    public ushort? Sinker2Movement { get; set; }
+
+    [GSUInt(0x9f, bits: 5, bitOffset: 0)]
+    public ushort? SinkingFastball2Type { get; set; }
+
+    [GSUInt(0x9f, bits: 3, bitOffset: 5)]
+    public ushort? SinkingFastball2Movement { get; set; }
 
     [GSBytes(0x6a, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
