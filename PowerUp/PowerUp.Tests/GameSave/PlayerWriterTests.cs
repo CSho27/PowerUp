@@ -1545,6 +1545,57 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)-1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Writes_AggressiveOrCautiousBaseStealer(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { AggressiveOrCautiousBaseStealer = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.AggressiveOrCautiousBaseStealer.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_IsAggressiveBaserunner(int playerId, bool value)
+    {
+      var playerToWrite = new GSPlayer { IsAggressiveBaserunner = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsAggressiveBaserunner.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_IsAggressiveFielder(int playerId, bool value)
+    {
+      var playerToWrite = new GSPlayer { IsAggressiveFielder = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.IsAggressiveFielder.ShouldBe(value);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, true)]
     [TestCase(SAMMY_SPEEDSTER_ID, true)]
     [TestCase(PAUL_PITCHER_ID, false)]

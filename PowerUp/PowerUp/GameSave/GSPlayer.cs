@@ -314,6 +314,15 @@ namespace PowerUp.GameSave
     [GSSInt(0x76, bits: 2, bitOffset: 7)]
     public short? AggressiveOrPatientHitter { get; set; }
 
+    [GSSInt(0x77, bits: 2, bitOffset: 1)]
+    public short? AggressiveOrCautiousBaseStealer { get; set; }
+
+    [GSBoolean(0x77, bitOffset: 4)]
+    public bool? IsAggressiveBaserunner { get; set; }
+
+    [GSBoolean(0x77, bitOffset: 6)]
+    public bool? IsAggressiveFielder { get; set; }
+
     [GSBoolean(0x78, bitOffset: 0)]
     public bool? IsPivotMan { get; set; }
 
@@ -398,7 +407,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x76, numberOfBytes: 9)]
+    [GSBytes(0x77, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }

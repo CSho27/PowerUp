@@ -1050,6 +1050,39 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)-1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
+    [TestCase(PAUL_PITCHER_ID, (short)0)]
+    public void Reads_AggressiveOrCautiousBaseStealer(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.AggressiveOrCautiousBaseStealer.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsAggressiveBaserunner(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsAggressiveBaserunner.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Reads_IsAggressiveFielder(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsAggressiveFielder.ShouldBe(abilityValue);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, false)]
     [TestCase(SAMMY_SPEEDSTER_ID, false)]
     [TestCase(PAUL_PITCHER_ID, true)]
