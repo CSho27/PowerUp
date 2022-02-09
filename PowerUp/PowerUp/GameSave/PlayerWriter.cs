@@ -25,6 +25,8 @@ namespace PowerUp.GameSave
           _writer.WriteBool(playerOffset + boolAttr.Offset, boolAttr.BitOffset, (bool)propertyValue);
         else if (gameSaveAttribute is GSUIntAttribute uintAttr)
           _writer.WriteUInt(playerOffset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, (ushort)propertyValue);
+        else if (gameSaveAttribute is GSSIntAttribute sintAttr)
+          _writer.WriteSInt(playerOffset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, (short)propertyValue);
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           _writer.WriteString(playerOffset + stringAttr.Offset, stringAttr.StringLength, (string)propertyValue);
       }

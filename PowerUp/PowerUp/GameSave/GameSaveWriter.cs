@@ -50,6 +50,13 @@ namespace PowerUp.GameSave
       writer.Write(currentByte);
     }
 
+    public void WriteSInt(long offset, int bitOffset, int numberOfBits, short sint)
+    {
+      var isNegative = sint < 0;
+      WriteBool(offset, bitOffset, isNegative);
+      WriteUInt(offset, bitOffset+1, numberOfBits-1, (ushort)Math.Abs(sint));
+    }
+
     public void WriteChar(long offset, char @char) 
     {
       var charNum = _characterLibrary[@char];
