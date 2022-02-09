@@ -329,6 +329,9 @@ namespace PowerUp.GameSave
     [GSBoolean(0x78, bitOffset: 0)]
     public bool? IsPivotMan { get; set; }
 
+    [GSBoolean(0x78, bitOffset: 1)]
+    public bool? IsPullHitter { get; set; }
+
     // MPH/KMH = .618 (for game purposes not in real life)
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
@@ -377,6 +380,30 @@ namespace PowerUp.GameSave
 
     [GSSInt(0x7e, bits: 2, bitOffset: 6)]
     public short? VersusLeftHandedBatter { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 0)]
+    public bool? PoorVersusRunner { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 1)]
+    public bool? GoodPickoff { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 2)]
+    public bool? GoodDelivery { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 3)]
+    public bool? GoodLowPitch { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 4)]
+    public bool? DoctorK { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 5)]
+    public bool? WalkProne { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 6)]
+    public bool? IsSandbag { get; set; }
+
+    [GSBoolean(0x7f, bitOffset: 7)]
+    public bool? HasPokerFace { get; set; }
 
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
@@ -447,7 +474,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x72, numberOfBytes: 6)]
+    [GSBytes(0x7f, numberOfBytes: 6)]
     public byte[]? TestBytes { get; set; }
   }
 }
