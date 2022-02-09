@@ -286,6 +286,22 @@ namespace PowerUp.GameSave
     [GSBoolean(0x74, bitOffset: 7)]
     public bool? CanBarehandCatch { get; set; }
 
+    [GSBoolean(0x75, bitOffset: 1)]
+    public bool? IsErrorProne { get; set; }
+
+    // no setting = 1, gd = 3, grt = 4
+    [GSUInt(0x75, bits: 3, bitOffset: 2)]
+    public ushort? Catching { get; set; }
+
+    [GSBoolean(0x75, bitOffset: 5)]
+    public bool? IsGoodBlocker { get; set; }
+
+    [GSBoolean(0x75, bitOffset: 6)]
+    public bool? IsTrashTalker { get; set; }
+
+    [GSBoolean(0x75, bitOffset: 7)]
+    public bool? HasCannonArm { get; set; }
+
 
 
     [GSBoolean(0x78, bitOffset: 0)]
@@ -372,7 +388,7 @@ namespace PowerUp.GameSave
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x73, numberOfBytes: 5)]
+    [GSBytes(0x75, numberOfBytes: 2)]
     public byte[]? TestBytes { get; set; }
   }
 }
