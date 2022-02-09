@@ -29,6 +29,19 @@ namespace PowerUp.GameSave
     }
   }
 
+  public class GSSIntAttribute : GSAttribute
+  {
+    public int Bits { get; }
+    public int BitOffset { get; }
+
+    public GSSIntAttribute(long offset, int bits, int bitOffset = 0)
+      : base(offset)
+    {
+      Bits = bits;
+      BitOffset = bitOffset;
+    }
+  }
+
   public class GSBooleanAttribute : GSAttribute
   {
     public int BitOffset { get; }

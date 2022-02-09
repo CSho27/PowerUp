@@ -60,6 +60,15 @@ namespace PowerUp.GameSave
       return valueBits.ToUInt16();
     }
 
+    public short ReadSInt(long offset, int bitOffset, int numberOfBits)
+    {
+      var isNegative = ReadBool(offset, bitOffset);
+      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1);
+      return isNegative
+        ? (short)(value * -1)
+        : (short)value;
+    }
+
     public char ReadChar(long offset) => _characterLibrary[(ReadUInt(offset, 0, 16))];
     public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
 
