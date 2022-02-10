@@ -1,6 +1,4 @@
-﻿using PowerUp.DebugUtils;
-
-namespace PowerUp.GameSave
+﻿namespace PowerUp.GameSave
 {
   public class GSPlayer
   {
