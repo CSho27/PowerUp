@@ -1446,6 +1446,28 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    public void Reads_HasGoodPace(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HasGoodPace.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Reads_PowerOrBreakingBallPitcher(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.PowerOrBreakingBallPitcher.ShouldBe(abilityValue);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)35052)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35675)]
     [TestCase(PAUL_PITCHER_ID, (ushort)35194)]

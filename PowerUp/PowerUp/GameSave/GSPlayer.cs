@@ -426,6 +426,12 @@ namespace PowerUp.GameSave
     [GSBoolean(0x80, bitOffset: 6)]
     public bool? HasGoodReflexes { get; set; }
 
+    [GSBoolean(0x81, bitOffset: 0)]
+    public bool? HasGoodPace { get; set; }
+
+    [GSSInt(0x81, bits: 2, bitOffset: 1)]
+    public short? PowerOrBreakingBallPitcher { get; set; }
+
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
 

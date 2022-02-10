@@ -2174,6 +2174,40 @@ namespace PowerUp.Tests.GameSave
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, true)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    public void Writes_HasGoodPace(int playerId, bool value)
+    {
+      var playerToWrite = new GSPlayer { HasGoodPace = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.HasGoodPace.ShouldBe(value);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)-1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)1)]
+    public void Writes_PowerOrBreakingBallPitcher(int playerId, short value)
+    {
+      var playerToWrite = new GSPlayer { PowerOrBreakingBallPitcher = value };
+      using (var writer = new PlayerWriter(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        writer.Write(playerId, playerToWrite);
+
+      GSPlayer loadedPlayer = null;
+      using (var reader = new PlayerReader(TEST_WRITE_GAME_SAVE_FILE_PATH))
+        loadedPlayer = reader.Read(playerId);
+
+      loadedPlayer.PowerOrBreakingBallPitcher.ShouldBe(value);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)35612)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35440)]
     [TestCase(PAUL_PITCHER_ID, (ushort)35069)]
