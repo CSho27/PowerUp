@@ -85,8 +85,11 @@ namespace PowerUp.GameSave
     [GSUInt(0x57, bits: 4, bitOffset: 3)]
     public ushort? LeftWristband { get; set; }
 
-    // TODO: Add Batting Form
-    // TODO: Add Pitching Form
+    [GSUInt(0x5c, bits: 8, bitOffset: 4)]
+    public ushort? BattingForm { get; set; }
+
+    [GSUInt(0x5d, bits: 8, bitOffset: 4)]
+    public ushort? PitchingForm { get; set; }
 
     [GSUInt(0x5e, bits: 4, bitOffset: 4)]
     public ushort? PrimaryPosition { get; set; }
