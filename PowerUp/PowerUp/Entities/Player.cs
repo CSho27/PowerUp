@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PowerUp.Entities
+﻿namespace PowerUp.Entities
 {
   public class Player
   {
-    public string SavedName { get; private set; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string PlayerNumber { get; private set; }
+    public string SavedName { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public int Year { get; set; }
+    public bool IsCustom { get; set; }
   }
 
   public class Appearance
