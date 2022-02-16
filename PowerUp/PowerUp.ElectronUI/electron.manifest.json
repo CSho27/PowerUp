@@ -1,7 +1,7 @@
 {
   "executable": "PowerUp.ElectronUI",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "./wwwroot/PowerUp_Splashscreen.png"
   },
   "name": "PowerUp",
   "author": "",
@@ -14,7 +14,8 @@
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
-      "output": "../../../bin/Desktop"
+      "output": "../../../bin/Desktop",
+      "buildResources": "./Assets"
     },
     "extraResources": [
       {
