@@ -13,8 +13,6 @@ namespace PowerUp.ElectronUI
       Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(webBuilder =>
         {
-          webBuilder.UseWebRoot(ProjectPath.Relative("electron/dist"));
-          Console.WriteLine($"content root: {webBuilder.GetSetting("WebRoot")}");
           webBuilder.UseElectron(args);
           webBuilder.UseStartup<Startup>();
         });

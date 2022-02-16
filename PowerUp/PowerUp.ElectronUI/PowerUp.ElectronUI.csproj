@@ -7,18 +7,10 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="electron\src\**" />
-    <Content Remove="electron\src\**" />
-    <EmbeddedResource Remove="electron\src\**" />
-    <None Remove="electron\src\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="electron\package-lock.json" />
-    <Content Remove="electron\package.json" />
-    <Content Remove="electron\tsconfig.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="electron\webpack.config.js" />
+    <Compile Remove="electron\**" />
+    <Content Remove="electron\**" />
+    <EmbeddedResource Remove="electron\**" />
+    <None Remove="electron\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />

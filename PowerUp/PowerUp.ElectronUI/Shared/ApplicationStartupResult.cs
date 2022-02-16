@@ -5,16 +5,15 @@ namespace PowerUp.ElectronUI.Shared
 {
   public class ApplicationStartupResult : ContentResult
   {
-    private static string INDEX_PAGE_PATH = ProjectPath.Relative("electron/dist/index.html");
-
-    public ApplicationStartupResult(string commandUrl, object? indexResponse)
+    public ApplicationStartupResult(IWebHostEnvironment webHostEnvironment, string commandUrl, object? indexResponse)
     {
       var startupData = new ApplicationStartupData(commandUrl, indexResponse);
       var dataDiv = $@"
         <div id=""index-response-json-data"" data=""{JsonConvert.SerializeObject(startupData).Replace("\"", "'")}"" />
       ";
+      var indexPagePath = Path.Combine(webHostEnvironment.WebRootPath, "index.html");
 
-      Content = File.ReadAllText(INDEX_PAGE_PATH) + dataDiv;
+      Content = File.ReadAllText(indexPagePath) + dataDiv;
       ContentType = "text/html";
     }
   }

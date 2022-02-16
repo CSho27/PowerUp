@@ -12,7 +12,7 @@ const config = {
   entry: "./src/app/renderer.tsx",
   output: {
     filename: "renderer.js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "../wwwroot")
   },
   module: {
     rules: [
