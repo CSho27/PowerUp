@@ -1,16 +1,16 @@
 {
   "executable": "PowerUp.ElectronUI",
   "splashscreen": {
-    "imageFile": "./wwwroot/PowerUp_Splashscreen.png"
+    "imageFile": "./wwwroot/assets/PowerUp_Splashscreen.png"
   },
   "name": "PowerUp",
-  "author": "",
+  "author": "Christopher Shorter",
   "singleInstance": false,
   "environment": "Production",
   "build": {
     "appId": "com.PowerUp.app",
     "productName": "PowerUp",
-    "copyright": "Copyright © 2020",
+    "copyright": "Copyright © 2022",
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
