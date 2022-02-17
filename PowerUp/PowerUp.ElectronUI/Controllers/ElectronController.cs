@@ -40,8 +40,7 @@ namespace PowerUp.ElectronUI.Controllers
         FirstName = "Chris",
         LastName = "Shorter",
         SavedName = "Shorter",
-        Year = 2022,
-        IsCustom = false
+        Type = PlayerType.Custom
       };
 
       _playerDatabase.Save(testplayer);

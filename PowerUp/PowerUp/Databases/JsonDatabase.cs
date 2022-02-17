@@ -61,7 +61,7 @@ namespace PowerUp.Databases
         .GetProperties()
         .Select(p => p.GetValue(databaseKeys))
         .Where(v => v != null);
-      return $"{string.Join("_", keys).Replace("/", "").Replace("\\", "")}.json";
+      return $"{string.Join("_", keys)}.json";
     }
   }
 }
