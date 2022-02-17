@@ -7,20 +7,24 @@ namespace PowerUp.ElectronUI.Api
 {
   public class LoadBaseGameSaveCommand : ICommand<LoadBaseRequest, LoadBaseResponse>
   {
-    private const string GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_after.dat";
-
     private readonly ICharacterLibrary _characterLibrary;
     private readonly IPlayerDatabase _playerDatabase;
+    private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
 
-    public LoadBaseGameSaveCommand(ICharacterLibrary characterLibrary, IPlayerDatabase playerDatabase)
+    public LoadBaseGameSaveCommand(
+      ICharacterLibrary characterLibrary,
+      IPlayerDatabase playerDatabase,
+      IBaseGameSavePathProvider gameSavePathProvider
+    )
     {
       _characterLibrary = characterLibrary;
       _playerDatabase = playerDatabase;
+      _baseGameSavePathProvider = gameSavePathProvider;
     }
 
     public LoadBaseResponse Execute(LoadBaseRequest request)
     {
-      var reader = new PlayerReader(_characterLibrary, GAME_SAVE_PATH);
+      var reader = new PlayerReader(_characterLibrary, _baseGameSavePathProvider.GetPath());
       for(int i=1; i<971; i++)
       {
         var gsPlayer = reader.Read(i);
