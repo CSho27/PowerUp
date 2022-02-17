@@ -2,6 +2,7 @@
 using PowerUp.Entities.Players;
 using PowerUp.GameSave;
 using PowerUp.Libraries;
+using PowerUp.Mappers;
 
 namespace PowerUp.ElectronUI.Api
 {
@@ -27,14 +28,8 @@ namespace PowerUp.ElectronUI.Api
       var reader = new PlayerReader(_characterLibrary, _baseGameSavePathProvider.GetPath());
       for(int i=1; i<971; i++)
       {
-        var gsPlayer = reader.Read(i);
-        var player = new Player
-        {
-          Type = PlayerType.Base,
-          FirstName = gsPlayer.FirstName!,
-          LastName = gsPlayer.LastName!,
-          SavedName = gsPlayer.SavedName!,
-        };
+        var mappingParameters = new PlayerMappingParameters { Type = PlayerType.Base };
+        var player = reader.Read(i).MapToPlayer(mappingParameters);
         Console.WriteLine($"Saving: {player.SavedName}");
         _playerDatabase.Save(player);
       }
