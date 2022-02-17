@@ -6,7 +6,7 @@ namespace PowerUp.ElectronUI.StartupConfig
   {
     public static void RegisterCommandsForDI(this IServiceCollection services)
     {
-      services.AddSingleton(typeof(CommandRegistry), serviceProvider => new CommandRegistry(type => serviceProvider.GetRequiredService(type)));
+      services.AddSingleton(serviceProvider => new CommandRegistry(type => serviceProvider.GetRequiredService(type)));
       services.AddSingleton<SavePlayerCommand>();
     }
 

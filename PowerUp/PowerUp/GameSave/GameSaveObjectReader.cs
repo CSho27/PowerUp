@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerUp.Libraries;
+using System;
 using System.Linq;
 
 namespace PowerUp.GameSave
@@ -7,9 +8,9 @@ namespace PowerUp.GameSave
   {
     private readonly GameSaveReader _reader;
 
-    public GameSaveObjectReader(string fileName)
+    public GameSaveObjectReader(ICharacterLibrary characterLibrary, string fileName)
     {
-      _reader = new GameSaveReader(fileName);
+      _reader = new GameSaveReader(characterLibrary, fileName);
     }
 
     public TGameSaveObject Read(long offset)

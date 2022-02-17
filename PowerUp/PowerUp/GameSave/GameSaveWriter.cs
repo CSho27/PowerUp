@@ -1,4 +1,5 @@
 ﻿using PowerUp.DebugUtils;
+using PowerUp.Libraries;
 using System;
 using System.IO;
 
@@ -7,12 +8,12 @@ namespace PowerUp.GameSave
   public class GameSaveWriter : IDisposable
   {
     private readonly Stream _stream;
-    private readonly CharacterLibrary _characterLibrary;
+    private readonly ICharacterLibrary _characterLibrary;
 
-    public GameSaveWriter(string filePath)
+    public GameSaveWriter(ICharacterLibrary characterLibrary, string filePath)
     {
       _stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
-      _characterLibrary = CharacterLibrary.Default;
+      _characterLibrary = characterLibrary;
     }
 
     public void WriteString(long offset, int stringLength, string @string)

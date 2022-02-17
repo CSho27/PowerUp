@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerUp.Libraries;
+using System;
 
 namespace PowerUp.GameSave
 {
@@ -6,10 +7,9 @@ namespace PowerUp.GameSave
   {
     private readonly GameSaveObjectReader<GSPlayer> _reader;
 
-
-    public PlayerReader(string fileName)
+    public PlayerReader(ICharacterLibrary characterLibrary, string fileName)
     {
-      _reader = new GameSaveObjectReader<GSPlayer>(fileName);
+      _reader = new GameSaveObjectReader<GSPlayer>(characterLibrary, fileName);
     }
 
     public GSPlayer Read(int powerProsId)

@@ -2,9 +2,9 @@
 using ElectronNET.API.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using PowerUp.Databases;
 using PowerUp.ElectronUI.StartupConfig;
-using PowerUp.ElectronUI.Api.PlayerEditor;
-using Microsoft.Extensions.DependencyInjection;
+using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI
 {
@@ -22,6 +22,10 @@ namespace PowerUp.ElectronUI
     {
       services.AddControllersWithViews();
       services.RegisterCommandsForDI();
+
+      var dataDirectory = Configuration["DataDirectory"];
+      services.RegisterDatabases(dataDirectory);
+      services.RegisterLibraries(dataDirectory);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

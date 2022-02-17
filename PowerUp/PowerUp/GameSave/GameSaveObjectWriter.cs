@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerUp.Libraries;
+using System;
 
 namespace PowerUp.GameSave
 {
@@ -6,9 +7,9 @@ namespace PowerUp.GameSave
   {
     private readonly GameSaveWriter _writer;
 
-    public GameSaveObjectWriter(string fileName)
+    public GameSaveObjectWriter(ICharacterLibrary characterLibrary, string fileName)
     {
-      _writer = new GameSaveWriter(fileName);
+      _writer = new GameSaveWriter(characterLibrary, fileName);
     }
 
     public void Write(long offset, TGameSaveObject gsObject)

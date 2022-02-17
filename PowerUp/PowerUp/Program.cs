@@ -1,7 +1,6 @@
-﻿using PowerUp.Database;
-using PowerUp.DebugUtils;
-using PowerUp.Entities;
+﻿using PowerUp.DebugUtils;
 using PowerUp.GameSave;
+using PowerUp.Libraries;
 using System;
 
 namespace PowerUp
@@ -18,11 +17,13 @@ namespace PowerUp
 
     static void LoadAndRetrieve()
     {
+      /*
       var playersPath = SolutionPath.Relative("./PowerUp/data/Players");
       var database = new JsonDatabase<Player>(playersPath);
       database.Save("TestPlayer", new Player() { FirstName = "Steve" });
       var player = database.Load("TestPlayer");
       Console.WriteLine(player.FirstName);
+      */
     }
 
     static void AnalyzeGameSave()
@@ -30,7 +31,7 @@ namespace PowerUp
       while (true)
       {
         Console.ReadLine();
-        using var loader = new PlayerReader(GAME_SAVE_PATH);
+        using var loader = new PlayerReader(new CharacterLibrary("C:/Users/short/Documents/PowerUp/data/Character_Library.csv"), GAME_SAVE_PATH);
         var player = loader.Read(PLAYER_ID);
         var bitString = player.TestBytes!.ToBitString();
         var currentTime = DateTime.Now;
