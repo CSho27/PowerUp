@@ -1,4 +1,4 @@
-﻿using PowerUp.Entities;
+﻿using PowerUp.Entities.Players;
 
 namespace PowerUp.Databases
 {

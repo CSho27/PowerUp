@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PowerUp.Entities.Players;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PowerUp.Entities

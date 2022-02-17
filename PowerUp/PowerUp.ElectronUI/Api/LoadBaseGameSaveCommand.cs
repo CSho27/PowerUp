@@ -1,5 +1,5 @@
 ﻿using PowerUp.Databases;
-using PowerUp.Entities;
+using PowerUp.Entities.Players;
 using PowerUp.GameSave;
 using PowerUp.Libraries;
 
