@@ -28,7 +28,7 @@ namespace PowerUp.ElectronUI.Api
       var reader = new PlayerReader(_characterLibrary, _baseGameSavePathProvider.GetPath());
       for(int i=1; i<971; i++)
       {
-        var mappingParameters = new PlayerMappingParameters { Type = PlayerType.Base };
+        var mappingParameters = new PlayerMappingParameters { PlayerType = PlayerType.Base };
         var player = reader.Read(i).MapToPlayer(mappingParameters);
         Console.WriteLine($"Saving: {player.SavedName}");
         _playerDatabase.Save(player);

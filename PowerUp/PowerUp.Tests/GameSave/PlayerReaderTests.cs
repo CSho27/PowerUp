@@ -86,18 +86,6 @@ namespace PowerUp.Tests.GameSave
       player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
     }
 
-
-    [Test]
-    [TestCase(JASON_GIAMBI_ID, "25")]
-    [TestCase(SAMMY_SPEEDSTER_ID, "999")]
-    [TestCase(PAUL_PITCHER_ID, "036")]
-    public void Reads_PlayerNumberDisplay(int playerId, string playerNumberDisplay)
-    {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Read(playerId);
-      player.PlayerNumberDisplay.ShouldBe(playerNumberDisplay);
-    }
-
     // TODO: Fix face
     /*
     [Test]

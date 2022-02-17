@@ -7,7 +7,7 @@ using System;
 
 namespace PowerUp.Tests.Mappers
 {
-  public class PlayerMapper_GSPlayerToBasePlayerTests
+  public class PlayerMapper_GSPlayerToPlayerTests
   {
     private PlayerMappingParameters mappingParameters;
 
@@ -16,7 +16,7 @@ namespace PowerUp.Tests.Mappers
     {
       mappingParameters = new PlayerMappingParameters
       {
-        Type = PlayerType.Base,
+        PlayerType = PlayerType.Base,
         ImportSource = "Roster1",
         Year = 2007,
         BirthDate = DateOnly.Parse("1/1/1980"),
@@ -55,9 +55,9 @@ namespace PowerUp.Tests.Mappers
     public void MapToPlayer_ShouldUseTypeFromParameters(PlayerType playerType)
     {
       var gsPlayer = new GSPlayer();
-      mappingParameters.Type = playerType;
+      mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
-      result.Type.ShouldBe(playerType);
+      result.PlayerType.ShouldBe(playerType);
     }
 
     [Test]
@@ -68,9 +68,23 @@ namespace PowerUp.Tests.Mappers
     public void MapToPlayer_ShouldIncludeImportSourceOnlyForImported(PlayerType playerType, string importSource)
     {
       var gsPlayer = new GSPlayer();
-      mappingParameters.Type = playerType;
+      mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(importSource);
+    }
+
+    [Test]
+    [TestCase(PlayerType.Base, null)]
+    [TestCase(PlayerType.Imported, "Roster1")]
+    [TestCase(PlayerType.Generated, null)]
+    [TestCase(PlayerType.Custom, null)]
+    public void MapToPlayer_EditedPlayersShouldBeCustomType(PlayerType playerType, string importSource)
+    {
+      var gsPlayer = new GSPlayer() { IsEdited = true };
+      mappingParameters.PlayerType = playerType;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.ImportSource.ShouldBe(importSource);
+      result.PlayerType.ShouldBe(PlayerType.Custom);
     }
 
     [Test]
@@ -81,7 +95,7 @@ namespace PowerUp.Tests.Mappers
     public void MapToPlayer_ShouldIncludeYearOnlyForGenerated(PlayerType playerType, int? year)
     {
       var gsPlayer = new GSPlayer();
-      mappingParameters.Type = playerType;
+      mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.Year.ShouldBe(year);
     }
@@ -94,12 +108,24 @@ namespace PowerUp.Tests.Mappers
     public void MapToPlayer_ShouldIncludeBirthDateOnlyForGenerated(PlayerType playerType, string birthDateString)
     {
       var gsPlayer = new GSPlayer();
-      mappingParameters.Type = playerType;
+      mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       var birthDate = birthDateString != null
         ? DateOnly.Parse(birthDateString)
         : (DateOnly?)null;
       result.BirthDate.ShouldBe(birthDate);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort)1, "0")]
+    [TestCase((ushort)12, (ushort)2, "12")]
+    [TestCase((ushort)99, (ushort)3, "099")]
+    [TestCase((ushort)999, (ushort)3, "999")]
+    public void MapToPlayer_ShoudMapUniformNumber(ushort numberValue, ushort numberDigits, string expectedUniformNumber)
+    {
+      var gsPlayer = new GSPlayer { PlayerNumber = numberValue, PlayerNumberNumberOfDigits = numberDigits };
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.UniformNumber.ShouldBe(expectedUniformNumber);
     }
   }
 }

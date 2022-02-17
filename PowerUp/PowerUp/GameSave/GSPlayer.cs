@@ -23,17 +23,6 @@
     [GSUInt(0x51, bits: 2, bitOffset: 5)]
     public ushort? PlayerNumberNumberOfDigits { get; set; }
 
-    public string? PlayerNumberDisplay
-    {
-      get
-      {
-        if (!PlayerNumberNumberOfDigits.HasValue || PlayerNumberNumberOfDigits == 0) return "";
-
-        var trimmedNumber = PlayerNumber!.ToString();
-        return $"{new string('0', PlayerNumberNumberOfDigits.Value - trimmedNumber!.Length)}{trimmedNumber}";
-      }
-    }
-
     [GSUInt(0x54, bits: 8, bitOffset: 5)]
     public ushort? Face { get; set; }
 

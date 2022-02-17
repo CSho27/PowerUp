@@ -10,30 +10,37 @@ namespace PowerUp.Mappers
     {
       return new Player
       {
-        Type = parameters.Type,
+        PlayerType = gsPlayer.IsEdited ?? false
+          ? PlayerType.Custom
+          : parameters.PlayerType,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
         SavedName = gsPlayer.SavedName!,
-        ImportSource = parameters.Type == PlayerType.Imported
+        ImportSource = parameters.PlayerType == PlayerType.Imported
           ? parameters.ImportSource
           : null,
-        Year = parameters.Type == PlayerType.Generated
+        Year = parameters.PlayerType == PlayerType.Generated
           ? parameters.Year
           : null,
-        BirthDate = parameters.Type == PlayerType.Generated
+        BirthDate = parameters.PlayerType == PlayerType.Generated
           ? parameters.BirthDate
           : null,
+        UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber)
       };
     }
 
     public static GSPlayer MapToGSPlayer(this Player player)
     {
+      var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
+
       return new GSPlayer
       {
         LastName = player.LastName,
         FirstName = player.FirstName,
         SavedName = player.SavedName,
-        IsEdited = player.Type == PlayerType.Custom
+        IsEdited = player.PlayerType == PlayerType.Custom,
+        PlayerNumber = gsPlayerNumber.uniformNumberValue,
+        PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits
       };
     }
 
@@ -41,7 +48,7 @@ namespace PowerUp.Mappers
 
   public class PlayerMappingParameters
   {
-    public PlayerType Type { get; set; }
+    public PlayerType PlayerType { get; set; }
     public string? ImportSource { get; set; }
     public int? Year { get; set; }
     public DateOnly? BirthDate { get; set; }

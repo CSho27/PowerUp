@@ -19,7 +19,6 @@ namespace PowerUp.ElectronUI.Api
         LastName = player.LastName!,
         SavedName = player.SavedName!,
         Position = "1B",
-        PlayerNumber = player.PlayerNumberDisplay!
       };
     }
 
