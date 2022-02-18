@@ -109,5 +109,13 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.BattingForm.ShouldBe((ushort)3);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapThrowingSide()
+    {
+      player.ThrowingSide = ThrowingSide.Left;
+      var result = player.MapToGSPlayer();
+      result.ThrowsLefty.ShouldBe(true);
+    }
   }
 }

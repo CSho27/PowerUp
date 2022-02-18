@@ -30,7 +30,10 @@ namespace PowerUp.Mappers
         PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value),
         VoiceId = gsPlayer.VoiceId!.Value,
         BattingSide = (BattingSide)gsPlayer.BattingSide!,
-        BattingStanceId = gsPlayer.BattingForm!.Value 
+        BattingStanceId = gsPlayer.BattingForm!.Value,
+        ThrowingSide = gsPlayer.ThrowsLefty!.Value
+          ? ThrowingSide.Left
+          : ThrowingSide.Right
       };
     }
 
@@ -53,7 +56,8 @@ namespace PowerUp.Mappers
         IsCloser = gsPitcherType.isCloser,
         VoiceId = (ushort)player.VoiceId,
         BattingSide = (ushort)player.BattingSide,
-        BattingForm = (ushort)player.BattingStanceId
+        BattingForm = (ushort)player.BattingStanceId,
+        ThrowsLefty = player.ThrowingSide == ThrowingSide.Left
       };
     }
 

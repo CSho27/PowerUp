@@ -32,6 +32,7 @@ namespace PowerUp.Tests.Mappers
         VoiceId = 0,
         BattingSide = 0,
         BattingForm = 0,
+        ThrowsLefty = false
       };
     }
 
@@ -181,6 +182,14 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.BattingForm = 3;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.BattingStanceId.ShouldBe(3);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapThrowingSide()
+    {
+      gsPlayer.ThrowsLefty = true;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.ThrowingSide.ShouldBe(ThrowingSide.Left);
     }
   }
 }
