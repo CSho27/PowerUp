@@ -10,6 +10,7 @@ namespace PowerUp.Tests.Mappers
   public class PlayerMapper_GSPlayerToPlayerTests
   {
     private PlayerMappingParameters mappingParameters;
+    private GSPlayer gsPlayer;
 
     [SetUp]
     public void SetUp()
@@ -21,12 +22,20 @@ namespace PowerUp.Tests.Mappers
         Year = 2007,
         BirthDate = DateOnly.Parse("1/1/1980"),
       };
+
+      gsPlayer = new GSPlayer { 
+        IsEdited = false, 
+        PrimaryPosition = 8,
+        IsStarter = false,
+        IsReliever = false,
+        IsCloser = false
+      };
     }
 
     [Test] 
     public void MapToPlayer_ShouldMapLastName()
     {
-      var gsPlayer = new GSPlayer { LastName = "Sizemore" };
+      gsPlayer.LastName = "Sizemore";
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.LastName.ShouldBe("Sizemore");
     }
@@ -34,7 +43,7 @@ namespace PowerUp.Tests.Mappers
     [Test]
     public void MapToPlayer_ShouldMapFirstName()
     {
-      var gsPlayer = new GSPlayer { FirstName = "Grady" };
+      gsPlayer.FirstName = "Grady";
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.FirstName.ShouldBe("Grady");
     }
@@ -42,7 +51,7 @@ namespace PowerUp.Tests.Mappers
     [Test]
     public void MapToPlayer_ShouldMapSavedName()
     {
-      var gsPlayer = new GSPlayer { SavedName = "Sizemore" };
+      gsPlayer.SavedName = "Sizemore";
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.SavedName.ShouldBe("Sizemore");
     }
@@ -54,7 +63,6 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom)]
     public void MapToPlayer_ShouldUseTypeFromParameters(PlayerType playerType)
     {
-      var gsPlayer = new GSPlayer();
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.PlayerType.ShouldBe(playerType);
@@ -67,7 +75,6 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom, null)]
     public void MapToPlayer_ShouldIncludeImportSourceOnlyForImported(PlayerType playerType, string importSource)
     {
-      var gsPlayer = new GSPlayer();
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(importSource);
@@ -80,7 +87,7 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom, null)]
     public void MapToPlayer_EditedPlayersShouldBeCustomType(PlayerType playerType, string importSource)
     {
-      var gsPlayer = new GSPlayer() { IsEdited = true };
+      gsPlayer.IsEdited = true;
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(importSource);
@@ -94,7 +101,6 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom, null)]
     public void MapToPlayer_ShouldIncludeYearOnlyForGenerated(PlayerType playerType, int? year)
     {
-      var gsPlayer = new GSPlayer();
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.Year.ShouldBe(year);
@@ -107,7 +113,6 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom, null)]
     public void MapToPlayer_ShouldIncludeBirthDateOnlyForGenerated(PlayerType playerType, string birthDateString)
     {
-      var gsPlayer = new GSPlayer();
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       var birthDate = birthDateString != null
@@ -121,9 +126,10 @@ namespace PowerUp.Tests.Mappers
     [TestCase((ushort)12, (ushort)2, "12")]
     [TestCase((ushort)99, (ushort)3, "099")]
     [TestCase((ushort)999, (ushort)3, "999")]
-    public void MapToPlayer_ShoudMapUniformNumber(ushort numberValue, ushort numberDigits, string expectedUniformNumber)
+    public void MapToPlayer_ShouldMapUniformNumber(ushort numberValue, ushort numberDigits, string expectedUniformNumber)
     {
-      var gsPlayer = new GSPlayer { PlayerNumber = numberValue, PlayerNumberNumberOfDigits = numberDigits };
+      gsPlayer.PlayerNumber = numberValue;
+      gsPlayer.PlayerNumberNumberOfDigits = numberDigits;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.UniformNumber.ShouldBe(expectedUniformNumber);
     }
@@ -131,9 +137,23 @@ namespace PowerUp.Tests.Mappers
     [Test]
     public void MapToPlayer_ShouldMapPrimaryPosition()
     {
-      var gsPlayer = new GSPlayer { PrimaryPosition = 8 };
+      gsPlayer.PrimaryPosition = 8;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.PrimaryPosition.ShouldBe(Position.CenterField);
+    }
+
+    [Test]
+    [TestCase(false, false, false, PitcherType.SwingMan)]
+    [TestCase(true, false, false, PitcherType.Starter)]
+    [TestCase(false, true, false, PitcherType.Reliever)]
+    [TestCase(false, false, true, PitcherType.Closer)]
+    public void MapToPlayer_ShouldMapPitcherType(bool isStarter, bool isReliever, bool isCloser, PitcherType expectedPitcherType)
+    {
+      gsPlayer.IsStarter = isStarter;
+      gsPlayer.IsReliever = isReliever;
+      gsPlayer.IsCloser = isCloser;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherType.ShouldBe(expectedPitcherType);
     }
   }
 }

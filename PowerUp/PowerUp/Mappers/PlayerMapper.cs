@@ -10,7 +10,7 @@ namespace PowerUp.Mappers
     {
       return new Player
       {
-        PlayerType = gsPlayer.IsEdited ?? false
+        PlayerType = gsPlayer.IsEdited!.Value
           ? PlayerType.Custom
           : parameters.PlayerType,
         LastName = gsPlayer.LastName!,
@@ -27,12 +27,14 @@ namespace PowerUp.Mappers
           : null,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
+        PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value)
       };
     }
 
     public static GSPlayer MapToGSPlayer(this Player player)
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
+      var gsPitcherType = player.PitcherType.ToGSPitcherType();
 
       return new GSPlayer
       {
@@ -43,6 +45,9 @@ namespace PowerUp.Mappers
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
         PrimaryPosition = (ushort)player.PrimaryPosition,
+        IsStarter = gsPitcherType.isStarter,
+        IsReliever = gsPitcherType.isReliever,
+        IsCloser = gsPitcherType.isCloser,
       };
     }
 

@@ -71,5 +71,19 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.PrimaryPosition.ShouldBe((ushort)8);
     }
+
+    [Test]
+    [TestCase(PitcherType.SwingMan, false, false, false)]
+    [TestCase(PitcherType.Starter, true, false, false)]
+    [TestCase(PitcherType.Reliever, false, true, false)]
+    [TestCase(PitcherType.Closer, false, false, true)]
+    public void MapToPlayer_ShouldMapPitcherType(PitcherType pitcherType,bool isStarter, bool isReliever, bool isCloser)
+    {
+      player.PitcherType = pitcherType;
+      var result = player.MapToGSPlayer();
+      result.IsStarter.ShouldBe(isStarter);
+      result.IsReliever.ShouldBe(isReliever);
+      result.IsCloser.ShouldBe(isCloser);
+    }
   }
 }
