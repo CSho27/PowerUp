@@ -29,7 +29,8 @@ namespace PowerUp.Tests.Mappers
         IsStarter = false,
         IsReliever = false,
         IsCloser = false,
-        VoiceId = 0
+        VoiceId = 0,
+        BattingSide = 0
       };
     }
 
@@ -163,6 +164,14 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.VoiceId = 35038;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.VoiceId.ShouldBe(35038);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBattingSide()
+    {
+      gsPlayer.BattingSide = 2;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.BattingSide.ShouldBe(BattingSide.Switch);
     }
   }
 }

@@ -93,5 +93,13 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.VoiceId.ShouldBe((ushort)35038);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBattingSide()
+    {
+      player.BattingSide = BattingSide.Left;
+      var result = player.MapToGSPlayer();
+      result.BattingSide.ShouldBe((ushort)1);
+    }
   }
 }
