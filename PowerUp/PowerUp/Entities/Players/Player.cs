@@ -30,6 +30,7 @@ namespace PowerUp.Entities.Players
     public ThrowingSide ThrowingSide { get; set; }
     public int PitchingMechanicsId { get; set; }
     public PositonCapabilities PositonCapabilities { get; set; } = new PositonCapabilities();
+    public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
 
     PlayerDatabaseKeys IHaveDatabaseKeys<PlayerDatabaseKeys>.DatabaseKeys => PlayerType switch
     {

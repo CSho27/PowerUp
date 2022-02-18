@@ -44,6 +44,7 @@ namespace PowerUp.Mappers
           : ThrowingSide.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
         PositonCapabilities = gsPlayer.GetPositionCapabilities(),
+        HitterAbilities = gsPlayer.GetHitterAbilities(),
       };
     }
 
@@ -52,6 +53,8 @@ namespace PowerUp.Mappers
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
       var positionCapabilities = player.PositonCapabilities;
+      var hitterAbilities = player.HitterAbilities;
+      var hotZones = player.HitterAbilities.HotZones;
 
       return new GSPlayer
       {
@@ -70,6 +73,8 @@ namespace PowerUp.Mappers
         BattingForm = (ushort)player.BattingStanceId,
         ThrowsLefty = player.ThrowingSide == ThrowingSide.Left,
         PitchingForm = (ushort)player.PitchingMechanicsId,
+
+        // Position Capabilities
         PitcherCapability = (ushort)positionCapabilities.Pitcher,
         CatcherCapability = (ushort)positionCapabilities.Catcher,
         FirstBaseCapability = (ushort)positionCapabilities.FirstBase,
@@ -79,6 +84,26 @@ namespace PowerUp.Mappers
         LeftFieldCapability = (ushort)positionCapabilities.LeftField,
         CenterFieldCapability = (ushort)positionCapabilities.CenterField,
         RightFieldCapability = (ushort)positionCapabilities.RightField,
+
+        // Hitter Abilities
+        Trajectory = (ushort)hitterAbilities.Trajectory,
+        Contact = (ushort)hitterAbilities.Contact,
+        Power = (ushort)hitterAbilities.Power,
+        RunSpeed = (ushort)hitterAbilities.RunSpeed,
+        ArmStrength = (ushort)hitterAbilities.ArmStrength,
+        Fielding = (ushort)hitterAbilities.Fielding,
+        ErrorResistance = (ushort)hitterAbilities.ErrorResistance,
+
+        // Hot Zones
+        HotZoneUpAndIn = (ushort)hotZones.UpAndIn,
+        HotZoneUp = (ushort)hotZones.Up,
+        HotZoneUpAndAway = (ushort)hotZones.UpAndAway,
+        HotZoneMiddleIn = (ushort)hotZones.MiddleIn,
+        HotZoneMiddle = (ushort)hotZones.Middle,
+        HotZoneMiddleAway = (ushort)hotZones.MiddleAway,
+        HotZoneDownAndIn = (ushort)hotZones.DownAndIn,
+        HotZoneDown = (ushort)hotZones.Down,
+        HotZoneDownAndAway = (ushort)hotZones.DownAndAway,
       };
     }
 

@@ -43,6 +43,22 @@ namespace PowerUp.Tests.Mappers
         LeftFieldCapability = 0,
         CenterFieldCapability = 0,
         RightFieldCapability = 0,
+        Trajectory = 0,
+        Contact = 0,
+        Power = 0,
+        RunSpeed = 0,
+        ArmStrength = 0,
+        Fielding = 0,
+        ErrorResistance = 0,
+        HotZoneUpAndIn = 0,
+        HotZoneUp = 0,
+        HotZoneUpAndAway = 0,
+        HotZoneMiddleIn = 0,
+        HotZoneMiddle = 0,
+        HotZoneMiddleAway = 0,
+        HotZoneDownAndIn = 0,
+        HotZoneDown = 0,
+        HotZoneDownAndAway = 0,
       };
     }
 
@@ -280,6 +296,134 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.RightFieldCapability = 5;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.PositonCapabilities.RightField.ShouldBe(Grade.C);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapTrajectory()
+    {
+      gsPlayer.Trajectory = 2;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.Trajectory.ShouldBe(2);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapContact()
+    {
+      gsPlayer.Contact = 8;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.Contact.ShouldBe(8);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPower()
+    {
+      gsPlayer.Power = 222;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.Power.ShouldBe(222);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRunSpeed()
+    {
+      gsPlayer.RunSpeed = 5;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.RunSpeed.ShouldBe(5);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapArmStrength()
+    {
+      gsPlayer.ArmStrength = 12;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.ArmStrength.ShouldBe(12);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFielding()
+    {
+      gsPlayer.Fielding = 10;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.Fielding.ShouldBe(10);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapErrorResistance()
+    {
+      gsPlayer.ErrorResistance = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.ErrorResistance.ShouldBe(4);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneUpandIn()
+    {
+      gsPlayer.HotZoneUpAndIn = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.UpAndIn.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneUp()
+    {
+      gsPlayer.HotZoneUp = 3;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.Up.ShouldBe(HotZonePreference.Cold);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneUpAndAway()
+    {
+      gsPlayer.HotZoneUpAndAway = 0;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.UpAndAway.ShouldBe(HotZonePreference.Neutral);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneMiddleIn()
+    {
+      gsPlayer.HotZoneMiddleIn = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.MiddleIn.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneMiddle()
+    {
+      gsPlayer.HotZoneMiddle = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.Middle.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneMiddleAway()
+    {
+      gsPlayer.HotZoneMiddleAway = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.MiddleAway.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneDownAndIn()
+    {
+      gsPlayer.HotZoneDownAndIn = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.DownAndIn.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneDown()
+    {
+      gsPlayer.HotZoneDown = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.Down.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotZoneDownAndAway()
+    {
+      gsPlayer.HotZoneDownAndAway = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.HitterAbilities.HotZones.DownAndAway.ShouldBe(HotZonePreference.Hot);
     }
   }
 }

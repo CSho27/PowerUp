@@ -197,5 +197,133 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.RightFieldCapability.ShouldBe((ushort)5);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapTrajectory()
+    {
+      player.HitterAbilities.Trajectory = 3;
+      var result = player.MapToGSPlayer();
+      result.Trajectory.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapContact()
+    {
+      player.HitterAbilities.Contact = 9;
+      var result = player.MapToGSPlayer();
+      result.Contact.ShouldBe((ushort)9);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPower()
+    {
+      player.HitterAbilities.Power = 156;
+      var result = player.MapToGSPlayer();
+      result.Power.ShouldBe((ushort)156);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapRunSpeed()
+    {
+      player.HitterAbilities.RunSpeed = 6;
+      var result = player.MapToGSPlayer();
+      result.RunSpeed.ShouldBe((ushort)6);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapArmStrength()
+    {
+      player.HitterAbilities.ArmStrength = 10;
+      var result = player.MapToGSPlayer();
+      result.ArmStrength.ShouldBe((ushort)10);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapFielding()
+    {
+      player.HitterAbilities.Fielding = 5;
+      var result = player.MapToGSPlayer();
+      result.Fielding.ShouldBe((ushort)5);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapErrorResistance()
+    {
+      player.HitterAbilities.ErrorResistance = 7;
+      var result = player.MapToGSPlayer();
+      result.ErrorResistance.ShouldBe((ushort)7);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneUpAndIn()
+    {
+      player.HitterAbilities.HotZones.UpAndIn = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneUpAndIn.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneUp()
+    {
+      player.HitterAbilities.HotZones.Up = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneUp.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneUpAndAway()
+    {
+      player.HitterAbilities.HotZones.UpAndAway = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneUpAndAway.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneMiddleIn()
+    {
+      player.HitterAbilities.HotZones.MiddleIn = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneMiddleIn.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneMiddle()
+    {
+      player.HitterAbilities.HotZones.Middle = HotZonePreference.Hot;
+      var result = player.MapToGSPlayer();
+      result.HotZoneMiddle.ShouldBe((ushort)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneMiddleAway()
+    {
+      player.HitterAbilities.HotZones.MiddleAway = HotZonePreference.Neutral;
+      var result = player.MapToGSPlayer();
+      result.HotZoneMiddleAway.ShouldBe((ushort)0);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneDwonAndIn()
+    {
+      player.HitterAbilities.HotZones.DownAndIn = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneDownAndIn.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneDown()
+    {
+      player.HitterAbilities.HotZones.Down = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneDown.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotZoneDownAndAwat()
+    {
+      player.HitterAbilities.HotZones.DownAndAway = HotZonePreference.Cold;
+      var result = player.MapToGSPlayer();
+      result.HotZoneDownAndAway.ShouldBe((ushort)3);
+    }
   }
 }
