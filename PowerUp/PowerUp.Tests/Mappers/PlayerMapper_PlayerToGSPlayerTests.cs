@@ -125,5 +125,77 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.PitchingForm.ShouldBe((ushort)3);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPitcherCapability()
+    {
+      player.PositonCapabilities.Pitcher = Grade.G;
+      var result = player.MapToGSPlayer();
+      result.PitcherCapability.ShouldBe((ushort)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapCatcherCapability()
+    {
+      player.PositonCapabilities.Catcher = Grade.F;
+      var result = player.MapToGSPlayer();
+      result.CatcherCapability.ShouldBe((ushort)2);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapFirstBaseCapability()
+    {
+      player.PositonCapabilities.FirstBase = Grade.E;
+      var result = player.MapToGSPlayer();
+      result.FirstBaseCapability.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSecondBaseCapability()
+    {
+      player.PositonCapabilities.SecondBase = Grade.D;
+      var result = player.MapToGSPlayer();
+      result.SecondBaseCapability.ShouldBe((ushort)4);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapThirdBaseCapability()
+    {
+      player.PositonCapabilities.ThirdBase = Grade.C;
+      var result = player.MapToGSPlayer();
+      result.ThirdBaseCapability.ShouldBe((ushort)5);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapShortstopCapability()
+    {
+      player.PositonCapabilities.Shortstop = Grade.B;
+      var result = player.MapToGSPlayer();
+      result.ShortstopCapability.ShouldBe((ushort)6);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapLeftFieldCapability()
+    {
+      player.PositonCapabilities.LeftField = Grade.A;
+      var result = player.MapToGSPlayer();
+      result.LeftFieldCapability.ShouldBe((ushort)7);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapCenterFieldCapability()
+    {
+      player.PositonCapabilities.CenterField = Grade.B;
+      var result = player.MapToGSPlayer();
+      result.CenterFieldCapability.ShouldBe((ushort)6);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapRightFieldCapability()
+    {
+      player.PositonCapabilities.RightField = Grade.C;
+      var result = player.MapToGSPlayer();
+      result.RightFieldCapability.ShouldBe((ushort)5);
+    }
   }
 }

@@ -34,6 +34,15 @@ namespace PowerUp.Tests.Mappers
         BattingForm = 0,
         ThrowsLefty = false,
         PitchingForm = 0,
+        PitcherCapability = 0,
+        CatcherCapability = 0,
+        FirstBaseCapability = 0,
+        SecondBaseCapability = 0,
+        ThirdBaseCapability = 0,
+        ShortstopCapability = 0,
+        LeftFieldCapability = 0,
+        CenterFieldCapability = 0,
+        RightFieldCapability = 0,
       };
     }
 
@@ -199,6 +208,78 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.PitchingForm = 3;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.PitchingMechanicsId.ShouldBe(3);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPitcherCapability()
+    {
+      gsPlayer.PitcherCapability = 3;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.Pitcher.ShouldBe(Grade.E);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCatcherCapability()
+    {
+      gsPlayer.CatcherCapability = 2;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.Catcher.ShouldBe(Grade.F);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFirstBaseCapability()
+    {
+      gsPlayer.FirstBaseCapability = 1;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.FirstBase.ShouldBe(Grade.G);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSecondBaseCapability()
+    {
+      gsPlayer.SecondBaseCapability = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.SecondBase.ShouldBe(Grade.D);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapThirdBaseCapability()
+    {
+      gsPlayer.ThirdBaseCapability = 5;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.ThirdBase.ShouldBe(Grade.C);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapShortstopCapability()
+    {
+      gsPlayer.ShortstopCapability = 6;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.Shortstop.ShouldBe(Grade.B);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapLeftFieldCapability()
+    {
+      gsPlayer.LeftFieldCapability = 7;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.LeftField.ShouldBe(Grade.A);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCenterFieldCapability()
+    {
+      gsPlayer.CenterFieldCapability = 6;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.CenterField.ShouldBe(Grade.B);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRightFieldCapability()
+    {
+      gsPlayer.RightFieldCapability = 5;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PositonCapabilities.RightField.ShouldBe(Grade.C);
     }
   }
 }

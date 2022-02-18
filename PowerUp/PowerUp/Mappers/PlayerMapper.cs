@@ -43,6 +43,7 @@ namespace PowerUp.Mappers
           ? ThrowingSide.Left
           : ThrowingSide.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
+        PositonCapabilities = gsPlayer.GetPositionCapabilities(),
       };
     }
 
@@ -50,6 +51,7 @@ namespace PowerUp.Mappers
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
+      var positionCapabilities = player.PositonCapabilities;
 
       return new GSPlayer
       {
@@ -67,7 +69,16 @@ namespace PowerUp.Mappers
         BattingSide = (ushort)player.BattingSide,
         BattingForm = (ushort)player.BattingStanceId,
         ThrowsLefty = player.ThrowingSide == ThrowingSide.Left,
-        PitchingForm = (ushort)player.PitchingMechanicsId
+        PitchingForm = (ushort)player.PitchingMechanicsId,
+        PitcherCapability = (ushort)positionCapabilities.Pitcher,
+        CatcherCapability = (ushort)positionCapabilities.Catcher,
+        FirstBaseCapability = (ushort)positionCapabilities.FirstBase,
+        SecondBaseCapability = (ushort)positionCapabilities.SecondBase,
+        ThirdBaseCapability = (ushort)positionCapabilities.ThirdBase,
+        ShortstopCapability = (ushort)positionCapabilities.Shortstop,
+        LeftFieldCapability = (ushort)positionCapabilities.LeftField,
+        CenterFieldCapability = (ushort)positionCapabilities.CenterField,
+        RightFieldCapability = (ushort)positionCapabilities.RightField,
       };
     }
 
