@@ -85,5 +85,13 @@ namespace PowerUp.Tests.Mappers
       result.IsReliever.ShouldBe(isReliever);
       result.IsCloser.ShouldBe(isCloser);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapVoiceId()
+    {
+      player.VoiceId = 35038;
+      var result = player.MapToGSPlayer();
+      result.VoiceId.ShouldBe((ushort)35038);
+    }
   }
 }

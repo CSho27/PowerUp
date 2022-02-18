@@ -28,7 +28,8 @@ namespace PowerUp.Tests.Mappers
         PrimaryPosition = 8,
         IsStarter = false,
         IsReliever = false,
-        IsCloser = false
+        IsCloser = false,
+        VoiceId = 0
       };
     }
 
@@ -154,6 +155,14 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.IsCloser = isCloser;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.PitcherType.ShouldBe(expectedPitcherType);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapVoiceId()
+    {
+      gsPlayer.VoiceId = 35038;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.VoiceId.ShouldBe(35038);
     }
   }
 }

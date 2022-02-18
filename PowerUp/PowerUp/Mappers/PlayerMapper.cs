@@ -27,7 +27,8 @@ namespace PowerUp.Mappers
           : null,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
-        PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value)
+        PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value),
+        VoiceId = gsPlayer.VoiceId!.Value,
       };
     }
 
@@ -48,6 +49,7 @@ namespace PowerUp.Mappers
         IsStarter = gsPitcherType.isStarter,
         IsReliever = gsPitcherType.isReliever,
         IsCloser = gsPitcherType.isCloser,
+        VoiceId = (ushort)player.VoiceId,
       };
     }
 
