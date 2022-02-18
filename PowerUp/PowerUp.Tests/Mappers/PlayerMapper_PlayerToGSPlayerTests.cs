@@ -101,5 +101,13 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.BattingSide.ShouldBe((ushort)1);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBattingStanceId()
+    {
+      player.BattingStanceId = 3;
+      var result = player.MapToGSPlayer();
+      result.BattingForm.ShouldBe((ushort)3);
+    }
   }
 }

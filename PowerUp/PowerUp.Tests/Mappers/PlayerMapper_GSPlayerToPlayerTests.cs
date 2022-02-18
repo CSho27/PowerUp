@@ -30,7 +30,8 @@ namespace PowerUp.Tests.Mappers
         IsReliever = false,
         IsCloser = false,
         VoiceId = 0,
-        BattingSide = 0
+        BattingSide = 0,
+        BattingForm = 0,
       };
     }
 
@@ -172,6 +173,14 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.BattingSide = 2;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.BattingSide.ShouldBe(BattingSide.Switch);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBattingStanceId()
+    {
+      gsPlayer.BattingForm = 3;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.BattingStanceId.ShouldBe(3);
     }
   }
 }
