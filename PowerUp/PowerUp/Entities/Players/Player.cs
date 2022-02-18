@@ -28,6 +28,7 @@ namespace PowerUp.Entities.Players
     public BattingSide BattingSide { get; set; }
     public int BattingStanceId { get; set; }
     public ThrowingSide ThrowingSide { get; set; }
+    public int PitchingMechanicsId { get; set; }
 
     PlayerDatabaseKeys IHaveDatabaseKeys<PlayerDatabaseKeys>.DatabaseKeys => PlayerType switch
     {

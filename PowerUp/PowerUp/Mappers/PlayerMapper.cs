@@ -4,6 +4,14 @@ using System;
 
 namespace PowerUp.Mappers
 {
+  public class PlayerMappingParameters
+  {
+    public PlayerType PlayerType { get; set; }
+    public string? ImportSource { get; set; }
+    public int? Year { get; set; }
+    public DateOnly? BirthDate { get; set; }
+  }
+
   public static class PlayerMapper
   {
     public static Player MapToPlayer(this GSPlayer gsPlayer, PlayerMappingParameters parameters)
@@ -33,7 +41,8 @@ namespace PowerUp.Mappers
         BattingStanceId = gsPlayer.BattingForm!.Value,
         ThrowingSide = gsPlayer.ThrowsLefty!.Value
           ? ThrowingSide.Left
-          : ThrowingSide.Right
+          : ThrowingSide.Right,
+        PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
       };
     }
 
@@ -57,17 +66,10 @@ namespace PowerUp.Mappers
         VoiceId = (ushort)player.VoiceId,
         BattingSide = (ushort)player.BattingSide,
         BattingForm = (ushort)player.BattingStanceId,
-        ThrowsLefty = player.ThrowingSide == ThrowingSide.Left
+        ThrowsLefty = player.ThrowingSide == ThrowingSide.Left,
+        PitchingForm = (ushort)player.PitchingMechanicsId
       };
     }
 
-  }
-
-  public class PlayerMappingParameters
-  {
-    public PlayerType PlayerType { get; set; }
-    public string? ImportSource { get; set; }
-    public int? Year { get; set; }
-    public DateOnly? BirthDate { get; set; }
   }
 }

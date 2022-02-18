@@ -117,5 +117,13 @@ namespace PowerUp.Tests.Mappers
       var result = player.MapToGSPlayer();
       result.ThrowsLefty.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPitchingMechanicsId()
+    {
+      player.PitchingMechanicsId = 3;
+      var result = player.MapToGSPlayer();
+      result.PitchingForm.ShouldBe((ushort)3);
+    }
   }
 }
