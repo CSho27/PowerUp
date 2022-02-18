@@ -22,6 +22,7 @@ namespace PowerUp.Entities.Players
 
     public string SavedName { get; set; } = string.Empty;
     public string UniformNumber { get; set; } = string.Empty;
+    public Position PrimaryPosition { get; set; }
 
     PlayerDatabaseKeys IHaveDatabaseKeys<PlayerDatabaseKeys>.DatabaseKeys => PlayerType switch
     {

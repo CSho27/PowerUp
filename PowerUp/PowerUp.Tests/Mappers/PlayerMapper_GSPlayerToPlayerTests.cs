@@ -127,5 +127,13 @@ namespace PowerUp.Tests.Mappers
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.UniformNumber.ShouldBe(expectedUniformNumber);
     }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPrimaryPosition()
+    {
+      var gsPlayer = new GSPlayer { PrimaryPosition = 8 };
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PrimaryPosition.ShouldBe(Position.CenterField);
+    }
   }
 }

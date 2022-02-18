@@ -2,20 +2,23 @@
 using PowerUp.Entities.Players;
 using PowerUp.Mappers;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Tests.Mappers
 {
   public class PlayerMapper_PlayerToGSPlayerTests
   {
+    private Player player;
+
+    [SetUp]
+    public void SetUp()
+    {
+      player = new Player() { UniformNumber = "24" };
+    }
+
     [Test]
     public void MapToGSPlayer_ShouldMapLastName()
     {
-      var player = new Player { LastName = "Sizemore" };
+      player.LastName = "Sizemore";
       var result = player.MapToGSPlayer();
       result.LastName.ShouldBe("Sizemore");
     }
@@ -23,7 +26,7 @@ namespace PowerUp.Tests.Mappers
     [Test]
     public void MapToGsPlayer_ShouldMapFirstName()
     {
-      var player = new Player { FirstName = "Grady" };
+      player.FirstName = "Grady";
       var result = player.MapToGSPlayer();
       result.FirstName.ShouldBe("Grady");
     }
@@ -31,7 +34,7 @@ namespace PowerUp.Tests.Mappers
     [Test]
     public void MapToGSPlayer_ShouldMapSavedName()
     {
-      var player = new Player { SavedName = "Sizemore" };
+      player.SavedName = "Sizemore";
       var result = player.MapToGSPlayer();
       result.SavedName.ShouldBe("Sizemore");
     }
@@ -43,7 +46,7 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom)]
     public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(PlayerType playerType)
     {
-      var player = new Player { PlayerType = playerType };
+      player.PlayerType = playerType;
       var result = player.MapToGSPlayer();
       result.IsEdited.ShouldBe(playerType == PlayerType.Custom);
     }
@@ -55,10 +58,18 @@ namespace PowerUp.Tests.Mappers
     [TestCase("999", (ushort)999, (ushort)3)]
     public void MapToGSPlayer_ShoudMapUniformNumber(string uniformNumber, ushort expectedNumberValue, ushort expectedNumberDigits)
     {
-      var player = new Player { UniformNumber = uniformNumber };
+      player.UniformNumber = uniformNumber;
       var result = player.MapToGSPlayer();
       result.PlayerNumber.ShouldBe(expectedNumberValue);
       result.PlayerNumberNumberOfDigits.ShouldBe(expectedNumberDigits);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPrimaryPosition()
+    {
+      player.PrimaryPosition = Position.CenterField;
+      var result = player.MapToGSPlayer();
+      result.PrimaryPosition.ShouldBe((ushort)8);
     }
   }
 }

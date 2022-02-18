@@ -25,7 +25,8 @@ namespace PowerUp.Mappers
         BirthDate = parameters.PlayerType == PlayerType.Generated
           ? parameters.BirthDate
           : null,
-        UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber)
+        UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
+        PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
       };
     }
 
@@ -40,7 +41,8 @@ namespace PowerUp.Mappers
         SavedName = player.SavedName,
         IsEdited = player.PlayerType == PlayerType.Custom,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
-        PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits
+        PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
+        PrimaryPosition = (ushort)player.PrimaryPosition,
       };
     }
 
