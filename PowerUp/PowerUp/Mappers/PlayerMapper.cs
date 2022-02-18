@@ -45,6 +45,7 @@ namespace PowerUp.Mappers
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
         PositonCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
+        PitcherAbilities = gsPlayer.GetPitcherAbilities(),
       };
     }
 
@@ -55,6 +56,7 @@ namespace PowerUp.Mappers
       var positionCapabilities = player.PositonCapabilities;
       var hitterAbilities = player.HitterAbilities;
       var hotZones = player.HitterAbilities.HotZones;
+      var pitcherAbilities = player.PitcherAbilities;
 
       return new GSPlayer
       {
@@ -104,6 +106,37 @@ namespace PowerUp.Mappers
         HotZoneDownAndIn = (ushort)hotZones.DownAndIn,
         HotZoneDown = (ushort)hotZones.Down,
         HotZoneDownAndAway = (ushort)hotZones.DownAndAway,
+
+        // Pitcher Abilities
+        TopThrowingSpeedKMH = pitcherAbilities.TopSpeedMph.ToKMH(),
+        Control = (ushort)pitcherAbilities.Control,
+        Stamina = (ushort)pitcherAbilities.Stamina,
+        TwoSeamType = pitcherAbilities.HasTwoSeam
+          ? PitcherAbilitiesMapper.TwoSeamType
+          : (ushort)0,
+        TwoSeamMovement = (ushort)(pitcherAbilities.TwoSeamMovement ?? 0),
+        Slider1Type = (ushort)(pitcherAbilities.Slider1Type ?? 0),
+        Slider1Movement = (ushort)(pitcherAbilities.Slider1Movement ?? 0),
+        Slider2Type = (ushort)(pitcherAbilities.Slider2Type ?? 0),
+        Slider2Movement = (ushort)(pitcherAbilities.Slider2Movement ?? 0),
+        Curve1Type = (ushort)(pitcherAbilities.Curve1Type ?? 0),
+        Curve1Movement = (ushort)(pitcherAbilities.Curve1Movement ?? 0),
+        Curve2Type = (ushort)(pitcherAbilities.Curve2Type ?? 0),
+        Curve2Movement = (ushort)(pitcherAbilities.Curve2Movement ?? 0),
+        Fork1Type = (ushort)(pitcherAbilities.Fork1Type ?? 0),
+        Fork1Movement = (ushort)(pitcherAbilities.Fork1Movement ?? 0),
+        Fork2Type = (ushort)(pitcherAbilities.Fork2Type ?? 0),
+        Fork2Movement = (ushort)(pitcherAbilities.Fork2Movement ?? 0),
+        Sinker1Type = (ushort)(pitcherAbilities.Sinker1Type ?? 0),
+        Sinker1Movement = (ushort)(pitcherAbilities.Sinker1Movement ?? 0),
+        Sinker2Type = (ushort)(pitcherAbilities.Sinker2Type ?? 0),
+        Sinker2Movement = (ushort)(pitcherAbilities.Sinker2Movement ?? 0),
+        SinkingFastball1Type = (ushort)(pitcherAbilities.SinkingFasbtall1Type ?? 0),
+        SinkingFastball1Movement = (ushort)(pitcherAbilities.SinkingFastball1Movement ?? 0),
+        SinkingFastball2Type = (ushort)(pitcherAbilities.SinkingFastball2Type ?? 0),
+        SinkingFastball2Movement = (ushort)(pitcherAbilities.SinkingFastball2Movement ?? 0),
+
+        // Special Abilities
       };
     }
 

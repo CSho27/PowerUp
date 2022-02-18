@@ -322,7 +322,6 @@
     [GSBoolean(0x78, bitOffset: 1)]
     public bool? IsPullHitter { get; set; }
 
-    // MPH/KMH = .618 (for game purposes not in real life)
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
 
