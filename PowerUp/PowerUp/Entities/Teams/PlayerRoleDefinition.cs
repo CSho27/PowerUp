@@ -4,7 +4,7 @@ namespace PowerUp.Entities.Teams
 {
   public class PlayerRoleDefinition
   {
-    public PlayerDatabaseKeys PlayerKey { get; set; }
+    public PlayerDatabaseKeys PlayerKeys { get; set; }
     public bool IsAAA { get; set; }
     public bool IsPinchHitter { get; set; }
     public bool IsPinchRunner { get; set; }
@@ -15,7 +15,7 @@ namespace PowerUp.Entities.Teams
 
     public PlayerRoleDefinition(PlayerDatabaseKeys playerKey)
     {
-      PlayerKey = playerKey;
+      PlayerKeys = playerKey;
     }
   }
 

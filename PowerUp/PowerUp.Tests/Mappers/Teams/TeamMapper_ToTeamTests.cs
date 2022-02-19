@@ -139,7 +139,7 @@ namespace PowerUp.Tests.Mappers.Teams
         result.PlayerRoles.Where(k =>
         {
           var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
-          var ppId = ppIdByKeys[k.PlayerKey];
+          var ppId = ppIdByKeys[k.PlayerKeys];
           return p.PowerProsPlayerId == ppId;
         })
         .Count().ShouldBe(1);

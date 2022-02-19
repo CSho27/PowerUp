@@ -63,14 +63,6 @@ namespace PowerUp.Mappers
       };
     }
 
-    public static (GSTeam team, GSLineupDefinition lineupDef) MapToGSTeam(
-      this Team team,
-      MLBPPTeam mlbPPTeam
-    )
-    {
-      return (new GSTeam(), new GSLineupDefinition());
-    }
-
     public static PlayerRoleDefinition MapToPlayerRoleDefinition(
       this GSTeamPlayerEntry gsPlayerEntry,
       PlayerDatabaseKeys playerKeys
@@ -84,6 +76,79 @@ namespace PowerUp.Mappers
         IsDefensiveReplacement = gsPlayerEntry.IsDefensiveReplacement!.Value,
         IsDefensiveLiability = gsPlayerEntry.IsDefensiveLiability!.Value,
         PitcherRole = (PitcherRole)gsPlayerEntry.PitcherRole!.Value,
+      };
+    }
+
+    public static (GSTeam team, GSLineupDefinition lineupDef) MapToGSTeamAndLineup(
+      this Team team,
+      MLBPPTeam mlbPPTeam,
+      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+    )
+    {
+      return (
+        team: team.MapToGSTeam(mlbPPTeam, idsByKey),
+        lineupDef: new GSLineupDefinition()
+      );
+    }
+
+    public static GSTeam MapToGSTeam(
+      this Team team,
+      MLBPPTeam mlbPPTeam,
+      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+    )
+    {
+      return new GSTeam
+      {
+        PlayerEntries = team.PlayerRoles
+          .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, idsByKey[p.PlayerKeys]))
+      };
+    }
+
+    public static GSTeamPlayerEntry MapToGSTeamPlayerEntry(
+      this PlayerRoleDefinition roleDefinition,
+      MLBPPTeam mlbPPTeam,
+      ushort powerProsId
+    )
+    {
+      return new GSTeamPlayerEntry
+      {
+        PowerProsTeamId = (ushort)mlbPPTeam,
+        PowerProsPlayerId = powerProsId,
+        IsAAA = roleDefinition.IsAAA,
+        IsMLB = !roleDefinition.IsAAA,
+        IsPinchHitter = roleDefinition.IsPinchHitter,
+        IsPinchRunner = roleDefinition.IsPinchRunner,
+        IsDefensiveReplacement = roleDefinition.IsDefensiveReplacement,
+        IsDefensiveLiability = roleDefinition.IsDefensiveLiability,
+        PitcherRole = (ushort)roleDefinition.PitcherRole
+      };
+    }
+
+    public static GSLineupDefinition MapToGSLineup(
+      this Team team,
+      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+    )
+    {
+      return new GSLineupDefinition
+      {
+        NoDHLineup = team.NoDHLineup.Select(e => e.MapToGSLineupPlayer(idsByKey)),
+        DHLineup = team.DHLineup.Select(e => e.MapToGSLineupPlayer(idsByKey))
+      };
+    }
+
+    public static GSLineupPlayer MapToGSLineupPlayer(
+      this (PlayerDatabaseKeys? playerKeys, Position position) lineupEntry,
+      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+    )
+    {
+      return new GSLineupPlayer
+      {
+        PowerProsPlayerId = lineupEntry.playerKeys != null
+          ? idsByKey[lineupEntry.playerKeys]
+          : (ushort)0,
+        Position = lineupEntry.position != Position.Pitcher
+          ? (ushort)lineupEntry.position
+          : (ushort)0
       };
     }
   }
