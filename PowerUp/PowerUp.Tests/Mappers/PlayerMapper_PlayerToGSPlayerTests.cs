@@ -46,7 +46,7 @@ namespace PowerUp.Tests.Mappers
     [TestCase(PlayerType.Custom)]
     public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(PlayerType playerType)
     {
-      player.PlayerType = playerType;
+      player.SourceType = playerType;
       var result = player.MapToGSPlayer();
       result.IsEdited.ShouldBe(playerType == PlayerType.Custom);
     }

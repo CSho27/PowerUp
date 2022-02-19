@@ -18,7 +18,7 @@ namespace PowerUp.Mappers
     {
       return new Player
       {
-        PlayerType = gsPlayer.IsEdited!.Value
+        SourceType = gsPlayer.IsEdited!.Value
           ? PlayerType.Custom
           : parameters.PlayerType,
         LastName = gsPlayer.LastName!,
@@ -66,7 +66,7 @@ namespace PowerUp.Mappers
         LastName = player.LastName,
         FirstName = player.FirstName,
         SavedName = player.SavedName,
-        IsEdited = player.PlayerType == PlayerType.Custom,
+        IsEdited = player.SourceType == PlayerType.Custom,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
         PrimaryPosition = (ushort)player.PrimaryPosition,

@@ -3,17 +3,9 @@ using System;
 
 namespace PowerUp.Entities.Players
 {
-  public enum PlayerType
-  {
-    Base,
-    Imported,
-    Generated,
-    Custom
-  }
-
   public class Player : IHaveDatabaseKeys<PlayerDatabaseKeys>
   {
-    public PlayerType PlayerType { get; set; }
+    public EntitySourceType SourceType { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public int? Year { get; set; }
@@ -34,25 +26,13 @@ namespace PowerUp.Entities.Players
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
 
-    PlayerDatabaseKeys IHaveDatabaseKeys<PlayerDatabaseKeys>.DatabaseKeys => PlayerType switch
+    PlayerDatabaseKeys IHaveDatabaseKeys<PlayerDatabaseKeys>.DatabaseKeys => SourceType switch
     {
-      PlayerType.Base => PlayerDatabaseKeys.ForBasePlayer(LastName, FirstName),
-      PlayerType.Imported => PlayerDatabaseKeys.ForImportedPlayer(ImportSource!, LastName, FirstName),
-      PlayerType.Generated => PlayerDatabaseKeys.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
-      PlayerType.Custom => PlayerDatabaseKeys.ForCustomPlayer(LastName, FirstName),
+      EntitySourceType.Base => PlayerDatabaseKeys.ForBasePlayer(LastName, FirstName),
+      EntitySourceType.Imported => PlayerDatabaseKeys.ForImportedPlayer(ImportSource!, LastName, FirstName),
+      EntitySourceType.Generated => PlayerDatabaseKeys.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
+      EntitySourceType.Custom => PlayerDatabaseKeys.ForCustomPlayer(LastName, FirstName),
       _ => throw new NotImplementedException()
     };
   }
-
-  public class Appearance
-  {
-    public int FaceId { get; private set; }
-    public SkinColor SkinColor { get; private set; }
-    public EyeColor EyeColor { get; private set; }
-    public HairStyle HairStyle { get; private set; }
-  }
-
-  public enum SkinColor { One, Two, Three, Four, Five }
-  public enum EyeColor { Brown, Blue }
-  public enum HairStyle { }
 }

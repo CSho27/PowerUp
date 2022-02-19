@@ -119,7 +119,7 @@ namespace PowerUp.Tests.Mappers
     {
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
-      result.PlayerType.ShouldBe(playerType);
+      result.SourceType.ShouldBe(playerType);
     }
 
     [Test]
@@ -145,7 +145,7 @@ namespace PowerUp.Tests.Mappers
       mappingParameters.PlayerType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(importSource);
-      result.PlayerType.ShouldBe(PlayerType.Custom);
+      result.SourceType.ShouldBe(PlayerType.Custom);
     }
 
     [Test]
