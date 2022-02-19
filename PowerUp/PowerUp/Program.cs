@@ -16,10 +16,29 @@ namespace PowerUp
     static void Main(string[] args)
     {
       var characterLibrary = new CharacterLibrary("C:/Users/short/Documents/PowerUp/data/Character_Library.csv");
+      //PrintAllPlayers(characterLibrary);
+      PrintAllTeams(characterLibrary);
+    }
+
+    static void PrintAllPlayers(ICharacterLibrary characterLibrary)
+    {
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+
+      for (int id = 1; id < 1513; id++)
+      {
+        var player = playerReader.Read(id);
+        var position = (Position)player.PrimaryPosition!;
+        var playerString = $"{id} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
+        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{BinaryUtils.ToBitString(player.EmptyPlayerBytes!)}");
+      }
+    }
+
+    static void PrintAllTeams(ICharacterLibrary characterLibrary)
+    {
       var teamReader = new TeamReader(characterLibrary, GAME_SAVE_PATH);
       var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
 
-      for(int teamNum = 1; teamNum <= 30; teamNum++)
+      for (int teamNum = 1; teamNum <= 30; teamNum++)
       {
         var team = teamReader.Read(teamNum);
         var playerEntries = team.PlayerEntries!.ToArray();
@@ -32,6 +51,7 @@ namespace PowerUp
 
           var player = playerReader.Read(pe.PowerProsPlayerId!.Value);
           var position = (Position)player.PrimaryPosition!;
+          /*
           var league = pe.IsMLB!.Value
             ? "MLB"
             : pe.IsAAA!.Value
@@ -46,22 +66,13 @@ namespace PowerUp
             playerString += " DEF";
           if (pe.IsDefensiveLiability!.Value)
             playerString += " SUB";
+          */
 
-          Console.WriteLine(playerString);
+          var playerString = $"{playerNum + 1} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
+          Console.WriteLine($"{playerString}{new string(' ', 28 - playerString.Length)}{BinaryUtils.ToBitString(player.MysteryBytes_81_92!)}");
         }
         Console.WriteLine();
       }
-    }
-
-    static void LoadAndRetrieve()
-    {
-      /*
-      var playersPath = SolutionPath.Relative("./PowerUp/data/Players");
-      var database = new JsonDatabase<Player>(playersPath);
-      database.Save("TestPlayer", new Player() { FirstName = "Steve" });
-      var player = database.Load("TestPlayer");
-      Console.WriteLine(player.FirstName);
-      */
     }
 
     static void AnalyzeGameSave(ICharacterLibrary characterLibrary)
@@ -71,7 +82,7 @@ namespace PowerUp
         Console.ReadLine();
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(PLAYER_ID);
-        var bitString = player.TestBytes!.ToBitString();
+        var bitString = player.EmptyPlayerBytes!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
       }

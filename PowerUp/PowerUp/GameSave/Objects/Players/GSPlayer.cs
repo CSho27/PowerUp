@@ -16,14 +16,20 @@ namespace PowerUp.GameSave.Objects.Players
     [GSString(0x32, stringLength: 14)]
     public string? FirstName { get; set; }
 
+    [GSBoolean(0x50, bitOffset: 3)]
+    public bool? Unedited { get; set; }
+
     [GSBoolean(0x50, bitOffset: 4)]
     public bool? IsEdited { get; set; }
 
-    [GSUInt(0x51, bits: 10, bitOffset: 7)]
-    public ushort? PlayerNumber { get; set; }
+    [GSUInt(0x51, bits: 5, bitOffset: 0)]
+    public ushort? PowerProsTeamId { get; set; }
 
     [GSUInt(0x51, bits: 2, bitOffset: 5)]
     public ushort? PlayerNumberNumberOfDigits { get; set; }
+
+    [GSUInt(0x51, bits: 10, bitOffset: 7)]
+    public ushort? PlayerNumber { get; set; }
 
     [GSUInt(0x54, bits: 8, bitOffset: 5)]
     public ushort? Face { get; set; }
@@ -43,6 +49,12 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x56, bits: 3, bitOffset: 4)]
     public ushort? Glove { get; set; }
 
+    [GSUInt(0x56, bits: 4, bitOffset: 7)]
+    public ushort? RightWristband { get; set; }
+
+    [GSUInt(0x57, bits: 4, bitOffset: 3)]
+    public ushort? LeftWristband { get; set; }
+
     [GSUInt(0x58, bits: 5, bitOffset: 0)]
     public ushort? Hair { get; set; }
 
@@ -55,24 +67,18 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x59, bits: 4, bitOffset: 6)]
     public ushort? FacialHairColor { get; set; }
 
-    // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
-    [GSUInt(0x5b, bits: 4, bitOffset: 2)]
-    public ushort? GlassesType { get; set; }
-
-    [GSUInt(0x5c, bits: 4, bitOffset: 0)]
-    public ushort? GlassesColor { get; set; }
-
     [GSUInt(0x5A, bits: 2, bitOffset: 4)]
     public ushort? EarringType { get; set; }
 
     [GSUInt(0x5A, bits: 4, bitOffset: 6)]
     public ushort? EarringColor { get; set; }
 
-    [GSUInt(0x56, bits: 4, bitOffset: 7)]
-    public ushort? RightWristband { get; set; }
+    // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
+    [GSUInt(0x5b, bits: 4, bitOffset: 2)]
+    public ushort? GlassesType { get; set; }
 
-    [GSUInt(0x57, bits: 4, bitOffset: 3)]
-    public ushort? LeftWristband { get; set; }
+    [GSUInt(0x5c, bits: 4, bitOffset: 0)]
+    public ushort? GlassesColor { get; set; }
 
     [GSUInt(0x5c, bits: 8, bitOffset: 4)]
     public ushort? BattingForm { get; set; }
@@ -168,6 +174,10 @@ namespace PowerUp.GameSave.Objects.Players
 
     [GSUInt(0x6a, bits: 4, bitOffset: 7)]
     public ushort? Contact { get; set; }
+
+    /// <summary>I think the latter 5 bits of this byte are just always empty</summary>
+    [GSBytes(0x6b, numberOfBytes: 1)]
+    public byte[]? MysteryByte_6b { get; set; }
 
     [GSUInt(0x6c, bits: 8, bitOffset: 0)]
     public ushort? Power { get; set; }
@@ -324,6 +334,12 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x78, bitOffset: 1)]
     public bool? IsPullHitter { get; set; }
 
+    /// <summary>
+    ///  There is actually something here but I haven't had any luck figuring out what it is
+    /// </summary>
+    [GSBytes(0x78, numberOfBytes: 1)]
+    public byte[]? MysteryByte_78 { get; set; }
+
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
 
@@ -423,6 +439,9 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x81, bits: 2, bitOffset: 1)]
     public short? PowerOrBreakingBallPitcher { get; set; }
 
+    [GSBytes(0x81, numberOfBytes: 17)]
+    public byte[]? MysteryBytes_81_92 { get; set; }
+
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
 
@@ -492,7 +511,8 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x9f, bits: 3, bitOffset: 5)]
     public ushort? SinkingFastball2Movement { get; set; }
 
-    [GSBytes(0x7f, numberOfBytes: 6)]
-    public byte[]? TestBytes { get; set; }
+    // I don't think these are used for anything but I am not 100% positive
+    [GSBytes(0xA0, numberOfBytes: 0xB0-0xA0)]
+    public byte[]? EmptyPlayerBytes { get; set; }
   }
 }
