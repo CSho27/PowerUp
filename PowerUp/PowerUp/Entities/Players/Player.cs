@@ -12,7 +12,6 @@ namespace PowerUp.Entities.Players
     public DateOnly? BirthDate { get; set; }
     public string? ImportSource { get; set; }
 
-    public int? PowerProsId { get; set; }
     public string SavedName { get; set; } = string.Empty;
     public string UniformNumber { get; set; } = string.Empty;
     public Position PrimaryPosition { get; set; }

@@ -7,7 +7,7 @@ namespace PowerUp.Mappers.Players
 {
   public class PlayerMappingParameters
   {
-    public EntitySourceType SourceType { get; set; }
+    public bool IsImported { get; set; }
     public string? ImportSource { get; set; }
     public int? Year { get; set; }
     public DateOnly? BirthDate { get; set; }
@@ -21,21 +21,14 @@ namespace PowerUp.Mappers.Players
       {
         SourceType = gsPlayer.IsEdited!.Value
           ? EntitySourceType.Custom
-          : parameters.SourceType,
+          : parameters.IsImported
+            ? EntitySourceType.Imported
+            : EntitySourceType.Base,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
-        PowerProsId = parameters.SourceType == EntitySourceType.Base
-          ? gsPlayer.PowerProsId!
-          : null,
         SavedName = gsPlayer.SavedName!,
-        ImportSource = parameters.SourceType == EntitySourceType.Imported
+        ImportSource = parameters.IsImported
           ? parameters.ImportSource
-          : null,
-        Year = parameters.SourceType == EntitySourceType.Generated
-          ? parameters.Year
-          : null,
-        BirthDate = parameters.SourceType == EntitySourceType.Generated
-          ? parameters.BirthDate
           : null,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
