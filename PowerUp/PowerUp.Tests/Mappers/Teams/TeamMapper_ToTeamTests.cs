@@ -143,6 +143,16 @@ namespace PowerUp.Tests.Mappers.Teams
     }
 
     [Test]
+    public void MapToTeam_ShouldFilterOutZeroPlayerIds()
+    {
+      gsTeam.PlayerEntries = gsTeam.PlayerEntries.Append(new GSTeamPlayerEntry { PowerProsPlayerId = 0 });
+      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+
+      result.Players.Count().ShouldBe(9);
+    }
+
+    [Test]
     public void MapToTeam_ShouldMapNoDHLineup()
     {
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);

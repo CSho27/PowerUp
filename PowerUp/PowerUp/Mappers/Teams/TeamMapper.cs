@@ -43,6 +43,7 @@ namespace PowerUp.Mappers
           ? parameters.ImportSource
           : null,
         Players = playerEntries!
+          .Where(p => p.PowerProsPlayerId != 0)
           .Select(p => p.MapToPlayerRoleDefinition(keysByPPId[p.PowerProsPlayerId!.Value])),
         NoDHLineup = lineupDefinition!.NoDHLineup!
           .Select(p => (
