@@ -23,8 +23,9 @@ namespace PowerUp.Tests.Mappers
         BirthDate = DateOnly.Parse("1/1/1980"),
       };
 
-      gsPlayer = new GSPlayer { 
-        IsEdited = false, 
+      gsPlayer = new GSPlayer
+      {
+        IsEdited = false,
         PrimaryPosition = 8,
         IsStarter = false,
         IsReliever = false,
@@ -59,10 +60,33 @@ namespace PowerUp.Tests.Mappers
         HotZoneDownAndIn = 0,
         HotZoneDown = 0,
         HotZoneDownAndAway = 0,
+        TopThrowingSpeedKMH = 0,
+        Control = 0,
+        Stamina = 0,
+        Slider1Type = 0,
+        Slider1Movement = 0,
+        Slider2Type = 0,
+        Slider2Movement = 0,
+        Curve1Type = 0,
+        Curve1Movement = 0,
+        Curve2Type = 0,
+        Curve2Movement = 0,
+        Fork1Type = 0,
+        Fork1Movement = 0,
+        Fork2Type = 0,
+        Fork2Movement = 0,
+        Sinker1Type = 0,
+        Sinker1Movement = 0,
+        Sinker2Type = 0,
+        Sinker2Movement = 0,
+        SinkingFastball1Type = 0,
+        SinkingFastball1Movement = 0,
+        SinkingFastball2Type = 0,
+        SinkingFastball2Movement = 0,
       };
     }
 
-    [Test] 
+    [Test]
     public void MapToPlayer_ShouldMapLastName()
     {
       gsPlayer.LastName = "Sizemore";
@@ -424,6 +448,210 @@ namespace PowerUp.Tests.Mappers
       gsPlayer.HotZoneDownAndAway = 1;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.HitterAbilities.HotZones.DownAndAway.ShouldBe(HotZonePreference.Hot);
+    }
+
+    [Test]
+    [TestCase((ushort)120, 74)]
+    [TestCase((ushort)141, 87)]
+    [TestCase((ushort)169, 105)]
+    public void MapToPlayer_ShouldMapTopSpeedMph(ushort kmh, int mph)
+    {
+      gsPlayer.TopThrowingSpeedKMH = kmh;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      var roundedTopSpeed = Math.Floor(result.PitcherAbilities.TopSpeedMph);
+      roundedTopSpeed.ShouldBe(mph);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapControl()
+    {
+      gsPlayer.Control = 178;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Control.ShouldBe(178);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapStamina()
+    {
+      gsPlayer.Stamina = 150;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Stamina.ShouldBe(150);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHasTwoSeam()
+    {
+      gsPlayer.TwoSeamType = 2;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.HasTwoSeam.ShouldBeTrue();
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapTwoSeamMovement()
+    {
+      gsPlayer.TwoSeamMovement = 2;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.TwoSeamMovement.ShouldBe(2);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSlider1Type()
+    {
+      gsPlayer.Slider1Type = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Slider1Type.ShouldBe(SliderType.HardSlider);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSlider1Movement()
+    {
+      gsPlayer.Slider1Movement = 7;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Slider1Movement.ShouldBe(7);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSlider2Type()
+    {
+      gsPlayer.Slider2Type = 3;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Slider2Type.ShouldBe(SliderType.Slider);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSlider2Movement()
+    {
+      gsPlayer.Slider2Movement = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Slider2Movement.ShouldBe(4);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCurve1Type()
+    {
+      gsPlayer.Curve1Type = 9;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Curve1Type.ShouldBe(CurveType.DropCurve);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCurve1Movement()
+    {
+      gsPlayer.Curve1Movement = 6;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Curve1Movement.ShouldBe(6);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCurve2Type()
+    {
+      gsPlayer.Curve2Type = 6;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Curve2Type.ShouldBe(CurveType.Curve);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCurve2Movement()
+    {
+      gsPlayer.Curve2Movement = 2;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Curve2Movement.ShouldBe(2);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFork1Type()
+    {
+      gsPlayer.Fork1Type = 13;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Fork1Type.ShouldBe(ForkType.Palmball);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFork1Movement()
+    {
+      gsPlayer.Fork1Movement = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Fork1Movement.ShouldBe(4);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFork2Type()
+    {
+      gsPlayer.Fork2Type = 17;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Fork2Type.ShouldBe(ForkType.Knuckleball);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFork2Movement()
+    {
+      gsPlayer.Fork2Movement = 7;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Fork2Movement.ShouldBe(7);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinker1Type()
+    {
+      gsPlayer.Sinker1Type = 20;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Sinker1Type.ShouldBe(SinkerType.Sinker);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinker1Movement()
+    {
+      gsPlayer.Sinker1Movement = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Sinker1Movement.ShouldBe(4);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinker2Type()
+    {
+      gsPlayer.Sinker2Type = 22;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Sinker2Type.ShouldBe(SinkerType.Screwball);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinker2Movement()
+    {
+      gsPlayer.Sinker2Movement = 7;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.Sinker2Movement.ShouldBe(7);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinkingFastball1Type()
+    {
+      gsPlayer.SinkingFastball1Type = 25;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.SinkingFastball1Type.ShouldBe(SinkingFastballType.SinkingFastball);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinkingFastball1Movement()
+    {
+      gsPlayer.SinkingFastball1Movement = 4;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.SinkingFastball1Movement.ShouldBe(4);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinkingFastball2Type()
+    {
+      gsPlayer.SinkingFastball2Type = 23;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.SinkingFastball2Type.ShouldBe(SinkingFastballType.Shuuto);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSinkingFastball2Movement()
+    {
+      gsPlayer.SinkingFastball2Movement = 7;
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.PitcherAbilities.SinkingFastball2Movement.ShouldBe(7);
     }
   }
 }

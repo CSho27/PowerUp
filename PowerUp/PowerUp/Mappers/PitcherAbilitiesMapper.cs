@@ -1,26 +1,26 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.GameSave;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Mappers
 {
   public static class PitcherAbilitiesMapper
   {
-    // MPH/KMH = .618 (for game purposes not in real life)
-    private const double MPH_KMH = .618;
+    // MPH/KMH Conversion
+    private const double MPH_KMH = 0.62137119;
     public static ushort TwoSeamType => 2;
 
-    public static ushort ToKMH(this int mph) => (ushort)Math.Round(mph / MPH_KMH);
+    /// <summary>
+    /// When going from KMH to MPH, we round down.
+    /// When going from MPH to KMH, we round up.
+    /// </summary>
+    public static ushort ToKMH(this double mph) => (ushort)Math.Ceiling(mph / MPH_KMH);
 
     public static PitcherAbilities GetPitcherAbilities(this GSPlayer gsPlayer)
     {
       return new PitcherAbilities
       {
-        TopSpeedMph = (int)Math.Round(gsPlayer.TopThrowingSpeedKMH!.Value * MPH_KMH),
+        TopSpeedMph = gsPlayer.TopThrowingSpeedKMH!.Value * MPH_KMH,
         Control = gsPlayer.Control!.Value,
         Stamina = gsPlayer.Stamina!.Value,
         HasTwoSeam = gsPlayer.TwoSeamType == TwoSeamType,
@@ -75,14 +75,14 @@ namespace PowerUp.Mappers
         Sinker2Movement = gsPlayer.Sinker2Movement != 0
           ? gsPlayer.Sinker2Movement
           : null,
-        SinkingFasbtall1Type = gsPlayer.SinkingFastball1Type != 0
-          ? (SinkingFasbtallType?)gsPlayer.SinkingFastball1Type
+        SinkingFastball1Type = gsPlayer.SinkingFastball1Type != 0
+          ? (SinkingFastballType?)gsPlayer.SinkingFastball1Type
           : null,
         SinkingFastball1Movement = gsPlayer.SinkingFastball1Movement != 0
           ? gsPlayer.SinkingFastball1Movement
           : null,
         SinkingFastball2Type = gsPlayer.SinkingFastball2Type != 0
-          ? (SinkingFasbtallType?)gsPlayer.SinkingFastball2Type
+          ? (SinkingFastballType?)gsPlayer.SinkingFastball2Type
           : null,
         SinkingFastball2Movement = gsPlayer.SinkingFastball2Movement != 0
           ? gsPlayer.SinkingFastball2Movement

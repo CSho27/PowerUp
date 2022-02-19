@@ -2,7 +2,8 @@
 {
   public class PitcherAbilities
   {
-    public int TopSpeedMph { get; set; }
+    /// <summary>Round down to display</summary>
+    public double TopSpeedMph { get; set; }
     public int Control { get; set; }
     public int Stamina { get; set; }
 
@@ -33,10 +34,10 @@
     public SinkerType? Sinker2Type { get;set; }
     public int? Sinker2Movement { get; set; }
 
-    public SinkingFasbtallType? SinkingFasbtall1Type { get; set; }
+    public SinkingFastballType? SinkingFastball1Type { get; set; }
     public int? SinkingFastball1Movement { get; set; }
 
-    public SinkingFasbtallType? SinkingFastball2Type { get; set; }
+    public SinkingFastballType? SinkingFastball2Type { get; set; }
     public int? SinkingFastball2Movement { get; set; }
   }
 
@@ -57,7 +58,7 @@
     [Abbrev("SCb"), DisplayName("Slow Curve")]
     SlowCurve,
     [Abbrev("DCb"), DisplayName("Drop Curve")]
-    DropCurve,
+    DropCurve = 9,
     [Abbrev("Slv")]
     Slurve,
     [Abbrev("KnCb"), DisplayName("Knuckle Curve")]
@@ -94,7 +95,7 @@
     Screwball
   }
 
-  public enum SinkingFasbtallType
+  public enum SinkingFastballType
   {
     [Abbrev("Shu")]
     Shuuto = 23,

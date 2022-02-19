@@ -131,7 +131,7 @@ namespace PowerUp.Mappers
         Sinker1Movement = (ushort)(pitcherAbilities.Sinker1Movement ?? 0),
         Sinker2Type = (ushort)(pitcherAbilities.Sinker2Type ?? 0),
         Sinker2Movement = (ushort)(pitcherAbilities.Sinker2Movement ?? 0),
-        SinkingFastball1Type = (ushort)(pitcherAbilities.SinkingFasbtall1Type ?? 0),
+        SinkingFastball1Type = (ushort)(pitcherAbilities.SinkingFastball1Type ?? 0),
         SinkingFastball1Movement = (ushort)(pitcherAbilities.SinkingFastball1Movement ?? 0),
         SinkingFastball2Type = (ushort)(pitcherAbilities.SinkingFastball2Type ?? 0),
         SinkingFastball2Movement = (ushort)(pitcherAbilities.SinkingFastball2Movement ?? 0),
