@@ -20,17 +20,17 @@ namespace PowerUp.Tests.Mappers.Teams
     [SetUp]
     public void SetUp()
     {
-      var keysByPPId = new Dictionary<ushort, PlayerDatabaseKeys>
+      var keysByPPId = new Dictionary<ushort, string>
       {
-        { 1, PlayerDatabaseKeys.ForBasePlayer("Sizemore", "Grady") },
-        { 2, PlayerDatabaseKeys.ForBasePlayer("Nixon", "Trot") },
-        { 3, PlayerDatabaseKeys.ForBasePlayer("Hafner", "Travis") },
-        { 4, PlayerDatabaseKeys.ForBasePlayer("Martinez", "Victor") },
-        { 5, PlayerDatabaseKeys.ForBasePlayer("Blake", "Casey") },
-        { 6, PlayerDatabaseKeys.ForBasePlayer("Dellucci", "David") },
-        { 7, PlayerDatabaseKeys.ForBasePlayer("Peralta", "Jhonny") },
-        { 8, PlayerDatabaseKeys.ForBasePlayer("Barfield", "Josh") },
-        { 9, PlayerDatabaseKeys.ForBasePlayer("Marte", "Andy") },
+        { 1, "Sizemore" },
+        { 2, "Nixon" },
+        { 3, "Hafner" },
+        { 4, "Martinez" },
+        { 5, "Blake" },
+        { 6, "Dellucci" },
+        { 7, "Peralta" },
+        { 8, "Barfield" },
+        { 9, "Marte" }
       };
 
       mappingParameters = new TeamMappingParameters
@@ -121,7 +121,7 @@ namespace PowerUp.Tests.Mappers.Teams
       foreach(var p in gsTeam.PlayerEntries)
       {
         result.Players
-          .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKeys])
+          .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKey])
           .Count()
           .ShouldBe(1);
       }
@@ -136,7 +136,7 @@ namespace PowerUp.Tests.Mappers.Teams
       foreach (var p in gsTeam.PlayerEntries)
       {
         result.Players
-          .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKeys])
+          .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKey])
           .Count()
           .ShouldBe(1);
       }
@@ -158,38 +158,38 @@ namespace PowerUp.Tests.Mappers.Teams
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
       var noDH = result.NoDHLineup;
 
-      noDH.ElementAt(0).playerKeys.LastName.ShouldBe("Sizemore");
+      noDH.ElementAt(0).playerKey.ShouldBe("Sizemore");
       noDH.ElementAt(0).position.ShouldBe(Position.CenterField);
 
-      noDH.ElementAt(1).playerKeys.LastName.ShouldBe("Nixon");
+      noDH.ElementAt(1).playerKey.ShouldBe("Nixon");
       noDH.ElementAt(1).position.ShouldBe(Position.RightField);
 
 
-      noDH.ElementAt(2).playerKeys.LastName.ShouldBe("Hafner");
+      noDH.ElementAt(2).playerKey.ShouldBe("Hafner");
       noDH.ElementAt(2).position.ShouldBe(Position.FirstBase);
 
 
-      noDH.ElementAt(3).playerKeys.LastName.ShouldBe("Martinez");
+      noDH.ElementAt(3).playerKey.ShouldBe("Martinez");
       noDH.ElementAt(3).position.ShouldBe(Position.Catcher);
 
 
-      noDH.ElementAt(4).playerKeys.LastName.ShouldBe("Dellucci");
+      noDH.ElementAt(4).playerKey.ShouldBe("Dellucci");
       noDH.ElementAt(4).position.ShouldBe(Position.LeftField);
 
 
-      noDH.ElementAt(5).playerKeys.LastName.ShouldBe("Peralta");
+      noDH.ElementAt(5).playerKey.ShouldBe("Peralta");
       noDH.ElementAt(5).position.ShouldBe(Position.Shortstop);
 
 
-      noDH.ElementAt(6).playerKeys.LastName.ShouldBe("Barfield");
+      noDH.ElementAt(6).playerKey.ShouldBe("Barfield");
       noDH.ElementAt(6).position.ShouldBe(Position.SecondBase);
 
 
-      noDH.ElementAt(7).playerKeys.LastName.ShouldBe("Marte");
+      noDH.ElementAt(7).playerKey.ShouldBe("Marte");
       noDH.ElementAt(7).position.ShouldBe(Position.ThirdBase);
 
 
-      noDH.ElementAt(8).playerKeys.ShouldBeNull();
+      noDH.ElementAt(8).playerKey.ShouldBeNull();
       noDH.ElementAt(8).position.ShouldBe(Position.Pitcher);
     }
 
@@ -199,36 +199,36 @@ namespace PowerUp.Tests.Mappers.Teams
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
       var dh = result.DHLineup;
 
-      dh.ElementAt(0).playerKeys.LastName.ShouldBe("Sizemore");
+      dh.ElementAt(0).playerKey.ShouldBe("Sizemore");
       dh.ElementAt(0).position.ShouldBe(Position.CenterField);
 
-      dh.ElementAt(1).playerKeys.LastName.ShouldBe("Nixon");
+      dh.ElementAt(1).playerKey.ShouldBe("Nixon");
       dh.ElementAt(1).position.ShouldBe(Position.RightField);
 
 
-      dh.ElementAt(2).playerKeys.LastName.ShouldBe("Hafner");
+      dh.ElementAt(2).playerKey.ShouldBe("Hafner");
       dh.ElementAt(2).position.ShouldBe(Position.DesignatedHitter);
 
 
-      dh.ElementAt(3).playerKeys.LastName.ShouldBe("Martinez");
+      dh.ElementAt(3).playerKey.ShouldBe("Martinez");
       dh.ElementAt(3).position.ShouldBe(Position.Catcher);
 
-      dh.ElementAt(4).playerKeys.LastName.ShouldBe("Blake");
+      dh.ElementAt(4).playerKey.ShouldBe("Blake");
       dh.ElementAt(4).position.ShouldBe(Position.FirstBase);
 
-      dh.ElementAt(5).playerKeys.LastName.ShouldBe("Dellucci");
+      dh.ElementAt(5).playerKey.ShouldBe("Dellucci");
       dh.ElementAt(5).position.ShouldBe(Position.LeftField);
 
 
-      dh.ElementAt(6).playerKeys.LastName.ShouldBe("Peralta");
+      dh.ElementAt(6).playerKey.ShouldBe("Peralta");
       dh.ElementAt(6).position.ShouldBe(Position.Shortstop);
 
 
-      dh.ElementAt(7).playerKeys.LastName.ShouldBe("Barfield");
+      dh.ElementAt(7).playerKey.ShouldBe("Barfield");
       dh.ElementAt(7).position.ShouldBe(Position.SecondBase);
 
 
-      dh.ElementAt(8).playerKeys.LastName.ShouldBe("Marte");
+      dh.ElementAt(8).playerKey.ShouldBe("Marte");
       dh.ElementAt(8).position.ShouldBe(Position.ThirdBase);
     }
 
@@ -241,8 +241,7 @@ namespace PowerUp.Tests.Mappers.Teams
       //These two things are in conflict, so both bits must be set
       gsPlayerEntry.IsAAA = value;
       gsPlayerEntry.IsMLB = !value;
-      var playerKeys = PlayerDatabaseKeys.ForBasePlayer("Jason", "Micahels");
-      var result = gsPlayerEntry.MapToPlayerRoleDefinition(playerKeys);
+      var result = gsPlayerEntry.MapToPlayerRoleDefinition("Micahels");
 
       result.IsAAA.ShouldBe(value);
     }
@@ -254,8 +253,7 @@ namespace PowerUp.Tests.Mappers.Teams
     {
       var gsPlayerEntry = ToPlayerEntry(1);
       gsPlayerEntry.IsPinchHitter = value;
-      var playerKeys = PlayerDatabaseKeys.ForBasePlayer("Jason", "Micahels");
-      var result = gsPlayerEntry.MapToPlayerRoleDefinition(playerKeys);
+      var result = gsPlayerEntry.MapToPlayerRoleDefinition("Micahels");
 
       result.IsPinchHitter.ShouldBe(value);
     }
@@ -267,8 +265,7 @@ namespace PowerUp.Tests.Mappers.Teams
     {
       var gsPlayerEntry = ToPlayerEntry(1);
       gsPlayerEntry.IsPinchRunner = value;
-      var playerKeys = PlayerDatabaseKeys.ForBasePlayer("Jason", "Micahels");
-      var result = gsPlayerEntry.MapToPlayerRoleDefinition(playerKeys);
+      var result = gsPlayerEntry.MapToPlayerRoleDefinition("Micahels");
 
       result.IsPinchRunner.ShouldBe(value);
     }
@@ -280,8 +277,7 @@ namespace PowerUp.Tests.Mappers.Teams
     {
       var gsPlayerEntry = ToPlayerEntry(1);
       gsPlayerEntry.IsDefensiveReplacement = value;
-      var playerKeys = PlayerDatabaseKeys.ForBasePlayer("Jason", "Micahels");
-      var result = gsPlayerEntry.MapToPlayerRoleDefinition(playerKeys);
+      var result = gsPlayerEntry.MapToPlayerRoleDefinition("Micahels");
 
       result.IsDefensiveReplacement.ShouldBe(value);
     }
@@ -293,8 +289,7 @@ namespace PowerUp.Tests.Mappers.Teams
     {
       var gsPlayerEntry = ToPlayerEntry(1);
       gsPlayerEntry.IsDefensiveLiability = value;
-      var playerKeys = PlayerDatabaseKeys.ForBasePlayer("Jason", "Micahels");
-      var result = gsPlayerEntry.MapToPlayerRoleDefinition(playerKeys);
+      var result = gsPlayerEntry.MapToPlayerRoleDefinition("Micahels");
 
       result.IsDefensiveLiability.ShouldBe(value);
     }
@@ -312,8 +307,7 @@ namespace PowerUp.Tests.Mappers.Teams
     {
       var gsPlayerEntry = ToPlayerEntry(1);
       gsPlayerEntry.PitcherRole = pitcherRole;
-      var playerKeys = PlayerDatabaseKeys.ForBasePlayer("Jason", "Micahels");
-      var result = gsPlayerEntry.MapToPlayerRoleDefinition(playerKeys);
+      var result = gsPlayerEntry.MapToPlayerRoleDefinition("Micahels");
 
       result.PitcherRole.ShouldBe(expectedValue);
     }

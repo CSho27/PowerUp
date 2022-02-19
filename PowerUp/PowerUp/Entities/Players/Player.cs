@@ -3,9 +3,18 @@ using System;
 
 namespace PowerUp.Entities.Players
 {
-  public class Player : IHaveDatabaseKeys<PlayerDatabaseKeys>
+  public class Player : Entity<PlayerKeyParams>
   {
-    public EntitySourceType SourceType { get; set; }
+    protected override PlayerKeyParams GetKeyParams() => SourceType switch
+    {
+      EntitySourceType.Base => PlayerKeyParams.ForBasePlayer(LastName, FirstName),
+      EntitySourceType.Imported => PlayerKeyParams.ForImportedPlayer(ImportSource!, LastName, FirstName),
+      EntitySourceType.Generated => PlayerKeyParams.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
+      EntitySourceType.Custom => PlayerKeyParams.ForCustomPlayer(LastName, FirstName),
+      _ => throw new NotImplementedException()
+    };
+
+  public EntitySourceType SourceType { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public int? Year { get; set; }
@@ -24,14 +33,5 @@ namespace PowerUp.Entities.Players
     public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
-
-    PlayerDatabaseKeys IHaveDatabaseKeys<PlayerDatabaseKeys>.DatabaseKeys => SourceType switch
-    {
-      EntitySourceType.Base => PlayerDatabaseKeys.ForBasePlayer(LastName, FirstName),
-      EntitySourceType.Imported => PlayerDatabaseKeys.ForImportedPlayer(ImportSource!, LastName, FirstName),
-      EntitySourceType.Generated => PlayerDatabaseKeys.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
-      EntitySourceType.Custom => PlayerDatabaseKeys.ForCustomPlayer(LastName, FirstName),
-      _ => throw new NotImplementedException()
-    };
   }
 }

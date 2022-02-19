@@ -15,7 +15,7 @@ namespace PowerUp.Mappers
     public string? ImportSource { get; set; }
     public int? Year { get; set; }
 
-    public IDictionary<ushort, PlayerDatabaseKeys>? KeysByPPId { get; set; }
+    public IDictionary<ushort, string>? KeysByPPId { get; set; }
   }
 
   public static class TeamMapper
@@ -64,10 +64,10 @@ namespace PowerUp.Mappers
 
     public static PlayerRoleDefinition MapToPlayerRoleDefinition(
       this GSTeamPlayerEntry gsPlayerEntry,
-      PlayerDatabaseKeys playerKeys
+      string playerKey
     )
     {
-      return new PlayerRoleDefinition(playerKeys)
+      return new PlayerRoleDefinition(playerKey)
       {
         IsAAA = gsPlayerEntry.IsAAA!.Value && !gsPlayerEntry.IsMLB!.Value,
         IsPinchHitter = gsPlayerEntry.IsPinchHitter!.Value,
@@ -81,7 +81,7 @@ namespace PowerUp.Mappers
     public static (GSTeam team, GSLineupDefinition lineupDef) MapToGSTeamAndLineup(
       this Team team,
       MLBPPTeam mlbPPTeam,
-      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+      IDictionary<string, ushort> idsByKey
     )
     {
       return (
@@ -93,7 +93,7 @@ namespace PowerUp.Mappers
     public static GSTeam MapToGSTeam(
       this Team team,
       MLBPPTeam mlbPPTeam,
-      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+      IDictionary<string, ushort> idsByKey
     )
     {
       var playerCount = team.Players.Count();
@@ -102,7 +102,7 @@ namespace PowerUp.Mappers
       return new GSTeam
       {
         PlayerEntries = team.Players
-          .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, idsByKey[p.PlayerKeys]))
+          .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, idsByKey[p.PlayerKey]))
           .Concat(emptyPlayerSlots)
       };
     }
@@ -129,7 +129,7 @@ namespace PowerUp.Mappers
 
     public static GSLineupDefinition MapToGSLineup(
       this Team team,
-      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+      IDictionary<string, ushort> idsByKey
     )
     {
       return new GSLineupDefinition
@@ -140,8 +140,8 @@ namespace PowerUp.Mappers
     }
 
     public static GSLineupPlayer MapToGSLineupPlayer(
-      this (PlayerDatabaseKeys? playerKeys, Position position) lineupEntry,
-      IDictionary<PlayerDatabaseKeys, ushort> idsByKey
+      this (string? playerKeys, Position position) lineupEntry,
+      IDictionary<string, ushort> idsByKey
     )
     {
       return new GSLineupPlayer

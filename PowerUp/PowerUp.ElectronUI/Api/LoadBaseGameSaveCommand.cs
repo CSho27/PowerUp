@@ -33,7 +33,7 @@ namespace PowerUp.ElectronUI.Api
     {
       var baseGameSavePath = _baseGameSavePathProvider.GetPath();
       using var playerReader = new PlayerReader(_characterLibrary, baseGameSavePath);
-      var keysById = new Dictionary<ushort, PlayerDatabaseKeys>();
+      var keysById = new Dictionary<ushort, string>();
 
       for(int i=1; i<1500; i++)
       {
@@ -44,9 +44,7 @@ namespace PowerUp.ElectronUI.Api
           continue;
 
         var player = gsPlayer.MapToPlayer(mappingParameters);
-        var playerKeyObj = (IHaveDatabaseKeys<PlayerDatabaseKeys>)player;
-
-        keysById.Add((ushort)i, playerKeyObj.DatabaseKeys);
+        keysById.Add((ushort)i, player.GetKey());
 
         Console.WriteLine($"Saving: {player.SavedName}");
         _playerDatabase.Save(player);

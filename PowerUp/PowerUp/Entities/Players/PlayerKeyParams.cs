@@ -2,7 +2,7 @@
 
 namespace PowerUp.Entities.Players
 {
-  public class PlayerDatabaseKeys
+  public class PlayerKeyParams
   {
     public string Type { get; set; }
     public string? ImportSource { get; set; }
@@ -11,7 +11,7 @@ namespace PowerUp.Entities.Players
     public string FirstName { get; set; }
     public string? BirthDate { get; set; }
 
-    private PlayerDatabaseKeys(EntitySourceType type, string lastName, string firstName, string? importSource, int? year, DateOnly? birthDate)
+    private PlayerKeyParams(EntitySourceType type, string lastName, string firstName, string? importSource, int? year, DateOnly? birthDate)
     {
       Type = type.ToString().ToUpperInvariant();
       ImportSource = importSource;
@@ -21,8 +21,8 @@ namespace PowerUp.Entities.Players
       BirthDate = birthDate?.ToString("mmddyyyy");
     }
 
-    public static PlayerDatabaseKeys ForBasePlayer(string lastName, string firstName)
-      => new PlayerDatabaseKeys(
+    public static PlayerKeyParams ForBasePlayer(string lastName, string firstName)
+      => new PlayerKeyParams(
         type: EntitySourceType.Base,
         lastName: lastName,
         firstName: firstName,
@@ -31,8 +31,8 @@ namespace PowerUp.Entities.Players
         birthDate: null
       );
 
-    public static PlayerDatabaseKeys ForImportedPlayer(string importSource, string lastName, string firstName)
-      => new PlayerDatabaseKeys(
+    public static PlayerKeyParams ForImportedPlayer(string importSource, string lastName, string firstName)
+      => new PlayerKeyParams(
         type: EntitySourceType.Imported,
         lastName: lastName,
         firstName: firstName,
@@ -41,8 +41,8 @@ namespace PowerUp.Entities.Players
         birthDate: null
       );
 
-    public static PlayerDatabaseKeys ForGeneratedPlayer(string lastName, string firstName, int year, DateOnly? birthDate)
-      => new PlayerDatabaseKeys(
+    public static PlayerKeyParams ForGeneratedPlayer(string lastName, string firstName, int year, DateOnly? birthDate)
+      => new PlayerKeyParams(
         type: EntitySourceType.Generated,
         lastName: lastName,
         firstName: firstName,
@@ -51,8 +51,8 @@ namespace PowerUp.Entities.Players
         birthDate: birthDate
       );
 
-    public static PlayerDatabaseKeys ForCustomPlayer(string lastName, string firstName)
-      => new PlayerDatabaseKeys(
+    public static PlayerKeyParams ForCustomPlayer(string lastName, string firstName)
+      => new PlayerKeyParams(
         type: EntitySourceType.Custom,
         lastName: lastName,
         firstName: firstName,

@@ -11,22 +11,22 @@ namespace PowerUp.Tests.Mappers.Teams
   public class TeamMapper_ToGSLineupDefinitionTests
   {
     private Team team;
-    private Dictionary<PlayerDatabaseKeys, ushort> idsByKey;
+    private Dictionary<string, ushort> idsByKey;
 
     [SetUp]
     public void SetUp()
     {
-      var sizemore = PlayerDatabaseKeys.ForBasePlayer("Sizemore", "Grady");
-      var nixon = PlayerDatabaseKeys.ForBasePlayer("Nixon", "Trot");
-      var hafner = PlayerDatabaseKeys.ForBasePlayer("Hafner", "Travis");
-      var martinez = PlayerDatabaseKeys.ForBasePlayer("Martinez", "Victor");
-      var blake = PlayerDatabaseKeys.ForBasePlayer("Blake", "Casey");
-      var dellucci = PlayerDatabaseKeys.ForBasePlayer("Dellucci", "David");
-      var peralta = PlayerDatabaseKeys.ForBasePlayer("Peralta", "Jhonny");
-      var barfield = PlayerDatabaseKeys.ForBasePlayer("Barfield", "Josh");
-      var marte = PlayerDatabaseKeys.ForBasePlayer("Marte", "Andy");
+      var sizemore = "Sizemore";
+      var nixon = "Nixon";
+      var hafner = "Hafner";
+      var martinez = "Martinez";
+      var blake = "Blake";
+      var dellucci = "Dellucci";
+      var peralta = "Peralta";
+      var barfield = "Barfield";
+      var marte = "Marte";
 
-      idsByKey = new Dictionary<PlayerDatabaseKeys, ushort>()
+      idsByKey = new Dictionary<string, ushort>()
       {
         { sizemore, 1 },
         { nixon, 2 },

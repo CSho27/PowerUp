@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PowerUp.Entities.Teams
 {
-  public class Team : IHaveDatabaseKeys<TeamDatabaseKeys>
+  public class Team : Entity<TeamKeyParams>
   {
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -15,15 +15,15 @@ namespace PowerUp.Entities.Teams
     
     public IEnumerable<PlayerRoleDefinition> Players { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 
-    public IEnumerable<(PlayerDatabaseKeys? playerKeys, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys?, Position)>();
-    public IEnumerable<(PlayerDatabaseKeys playerKeys, Position position)> DHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys, Position)>();
+    public IEnumerable<(string? playerKey, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(string?, Position)>();
+    public IEnumerable<(string playerKey, Position position)> DHLineup { get; set; } = Enumerable.Empty<(string, Position)>();
 
-    TeamDatabaseKeys IHaveDatabaseKeys<TeamDatabaseKeys>.DatabaseKeys => SourceType switch
+    protected override TeamKeyParams GetKeyParams() => SourceType switch
     {
-      EntitySourceType.Base => TeamDatabaseKeys.ForBaseTeam(Name),
-      EntitySourceType.Imported => TeamDatabaseKeys.ForImportedTeam(ImportSource!, Name),
-      EntitySourceType.Generated => TeamDatabaseKeys.ForGeneratedTeam(Name, Year!.Value),
-      EntitySourceType.Custom => TeamDatabaseKeys.ForCustomTeam(Name),
+      EntitySourceType.Base => TeamKeyParams.ForBaseTeam(Name),
+      EntitySourceType.Imported => TeamKeyParams.ForImportedTeam(ImportSource!, Name),
+      EntitySourceType.Generated => TeamKeyParams.ForGeneratedTeam(Name, Year!.Value),
+      EntitySourceType.Custom => TeamKeyParams.ForCustomTeam(Name),
       _ => throw new NotImplementedException()
     };
   }

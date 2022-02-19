@@ -12,22 +12,22 @@ namespace PowerUp.Tests.Mappers.Teams
   public class TeamMapper_ToGSTeamTests
   {
     private Team team;
-    private Dictionary<PlayerDatabaseKeys, ushort> idsByKey;
+    private Dictionary<string, ushort> idsByKey;
 
     [SetUp]
     public void SetUp()
     {
-      idsByKey = new Dictionary<PlayerDatabaseKeys, ushort>()
+      idsByKey = new Dictionary<string, ushort>()
       {
-        { PlayerDatabaseKeys.ForBasePlayer("Sizemore", "Grady"), 1 },
-        { PlayerDatabaseKeys.ForBasePlayer("Nixon", "Trot"), 2 },
-        { PlayerDatabaseKeys.ForBasePlayer("Hafner", "Travis"), 3 },
-        { PlayerDatabaseKeys.ForBasePlayer("Martinez", "Victor"), 4 },
-        { PlayerDatabaseKeys.ForBasePlayer("Blake", "Casey"), 5 },
-        { PlayerDatabaseKeys.ForBasePlayer("Dellucci", "David"), 6 },
-        { PlayerDatabaseKeys.ForBasePlayer("Peralta", "Jhonny"), 7 },
-        { PlayerDatabaseKeys.ForBasePlayer("Barfield", "Josh"), 8 },
-        { PlayerDatabaseKeys.ForBasePlayer("Marte", "Andy"), 9 },
+        { "Sizemore", 1 },
+        { "Nixon", 2 },
+        { "Hafner", 3 },
+        { "Martinez", 4 },
+        { "Blake", 5 },
+        { "Dellucci", 6 },
+        { "Peralta", 7 },
+        { "Barfield", 8 },
+        { "Marte", 9 },
       };
 
       team = new Team()
@@ -49,7 +49,7 @@ namespace PowerUp.Tests.Mappers.Teams
         result.PlayerEntries
           .Where(p => {
             keysById.TryGetValue(p.PowerProsPlayerId!.Value, out var keys);
-            return keys == roleDef.PlayerKeys;
+            return keys == roleDef.PlayerKey;
           })
           .Count()
           .ShouldBe(1);
@@ -61,7 +61,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [TestCase(false)]
     public void MapToGSPlayerEntry_ShouldMapIsAAA(bool value)
     {
-      var entry = new PlayerRoleDefinition(PlayerDatabaseKeys.ForBasePlayer("Howard", "Ryan")) 
+      var entry = new PlayerRoleDefinition("Howard") 
       { 
         IsAAA = value 
       };
@@ -76,7 +76,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [TestCase(false)]
     public void MapToPlayerDefinition_ShouldMapIsPinchHitter(bool value)
     {
-      var entry = new PlayerRoleDefinition(PlayerDatabaseKeys.ForBasePlayer("Howard", "Ryan"))
+      var entry = new PlayerRoleDefinition("Howard")
       {
         IsPinchHitter = value
       };
@@ -90,7 +90,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [TestCase(false)]
     public void MapToPlayerDefinition_ShouldMapIsPinchRunner(bool value)
     {
-      var entry = new PlayerRoleDefinition(PlayerDatabaseKeys.ForBasePlayer("Howard", "Ryan"))
+      var entry = new PlayerRoleDefinition("Howard")
       {
         IsPinchRunner = value
       };
@@ -104,7 +104,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [TestCase(false)]
     public void MapToPlayerDefinition_ShouldMapIsDefensiveReplacement(bool value)
     {
-      var entry = new PlayerRoleDefinition(PlayerDatabaseKeys.ForBasePlayer("Howard", "Ryan"))
+      var entry = new PlayerRoleDefinition("Howard")
       {
         IsDefensiveReplacement = value
       };
@@ -118,7 +118,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [TestCase(false)]
     public void MapToPlayerDefinition_ShouldMapIsDefensiveLiability(bool value)
     {
-      var entry = new PlayerRoleDefinition(PlayerDatabaseKeys.ForBasePlayer("Howard", "Ryan"))
+      var entry = new PlayerRoleDefinition("Howard")
       {
         IsDefensiveLiability = value
       };
@@ -138,7 +138,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [TestCase(PitcherRole.Closer, (ushort)7)]
     public void MapToPlayerDefinition_ShouldMapPitcherRole(PitcherRole pitcherRole, ushort expectedValue)
     {
-      var entry = new PlayerRoleDefinition(PlayerDatabaseKeys.ForBasePlayer("Howard", "Ryan"))
+      var entry = new PlayerRoleDefinition("Howard")
       {
         PitcherRole = pitcherRole
       };

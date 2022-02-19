@@ -1,10 +1,8 @@
-﻿using PowerUp.Entities.Players;
-
-namespace PowerUp.Entities.Teams
+﻿namespace PowerUp.Entities.Teams
 {
   public class PlayerRoleDefinition
   {
-    public PlayerDatabaseKeys PlayerKeys { get; set; }
+    public string PlayerKey { get; set; }
     public bool IsAAA { get; set; }
     public bool IsPinchHitter { get; set; }
     public bool IsPinchRunner { get; set; }
@@ -13,9 +11,9 @@ namespace PowerUp.Entities.Teams
 
     public PitcherRole PitcherRole { get; set; }
 
-    public PlayerRoleDefinition(PlayerDatabaseKeys playerKey)
+    public PlayerRoleDefinition(string playerKey)
     {
-      PlayerKeys = playerKey;
+      PlayerKey = playerKey;
     }
   }
 
