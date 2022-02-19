@@ -44,7 +44,7 @@ namespace PowerUp.GameSave.IO
           for (int i = 0; i < arrayAttr.ArrayLength; i++)
           {
             var elementValue = arrayObject[i];
-            Write(arrayType, offset + i * arrayAttr.ItemLength, elementValue);
+            Write(arrayType, offset + arrayAttr.Offset + i * arrayAttr.ItemLength, elementValue);
           }
         }
       }

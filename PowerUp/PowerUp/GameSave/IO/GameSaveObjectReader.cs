@@ -41,7 +41,7 @@ namespace PowerUp.GameSave.IO
           var arrayType = property.PropertyType.GenericTypeArguments[0];
           var array = Array.CreateInstance(arrayType, arrayAttr.ArrayLength);
           for (int i = 0; i < arrayAttr.ArrayLength; i++)
-            array.SetValue(Read(arrayType, offset + i * arrayAttr.ItemLength), i);
+            array.SetValue(Read(arrayType, offset + arrayAttr.Offset + i * arrayAttr.ItemLength), i);
 
           property.SetValue(gsObject, array);
         }
