@@ -46,7 +46,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static GSPlayer MapToGSPlayer(this Player player)
+    public static GSPlayer MapToGSPlayer(this Player player, MLBPPTeam mlbPPTeam)
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
@@ -57,6 +57,8 @@ namespace PowerUp.Mappers.Players
 
       return new GSPlayer
       {
+        PowerProsTeamId = (ushort)mlbPPTeam,
+
         LastName = player.LastName,
         FirstName = player.FirstName,
         SavedName = player.SavedName,
