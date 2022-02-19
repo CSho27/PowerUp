@@ -6,17 +6,17 @@ namespace PowerUp.GameSave.Objects.Players
 {
   public class PlayerReader : IDisposable
   {
-    private readonly GameSaveObjectReader<GSPlayer> _reader;
+    private readonly GameSaveObjectReader _reader;
 
     public PlayerReader(ICharacterLibrary characterLibrary, string fileName)
     {
-      _reader = new GameSaveObjectReader<GSPlayer>(characterLibrary, fileName);
+      _reader = new GameSaveObjectReader(characterLibrary, fileName);
     }
 
     public GSPlayer Read(int powerProsId)
     {
       var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId);
-      return _reader.Read(playerOffset);
+      return _reader.Read<GSPlayer>(playerOffset);
     }
 
     public void Dispose() => _reader.Dispose();

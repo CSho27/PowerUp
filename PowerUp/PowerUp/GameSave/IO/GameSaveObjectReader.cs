@@ -1,11 +1,11 @@
-﻿using PowerUp.GameSave.Objects.Players;
-using PowerUp.Libraries;
+﻿using PowerUp.Libraries;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PowerUp.GameSave.IO
 {
-  public class GameSaveObjectReader<TGameSaveObject> : IDisposable where TGameSaveObject : class
+  public class GameSaveObjectReader: IDisposable 
   {
     private readonly GameSaveReader _reader;
 
@@ -14,10 +14,13 @@ namespace PowerUp.GameSave.IO
       _reader = new GameSaveReader(characterLibrary, fileName);
     }
 
-    public TGameSaveObject Read(long offset)
+    public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class
+      => (TGameSaveObject)Read(typeof(TGameSaveObject), offset);
+
+    public object Read(Type type, long offset)
     {
-      var gsObject = (TGameSaveObject)typeof(TGameSaveObject).GetConstructors().First().Invoke(null);
-      foreach (var property in typeof(TGameSaveObject).GetProperties())
+      var gsObject = type.GetConstructors().First().Invoke(null);
+      foreach (var property in type.GetProperties())
       {
         var gameSaveAttribute = property.GetGSAttribute();
         if (gameSaveAttribute == null)
@@ -33,6 +36,16 @@ namespace PowerUp.GameSave.IO
           property.SetValue(gsObject, _reader.ReadString(offset + stringAttr.Offset, stringAttr.StringLength));
         else if (gameSaveAttribute is GSBytesAttribute bytesAttr)
           property.SetValue(gsObject, _reader.ReadBytes(offset + bytesAttr.Offset, bytesAttr.NumberOfBytes));
+        else if (gameSaveAttribute is GSArrayAttribute arrayAttr)
+        {
+          var arrayType = property.PropertyType.GenericTypeArguments[0];
+          var array = Array.CreateInstance(arrayType, arrayAttr.ArrayLength);
+          for (int i = 0; i < arrayAttr.ArrayLength; i++)
+            array.SetValue(Read(arrayType, offset + i * arrayAttr.ItemLength), i);
+
+          property.SetValue(gsObject, array);
+        }
+
       }
 
       return gsObject;
