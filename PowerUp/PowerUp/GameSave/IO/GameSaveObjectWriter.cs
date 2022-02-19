@@ -15,7 +15,7 @@ namespace PowerUp.GameSave.IO
 
     public void Write(long offset, TGameSaveObject gsObject)
     {
-      foreach (var property in typeof(GSPlayer).GetProperties())
+      foreach (var property in typeof(TGameSaveObject).GetProperties())
       {
         var gameSaveAttribute = property.GetGSAttribute();
         var propertyValue = property.GetValue(gsObject);

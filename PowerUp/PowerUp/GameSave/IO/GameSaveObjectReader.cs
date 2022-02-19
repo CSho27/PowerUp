@@ -17,7 +17,7 @@ namespace PowerUp.GameSave.IO
     public TGameSaveObject Read(long offset)
     {
       var gsObject = (TGameSaveObject)typeof(TGameSaveObject).GetConstructors().First().Invoke(null);
-      foreach (var property in typeof(GSPlayer).GetProperties())
+      foreach (var property in typeof(TGameSaveObject).GetProperties())
       {
         var gameSaveAttribute = property.GetGSAttribute();
         if (gameSaveAttribute == null)
