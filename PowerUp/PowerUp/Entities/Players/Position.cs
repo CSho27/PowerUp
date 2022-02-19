@@ -2,10 +2,8 @@
 {
   public enum Position
   {
-    [Abbrev("DH"), DisplayName("Designated Hitter")]
-    DesignatedHitter,
     [Abbrev("P"), DisplayName("Pitcher")]
-    Pitcher,
+    Pitcher = 1,
     [Abbrev("C"), DisplayName("Catcher")]
     Catcher,
     [Abbrev("1B"), DisplayName("First Base")]
@@ -21,6 +19,8 @@
     [Abbrev("CF"), DisplayName("Center Field")]
     CenterField,
     [Abbrev("RF"), DisplayName("Right Field")]
-    RightField
+    RightField,
+    [Abbrev("DH"), DisplayName("Designated Hitter")]
+    DesignatedHitter,
   }
 }
