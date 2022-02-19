@@ -1,5 +1,6 @@
 ﻿using PowerUp.GameSave.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.GameSave.Objects.Teams
 {
@@ -11,6 +12,20 @@ namespace PowerUp.GameSave.Objects.Teams
 
   public class GSTeamPlayerEntry
   {
+    public static GSTeamPlayerEntry Empty = new GSTeamPlayerEntry
+    {
+      PowerProsPlayerId = 0,
+      PowerProsTeamId = 0,
+      IsAAA = false,
+      IsMLB = false,
+      IsPinchHitter = false,
+      IsPinchRunner = false,
+      IsDefensiveReplacement = false,
+      IsDefensiveLiability = false,
+      PitcherRole = 0,
+      OtherPlayerBytes = Enumerable.Repeat(new byte(), 6).ToArray()
+    };
+
     [GSUInt(offset: 0, bits: 16)]
     public ushort? PowerProsPlayerId { get; set; }
 

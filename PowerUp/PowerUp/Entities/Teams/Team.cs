@@ -12,12 +12,10 @@ namespace PowerUp.Entities.Teams
     public string Name { get; set; } = string.Empty;
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
-
-    public IEnumerable<PlayerDatabaseKeys> PlayerKeys { get; set; } = Enumerable.Empty<PlayerDatabaseKeys>();
     
-    public IEnumerable<PlayerRoleDefinition> PlayerRoles { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
+    public IEnumerable<PlayerRoleDefinition> Players { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 
-    public IEnumerable<(PlayerDatabaseKeys? playerKeys, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys, Position)>();
+    public IEnumerable<(PlayerDatabaseKeys? playerKeys, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys?, Position)>();
     public IEnumerable<(PlayerDatabaseKeys playerKeys, Position position)> DHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys, Position)>();
 
     TeamDatabaseKeys IHaveDatabaseKeys<TeamDatabaseKeys>.DatabaseKeys => SourceType switch

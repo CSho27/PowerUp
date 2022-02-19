@@ -116,16 +116,14 @@ namespace PowerUp.Tests.Mappers.Teams
     public void MapToTeam_ShouldMapPlayerKeys()
     {
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
       
       foreach(var p in gsTeam.PlayerEntries)
       {
-        result.PlayerKeys.Where(k =>
-        {
-          var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
-          var ppId = ppIdByKeys[k];
-          return p.PowerProsPlayerId == ppId;
-        })
-        .Count().ShouldBe(1);
+        result.Players
+          .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKeys])
+          .Count()
+          .ShouldBe(1);
       }
     }
 
@@ -133,16 +131,14 @@ namespace PowerUp.Tests.Mappers.Teams
     public void MapToTeam_ShouldMapPlayerRoles()
     {
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
       foreach (var p in gsTeam.PlayerEntries)
       {
-        result.PlayerRoles.Where(k =>
-        {
-          var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
-          var ppId = ppIdByKeys[k.PlayerKeys];
-          return p.PowerProsPlayerId == ppId;
-        })
-        .Count().ShouldBe(1);
+        result.Players
+          .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKeys])
+          .Count()
+          .ShouldBe(1);
       }
     }
 
