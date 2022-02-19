@@ -11,13 +11,14 @@ namespace PowerUp
   class Program
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
-    private const int PLAYER_ID = 20;
+    private const int PLAYER_ID = 370;
 
     static void Main(string[] args)
     {
       var characterLibrary = new CharacterLibrary("C:/Users/short/Documents/PowerUp/data/Character_Library.csv");
       //PrintAllPlayers(characterLibrary);
-      PrintAllTeams(characterLibrary);
+      //PrintAllTeams(characterLibrary);
+      AnalyzeGameSave(characterLibrary);
     }
 
     static void PrintAllPlayers(ICharacterLibrary characterLibrary)
@@ -82,7 +83,7 @@ namespace PowerUp
         Console.ReadLine();
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(PLAYER_ID);
-        var bitString = player.EmptyPlayerBytes!.ToBitString();
+        var bitString = player.MysteryBytes_81_92!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
       }

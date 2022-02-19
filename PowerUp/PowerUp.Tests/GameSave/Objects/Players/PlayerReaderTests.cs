@@ -1465,6 +1465,50 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)253)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)666)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)074)]
+    public void Reads_BattingAveragePoints(int playerId, ushort battingAveragePoints)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BattingAveragePoints.ShouldBe(battingAveragePoints);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)113)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    public void Reads_RunsBattedIn(int playerId, ushort rbi)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.RunsBattedIn.ShouldBe(rbi);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)37)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    public void Reads_HomeRuns(int playerId, ushort homeRuns)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.HomeRuns.ShouldBe(homeRuns);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)215)]
+    public void Reads_EarnedRunAverage(int playerId, ushort era)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.EarnedRunAverage.ShouldBe(era);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)35052)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35675)]
     [TestCase(PAUL_PITCHER_ID, (ushort)35194)]

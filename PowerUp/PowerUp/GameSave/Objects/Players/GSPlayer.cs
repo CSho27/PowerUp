@@ -442,6 +442,23 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBytes(0x81, numberOfBytes: 17)]
     public byte[]? MysteryBytes_81_92 { get; set; }
 
+    [GSBytes(0x8a, numberOfBytes: 4)]
+    public byte[]? TestBytes { get; set; }
+
+    // 1023 means the stat has been 'cleared' (maxValue of a 10 bit int)
+    [GSUInt(0x88, bits: 10, bitOffset: 0)]
+    public ushort? BattingAveragePoints { get; set; }
+
+    [GSUInt(0x89, bits: 10, bitOffset: 2)]
+    public ushort? RunsBattedIn { get; set; }
+
+    [GSUInt(0x8a, bits: 10, bitOffset: 4)]
+    public ushort? HomeRuns { get; set; }
+
+    // 16383 means the stat has been 'cleared' (maxValue of a 14 bit int)
+    [GSUInt(0x8c, bits: 14, bitOffset: 0)]
+    public ushort? EarnedRunAverage { get; set; }
+
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
 
