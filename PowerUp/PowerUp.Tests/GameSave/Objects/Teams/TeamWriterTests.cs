@@ -94,7 +94,10 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
       playerList.Count.ShouldBe(40);
 
       var nonEmptyPlayerList = playerList.Where(p => p.PowerProsPlayerId != 0).ToList();
-      nonEmptyPlayerList.Count.ShouldBe(31);
+      // the length of the array we wrote is 31, but if the array passed to the writer is shorter
+      // than the length specified by GSArray, then it stops overwriting values at the length given to it.
+      // There were originally 33 players on the team and we only overwrote 31 of them
+      nonEmptyPlayerList.Count.ShouldBe(33);
 
       foreach (var id in testTeamPlayerIds)
         loadedTeam.PlayerEntries.ShouldContain(p => p.PowerProsPlayerId == id);

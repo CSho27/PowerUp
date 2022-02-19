@@ -39,11 +39,11 @@ namespace PowerUp.GameSave.IO
         else if (gameSaveAttribute is GSArrayAttribute arrayAttr)
         {
           var arrayType = property.PropertyType.GenericTypeArguments[0];
-          var arrayObject = ((IEnumerable<object>)propertyValue).ToArray();
+          var objectArray = ((IEnumerable<object>)propertyValue).ToArray();
 
-          for (int i = 0; i < arrayAttr.ArrayLength; i++)
+          for (int i = 0; i < arrayAttr.ArrayLength && i < objectArray.Length; i++)
           {
-            var elementValue = arrayObject[i];
+            var elementValue = objectArray[i];
             Write(arrayType, offset + arrayAttr.Offset + i * arrayAttr.ItemLength, elementValue);
           }
         }
