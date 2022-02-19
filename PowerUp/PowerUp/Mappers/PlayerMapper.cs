@@ -1,4 +1,5 @@
-﻿using PowerUp.Entities.Players;
+﻿using PowerUp.Entities;
+using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Players;
 using System;
 
@@ -6,7 +7,7 @@ namespace PowerUp.Mappers
 {
   public class PlayerMappingParameters
   {
-    public PlayerType PlayerType { get; set; }
+    public EntitySourceType SourceType { get; set; }
     public string? ImportSource { get; set; }
     public int? Year { get; set; }
     public DateOnly? BirthDate { get; set; }
@@ -19,21 +20,21 @@ namespace PowerUp.Mappers
       return new Player
       {
         SourceType = gsPlayer.IsEdited!.Value
-          ? PlayerType.Custom
-          : parameters.PlayerType,
+          ? EntitySourceType.Custom
+          : parameters.SourceType,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
-        PowerProsId = parameters.PlayerType == PlayerType.Base
+        PowerProsId = parameters.SourceType == EntitySourceType.Base
           ? gsPlayer.PowerProsId!
           : null,
         SavedName = gsPlayer.SavedName!,
-        ImportSource = parameters.PlayerType == PlayerType.Imported
+        ImportSource = parameters.SourceType == EntitySourceType.Imported
           ? parameters.ImportSource
           : null,
-        Year = parameters.PlayerType == PlayerType.Generated
+        Year = parameters.SourceType == EntitySourceType.Generated
           ? parameters.Year
           : null,
-        BirthDate = parameters.PlayerType == PlayerType.Generated
+        BirthDate = parameters.SourceType == EntitySourceType.Generated
           ? parameters.BirthDate
           : null,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
@@ -66,7 +67,7 @@ namespace PowerUp.Mappers
         LastName = player.LastName,
         FirstName = player.FirstName,
         SavedName = player.SavedName,
-        IsEdited = player.SourceType == PlayerType.Custom,
+        IsEdited = player.SourceType == EntitySourceType.Custom,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
         PrimaryPosition = (ushort)player.PrimaryPosition,

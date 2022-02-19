@@ -11,7 +11,7 @@ namespace PowerUp.Entities.Players
     public string FirstName { get; set; }
     public string? BirthDate { get; set; }
 
-    private PlayerDatabaseKeys(PlayerType type, string lastName, string firstName, string? importSource, int? year, DateOnly? birthDate)
+    private PlayerDatabaseKeys(EntitySourceType type, string lastName, string firstName, string? importSource, int? year, DateOnly? birthDate)
     {
       Type = type.ToString().ToUpperInvariant();
       ImportSource = importSource;
@@ -23,7 +23,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerDatabaseKeys ForBasePlayer(string lastName, string firstName)
       => new PlayerDatabaseKeys(
-        type: PlayerType.Base,
+        type: EntitySourceType.Base,
         lastName: lastName,
         firstName: firstName,
         importSource: null,
@@ -33,7 +33,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerDatabaseKeys ForImportedPlayer(string importSource, string lastName, string firstName)
       => new PlayerDatabaseKeys(
-        type: PlayerType.Imported,
+        type: EntitySourceType.Imported,
         lastName: lastName,
         firstName: firstName,
         importSource: importSource,
@@ -43,7 +43,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerDatabaseKeys ForGeneratedPlayer(string lastName, string firstName, int year, DateOnly? birthDate)
       => new PlayerDatabaseKeys(
-        type: PlayerType.Generated,
+        type: EntitySourceType.Generated,
         lastName: lastName,
         firstName: firstName,
         importSource: null,
@@ -53,7 +53,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerDatabaseKeys ForCustomPlayer(string lastName, string firstName)
       => new PlayerDatabaseKeys(
-        type: PlayerType.Custom,
+        type: EntitySourceType.Custom,
         lastName: lastName,
         firstName: firstName,
         importSource: null,

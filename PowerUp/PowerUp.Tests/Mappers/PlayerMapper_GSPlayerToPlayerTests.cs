@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Mappers;
@@ -17,7 +18,7 @@ namespace PowerUp.Tests.Mappers
     {
       mappingParameters = new PlayerMappingParameters
       {
-        PlayerType = PlayerType.Base,
+        SourceType = EntitySourceType.Base,
         ImportSource = "Roster1",
         Year = 2007,
         BirthDate = DateOnly.Parse("1/1/1980"),
@@ -111,63 +112,63 @@ namespace PowerUp.Tests.Mappers
     }
 
     [Test]
-    [TestCase(PlayerType.Base)]
-    [TestCase(PlayerType.Imported)]
-    [TestCase(PlayerType.Generated)]
-    [TestCase(PlayerType.Custom)]
-    public void MapToPlayer_ShouldUseTypeFromParameters(PlayerType playerType)
+    [TestCase(EntitySourceType.Base)]
+    [TestCase(EntitySourceType.Imported)]
+    [TestCase(EntitySourceType.Generated)]
+    [TestCase(EntitySourceType.Custom)]
+    public void MapToPlayer_ShouldUseTypeFromParameters(EntitySourceType playerType)
     {
-      mappingParameters.PlayerType = playerType;
+      mappingParameters.SourceType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.SourceType.ShouldBe(playerType);
     }
 
     [Test]
-    [TestCase(PlayerType.Base, null)]
-    [TestCase(PlayerType.Imported, "Roster1")]
-    [TestCase(PlayerType.Generated, null)]
-    [TestCase(PlayerType.Custom, null)]
-    public void MapToPlayer_ShouldIncludeImportSourceOnlyForImported(PlayerType playerType, string importSource)
+    [TestCase(EntitySourceType.Base, null)]
+    [TestCase(EntitySourceType.Imported, "Roster1")]
+    [TestCase(EntitySourceType.Generated, null)]
+    [TestCase(EntitySourceType.Custom, null)]
+    public void MapToPlayer_ShouldIncludeImportSourceOnlyForImported(EntitySourceType playerType, string importSource)
     {
-      mappingParameters.PlayerType = playerType;
+      mappingParameters.SourceType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(importSource);
     }
 
     [Test]
-    [TestCase(PlayerType.Base, null)]
-    [TestCase(PlayerType.Imported, "Roster1")]
-    [TestCase(PlayerType.Generated, null)]
-    [TestCase(PlayerType.Custom, null)]
-    public void MapToPlayer_EditedPlayersShouldBeCustomType(PlayerType playerType, string importSource)
+    [TestCase(EntitySourceType.Base, null)]
+    [TestCase(EntitySourceType.Imported, "Roster1")]
+    [TestCase(EntitySourceType.Generated, null)]
+    [TestCase(EntitySourceType.Custom, null)]
+    public void MapToPlayer_EditedPlayersShouldBeCustomType(EntitySourceType playerType, string importSource)
     {
       gsPlayer.IsEdited = true;
-      mappingParameters.PlayerType = playerType;
+      mappingParameters.SourceType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(importSource);
-      result.SourceType.ShouldBe(PlayerType.Custom);
+      result.SourceType.ShouldBe(EntitySourceType.Custom);
     }
 
     [Test]
-    [TestCase(PlayerType.Base, null)]
-    [TestCase(PlayerType.Imported, null)]
-    [TestCase(PlayerType.Generated, 2007)]
-    [TestCase(PlayerType.Custom, null)]
-    public void MapToPlayer_ShouldIncludeYearOnlyForGenerated(PlayerType playerType, int? year)
+    [TestCase(EntitySourceType.Base, null)]
+    [TestCase(EntitySourceType.Imported, null)]
+    [TestCase(EntitySourceType.Generated, 2007)]
+    [TestCase(EntitySourceType.Custom, null)]
+    public void MapToPlayer_ShouldIncludeYearOnlyForGenerated(EntitySourceType playerType, int? year)
     {
-      mappingParameters.PlayerType = playerType;
+      mappingParameters.SourceType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.Year.ShouldBe(year);
     }
 
     [Test]
-    [TestCase(PlayerType.Base, null)]
-    [TestCase(PlayerType.Imported, null)]
-    [TestCase(PlayerType.Generated, "1/1/1980")]
-    [TestCase(PlayerType.Custom, null)]
-    public void MapToPlayer_ShouldIncludeBirthDateOnlyForGenerated(PlayerType playerType, string birthDateString)
+    [TestCase(EntitySourceType.Base, null)]
+    [TestCase(EntitySourceType.Imported, null)]
+    [TestCase(EntitySourceType.Generated, "1/1/1980")]
+    [TestCase(EntitySourceType.Custom, null)]
+    public void MapToPlayer_ShouldIncludeBirthDateOnlyForGenerated(EntitySourceType playerType, string birthDateString)
     {
-      mappingParameters.PlayerType = playerType;
+      mappingParameters.SourceType = playerType;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       var birthDate = birthDateString != null
         ? DateOnly.Parse(birthDateString)

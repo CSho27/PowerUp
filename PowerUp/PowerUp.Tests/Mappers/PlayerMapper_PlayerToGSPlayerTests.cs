@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Mappers;
 using Shouldly;
@@ -40,15 +41,15 @@ namespace PowerUp.Tests.Mappers
     }
 
     [Test]
-    [TestCase(PlayerType.Base)]
-    [TestCase(PlayerType.Imported)]
-    [TestCase(PlayerType.Generated)]
-    [TestCase(PlayerType.Custom)]
-    public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(PlayerType playerType)
+    [TestCase(EntitySourceType.Base)]
+    [TestCase(EntitySourceType.Imported)]
+    [TestCase(EntitySourceType.Generated)]
+    [TestCase(EntitySourceType.Custom)]
+    public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(EntitySourceType playerType)
     {
       player.SourceType = playerType;
       var result = player.MapToGSPlayer();
-      result.IsEdited.ShouldBe(playerType == PlayerType.Custom);
+      result.IsEdited.ShouldBe(playerType == EntitySourceType.Custom);
     }
 
     [Test]
