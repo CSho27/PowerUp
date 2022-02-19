@@ -1,6 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities.Players;
-using PowerUp.GameSave;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using PowerUp.Mappers;
 

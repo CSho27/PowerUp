@@ -3,7 +3,7 @@ using PowerUp.Libraries;
 using System;
 using System.IO;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.IO
 {
   public class GameSaveWriter : IDisposable
   {
@@ -34,9 +34,9 @@ namespace PowerUp.GameSave
       int bitsWritten = 0;
       int bitsOfCurrentByte = bitOffset;
       byte currentByte = writer.PeekByte();
-      while(bitsWritten < numberOfBits)
+      while (bitsWritten < numberOfBits)
       {
-        if(bitsOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
+        if (bitsOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
         {
           writer.Write(currentByte);
           currentByte = writer.PeekByte();
@@ -55,13 +55,13 @@ namespace PowerUp.GameSave
     {
       var isNegative = sint < 0;
       WriteBool(offset, bitOffset, isNegative);
-      WriteUInt(offset, bitOffset+1, numberOfBits-1, (ushort)Math.Abs(sint));
+      WriteUInt(offset, bitOffset + 1, numberOfBits - 1, (ushort)Math.Abs(sint));
     }
 
-    public void WriteChar(long offset, char @char) 
+    public void WriteChar(long offset, char @char)
     {
       var charNum = _characterLibrary[@char];
-      if(charNum.HasValue)
+      if (charNum.HasValue)
         WriteUInt(offset, 0, 16, charNum.Value);
     }
 

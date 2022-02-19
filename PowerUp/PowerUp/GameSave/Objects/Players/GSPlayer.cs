@@ -1,4 +1,6 @@
-﻿namespace PowerUp.GameSave
+﻿using PowerUp.GameSave.IO;
+
+namespace PowerUp.GameSave.Objects.Players
 {
   public class GSPlayer
   {
@@ -40,7 +42,7 @@
 
     [GSUInt(0x56, bits: 3, bitOffset: 4)]
     public ushort? Glove { get; set; }
-    
+
     [GSUInt(0x58, bits: 5, bitOffset: 0)]
     public ushort? Hair { get; set; }
 

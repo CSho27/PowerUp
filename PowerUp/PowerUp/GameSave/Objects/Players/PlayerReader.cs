@@ -1,7 +1,8 @@
-﻿using PowerUp.Libraries;
+﻿using PowerUp.GameSave.IO;
+using PowerUp.Libraries;
 using System;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.Objects.Players
 {
   public class PlayerReader : IDisposable
   {
@@ -14,7 +15,7 @@ namespace PowerUp.GameSave
 
     public GSPlayer Read(int powerProsId)
     {
-      var playerOffset = OffsetUtils.GetPlayerOffset(powerProsId);
+      var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId);
       return _reader.Read(playerOffset);
     }
 

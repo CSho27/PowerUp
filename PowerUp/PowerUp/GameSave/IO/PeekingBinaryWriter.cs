@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.IO
 {
   public class PeekingBinaryWriter
   {

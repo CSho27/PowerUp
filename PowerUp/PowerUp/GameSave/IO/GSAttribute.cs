@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.IO
 {
   [AttributeUsage(AttributeTargets.Property)]
   public abstract class GSAttribute : Attribute
@@ -21,8 +20,8 @@ namespace PowerUp.GameSave
     public int Bits { get; }
     public int BitOffset { get; }
 
-    public GSUIntAttribute(long offset, int bits, int bitOffset = 0) 
-      : base(offset) 
+    public GSUIntAttribute(long offset, int bits, int bitOffset = 0)
+      : base(offset)
     {
       Bits = bits;
       BitOffset = bitOffset;
@@ -46,7 +45,7 @@ namespace PowerUp.GameSave
   {
     public int BitOffset { get; }
 
-    public GSBooleanAttribute(long offset, int bitOffset) : base(offset) 
+    public GSBooleanAttribute(long offset, int bitOffset) : base(offset)
     {
       BitOffset = bitOffset;
     }
@@ -65,14 +64,14 @@ namespace PowerUp.GameSave
   public class GSBytesAttribute : GSAttribute
   {
     public int NumberOfBytes { get; }
-    
-    public GSBytesAttribute(long offset, int numberOfBytes) 
-      : base(offset) 
+
+    public GSBytesAttribute(long offset, int numberOfBytes)
+      : base(offset)
     {
       NumberOfBytes = numberOfBytes;
     }
   }
-  
+
   public static class GSAttributeExtensions
   {
     public static GSAttribute? GetGSAttribute(this PropertyInfo property) => (GSAttribute?)property

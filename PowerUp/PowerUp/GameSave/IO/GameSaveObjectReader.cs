@@ -1,8 +1,9 @@
-﻿using PowerUp.Libraries;
+﻿using PowerUp.GameSave.Objects.Players;
+using PowerUp.Libraries;
 using System;
 using System.Linq;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.IO
 {
   public class GameSaveObjectReader<TGameSaveObject> : IDisposable where TGameSaveObject : class
   {
@@ -36,7 +37,7 @@ namespace PowerUp.GameSave
 
       return gsObject;
     }
-    
+
     public void Dispose() => _reader.Dispose();
   }
 }

@@ -1,4 +1,4 @@
-﻿using PowerUp.GameSave;
+﻿using PowerUp.GameSave.Objects.Players;
 
 namespace PowerUp.ElectronUI.Api
 {

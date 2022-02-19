@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using PowerUp.GameSave;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
 using System.IO;

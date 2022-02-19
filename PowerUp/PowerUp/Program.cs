@@ -1,5 +1,5 @@
 ﻿using PowerUp.DebugUtils;
-using PowerUp.GameSave;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using System;
 

@@ -1,7 +1,8 @@
-﻿using PowerUp.Libraries;
+﻿using PowerUp.GameSave.Objects.Players;
+using PowerUp.Libraries;
 using System;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.IO
 {
   public class GameSaveObjectWriter<TGameSaveObject> : IDisposable where TGameSaveObject : class
   {

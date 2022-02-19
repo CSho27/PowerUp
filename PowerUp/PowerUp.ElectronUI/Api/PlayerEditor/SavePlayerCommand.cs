@@ -1,4 +1,4 @@
-﻿using PowerUp.GameSave;
+﻿using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor

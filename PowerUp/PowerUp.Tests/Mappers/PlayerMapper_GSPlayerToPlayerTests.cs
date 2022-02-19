@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using PowerUp.Entities.Players;
-using PowerUp.GameSave;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.Mappers;
 using Shouldly;
 using System;

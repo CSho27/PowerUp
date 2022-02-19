@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace PowerUp.GameSave
+namespace PowerUp.GameSave.IO
 {
   public class GameSaveReader : IDisposable
   {
@@ -31,7 +31,7 @@ namespace PowerUp.GameSave
     {
       var chars = Enumerable.Empty<char>();
       for (int i = 0; i < stringLength; i++)
-        chars = chars.Append(ReadChar(offset + 2*i));
+        chars = chars.Append(ReadChar(offset + 2 * i));
 
       return new string(chars.ToArray()).TrimEnd();
     }
@@ -70,7 +70,7 @@ namespace PowerUp.GameSave
         : (short)value;
     }
 
-    public char ReadChar(long offset) => _characterLibrary[(ReadUInt(offset, 0, 16))];
+    public char ReadChar(long offset) => _characterLibrary[ReadUInt(offset, 0, 16)];
     public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
 
     private BinaryReader GetReaderFor(long offset)
