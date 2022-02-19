@@ -8,6 +8,7 @@ namespace PowerUp.Databases
     public static void RegisterDatabases(this IServiceCollection services, string dataDirectory)
     {
       services.AddTransient<IPlayerDatabase>(provider => new PlayerDatabase(Path.Combine(dataDirectory, "Players")));
+      services.AddTransient<ITeamDatabase>(provider => new TeamDatabase(Path.Combine(dataDirectory, "Teams")));
     }
   }
 }

@@ -4,7 +4,7 @@ using System;
 
 namespace PowerUp.GameSave.Objects.Teams
 {
-  internal class TeamReader : IDisposable
+  public class TeamReader : IDisposable
   {
     private readonly GameSaveObjectReader _reader;
 

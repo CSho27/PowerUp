@@ -4,6 +4,11 @@ namespace PowerUp.Entities
 {
   public enum MLBPPTeam
   {
+    /// <summary>
+    /// Note: The National League All-Stars have the Id 0, but are last in the list of team definitions
+    /// </summary>
+    [Abbrev("NL"), DisplayName("National League All-Stars")]
+    NationalLeagueAllStars,
     [Abbrev("Bal"), TeamLocation("Baltimore")]
     Orioles = 1,
     [Abbrev("Bos"), TeamLocation("Boston"), DisplayName("Red Sox")]
@@ -66,11 +71,9 @@ namespace PowerUp.Entities
     Giants,
     [Abbrev("AL"), DisplayName("American League All-Stars")]
     AmericanLeagueAllStars,
-    [Abbrev("NL"), DisplayName("National League All-Stars")]
-    NationalLeagueAllStars
   }
 
-  public static class TeamLocationExtensions
+  public static class MLBPPTeamExtensions
   {
     public static string? GetTeamLocation(this MLBPPTeam value) 
       => value.GetEnumAttribute<TeamLocationAttribute>()?.TeamLocation;
