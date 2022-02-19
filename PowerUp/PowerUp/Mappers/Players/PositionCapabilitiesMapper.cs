@@ -5,9 +5,9 @@ namespace PowerUp.Mappers.Players
 {
   public static class PositionCapabilitiesMapper
   {
-    public static PositonCapabilities GetPositionCapabilities(this GSPlayer gsPlayer)
+    public static PositionCapabilities GetPositionCapabilities(this GSPlayer gsPlayer)
     {
-      return new PositonCapabilities
+      return new PositionCapabilities
       {
         Pitcher = (Grade)gsPlayer.PitcherCapability!,
         Catcher = (Grade)gsPlayer.CatcherCapability!,

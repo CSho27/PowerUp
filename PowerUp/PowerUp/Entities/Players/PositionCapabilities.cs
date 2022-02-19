@@ -1,6 +1,6 @@
 ﻿namespace PowerUp.Entities.Players
 {
-  public class PositonCapabilities
+  public class PositionCapabilities
   {
     public Grade Pitcher { get; set; }
     public Grade Catcher { get; set; }
