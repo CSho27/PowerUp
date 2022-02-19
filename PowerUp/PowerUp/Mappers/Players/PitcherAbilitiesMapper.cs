@@ -2,7 +2,7 @@
 using PowerUp.GameSave.Objects.Players;
 using System;
 
-namespace PowerUp.Mappers
+namespace PowerUp.Mappers.Players
 {
   public static class PitcherAbilitiesMapper
   {

@@ -1,6 +1,6 @@
 ﻿using PowerUp.Entities.Players;
 
-namespace PowerUp.Mappers
+namespace PowerUp.Mappers.Players
 {
   public static class PitcherTypeMapper
   {

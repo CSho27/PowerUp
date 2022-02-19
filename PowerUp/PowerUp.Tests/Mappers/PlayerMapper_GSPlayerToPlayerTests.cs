@@ -2,7 +2,7 @@
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Players;
-using PowerUp.Mappers;
+using PowerUp.Mappers.Players;
 using Shouldly;
 using System;
 

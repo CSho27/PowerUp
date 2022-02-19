@@ -1,4 +1,4 @@
-﻿namespace PowerUp.Mappers
+﻿namespace PowerUp.Mappers.Players
 {
   public static class UniformNumberMapper
   {

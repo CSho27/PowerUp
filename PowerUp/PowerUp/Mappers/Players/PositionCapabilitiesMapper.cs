@@ -1,7 +1,7 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Players;
 
-namespace PowerUp.Mappers
+namespace PowerUp.Mappers.Players
 {
   public static class PositionCapabilitiesMapper
   {

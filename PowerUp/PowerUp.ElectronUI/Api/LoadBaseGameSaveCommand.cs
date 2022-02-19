@@ -2,7 +2,7 @@
 using PowerUp.Entities;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
-using PowerUp.Mappers;
+using PowerUp.Mappers.Players;
 
 namespace PowerUp.ElectronUI.Api
 {

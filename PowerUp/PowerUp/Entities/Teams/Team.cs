@@ -10,7 +10,6 @@ namespace PowerUp.Entities.Teams
   {
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = string.Empty;
-    public int? FranchiseId { get; set; }
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
 
