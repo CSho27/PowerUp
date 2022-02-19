@@ -17,7 +17,7 @@ namespace PowerUp.Entities.Teams
     
     public IEnumerable<PlayerRoleDefinition> PlayerRoles { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 
-    public IEnumerable<(PlayerDatabaseKeys playerKeys, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys, Position)>();
+    public IEnumerable<(PlayerDatabaseKeys? playerKeys, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys, Position)>();
     public IEnumerable<(PlayerDatabaseKeys playerKeys, Position position)> DHLineup { get; set; } = Enumerable.Empty<(PlayerDatabaseKeys, Position)>();
 
     TeamDatabaseKeys IHaveDatabaseKeys<TeamDatabaseKeys>.DatabaseKeys => SourceType switch

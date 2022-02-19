@@ -33,6 +33,7 @@ namespace PowerUp.Entities.Teams
     [DisplayName("Mop-up Man")]
     MopUpMan,
     [DisplayName("Setup Man")]
-    SetupMan
+    SetupMan,
+    Closer
   }
 }

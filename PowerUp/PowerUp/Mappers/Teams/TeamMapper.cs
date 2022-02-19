@@ -48,8 +48,12 @@ namespace PowerUp.Mappers
           .Select(p => p.MapToPlayerRoleDefinition(keysByPPId[p.PowerProsPlayerId!.Value])),
         NoDHLineup = lineupDefinition!.NoDHLineup!
           .Select(p => (
-            keys: keysByPPId[p.PowerProsPlayerId!.Value],
-            position: (Position)p.Position!
+            keys: p.PowerProsPlayerId!.Value != 0
+              ? keysByPPId[p.PowerProsPlayerId!.Value]
+              : null,
+            position: p.Position != 0
+              ? (Position)p.Position!
+              : Position.Pitcher
           )),
         DHLineup = lineupDefinition!.DHLineup!
           .Select(p => (
@@ -67,7 +71,7 @@ namespace PowerUp.Mappers
       return (new GSTeam(), new GSLineupDefinition());
     }
 
-    private static PlayerRoleDefinition MapToPlayerRoleDefinition(
+    public static PlayerRoleDefinition MapToPlayerRoleDefinition(
       this GSTeamPlayerEntry gsPlayerEntry,
       PlayerDatabaseKeys playerKeys
     )
@@ -78,7 +82,8 @@ namespace PowerUp.Mappers
         IsPinchHitter = gsPlayerEntry.IsPinchHitter!.Value,
         IsPinchRunner = gsPlayerEntry.IsPinchRunner!.Value,
         IsDefensiveReplacement = gsPlayerEntry.IsDefensiveReplacement!.Value,
-        IsDefensiveLiability = gsPlayerEntry.IsDefensiveReplacement!.Value
+        IsDefensiveLiability = gsPlayerEntry.IsDefensiveLiability!.Value,
+        PitcherRole = (PitcherRole)gsPlayerEntry.PitcherRole!.Value,
       };
     }
   }
