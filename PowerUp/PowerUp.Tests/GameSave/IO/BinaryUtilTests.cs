@@ -2,10 +2,8 @@
 using PowerUp.DebugUtils;
 using Shouldly;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PowerUp.Tests.GameSave
+namespace PowerUp.Tests.GameSave.IO
 {
   public class BinaryUtilTests
   {

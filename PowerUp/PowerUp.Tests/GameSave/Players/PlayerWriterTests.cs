@@ -1,11 +1,10 @@
 ﻿using NUnit.Framework;
-using PowerUp.GameSave;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
 using System.IO;
 
-namespace PowerUp.Tests.GameSave
+namespace PowerUp.Tests.GameSave.Players
 {
   public class PlayerWriterTests
   {
@@ -19,7 +18,7 @@ namespace PowerUp.Tests.GameSave
 
     [SetUp]
     public void SetUp()
-    { 
+    {
       var success = false;
       while (!success)
       {
@@ -28,7 +27,7 @@ namespace PowerUp.Tests.GameSave
           File.Copy(TEST_READ_GAME_SAVE_FILE_PATH, TEST_WRITE_GAME_SAVE_FILE_PATH, overwrite: true);
           success = true;
         }
-        catch(IOException _) { }
+        catch (IOException _) { }
       }
 
       _characterLibrary = TestConfigHelpers.GetCharacterLibrary();
@@ -97,8 +96,8 @@ namespace PowerUp.Tests.GameSave
 
       GSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
-        loadedPlayer = reader.Read(playerId); 
-      
+        loadedPlayer = reader.Read(playerId);
+
       loadedPlayer.PlayerNumber.ShouldBe(playerNumber);
     }
 
@@ -1470,7 +1469,7 @@ namespace PowerUp.Tests.GameSave
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Writes_IsTrashTalker(int playerId, bool value)
     {
-      var playerToWrite = new GSPlayer { IsTrashTalker= value };
+      var playerToWrite = new GSPlayer { IsTrashTalker = value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 

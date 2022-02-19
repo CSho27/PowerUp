@@ -3,7 +3,7 @@ using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
 
-namespace PowerUp.Tests.GameSave
+namespace PowerUp.Tests.GameSave.Players
 {
   public class PlayerReaderTests
   {
