@@ -1,6 +1,9 @@
 ﻿using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.GameSave.IO
 {
@@ -33,6 +36,17 @@ namespace PowerUp.GameSave.IO
           _writer.WriteSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, (short)propertyValue);
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           _writer.WriteString(offset + stringAttr.Offset, stringAttr.StringLength, (string)propertyValue);
+        else if (gameSaveAttribute is GSArrayAttribute arrayAttr)
+        {
+          var arrayType = property.PropertyType.GenericTypeArguments[0];
+          var arrayObject = ((IEnumerable<object>)propertyValue).ToArray();
+
+          for (int i = 0; i < arrayAttr.ArrayLength; i++)
+          {
+            var elementValue = arrayObject[i];
+            Write(arrayType, offset + i * arrayAttr.ItemLength, elementValue);
+          }
+        }
       }
     }
 

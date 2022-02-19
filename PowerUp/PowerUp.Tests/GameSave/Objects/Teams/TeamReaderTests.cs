@@ -10,6 +10,7 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
   public class TeamReaderTests
   {
     private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
+    private const int INDIANS_ID = 7;
 
     private ICharacterLibrary _characterLibrary;
     private IEnumerable<int> _indiansPlayerIds;
@@ -60,8 +61,7 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
     public void Reads_Team()
     {
       using var reader = new TeamReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
-      // 7 is the Indians
-      var team = reader.Read(7);
+      var team = reader.Read(INDIANS_ID);
 
       var playerList = team.PlayerEntries.ToList();
       playerList.Count.ShouldBe(40);
