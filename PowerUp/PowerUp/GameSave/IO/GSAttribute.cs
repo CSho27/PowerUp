@@ -72,6 +72,17 @@ namespace PowerUp.GameSave.IO
     }
   }
 
+  public class GSArrayAttribute : GSAttribute
+  {
+    public int Length { get; }
+
+    public GSArrayAttribute(long offset, int length)
+      : base(offset)
+    {
+      Length = length;
+    }
+  }
+
   public static class GSAttributeExtensions
   {
     public static GSAttribute? GetGSAttribute(this PropertyInfo property) => (GSAttribute?)property
