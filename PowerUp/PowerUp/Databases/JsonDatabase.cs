@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace PowerUp.Databases
 {
@@ -61,7 +63,18 @@ namespace PowerUp.Databases
         .GetProperties()
         .Select(p => p.GetValue(databaseKeys))
         .Where(v => v != null);
-      return $"{string.Join("_", keys)}.json";
+
+      var fileName = ScrubFileName(string.Join("_", keys));
+      return $"{fileName}.json";
+    }
+
+    private string ScrubFileName(string fileName)
+    {
+      var newFileName = fileName;
+      foreach (var @char in Path.GetInvalidFileNameChars().Append('.'))
+        newFileName = newFileName.Replace(@char.ToString(), "");
+
+      return newFileName;
     }
   }
 }

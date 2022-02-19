@@ -2,12 +2,9 @@
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
 using Shouldly;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Tests.GameSave.Objects.Teams
 {
