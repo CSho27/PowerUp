@@ -71,7 +71,7 @@ namespace PowerUp.Databases
     private string ScrubFileName(string fileName)
     {
       var newFileName = fileName;
-      foreach (var @char in Path.GetInvalidFileNameChars().Append('.').Append(' '))
+      foreach (var @char in Path.GetInvalidFileNameChars().Concat(new[] { '.', ' ', '-' }))
         newFileName = newFileName.Replace(@char.ToString(), "");
 
       return newFileName;
