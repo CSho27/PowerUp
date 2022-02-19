@@ -15,8 +15,8 @@ namespace PowerUp.Entities.Teams
     
     public IEnumerable<PlayerRoleDefinition> Players { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 
-    public IEnumerable<(string? playerKey, Position position)> NoDHLineup { get; set; } = Enumerable.Empty<(string?, Position)>();
-    public IEnumerable<(string playerKey, Position position)> DHLineup { get; set; } = Enumerable.Empty<(string, Position)>();
+    public IEnumerable<LineupSlot> NoDHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
+    public IEnumerable<LineupSlot> DHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
 
     protected override TeamKeyParams GetKeyParams() => SourceType switch
     {

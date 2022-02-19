@@ -44,29 +44,20 @@ namespace PowerUp.Mappers
           : null,
         Players = playerEntries!
           .Where(p => p.PowerProsPlayerId != 0)
-          .Select(p => p.MapToPlayerRoleDefinition(keysByPPId[p.PowerProsPlayerId!.Value])),
+          .Select(p => p.MapToPlayerRoleDefinition(keysByPPId)),
         NoDHLineup = lineupDefinition!.NoDHLineup!
-          .Select(p => (
-            keys: p.PowerProsPlayerId!.Value != 0
-              ? keysByPPId[p.PowerProsPlayerId!.Value]
-              : null,
-            position: p.Position != 0
-              ? (Position)p.Position!
-              : Position.Pitcher
-          )),
+          .Select(p => p.MapToLineupSlot(keysByPPId)),
         DHLineup = lineupDefinition!.DHLineup!
-          .Select(p => (
-            keys: keysByPPId[p.PowerProsPlayerId!.Value],
-            position: (Position)p.Position!
-          )),
+          .Select(p => p.MapToLineupSlot(keysByPPId))
       };
     }
 
     public static PlayerRoleDefinition MapToPlayerRoleDefinition(
       this GSTeamPlayerEntry gsPlayerEntry,
-      string playerKey
+      IDictionary<ushort, string> keysById
     )
     {
+      var playerKey = keysById[gsPlayerEntry.PowerProsPlayerId!.Value];
       return new PlayerRoleDefinition(playerKey)
       {
         IsAAA = gsPlayerEntry.IsAAA!.Value && !gsPlayerEntry.IsMLB!.Value,
@@ -75,6 +66,22 @@ namespace PowerUp.Mappers
         IsDefensiveReplacement = gsPlayerEntry.IsDefensiveReplacement!.Value,
         IsDefensiveLiability = gsPlayerEntry.IsDefensiveLiability!.Value,
         PitcherRole = (PitcherRole)gsPlayerEntry.PitcherRole!.Value,
+      };
+    }
+
+    public static LineupSlot MapToLineupSlot(
+      this GSLineupPlayer lineupPlayer,
+      IDictionary<ushort, string> keysById
+    )
+    {
+      return new LineupSlot 
+      { 
+        PlayerKey = lineupPlayer.PowerProsPlayerId != 0
+          ? keysById[lineupPlayer.PowerProsPlayerId!.Value]
+          : null,
+        Position = lineupPlayer.Position != 0
+          ? (Position)lineupPlayer.Position!
+          : Position.Pitcher
       };
     }
 
@@ -140,17 +147,17 @@ namespace PowerUp.Mappers
     }
 
     public static GSLineupPlayer MapToGSLineupPlayer(
-      this (string? playerKeys, Position position) lineupEntry,
+      this LineupSlot lineupSlot,
       IDictionary<string, ushort> idsByKey
     )
     {
       return new GSLineupPlayer
       {
-        PowerProsPlayerId = lineupEntry.playerKeys != null
-          ? idsByKey[lineupEntry.playerKeys]
+        PowerProsPlayerId = lineupSlot.PlayerKey != null
+          ? idsByKey[lineupSlot.PlayerKey]
           : (ushort)0,
-        Position = lineupEntry.position != Position.Pitcher
-          ? (ushort)lineupEntry.position
+        Position = lineupSlot.Position != Position.Pitcher
+          ? (ushort)lineupSlot.Position
           : (ushort)0
       };
     }

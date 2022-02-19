@@ -43,27 +43,27 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         NoDHLineup = new[]
         {
-          (sizemore, Position.CenterField),
-          (nixon, Position.RightField),
-          (hafner, Position.FirstBase),
-          (martinez, Position.Catcher),
-          (dellucci, Position.LeftField),
-          (peralta, Position.Shortstop),
-          (barfield, Position.SecondBase),
-          (marte, Position.ThirdBase),
-          (null, Position.Pitcher)
+          new LineupSlot { PlayerKey = sizemore, Position = Position.CenterField },
+          new LineupSlot { PlayerKey = nixon, Position = Position.RightField },
+          new LineupSlot { PlayerKey = hafner, Position = Position.FirstBase },
+          new LineupSlot { PlayerKey = martinez, Position = Position.Catcher },
+          new LineupSlot { PlayerKey = dellucci, Position = Position.LeftField },
+          new LineupSlot { PlayerKey = peralta, Position = Position.Shortstop },
+          new LineupSlot { PlayerKey = barfield, Position = Position.SecondBase },
+          new LineupSlot { PlayerKey = marte, Position = Position.ThirdBase },
+          new LineupSlot { PlayerKey = null, Position = Position.Pitcher  }
         },
         DHLineup = new[]
         {
-          (sizemore, Position.CenterField),
-          (nixon, Position.RightField),
-          (hafner, Position.DesignatedHitter),
-          (martinez, Position.Catcher),
-          (blake, Position.FirstBase),
-          (dellucci, Position.LeftField),
-          (peralta, Position.Shortstop),
-          (barfield, Position.SecondBase),
-          (marte, Position.ThirdBase),
+          new LineupSlot { PlayerKey = sizemore, Position = Position.CenterField },
+          new LineupSlot { PlayerKey = nixon, Position = Position.RightField },
+          new LineupSlot { PlayerKey = hafner, Position = Position.DesignatedHitter },
+          new LineupSlot { PlayerKey = martinez, Position = Position.Catcher },
+          new LineupSlot { PlayerKey = blake, Position = Position.FirstBase },
+          new LineupSlot { PlayerKey = dellucci, Position = Position.LeftField },
+          new LineupSlot { PlayerKey = peralta, Position = Position.Shortstop },
+          new LineupSlot { PlayerKey = barfield, Position = Position.SecondBase },
+          new LineupSlot { PlayerKey = marte, Position = Position.ThirdBase },
         }
       };
     }
