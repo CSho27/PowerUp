@@ -177,7 +177,7 @@ namespace PowerUp.GameSave.Objects.Players
 
     /// <summary>I think the latter 5 bits of this byte are just always empty</summary>
     [GSBytes(0x6b, numberOfBytes: 1)]
-    public byte[]? MysteryByte_6b { get; set; }
+    public byte[]? UnknownByte_6b { get; set; }
 
     [GSUInt(0x6c, bits: 8, bitOffset: 0)]
     public ushort? Power { get; set; }
@@ -338,7 +338,7 @@ namespace PowerUp.GameSave.Objects.Players
     ///  There is actually something here but I haven't had any luck figuring out what it is
     /// </summary>
     [GSBytes(0x78, numberOfBytes: 1)]
-    public byte[]? MysteryByte_78 { get; set; }
+    public byte[]? UnknownByte_78 { get; set; }
 
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
@@ -439,11 +439,15 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x81, bits: 2, bitOffset: 1)]
     public short? PowerOrBreakingBallPitcher { get; set; }
 
-    [GSBytes(0x81, numberOfBytes: 17)]
-    public byte[]? MysteryBytes_81_92 { get; set; }
+    [GSBytes(0x81, numberOfBytes: 7)]
+    public byte[]? UnknownBytes_81_88 { get; set; }
 
-    [GSBytes(0x8a, numberOfBytes: 4)]
+    [GSUInt(0x86, bits: 5, bitOffset: 5)]
+    public ushort? YearsInMajors { get; set; }
+
+    [GSBytes(0x92, numberOfBytes: 3)]
     public byte[]? TestBytes { get; set; }
+
 
     // 1023 means the stat has been 'cleared' (maxValue of a 10 bit int)
     [GSUInt(0x88, bits: 10, bitOffset: 0)]
@@ -459,8 +463,15 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x8c, bits: 14, bitOffset: 0)]
     public ushort? EarnedRunAverage { get; set; }
 
+    [GSBytes(0x8d, numberOfBytes: 5)]
+    public byte[]? UnknownBytes_8d_92 { get; set; }
+
+
     [GSUInt(0x92, bits: 16, bitOffset: 0)]
     public ushort? VoiceId { get; set; }
+
+    [GSBytes(0x94, numberOfBytes: 1)]
+    public byte[]? UnknownByte_94 { get; set; }
 
     [GSUInt(0x95, bits: 5, bitOffset: 0)]
     public ushort? Slider1Type { get; set; }

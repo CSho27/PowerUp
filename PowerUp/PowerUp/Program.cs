@@ -17,8 +17,8 @@ namespace PowerUp
     {
       var characterLibrary = new CharacterLibrary("C:/Users/short/Documents/PowerUp/data/Character_Library.csv");
       //PrintAllPlayers(characterLibrary);
-      //PrintAllTeams(characterLibrary);
-      AnalyzeGameSave(characterLibrary);
+      PrintAllTeams(characterLibrary);
+      //AnalyzeGameSave(characterLibrary);
     }
 
     static void PrintAllPlayers(ICharacterLibrary characterLibrary)
@@ -70,7 +70,7 @@ namespace PowerUp
           */
 
           var playerString = $"{playerNum + 1} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-          Console.WriteLine($"{playerString}{new string(' ', 28 - playerString.Length)}{BinaryUtils.ToBitString(player.MysteryBytes_81_92!)}");
+          Console.WriteLine($"{playerString}{new string(' ', 28 - playerString.Length)}{player.YearsInMajors/*BinaryUtils.ToBitString(player.UnknownBytes_81_88!)*/}");
         }
         Console.WriteLine();
       }
@@ -83,7 +83,7 @@ namespace PowerUp
         Console.ReadLine();
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(PLAYER_ID);
-        var bitString = player.MysteryBytes_81_92!.ToBitString();
+        var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
       }
