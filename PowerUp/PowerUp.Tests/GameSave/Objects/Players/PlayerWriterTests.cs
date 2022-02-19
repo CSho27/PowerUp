@@ -4,7 +4,7 @@ using PowerUp.Libraries;
 using Shouldly;
 using System.IO;
 
-namespace PowerUp.Tests.GameSave.Players
+namespace PowerUp.Tests.GameSave.Objects.Players
 {
   public class PlayerWriterTests
   {
