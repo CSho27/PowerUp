@@ -10,16 +10,19 @@ namespace PowerUp.DebugUtils
   {
     public const int BYTE_LENGTH = 8;
 
-    public static string ToBitString(this byte @byte)
+    public static string ToBitString(this byte @byte, bool formatted = true)
     {
       var bits = new byte[8];
       for (int i = 0; i < bits.Length; i++)
         bits[i] = @byte.GetBit(i);
 
-      return $"[{string.Join(null, bits)}]";
+      var bitString = string.Join(null, bits);
+      return formatted
+        ? $"[{bitString}]"
+        : bitString;
     }
 
-    public static string ToBitString(this byte[] bytes) => string.Join(" | ", bytes.Select(b => b.ToBitString()));
+    public static string ToBitString(this byte[] bytes, bool formatted = true) => string.Join(formatted ? " | " : "", bytes.Select(b => b.ToBitString(formatted)));
 
     public static byte GetBit(this byte @byte, int position)
     {

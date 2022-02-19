@@ -69,8 +69,8 @@ namespace PowerUp
             playerString += " SUB";
           */
 
-          var playerString = $"{playerNum + 1} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-          Console.WriteLine($"{playerString}{new string(' ', 28 - playerString.Length)}{player.YearsInMajors/*BinaryUtils.ToBitString(player.UnknownBytes_81_88!)*/}");
+          var playerString = $"{playerNum + 1} - {string.Format("{0:X4}", player.PowerProsId)} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
+          Console.WriteLine($"{playerString}{new string(' ', 36 - playerString.Length)}{BinaryUtils.ToBitString(player.UnknownBytes_81_88!, formatted: false)}");
         }
         Console.WriteLine();
       }
