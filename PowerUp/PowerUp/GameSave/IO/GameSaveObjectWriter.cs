@@ -4,7 +4,7 @@ using System;
 
 namespace PowerUp.GameSave.IO
 {
-  public class GameSaveObjectWriter<TGameSaveObject> : IDisposable where TGameSaveObject : class
+  public class GameSaveObjectWriter: IDisposable 
   {
     private readonly GameSaveWriter _writer;
 
@@ -13,9 +13,12 @@ namespace PowerUp.GameSave.IO
       _writer = new GameSaveWriter(characterLibrary, fileName);
     }
 
-    public void Write(long offset, TGameSaveObject gsObject)
+    public void Write<TGameSaveObject>(long offset, TGameSaveObject gsObject) where TGameSaveObject : class
+      => Write(typeof(TGameSaveObject), offset, gsObject);
+
+    public void Write(Type type, long offset, object gsObject)
     {
-      foreach (var property in typeof(TGameSaveObject).GetProperties())
+      foreach (var property in type.GetProperties())
       {
         var gameSaveAttribute = property.GetGSAttribute();
         var propertyValue = property.GetValue(gsObject);

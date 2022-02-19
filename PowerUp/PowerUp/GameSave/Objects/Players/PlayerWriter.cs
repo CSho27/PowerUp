@@ -6,11 +6,11 @@ namespace PowerUp.GameSave.Objects.Players
 {
   public class PlayerWriter : IDisposable
   {
-    private readonly GameSaveObjectWriter<GSPlayer> _writer;
+    private readonly GameSaveObjectWriter _writer;
 
     public PlayerWriter(ICharacterLibrary characterLibrary, string fileName)
     {
-      _writer = new GameSaveObjectWriter<GSPlayer>(characterLibrary, fileName);
+      _writer = new GameSaveObjectWriter(characterLibrary, fileName);
     }
 
     public void Write(int powerProsId, GSPlayer player)
