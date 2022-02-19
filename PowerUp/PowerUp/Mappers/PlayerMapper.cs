@@ -23,6 +23,9 @@ namespace PowerUp.Mappers
           : parameters.PlayerType,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
+        PowerProsId = parameters.PlayerType == PlayerType.Base
+          ? gsPlayer.PowerProsId!
+          : null,
         SavedName = gsPlayer.SavedName!,
         ImportSource = parameters.PlayerType == PlayerType.Imported
           ? parameters.ImportSource
