@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
-import { COLORS } from "../../style/constants";
+import { COLORS, FONT_SIZES } from "../../style/constants";
+import { textOutline } from "../../style/outlineHelper";
 
 export interface PowerUpLayoutProps {
   headerText?: string;
@@ -11,7 +12,10 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
   
   return <LayoutWrapper>
     <HeaderWrapper>
-      <LogoCorner><i className='fa-solid fa-arrow-up'></i> </LogoCorner>
+      <LogoCorner>
+        <LogoP>P</LogoP>
+        <i className='fa-solid fa-arrow-up'/>
+      </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} slanted>{headerText}</OutlineHeader>
       </HeaderTextWrapper>
@@ -37,6 +41,19 @@ const LogoCorner = styled.div`
   width: 200px;
   background-color: ${COLORS.white.regular_100};
   color: ${COLORS.secondaryRed.regular_44};
+  font-size: ${FONT_SIZES._64};
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${textOutline('2px', COLORS.jet.lighter_71)}
+`
+
+const LogoP = styled.span`
+  font-size: calc(4rem * 1.3);
+  margin-top: -9px;
 `
 
 const HeaderTextWrapper = styled.div`
