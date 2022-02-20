@@ -11,7 +11,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
   
   return <LayoutWrapper>
     <HeaderWrapper>
-      <LogoCorner>P</LogoCorner>
+      <LogoCorner><i className='fa-solid fa-arrow-up'></i> </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} slanted>{headerText}</OutlineHeader>
       </HeaderTextWrapper>

@@ -1,6 +1,4 @@
 import React, { useReducer } from 'react';
-import { Button } from '../components/button/button';
-import { MaxWidthWrapper } from '../components/maxWidthWrapper/maxWidthWrapper';
 import { CommandFetcher } from '../utils/commandFetcher';
 import { IAppContext } from './appContext';
 import { AppPage, AppStateReducer, initialAppState } from './appState';
