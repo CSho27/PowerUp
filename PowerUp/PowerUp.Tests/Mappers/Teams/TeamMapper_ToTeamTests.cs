@@ -121,7 +121,7 @@ namespace PowerUp.Tests.Mappers.Teams
       
       foreach(var p in gsTeam.PlayerEntries)
       {
-        result.Players
+        result.PlayerDefinitions
           .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKey])
           .Count()
           .ShouldBe(1);
@@ -136,7 +136,7 @@ namespace PowerUp.Tests.Mappers.Teams
 
       foreach (var p in gsTeam.PlayerEntries)
       {
-        result.Players
+        result.PlayerDefinitions
           .Where(k => p.PowerProsPlayerId == ppIdByKeys[k.PlayerKey])
           .Count()
           .ShouldBe(1);
@@ -150,7 +150,7 @@ namespace PowerUp.Tests.Mappers.Teams
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
       var ppIdByKeys = mappingParameters.KeysByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
-      result.Players.Count().ShouldBe(9);
+      result.PlayerDefinitions.Count().ShouldBe(9);
     }
 
     [Test]

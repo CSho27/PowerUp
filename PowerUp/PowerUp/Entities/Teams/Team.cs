@@ -13,7 +13,7 @@ namespace PowerUp.Entities.Teams
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
     
-    public IEnumerable<PlayerRoleDefinition> Players { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
+    public IEnumerable<PlayerRoleDefinition> PlayerDefinitions { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 
     public IEnumerable<LineupSlot> NoDHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
     public IEnumerable<LineupSlot> DHLineup { get; set; } = Enumerable.Empty<LineupSlot>();

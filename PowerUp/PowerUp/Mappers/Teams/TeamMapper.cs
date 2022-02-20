@@ -42,7 +42,7 @@ namespace PowerUp.Mappers
         ImportSource = parameters.IsImported
           ? parameters.ImportSource
           : null,
-        Players = playerEntries!
+        PlayerDefinitions = playerEntries!
           .Where(p => p.PowerProsPlayerId != 0)
           .Select(p => p.MapToPlayerRoleDefinition(keysByPPId)),
         NoDHLineup = lineupDefinition!.NoDHLineup!
@@ -103,12 +103,12 @@ namespace PowerUp.Mappers
       IDictionary<string, ushort> idsByKey
     )
     {
-      var playerCount = team.Players.Count();
+      var playerCount = team.PlayerDefinitions.Count();
       var emptyPlayerSlots = Enumerable.Repeat(GSTeamPlayerEntry.Empty, 40 - playerCount);
 
       return new GSTeam
       {
-        PlayerEntries = team.Players
+        PlayerEntries = team.PlayerDefinitions
           .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, idsByKey[p.PlayerKey]))
           .Concat(emptyPlayerSlots)
       };

@@ -32,7 +32,7 @@ namespace PowerUp.Tests.Mappers.Teams
 
       team = new Team()
       {
-        Players = idsByKey.Select(kvp => new PlayerRoleDefinition(kvp.Key))
+        PlayerDefinitions = idsByKey.Select(kvp => new PlayerRoleDefinition(kvp.Key))
       };
     }
 
@@ -44,7 +44,7 @@ namespace PowerUp.Tests.Mappers.Teams
 
       result.PlayerEntries.Count().ShouldBe(40);
 
-      foreach (var roleDef in team.Players)
+      foreach (var roleDef in team.PlayerDefinitions)
       {
         result.PlayerEntries
           .Where(p => {
