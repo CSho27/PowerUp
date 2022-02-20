@@ -1,11 +1,14 @@
-﻿using PowerUp.DebugUtils;
+﻿using PowerUp.Databases;
+using PowerUp.DebugUtils;
 using PowerUp.Entities.Players;
+using PowerUp.Entities.Teams;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PowerUp
@@ -13,15 +16,19 @@ namespace PowerUp
   class Program
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
+    private const string DATA_DIRECTORY = "C:/Users/short/Documents/PowerUp/";
     private const int PLAYER_ID = 370;
 
     static void Main(string[] args)
     {
-      var characterLibrary = new CharacterLibrary("C:/Users/short/Documents/PowerUp/data/Character_Library.csv");
+      var characterLibrary = new CharacterLibrary(Path.Combine(DATA_DIRECTORY, "./data/Character_Library.csv"));
+
+      DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
-      PrintAllLineups(characterLibrary);
+      //PrintAllLineups(characterLibrary);
+      PrintRedsPlayers();
     }
 
     static void AnalyzeGameSave(ICharacterLibrary characterLibrary)
@@ -116,6 +123,15 @@ namespace PowerUp
           : (Position)lineupSlot.Position!.Value;
 
         Console.WriteLine($"{playerNum+1}. {position.GetAbbrev()} {playerString}");
+      }
+    }
+
+    static void PrintRedsPlayers()
+    {
+      var reds = DatabaseConfig.JsonDatabase.Load<Team>(TeamKeyParams.ForBaseTeam("Cincinnati Reds"));
+      foreach(var player in reds.GetPlayers())
+      {
+        Console.WriteLine($"{player.PrimaryPosition.GetAbbrev()} {player.LastName}, {player.FirstName} POW:{player.HitterAbilities.Power}");
       }
     }
   }

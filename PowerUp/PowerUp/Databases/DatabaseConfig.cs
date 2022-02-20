@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace PowerUp.Databases
+﻿namespace PowerUp.Databases
 {
   public static class DatabaseConfig
   {
-    public static void RegisterDatabases(this IServiceCollection services, string dataDirectory)
+    public static IJsonDatabase JsonDatabase { get; private set; } = new JsonDatabase("");
+
+    public static void Initialize(string dataDirectory)
     {
-      services.AddTransient<IJsonDatabase>(provider => new JsonDatabase(dataDirectory));
+      JsonDatabase = new JsonDatabase(dataDirectory);
     }
   }
 }

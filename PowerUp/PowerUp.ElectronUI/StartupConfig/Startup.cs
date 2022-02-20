@@ -24,7 +24,7 @@ namespace PowerUp.ElectronUI
       services.RegisterCommandsForDI();
 
       var dataDirectory = Configuration["DataDirectory"];
-      services.RegisterDatabases(dataDirectory);
+      DatabaseConfig.Initialize(dataDirectory);
       services.RegisterLibraries(dataDirectory);
     }
 
