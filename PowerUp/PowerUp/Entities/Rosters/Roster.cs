@@ -15,7 +15,7 @@ namespace PowerUp.Entities.Rosters
 
     public IDictionary<MLBPPTeam, string> MappedTeams { get; set; } = new Dictionary<MLBPPTeam, string>();
 
-    public IEnumerable<Team> GetTeams => MappedTeams.Select(t => DatabaseConfig.JsonDatabase.Load<Team>(t.Value));
+    public IEnumerable<Team> GetTeams() => MappedTeams.Select(t => DatabaseConfig.JsonDatabase.Load<Team>(t.Value));
 
     protected override RosterKeyParams GetKeyParams() => SourceType switch
     {
