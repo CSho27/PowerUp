@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Icon } from "../../components/icon/icon";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
@@ -16,7 +17,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
     <HeaderWrapper>
       <LogoCorner>
         <LogoP>P</LogoP>
-        <i className='fa-solid fa-arrow-up'/>
+        <Icon icon='arrow-up'/>
       </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} slanted>{headerText}</OutlineHeader>
