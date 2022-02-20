@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from 'react';
+import { FullPageSpinner } from '../components/fullPageSpinner/fullPageSpinner';
 import { CommandFetcher } from '../utils/commandFetcher';
 import { AppStateReducer } from './appState';
 import { GlobalStyles } from './globalStyles';
@@ -17,11 +18,12 @@ export function App(props: ApplicationStartupData) {
   const { commandUrl } = props;
   
   const [state, update] = useReducer(AppStateReducer, {
-    currentPage: <></>
+    currentPage: <></>,
+    isLoading: false
   });
 
   const appContext: AppContext = {
-    commandFetcher: new CommandFetcher(commandUrl),
+    commandFetcher: new CommandFetcher(commandUrl, isLoading => update({ type: 'updateIsLoading', isLoading: isLoading })),
     setPage: newPage => update({type: 'updatePage', newPage: newPage })
   };
 
@@ -31,6 +33,7 @@ export function App(props: ApplicationStartupData) {
 
   return <>
     {state.currentPage}
+    {state.isLoading && <FullPageSpinner/>}
     <GlobalStyles />
   </>
 };

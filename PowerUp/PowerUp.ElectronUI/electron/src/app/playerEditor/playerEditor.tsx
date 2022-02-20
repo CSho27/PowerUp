@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
-import { ContentBox } from "../../components/contentBox.tsx/contentBox";
+import { ContentBox } from "../../components/contentBox/contentBox";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader"
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble"
 import { TextField } from "../../components/textField/textField";
 import { COLORS } from "../../style/constants"
-import { IAppContext } from "../appContext";
+import { AppContext } from "../app";
 import { PlayerEditorStateReducer } from "./playerEditorState";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
 
 export interface PlayerEditorProps {
-  appContext: IAppContext;
+  appContext: AppContext;
   editorDTO: PlayerEditorDTO;
 }
 
