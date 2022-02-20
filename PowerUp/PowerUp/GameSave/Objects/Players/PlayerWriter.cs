@@ -13,6 +13,11 @@ namespace PowerUp.GameSave.Objects.Players
       _writer = new GameSaveObjectWriter(characterLibrary, fileName);
     }
 
+    public PlayerWriter(GameSaveObjectWriter writer)
+    {
+      _writer = writer;
+    }
+
     public void Write(int powerProsId, GSPlayer player)
     {
       var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId);

@@ -13,6 +13,11 @@ namespace PowerUp.GameSave.Objects.Lineups
       _writer = new GameSaveObjectWriter(characterLibrary, fileName);
     }
 
+    public LineupWriter(GameSaveObjectWriter writer)
+    {
+      _writer = writer;
+    }
+
     public void Write(int powerProsTeamId, GSLineupDefinition team)
     {
       var teamOffset = LineupOffsetUtils.GetLineupOffset(powerProsTeamId);
