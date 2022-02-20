@@ -37,5 +37,6 @@ export const GlobalStyles = createGlobalStyle`
 
   #renderer, #__next {
     isolation: isolate;
+    height: 100%;
   }
 `

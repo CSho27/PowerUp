@@ -5,10 +5,12 @@ import { textOutline } from "../../style/outlineHelper";
 
 export interface PowerUpLayoutProps {
   headerText?: string;
+  sidebar?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function PowerUpLayout(props: PowerUpLayoutProps) {
-  const { headerText } = props;
+  const { headerText, sidebar, children } = props;
   
   return <LayoutWrapper>
     <HeaderWrapper>
@@ -20,13 +22,17 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} slanted>{headerText}</OutlineHeader>
       </HeaderTextWrapper>
     </HeaderWrapper>
-    <main>
-    </main>
+    <PageContent>
+      <Sidebar>{sidebar}</Sidebar>
+      <MainContent>{children}</MainContent>
+    </PageContent>
   </LayoutWrapper>
 }
 
 const LayoutWrapper = styled.div`
-  height: 100%
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 const HeaderWrapper = styled.header`
@@ -58,4 +64,18 @@ const LogoP = styled.span`
 
 const HeaderTextWrapper = styled.div`
   padding: 36px;
+`
+
+const PageContent = styled.div`
+  flex: 1 0 auto;
+`
+
+const Sidebar = styled.aside`
+  background-color: ${COLORS.jet.lighter_71};
+  height: 100%;
+  width: 200px;
+`
+
+const MainContent = styled.main`
+  
 `
