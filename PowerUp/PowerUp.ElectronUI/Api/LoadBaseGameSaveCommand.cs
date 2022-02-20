@@ -25,7 +25,7 @@ namespace PowerUp.ElectronUI.Api
         IsBase = true
       };
       var result = _rosterImportApi.ImportRoster(parameters);
-      return new LoadBaseResponse { Success = true };
+      return new LoadBaseResponse { Success = result.Success };
     }
   }
 

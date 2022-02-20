@@ -1,17 +1,22 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
-import { Icon } from "../../components/icon/icon";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { IAppContext } from "../appContext";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
 
 export interface HomePageProps {
   appContext: IAppContext
 }
 
 export function HomePage(props: HomePageProps) {
+  const {appContext } = props;
+
+  const apiClientRef = useRef(new ImportBaseRosterApiClient(appContext.commandFetcher));
+
   return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
       <AppTitle/>
@@ -50,13 +55,18 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='box-archive'
           textAlign='left'
-          onClick={() => {}}
+          onClick={importBase}
         >
           Start From Base Roster
         </Button>  
       </ButtonSectionWrapper>
     </ContentWrapper>
   </PowerUpLayout>
+
+  async function importBase() {
+    const response = await apiClientRef.current.execute({ throwaway: 1});
+    console.log(response.success);
+  }
 }
 
 function AppTitle() {
