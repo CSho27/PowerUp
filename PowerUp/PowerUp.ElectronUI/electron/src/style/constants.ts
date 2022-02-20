@@ -16,11 +16,11 @@ export const COLORS = {
     lighter_69: 'hsl(203deg 93% 69%)',
     lighter_69_t40: 'hsl(203deg 93% 69% / .4)'
   },
-  primaryRed: {
-    regular_44: 'hsl(6deg 71% 44%)'
-  },
   richBlack: {
     regular_5: 'hsl(196deg 60% 5%)'
+  },
+  secondaryRed: {
+    regular_44: 'hsl(6deg 71% 44%)'
   },
   white: {
     regular_100: 'hsl(0deg 100% 100%)',
