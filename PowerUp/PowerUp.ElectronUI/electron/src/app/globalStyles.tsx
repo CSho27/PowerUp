@@ -18,8 +18,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Exo 2';
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    color: ${COLORS.gray_20};
-    background-color: ${COLORS.gray_90};
+    color: ${COLORS.richBlack};
+    background-color: ${COLORS.jet.superlight_90};
   }
 
   img, picture, video, canvas, svg {
@@ -35,8 +35,7 @@ export const GlobalStyles = createGlobalStyle`
     overflow-wrap: break-word;
   }
 
-  #root, #__next {
+  #renderer, #__next {
     isolation: isolate;
   }
-*/
-`;
+`

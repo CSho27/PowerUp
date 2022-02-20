@@ -23,20 +23,20 @@ export function TextBubble(props: TextBubbleProps) {
 
 const colors: { [key in PositionType]: string } = {
   Catcher: `
-    --bubble-color: ${COLORS.PP_CatcherBlue};
-    --border-color: ${COLORS.PP_CatcherBlue_Dark};
+    --bubble-color: ${COLORS.positions.catcherBlue.regular_55};
+    --border-color: ${COLORS.positions.catcherBlue.dark_40};
   `,
   Infielder: `
-    --bubble-color: ${COLORS.PP_InfielderYellow};
-    --border-color: ${COLORS.PP_InfielderYellowDark};
+    --bubble-color: ${COLORS.positions.infielderYellow.regular_58};
+    --border-color: ${COLORS.positions.infielderYellow.dark_40};
   `,
   Outfielder: `
-    --bubble-color: ${COLORS.PP_OutfielderGreen};
-    --border-color: ${COLORS.PP_OutfielderGreenDark};
+    --bubble-color: ${COLORS.positions.outfielderGreen.regular_45};
+    --border-color: ${COLORS.positions.outfielderGreen.dark_33};
   `,
   Pitcher: `
-    --bubble-color: ${COLORS.PP_PitcherRed};
-    --border-color: ${COLORS.PP_PitcherRedDark};
+    --bubble-color: ${COLORS.positions.pitcherRed.regular_48};
+    --border-color: ${COLORS.positions.pitcherRed.dark_30};
   `
 }
 
@@ -49,11 +49,11 @@ const bubbleText = styled.div`
 `
 
 export const PlayerName = styled(bubbleText)`
-  ${textOutline('1px', COLORS.black)}
+  ${textOutline('1px', COLORS.richBlack.regular_5)}
 `
 
 export const Position = styled(bubbleText)`
-  ${textOutline('2px', COLORS.PP_InfielderYellowDark)}
+  ${textOutline('2px', 'var(--border-color)')}
   font-weight: bold;
   font-style: italic;
 `

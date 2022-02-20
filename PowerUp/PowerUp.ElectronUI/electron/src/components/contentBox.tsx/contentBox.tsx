@@ -3,8 +3,8 @@ import { COLORS } from "../../style/constants";
 
 export const ContentBox = styled.div`
   width: 100%;
-  background-color: ${COLORS.white};
-  border: solid 5px ${COLORS.PP_Blue45};
+  background-color: ${COLORS.white.regular_100};
+  border: solid 5px ${COLORS.primaryBlue.regular_45};
   border-radius: 10px;
   padding: 16px;
 `

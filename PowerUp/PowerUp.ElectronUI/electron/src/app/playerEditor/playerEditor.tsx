@@ -39,14 +39,14 @@ export function PlayerEditor(props: PlayerEditorProps) {
 
   return <>
     <HeaderWrapper>
-    <OutlineHeader textColor={COLORS.PP_Blue70} strokeColor={COLORS.PP_Blue45} slanted>Edit Player</OutlineHeader>
+    <OutlineHeader textColor={COLORS.primaryBlue.lighter_69} strokeColor={COLORS.primaryBlue.regular_45} slanted>Edit Player</OutlineHeader>
     <TextBubble positionType='Infielder' width='250px' style={{ position: 'relative', bottom: '-2px' }}>
       <PlayerName>{state.savedName}</PlayerName>
     </TextBubble>
     <TextBubble positionType='Infielder' style={{ position: 'relative', bottom: '-2px' }}>
       <Position>{editorDTO.position}</Position>
     </TextBubble>
-    <OutlineHeader textColor={COLORS.PP_Blue45} strokeColor={COLORS.white}>{state.playerNumber}</OutlineHeader>
+    <OutlineHeader textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>{state.playerNumber}</OutlineHeader>
   </HeaderWrapper>
   <ContentBox>
     <ContentRow>
