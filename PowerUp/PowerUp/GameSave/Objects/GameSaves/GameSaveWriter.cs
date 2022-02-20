@@ -34,8 +34,8 @@ namespace PowerUp.GameSave.Objects.GameSaves
       
       for(int i = 0; i < teams.Count; i++)
       {
-        teamWriter.Write(i, teams[i]);
-        lineupWriter.Write(i, lineups[i]);
+        teamWriter.Write(i + 1, teams[i]);
+        lineupWriter.Write(i + 1, lineups[i]);
       }
     }
 

@@ -25,7 +25,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
     {
       var playerReader = new PlayerReader(_reader);
       var gsPlayers = new List<GSPlayer>();
-      for (int i = 1; i < 1500; i++)
+      for (int i = 1; i <= 1500; i++)
         gsPlayers.Add(playerReader.Read(i));
 
       var teamReader = new TeamReader(_reader);
