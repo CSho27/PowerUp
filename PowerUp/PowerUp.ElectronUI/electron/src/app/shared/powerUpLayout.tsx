@@ -68,14 +68,15 @@ const HeaderTextWrapper = styled.div`
 
 const PageContent = styled.div`
   flex: 1 0 auto;
+  display: flex;
 `
 
 const Sidebar = styled.aside`
   background-color: ${COLORS.jet.superlight_85};
   height: 100%;
-  width: 200px;
+  flex: 0 0 200px;
 `
 
 const MainContent = styled.main`
-  
+  flex: 1 0 auto;
 `
