@@ -9,7 +9,6 @@ namespace PowerUp.Mappers.Players
   {
     public bool IsImported { get; set; }
     public string? ImportSource { get; set; }
-    public int? Year { get; set; }
     public DateOnly? BirthDate { get; set; }
   }
 

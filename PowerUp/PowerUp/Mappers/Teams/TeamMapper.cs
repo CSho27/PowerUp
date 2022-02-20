@@ -13,7 +13,6 @@ namespace PowerUp.Mappers
   {
     public bool IsImported { get; set; }
     public string? ImportSource { get; set; }
-    public int? Year { get; set; }
 
     public IDictionary<ushort, string>? KeysByPPId { get; set; }
   }

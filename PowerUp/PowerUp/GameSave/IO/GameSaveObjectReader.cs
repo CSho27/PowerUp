@@ -1,17 +1,16 @@
 ﻿using PowerUp.Libraries;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PowerUp.GameSave.IO
 {
   public class GameSaveObjectReader: IDisposable 
   {
-    private readonly GameSaveReader _reader;
+    private readonly GameSaveFileReader _reader;
 
     public GameSaveObjectReader(ICharacterLibrary characterLibrary, string fileName)
     {
-      _reader = new GameSaveReader(characterLibrary, fileName);
+      _reader = new GameSaveFileReader(characterLibrary, fileName);
     }
 
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class

@@ -13,6 +13,11 @@ namespace PowerUp.GameSave.Objects.Lineups
       _reader = new GameSaveObjectReader(characterLibrary, fileName);
     }
 
+    public LineupReader(GameSaveObjectReader reader)
+    {
+      _reader = reader;
+    }
+
     public GSLineupDefinition Read(int powerProsTeamId)
     {
       var lineupOffset = LineupOffsetUtils.GetLineupOffset(powerProsTeamId);

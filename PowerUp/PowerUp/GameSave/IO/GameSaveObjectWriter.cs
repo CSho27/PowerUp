@@ -9,11 +9,11 @@ namespace PowerUp.GameSave.IO
 {
   public class GameSaveObjectWriter: IDisposable 
   {
-    private readonly GameSaveWriter _writer;
+    private readonly GameSaveFileWriter _writer;
 
     public GameSaveObjectWriter(ICharacterLibrary characterLibrary, string fileName)
     {
-      _writer = new GameSaveWriter(characterLibrary, fileName);
+      _writer = new GameSaveFileWriter(characterLibrary, fileName);
     }
 
     public void Write<TGameSaveObject>(long offset, TGameSaveObject gsObject) where TGameSaveObject : class

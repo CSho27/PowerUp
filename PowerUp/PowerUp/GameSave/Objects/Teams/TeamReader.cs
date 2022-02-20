@@ -13,6 +13,11 @@ namespace PowerUp.GameSave.Objects.Teams
       _reader = new GameSaveObjectReader(characterLibrary, fileName);
     }
 
+    public TeamReader(GameSaveObjectReader reader)
+    {
+      _reader = reader;
+    }
+
     public GSTeam Read(int powerProsTeamId)
     {
       var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId);

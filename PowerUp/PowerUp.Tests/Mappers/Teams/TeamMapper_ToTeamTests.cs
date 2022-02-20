@@ -38,7 +38,6 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         IsImported = false,
         ImportSource = "Roster1",
-        Year = 2006,
         KeysByPPId = keysByPPId
       };
 

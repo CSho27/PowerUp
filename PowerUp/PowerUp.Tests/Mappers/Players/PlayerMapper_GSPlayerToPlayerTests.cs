@@ -20,7 +20,6 @@ namespace PowerUp.Tests.Mappers.Players
       {
         IsImported = false,
         ImportSource = "Roster1",
-        Year = 2006,
         BirthDate = DateOnly.Parse("1/1/1980"),
       };
 

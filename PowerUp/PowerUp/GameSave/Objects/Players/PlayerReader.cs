@@ -13,6 +13,11 @@ namespace PowerUp.GameSave.Objects.Players
       _reader = new GameSaveObjectReader(characterLibrary, fileName);
     }
 
+    public PlayerReader(GameSaveObjectReader reader)
+    {
+      _reader = reader;
+    }
+
     public GSPlayer Read(int powerProsId)
     {
       var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId);
