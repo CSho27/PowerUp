@@ -11,7 +11,7 @@ namespace PowerUp.Entities.Rosters
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
 
-    public IDictionary<MLBPPTeam, string> TeamMapping { get; set; } = new Dictionary<MLBPPTeam, string>();
+    public IDictionary<MLBPPTeam, string> MappedTeams { get; set; } = new Dictionary<MLBPPTeam, string>();
 
     protected override RosterKeyParams GetKeyParams() => SourceType switch
     {
