@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PowerUp.GameSave.Objects.GameSaves
 {
-  public class GameSave
+  public class GSGameSave
   {
     public IEnumerable<GSPlayer> Players { get; set; } = Enumerable.Empty<GSPlayer>();
     public IEnumerable<GSTeam> Teams { get; set; } = Enumerable.Empty<GSTeam>();

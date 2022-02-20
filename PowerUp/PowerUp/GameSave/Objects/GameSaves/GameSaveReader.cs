@@ -21,7 +21,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
     /// Reads GameSave file into data objects
     /// </summary>
     /// <returns></returns>
-    public GameSave Read()
+    public GSGameSave Read()
     {
       var playerReader = new PlayerReader(_reader);
       var gsPlayers = new List<GSPlayer>();
@@ -38,7 +38,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
         gsLineups.Add(lineupReader.Read(i));
       }
 
-      return new GameSave { Players = gsPlayers, Teams = gsTeams, Lineups = gsLineups };  
+      return new GSGameSave { Players = gsPlayers, Teams = gsTeams, Lineups = gsLineups };  
     }
 
     public void Dispose() => _reader.Dispose();

@@ -25,7 +25,7 @@ namespace PowerUp.Tests.GameSave.Objects.GameSaves
     [Test]
     public void Read_ReadsData()
     {
-      var reader = new GameSaveReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var reader = new GameSaveReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var result = reader.Read();
 
       var players = result.Players.ToList();

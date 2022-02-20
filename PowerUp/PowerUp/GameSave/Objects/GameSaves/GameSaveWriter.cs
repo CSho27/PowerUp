@@ -17,7 +17,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
       _writer = new GameSaveObjectWriter(characterLibrary, fileName);
     }
 
-    public void Write(GameSave gameSave)
+    public void Write(GSGameSave gameSave)
     {
       var playerWriter = new PlayerWriter(_writer);
       var players = gameSave.Players.ToList();

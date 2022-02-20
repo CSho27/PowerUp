@@ -1,0 +1,75 @@
+﻿using NUnit.Framework;
+using PowerUp.GameSave.Objects.GameSaves;
+using PowerUp.GameSave.Objects.Lineups;
+using PowerUp.GameSave.Objects.Players;
+using PowerUp.GameSave.Objects.Teams;
+using PowerUp.Libraries;
+using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PowerUp.Tests.GameSave.Objects.GameSaves
+{
+  public class GameSaveWriterTests
+  {
+    private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
+    private const string TEST_WRITE_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TESTWRITE.dat";
+
+    private ICharacterLibrary _characterLibrary;
+
+    [SetUp]
+    public void SetUp()
+    {
+      var success = false;
+      while (!success)
+      {
+        try
+        {
+          File.Copy(TEST_READ_GAME_SAVE_FILE_PATH, TEST_WRITE_GAME_SAVE_FILE_PATH, overwrite: true);
+          success = true;
+        }
+        catch (IOException _) { }
+      }
+
+      _characterLibrary = TestConfigHelpers.GetCharacterLibrary();
+    }
+
+    [Test]
+    public void Write_WritesData()
+    {
+      var testPlayer = new GSPlayer { PowerProsId = 1, PowerProsTeamId = 1 };
+      var testTeam = new GSTeam { PlayerEntries = new[] { new GSTeamPlayerEntry { PowerProsPlayerId = 1, PowerProsTeamId = 1 } } };
+      var testLineupPlayer = new GSLineupPlayer { PowerProsPlayerId = 1, Position = 1 };
+      var testLineupDef = new GSLineupDefinition
+      {
+        NoDHLineup = Enumerable.Repeat(testLineupPlayer, 9),
+        DHLineup = Enumerable.Repeat(testLineupPlayer, 9)
+      };
+
+      var gameSave = new GSGameSave()
+      {
+        Players = Enumerable.Repeat(testPlayer, 1250),
+        Teams = Enumerable.Repeat(testTeam, 32),
+        Lineups = Enumerable.Repeat(testLineupDef, 32)
+      };
+
+      using (var writer = new GameSaveWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      {
+        writer.Write(gameSave);
+      }
+
+      using (var reader = new GameSaveReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      {
+        var result = reader.Read();
+
+        result.Players.Where(p => p.PowerProsId != 0).Count().ShouldBe(1250);
+        result.Teams.Where(t => t.PlayerEntries.First().PowerProsTeamId == 1).Count().ShouldBe(32);
+        result.Lineups.Count().ShouldBe(32);
+      }
+    }
+  }
+}
