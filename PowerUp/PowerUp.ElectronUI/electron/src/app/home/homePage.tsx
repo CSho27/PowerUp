@@ -4,13 +4,13 @@ import { Button } from "../../components/button/button";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
-import { IAppContext } from "../appContext";
+import { AppContext } from "../app";
 import { RosterEditorPage } from "../rosterEditor/rosterEditorPage";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
 
 export interface HomePageProps {
-  appContext: IAppContext
+  appContext: AppContext
 }
 
 export function HomePage(props: HomePageProps) {

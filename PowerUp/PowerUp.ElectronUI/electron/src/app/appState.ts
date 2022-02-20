@@ -1,11 +1,5 @@
 import React from "react";
 
-export type AppPage =
-| 'Home'
-| 'RosterEditor'
-| 'TeamEditor'
-| 'PlayerEditor';
-
 export interface AppState {
   currentPage: React.ReactNode;
 }

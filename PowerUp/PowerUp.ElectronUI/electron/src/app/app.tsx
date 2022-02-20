@@ -1,14 +1,16 @@
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { CommandFetcher } from '../utils/commandFetcher';
-import { IAppContext } from './appContext';
-import { AppPage, AppStateReducer } from './appState';
+import { AppStateReducer } from './appState';
 import { GlobalStyles } from './globalStyles';
 import { HomePage } from './home/homePage';
-import { PlayerEditor, PlayerEditorDTO } from './playerEditor/playerEditor';
-import { RosterEditorPage } from './rosterEditor/rosterEditorPage';
 
 export interface ApplicationStartupData {
   commandUrl: string;
+}
+
+export interface AppContext {
+  commandFetcher: CommandFetcher;
+  setPage: (newPage: React.ReactNode) => void;
 }
 
 export function App(props: ApplicationStartupData) {
@@ -18,7 +20,7 @@ export function App(props: ApplicationStartupData) {
     currentPage: <></>
   });
 
-  const appContext: IAppContext = {
+  const appContext: AppContext = {
     commandFetcher: new CommandFetcher(commandUrl),
     setPage: newPage => update({type: 'updatePage', newPage: newPage })
   };

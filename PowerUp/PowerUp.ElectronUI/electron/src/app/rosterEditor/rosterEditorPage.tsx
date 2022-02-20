@@ -1,8 +1,8 @@
-import { IAppContext } from "../appContext";
+import { AppContext } from "../app";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 
 export interface RosterEditorPageProps {
-  appContext: IAppContext;
+  appContext: AppContext;
   teamNames: string[];
 }
 
