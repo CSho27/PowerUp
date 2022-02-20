@@ -71,7 +71,7 @@ const PageContent = styled.div`
 `
 
 const Sidebar = styled.aside`
-  background-color: ${COLORS.jet.lighter_71};
+  background-color: ${COLORS.jet.superlight_85};
   height: 100%;
   width: 200px;
 `
