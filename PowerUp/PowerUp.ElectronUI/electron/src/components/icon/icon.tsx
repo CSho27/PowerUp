@@ -2,6 +2,8 @@ import * as React from 'react';
 
 export type IconType = 
 | 'arrow-up'
+| 'box-archive'
+| 'folder-open'
 | 'upload'
 
 export interface IconProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {

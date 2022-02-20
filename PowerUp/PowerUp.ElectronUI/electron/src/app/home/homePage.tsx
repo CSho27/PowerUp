@@ -19,6 +19,7 @@ export function HomePage(props: HomePageProps) {
         <Button 
           variant='Fill' 
           size='Large'
+          icon='folder-open'
           textAlign='left'
           onClick={() => {}}
         >
@@ -37,8 +38,8 @@ export function HomePage(props: HomePageProps) {
         <Button 
           variant='Fill' 
           size='Large'
-          textAlign='left'
           icon='upload'
+          textAlign='left'
           onClick={() => {}}
         >
           Import Roster
@@ -46,6 +47,7 @@ export function HomePage(props: HomePageProps) {
         <Button 
           variant='Fill' 
           size='Large'
+          icon='box-archive'
           textAlign='left'
           onClick={() => {}}
         >
