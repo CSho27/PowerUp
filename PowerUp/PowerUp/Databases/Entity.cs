@@ -3,17 +3,29 @@ using System.Linq;
 
 namespace PowerUp.Databases
 {
-  public abstract class Entity<TKeyParams> where TKeyParams : notnull
+  public interface IEntity 
   {
-    public static string KeyFor(TKeyParams keyParams) 
-    {
-        var @params = keyParams
-          .GetType()
-          .GetProperties()
-          .Select(p => p.GetValue(keyParams))
-          .Where(v => v != null);
+    string GetKey();
+  }
 
-        return ScrubKey(string.Join("_", @params));
+  public abstract class Entity<TKeyParams> : IEntity where TKeyParams : KeyParams
+  {
+    protected abstract TKeyParams GetKeyParams();
+    public string GetKey() => KeyFor(GetKeyParams());
+    public static string KeyFor(TKeyParams keyParams) => keyParams;
+  }
+
+  public abstract class KeyParams
+  {
+    public static implicit operator string(KeyParams keyParams)
+    {
+      var @params = keyParams
+        .GetType()
+        .GetProperties()
+        .Select(p => p.GetValue(keyParams))
+        .Where(v => v != null);
+
+      return ScrubKey(string.Join("_", @params)); ;
     }
 
     private static string ScrubKey(string key)
@@ -24,8 +36,5 @@ namespace PowerUp.Databases
 
       return scrubbedKey;
     }
-
-    protected abstract TKeyParams GetKeyParams();
-    public string GetKey() => KeyFor(GetKeyParams());
   }
 }

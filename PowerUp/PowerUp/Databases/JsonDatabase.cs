@@ -4,44 +4,38 @@ using System.Text.Json;
 
 namespace PowerUp.Databases
 {
-  public interface IJsonDatabase<TObject, TKeyParams>
-    where TObject : Entity<TKeyParams>
-    where TKeyParams : notnull
+  public interface IJsonDatabase
   {
-    void Save(TObject @object);
-    TObject Load(TKeyParams keyParams);
-    TObject Load(string key);
+    void Save<TObject>(TObject @object) where TObject : IEntity;
+    TObject Load<TObject>(string key) where TObject : IEntity;
   }
 
-  public class JsonDatabase<TObject, TKeyParams> : IJsonDatabase<TObject, TKeyParams> 
-    where TObject : Entity<TKeyParams> 
-    where TKeyParams : notnull
+  public class JsonDatabase : IJsonDatabase 
   {
-    private readonly string _folderPath;
+    private readonly string _dataDirectory;
     private readonly JsonSerializerOptions _serializerOptions;
 
-    public JsonDatabase(string folderPath)
+    public JsonDatabase(string dataDirectory)
     {
-      _folderPath = folderPath;
+      _dataDirectory = dataDirectory;
       _serializerOptions = new JsonSerializerOptions()
       {
         Converters = { new DateOnlyJsonConverter() }
       };
     }
 
-    public void Save(TObject @object)
+    public void Save<TObject>(TObject @object) where TObject : IEntity
     {
-      Directory.CreateDirectory(_folderPath);
-      var filePath = Path.Combine(_folderPath, KeyToFileName(@object.GetKey()));
+      var directory = Path.Combine(_dataDirectory, GetDirectoryName<TObject>());
+      Directory.CreateDirectory(directory);
+      var filePath = Path.Combine(directory, KeyToFileName(@object.GetKey()));
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
       File.WriteAllText(filePath, stringObject);
     }
 
-    public TObject Load(TKeyParams keyParams) => Load(Entity<TKeyParams>.KeyFor(keyParams));
-
-    public TObject Load(string key)
+    public TObject Load<TObject>(string key) where TObject : IEntity
     {
-      var filePath = Path.Combine(_folderPath, KeyToFileName(key));
+      var filePath = Path.Join(_dataDirectory, GetDirectoryName<TObject>(), KeyToFileName(key));
       var stringObject = File.ReadAllText(filePath);
       var @object = JsonSerializer.Deserialize<TObject>(stringObject, _serializerOptions);
       if (@object == null)
@@ -50,6 +44,7 @@ namespace PowerUp.Databases
       return @object;
     }
 
-    private string KeyToFileName(string key) => $"{key}.json";
+    private static string KeyToFileName(string key) => $"{key}.json";
+    private static string GetDirectoryName<TObject>() => $"{typeof(TObject).Name}s";
   }
 }

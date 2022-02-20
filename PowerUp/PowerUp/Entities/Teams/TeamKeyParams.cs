@@ -1,6 +1,8 @@
-﻿namespace PowerUp.Entities.Teams
+﻿using PowerUp.Databases;
+
+namespace PowerUp.Entities.Teams
 {
-  public class TeamKeyParams
+  public class TeamKeyParams : KeyParams
   {
     public string Type { get; set; }
     public string? ImportSource { get; set; }

@@ -23,7 +23,7 @@ namespace PowerUp.Entities.Rosters
     };
   }
 
-  public class RosterKeyParams
+  public class RosterKeyParams : KeyParams
   {
     public string Type { get; set; }
     public string Name { get; set; } = string.Empty;

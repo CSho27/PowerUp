@@ -1,8 +1,9 @@
-﻿using System;
+﻿using PowerUp.Databases;
+using System;
 
 namespace PowerUp.Entities.Players
 {
-  public class PlayerKeyParams
+  public class PlayerKeyParams : KeyParams
   {
     public string Type { get; set; }
     public string? ImportSource { get; set; }

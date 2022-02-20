@@ -1,5 +1,4 @@
 ﻿using PowerUp.Databases;
-using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
@@ -13,20 +12,17 @@ namespace PowerUp.ElectronUI.Api
   {
     private readonly ICharacterLibrary _characterLibrary;
     private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
-    private readonly IPlayerDatabase _playerDatabase;
-    private readonly ITeamDatabase _teamDatabase;
+    private readonly IJsonDatabase _jsonDatabase;
 
     public LoadBaseGameSaveCommand(
       ICharacterLibrary characterLibrary,
       IBaseGameSavePathProvider gameSavePathProvider,
-      IPlayerDatabase playerDatabase,
-      ITeamDatabase teamDatabase
+      IJsonDatabase jsonDatabase
     )
     {
       _characterLibrary = characterLibrary;
       _baseGameSavePathProvider = gameSavePathProvider;
-      _playerDatabase = playerDatabase;
-      _teamDatabase = teamDatabase;
+      _jsonDatabase = jsonDatabase;
     }
 
     public LoadBaseResponse Execute(LoadBaseRequest request)
@@ -47,7 +43,7 @@ namespace PowerUp.ElectronUI.Api
         keysById.Add((ushort)i, player.GetKey());
 
         Console.WriteLine($"Saving: {player.SavedName}");
-        _playerDatabase.Save(player);
+        _jsonDatabase.Save(player);
       }
 
       using var teamReader = new TeamReader(_characterLibrary, baseGameSavePath);
@@ -60,7 +56,7 @@ namespace PowerUp.ElectronUI.Api
         var team = teamReader.Read(i).MapToTeam(lineup, mappingParameters);
 
         Console.WriteLine($"Saving: {team.Name}");
-        _teamDatabase.Save(team);
+        _jsonDatabase.Save(team);
       }
 
       return new LoadBaseResponse { Success = true };
