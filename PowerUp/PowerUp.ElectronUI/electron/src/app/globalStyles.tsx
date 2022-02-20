@@ -18,7 +18,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: 'Exo 2';
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    color: ${COLORS.richBlack};
+    color: ${COLORS.richBlack.regular_5};
     background-color: ${COLORS.jet.superlight_90};
   }
 
