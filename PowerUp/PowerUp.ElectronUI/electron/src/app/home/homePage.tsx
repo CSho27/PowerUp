@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
+import { Icon } from "../../components/icon/icon";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
@@ -37,6 +38,7 @@ export function HomePage(props: HomePageProps) {
           variant='Fill' 
           size='Large'
           textAlign='left'
+          icon='upload'
           onClick={() => {}}
         >
           Import Roster

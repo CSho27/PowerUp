@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { COLORS, FONT_SIZES } from "../../style/constants";
+import { Icon, IconType } from "../icon/icon";
+
+export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export interface ButtonProps {
   variant: ButtonVariant;
   size: ButtonSize;
-  textAlign?: string;
+  icon?: IconType;
+  textAlign?: ButtonTextAlignment;
   children?: React.ReactNode;
   onClick: () => void;
 }
@@ -14,17 +18,35 @@ export type ButtonVariant = 'Fill' | 'Outline' | 'Ghost';
 export type ButtonSize = 'Small' | 'Medium' | 'Large';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, textAlign, children, onClick } = props;
+  const { variant, size, icon, textAlign, children, onClick } = props;
+
+  const buttonContent = !icon 
+    ? children
+    : <IconAndTextContainer textAlign={textAlign ?? 'center' }> 
+        <Icon icon={icon}/>
+        <span>{children}</span>
+      </IconAndTextContainer>
+
 
   switch (variant) {
     case "Fill":
-      return <FillButton onClick={onClick} size={size} textAlign={textAlign}>{children}</FillButton>;
+      return <FillButton 
+        onClick={onClick} 
+        size={size} 
+        textAlign={textAlign}
+      >{buttonContent}</FillButton>;
     case "Outline":
-      return <OutlineButton onClick={onClick} size={size} textAlign={textAlign}>{children}</OutlineButton>;
+      return <OutlineButton 
+        onClick={onClick} 
+        size={size} 
+        textAlign={textAlign}
+      >{buttonContent}</OutlineButton>;
     case "Ghost":
-      return <GhostButton onClick={onClick} size={size} textAlign={textAlign}>{children}</GhostButton>;
-    default:
-      return <BaseButton onClick={onClick} size={size} textAlign={textAlign}>{children}</BaseButton>;
+      return <GhostButton 
+        onClick={onClick} 
+        size={size} 
+        textAlign={textAlign}
+      >{buttonContent}</GhostButton>;
   }
 };
 
@@ -88,3 +110,10 @@ const GhostButton = styled(BaseButton)`
     --text-color: ${COLORS.richBlack};
   }
 `;
+
+const IconAndTextContainer = styled.span<{ textAlign: string }>`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: ${p => p.textAlign};
+`
