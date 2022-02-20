@@ -25,7 +25,7 @@ namespace PowerUp.ElectronUI.Api
         IsBase = true
       };
       var result = _rosterImportApi.ImportRoster(parameters);
-      return new LoadBaseResponse { Success = result.Success };
+      return new LoadBaseResponse { Success = result.Success, TeamNames = result.Teams.Select(t => t.Name) };
     }
   }
 
@@ -37,5 +37,6 @@ namespace PowerUp.ElectronUI.Api
   public class LoadBaseResponse
   {
     public bool Success { get; set; }
+    public IEnumerable<string> TeamNames { get; set; } = Enumerable.Empty<string>();
   }
 }

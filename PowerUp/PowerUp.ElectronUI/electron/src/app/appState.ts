@@ -1,3 +1,4 @@
+import React from "react";
 
 export type AppPage =
 | 'Home'
@@ -6,11 +7,11 @@ export type AppPage =
 | 'PlayerEditor';
 
 export interface AppState {
-  currentPage: AppPage;
+  currentPage: React.ReactNode;
 }
 
 export type AppStateAction =
-| { type: 'updatePage', newPage: AppPage }
+| { type: 'updatePage', newPage: React.ReactNode }
 
 export function AppStateReducer(state: AppState, action: AppStateAction): AppState {
   switch(action.type) {
@@ -20,9 +21,5 @@ export function AppStateReducer(state: AppState, action: AppStateAction): AppSta
         currentPage: action.newPage
       }
   }
-}
-
-export const initialAppState: AppState = {
-  currentPage: 'Home'
 }
 

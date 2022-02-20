@@ -5,6 +5,7 @@ import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrappe
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { IAppContext } from "../appContext";
+import { RosterEditorPage } from "../rosterEditor/rosterEditorPage";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
 
@@ -55,7 +56,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='box-archive'
           textAlign='left'
-          onClick={importBase}
+          onClick={startFromBase}
         >
           Start From Base Roster
         </Button>  
@@ -63,9 +64,9 @@ export function HomePage(props: HomePageProps) {
     </ContentWrapper>
   </PowerUpLayout>
 
-  async function importBase() {
-    const response = await apiClientRef.current.execute({ throwaway: 1});
-    console.log(response.success);
+  async function startFromBase() {
+    const response = await apiClientRef.current.execute({ throwaway: 1 });
+    appContext.setPage(<RosterEditorPage appContext={appContext} teamNames={response.teamNames} />);
   }
 }
 

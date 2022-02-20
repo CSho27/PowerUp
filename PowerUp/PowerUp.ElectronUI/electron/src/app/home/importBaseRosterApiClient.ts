@@ -6,6 +6,7 @@ export interface LoadBaseRequest {
 
 export interface LoadBaseResponse {
   success: boolean;
+  teamNames: string[];
 }
 
 export class ImportBaseRosterApiClient {
