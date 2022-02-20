@@ -16,31 +16,35 @@ export function HomePage(props: HomePageProps) {
       <AppTitle/>
       <ButtonSectionWrapper>
         <Button 
-          variant={'Fill'} 
-          size={'Large'} 
+          variant='Fill' 
+          size='Large'
+          textAlign='left'
           onClick={() => {}}
         >
           Open Existing Roster
         </Button>
         {/*
           <Button 
-            variant={'Fill'} 
-            size={'Large'} 
+            variant='Fill' 
+            size='Large'
+            textAlign='left'
             onClick={() => {}}
           >
             Generate Roster
           </Button>
         */}
         <Button 
-          variant={'Fill'} 
-          size={'Large'} 
+          variant='Fill' 
+          size='Large'
+          textAlign='left'
           onClick={() => {}}
         >
           Import Roster
         </Button>
         <Button 
-          variant={'Fill'} 
-          size={'Large'} 
+          variant='Fill' 
+          size='Large'
+          textAlign='left'
           onClick={() => {}}
         >
           Start From Base Roster
