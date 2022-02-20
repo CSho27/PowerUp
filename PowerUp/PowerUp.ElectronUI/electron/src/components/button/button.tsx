@@ -84,6 +84,7 @@ const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefin
   letter-spacing: -0.02em;
   color: var(--text-color);
   background-color: var(--background-color);
+  cursor: pointer;
 
   &:hover {
     background-color: var(--hover-color);
