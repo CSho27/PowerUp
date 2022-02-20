@@ -30,7 +30,7 @@ namespace PowerUp.ElectronUI.Api
 
       for(int i=1; i<1500; i++)
       {
-        var mappingParameters = new PlayerMappingParameters { IsImported = false };
+        var mappingParameters = new PlayerMappingParameters { IsBase = false };
         var gsPlayer = playerReader.Read(i);
 
         if (gsPlayer.PowerProsId == 0)
@@ -48,7 +48,7 @@ namespace PowerUp.ElectronUI.Api
 
       for(int i=0; i<32; i++)
       {
-        var mappingParameters = new TeamMappingParameters { IsImported = false, KeysByPPId = keysById };
+        var mappingParameters = new TeamMappingParameters { IsBase = false, KeysByPPId = keysById };
         var lineup = lineupReader.Read(i);
         var team = teamReader.Read(i).MapToTeam(lineup, mappingParameters);
 

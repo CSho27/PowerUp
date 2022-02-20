@@ -11,7 +11,7 @@ namespace PowerUp.Mappers
 {
   public class TeamMappingParameters
   {
-    public bool IsImported { get; set; }
+    public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
 
     public IDictionary<ushort, string>? KeysByPPId { get; set; }
@@ -34,13 +34,13 @@ namespace PowerUp.Mappers
 
       return new Team
       {
-        SourceType = parameters.IsImported
-          ? EntitySourceType.Imported
-          : EntitySourceType.Base,
+        SourceType = parameters.IsBase
+          ? EntitySourceType.Base
+          : EntitySourceType.Imported,
         Name = ppTeam.GetFullDisplayName()!,
-        ImportSource = parameters.IsImported
-          ? parameters.ImportSource
-          : null,
+        ImportSource = parameters.IsBase
+          ? null
+          : parameters.ImportSource,
         PlayerDefinitions = playerEntries!
           .Where(p => p.PowerProsPlayerId != 0)
           .Select(p => p.MapToPlayerRoleDefinition(keysByPPId)),

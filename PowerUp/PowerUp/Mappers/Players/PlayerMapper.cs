@@ -7,7 +7,7 @@ namespace PowerUp.Mappers.Players
 {
   public class PlayerMappingParameters
   {
-    public bool IsImported { get; set; }
+    public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
   }
 
@@ -19,15 +19,15 @@ namespace PowerUp.Mappers.Players
       {
         SourceType = gsPlayer.IsEdited!.Value
           ? EntitySourceType.Custom
-          : parameters.IsImported
-            ? EntitySourceType.Imported
-            : EntitySourceType.Base,
+          : parameters.IsBase
+            ? EntitySourceType.Base
+            : EntitySourceType.Imported,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
         SavedName = gsPlayer.SavedName!,
-        ImportSource = parameters.IsImported
-          ? parameters.ImportSource
-          : null,
+        ImportSource = parameters.IsBase
+          ? null
+          : parameters.ImportSource,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
         PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value),

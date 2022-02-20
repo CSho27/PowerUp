@@ -36,7 +36,7 @@ namespace PowerUp.Tests.Mappers.Teams
 
       mappingParameters = new TeamMappingParameters
       {
-        IsImported = false,
+        IsBase = false,
         ImportSource = "Roster1",
         KeysByPPId = keysByPPId
       };
@@ -103,11 +103,11 @@ namespace PowerUp.Tests.Mappers.Teams
     }
 
     [Test]
-    [TestCase(false, EntitySourceType.Base)]
-    [TestCase(true, EntitySourceType.Imported)]
-    public void MapToTeam_ShouldMapSourceType(bool isImported, EntitySourceType sourceType)
+    [TestCase(true, EntitySourceType.Base)]
+    [TestCase(false, EntitySourceType.Imported)]
+    public void MapToTeam_ShouldMapSourceType(bool isBase, EntitySourceType sourceType)
     {
-      mappingParameters.IsImported = isImported;
+      mappingParameters.IsBase = isBase;
       var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
       result.SourceType.ShouldBe(sourceType);
     }

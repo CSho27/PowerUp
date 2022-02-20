@@ -18,9 +18,8 @@ namespace PowerUp.Tests.Mappers.Players
     {
       mappingParameters = new PlayerMappingParameters
       {
-        IsImported = false,
+        IsBase = false,
         ImportSource = "Roster1",
-        BirthDate = DateOnly.Parse("1/1/1980"),
       };
 
       gsPlayer = new GSPlayer
@@ -111,21 +110,21 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase(false, EntitySourceType.Base)]
-    [TestCase(true, EntitySourceType.Imported)]
-    public void MapToPlayer_ShouldUseTypeFromParameters(bool isImported, EntitySourceType sourceType)
+    [TestCase(true, EntitySourceType.Base)]
+    [TestCase(false, EntitySourceType.Imported)]
+    public void MapToPlayer_ShouldUseTypeFromParameters(bool isBase, EntitySourceType sourceType)
     {
-      mappingParameters.IsImported = isImported;
+      mappingParameters.IsBase = isBase;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.SourceType.ShouldBe(sourceType);
     }
 
     [Test]
-    [TestCase(false, "RosterBase", null)]
-    [TestCase(true, "Roster1", "Roster1")]
-    public void MapToPlayer_ShouldIncludeImportSourceOnlyForImported(bool isImported, string importSource, string expectedResult)
+    [TestCase(true, "RosterBase", null)]
+    [TestCase(false, "Roster1", "Roster1")]
+    public void MapToPlayer_ShouldIncludeImportSourceOnlyForImported(bool isBase, string importSource, string expectedResult)
     {
-      mappingParameters.IsImported = isImported;
+      mappingParameters.IsBase = isBase;
       mappingParameters.ImportSource = importSource;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(expectedResult);
@@ -134,10 +133,10 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     [TestCase(false)]
     [TestCase(true)]
-    public void MapToPlayer_EditedPlayersShouldBeCustomType(bool isImported)
+    public void MapToPlayer_EditedPlayersShouldBeCustomType(bool isBase)
     {
       gsPlayer.IsEdited = true;
-      mappingParameters.IsImported = isImported;
+      mappingParameters.IsBase = isBase;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.SourceType.ShouldBe(EntitySourceType.Custom);
     }
