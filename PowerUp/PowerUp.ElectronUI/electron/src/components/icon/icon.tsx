@@ -4,6 +4,7 @@ export type IconType =
 | 'arrow-up'
 | 'box-archive'
 | 'folder-open'
+| 'pen-to-square'
 | 'upload'
 | 'wand-magic-sparkles'
 
