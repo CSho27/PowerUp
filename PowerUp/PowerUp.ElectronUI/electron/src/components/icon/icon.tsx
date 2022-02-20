@@ -5,6 +5,7 @@ export type IconType =
 | 'box-archive'
 | 'folder-open'
 | 'upload'
+| 'wand-magic-sparkles'
 
 export interface IconProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {
   icon: IconType;

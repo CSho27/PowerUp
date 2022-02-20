@@ -29,6 +29,7 @@ export function HomePage(props: HomePageProps) {
           <Button 
             variant='Fill' 
             size='Large'
+            icon='wand-magic-sparkles'
             textAlign='left'
             onClick={() => {}}
           >
