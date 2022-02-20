@@ -26,6 +26,7 @@ namespace PowerUp.ElectronUI
       var dataDirectory = Configuration["DataDirectory"];
       DatabaseConfig.Initialize(dataDirectory);
       services.RegisterLibraries(dataDirectory);
+      services.RegisterDependencies();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
+using PowerUp.GameSave.Api;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Teams;
 using System;
@@ -15,6 +16,9 @@ namespace PowerUp.Mappers
     public string? ImportSource { get; set; }
 
     public IDictionary<ushort, string>? KeysByPPId { get; set; }
+
+    public static TeamMappingParameters FromImportParameters(RosterImportParameters importParameters, IDictionary<ushort, string> keysByPPId)
+      => new TeamMappingParameters { IsBase = importParameters.IsBase, ImportSource = importParameters.ImportSource, KeysByPPId = keysByPPId };
   }
 
   public static class TeamMapper

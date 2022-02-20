@@ -1,7 +1,7 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
+using PowerUp.GameSave.Api;
 using PowerUp.GameSave.Objects.Players;
-using System;
 
 namespace PowerUp.Mappers.Players
 {
@@ -9,6 +9,9 @@ namespace PowerUp.Mappers.Players
   {
     public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
+
+    public static PlayerMappingParameters FromRosterImport(RosterImportParameters importParameters)
+      => new PlayerMappingParameters { IsBase = importParameters.IsBase, ImportSource = importParameters.ImportSource };
   }
 
   public static class PlayerMapper

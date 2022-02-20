@@ -12,9 +12,9 @@ namespace PowerUp.GameSave.Objects.GameSaves
   {
     private readonly GameSaveObjectReader _reader;
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, string fileName)
+    public GameSaveReader(ICharacterLibrary characterLibrary, string filePath)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, fileName);
+      _reader = new GameSaveObjectReader(characterLibrary, filePath);
     }
 
     /// <summary>
