@@ -23,14 +23,18 @@ const BreadcrumbList = styled.ol`
   list-style-type: none;
   color: ${COLORS.primaryBlue.regular_45};
   font-weight: bold;
-  font-size: ${FONT_SIZES._24};
+  font-size: ${FONT_SIZES._18};
+  font-style: italic;
 `
 
 const Wrapper = styled.li`
   display: inline;
 
   &:not(:first-of-type){
+    margin-left: 6px;
+
     &:before {
+      margin-right: 6px;
       font-weight: 900;
       content: '>';
     }
@@ -50,7 +54,6 @@ export function Crumb(props: CrumbProps) {
 
 const CrumbLink = styled.a`
   text-decoration: none;
-  padding: 4px;
  
   ${p => p.onClick
     ? `&:hover {

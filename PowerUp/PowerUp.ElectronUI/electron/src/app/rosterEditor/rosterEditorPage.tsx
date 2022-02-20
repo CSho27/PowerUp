@@ -1,24 +1,74 @@
-import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadbrumbs";
+import styled from "styled-components";
+import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
+import { HangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { PositionType } from "../../components/textBubble/textBubble";
+import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
+import { HomePage } from "../home/homePage";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;
-  teamNames: string[];
+  rosterName: string;
+  teams: TeamDetails[]
+}
+
+export interface TeamDetails {
+  name: string;
+  powerProsName: string;
+  hitters: HitterDetails[];
+
+}
+
+export interface PlayerDetails {
+  savedName: string;
+  uniformNumber: string;
+  positionType: PositionType;
+  position: string;
+  overall: string;
+  batsAndThrows: string;
+}
+
+export interface HitterDetails extends PlayerDetails {
+  trajectory: number;
+  contact: number;
+  power: number;
+  runSpeed: number;
+  armStrength: number;
+  fielding: number;
+  errorResistance: number;
+}
+
+export interface PitcherDetails extends PlayerDetails {
+  topSpeed: number;
+  control: number;
+  stamina: number;
+  breakingBall1: string;
+  breakingBall2: string;
+  breakingBall3: string;
 }
 
 export function RosterEditorPage(props: RosterEditorPageProps) {
-  const { appContext, teamNames } = props;
+  const { appContext, rosterName, teams } = props;
   
   return <PowerUpLayout headerText='Edit Roster'>
-    <Breadcrumbs>
-      <Crumb key={1} onClick={() => console.log(1)}>1</Crumb>
-      <Crumb key={2} onClick={() => console.log(2)}>2</Crumb>
-      <Crumb key={3} onClick={() => console.log(3)}>3</Crumb>
-      <Crumb key={4} onClick={() => console.log(4)}>4</Crumb>
-      <Crumb key={5} onClick={() => console.log(5)}>5</Crumb>
-      <Crumb key={6} >6</Crumb>
-    </Breadcrumbs>
-    {teamNames.map(t => <div key={t}>{t}</div>)}
+    <HangingHeader>
+      <Breadcrumbs>
+        <Crumb key='Home' onClick={returnHome}>Home</Crumb>
+        <Crumb key='RosterEditor'>{rosterName}</Crumb>
+      </Breadcrumbs>
+      <RosterHeader>{rosterName}</RosterHeader>
+    </HangingHeader>
+    {teams.map(t => <div key={t.name}>{t.name}</div>)}
   </PowerUpLayout>
+
+  function returnHome() {
+    appContext.setPage(<HomePage appContext={appContext} />)
+  }
 }
+
+const RosterHeader = styled.h1`
+  padding-bottom: 8px;
+  font-size: ${FONT_SIZES._32};
+  font-style: italic;
+`

@@ -70,5 +70,6 @@ export const FONT_SIZES = {
   _36: `${36 / defaultFontSize}rem`,
   _48: `${48 / defaultFontSize}rem`,
   _64: `${64 / defaultFontSize}rem`,
+  _80: `${80 / defaultFontSize}rem`,
   _128: `${128 / defaultFontSize}rem`,
 }

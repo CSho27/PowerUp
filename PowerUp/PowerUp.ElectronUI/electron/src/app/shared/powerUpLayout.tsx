@@ -20,7 +20,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
         <Icon icon='arrow-up'/>
       </LogoCorner>
       <HeaderTextWrapper>
-        <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} slanted>{headerText}</OutlineHeader>
+        <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
       </HeaderTextWrapper>
     </HeaderWrapper>
     <PageContent>
