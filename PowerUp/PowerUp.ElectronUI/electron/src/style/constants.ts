@@ -3,6 +3,7 @@ export const COLORS = {
   // Standard Colors
   jet: {
     regular_18: 'hsl(180deg 1% 18%)',
+    regular_25: 'hsl(180deg 1% 25%)',
     light_39: 'hsl(180deg 1% 39%)',
     lighter_71: 'hsl(180deg 1% 71%)',
     superlight_85: 'hsl(180deg 1% 85%)',

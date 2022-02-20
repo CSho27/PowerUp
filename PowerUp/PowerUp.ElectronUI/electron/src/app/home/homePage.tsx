@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { Button } from "../../components/button/button";
+import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { IAppContext } from "../appContext";
@@ -10,8 +12,40 @@ export interface HomePageProps {
 
 export function HomePage(props: HomePageProps) {
   return <PowerUpLayout>
-    <ContentWrapper>
+    <ContentWrapper maxWidth='800px'>
       <AppTitle/>
+      <ButtonSectionWrapper>
+        <Button 
+          variant={'Fill'} 
+          size={'Large'} 
+          onClick={() => {}}
+        >
+          Open Existing Roster
+        </Button>
+        {/*
+          <Button 
+            variant={'Fill'} 
+            size={'Large'} 
+            onClick={() => {}}
+          >
+            Generate Roster
+          </Button>
+        */}
+        <Button 
+          variant={'Fill'} 
+          size={'Large'} 
+          onClick={() => {}}
+        >
+          Import Roster
+        </Button>
+        <Button 
+          variant={'Fill'} 
+          size={'Large'} 
+          onClick={() => {}}
+        >
+          Start From Base Roster
+        </Button>  
+      </ButtonSectionWrapper>
     </ContentWrapper>
   </PowerUpLayout>
 }
@@ -31,9 +65,18 @@ function AppTitle() {
   </AppTitleWrapper>
 }
 
-const ContentWrapper = styled.div`
-  height: 100%;
-  padding: 64px;
+const ContentWrapper = styled(MaxWidthWrapper)`
+  padding: 32px 0px;
+`
+
+const ButtonSectionWrapper = styled.section`
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 `
 
 const AppTitleWrapper = styled.div`

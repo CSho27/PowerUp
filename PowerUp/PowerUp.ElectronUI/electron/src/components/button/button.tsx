@@ -58,14 +58,8 @@ const BaseButton = styled.button<{ size: ButtonSize }>`
   font-weight: 500;
   font-size: var(--font-size);
   letter-spacing: -0.02em;
-  text-transform: uppercase;
   color: var(--text-color);
   background-color: var(--background-color);
-
-  &:focus {
-    outline: solid var(--focus-border-color);
-    outline-offset: 2px;
-  }
 
   &:hover {
     background-color: var(--hover-color);
@@ -73,22 +67,19 @@ const BaseButton = styled.button<{ size: ButtonSize }>`
 `;
 
 const FillButton = styled(BaseButton)`
-  --text-color: ${COLORS.white};
-  --background-color: ${COLORS.primaryBlue.regular_45};
-  --focus-border-color: ${COLORS.primaryBlue.regular_45};
-  --hover-color: ${COLORS.primaryBlue.light_50};
+  --text-color: ${COLORS.white.regular_100};
+  --background-color: ${COLORS.jet.regular_18};
+  --hover-color: ${COLORS.jet.regular_25};
 `;
 
 const OutlineButton = styled(BaseButton)`
   --text-color: ${COLORS.primaryBlue.regular_45};
   --background-color: ${COLORS.white};
-  --focus-border-color: ${COLORS.primaryBlue.regular_45};
   --hover-color: ${COLORS.white.offwhite_97};
   border: solid 2px ${COLORS.primaryBlue.regular_45};
 `;
 const GhostButton = styled(BaseButton)`
   --text-color: ${COLORS.jet.light_39};
-  --focus-border-color: ${COLORS.jet.light_39};
   --hover-color: ${COLORS.jet.light_39};
 
   &:hover {
