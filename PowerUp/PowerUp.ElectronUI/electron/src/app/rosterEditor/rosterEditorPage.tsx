@@ -6,6 +6,7 @@ import { AppContext } from "../app";
 import { HomePage } from "../home/homePage";
 import { RosterDetails } from "../home/importBaseRosterApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { TeamsGrid } from "./teamsGrid";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;
@@ -26,7 +27,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   return <PowerUpLayout headerText='Edit Roster'>
     <ContentWithHangingHeader header={header} headerHeight='88px'>
-      {teams.concat(teams).concat(teams).map(t => <div key={t.name}>{t.name}</div>)}
+      <TeamsGrid teams={teams}/>
     </ContentWithHangingHeader>
   </PowerUpLayout>
 

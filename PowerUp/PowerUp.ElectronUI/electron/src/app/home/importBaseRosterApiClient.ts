@@ -14,6 +14,7 @@ export interface TeamDetails {
   name: string;
   powerProsName: string;
   hitters: HitterDetails[];
+  pitchers: PitcherDetails[];
 }
 
 export interface PlayerDetails {
