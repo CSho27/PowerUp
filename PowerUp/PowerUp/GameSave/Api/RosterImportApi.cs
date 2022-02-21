@@ -72,13 +72,16 @@ namespace PowerUp.GameSave.Api
 
         var roster = new Roster
         {
+          Name = parameters.IsBase
+            ? "MLB Power Pros Base Roster"
+            : parameters.ImportSource!,
           SourceType = parameters.IsBase
             ? EntitySourceType.Base
             : EntitySourceType.Imported,
           ImportSource = parameters.IsBase
             ? null
             : parameters.ImportSource,
-          MappedTeams = teamKeysByPPTeam
+          TeamKeysByPPTeam = teamKeysByPPTeam
         };
 
         DatabaseConfig.JsonDatabase.Save(roster);

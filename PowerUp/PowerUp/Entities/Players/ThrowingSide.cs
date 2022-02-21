@@ -2,7 +2,9 @@
 {
   public enum ThrowingSide
   {
+    [Abbrev("R")]
     Right,
+    [Abbrev("L")]
     Left
   }
 }

@@ -9,13 +9,16 @@ namespace PowerUp.Entities.Rosters
   public class Roster : Entity<RosterKeyParams>
   {
     public EntitySourceType SourceType { get; set; }
-    public string? Name { get; set; }
+    public string Name { get; set; } = "";
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
 
-    public IDictionary<MLBPPTeam, string> MappedTeams { get; set; } = new Dictionary<MLBPPTeam, string>();
-
-    public IEnumerable<Team> GetTeams() => MappedTeams.Select(t => DatabaseConfig.JsonDatabase.Load<Team>(t.Value));
+    public IDictionary<MLBPPTeam, string> TeamKeysByPPTeam { get; set; } = new Dictionary<MLBPPTeam, string>();
+    public IDictionary<Team, MLBPPTeam> GetTeams() => TeamKeysByPPTeam
+      .ToDictionary(
+        kvp => DatabaseConfig.JsonDatabase.Load<Team>(kvp.Value),
+        kvp => kvp.Key
+      );
 
     protected override RosterKeyParams GetKeyParams() => SourceType switch
     {

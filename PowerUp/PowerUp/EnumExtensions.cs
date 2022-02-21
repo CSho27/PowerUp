@@ -6,8 +6,8 @@ namespace PowerUp
 {
   public static class EnumExtensions
   {
-    public static string? GetDisplayName(this Enum value) => value.GetEnumAttribute<DisplayNameAttribute>()?.DisplayName ?? value.ToString();
-    public static string? GetAbbrev(this Enum value) => value.GetEnumAttribute<AbbrevAttribute>()?.Abbreviation ?? value.ToString();
+    public static string GetDisplayName(this Enum value) => value.GetEnumAttribute<DisplayNameAttribute>()?.DisplayName ?? value.ToString();
+    public static string GetAbbrev(this Enum value) => value.GetEnumAttribute<AbbrevAttribute>()?.Abbreviation ?? value.ToString();
     
     public static TEnum? ToEnum<TEnum>(this string value) where TEnum : struct, Enum
     {

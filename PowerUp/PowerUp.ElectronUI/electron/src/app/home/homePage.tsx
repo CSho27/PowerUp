@@ -66,7 +66,7 @@ export function HomePage(props: HomePageProps) {
 
   async function startFromBase() {
     const response = await apiClientRef.current.execute({ throwaway: 1 });
-    appContext.setPage(<RosterEditorPage appContext={appContext} rosterName='PowerPros Base Roster' teams={[]} />);
+    appContext.setPage(<RosterEditorPage appContext={appContext} rosterDetails={response} />);
   }
 }
 

@@ -7,19 +7,20 @@ namespace PowerUp.Entities.Players
   {
     protected override PlayerKeyParams GetKeyParams() => SourceType switch
     {
-      EntitySourceType.Base => PlayerKeyParams.ForBasePlayer(LastName, FirstName),
+      EntitySourceType.Base => PlayerKeyParams.ForBasePlayer(LastName, FirstName, BaseTeam!.Value),
       EntitySourceType.Imported => PlayerKeyParams.ForImportedPlayer(ImportSource!, LastName, FirstName),
       EntitySourceType.Generated => PlayerKeyParams.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
       EntitySourceType.Custom => PlayerKeyParams.ForCustomPlayer(LastName, FirstName),
       _ => throw new NotImplementedException()
     };
 
-  public EntitySourceType SourceType { get; set; }
+    public EntitySourceType SourceType { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public int? Year { get; set; }
     public DateOnly? BirthDate { get; set; }
     public string? ImportSource { get; set; }
+    public MLBPPTeam? BaseTeam { get; set; }
 
     public string SavedName { get; set; } = string.Empty;
     public string UniformNumber { get; set; } = string.Empty;

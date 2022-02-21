@@ -80,4 +80,10 @@ const Sidebar = styled.aside`
 
 const MainContent = styled.main`
   flex: 1 0 auto;
+  position: absolute;
+  top: 100px;
+  bottom: 0px;
+  left: 200px;
+  right: 0px;
+  overflow-y: auto;
 `

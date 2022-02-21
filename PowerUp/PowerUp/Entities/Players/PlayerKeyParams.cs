@@ -10,9 +10,10 @@ namespace PowerUp.Entities.Players
     public int? Year { get; set; }
     public string LastName { get; set; }
     public string FirstName { get; set; }
+    public string? BasePowerProsTeam { get; set; }
     public string? BirthDate { get; set; }
 
-    private PlayerKeyParams(EntitySourceType type, string lastName, string firstName, string? importSource, int? year, DateOnly? birthDate)
+    private PlayerKeyParams(EntitySourceType type, string lastName, string firstName, string? importSource, int? year, DateOnly? birthDate, MLBPPTeam? baseTeam)
     {
       Type = type.ToString().ToUpperInvariant();
       ImportSource = importSource;
@@ -20,16 +21,18 @@ namespace PowerUp.Entities.Players
       LastName = lastName;
       FirstName = firstName;
       BirthDate = birthDate?.ToString("mmddyyyy");
+      BasePowerProsTeam = baseTeam?.ToString();
     }
 
-    public static PlayerKeyParams ForBasePlayer(string lastName, string firstName)
+    public static PlayerKeyParams ForBasePlayer(string lastName, string firstName, MLBPPTeam baseTeam)
       => new PlayerKeyParams(
         type: EntitySourceType.Base,
         lastName: lastName,
         firstName: firstName,
         importSource: null,
         year: null,
-        birthDate: null
+        birthDate: null,
+        baseTeam: baseTeam
       );
 
     public static PlayerKeyParams ForImportedPlayer(string importSource, string lastName, string firstName)
@@ -39,7 +42,8 @@ namespace PowerUp.Entities.Players
         firstName: firstName,
         importSource: importSource,
         year: null,
-        birthDate: null
+        birthDate: null,
+        baseTeam: null
       );
 
     public static PlayerKeyParams ForGeneratedPlayer(string lastName, string firstName, int year, DateOnly? birthDate)
@@ -49,7 +53,8 @@ namespace PowerUp.Entities.Players
         firstName: firstName,
         importSource: null,
         year: year,
-        birthDate: birthDate
+        birthDate: birthDate,
+        baseTeam: null
       );
 
     public static PlayerKeyParams ForCustomPlayer(string lastName, string firstName)
@@ -59,7 +64,8 @@ namespace PowerUp.Entities.Players
         firstName: firstName,
         importSource: null,
         year: null,
-        birthDate: null
+        birthDate: null,
+        baseTeam: null
       );
 
   }

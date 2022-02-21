@@ -77,7 +77,7 @@ namespace PowerUp.Entities
   {
     public static string? GetTeamLocation(this MLBPPTeam value) 
       => value.GetEnumAttribute<TeamLocationAttribute>()?.TeamLocation;
-    public static string? GetFullDisplayName(this MLBPPTeam value)
+    public static string GetFullDisplayName(this MLBPPTeam value)
     {
       var teamLocation = value.GetTeamLocation();
       return teamLocation != null
