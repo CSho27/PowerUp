@@ -5,7 +5,7 @@ import { Icon } from "../icon/icon"
 export function FullPageSpinner() {
   return <PageCover>
     <SpinnerWrapper>
-      <Icon icon='circle-notch'/>
+      <Icon icon='circle-notch' style={{ display: 'block' }}/>
     </SpinnerWrapper>
   </PageCover>
 }
