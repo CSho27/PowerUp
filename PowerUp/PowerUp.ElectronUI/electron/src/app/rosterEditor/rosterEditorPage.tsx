@@ -26,13 +26,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   return <PowerUpLayout headerText='Edit Roster'>
     <ContentWithHangingHeader header={header} headerHeight='88px'>
-      <GridContainer>
-        <GridScrollContainer>
-          <div>
-            {teams.concat(teams).concat(teams).map(t => <div key={t.name}>{t.name}</div>)}
-          </div>
-        </GridScrollContainer>
-      </GridContainer>
+      {teams.concat(teams).concat(teams).map(t => <div key={t.name}>{t.name}</div>)}
     </ContentWithHangingHeader>
   </PowerUpLayout>
 
@@ -45,14 +39,4 @@ const RosterHeader = styled.h1`
   padding-bottom: 8px;
   font-size: ${FONT_SIZES._32};
   font-style: italic;
-`
-
-const GridContainer = styled.section`
-  flex: 1 0 auto;
-`
-
-const GridScrollContainer = styled.div`
-  height: 100%;
-  overflow-y: auto;
-  display: flex;
 `
