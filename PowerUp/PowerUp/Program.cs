@@ -28,7 +28,8 @@ namespace PowerUp
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
-      PrintRedsPlayers();
+      //PrintRedsPlayers();
+      BuildPlayerValueLibrary(characterLibrary);
     }
 
     static void AnalyzeGameSave(ICharacterLibrary characterLibrary)
@@ -133,6 +134,31 @@ namespace PowerUp
       {
         Console.WriteLine($"{player.PrimaryPosition.GetAbbrev()} {player.LastName}, {player.FirstName} POW:{player.HitterAbilities.Power}");
       }
+    }
+
+    static void BuildPlayerValueLibrary(ICharacterLibrary characterLibrary)
+    {
+      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));
+      var playerList = new List<GSPlayer>();
+      var playersAndValues = new Dictionary<string, int>();
+      
+      for (int id = 1; id < 1513; id++)
+      {
+        var player = playerReader.Read(id);
+        if(player.PowerProsId != 0 && player.SavedName!.Contains('*'))
+          playerList.Add(player);
+      }
+
+      playersAndValues = playerList
+        .GroupBy(p => p.LastName)
+        .SelectMany(g => g.Count() == 1
+          ? new[] { new KeyValuePair<string, int>(g.Single().LastName!, g.Single().SpecialSavedNameId!.Value) }
+          : g.Select(p => new KeyValuePair<string, int>($"{p.FirstName![0]}.{p.LastName!}", p.SpecialSavedNameId!.Value))
+        )
+        .ToDictionary(p => p.Key, p => p.Value);
+
+      var csvLines = playersAndValues.Select(p => $"{p.Key},{p.Value}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"), csvLines);
     }
   }
 }

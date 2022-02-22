@@ -10,6 +10,9 @@ namespace PowerUp.GameSave.Objects.Players
     [GSString(0x02, stringLength: 10)]
     public string? SavedName { get; set; }
 
+    [GSUInt(0x02, bits: 16, bitOffset: 0)]
+    public ushort? SpecialSavedNameId { get; set; }
+
     [GSString(0x16, stringLength: 14)]
     public string? LastName { get; set; }
 
