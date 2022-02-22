@@ -1,34 +1,46 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { HomePage } from "../home/homePage";
-import { RosterDetails, TeamDetails } from "../home/importBaseRosterApiClient";
+import { KeyedCode, RosterDetails, TeamDetails } from "../home/importBaseRosterApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;
+  divisionOptions: KeyedCode[];
   rosterDetails: RosterDetails;
 }
 
 export function RosterEditorPage(props: RosterEditorPageProps) {
-  const { appContext, rosterDetails } = props;
+  const { appContext, divisionOptions, rosterDetails } = props;
   const { name: rosterName, teams } = rosterDetails;
-  
+
+
+
+  const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
+
   const header = <>
     <Breadcrumbs>
       <Crumb key='Home' onClick={returnHome}>Home</Crumb>
       <Crumb key='RosterEditor'>{rosterName}</Crumb>
     </Breadcrumbs>
     <RosterHeader>{rosterName}</RosterHeader>
+    <TabButtonNav 
+      selectedTab={selectedDivision}
+      tabOptions={divisionOptions}
+      onChange={setSelectedDivision}
+    />
   </> 
 
   return <PowerUpLayout headerText='Edit Roster'>
-    <ContentWithHangingHeader header={header} headerHeight='88px'>
+    <ContentWithHangingHeader header={header} headerHeight='128px'>
       <TeamsContainer>
-        {teams.slice(0, 3).map(toTeamGrid)}
+        {teams.filter(t => t.division === selectedDivision.key).map(toTeamGrid)}
       </TeamsContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>

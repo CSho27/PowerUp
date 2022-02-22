@@ -66,7 +66,11 @@ export function HomePage(props: HomePageProps) {
 
   async function startFromBase() {
     const response = await apiClientRef.current.execute({ throwaway: 1 });
-    appContext.setPage(<RosterEditorPage appContext={appContext} rosterDetails={response} />);
+    appContext.setPage(<RosterEditorPage 
+      appContext={appContext} 
+      divisionOptions={response.divisionOptions}
+      rosterDetails={response.rosterDetails} 
+    />);
   }
 }
 

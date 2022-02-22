@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api
 {
-  public class LoadBaseGameSaveCommand : ICommand<LoadBaseRequest, RosterDetails>
+  public class LoadBaseGameSaveCommand : ICommand<LoadBaseRequest, LoadBaseResponse>
   {
     private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
     private readonly IRosterImportApi _rosterImportApi;
@@ -22,7 +22,7 @@ namespace PowerUp.ElectronUI.Api
       _rosterImportApi = rosterImportApi;
     }
 
-    public RosterDetails Execute(LoadBaseRequest request)
+    public LoadBaseResponse Execute(LoadBaseRequest request)
     {
       var parameters = new RosterImportParameters
       {
@@ -30,11 +30,35 @@ namespace PowerUp.ElectronUI.Api
         IsBase = true
       };
       var result = _rosterImportApi.ImportRoster(parameters);
-      return RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
+      var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
+      return new LoadBaseResponse(rosterDetails);
     }
   }
 
   public class LoadBaseRequest { }
+
+  public class LoadBaseResponse
+  {
+    public IEnumerable<KeyedCode> DivisionOptions => EnumExtensions.GetKeyedCodeList<MLBPPDivision>();
+    public RosterDetails RosterDetails { get; set; }
+
+    public LoadBaseResponse(RosterDetails details)
+    {
+      RosterDetails = details; ;
+    }
+  }
+
+  public class KeyedCode
+  {
+    public string Key { get; set; }
+    public string Name { get; set; }
+
+    public KeyedCode(string key, string name)
+    {
+      Key = key;
+      Name = name;
+    }
+  }
 
   public class RosterDetails
   {
@@ -58,14 +82,17 @@ namespace PowerUp.ElectronUI.Api
   {
     public string Name { get; set; }
     public string PowerProsName { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public MLBPPDivision Division { get; set; }
     public IEnumerable<HitterDetails> Hitters { get; set; }
     public IEnumerable<PitcherDetails> Pitchers { get; set; }
     public int Overall { get; set; }
 
-    public TeamDetails(string name, string powerProsName, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
+    public TeamDetails(string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
     {
       Name = name;
       PowerProsName = powerProsName;
+      Division = division;
       Hitters = hitters;
       Pitchers = pitchers;
       Overall = overall;
@@ -73,12 +100,12 @@ namespace PowerUp.ElectronUI.Api
 
     public static TeamDetails FromRosterTeamAndPlayers(Roster roster, Team team, IEnumerable<Player> allPlayers)
     {
-      var powerProsTeamName = roster.TeamKeysByPPTeam.Single(m => m.Value == team.GetKey()).Key.GetFullDisplayName();
+      var ppTeam = roster.TeamKeysByPPTeam.Single(m => m.Value == team.GetKey()).Key;
       var playersOnTeam = team.PlayerDefinitions.Select(pd => allPlayers.Single(p => pd.PlayerKey == p.GetKey())).ToList();
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.Name, powerProsTeamName, hitters, pitchers, 0);
+      return new TeamDetails(team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
     }
   }
 

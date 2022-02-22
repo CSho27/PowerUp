@@ -5,6 +5,16 @@ export interface LoadBaseRequest {
   throwaway: number;
 }
 
+export interface LoadBaseResponse {
+  divisionOptions: KeyedCode[];
+  rosterDetails: RosterDetails;
+}
+
+export interface KeyedCode {
+  key: string;
+  name: string;
+}
+
 export interface RosterDetails {
   name: string
   teams: TeamDetails[];
@@ -13,6 +23,7 @@ export interface RosterDetails {
 export interface TeamDetails {
   name: string;
   powerProsName: string;
+  division: string;
   hitters: HitterDetails[];
   pitchers: PitcherDetails[];
 }
@@ -54,7 +65,7 @@ export class ImportBaseRosterApiClient {
     this.commandFetcher = commandFetcher;
   }
 
-  execute = (request: LoadBaseRequest): Promise<RosterDetails> => {
+  execute = (request: LoadBaseRequest): Promise<LoadBaseResponse> => {
     return this.commandFetcher.execute(this.commandName, request);
   }
 }
