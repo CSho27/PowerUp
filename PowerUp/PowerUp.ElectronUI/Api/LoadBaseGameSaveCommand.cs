@@ -4,6 +4,7 @@ using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Teams;
 using PowerUp.GameSave.Api;
 using PowerUp.Libraries;
+using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api
 {
@@ -85,6 +86,7 @@ namespace PowerUp.ElectronUI.Api
   {
     public string SavedName { get; set; }
     public string UniformNumber { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public PositionType PositionType { get; set; }
     public string Position { get; set; }
     public int Overall { get; set; }

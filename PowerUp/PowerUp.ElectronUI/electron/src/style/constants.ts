@@ -47,7 +47,7 @@ export const COLORS = {
     },
     pitcherRed: {
       regular_48: 'hsl(357deg 80% 48%)',
-      dark_30: 'hsl(357deg 80& 30%)'
+      dark_30: 'hsl(357deg 80% 30%)'
     }
   },
   grades: {

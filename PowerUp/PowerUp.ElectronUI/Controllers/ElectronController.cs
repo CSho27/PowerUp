@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PowerUp.Databases;
-using PowerUp.ElectronUI.Api;
 using PowerUp.ElectronUI.Shared;
-using PowerUp.Entities;
-using PowerUp.GameSave;
-using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Controllers
 {

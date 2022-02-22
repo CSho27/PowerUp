@@ -16,7 +16,7 @@ export interface TextBubbleProps {
 export function TextBubble(props: TextBubbleProps) {
   const { positionType, width, height, style, children } = props;
 
-  return <BubbleWrapper positionType={positionType} width={width} height={height} style={style}>
+  return <BubbleWrapper positionType={positionType} bubbleWidth={width} bubbleHeight={height} style={style}>
     {children}
   </BubbleWrapper>
 }
@@ -40,12 +40,11 @@ const colors: { [key in PositionType]: string } = {
   `
 }
 
-const bubbleText = styled.div`
-  font-size: ${FONT_SIZES._48};
-  line-height: 1.2;
-  margin-top: -4px;
-  color: ${COLORS.white};
+const bubbleText = styled.div<{ fontSize?: string }>`
+  font-size: ${p => p.fontSize ?? FONT_SIZES._48};
+  color: ${COLORS.white.regular_100};
   white-space: nowrap;
+  line-height: 1;
 `
 
 export const PlayerName = styled(bubbleText)`
@@ -58,13 +57,12 @@ export const Position = styled(bubbleText)`
   font-style: italic;
 `
 
-const BubbleWrapper = styled.div<{ positionType: PositionType, width: string | undefined, height: string | undefined }>`
+const BubbleWrapper = styled.div<{ positionType: PositionType, bubbleWidth: string | undefined, bubbleHeight: string | undefined }>`
   ${p => colors[p.positionType]}
   background-color: var(--bubble-color);
   border: solid 3px var(--border-color);
   border-radius: 8px;
-  width: ${p => p.width ?? 'fit-content'};
-  height: ${p => p.height ?? 'fit-content'};
-  padding: 2px 4px;
+  width: ${p => p.bubbleWidth ?? 'fit-content'};
+  height: ${p => p.bubbleHeight ?? 'fit-content'};
 `
 

@@ -1,7 +1,8 @@
 import styled from "styled-components"
+import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
-import { TeamDetails } from "../home/importBaseRosterApiClient"
+import { PlayerDetails, TeamDetails } from "../home/importBaseRosterApiClient"
 
 interface TeamGridProps {
   appContext: AppContext;
@@ -31,16 +32,12 @@ export function TeamGrid(props: TeamGridProps) {
         </PlayerGroupHeader>
       </tr>
       <tr>
-        <StatHeader>Num</StatHeader>
-        <StatHeader>Pos</StatHeader>
-        <StatHeader>Name</StatHeader>
-        <StatHeader>Ovr</StatHeader>
-        <StatHeader>B/T</StatHeader>
+        {getPlayerDetailsHeaders()}
         <StatHeader>Trj</StatHeader>
         <StatHeader>Con</StatHeader>
         <StatHeader>Pwr</StatHeader>
         <StatHeader>Run</StatHeader>
-        <StatHeader>Arm</StatHeader>
+        <StatHeader><CenteringWrapper>Arm</CenteringWrapper></StatHeader>
         <StatHeader>Fld</StatHeader>
         <StatHeader>E-Res</StatHeader>
       </tr>
@@ -48,11 +45,7 @@ export function TeamGrid(props: TeamGridProps) {
     <PlayerTableBody>
     {hitters.map(h => 
       <tr key={h.savedName}>
-        <td>{h.uniformNumber}</td>
-        <td>{h.position}</td>
-        <td>{h.savedName}</td>
-        <td>{h.overall}</td>
-        <td>{h.batsAndThrows}</td>
+        {getPlayerDetailsColumns(h)}
         <td>{h.trajectory}</td>
         <td>{h.contact}</td>
         <td>{h.power}</td>
@@ -71,11 +64,7 @@ export function TeamGrid(props: TeamGridProps) {
         </PlayerGroupHeader>
       </tr>
       <tr>
-        <StatHeader>Num</StatHeader>
-        <StatHeader>Pos</StatHeader>
-        <StatHeader>Name</StatHeader>
-        <StatHeader>Ovr</StatHeader>
-        <StatHeader>B/T</StatHeader>
+        {getPlayerDetailsHeaders()}
         <StatHeader>Type</StatHeader>
         <StatHeader>Top Spd</StatHeader>
         <StatHeader>Ctrl</StatHeader>
@@ -88,11 +77,7 @@ export function TeamGrid(props: TeamGridProps) {
     <PlayerTableBody>
     {pitchers.map(p => 
       <tr key={p.savedName}>
-        <td>{p.uniformNumber}</td>
-        <td>{p.position}</td>
-        <td>{p.savedName}</td>
-        <td>{p.overall}</td>
-        <td>{p.batsAndThrows}</td>
+        {getPlayerDetailsColumns(p)}
         <td>{p.pitcherType}</td>
         <td>{p.topSpeed} mph</td>
         <td>{p.control}</td>
@@ -103,6 +88,38 @@ export function TeamGrid(props: TeamGridProps) {
       </tr>)}
     </PlayerTableBody>
   </TeamGridTable>;
+
+  function getPlayerDetailsHeaders() {
+    return <>
+      <StatHeader>Num</StatHeader>
+      <StatHeader>Pos</StatHeader>
+      <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
+      <StatHeader>Ovr</StatHeader>
+      <StatHeader>B/T</StatHeader>
+    </>
+  }
+
+  function getPlayerDetailsColumns(details: PlayerDetails) {
+    return <>
+      <td>{details.uniformNumber}</td>
+      <td>
+        <CenteringWrapper>
+          <TextBubble positionType={details.positionType} height='32px' width='38px'>
+            <Position fontSize={FONT_SIZES._24} >{details.position}</Position>
+          </TextBubble>
+        </CenteringWrapper>
+      </td>
+      <td>
+        <CenteringWrapper>
+          <TextBubble positionType={details.positionType} width='100%' style={{ textAlign: 'left' }}>
+            <TeamGridPlayerName fontSize={FONT_SIZES._24}>{details.savedName}</TeamGridPlayerName>
+          </TextBubble>
+        </CenteringWrapper>
+      </td>
+      <td>{details.overall}</td>
+      <td>{details.batsAndThrows}</td>
+    </>
+  }
 }
 
 const TeamGridTable = styled.table`
@@ -143,14 +160,26 @@ const PlayerGroupH3 = styled.h3`
   font-weight: 600;
 `
 
-const StatHeader = styled.th`
+const StatHeader = styled.th<{ columnWidth?: string | number }>`
   background-color: ${COLORS.jet.lighter_71};
   font-style: italic;
   position: sticky;
   top: 88px;
   height: 24px;
+  width: ${p => p.columnWidth ?? '32px'};
+  white-space: nowrap;
 `
 
 const PlayerTableBody = styled.tbody`
   text-align: center;
+`
+
+const CenteringWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const TeamGridPlayerName = styled(PlayerName)`
+  padding: 2px 4px;
 `
