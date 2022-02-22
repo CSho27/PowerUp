@@ -31,7 +31,7 @@ namespace PowerUp.Mappers.Players
         ImportSource = parameters.IsBase
           ? null
           : parameters.ImportSource,
-        BaseTeam = (MLBPPTeam)gsPlayer.PowerProsTeamId!.Value,
+        SourcePowerProsId = gsPlayer.PowerProsId!.Value,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
         PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value),
