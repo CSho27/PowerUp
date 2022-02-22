@@ -180,6 +180,7 @@ namespace PowerUp.ElectronUI.Api
 
   public class PitcherDetails : PlayerDetails
   {
+    public string PitcherType { get; set; }
     public int TopSpeed { get; set; }
     public int Control { get; set; }
     public int Stamina { get; set; }
@@ -194,6 +195,7 @@ namespace PowerUp.ElectronUI.Api
       string position,
       int overall,
       string batsAndThrows,
+      string pitcherType,
       int topSpeed,
       int control,
       int stamina,
@@ -202,6 +204,7 @@ namespace PowerUp.ElectronUI.Api
       string? breakingBall3
     ) : base(savedName, uniformNumber, positionType, position, overall, batsAndThrows)
     {
+      PitcherType = pitcherType;
       TopSpeed = topSpeed;
       Control = control;
       Stamina = stamina;
@@ -233,7 +236,7 @@ namespace PowerUp.ElectronUI.Api
       var sortedArsenal = pitchArsenal
         .Where(t => t.type != null)
         .OrderByDescending(t => t.movement)
-        .Select(t => $"{t.type}-{t.movement}")
+        .Select(t => $"{t.type} ({t.movement})")
         .ToList();
 
       return new PitcherDetails(
@@ -243,6 +246,7 @@ namespace PowerUp.ElectronUI.Api
         position: playerDetails.Position,
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
+        pitcherType: player.PitcherType.GetAbbrev(),
         topSpeed: abilities.TopSpeedMph.RoundDown(),
         control: abilities.Control,
         stamina: abilities.Stamina,

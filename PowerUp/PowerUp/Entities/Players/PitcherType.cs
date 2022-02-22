@@ -2,13 +2,13 @@
 {
   public enum PitcherType
   {
-    [DisplayName("Swing-Man")]
+    [Abbrev("SM"), DisplayName("Swing-Man")]
     SwingMan,
-    [DisplayName("Starter")]
+    [Abbrev("SP"), DisplayName("Starter")]
     Starter,
-    [DisplayName("Reliever")]
+    [Abbrev("RP"), DisplayName("Reliever")]
     Reliever,
-    [DisplayName("Closer")]
+    [Abbrev("CP"), DisplayName("Closer")]
     Closer
   }
 }

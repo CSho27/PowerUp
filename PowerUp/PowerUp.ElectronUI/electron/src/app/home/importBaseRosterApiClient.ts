@@ -37,6 +37,7 @@ export interface HitterDetails extends PlayerDetails {
 }
 
 export interface PitcherDetails extends PlayerDetails {
+  pitcherType: string;
   topSpeed: number;
   control: number;
   stamina: number;

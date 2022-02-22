@@ -4,9 +4,9 @@ import { ContentWithHangingHeader } from "../../components/hangingHeader/hanging
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { HomePage } from "../home/homePage";
-import { RosterDetails } from "../home/importBaseRosterApiClient";
+import { RosterDetails, TeamDetails } from "../home/importBaseRosterApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { TeamsGrid } from "./teamsGrid";
+import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;
@@ -27,9 +27,17 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   return <PowerUpLayout headerText='Edit Roster'>
     <ContentWithHangingHeader header={header} headerHeight='88px'>
-      <TeamsGrid teams={teams}/>
+      <TeamsContainer>
+        {teams.slice(0, 3).map(toTeamGrid)}
+      </TeamsContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
+
+  function toTeamGrid(team: TeamDetails) {
+    return <TeamWrapper>
+      <TeamGrid appContext={appContext} team={team} />
+    </TeamWrapper>
+  }
 
   function returnHome() {
     appContext.setPage(<HomePage appContext={appContext} />)
@@ -40,4 +48,12 @@ const RosterHeader = styled.h1`
   padding-bottom: 8px;
   font-size: ${FONT_SIZES._32};
   font-style: italic;
+`
+
+const TeamsContainer = styled.div`
+  padding-left: 16px;
+`
+
+const TeamWrapper = styled.div`
+  margin-top: 16px;
 `
