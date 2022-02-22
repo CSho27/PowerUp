@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
@@ -101,7 +102,11 @@ export function TeamGrid(props: TeamGridProps) {
 
   function getPlayerDetailsColumns(details: PlayerDetails) {
     return <>
-      <td>{details.uniformNumber}</td>
+      <td>
+        <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
+          {details.uniformNumber}
+        </OutlineHeader>
+      </td>
       <td>
         <CenteringWrapper>
           <TextBubble positionType={details.positionType} height='32px' width='38px'>

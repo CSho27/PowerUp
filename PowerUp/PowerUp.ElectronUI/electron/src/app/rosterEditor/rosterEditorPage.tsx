@@ -48,6 +48,7 @@ const RosterHeader = styled.h1`
   padding-bottom: 8px;
   font-size: ${FONT_SIZES._32};
   font-style: italic;
+  white-space: nowrap;
 `
 
 const TeamsContainer = styled.div`

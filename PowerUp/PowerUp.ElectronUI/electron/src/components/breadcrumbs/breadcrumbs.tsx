@@ -25,6 +25,7 @@ const BreadcrumbList = styled.ol`
   font-weight: bold;
   font-size: ${FONT_SIZES._18};
   font-style: italic;
+  white-space: nowrap;
 `
 
 const Wrapper = styled.li`
