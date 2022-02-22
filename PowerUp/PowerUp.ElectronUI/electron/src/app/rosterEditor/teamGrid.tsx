@@ -69,9 +69,9 @@ export function TeamGrid(props: TeamGridProps) {
         <StatHeader>Top Spd</StatHeader>
         <StatHeader>Ctrl</StatHeader>
         <StatHeader>Stam</StatHeader>
-        <StatHeader>Brk 1</StatHeader>
-        <StatHeader>Brk 2</StatHeader>
-        <StatHeader>Brk 3</StatHeader>
+        <StatHeader columnWidth='64px'>Brk 1</StatHeader>
+        <StatHeader columnWidth='64px'>Brk 2</StatHeader>
+        <StatHeader columnWidth='64px'>Brk 3</StatHeader>
       </tr>
     </thead>
     <PlayerTableBody>
