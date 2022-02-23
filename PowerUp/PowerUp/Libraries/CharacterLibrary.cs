@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace PowerUp.Libraries
+﻿namespace PowerUp.Libraries
 {
   public interface ICharacterLibrary
   {
@@ -10,26 +6,16 @@ namespace PowerUp.Libraries
     ushort? this[char key] { get; }
   }
 
-  public class CharacterLibrary : ICharacterLibrary
+  public class CharacterLibrary : CsvKeyValueLibrary<ushort, char>, ICharacterLibrary
   {
-    private readonly IDictionary<ushort, char> _charsByShort;
-    private readonly IDictionary<char, ushort> _shortsByChar;
+    public CharacterLibrary(string libraryFilePath): base(libraryFilePath) { }
 
-    internal CharacterLibrary(string libraryFilePath)
-    {
-      var allLinesSplitByComma = File.ReadAllLines(libraryFilePath)
-        .Select(l => l.Split(","))
-        .Select(l => (@ushort: ushort.Parse(l[0]), @char: char.Parse(l[1])));
+    protected override char? OnKeyNotFound(ushort key) => '*';
+    protected override ushort? OnValueNotFound(char value) => null;
 
-      _charsByShort = allLinesSplitByComma.ToDictionary(l => l.@ushort, l => l.@char);
-      _shortsByChar = allLinesSplitByComma.ToDictionary(l => l.@char, l => l.@ushort);
-    }
+    protected override ushort ParseKey(string keyString) => ushort.Parse(keyString);
+    protected override char ParseValue(string valueString) => char.Parse(valueString);
 
-    public char this[ushort key] => _charsByShort.TryGetValue(key, out var @char)
-      ? @char
-      : '*';
-    public ushort? this[char key] => _shortsByChar.TryGetValue(key, out var @ushort)
-      ? @ushort
-      : null;
+    char ICharacterLibrary.this[ushort key] => this[key]!.Value;
   }
 }
