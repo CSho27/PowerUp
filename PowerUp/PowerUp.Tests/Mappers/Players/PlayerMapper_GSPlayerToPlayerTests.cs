@@ -24,6 +24,7 @@ namespace PowerUp.Tests.Mappers.Players
 
       gsPlayer = new GSPlayer
       {
+        PowerProsId = 1,
         IsEdited = false,
         PrimaryPosition = 8,
         IsStarter = false,
@@ -128,6 +129,13 @@ namespace PowerUp.Tests.Mappers.Players
       mappingParameters.ImportSource = importSource;
       var result = gsPlayer.MapToPlayer(mappingParameters);
       result.ImportSource.ShouldBe(expectedResult);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSourcePowerProsId()
+    {
+      var result = gsPlayer.MapToPlayer(mappingParameters);
+      result.SourcePowerProsId.ShouldBe(1);
     }
 
     [Test]
