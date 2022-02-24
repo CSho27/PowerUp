@@ -61,8 +61,7 @@ namespace PowerUp.GameSave.IO
     public void WriteChar(long offset, char @char)
     {
       var charNum = _characterLibrary[@char];
-      if (charNum.HasValue)
-        WriteUInt(offset, 0, 16, charNum.Value);
+      WriteUInt(offset, 0, 16, charNum);
     }
 
     public void WriteBool(long offset, int bitOffset, bool @bool) => WriteUInt(offset, bitOffset, 1, (ushort)(@bool ? 1 : 0));
