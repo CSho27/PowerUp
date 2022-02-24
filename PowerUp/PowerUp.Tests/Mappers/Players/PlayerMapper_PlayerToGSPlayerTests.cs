@@ -1,6 +1,8 @@
-﻿using NUnit.Framework;
+﻿using NSubstitute;
+using NUnit.Framework;
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
+using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
 using Shouldly;
 
@@ -9,18 +11,20 @@ namespace PowerUp.Tests.Mappers.Players
   public class PlayerMapper_PlayerToGSPlayerTests
   {
     private Player player;
+    private PlayerMapper playerMapper;
 
     [SetUp]
     public void SetUp()
     {
       player = new Player() { UniformNumber = "24" };
+      playerMapper = new PlayerMapper(Substitute.For<ISpecialSavedNameLibrary>());
     }
 
     [Test]
     public void MapToGSPlayer_ShouldMapLastName()
     {
       player.LastName = "Sizemore";
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.LastName.ShouldBe("Sizemore");
     }
 
@@ -28,7 +32,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGsPlayer_ShouldMapFirstName()
     {
       player.FirstName = "Grady";
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.FirstName.ShouldBe("Grady");
     }
 
@@ -36,7 +40,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSavedName()
     {
       player.SavedName = "Sizemore";
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.SavedName.ShouldBe("Sizemore");
     }
 
@@ -48,7 +52,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(EntitySourceType playerType)
     {
       player.SourceType = playerType;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.IsEdited.ShouldBe(playerType == EntitySourceType.Custom);
     }
 
@@ -60,7 +64,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShoudMapUniformNumber(string uniformNumber, ushort expectedNumberValue, ushort expectedNumberDigits)
     {
       player.UniformNumber = uniformNumber;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.PlayerNumber.ShouldBe(expectedNumberValue);
       result.PlayerNumberNumberOfDigits.ShouldBe(expectedNumberDigits);
     }
@@ -69,7 +73,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapPrimaryPosition()
     {
       player.PrimaryPosition = Position.CenterField;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.PrimaryPosition.ShouldBe((ushort)8);
     }
 
@@ -81,7 +85,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToPlayer_ShouldMapPitcherType(PitcherType pitcherType, bool isStarter, bool isReliever, bool isCloser)
     {
       player.PitcherType = pitcherType;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.IsStarter.ShouldBe(isStarter);
       result.IsReliever.ShouldBe(isReliever);
       result.IsCloser.ShouldBe(isCloser);
@@ -91,7 +95,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapVoiceId()
     {
       player.VoiceId = 35038;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.VoiceId.ShouldBe((ushort)35038);
     }
 
@@ -99,7 +103,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapBattingSide()
     {
       player.BattingSide = BattingSide.Left;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.BattingSide.ShouldBe((ushort)1);
     }
 
@@ -107,7 +111,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapBattingStanceId()
     {
       player.BattingStanceId = 3;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.BattingForm.ShouldBe((ushort)3);
     }
 
@@ -115,7 +119,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapThrowingSide()
     {
       player.ThrowingSide = ThrowingSide.Left;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.ThrowsLefty.ShouldBe(true);
     }
 
@@ -123,7 +127,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapPitchingMechanicsId()
     {
       player.PitchingMechanicsId = 3;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.PitchingForm.ShouldBe((ushort)3);
     }
 
@@ -131,7 +135,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapPitcherCapability()
     {
       player.PositonCapabilities.Pitcher = Grade.G;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.PitcherCapability.ShouldBe((ushort)1);
     }
 
@@ -139,7 +143,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapCatcherCapability()
     {
       player.PositonCapabilities.Catcher = Grade.F;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.CatcherCapability.ShouldBe((ushort)2);
     }
 
@@ -147,7 +151,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapFirstBaseCapability()
     {
       player.PositonCapabilities.FirstBase = Grade.E;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.FirstBaseCapability.ShouldBe((ushort)3);
     }
 
@@ -155,7 +159,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSecondBaseCapability()
     {
       player.PositonCapabilities.SecondBase = Grade.D;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.SecondBaseCapability.ShouldBe((ushort)4);
     }
 
@@ -163,7 +167,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapThirdBaseCapability()
     {
       player.PositonCapabilities.ThirdBase = Grade.C;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.ThirdBaseCapability.ShouldBe((ushort)5);
     }
 
@@ -171,7 +175,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapShortstopCapability()
     {
       player.PositonCapabilities.Shortstop = Grade.B;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.ShortstopCapability.ShouldBe((ushort)6);
     }
 
@@ -179,7 +183,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapLeftFieldCapability()
     {
       player.PositonCapabilities.LeftField = Grade.A;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.LeftFieldCapability.ShouldBe((ushort)7);
     }
 
@@ -187,7 +191,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapCenterFieldCapability()
     {
       player.PositonCapabilities.CenterField = Grade.B;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.CenterFieldCapability.ShouldBe((ushort)6);
     }
 
@@ -195,7 +199,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapRightFieldCapability()
     {
       player.PositonCapabilities.RightField = Grade.C;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.RightFieldCapability.ShouldBe((ushort)5);
     }
 
@@ -203,7 +207,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapTrajectory()
     {
       player.HitterAbilities.Trajectory = 3;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Trajectory.ShouldBe((ushort)3);
     }
 
@@ -211,7 +215,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapContact()
     {
       player.HitterAbilities.Contact = 9;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Contact.ShouldBe((ushort)9);
     }
 
@@ -219,7 +223,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapPower()
     {
       player.HitterAbilities.Power = 156;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Power.ShouldBe((ushort)156);
     }
 
@@ -227,7 +231,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapRunSpeed()
     {
       player.HitterAbilities.RunSpeed = 6;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.RunSpeed.ShouldBe((ushort)6);
     }
 
@@ -235,7 +239,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapArmStrength()
     {
       player.HitterAbilities.ArmStrength = 10;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.ArmStrength.ShouldBe((ushort)10);
     }
 
@@ -243,7 +247,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapFielding()
     {
       player.HitterAbilities.Fielding = 5;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Fielding.ShouldBe((ushort)5);
     }
 
@@ -251,7 +255,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapErrorResistance()
     {
       player.HitterAbilities.ErrorResistance = 7;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.ErrorResistance.ShouldBe((ushort)7);
     }
 
@@ -259,7 +263,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneUpAndIn()
     {
       player.HitterAbilities.HotZones.UpAndIn = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneUpAndIn.ShouldBe((ushort)3);
     }
 
@@ -267,7 +271,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneUp()
     {
       player.HitterAbilities.HotZones.Up = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneUp.ShouldBe((ushort)3);
     }
 
@@ -275,7 +279,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneUpAndAway()
     {
       player.HitterAbilities.HotZones.UpAndAway = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneUpAndAway.ShouldBe((ushort)3);
     }
 
@@ -283,7 +287,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneMiddleIn()
     {
       player.HitterAbilities.HotZones.MiddleIn = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneMiddleIn.ShouldBe((ushort)3);
     }
 
@@ -291,7 +295,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneMiddle()
     {
       player.HitterAbilities.HotZones.Middle = HotZonePreference.Hot;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneMiddle.ShouldBe((ushort)1);
     }
 
@@ -299,7 +303,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneMiddleAway()
     {
       player.HitterAbilities.HotZones.MiddleAway = HotZonePreference.Neutral;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneMiddleAway.ShouldBe((ushort)0);
     }
 
@@ -307,7 +311,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneDwonAndIn()
     {
       player.HitterAbilities.HotZones.DownAndIn = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneDownAndIn.ShouldBe((ushort)3);
     }
 
@@ -315,7 +319,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneDown()
     {
       player.HitterAbilities.HotZones.Down = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneDown.ShouldBe((ushort)3);
     }
 
@@ -323,7 +327,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHotZoneDownAndAway()
     {
       player.HitterAbilities.HotZones.DownAndAway = HotZonePreference.Cold;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.HotZoneDownAndAway.ShouldBe((ushort)3);
     }
 
@@ -334,7 +338,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapTopSpeedMph(double mph, ushort kmh)
     {
       player.PitcherAbilities.TopSpeedMph = mph;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.TopThrowingSpeedKMH.ShouldBe(kmh);
     }
 
@@ -342,7 +346,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapControl()
     {
       player.PitcherAbilities.Control = 120;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Control.ShouldBe((ushort)120);
     }
 
@@ -350,7 +354,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapStamina()
     {
       player.PitcherAbilities.Stamina = 78;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Stamina.ShouldBe((ushort)78);
     }
 
@@ -358,7 +362,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHasTwoSeam()
     {
       player.PitcherAbilities.HasTwoSeam = true;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.TwoSeamType.ShouldBe((ushort)2);
     }
 
@@ -366,7 +370,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapHasTwoSeamMovement()
     {
       player.PitcherAbilities.TwoSeamMovement = 3;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.TwoSeamMovement.ShouldBe((ushort)3);
     }
 
@@ -374,7 +378,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSlider1Type()
     {
       player.PitcherAbilities.Slider1Type = SliderType.Cutter;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Slider1Type.ShouldBe((ushort)5);
     }
 
@@ -382,7 +386,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSlider1Movement()
     {
       player.PitcherAbilities.Slider1Movement = 1;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Slider1Movement.ShouldBe((ushort)1);
     }
 
@@ -390,7 +394,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSlider2Type()
     {
       player.PitcherAbilities.Slider2Type = SliderType.Slider;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Slider2Type.ShouldBe((ushort)3);
     }
 
@@ -398,7 +402,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSlider2Movement()
     {
       player.PitcherAbilities.Slider2Movement = 2;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Slider2Movement.ShouldBe((ushort)2);
     }
 
@@ -406,7 +410,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapCurve1Type()
     {
       player.PitcherAbilities.Curve1Type = CurveType.SlowCurve;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Curve1Type.ShouldBe((ushort)7);
     }
 
@@ -414,7 +418,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapCurve1Movement()
     {
       player.PitcherAbilities.Curve1Movement = 3;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Curve1Movement.ShouldBe((ushort)3);
     }
 
@@ -422,7 +426,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapCurve2Type()
     {
       player.PitcherAbilities.Curve2Type = CurveType.KnuckleCurve;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Curve2Type.ShouldBe((ushort)11);
     }
 
@@ -430,7 +434,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapCurve2Movement()
     {
       player.PitcherAbilities.Curve2Movement = 4;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Curve2Movement.ShouldBe((ushort)4);
     }
 
@@ -438,7 +442,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapFork1Type()
     {
       player.PitcherAbilities.Fork1Type = ForkType.Forkball;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Fork1Type.ShouldBe((ushort)12);
     }
 
@@ -446,7 +450,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapFork1Movement()
     {
       player.PitcherAbilities.Fork1Movement = 5;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Fork1Movement.ShouldBe((ushort)5);
     }
 
@@ -454,7 +458,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapFork2Type()
     {
       player.PitcherAbilities.Fork2Type = ForkType.Foshball;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Fork2Type.ShouldBe((ushort)19);
     }
 
@@ -462,7 +466,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapFork2Movement()
     {
       player.PitcherAbilities.Fork2Movement = 6;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Fork2Movement.ShouldBe((ushort)6);
     }
 
@@ -470,7 +474,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinker1Type()
     {
       player.PitcherAbilities.Sinker1Type = SinkerType.Sinker;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Sinker1Type.ShouldBe((ushort)20);
     }
 
@@ -478,7 +482,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinker1Movement()
     {
       player.PitcherAbilities.Sinker1Movement = 7;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Sinker1Movement.ShouldBe((ushort)7);
     }
 
@@ -486,7 +490,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinker2Type()
     {
       player.PitcherAbilities.Sinker2Type = SinkerType.HardSinker;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Sinker2Type.ShouldBe((ushort)21);
     }
 
@@ -494,7 +498,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinker2Movement()
     {
       player.PitcherAbilities.Sinker2Movement = 6;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.Sinker2Movement.ShouldBe((ushort)6);
     }
 
@@ -502,7 +506,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinkingFastball1Type()
     {
       player.PitcherAbilities.SinkingFastball1Type = SinkingFastballType.SinkingFastball;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.SinkingFastball1Type.ShouldBe((ushort)25);
     }
 
@@ -510,7 +514,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinkingFastball1Movement()
     {
       player.PitcherAbilities.SinkingFastball1Movement = 5;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.SinkingFastball1Movement.ShouldBe((ushort)5);
     }
 
@@ -518,7 +522,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinkingFastball2Type()
     {
       player.PitcherAbilities.SinkingFastball2Type = SinkingFastballType.HardShuuto;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.SinkingFastball2Type.ShouldBe((ushort)24);
     }
 
@@ -526,7 +530,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToGSPlayer_ShouldMapSinkingFastball2Movement()
     {
       player.PitcherAbilities.SinkingFastball2Movement = 4;
-      var result = player.MapToGSPlayer(MLBPPTeam.Indians);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.SinkingFastball2Movement.ShouldBe((ushort)4);
     }
   }

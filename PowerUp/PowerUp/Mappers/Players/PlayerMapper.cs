@@ -2,6 +2,7 @@
 using PowerUp.Entities.Players;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.Objects.Players;
+using PowerUp.Libraries;
 
 namespace PowerUp.Mappers.Players
 {
@@ -14,9 +15,22 @@ namespace PowerUp.Mappers.Players
       => new PlayerMappingParameters { IsBase = importParameters.IsBase, ImportSource = importParameters.ImportSource };
   }
 
-  public static class PlayerMapper
+  public interface IPlayerMapper
   {
-    public static Player MapToPlayer(this GSPlayer gsPlayer, PlayerMappingParameters parameters)
+    Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters);
+    GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam);
+  }
+
+  public class PlayerMapper : IPlayerMapper
+  {
+    private readonly ISpecialSavedNameLibrary _savedNameLibrary;
+
+    public PlayerMapper(ISpecialSavedNameLibrary savedNameLibrary)
+    {
+      _savedNameLibrary = savedNameLibrary;
+    }
+
+    public Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters)
     {
       return new Player
       {
@@ -27,7 +41,12 @@ namespace PowerUp.Mappers.Players
             : EntitySourceType.Imported,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
-        SavedName = gsPlayer.SavedName!,
+        SavedName = gsPlayer.SavedName!.Contains("*")
+          ? _savedNameLibrary[(int)gsPlayer.SpecialSavedNameId!]
+          : gsPlayer.SavedName,
+        SpecialSavedNameId = gsPlayer.SavedName.Contains('*')
+          ? (int)gsPlayer.SpecialSavedNameId!
+          : gsPlayer.SpecialSavedNameId,
         ImportSource = parameters.IsBase
           ? null
           : parameters.ImportSource,
@@ -48,7 +67,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static GSPlayer MapToGSPlayer(this Player player, MLBPPTeam mlbPPTeam)
+    public GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam)
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
@@ -63,7 +82,10 @@ namespace PowerUp.Mappers.Players
 
         LastName = player.LastName,
         FirstName = player.FirstName,
-        SavedName = player.SavedName,
+        SavedName = player.SpecialSavedNameId.HasValue
+          ? null
+          : player.SavedName,
+        SpecialSavedNameId = (ushort?)player.SpecialSavedNameId,
         IsEdited = player.SourceType == EntitySourceType.Custom,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,

@@ -21,10 +21,12 @@ namespace PowerUp.GameSave.Api
   public class RosterImportApi : IRosterImportApi
   {
     private readonly ICharacterLibrary _characterLibrary;
+    private readonly IPlayerMapper _playerMapper;
 
-    public RosterImportApi(ICharacterLibrary characterLibrary)
+    public RosterImportApi(ICharacterLibrary characterLibrary, IPlayerMapper playerMapper)
     {
       _characterLibrary = characterLibrary;
+      _playerMapper = playerMapper;
     }
 
     public RosterImportResult ImportRoster(RosterImportParameters parameters)
@@ -44,7 +46,7 @@ namespace PowerUp.GameSave.Api
 
         foreach (var gsPlayer in gsPlayers)
         {
-          var player = gsPlayer.MapToPlayer(PlayerMappingParameters.FromRosterImport(parameters));
+          var player = _playerMapper.MapToPlayer(gsPlayer, PlayerMappingParameters.FromRosterImport(parameters));
           playerKeysByPPId.Add(gsPlayer.PowerProsId!.Value, player.GetKey());
           players.Add(player);
           DatabaseConfig.JsonDatabase.Save(player);

@@ -23,6 +23,7 @@ namespace PowerUp.Entities.Players
     public int? SourcePowerProsId { get; set; }
 
     public string SavedName { get; set; } = string.Empty;
+    public int? SpecialSavedNameId { get; set; }
     public string UniformNumber { get; set; } = string.Empty;
     public Position PrimaryPosition { get; set; }
     public PitcherType PitcherType { get; set; }
