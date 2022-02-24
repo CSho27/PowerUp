@@ -25,11 +25,12 @@ namespace PowerUp
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary);
-      //PrintAllPlayers(characterLibrary);
+      PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
-      BuildPlayerValueLibrary(characterLibrary);
+      //BuildPlayerValueLibrary(characterLibrary);
+      //FindDuplicatesInLibrary();
     }
 
     static void AnalyzeGameSave(ICharacterLibrary characterLibrary)
@@ -54,7 +55,7 @@ namespace PowerUp
         var player = playerReader.Read(id);
         var position = (Position)player.PrimaryPosition!;
         var playerString = $"{id} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{BinaryUtils.ToBitString(player.EmptyPlayerBytes!)}");
+        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.PitchingForm!.Value}");
       }
     }
 
@@ -162,6 +163,18 @@ namespace PowerUp
 
       var csvLines = playersAndValues.Select(p => $"{p.Key},{p.Value}");
       File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/FaceId_Library.csv"), csvLines);
+    }
+
+    static void FindDuplicatesInLibrary()
+    {
+      var filePathToCheck = Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv");
+
+      var keyValuePairs = File.ReadAllLines(filePathToCheck)
+        .Select(l => l.Split(','))
+        .Select(l => new KeyValuePair<string, string>(l[0], l[1]));
+
+      var csvLines = keyValuePairs.GroupBy(p => p.Value).OrderBy(g => int.Parse(g.Key)).Select(g => $"{g.Key}, {string.Join(", ", g)}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/duplicates.csv"), csvLines);
     }
   }
 }
