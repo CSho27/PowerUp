@@ -9,7 +9,7 @@ namespace PowerUp.Mappers.Players
     {
       return new HitterAbilities
       {
-        Trajectory = gsPlayer.Trajectory!.Value,
+        Trajectory = gsPlayer.Trajectory!.Value + 1,
         Contact = gsPlayer.Contact!.Value,
         Power = gsPlayer.Power!.Value,
         RunSpeed = gsPlayer.RunSpeed!.Value,

@@ -208,7 +208,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       player.HitterAbilities.Trajectory = 3;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
-      result.Trajectory.ShouldBe((ushort)3);
+      result.Trajectory.ShouldBe((ushort)2);
     }
 
     [Test]

@@ -307,7 +307,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.Trajectory = 2;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.HitterAbilities.Trajectory.ShouldBe(2);
+      result.HitterAbilities.Trajectory.ShouldBe(3);
     }
 
     [Test]

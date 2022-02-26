@@ -111,7 +111,7 @@ namespace PowerUp.Mappers.Players
         RightFieldCapability = (ushort)positionCapabilities.RightField,
 
         // Hitter Abilities
-        Trajectory = (ushort)hitterAbilities.Trajectory,
+        Trajectory = (ushort)(hitterAbilities.Trajectory - 1),
         Contact = (ushort)hitterAbilities.Contact,
         Power = (ushort)hitterAbilities.Power,
         RunSpeed = (ushort)hitterAbilities.RunSpeed,
