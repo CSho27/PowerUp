@@ -39,6 +39,20 @@
 
     public SinkingFastballType? SinkingFastball2Type { get; set; }
     public int? SinkingFastball2Movement { get; set; }
+
+    public double GetPitcherRating()
+      => RatingCalculator.CalculatePitcherRating(new PitcherRatingParamters
+      {
+        TopSpeedMph = TopSpeedMph,
+        Control = Control,
+        Stamina = Stamina,
+        TwoSeamMovement = TwoSeamMovement ?? 0,
+        SliderMovement = Slider1Movement ?? 0,
+        CurveMovement = Curve1Movement ?? 0,
+        ForkMovement = Fork1Movement ?? 0,
+        SinkerMovement = Sinker1Movement ?? 0,
+        SinkingFastballMovement = SinkingFastball1Movement ?? 0
+      });
   }
 
   public enum SliderType

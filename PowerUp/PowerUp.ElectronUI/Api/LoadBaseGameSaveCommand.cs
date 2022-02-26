@@ -143,7 +143,7 @@ namespace PowerUp.ElectronUI.Api
         uniformNumber: player.UniformNumber,
         positionType: player.PrimaryPosition.GetPositionType(),
         position: player.PrimaryPosition.GetAbbrev(),
-        overall: 0,
+        overall: player.GetOverallRating().RoundDown(),
         batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingSide.GetAbbrev()}"
       );
     }

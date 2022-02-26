@@ -11,6 +11,17 @@
     public int ErrorResistance { get; set; }
 
     public HotZoneGrid HotZones { get; set; } = new HotZoneGrid();
+
+    public double GetHitterRating()
+      => RatingCalculator.CalculateHitterRating(new HitterRatingParameters
+      {
+        Contact = Contact,
+        Power = Power,
+        RunSpeed = RunSpeed,
+        ArmStrength = ArmStrength,
+        Fielding = Fielding,
+        ErrorResistance = ErrorResistance
+      });
   }
 
   public class HotZoneGrid
