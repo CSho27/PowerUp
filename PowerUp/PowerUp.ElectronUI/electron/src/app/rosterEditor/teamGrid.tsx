@@ -4,7 +4,7 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
-import { PlayerDetails, TeamDetails } from "../home/importBaseRosterApiClient"
+import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
   appContext: AppContext;

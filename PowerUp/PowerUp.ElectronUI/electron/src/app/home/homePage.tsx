@@ -65,7 +65,7 @@ export function HomePage(props: HomePageProps) {
   </PowerUpLayout>
 
   async function startFromBase() {
-    const response = await apiClientRef.current.execute({ throwaway: 1 });
+    const response = await apiClientRef.current.execute();
     appContext.setPage(<RosterEditorPage 
       appContext={appContext} 
       divisionOptions={response.divisionOptions}

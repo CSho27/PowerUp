@@ -6,8 +6,9 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { HomePage } from "../home/homePage";
-import { KeyedCode, RosterDetails, TeamDetails } from "../home/importBaseRosterApiClient";
+import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {

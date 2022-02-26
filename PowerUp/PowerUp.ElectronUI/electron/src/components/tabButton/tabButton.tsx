@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { KeyedCode } from "../../app/home/importBaseRosterApiClient"
+import { KeyedCode } from "../../app/shared/keyedCode"
 import { COLORS, FONT_SIZES } from "../../style/constants"
 
 export interface TabButtonNavProps {
