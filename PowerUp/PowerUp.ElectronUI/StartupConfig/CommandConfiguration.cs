@@ -1,5 +1,5 @@
-﻿using PowerUp.ElectronUI.Api;
-using PowerUp.ElectronUI.Api.PlayerEditor;
+﻿using PowerUp.ElectronUI.Api.PlayerEditor;
+using PowerUp.ElectronUI.Api.Rosters;
 
 namespace PowerUp.ElectronUI.StartupConfig
 {

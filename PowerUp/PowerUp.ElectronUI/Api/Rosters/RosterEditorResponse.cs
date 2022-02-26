@@ -1,62 +1,20 @@
-﻿using PowerUp.Entities;
+﻿using PowerUp.ElectronUI.Api.Shared;
+using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Teams;
-using PowerUp.GameSave.Api;
-using PowerUp.Libraries;
 using System.Text.Json.Serialization;
 
-namespace PowerUp.ElectronUI.Api
+namespace PowerUp.ElectronUI.Api.Rosters
 {
-  public class LoadBaseGameSaveCommand : ICommand<LoadBaseRequest, LoadBaseResponse>
-  {
-    private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
-    private readonly IRosterImportApi _rosterImportApi;
-
-    public LoadBaseGameSaveCommand(
-      IBaseGameSavePathProvider gameSavePathProvider,
-      IRosterImportApi rosterImportApi
-    )
-    {
-      _baseGameSavePathProvider = gameSavePathProvider;
-      _rosterImportApi = rosterImportApi;
-    }
-
-    public LoadBaseResponse Execute(LoadBaseRequest request)
-    {
-      var parameters = new RosterImportParameters
-      {
-        FilePath = _baseGameSavePathProvider.GetPath(),
-        IsBase = true
-      };
-      var result = _rosterImportApi.ImportRoster(parameters);
-      var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
-      return new LoadBaseResponse(rosterDetails);
-    }
-  }
-
-  public class LoadBaseRequest { }
-
-  public class LoadBaseResponse
+  public class RosterEditorResponse
   {
     public IEnumerable<KeyedCode> DivisionOptions => EnumExtensions.GetKeyedCodeList<MLBPPDivision>();
     public RosterDetails RosterDetails { get; set; }
 
-    public LoadBaseResponse(RosterDetails details)
+    public RosterEditorResponse(RosterDetails details)
     {
       RosterDetails = details; ;
-    }
-  }
-
-  public class KeyedCode
-  {
-    public string Key { get; set; }
-    public string Name { get; set; }
-
-    public KeyedCode(string key, string name)
-    {
-      Key = key;
-      Name = name;
     }
   }
 
@@ -124,7 +82,7 @@ namespace PowerUp.ElectronUI.Api
 
     public PlayerDetails(
       string key,
-      string savedName, 
+      string savedName,
       string uniformNumber,
       PositionType positionType,
       string position,
@@ -180,7 +138,7 @@ namespace PowerUp.ElectronUI.Api
       int armStrength,
       int fielding,
       int errorResistance
-    ) :base(key, savedName, uniformNumber, positionType, position, overall, batsAndThrows)
+    ) : base(key, savedName, uniformNumber, positionType, position, overall, batsAndThrows)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -296,3 +254,4 @@ namespace PowerUp.ElectronUI.Api
     }
   }
 }
+

@@ -1,4 +1,5 @@
-﻿using PowerUp.ElectronUI.Api;
+﻿using PowerUp.ElectronUI.Api.Rosters;
+using PowerUp.ElectronUI.Api.Shared;
 
 namespace PowerUp.ElectronUI
 {
