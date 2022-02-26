@@ -38,7 +38,7 @@ export const COLORS = {
       dark_40: 'hsl(219deg 97% 40%)'
     },
     infielderYellow: {
-      regular_58: 'hsl(48deg 85% 58%)',
+      regular_58: 'hsl(48deg 85% 50%)',
       dark_40: 'hsl(48deg 85% 40%)'
     },
     outfielderGreen: {
