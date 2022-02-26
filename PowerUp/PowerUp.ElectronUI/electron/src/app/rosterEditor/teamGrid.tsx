@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Button } from "../../components/button/button";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
@@ -41,6 +42,7 @@ export function TeamGrid(props: TeamGridProps) {
         <StatHeader><CenteringWrapper>Arm</CenteringWrapper></StatHeader>
         <StatHeader>Fld</StatHeader>
         <StatHeader>E-Res</StatHeader>
+        <StatHeader columnWidth='1px' />
       </tr>
     </thead>
     <PlayerTableBody>
@@ -54,6 +56,14 @@ export function TeamGrid(props: TeamGridProps) {
         <td>{h.armStrength}</td>
         <td>{h.fielding}</td>
         <td>{h.errorResistance}</td>
+        <td>
+          <Button
+            size='Small'
+            variant='Outline'
+            icon='user-pen'
+            onClick={() => {}}
+          />
+        </td>
       </tr>)}
     </PlayerTableBody>
     <thead>
@@ -73,6 +83,7 @@ export function TeamGrid(props: TeamGridProps) {
         <StatHeader columnWidth='64px'>Brk 1</StatHeader>
         <StatHeader columnWidth='64px'>Brk 2</StatHeader>
         <StatHeader columnWidth='64px'>Brk 3</StatHeader>
+        <StatHeader columnWidth='1px' />
       </tr>
     </thead>
     <PlayerTableBody>
@@ -86,6 +97,14 @@ export function TeamGrid(props: TeamGridProps) {
         <td>{p.breakingBall1}</td>
         <td>{p.breakingBall2}</td>
         <td>{p.breakingBall3}</td>
+        <td>
+          <Button
+            size='Small'
+            variant='Outline'
+            icon='user-pen'
+            onClick={() => {}}
+          />
+        </td>
       </tr>)}
     </PlayerTableBody>
   </TeamGridTable>;
@@ -165,7 +184,7 @@ const PlayerGroupH3 = styled.h3`
   font-weight: 600;
 `
 
-const StatHeader = styled.th<{ columnWidth?: string | number }>`
+const StatHeader = styled.th<{ columnWidth?: string }>`
   background-color: ${COLORS.jet.lighter_71};
   font-style: italic;
   position: sticky;

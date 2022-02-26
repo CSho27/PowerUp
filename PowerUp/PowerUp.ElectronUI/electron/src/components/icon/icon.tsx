@@ -6,6 +6,7 @@ export type IconType =
 | 'circle-notch'
 | 'folder-open'
 | 'pen-to-square'
+| 'user-pen'
 | 'upload'
 | 'wand-magic-sparkles'
 

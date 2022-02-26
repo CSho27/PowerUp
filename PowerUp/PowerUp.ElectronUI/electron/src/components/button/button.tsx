@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { Icon, IconType } from "../icon/icon";
 
-export type ButtonTextAlignment = 'left' | 'center' | 'right';
-
 export interface ButtonProps {
   variant: ButtonVariant;
   size: ButtonSize;
@@ -16,6 +14,7 @@ export interface ButtonProps {
 
 export type ButtonVariant = 'Fill' | 'Outline' | 'Ghost';
 export type ButtonSize = 'Small' | 'Medium' | 'Large';
+export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export function Button(props: ButtonProps) {
   const { variant, size, icon, textAlign, children, onClick } = props;
@@ -24,7 +23,7 @@ export function Button(props: ButtonProps) {
     ? children
     : <IconAndTextContainer textAlign={textAlign ?? 'center' }> 
         <Icon icon={icon}/>
-        <span>{children}</span>
+        {children && <span>{children}</span>}
       </IconAndTextContainer>
 
 
