@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -33,12 +33,14 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     <TabButtonNav 
       selectedTab={selectedDivision}
       tabOptions={divisionOptions}
-      onChange={setSelectedDivision}
+      onChange={handleDivisionChange}
     />
   </> 
 
+  const teamsRef = useRef<HTMLElement | null>(null);
+
   return <PowerUpLayout headerText='Edit Roster'>
-    <ContentWithHangingHeader header={header} headerHeight='128px'>
+    <ContentWithHangingHeader header={header} headerHeight='128px' contentRef={teamsRef}>
       <TeamsContainer>
         {teams.filter(t => t.division === selectedDivision.key).map(toTeamGrid)}
       </TeamsContainer>
@@ -49,6 +51,11 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     return <TeamWrapper key={team.teamKey}>
       <TeamGrid appContext={appContext} team={team} />
     </TeamWrapper>
+  }
+
+  function handleDivisionChange(division: KeyedCode) {
+    setSelectedDivision(division);
+    teamsRef.current?.scrollTo({ top: 0, behavior: 'auto' })
   }
 
   function returnHome() {

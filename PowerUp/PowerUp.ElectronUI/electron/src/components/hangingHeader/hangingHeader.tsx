@@ -1,10 +1,11 @@
-import React from "react";
+import React, { RefObject } from "react";
 import styled, { StyledComponentProps } from "styled-components";
 
 export interface ContentWithHangingHeaderProps  {
   header: React.ReactNode;
   headerHeight: string;
   children?: React.ReactNode;
+  contentRef?: RefObject<HTMLElement>;
 }
 
 
@@ -13,7 +14,7 @@ export function ContentWithHangingHeader(props: ContentWithHangingHeaderProps) {
     <HangingHeader headerHeight={props.headerHeight}>
       {props.header}
     </HangingHeader>
-    <ContentContainer headerHeight={props.headerHeight}>
+    <ContentContainer ref={props.contentRef} headerHeight={props.headerHeight}>
       {props.children}
     </ContentContainer>
   </Wrapper>
