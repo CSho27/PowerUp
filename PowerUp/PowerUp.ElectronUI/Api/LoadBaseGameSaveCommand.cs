@@ -80,6 +80,7 @@ namespace PowerUp.ElectronUI.Api
 
   public class TeamDetails
   {
+    public string TeamKey { get; set; }
     public string Name { get; set; }
     public string PowerProsName { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -88,8 +89,9 @@ namespace PowerUp.ElectronUI.Api
     public IEnumerable<PitcherDetails> Pitchers { get; set; }
     public int Overall { get; set; }
 
-    public TeamDetails(string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
+    public TeamDetails(string key, string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
     {
+      TeamKey = key;
       Name = name;
       PowerProsName = powerProsName;
       Division = division;
@@ -105,12 +107,13 @@ namespace PowerUp.ElectronUI.Api
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
+      return new TeamDetails(team.GetKey(), team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
     }
   }
 
   public class PlayerDetails
   {
+    public string PlayerKey { get; set; }
     public string SavedName { get; set; }
     public string UniformNumber { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -120,6 +123,7 @@ namespace PowerUp.ElectronUI.Api
     public string BatsAndThrows { get; set; }
 
     public PlayerDetails(
+      string key,
       string savedName, 
       string uniformNumber,
       PositionType positionType,
@@ -128,6 +132,7 @@ namespace PowerUp.ElectronUI.Api
       string batsAndThrows
     )
     {
+      PlayerKey = key;
       SavedName = savedName;
       UniformNumber = uniformNumber;
       PositionType = positionType;
@@ -139,6 +144,7 @@ namespace PowerUp.ElectronUI.Api
     public static PlayerDetails FromPlayer(Player player)
     {
       return new PlayerDetails(
+        key: player.GetKey(),
         savedName: player.SavedName,
         uniformNumber: player.UniformNumber,
         positionType: player.PrimaryPosition.GetPositionType(),
@@ -160,6 +166,7 @@ namespace PowerUp.ElectronUI.Api
     public int ErrorResistance { get; set; }
 
     public HitterDetails(
+      string key,
       string savedName,
       string uniformNumber,
       PositionType positionType,
@@ -173,7 +180,7 @@ namespace PowerUp.ElectronUI.Api
       int armStrength,
       int fielding,
       int errorResistance
-    ) :base(savedName, uniformNumber, positionType, position, overall, batsAndThrows)
+    ) :base(key, savedName, uniformNumber, positionType, position, overall, batsAndThrows)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -190,6 +197,7 @@ namespace PowerUp.ElectronUI.Api
       var hitterAbilities = player.HitterAbilities;
 
       return new HitterDetails(
+        key: playerDetails.PlayerKey,
         savedName: playerDetails.SavedName,
         uniformNumber: playerDetails.UniformNumber,
         positionType: playerDetails.PositionType,
@@ -218,6 +226,7 @@ namespace PowerUp.ElectronUI.Api
     public string? BreakingBall3 { get; set; }
 
     public PitcherDetails(
+      string key,
       string savedName,
       string uniformNumber,
       PositionType positionType,
@@ -231,7 +240,7 @@ namespace PowerUp.ElectronUI.Api
       string? breakingBall1,
       string? breakingBall2,
       string? breakingBall3
-    ) : base(savedName, uniformNumber, positionType, position, overall, batsAndThrows)
+    ) : base(key, savedName, uniformNumber, positionType, position, overall, batsAndThrows)
     {
       PitcherType = pitcherType;
       TopSpeed = topSpeed;
@@ -269,6 +278,7 @@ namespace PowerUp.ElectronUI.Api
         .ToList();
 
       return new PitcherDetails(
+        key: playerDetails.PlayerKey,
         savedName: playerDetails.SavedName,
         uniformNumber: playerDetails.UniformNumber,
         positionType: playerDetails.PositionType,

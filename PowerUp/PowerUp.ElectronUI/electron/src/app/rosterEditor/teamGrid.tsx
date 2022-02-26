@@ -19,7 +19,7 @@ export function TeamGrid(props: TeamGridProps) {
       ? name
       : `${name} (${powerProsName})` 
 
-  return <TeamGridTable key={powerProsName}>
+  return <TeamGridTable>
     <TeamGridCaption>
       <TeamHeader>
         {teamDisplayName}
@@ -47,7 +47,7 @@ export function TeamGrid(props: TeamGridProps) {
     </thead>
     <PlayerTableBody>
     {hitters.map(h => 
-      <tr key={h.savedName}>
+      <tr key={h.playerKey}>
         {getPlayerDetailsColumns(h)}
         <td>{h.trajectory}</td>
         <td>{h.contact}</td>
@@ -88,7 +88,7 @@ export function TeamGrid(props: TeamGridProps) {
     </thead>
     <PlayerTableBody>
     {pitchers.map(p => 
-      <tr key={p.savedName}>
+      <tr key={p.playerKey}>
         {getPlayerDetailsColumns(p)}
         <td>{p.pitcherType}</td>
         <td>{p.topSpeed} mph</td>
