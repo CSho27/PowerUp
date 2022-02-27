@@ -152,9 +152,8 @@ export function TeamGrid(props: TeamGridProps) {
     </>
   }
 
-  async function editPlayer(playerKey: string) {
-    const response = await apiClientRef.current.execute({ playerKey: playerKey });
-    appContext.setPage(<PlayerEditor appContext={appContext} editorResponse={response} />);
+  function editPlayer(playerKey: string) {
+    appContext.setPage({ page: 'PlayerEditorPage', playerKey: playerKey });
   }
 }
 

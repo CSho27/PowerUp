@@ -9,9 +9,10 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
+import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { PlayerEditorResponse } from "./loadPlayerEditorApiClient";
+import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PlayerEditorStateReducer } from "./playerEditorState";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
 
@@ -86,27 +87,10 @@ const PlayerHeaderContainer = styled.div`
   align-items: center;
   padding-bottom: 8px;
 `
-
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-`
-
-const ContentRow = styled.div<{ gap?: string }>`
-  display: flex;
-  align-items: baseline;
-  gap: ${p => p.gap ?? '8px'}
-`
-
-const ContentRowItem = styled.div<{ flex?: string }>`
-  flex: ${p => p.flex ?? '1 1 auto'};
-`
-
-const FooterButtonsWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 8px;
-`
+export const loadPlayerEditor: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  if(pageDef.page !== 'PlayerEditorPage') throw '';
+  
+  const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);
+  const response = await apiClient.execute({ playerKey: pageDef.playerKey });
+  return <PlayerEditor appContext={appContext} editorResponse={response} />;
+}

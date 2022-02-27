@@ -6,8 +6,10 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { HomePage } from "../home/homePage";
+import { PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { TeamGrid } from "./teamGrid";
 
@@ -58,7 +60,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   }
 
   function returnHome() {
-    appContext.setPage(<HomePage appContext={appContext} />)
+    appContext.setPage({ page: 'HomePage' })
   }
 }
 
@@ -76,3 +78,14 @@ const TeamsContainer = styled.div`
 const TeamWrapper = styled.div`
   margin-top: 16px;
 `
+
+
+export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext) => {
+  const apiClient = new ImportBaseRosterApiClient(appContext.commandFetcher);
+  const response = await apiClient.execute();
+  return <RosterEditorPage 
+    appContext={appContext} 
+    divisionOptions={response.divisionOptions}
+    rosterDetails={response.rosterDetails} 
+  />
+}

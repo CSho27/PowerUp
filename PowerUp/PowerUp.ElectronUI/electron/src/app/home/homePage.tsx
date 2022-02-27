@@ -5,9 +5,10 @@ import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrappe
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
+import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { RosterEditorPage } from "../rosterEditor/rosterEditorPage";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
+import { ImportBaseRosterApiClient } from "../rosterEditor/importBaseRosterApiClient";
 
 export interface HomePageProps {
   appContext: AppContext
@@ -64,13 +65,8 @@ export function HomePage(props: HomePageProps) {
     </ContentWrapper>
   </PowerUpLayout>
 
-  async function startFromBase() {
-    const response = await apiClientRef.current.execute();
-    appContext.setPage(<RosterEditorPage 
-      appContext={appContext} 
-      divisionOptions={response.divisionOptions}
-      rosterDetails={response.rosterDetails} 
-    />);
+  function startFromBase() {
+    appContext.setPage({ page: 'RosterEditorPage', rosterKey: 'BASE' });  
   }
 }
 
@@ -112,3 +108,7 @@ const AppTitleWrapper = styled.div`
 const Subheader = styled.h1`
   color: ${COLORS.secondaryRed.regular_44};
 `
+
+export const loadHomePage: PageLoadFunction = async (appContext: AppContext) => {
+  return <HomePage appContext={appContext}/>
+}

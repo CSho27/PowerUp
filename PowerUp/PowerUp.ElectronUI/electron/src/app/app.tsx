@@ -4,6 +4,7 @@ import { CommandFetcher } from '../utils/commandFetcher';
 import { AppStateReducer } from './appState';
 import { GlobalStyles } from './globalStyles';
 import { HomePage } from './home/homePage';
+import { PageLoadDefinition, pageRegistry } from './pages';
 
 export interface ApplicationStartupData {
   commandUrl: string;
@@ -11,7 +12,7 @@ export interface ApplicationStartupData {
 
 export interface AppContext {
   commandFetcher: CommandFetcher;
-  setPage: (newPage: React.ReactNode) => void;
+  setPage: (pageDef: PageLoadDefinition) => void;
 }
 
 export function App(props: ApplicationStartupData) {
@@ -24,11 +25,11 @@ export function App(props: ApplicationStartupData) {
 
   const appContext: AppContext = {
     commandFetcher: new CommandFetcher(commandUrl, isLoading => update({ type: 'updateIsLoading', isLoading: isLoading })),
-    setPage: newPage => update({type: 'updatePage', newPage: newPage })
+    setPage: setPage 
   };
 
   useEffect(() => {
-    update({ type: 'updatePage', newPage: <HomePage appContext={appContext} /> });
+    setPage({ page: 'HomePage' });
   }, [])
 
   return <>
@@ -36,4 +37,10 @@ export function App(props: ApplicationStartupData) {
     {state.isLoading && <FullPageSpinner/>}
     <GlobalStyles />
   </>
+
+  async function setPage(pageDef: PageLoadDefinition) {
+    const pageLoader = pageRegistry[pageDef.page];
+    const newPage = await pageLoader(appContext, pageDef);
+    update({type: 'updatePage', newPage: newPage });
+  }
 };

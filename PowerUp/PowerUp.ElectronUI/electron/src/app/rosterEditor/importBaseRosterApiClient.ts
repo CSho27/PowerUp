@@ -1,5 +1,5 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
-import { RosterEditorResponse } from "../rosterEditor/rosterEditorDTOs";
+import { RosterEditorResponse } from "./rosterEditorDTOs";
 
 export class ImportBaseRosterApiClient {
   private readonly commandName = 'LoadBaseGameSave';
