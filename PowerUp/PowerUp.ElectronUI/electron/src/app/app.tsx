@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { FullPageSpinner } from '../components/fullPageSpinner/fullPageSpinner';
+import { useGlobalBindings } from '../nimbleKey/globalBinding';
 import { CommandFetcher } from '../utils/commandFetcher';
 import { AppStateReducer } from './appState';
 import { GlobalStyles } from './globalStyles';
@@ -31,6 +32,10 @@ export function App(props: ApplicationStartupData) {
   useEffect(() => {
     setPage({ page: 'HomePage' });
   }, [])
+
+  useGlobalBindings(
+    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerKey: 'BASE_Abreu_Bobby_1' }) }
+  )
 
   return <>
     {state.currentPage}

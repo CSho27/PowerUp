@@ -20,7 +20,8 @@ export function processKeyBindings(bindings: KeyBinding[], state: KeyBindingStat
 }
 
 function shouldExecuteBinding(bindingKeys: KeyboardKey[], pressedKeys: KeyboardKey[]): boolean {
-  return bindingKeys.every((k, i) => keyEquals(k, pressedKeys[i]));
+  return bindingKeys.length === pressedKeys.length
+    && bindingKeys.every(b => pressedKeys.some(p => keyEquals(p, b)));
 }
 
 export interface KeyBindingState {
