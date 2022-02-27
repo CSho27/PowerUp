@@ -18,7 +18,7 @@ import { PlayerEditorStateReducer } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
 
-export interface PlayerEditorProps {
+export interface PlayerEditorPageProps {
   appContext: AppContext;
   editorResponse: PlayerEditorResponse 
 }
@@ -34,7 +34,7 @@ const tabs = [
 
 const tabOptions: KeyedCode[] = tabs.map(t => ({ key: t, name: t }));
 
-export function PlayerEditor(props: PlayerEditorProps) {
+export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, editorResponse } = props;
   const { options, personalDetails } = editorResponse;
 
@@ -99,5 +99,5 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
   
   const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);
   const response = await apiClient.execute({ playerKey: pageDef.playerKey });
-  return <PlayerEditor appContext={appContext} editorResponse={response} />;
+  return <PlayerEditorPage appContext={appContext} editorResponse={response} />;
 }
