@@ -12,6 +12,7 @@ export interface OutlineheaderProps {
 }
 
 export const OutlineHeader = styled.h1<OutlineheaderProps>`
+  line-height: 1;
   font-size: ${p => p.fontSize ?? FONT_SIZES._64};
   font-style: ${p => p.slanted ? 'italic' : undefined};
   font-weight: bold;
