@@ -9,7 +9,7 @@ const sizingStyles = {
   `,
   Large: `
     --width: 72px;
-    --height: 64px;
+    --height: 62px;
   `
 }
 

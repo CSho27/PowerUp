@@ -1,5 +1,5 @@
-import { PositionType } from "../../components/textBubble/textBubble";
 import { KeyedCode } from "../shared/keyedCode";
+import { Position } from "../shared/positionCode";
 
 export interface RosterEditorResponse {
   divisionOptions: KeyedCode[];
@@ -24,8 +24,8 @@ export interface PlayerDetails {
   playerKey: string;
   savedName: string;
   uniformNumber: string;
-  positionType: PositionType;
-  position: string;
+  position: Position;
+  positionAbbreviation: string;
   overall: string;
   batsAndThrows: string;
 }

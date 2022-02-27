@@ -1,6 +1,6 @@
-import { PositionType } from "../../components/textBubble/textBubble";
 import { CommandFetcher } from "../../utils/commandFetcher";
 import { KeyedCode } from "../shared/keyedCode";
+import { PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode";
 
 export interface LoadPlayerEditorRequest {
@@ -14,7 +14,7 @@ export interface PlayerEditorResponse {
 
 export interface PlayerEditorOptions {
   voiceOptions: SimpleCode[];
-  positions: KeyedCode[];
+  positions: PositionCode[];
   pitcherTypes: KeyedCode[];
   battingSideOptions: KeyedCode[];
   battingStanceOptions: SimpleCode[];
@@ -27,14 +27,14 @@ export interface PlayerPersonalDetails {
   lastName: string;
   isSpecialSavedName: boolean;
   savedName: string;
-  uniformNumber: string
-  position: KeyedCode
-  pitcherType: KeyedCode
-  voiceId: SimpleCode
-  battingSide: KeyedCode
-  battingStance: SimpleCode
-  throwingArm: KeyedCode
-  pitchingMechanics: SimpleCode
+  uniformNumber: string;
+  position: PositionCode;
+  pitcherType: KeyedCode;
+  voiceId: SimpleCode;
+  battingSide: KeyedCode;
+  battingStance: SimpleCode;
+  throwingArm: KeyedCode;
+  pitchingMechanics: SimpleCode;
 }
 
 export class LoadPlayerEditorApiClient {

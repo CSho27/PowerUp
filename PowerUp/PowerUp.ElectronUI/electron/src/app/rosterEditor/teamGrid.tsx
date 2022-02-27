@@ -9,6 +9,7 @@ import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
 import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
 import { PlayerEditor } from "../playerEditor/playerEditor";
+import { getPositionType } from "../shared/positionCode";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
@@ -110,6 +111,8 @@ export function TeamGrid(props: TeamGridProps) {
   }
 
   function getPlayerDetailsColumns(details: PlayerDetails) {
+    const positionType = getPositionType(details.position)
+
     return <>
       <td>
         <Button
@@ -128,18 +131,18 @@ export function TeamGrid(props: TeamGridProps) {
       <td>
         <CenteringWrapper>
           <PositionBubble 
-            positionType={details.positionType} 
+            positionType={positionType} 
             size='Medium' 
             squarePadding
           >
-            {details.position}
+            {details.positionAbbreviation}
           </PositionBubble>
         </CenteringWrapper>
       </td>
       <td>
         <CenteringWrapper>
           <PlayerNameBubble 
-            positionType={details.positionType} 
+            positionType={positionType} 
             size='Medium'
             fullWidth
           >

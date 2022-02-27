@@ -11,6 +11,7 @@ import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
+import { getPositionType } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PlayerEditorStateReducer } from "./playerEditorState";
@@ -45,6 +46,8 @@ export function PlayerEditor(props: PlayerEditorProps) {
     playerNumber: personalDetails.uniformNumber
   });
 
+  const positionType = getPositionType(personalDetails.position.key);
+
   const header = <>
     <Breadcrumbs>
       <Crumb key='Home' onClick={() => {}}>Home</Crumb>
@@ -52,13 +55,13 @@ export function PlayerEditor(props: PlayerEditorProps) {
     </Breadcrumbs>
     <PlayerHeaderContainer>
       <PlayerNameBubble 
-        positionType='Outfielder'
+        positionType={positionType}
         size='Large'
       >
         {state.savedName}
       </PlayerNameBubble>
       <PositionBubble
-        positionType='Outfielder'
+        positionType={positionType}
         size='Large'
       >
         {personalDetails.position.name}

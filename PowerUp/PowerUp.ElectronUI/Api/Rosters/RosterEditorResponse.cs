@@ -75,8 +75,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public string SavedName { get; set; }
     public string UniformNumber { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public PositionType PositionType { get; set; }
-    public string Position { get; set; }
+    public Position Position { get; set; }
+    public string PositionAbbreviation { get; set; }
     public int Overall { get; set; }
     public string BatsAndThrows { get; set; }
 
@@ -84,8 +84,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string key,
       string savedName,
       string uniformNumber,
-      PositionType positionType,
-      string position,
+      Position position,
+      string positionAbbreviation,
       int overall,
       string batsAndThrows
     )
@@ -93,8 +93,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       PlayerKey = key;
       SavedName = savedName;
       UniformNumber = uniformNumber;
-      PositionType = positionType;
       Position = position;
+      PositionAbbreviation = positionAbbreviation;
       Overall = overall;
       BatsAndThrows = batsAndThrows;
     }
@@ -105,8 +105,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
         key: player.GetKey(),
         savedName: player.SavedName,
         uniformNumber: player.UniformNumber,
-        positionType: player.PrimaryPosition.GetPositionType(),
-        position: player.PrimaryPosition.GetAbbrev(),
+        position: player.PrimaryPosition,
+        positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
         overall: player.GetOverallRating().RoundDown(),
         batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}"
       );
@@ -127,8 +127,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string key,
       string savedName,
       string uniformNumber,
-      PositionType positionType,
-      string position,
+      Position position,
+      string positionAbbreviation,
       int overall,
       string batsAndThrows,
       int trajectory,
@@ -138,7 +138,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int armStrength,
       int fielding,
       int errorResistance
-    ) : base(key, savedName, uniformNumber, positionType, position, overall, batsAndThrows)
+    ) : base(key, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -158,8 +158,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
         key: playerDetails.PlayerKey,
         savedName: playerDetails.SavedName,
         uniformNumber: playerDetails.UniformNumber,
-        positionType: playerDetails.PositionType,
         position: playerDetails.Position,
+        positionAbbreviation: playerDetails.PositionAbbreviation,
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
         trajectory: hitterAbilities.Trajectory,
@@ -187,8 +187,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string key,
       string savedName,
       string uniformNumber,
-      PositionType positionType,
-      string position,
+      Position position,
+      string positionAbbreviation,
       int overall,
       string batsAndThrows,
       string pitcherType,
@@ -198,7 +198,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string? breakingBall1,
       string? breakingBall2,
       string? breakingBall3
-    ) : base(key, savedName, uniformNumber, positionType, position, overall, batsAndThrows)
+    ) : base(key, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
     {
       PitcherType = pitcherType;
       TopSpeed = topSpeed;
@@ -239,8 +239,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
         key: playerDetails.PlayerKey,
         savedName: playerDetails.SavedName,
         uniformNumber: playerDetails.UniformNumber,
-        positionType: playerDetails.PositionType,
         position: playerDetails.Position,
+        positionAbbreviation: playerDetails.PositionAbbreviation,
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
         pitcherType: player.PitcherType.GetAbbrev(),

@@ -1,7 +1,7 @@
 import styled from "styled-components";
+import { PositionType } from "../../app/shared/positionCode";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 
-export type PositionType = 'Catcher' | 'Infielder' | 'Outfielder' | 'Pitcher';
 export type Size = 'Medium' | 'Large';
 
 const sizingStyles = {
