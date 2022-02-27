@@ -2,7 +2,9 @@ import { useRef } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
-import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
+import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
+import { PositionBubble } from "../../components/textBubble/positionBubble";
+import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
 import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
@@ -125,16 +127,24 @@ export function TeamGrid(props: TeamGridProps) {
       </td>
       <td>
         <CenteringWrapper>
-          <TextBubble positionType={details.positionType} height='32px' width='38px'>
-            <Position fontSize={FONT_SIZES._24} >{details.position}</Position>
-          </TextBubble>
+          <PositionBubble 
+            positionType={details.positionType} 
+            size='Medium' 
+            squarePadding
+          >
+            {details.position}
+          </PositionBubble>
         </CenteringWrapper>
       </td>
       <td>
         <CenteringWrapper>
-          <TextBubble positionType={details.positionType} width='100%' style={{ textAlign: 'left' }}>
-            <TeamGridPlayerName fontSize={FONT_SIZES._24}>{details.savedName}</TeamGridPlayerName>
-          </TextBubble>
+          <PlayerNameBubble 
+            positionType={details.positionType} 
+            size='Medium'
+            fullWidth
+          >
+            {details.savedName}
+          </PlayerNameBubble>
         </CenteringWrapper>
       </td>
       <td>{details.overall}</td>
@@ -212,6 +222,6 @@ const CenteringWrapper = styled.div`
   align-items: center;
 `
 
-const TeamGridPlayerName = styled(PlayerName)`
+const TeamGridPlayerName = styled(PlayerNameBubble)`
   padding: 2px 4px;
 `

@@ -1,24 +1,20 @@
-import { ReactNode } from "react";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 import { COLORS, FONT_SIZES } from "../../style/constants";
-import { textOutline } from "../../style/outlineHelper";
 
 export type PositionType = 'Catcher' | 'Infielder' | 'Outfielder' | 'Pitcher';
+export type Size = 'Medium' | 'Large';
 
-export interface TextBubbleProps {
-  positionType: PositionType;
-  width?: string;
-  height?: string;
-  style?: CSSProperties;
-  children?: ReactNode;
-}
-
-export function TextBubble(props: TextBubbleProps) {
-  const { positionType, width, height, style, children } = props;
-
-  return <BubbleWrapper positionType={positionType} bubbleWidth={width} bubbleHeight={height} style={style}>
-    {children}
-  </BubbleWrapper>
+const sizingStyles = {
+  Medium: `
+    --horizontal-padding: 4px;
+    --vertical-padding: 2px;
+    --font-size: ${FONT_SIZES._24};
+  `,
+  Large: `
+    --horizontal-padding: 8px;
+    --vertical-padding: 4px;
+    --font-size: ${FONT_SIZES._48};
+  `
 }
 
 const colors: { [key in PositionType]: string } = {
@@ -40,29 +36,17 @@ const colors: { [key in PositionType]: string } = {
   `
 }
 
-const bubbleText = styled.div<{ fontSize?: string }>`
-  font-size: ${p => p.fontSize ?? FONT_SIZES._48};
-  color: ${COLORS.white.regular_100};
-  white-space: nowrap;
-  line-height: 1;
-`
-
-export const PlayerName = styled(bubbleText)`
-  ${textOutline('1px', COLORS.richBlack.regular_5)}
-`
-
-export const Position = styled(bubbleText)`
-  ${textOutline('2px', 'var(--border-color)')}
-  font-weight: bold;
-  font-style: italic;
-`
-
-const BubbleWrapper = styled.div<{ positionType: PositionType, bubbleWidth: string | undefined, bubbleHeight: string | undefined }>`
+export const TextBubble = styled.div<{ positionType: PositionType, size: Size, squarePadding?: boolean, fullWidth?: boolean,  }>`
   ${p => colors[p.positionType]}
+  ${p => sizingStyles[p.size]}
   background-color: var(--bubble-color);
   border: solid 3px var(--border-color);
   border-radius: 8px;
-  width: ${p => p.bubbleWidth ?? 'fit-content'};
-  height: ${p => p.bubbleHeight ?? 'fit-content'};
+  width: ${p => p.fullWidth ? '100%' : 'fit-content'};
+  padding: var(--vertical-padding) ${p => p.squarePadding ? '' : 'var(--horizontal-padding)'};
+  font-size: var(--font-size);
+  color: ${COLORS.white.regular_100};
+  white-space: nowrap;
+  line-height: 1;
 `
 

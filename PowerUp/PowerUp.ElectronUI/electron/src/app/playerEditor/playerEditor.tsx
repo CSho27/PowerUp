@@ -4,7 +4,9 @@ import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
-import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
+import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
+import { PositionBubble } from "../../components/textBubble/positionBubble";
+import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { KeyedCode } from "../shared/keyedCode";
@@ -48,12 +50,18 @@ export function PlayerEditor(props: PlayerEditorProps) {
       <Crumb key='RosterEditor' onClick={() => {}}>Roster</Crumb>
     </Breadcrumbs>
     <PlayerHeaderContainer>
-      <TextBubble positionType='Infielder' style={{ textAlign: 'left' }}>
-        <PlayerName fontSize={FONT_SIZES._48}>{state.savedName}</PlayerName>
-      </TextBubble>
-      <TextBubble positionType='Infielder'>
-        <Position fontSize={FONT_SIZES._48}>{personalDetails.position.name}</Position>
-      </TextBubble>
+      <PlayerNameBubble 
+        positionType='Outfielder'
+        size='Large'
+      >
+        {state.savedName}
+      </PlayerNameBubble>
+      <PositionBubble
+        positionType='Outfielder'
+        size='Large'
+      >
+        {personalDetails.position.name}
+      </PositionBubble>
       <OutlineHeader fontSize={FONT_SIZES._64} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
       </OutlineHeader>
