@@ -45,8 +45,8 @@ namespace PowerUp.Mappers.Players
           ? _savedNameLibrary[(int)gsPlayer.SpecialSavedNameId!]
           : gsPlayer.SavedName,
         SpecialSavedNameId = gsPlayer.SavedName.Contains('*')
-          ? (int)gsPlayer.SpecialSavedNameId!
-          : gsPlayer.SpecialSavedNameId,
+          ? gsPlayer.SpecialSavedNameId!
+          : null,
         ImportSource = parameters.IsBase
           ? null
           : parameters.ImportSource,

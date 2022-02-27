@@ -51,7 +51,7 @@ export function TeamGrid(props: TeamGridProps) {
     </thead>
     <PlayerTableBody>
     {hitters.map(h => 
-      <tr key={h.playerKey}>
+      <PlayerRow key={h.playerKey}>
         {getPlayerDetailsColumns(h)}
         <td>{h.trajectory}</td>
         <td>{h.contact}</td>
@@ -68,7 +68,7 @@ export function TeamGrid(props: TeamGridProps) {
             onClick={() => editPlayer(h.playerKey)}
           />
         </td>
-      </tr>)}
+      </PlayerRow>)}
     </PlayerTableBody>
     <thead>
       <tr>
@@ -92,7 +92,7 @@ export function TeamGrid(props: TeamGridProps) {
     </thead>
     <PlayerTableBody>
     {pitchers.map(p => 
-      <tr key={p.playerKey}>
+      <PlayerRow key={p.playerKey}>
         {getPlayerDetailsColumns(p)}
         <td>{p.pitcherType}</td>
         <td>{p.topSpeed} mph</td>
@@ -109,7 +109,7 @@ export function TeamGrid(props: TeamGridProps) {
             onClick={() => editPlayer(p.playerKey)}
           />
         </td>
-      </tr>)}
+      </PlayerRow>)}
     </PlayerTableBody>
   </TeamGridTable>;
 
@@ -205,6 +205,13 @@ const StatHeader = styled.th<{ columnWidth?: string }>`
 
 const PlayerTableBody = styled.tbody`
   text-align: center;
+`
+
+const PlayerRow = styled.tr`
+  //border-bottom: 1px solid ${COLORS.jet.regular_18};
+  &:nth-child(even) {
+    background-color: ${COLORS.jet.superlight_85};
+  } 
 `
 
 const CenteringWrapper = styled.div`
