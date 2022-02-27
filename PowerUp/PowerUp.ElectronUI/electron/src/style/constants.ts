@@ -24,6 +24,9 @@ export const COLORS = {
   secondaryRed: {
     regular_44: 'hsl(6deg 71% 44%)'
   },
+  transparent: {
+    regular_100: 'hsl(0deg 100% 100% / 0)'
+  },
   white: {
     regular_100: 'hsl(0deg 100% 100%)',
     regular_100_t40: 'hsl(0deg 100% 100% / .4)',

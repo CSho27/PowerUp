@@ -83,7 +83,14 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
 
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
-      <PlayerPersonalDetailsEditor />
+      <PlayerPersonalDetailsEditor
+        firstName={state.firstName}
+        lastName={state.lastName}
+        isSpecialSavedName={false}
+        savedName={state.savedName}
+        uniformNumber={state.playerNumber}
+        update={() => {}}      
+      />
     </ContentWithHangingHeader>
   </PowerUpLayout>
 }
