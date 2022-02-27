@@ -13,7 +13,7 @@ const sizingStyles = {
   Large: `
     --horizontal-padding: 8px;
     --vertical-padding: 4px;
-    --font-size: ${FONT_SIZES._48};
+    --font-size: ${FONT_SIZES._32};
   `
 }
 

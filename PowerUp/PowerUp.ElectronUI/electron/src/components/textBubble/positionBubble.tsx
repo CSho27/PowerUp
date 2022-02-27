@@ -5,11 +5,9 @@ import { TextBubble } from "./textBubble";
 const sizingStyles = {
   Medium: `
     --width: 38px;
-    --height: 36px;
   `,
   Large: `
-    --width: 72px;
-    --height: 62px;
+    --width: 52px;
   `
 }
 
@@ -21,5 +19,4 @@ export const PositionBubble = styled(TextBubble)`
   text-align: center;
   padding: var(--vertical-padding);
   width: ${p => p.fullWidth ? '100%' : 'var(--width)'};
-  height: var(--height);
 `
