@@ -30,7 +30,7 @@ namespace PowerUp.Entities.Players
     public int VoiceId { get; set; }
     public BattingSide BattingSide { get; set; }
     public int BattingStanceId { get; set; }
-    public ThrowingSide ThrowingSide { get; set; }
+    public ThrowingArm ThrowingArm { get; set; }
     public int PitchingMechanicsId { get; set; }
     public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();

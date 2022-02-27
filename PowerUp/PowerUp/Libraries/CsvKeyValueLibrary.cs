@@ -8,14 +8,16 @@ namespace PowerUp.Libraries
     where TKey : notnull
     where TValue : notnull
   {
-    private readonly IDictionary<TKey, TValue> _valuesByKey;
-    private readonly IDictionary<TValue, TKey> _keysByValue;
+    protected readonly IDictionary<TKey, TValue> _valuesByKey;
+    protected readonly IDictionary<TValue, TKey> _keysByValue;
 
     protected abstract TKey ParseKey(string keyString);
     protected abstract TValue ParseValue(string valueString);
 
     protected abstract TValue OnKeyNotFound(TKey key);
     protected abstract TKey OnValueNotFound(TValue value);
+
+    protected IEnumerable<KeyValuePair<TKey, TValue>> GetAll() => _valuesByKey.Select(p => p);
 
     public CsvKeyValueLibrary(string libraryFilePath)
     {

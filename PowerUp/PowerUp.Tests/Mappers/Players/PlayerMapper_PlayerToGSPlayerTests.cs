@@ -118,7 +118,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapThrowingSide()
     {
-      player.ThrowingSide = ThrowingSide.Left;
+      player.ThrowingArm = ThrowingArm.Left;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians);
       result.ThrowsLefty.ShouldBe(true);
     }

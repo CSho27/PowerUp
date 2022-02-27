@@ -10,13 +10,15 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton(serviceProvider => new CommandRegistry(type => serviceProvider.GetRequiredService(type)));
       services.AddSingleton<SavePlayerCommand>();
       services.AddSingleton<LoadBaseGameSaveCommand>();
+      services.AddSingleton<LoadPlayerEditorCommand>();
     }
-
+     
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
     {
       var commandRegistry = serviceProvider.GetRequiredService<CommandRegistry>();
       commandRegistry.RegisterCommand(typeof(SavePlayerCommand), "SavePlayer");
       commandRegistry.RegisterCommand(typeof(LoadBaseGameSaveCommand), "LoadBaseGameSave");
+      commandRegistry.RegisterCommand(typeof(LoadPlayerEditorCommand), "LoadPlayerEditor");
     }
   }
 }

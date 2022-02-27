@@ -21,8 +21,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   const { appContext, divisionOptions, rosterDetails } = props;
   const { name: rosterName, teams } = rosterDetails;
 
-
-
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
 
   const header = <>

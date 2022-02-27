@@ -219,7 +219,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.ThrowsLefty = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.ThrowingSide.ShouldBe(ThrowingSide.Left);
+      result.ThrowingArm.ShouldBe(ThrowingArm.Left);
     }
 
     [Test]

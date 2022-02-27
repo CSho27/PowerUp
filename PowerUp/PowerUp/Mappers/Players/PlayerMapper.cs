@@ -57,9 +57,9 @@ namespace PowerUp.Mappers.Players
         VoiceId = gsPlayer.VoiceId!.Value,
         BattingSide = (BattingSide)gsPlayer.BattingSide!,
         BattingStanceId = gsPlayer.BattingForm!.Value,
-        ThrowingSide = gsPlayer.ThrowsLefty!.Value
-          ? ThrowingSide.Left
-          : ThrowingSide.Right,
+        ThrowingArm = gsPlayer.ThrowsLefty!.Value
+          ? ThrowingArm.Left
+          : ThrowingArm.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
         PositonCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
@@ -96,7 +96,7 @@ namespace PowerUp.Mappers.Players
         VoiceId = (ushort)player.VoiceId,
         BattingSide = (ushort)player.BattingSide,
         BattingForm = (ushort)player.BattingStanceId,
-        ThrowsLefty = player.ThrowingSide == ThrowingSide.Left,
+        ThrowsLefty = player.ThrowingArm == ThrowingArm.Left,
         PitchingForm = (ushort)player.PitchingMechanicsId,
 
         // Position Capabilities

@@ -1,6 +1,6 @@
 ﻿namespace PowerUp.Entities.Players
 {
-  public enum ThrowingSide
+  public enum ThrowingArm
   {
     [Abbrev("R")]
     Right,

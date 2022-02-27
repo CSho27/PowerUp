@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.Libraries
 {
-  public interface ISpecialSavedNameLibrary
+  public interface IBattingStanceLibrary
   {
     int this[string key] { get; }
     string this[int key] { get; }
+    public IEnumerable<KeyValuePair<int, string>> GetAll();
   }
 
-  public class SpecialSavedNameLibrary : CsvKeyValueLibrary<string, int>, ISpecialSavedNameLibrary
+  public class BattingStanceLibrary : CsvKeyValueLibrary<string, int>, IBattingStanceLibrary
   {
-    public SpecialSavedNameLibrary(string libraryFilePath): base(libraryFilePath) { }
+    public BattingStanceLibrary(string libraryFilePath) : base(libraryFilePath) { }
+
+    IEnumerable<KeyValuePair<int, string>> IBattingStanceLibrary.GetAll() => GetAll().Select(kvp => new KeyValuePair<int, string>(kvp.Value, kvp.Key));
 
     protected override int OnKeyNotFound(string key) => throw new KeyNotFoundException(key);
     protected override string OnValueNotFound(int value) => throw new KeyNotFoundException(value.ToString());

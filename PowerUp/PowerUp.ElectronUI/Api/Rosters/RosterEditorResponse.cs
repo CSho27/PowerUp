@@ -108,7 +108,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         positionType: player.PrimaryPosition.GetPositionType(),
         position: player.PrimaryPosition.GetAbbrev(),
         overall: player.GetOverallRating().RoundDown(),
-        batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingSide.GetAbbrev()}"
+        batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}"
       );
     }
   }

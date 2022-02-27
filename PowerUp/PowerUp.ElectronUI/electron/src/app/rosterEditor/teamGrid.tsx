@@ -1,9 +1,11 @@
+import { useRef } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
+import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
@@ -14,6 +16,8 @@ interface TeamGridProps {
 export function TeamGrid(props: TeamGridProps) {
   const { appContext, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
+
+  const apiClientRef = useRef(new LoadPlayerEditorApiClient(appContext.commandFetcher));
 
   const teamDisplayName = name === powerProsName
       ? name
@@ -61,7 +65,7 @@ export function TeamGrid(props: TeamGridProps) {
             size='Small'
             variant='Outline'
             icon='user-pen'
-            onClick={() => {}}
+            onClick={() => editPlayer(h.playerKey)}
           />
         </td>
       </tr>)}
@@ -102,7 +106,7 @@ export function TeamGrid(props: TeamGridProps) {
             size='Small'
             variant='Outline'
             icon='user-pen'
-            onClick={() => {}}
+            onClick={() => editPlayer(p.playerKey)}
           />
         </td>
       </tr>)}
@@ -143,6 +147,11 @@ export function TeamGrid(props: TeamGridProps) {
       <td>{details.overall}</td>
       <td>{details.batsAndThrows}</td>
     </>
+  }
+
+  async function editPlayer(playerKey: string) {
+    const response = await apiClientRef.current.execute({ playerKey: playerKey });
+    console.log(response);
   }
 }
 
