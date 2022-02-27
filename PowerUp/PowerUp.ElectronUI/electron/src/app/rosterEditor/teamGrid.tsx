@@ -46,7 +46,6 @@ export function TeamGrid(props: TeamGridProps) {
         <StatHeader><CenteringWrapper>Arm</CenteringWrapper></StatHeader>
         <StatHeader>Fld</StatHeader>
         <StatHeader>E-Res</StatHeader>
-        <StatHeader columnWidth='1px' />
       </tr>
     </thead>
     <PlayerTableBody>
@@ -60,14 +59,6 @@ export function TeamGrid(props: TeamGridProps) {
         <td>{h.armStrength}</td>
         <td>{h.fielding}</td>
         <td>{h.errorResistance}</td>
-        <td>
-          <Button
-            size='Small'
-            variant='Outline'
-            icon='user-pen'
-            onClick={() => editPlayer(h.playerKey)}
-          />
-        </td>
       </PlayerRow>)}
     </PlayerTableBody>
     <thead>
@@ -87,7 +78,6 @@ export function TeamGrid(props: TeamGridProps) {
         <StatHeader columnWidth='64px'>Brk 1</StatHeader>
         <StatHeader columnWidth='64px'>Brk 2</StatHeader>
         <StatHeader columnWidth='64px'>Brk 3</StatHeader>
-        <StatHeader columnWidth='1px' />
       </tr>
     </thead>
     <PlayerTableBody>
@@ -101,20 +91,13 @@ export function TeamGrid(props: TeamGridProps) {
         <td>{p.breakingBall1}</td>
         <td>{p.breakingBall2}</td>
         <td>{p.breakingBall3}</td>
-        <td>
-          <Button
-            size='Small'
-            variant='Outline'
-            icon='user-pen'
-            onClick={() => editPlayer(p.playerKey)}
-          />
-        </td>
       </PlayerRow>)}
     </PlayerTableBody>
   </TeamGridTable>;
 
   function getPlayerDetailsHeaders() {
     return <>
+      <StatHeader columnWidth='1px' />
       <StatHeader>Num</StatHeader>
       <StatHeader>Pos</StatHeader>
       <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
@@ -125,6 +108,15 @@ export function TeamGrid(props: TeamGridProps) {
 
   function getPlayerDetailsColumns(details: PlayerDetails) {
     return <>
+      <td>
+        <Button
+          size='Small'
+          variant='Outline'
+          icon='user-pen'
+          squarePadding
+          onClick={() => editPlayer(details.playerKey)}
+        />
+      </td>
       <td>
         <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
           {details.uniformNumber}
@@ -208,7 +200,6 @@ const PlayerTableBody = styled.tbody`
 `
 
 const PlayerRow = styled.tr`
-  //border-bottom: 1px solid ${COLORS.jet.regular_18};
   &:nth-child(even) {
     background-color: ${COLORS.jet.superlight_85};
   } 

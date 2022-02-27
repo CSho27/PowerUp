@@ -8,6 +8,7 @@ export interface ButtonProps {
   size: ButtonSize;
   icon?: IconType;
   textAlign?: ButtonTextAlignment;
+  squarePadding?: boolean;
   children?: React.ReactNode;
   onClick: () => void;
 }
@@ -17,7 +18,7 @@ export type ButtonSize = 'Small' | 'Medium' | 'Large';
 export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, icon, textAlign, children, onClick } = props;
+  const { variant, size, icon, textAlign, squarePadding, children, onClick } = props;
 
   const buttonContent = !icon 
     ? children
@@ -26,25 +27,27 @@ export function Button(props: ButtonProps) {
         {children && <span>{children}</span>}
       </IconAndTextContainer>
 
-
   switch (variant) {
     case "Fill":
       return <FillButton 
         onClick={onClick} 
         size={size} 
         textAlign={textAlign}
+        squarePadding={squarePadding}
       >{buttonContent}</FillButton>;
     case "Outline":
       return <OutlineButton 
         onClick={onClick} 
         size={size} 
         textAlign={textAlign}
+        squarePadding={squarePadding}
       >{buttonContent}</OutlineButton>;
     case "Ghost":
       return <GhostButton 
         onClick={onClick} 
         size={size} 
         textAlign={textAlign}
+        squarePadding={squarePadding}
       >{buttonContent}</GhostButton>;
   }
 };
@@ -72,9 +75,9 @@ const sizingStyles = {
 
 
 // Default is fill button
-const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefined }>`
+const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefined, squarePadding: boolean | undefined }>`
   ${p => sizingStyles[p.size]}
-  padding: var(--vertical-padding) var(--horizontal-padding);
+  padding: var(--vertical-padding) ${p => !!p.squarePadding ? '' : 'var(--horizontal-padding)'};
   border-style: none;
   border-radius: var(--border-radius);
   font-weight: 500;
