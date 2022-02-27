@@ -1,5 +1,4 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
-import { PlayerEditorDTO } from "./playerEditor";
 
 export class SavePlayerApiClient {
   private readonly commandName = 'SavePlayer';
@@ -9,7 +8,7 @@ export class SavePlayerApiClient {
     this.commandFetcher = commandFetcher;
   } 
 
-  readonly execute = (request: PlayerEditorDTO): Promise<any> => {
+  readonly execute = (request: any): Promise<any> => {
     return this.commandFetcher.execute(this.commandName, request);
   }
 }

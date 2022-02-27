@@ -6,6 +6,7 @@ import { PlayerName, Position, TextBubble } from "../../components/textBubble/te
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
 import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
+import { PlayerEditor } from "../playerEditor/playerEditor";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
@@ -143,7 +144,7 @@ export function TeamGrid(props: TeamGridProps) {
 
   async function editPlayer(playerKey: string) {
     const response = await apiClientRef.current.execute({ playerKey: playerKey });
-    console.log(response);
+    appContext.setPage(<PlayerEditor appContext={appContext} editorResponse={response} />);
   }
 }
 

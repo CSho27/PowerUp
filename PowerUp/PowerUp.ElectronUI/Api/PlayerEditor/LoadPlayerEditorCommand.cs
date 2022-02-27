@@ -58,10 +58,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public IEnumerable<SimpleCode> VoiceOptions { get; }
     public IEnumerable<KeyedCode> Positions => new PrimaryPositionOptions();
     public IEnumerable<KeyedCode> PitcherTypes => EnumExtensions.GetKeyedCodeList<PitcherType>();
-    public IEnumerable<SimpleCode> BattingStanceOptions { get; }
     public IEnumerable<KeyedCode> BattingSideOptions => EnumExtensions.GetKeyedCodeList<BattingSide>();
-    public IEnumerable<SimpleCode> PitchingMechanicsOptions { get; }
+    public IEnumerable<SimpleCode> BattingStanceOptions { get; }
     public IEnumerable<KeyedCode> ThrowingArmOptions => EnumExtensions.GetKeyedCodeList<ThrowingArm>();
+    public IEnumerable<SimpleCode> PitchingMechanicsOptions { get; }
 
     public PlayerEditorOptions(
       IVoiceLibrary voiceLibrary,

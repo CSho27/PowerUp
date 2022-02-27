@@ -1,11 +1,39 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
+import { KeyedCode } from "../shared/keyedCode";
+import { SimpleCode } from "../shared/simpleCode";
 
-interface LoadPlayerEditorRequest {
+export interface LoadPlayerEditorRequest {
   playerKey: string;
 }
 
-interface PlayerEditorResponse {
+export interface PlayerEditorResponse {
+  options: PlayerEditorOptions; 
+  personalDetails: PlayerPersonalDetails;
+}
 
+export interface PlayerEditorOptions {
+  voiceOptions: SimpleCode[];
+  positions: KeyedCode[];
+  pitcherTypes: KeyedCode[];
+  battingSideOptions: KeyedCode[];
+  battingStanceOptions: SimpleCode[];
+  throwingArmOptions: KeyedCode[];
+  pitchingMechanicsOptions: SimpleCode[];
+}
+
+export interface PlayerPersonalDetails {
+  firstName: string;
+  lastName: string;
+  isSpecialSavedName: boolean;
+  savedName: string;
+  uniformNumber: string
+  position: KeyedCode
+  pitcherType: KeyedCode
+  voiceId: SimpleCode
+  battingSide: KeyedCode
+  battingStance: SimpleCode
+  throwingArm: KeyedCode
+  pitchingMechanics: SimpleCode
 }
 
 export class LoadPlayerEditorApiClient {
