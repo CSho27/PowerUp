@@ -14,7 +14,7 @@ export function TabButtonNav(props: TabButtonNavProps) {
       {props.tabOptions.map(o => <TabButton
         key={o.key} 
         text={o.name} 
-        isSelected={props.selectedTab === o} 
+        isSelected={props.selectedTab.key === o.key} 
         onClick={() => o.key != props.selectedTab.key && props.onChange(o)}
       />)}
     </TabButtonListWrapper>

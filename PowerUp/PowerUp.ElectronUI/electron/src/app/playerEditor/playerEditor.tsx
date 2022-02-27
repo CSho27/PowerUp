@@ -54,19 +54,22 @@ export function PlayerEditor(props: PlayerEditorProps) {
       <Crumb key='RosterEditor' onClick={() => {}}>Roster</Crumb>
     </Breadcrumbs>
     <PlayerHeaderContainer>
-      <PlayerNameBubble 
-        positionType={positionType}
-        size='Large'
-      >
-        {state.savedName}
-      </PlayerNameBubble>
+      <div style={{ flex: '0 0 250px'}}>
+        <PlayerNameBubble 
+          positionType={positionType}
+          size='Large'
+          fullWidth
+        >
+          {state.savedName}
+        </PlayerNameBubble>
+      </div>
       <PositionBubble
         positionType={positionType}
         size='Large'
       >
         {personalDetails.position.name}
       </PositionBubble>
-      <OutlineHeader fontSize={FONT_SIZES._64} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
+      <OutlineHeader fontSize={FONT_SIZES._48} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
       </OutlineHeader>
     </PlayerHeaderContainer>
@@ -78,7 +81,7 @@ export function PlayerEditor(props: PlayerEditorProps) {
   </> 
 
   return <PowerUpLayout headerText='Edit Player'>
-    <ContentWithHangingHeader header={header} headerHeight='192px'>
+    <ContentWithHangingHeader header={header} headerHeight='128px'>
       Personal Details
     </ContentWithHangingHeader>
   </PowerUpLayout>
