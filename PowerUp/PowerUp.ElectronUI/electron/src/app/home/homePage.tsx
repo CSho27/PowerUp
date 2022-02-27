@@ -111,5 +111,4 @@ const AppTitleWrapper = styled.div`
 
 const Subheader = styled.h1`
   color: ${COLORS.secondaryRed.regular_44};
-  margin-top: -32px;
 `

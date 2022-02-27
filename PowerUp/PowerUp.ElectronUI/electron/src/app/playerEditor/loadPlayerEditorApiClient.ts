@@ -1,3 +1,4 @@
+import { PositionType } from "../../components/textBubble/textBubble";
 import { CommandFetcher } from "../../utils/commandFetcher";
 import { KeyedCode } from "../shared/keyedCode";
 import { SimpleCode } from "../shared/simpleCode";

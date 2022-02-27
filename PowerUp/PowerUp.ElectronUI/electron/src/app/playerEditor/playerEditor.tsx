@@ -1,6 +1,14 @@
 import React from "react";
 import styled from "styled-components"
+import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
+import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
+import { TabButtonNav } from "../../components/tabButton/tabButton";
+import { PlayerName, Position, TextBubble } from "../../components/textBubble/textBubble";
+import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
+import { KeyedCode } from "../shared/keyedCode";
+import { PowerUpLayout } from "../shared/powerUpLayout";
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PlayerEditorStateReducer } from "./playerEditorState";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
@@ -9,6 +17,17 @@ export interface PlayerEditorProps {
   appContext: AppContext;
   editorResponse: PlayerEditorResponse 
 }
+
+const tabs = [
+  'Personal',
+//'Appearance',
+  'Positions',
+  'Hitter',
+  'Pitcher',
+//'Special'
+]
+
+const tabOptions: KeyedCode[] = tabs.map(t => ({ key: t, name: t }));
 
 export function PlayerEditor(props: PlayerEditorProps) {
   const { appContext, editorResponse } = props;
@@ -23,10 +42,43 @@ export function PlayerEditor(props: PlayerEditorProps) {
     playerNumber: personalDetails.uniformNumber
   });
 
-  return <div>
-    playerEditor
-  </div>
+  const header = <>
+    <Breadcrumbs>
+      <Crumb key='Home' onClick={() => {}}>Home</Crumb>
+      <Crumb key='RosterEditor' onClick={() => {}}>Roster</Crumb>
+    </Breadcrumbs>
+    <PlayerHeaderContainer>
+      <TextBubble positionType='Infielder' style={{ textAlign: 'left' }}>
+        <PlayerName fontSize={FONT_SIZES._48}>{state.savedName}</PlayerName>
+      </TextBubble>
+      <TextBubble positionType='Infielder'>
+        <Position fontSize={FONT_SIZES._48}>{personalDetails.position.name}</Position>
+      </TextBubble>
+      <OutlineHeader fontSize={FONT_SIZES._64} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
+        {personalDetails.uniformNumber}
+      </OutlineHeader>
+    </PlayerHeaderContainer>
+    <TabButtonNav 
+      selectedTab={{ key: 'Personal', name: 'Personal' }}
+      tabOptions={tabOptions}
+      onChange={() => {}}
+    />
+  </> 
+
+  return <PowerUpLayout headerText='Edit Player'>
+    <ContentWithHangingHeader header={header} headerHeight='192px'>
+      Personal Details
+    </ContentWithHangingHeader>
+  </PowerUpLayout>
 }
+
+const PlayerHeaderContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding-bottom: 8px;
+`
+
 
 const HeaderWrapper = styled.div`
   display: flex;

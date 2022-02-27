@@ -79,6 +79,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public PositionType PositionType { get; set; }
     public int? Year { get; }
     public string? ImportSource { get; }
     public string FirstName { get; }
@@ -102,6 +104,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     )
     {
       SourceType = player.SourceType;
+      PositionType = player.PrimaryPosition.GetPositionType();
       Year = player.Year;
       ImportSource = player.ImportSource;
       FirstName = player.FirstName;
