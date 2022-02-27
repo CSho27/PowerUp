@@ -77,7 +77,7 @@ const sizingStyles = {
 // Default is fill button
 const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefined, squarePadding: boolean | undefined }>`
   ${p => sizingStyles[p.size]}
-  padding: var(--vertical-padding) ${p => !!p.squarePadding ? '' : 'var(--horizontal-padding)'};
+  padding: var(--vertical-padding) ${p => p.squarePadding ? '' : 'var(--horizontal-padding)'};
   border-style: none;
   border-radius: var(--border-radius);
   font-weight: 500;
