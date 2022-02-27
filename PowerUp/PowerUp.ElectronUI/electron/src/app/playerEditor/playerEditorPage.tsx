@@ -15,6 +15,7 @@ import { getPositionType } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PlayerEditorStateReducer } from "./playerEditorState";
+import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
 
 export interface PlayerEditorProps {
@@ -82,7 +83,7 @@ export function PlayerEditor(props: PlayerEditorProps) {
 
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
-      Personal Details
+      <PlayerPersonalDetailsEditor />
     </ContentWithHangingHeader>
   </PowerUpLayout>
 }
@@ -93,7 +94,7 @@ const PlayerHeaderContainer = styled.div`
   align-items: center;
   padding-bottom: 8px;
 `
-export const loadPlayerEditor: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
   if(pageDef.page !== 'PlayerEditorPage') throw '';
   
   const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);

@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { AppContext } from "./app";
 import { loadHomePage } from "./home/homePage";
-import { loadPlayerEditor } from "./playerEditor/playerEditor";
+import { loadPlayerEditorPage } from "./playerEditor/playerEditorPage";
 import { loadRosterEditorPage } from "./rosterEditor/rosterEditorPage";
 
 export type PageLoadDefinition =
@@ -14,5 +14,5 @@ export type PageLoadFunction = (appContext: AppContext, pageData: PageLoadDefini
 export const pageRegistry: { [page in PageLoadDefinition['page']]: PageLoadFunction } = {
   HomePage: loadHomePage,
   RosterEditorPage: loadRosterEditorPage,
-  PlayerEditorPage: loadPlayerEditor,
+  PlayerEditorPage: loadPlayerEditorPage,
 }

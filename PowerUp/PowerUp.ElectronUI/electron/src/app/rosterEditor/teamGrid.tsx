@@ -8,7 +8,7 @@ import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
 import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
-import { PlayerEditor } from "../playerEditor/playerEditor";
+import { PlayerEditor } from "../playerEditor/playerEditorPage";
 import { getPositionType } from "../shared/positionCode";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
