@@ -37,7 +37,7 @@ const LayoutWrapper = styled.div`
 `
 
 const HeaderWrapper = styled.header`
-  height: 100px;
+  height: 104px;
   background-color: ${COLORS.primaryBlue.regular_45};
   display: flex;
   align-items: center;
@@ -64,7 +64,8 @@ const LogoP = styled.span`
 `
 
 const HeaderTextWrapper = styled.div`
-  padding: 36px;
+  padding: 0px 36px;
+  margin-top: -9px;
 `
 
 const PageContent = styled.div`
