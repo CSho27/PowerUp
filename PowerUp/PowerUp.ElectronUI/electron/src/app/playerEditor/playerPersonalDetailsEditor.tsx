@@ -1,6 +1,8 @@
+import { Dispatch } from "react";
 import styled from "styled-components"
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { TextField } from "../../components/textField/textField"
+import { PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
   firstName: string;
@@ -8,7 +10,7 @@ export interface PlayerPersonalDetailsEditorProps {
   isSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
-  update: () => void;
+  update: Dispatch<PlayerPersonalDetailsAction>;
 }
 
 export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorProps) {
@@ -27,28 +29,28 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>First Name</FieldLabel>
         <TextField 
           value={firstName}
-          onChange={() => {}}
+          onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })}
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Last Name</FieldLabel>
         <TextField 
           value={lastName}
-          onChange={() => {}}
+          onChange={lastName => update({ type: 'updateLastName', lastName: lastName })}
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Saved Name</FieldLabel>
         <TextField 
           value={savedName}
-          onChange={() => {}}
+          onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })}
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Uniorm Number</FieldLabel>
         <TextField 
           value={uniformNumber}
-          onChange={() => {}}
+          onChange={uniformNumber => update({ type: 'updateUniformNumber', uniformNumber: uniformNumber })}
         />
       </FlexFracItem>
     </FlexRow>

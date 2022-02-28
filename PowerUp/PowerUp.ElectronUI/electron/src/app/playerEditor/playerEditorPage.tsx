@@ -14,7 +14,7 @@ import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
-import { PlayerEditorStateReducer } from "./playerEditorState";
+import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
 
@@ -36,18 +36,14 @@ const tabOptions: KeyedCode[] = tabs.map(t => ({ key: t, name: t }));
 
 export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, editorResponse } = props;
-  const { options, personalDetails } = editorResponse;
+  const { options } = editorResponse;
 
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
 
-  const [state, update] = React.useReducer(PlayerEditorStateReducer, {
-    firstName: personalDetails.firstName,
-    lastName: personalDetails.lastName,
-    savedName: personalDetails.savedName,
-    playerNumber: personalDetails.uniformNumber
-  });
+  const [state, update] = React.useReducer(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse));
+  const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
 
-  const positionType = getPositionType(personalDetails.position.key);
+  const positionType = getPositionType(editorResponse.personalDetails.position.key);
 
   const header = <>
     <Breadcrumbs>
@@ -61,14 +57,14 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           size='Large'
           fullWidth
         >
-          {state.savedName}
+          {personalDetails.savedName}
         </PlayerNameBubble>
       </div>
       <PositionBubble
         positionType={positionType}
         size='Large'
       >
-        {personalDetails.position.name}
+        {editorResponse.personalDetails.position.name}
       </PositionBubble>
       <OutlineHeader fontSize={FONT_SIZES._48} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
@@ -84,12 +80,12 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <PlayerPersonalDetailsEditor
-        firstName={state.firstName}
-        lastName={state.lastName}
-        isSpecialSavedName={false}
-        savedName={state.savedName}
-        uniformNumber={state.playerNumber}
-        update={() => {}}      
+        firstName={personalDetails.firstName}
+        lastName={personalDetails.lastName}
+        isSpecialSavedName={personalDetails.isSpecialSavedName}
+        savedName={personalDetails.savedName}
+        uniformNumber={personalDetails.uniformNumber}
+        update={updatePersonalDetails}      
       />
     </ContentWithHangingHeader>
   </PowerUpLayout>
