@@ -29,6 +29,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>First Name</FieldLabel>
         <TextField 
           value={firstName}
+          maxLength={14}
           onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })}
         />
       </FlexFracItem>
@@ -36,6 +37,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Last Name</FieldLabel>
         <TextField 
           value={lastName}
+          maxLength={14}
           onChange={lastName => update({ type: 'updateLastName', lastName: lastName })}
         />
       </FlexFracItem>
@@ -43,6 +45,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Saved Name</FieldLabel>
         <TextField 
           value={savedName}
+          maxLength={10}
           onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })}
         />
       </FlexFracItem>
