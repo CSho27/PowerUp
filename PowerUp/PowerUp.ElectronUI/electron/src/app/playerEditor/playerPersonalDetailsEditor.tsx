@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import styled from "styled-components"
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
-import { TextField } from "../../components/textField/textField"
+import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
@@ -30,6 +30,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <TextField 
           value={firstName}
           maxLength={14}
+          allowedCharacters={powerProsCharacters}
           onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })}
         />
       </FlexFracItem>
@@ -38,6 +39,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <TextField 
           value={lastName}
           maxLength={14}
+          allowedCharacters={powerProsCharacters}
           onChange={lastName => update({ type: 'updateLastName', lastName: lastName })}
         />
       </FlexFracItem>
@@ -46,6 +48,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <TextField 
           value={savedName}
           maxLength={10}
+          allowedCharacters={powerProsCharacters}
           onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })}
         />
       </FlexFracItem>
@@ -53,6 +56,8 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Uniorm Number</FieldLabel>
         <TextField 
           value={uniformNumber}
+          maxLength={3}
+          allowedCharacters={digits}
           onChange={uniformNumber => update({ type: 'updateUniformNumber', uniformNumber: uniformNumber })}
         />
       </FlexFracItem>
