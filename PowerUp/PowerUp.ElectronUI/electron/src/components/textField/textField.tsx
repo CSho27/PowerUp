@@ -16,12 +16,13 @@ export function TextField(props: TextFieldProps) {
 
   return <TextFieldWrapper>
     <TextInput
+      type='text'
       placeholder={placeholder ?? 'Enter text'}
       value={value ?? ''}
       maxLength={maxLength}
       onChange={handleTextChanged}
       autoFocus={autoFocus}
-      />
+    />
   </TextFieldWrapper> 
 
   function handleTextChanged(event: ChangeEvent<HTMLInputElement>) {
