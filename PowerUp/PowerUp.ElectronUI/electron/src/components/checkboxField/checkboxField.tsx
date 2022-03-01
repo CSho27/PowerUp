@@ -55,6 +55,7 @@ const CheckboxWrapper = styled.div<{ size: CheckboxFieldSize, checked: boolean }
   font-size: var(--font-size);
   width: var(--box-size);
   height: var(--box-size);
+  cursor: pointer;
 `
 
 const CheckboxInput = styled.input`
