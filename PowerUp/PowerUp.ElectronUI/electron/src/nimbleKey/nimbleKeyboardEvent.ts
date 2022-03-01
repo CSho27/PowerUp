@@ -29,7 +29,10 @@ export function handleKeyboardEvent<T = Element>(handler: NimbleKeyboardEventHan
 }
 
 export function handleNativeKeyboardEvent(handler: NimbleKeyboardEventHandler): (event: KeyboardEvent) => void {
-  return (event: KeyboardEvent) => handler(toNimbleKeyboardEventFromNative(event));
+  return (event: KeyboardEvent) => {
+    if(event.key) 
+      handler(toNimbleKeyboardEventFromNative(event));
+  }
 }
 
 export function toNimbleKeyboardEvent<T = Element>(event: React.KeyboardEvent<T>): NimbleKeyboardEvent {
