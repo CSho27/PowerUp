@@ -21,7 +21,7 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
 export interface PlayerPersonalDetails {
   firstName: string;
   lastName: string;
-  isSpecialSavedName: boolean;
+  useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
 }
@@ -29,10 +29,11 @@ export interface PlayerPersonalDetails {
 export type PlayerPersonalDetailsAction =
 | { type: 'updateFirstName', firstName: string }
 | { type: 'updateLastName', lastName: string }
+| { type: 'toggleUseSpecialSavedName' }
 | { type: 'updateSavedName', savedName: string }
 | { type: 'updateUniformNumber', uniformNumber: string }
 
-export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action: PlayerPersonalDetailsAction) {
+export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action: PlayerPersonalDetailsAction): PlayerPersonalDetails {
   switch(action.type) {
     case 'updateFirstName':
       return {
@@ -43,6 +44,11 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
       return {
         ...state,
         lastName: action.lastName
+      }
+    case 'toggleUseSpecialSavedName':
+      return {
+        ...state,
+        useSpecialSavedName: !state.useSpecialSavedName,
       }
     case 'updateSavedName':
       return {
@@ -71,7 +77,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
     personalDetails: {
       firstName: personalDetails.firstName,
       lastName: personalDetails.lastName,
-      isSpecialSavedName: personalDetails.isSpecialSavedName,
+      useSpecialSavedName: personalDetails.isSpecialSavedName,
       savedName: personalDetails.savedName,
       uniformNumber: personalDetails.uniformNumber
     }

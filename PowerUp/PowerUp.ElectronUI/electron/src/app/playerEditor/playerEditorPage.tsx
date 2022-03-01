@@ -82,8 +82,11 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       <PlayerPersonalDetailsEditor
         firstName={personalDetails.firstName}
         lastName={personalDetails.lastName}
-        isSpecialSavedName={personalDetails.isSpecialSavedName}
-        savedName={personalDetails.savedName}
+        initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
+        hasSpecialSavedName={personalDetails.useSpecialSavedName}
+        savedName={personalDetails.useSpecialSavedName
+          ? editorResponse.personalDetails.savedName
+          : personalDetails.savedName}
         uniformNumber={personalDetails.uniformNumber}
         update={updatePersonalDetails}      
       />

@@ -1,13 +1,16 @@
 import { Dispatch } from "react";
 import styled from "styled-components"
+import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
+import { FONT_SIZES } from "../../style/constants";
 import { PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
   firstName: string;
   lastName: string;
-  isSpecialSavedName: boolean;
+  initiallyHadSpecialSavedName: boolean;
+  hasSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
   update: Dispatch<PlayerPersonalDetailsAction>;
@@ -17,10 +20,11 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
   const { 
     firstName, 
     lastName, 
-    isSpecialSavedName, 
+    initiallyHadSpecialSavedName,
+    hasSpecialSavedName, 
     savedName, 
     uniformNumber,
-    update 
+    update
   } = props;
   
   return <PersonalDetailsEditorContainer>
@@ -44,7 +48,18 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
-        <FieldLabel>Saved Name</FieldLabel>
+        <FlexRow gap='8px' vAlignCenter>
+          <FieldLabel>Saved Name</FieldLabel>
+          {initiallyHadSpecialSavedName &&
+          <FlexRow gap='4px' vAlignCenter style={{ flex: 'auto' }}>
+            <CheckboxField 
+              checked={hasSpecialSavedName}
+              size='Small'
+              onChecked={() => update({ type: 'toggleUseSpecialSavedName' })}
+            />
+            <span style={{ fontSize: FONT_SIZES._14 }}>Use Special Saved Name</span>
+          </FlexRow>}
+        </FlexRow>
         <TextField 
           value={savedName}
           maxLength={10}
@@ -74,9 +89,10 @@ type FlexRowGap =
 | '8px'
 | '16px'
 
-const FlexRow = styled.div<{ gap: FlexRowGap }>`
+const FlexRow = styled.div<{ gap: FlexRowGap, vAlignCenter?: boolean }>`
   display: flex;
   gap: ${p => p.gap};
+  align-items: ${p => p.vAlignCenter ? 'center' : undefined};
 `
 
 type FlexFrac = 
