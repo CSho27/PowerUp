@@ -4,6 +4,7 @@ import { COLORS } from "../../style/constants";
 
 export interface TextFieldProps {
   value: string | undefined;
+  disabled?: boolean;
   placeholder?: string;
   autoFocus?: boolean;
   maxLength?: number;
@@ -12,11 +13,12 @@ export interface TextFieldProps {
 }
 
 export function TextField(props: TextFieldProps) {
-  const { value, placeholder, autoFocus, maxLength, allowedCharacters, onChange } = props;
+  const { value, disabled, placeholder, autoFocus, maxLength, allowedCharacters, onChange } = props;
 
   return <TextFieldWrapper>
     <TextInput
       type='text'
+      disabled={disabled}
       placeholder={placeholder ?? 'Enter text'}
       value={value ?? ''}
       maxLength={maxLength}
@@ -60,6 +62,11 @@ const TextInput = styled.input`
   width: 100%;
   border: none;
   outline: none;
+
+  &:disabled {
+    background-color: ${COLORS.jet.superlight_85};
+    color: ${COLORS.richBlack.regular_5};
+  }
 `
 
 export const digits = Array.from(Array(10), (v, i) => i.toString());

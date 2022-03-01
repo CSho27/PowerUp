@@ -43,6 +43,10 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const [state, update] = React.useReducer(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse));
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
 
+  const savedName = personalDetails.useSpecialSavedName
+    ? editorResponse.personalDetails.savedName
+    : personalDetails.savedName;
+
   const positionType = getPositionType(editorResponse.personalDetails.position.key);
 
   const header = <>
@@ -57,7 +61,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           size='Large'
           fullWidth
         >
-          {personalDetails.savedName}
+          {savedName}
         </PlayerNameBubble>
       </div>
       <PositionBubble
@@ -84,9 +88,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         lastName={personalDetails.lastName}
         initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
         hasSpecialSavedName={personalDetails.useSpecialSavedName}
-        savedName={personalDetails.useSpecialSavedName
-          ? editorResponse.personalDetails.savedName
-          : personalDetails.savedName}
+        savedName={savedName}
         uniformNumber={personalDetails.uniformNumber}
         update={updatePersonalDetails}      
       />

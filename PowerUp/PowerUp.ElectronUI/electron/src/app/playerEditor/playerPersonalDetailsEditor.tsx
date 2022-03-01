@@ -64,6 +64,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           value={savedName}
           maxLength={10}
           allowedCharacters={powerProsCharacters}
+          disabled={hasSpecialSavedName}
           onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })}
         />
       </FlexFracItem>
