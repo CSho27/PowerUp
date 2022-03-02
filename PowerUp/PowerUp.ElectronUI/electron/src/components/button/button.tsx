@@ -55,7 +55,7 @@ export function Button(props: ButtonProps) {
 const sizingStyles = {
   Small: `
     --horizontal-padding: 12px;
-    --vertical-padding: 4px;
+    --vertical-padding: 3px;
     --border-radius: 2px;
     --font-size: ${FONT_SIZES.default_16};
   `,
