@@ -85,12 +85,8 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <PlayerPersonalDetailsEditor
         options={options}
-        firstName={personalDetails.firstName}
-        lastName={personalDetails.lastName}
         initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
-        hasSpecialSavedName={personalDetails.useSpecialSavedName}
-        savedName={savedName}
-        uniformNumber={personalDetails.uniformNumber}
+        details={state.personalDetails}
         update={updatePersonalDetails}      
       />
     </ContentWithHangingHeader>

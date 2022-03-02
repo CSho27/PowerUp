@@ -3,42 +3,36 @@ import styled from "styled-components"
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { SelectField } from "../../components/SelectField/selectField";
+import { toKeyedCode, toOption, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
 import { PlayerEditorOptions } from "./loadPlayerEditorApiClient";
-import { PlayerPersonalDetailsAction } from "./playerEditorState";
+import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
   options: PlayerEditorOptions;
-  firstName: string;
-  lastName: string;
   initiallyHadSpecialSavedName: boolean;
-  hasSpecialSavedName: boolean;
-  savedName: string;
-  uniformNumber: string;
+  details: PlayerPersonalDetails;
   update: Dispatch<PlayerPersonalDetailsAction>;
 }
+
+
 
 export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorProps) {
   const { 
     options,
-    firstName, 
-    lastName, 
     initiallyHadSpecialSavedName,
-    hasSpecialSavedName, 
-    savedName, 
-    uniformNumber,
+    details,
     update
   } = props;
 
-  const positionOptions = options.positions.map(p => ({ value: p.key, displayName: p.name, subText: 'subtext goes here' }));
   
   return <PersonalDetailsEditorContainer>
     <FlexRow gap='8px'>
       <FlexFracItem frac='1/4'>
         <FieldLabel>First Name</FieldLabel>
         <TextField 
-          value={firstName}
+          value={details.firstName}
           maxLength={14}
           allowedCharacters={powerProsCharacters}
           onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })}
@@ -47,7 +41,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
       <FlexFracItem frac='1/4'>
         <FieldLabel>Last Name</FieldLabel>
         <TextField 
-          value={lastName}
+          value={details.lastName}
           maxLength={14}
           allowedCharacters={powerProsCharacters}
           onChange={lastName => update({ type: 'updateLastName', lastName: lastName })}
@@ -59,7 +53,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           {initiallyHadSpecialSavedName &&
           <FlexRow gap='4px' vAlignCenter style={{ flex: 'auto' }}>
             <CheckboxField 
-              checked={hasSpecialSavedName}
+              checked={details.useSpecialSavedName}
               size='Small'
               onChecked={() => update({ type: 'toggleUseSpecialSavedName' })}
             />
@@ -67,17 +61,17 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           </FlexRow>}
         </FlexRow>
         <TextField 
-          value={savedName}
+          value={details.savedName}
           maxLength={10}
           allowedCharacters={powerProsCharacters}
-          disabled={hasSpecialSavedName}
+          disabled={details.useSpecialSavedName}
           onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })}
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Uniorm Number</FieldLabel>
         <TextField 
-          value={uniformNumber}
+          value={details.uniformNumber}
           maxLength={3}
           allowedCharacters={digits}
           onChange={uniformNumber => update({ type: 'updateUniformNumber', uniformNumber: uniformNumber })}
@@ -88,14 +82,20 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
       <FlexFracItem frac='1/4'>
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
-          value='1' 
-          onChange={value => console.log(value)} 
+          value={details.position?.key} 
+          onChange={position => update({ type: 'updatePosition', position: toKeyedCode(options.positions, position)})} 
         >
-          <option value='1'>{'q'.repeat(100)}</option>
-          <option value='2'>Two</option>
+          {toOptions(options.positions)}
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
+        <FieldLabel>Pitcher Type</FieldLabel>
+        <SelectField 
+          value={details.pitcherType?.key} 
+          onChange={pitcherType => update({ type: 'updatePitcherType', pitcherType: toKeyedCode(options.pitcherTypes, pitcherType)})} 
+        >
+          {toOptions(options.positions)}
+        </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
       </FlexFracItem>

@@ -1,4 +1,5 @@
 import { Dispatch } from "react"
+import { KeyedCode } from "../shared/keyedCode"
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 
 export interface PlayerEditorState {
@@ -24,6 +25,8 @@ export interface PlayerPersonalDetails {
   useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  position: KeyedCode;
+  pitcherType: KeyedCode;
 }
 
 export type PlayerPersonalDetailsAction =
@@ -32,6 +35,8 @@ export type PlayerPersonalDetailsAction =
 | { type: 'toggleUseSpecialSavedName' }
 | { type: 'updateSavedName', savedName: string }
 | { type: 'updateUniformNumber', uniformNumber: string }
+| { type: 'updatePosition', position: KeyedCode }
+| { type: 'updatePitcherType', pitcherType: KeyedCode }
 
 export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action: PlayerPersonalDetailsAction): PlayerPersonalDetails {
   switch(action.type) {
@@ -60,6 +65,16 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         ...state,
         uniformNumber: action.uniformNumber
       }
+    case 'updatePosition':
+      return {
+        ...state,
+        position: action.position
+      }
+    case 'updatePitcherType':
+      return {
+        ...state,
+        pitcherType: action.pitcherType
+      }
   }
 }
 
@@ -79,7 +94,9 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       lastName: personalDetails.lastName,
       useSpecialSavedName: personalDetails.isSpecialSavedName,
       savedName: personalDetails.savedName,
-      uniformNumber: personalDetails.uniformNumber
+      uniformNumber: personalDetails.uniformNumber,
+      position: personalDetails.position,
+      pitcherType: personalDetails.pitcherType
     }
   }
 }
