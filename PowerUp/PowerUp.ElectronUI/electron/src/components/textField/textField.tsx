@@ -15,7 +15,7 @@ export interface TextFieldProps {
 export function TextField(props: TextFieldProps) {
   const { value, disabled, placeholder, autoFocus, maxLength, allowedCharacters, onChange } = props;
 
-  return <TextFieldWrapper>
+  return <TextFieldWrapper disabled={!!disabled}>
     <TextInput
       type='text'
       disabled={disabled}
@@ -48,7 +48,8 @@ export function TextField(props: TextFieldProps) {
   } 
 }
 
-const TextFieldWrapper = styled.div`
+const TextFieldWrapper = styled.div<{ disabled: boolean }>`
+  background-color: ${p => p.disabled ? COLORS.jet.superlight_85 : COLORS.white.regular_100};
   border: solid 2px ${COLORS.transparent.regular_100};
   border-radius: 2px;
   width: 100%;

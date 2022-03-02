@@ -7,7 +7,7 @@ export interface SelectFieldProps {
   value: string | undefined;
   disabled?: boolean;
   onChange: (value: string) => void;
-  children: OptionElement[];
+  children?: OptionElement[];
 }
 
 type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement>>
@@ -17,23 +17,24 @@ export function SelectField(props: SelectFieldProps) {
 
   const displayedValue = value && getDisplayedValue(value, children);
 
-  return <FocusWrapper>
-    <ContentWrapper disabled={!!disabled}>
-      <SelectedContent isEmpty={!displayedValue}>
-        {displayedValue ?? '.'}
-      </SelectedContent>
-      <Icon icon='chevron-down'/>
-      <Selector disabled={disabled} value={value} onChange={handleChange}>
-        {children}
-      </Selector>
-    </ContentWrapper>
-  </FocusWrapper>
+  return <ContentWrapper disabled={!!disabled}>
+    <SelectedContent isEmpty={!displayedValue}>
+      {displayedValue ?? '.'}
+    </SelectedContent>
+    <Icon icon='chevron-down'/>
+    <Selector disabled={disabled} value={value} onChange={handleChange}>
+      {children}
+    </Selector>
+  </ContentWrapper>
 
   function handleChange(event: ChangeEvent<HTMLSelectElement>) {
     onChange(event.target.value);
   }
 
-  function getDisplayedValue(value: string, children: OptionElement[]): string | undefined {
+  function getDisplayedValue(value: string, children: OptionElement[] | undefined): string | undefined {
+    if(!children)
+      return
+    
     const selectedOption = children.find(c => c.props.value === value);
     return !!selectedOption
       ? selectedOption.props.children as string
@@ -41,23 +42,22 @@ export function SelectField(props: SelectFieldProps) {
   }
 }
 
-const FocusWrapper = styled.div`
-  border: solid 2px ${COLORS.transparent.regular_100};
-
-  &:focus-within {
-    border-color: ${COLORS.primaryBlue.regular_45};
-  }
-`
-
 const ContentWrapper = styled.div<{ disabled: boolean }>`
   position: relative;
   border-radius: 2px;
   background-color: ${p => p.disabled ? COLORS.jet.superlight_85 : COLORS.white.regular_100};
   width: 100%;
   padding: 1px 2px;
+  padding-right: 8px;
   display: flex;
-  gap: 24px;
+  gap: 8px;
   align-items: center;
+
+  border: solid 2px ${COLORS.transparent.regular_100};
+
+  &:focus-within {
+    border-color: ${COLORS.primaryBlue.regular_45};
+  }
 `
 
 const SelectedContent = styled.span<{ isEmpty: boolean; }>`
