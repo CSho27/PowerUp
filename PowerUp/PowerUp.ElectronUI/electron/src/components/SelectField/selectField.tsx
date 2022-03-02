@@ -17,15 +17,17 @@ export function SelectField(props: SelectFieldProps) {
 
   const displayedValue = value && getDisplayedValue(value, children);
 
-  return <Wrapper disabled={!!disabled}>
-    <SelectedContent isEmpty={!displayedValue}>
-      {displayedValue ?? '.'}
-    </SelectedContent>
-    <Icon icon='chevron-down'/>
-    <Selector disabled={disabled} value={value} onChange={handleChange}>
-      {children}
-    </Selector>
-  </Wrapper>
+  return <FocusWrapper>
+    <ContentWrapper disabled={!!disabled}>
+      <SelectedContent isEmpty={!displayedValue}>
+        {displayedValue ?? '.'}
+      </SelectedContent>
+      <Icon icon='chevron-down'/>
+      <Selector disabled={disabled} value={value} onChange={handleChange}>
+        {children}
+      </Selector>
+    </ContentWrapper>
+  </FocusWrapper>
 
   function handleChange(event: ChangeEvent<HTMLSelectElement>) {
     onChange(event.target.value);
@@ -39,9 +41,16 @@ export function SelectField(props: SelectFieldProps) {
   }
 }
 
-const Wrapper = styled.div<{ disabled: boolean }>`
-  position: relative;
+const FocusWrapper = styled.div`
   border: solid 2px ${COLORS.transparent.regular_100};
+
+  &:focus-within {
+    border-color: ${COLORS.primaryBlue.regular_45};
+  }
+`
+
+const ContentWrapper = styled.div<{ disabled: boolean }>`
+  position: relative;
   border-radius: 2px;
   background-color: ${p => p.disabled ? COLORS.jet.superlight_85 : COLORS.white.regular_100};
   width: 100%;
@@ -49,10 +58,6 @@ const Wrapper = styled.div<{ disabled: boolean }>`
   display: flex;
   gap: 24px;
   align-items: center;
-
-  &:focus-within {
-    border-color: ${COLORS.primaryBlue.regular_45};
-  }
 `
 
 const SelectedContent = styled.span<{ isEmpty: boolean; }>`
