@@ -5,6 +5,7 @@ import { Icon } from "../icon/icon";
 
 export interface SelectFieldProps {
   value: string | undefined;
+  disabled?: boolean;
   onChange: (value: string) => void;
   children: OptionElement[];
 }
@@ -12,16 +13,16 @@ export interface SelectFieldProps {
 type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement>>
 
 export function SelectField(props: SelectFieldProps) {
-  const { value, onChange, children } = props;
+  const { value, disabled, onChange, children } = props;
 
   const displayedValue = value && getDisplayedValue(value, children);
 
-  return <Wrapper>
+  return <Wrapper disabled={!!disabled}>
     <SelectedContent isEmpty={!displayedValue}>
       {displayedValue ?? '.'}
     </SelectedContent>
     <Icon icon='chevron-down'/>
-    <Selector value={value} onChange={handleChange}>
+    <Selector disabled={disabled} value={value} onChange={handleChange}>
       {children}
     </Selector>
   </Wrapper>
@@ -38,11 +39,11 @@ export function SelectField(props: SelectFieldProps) {
   }
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ disabled: boolean }>`
   position: relative;
   border: solid 2px ${COLORS.transparent.regular_100};
   border-radius: 2px;
-  background-color: ${COLORS.white.regular_100};
+  background-color: ${p => p.disabled ? COLORS.jet.superlight_85 : COLORS.white.regular_100};
   width: 100%;
   padding: 1px 2px;
   display: flex;
@@ -69,4 +70,8 @@ const Selector = styled.select`
   height: 100%;
   opacity: 0;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 `

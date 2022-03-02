@@ -9,12 +9,12 @@ export interface PlayerEditorState {
 export type PlayerEditorAction =
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
 
-export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction): PlayerEditorState {
+export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
     case 'updatePersonalDetails':
       return {
         ...state,
-        personalDetails: PlayerPersonalDetailReducer(state.personalDetails, action.action)
+        personalDetails: PlayerPersonalDetailReducer(state.personalDetails, action.action, context)
       }
   }
 }
@@ -38,7 +38,13 @@ export type PlayerPersonalDetailsAction =
 | { type: 'updatePosition', position: KeyedCode }
 | { type: 'updatePitcherType', pitcherType: KeyedCode }
 
-export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action: PlayerPersonalDetailsAction): PlayerPersonalDetails {
+
+export interface PlayerPersonalDetailsContext {
+  swingManRole: KeyedCode;
+  starterRole: KeyedCode;
+}
+
+export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action: PlayerPersonalDetailsAction, context: PlayerPersonalDetailsContext): PlayerPersonalDetails {
   switch(action.type) {
     case 'updateFirstName':
       return {
@@ -66,9 +72,13 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         uniformNumber: action.uniformNumber
       }
     case 'updatePosition':
+      const isPitcher = action.position.key === 'Pitcher'; 
       return {
         ...state,
-        position: action.position
+        position: action.position,
+        pitcherType: isPitcher 
+          ? context.starterRole
+          : context.swingManRole
       }
     case 'updatePitcherType':
       return {

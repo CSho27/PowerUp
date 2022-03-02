@@ -89,6 +89,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Pitcher Type</FieldLabel>
         <SelectField 
           value={details.pitcherType?.key} 
+          disabled={details.position.key !== 'Pitcher'}
           onChange={pitcherType => update({ type: 'updatePitcherType', pitcherType: toKeyedCode(options.pitcherTypes, pitcherType)})} 
         >
           {toOptions(options.pitcherTypes)}

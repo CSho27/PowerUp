@@ -8,13 +8,14 @@ import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
+import { useReducerWithContext } from "../../utils/reducerWithContext";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
-import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer } from "./playerEditorState";
+import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { SavePlayerApiClient } from "./savePlayerApiClient";
 
@@ -40,7 +41,11 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
 
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
 
-  const [state, update] = React.useReducer(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse));
+  const reducerContext: PlayerPersonalDetailsContext = {
+    swingManRole: options.pitcherTypes.find(t => t.key === 'SwingMan') as KeyedCode,
+    starterRole: options.pitcherTypes.find(t => t.key === 'Starter') as KeyedCode
+  }
+  const [state, update] = useReducerWithContext(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse), reducerContext);
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
 
   const savedName = personalDetails.useSpecialSavedName
