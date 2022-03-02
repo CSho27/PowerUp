@@ -26,7 +26,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
   } = props;
   
   return <PersonalDetailsEditorContainer>
-    <FlexRow gap='8px'>
+    <FlexRow gap='8px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>First Name</FieldLabel>
         <TextField 
@@ -76,7 +76,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         />
       </FlexFracItem>
     </FlexRow>
-    <FlexRow gap='8px'>
+    <FlexRow gap='8px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
@@ -119,10 +119,11 @@ type FlexRowGap =
 | '8px'
 | '16px'
 
-const FlexRow = styled.div<{ gap: FlexRowGap, vAlignCenter?: boolean }>`
+const FlexRow = styled.div<{ gap: FlexRowGap, withBottomPadding?: boolean, vAlignCenter?: boolean }>`
   display: flex;
   gap: ${p => p.gap};
   align-items: ${p => p.vAlignCenter ? 'center' : undefined};
+  padding-bottom: ${p => p.withBottomPadding ? '16px' : undefined};
 `
 
 type FlexFrac = 
