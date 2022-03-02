@@ -16,8 +16,6 @@ export interface PlayerPersonalDetailsEditorProps {
   update: Dispatch<PlayerPersonalDetailsAction>;
 }
 
-
-
 export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorProps) {
   const { 
     options,
@@ -25,7 +23,6 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
     details,
     update
   } = props;
-
   
   return <PersonalDetailsEditorContainer>
     <FlexRow gap='8px'>
@@ -94,7 +91,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           value={details.pitcherType?.key} 
           onChange={pitcherType => update({ type: 'updatePitcherType', pitcherType: toKeyedCode(options.pitcherTypes, pitcherType)})} 
         >
-          {toOptions(options.positions)}
+          {toOptions(options.pitcherTypes)}
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4'>

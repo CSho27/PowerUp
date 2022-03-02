@@ -11,7 +11,7 @@ import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
-import { getPositionType } from "../shared/positionCode";
+import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer } from "./playerEditorState";
@@ -47,7 +47,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
     ? editorResponse.personalDetails.savedName
     : personalDetails.savedName;
 
-  const positionType = getPositionType(editorResponse.personalDetails.position.key);
+  const positionType = getPositionType(state.personalDetails.position.key as Position);
 
   const header = <>
     <Breadcrumbs>
@@ -68,7 +68,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         positionType={positionType}
         size='Large'
       >
-        {editorResponse.personalDetails.position.name}
+        {state.personalDetails.position.name}
       </PositionBubble>
       <OutlineHeader fontSize={FONT_SIZES._48} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
