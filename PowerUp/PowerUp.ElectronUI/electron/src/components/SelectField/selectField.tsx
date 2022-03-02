@@ -41,7 +41,7 @@ export function SelectField(props: SelectFieldProps) {
 const Wrapper = styled.div`
   position: relative;
   border: solid 2px ${COLORS.transparent.regular_100};
-  border-radius: 4px;
+  border-radius: 2px;
   background-color: ${COLORS.white.regular_100};
   width: 100%;
   padding: 1px 2px;

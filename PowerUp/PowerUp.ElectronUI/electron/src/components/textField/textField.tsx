@@ -50,7 +50,7 @@ export function TextField(props: TextFieldProps) {
 
 const TextFieldWrapper = styled.div`
   border: solid 2px ${COLORS.transparent.regular_100};
-  border-radius: 4px;
+  border-radius: 2px;
   width: 100%;
 
   &:focus-within {
@@ -61,6 +61,7 @@ const TextFieldWrapper = styled.div`
 const TextInput = styled.input`
   width: 100%;
   border: none;
+  border-radius: 2px;
   outline: none;
 
   &:disabled {
