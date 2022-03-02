@@ -84,6 +84,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <PlayerPersonalDetailsEditor
+        options={options}
         firstName={personalDetails.firstName}
         lastName={personalDetails.lastName}
         initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}

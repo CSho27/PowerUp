@@ -3,6 +3,7 @@ import * as React from 'react';
 export type IconType = 
 | 'arrow-up'
 | 'box-archive'
+| 'chevron-down'
 | 'circle-notch'
 | 'folder-open'
 | 'pen-to-square'

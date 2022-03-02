@@ -2,11 +2,14 @@ import { Dispatch } from "react";
 import styled from "styled-components"
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
+import { SelectField, SelectFieldOption } from "../../components/SelectField/selectField";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
+import { PlayerEditorOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
+  options: PlayerEditorOptions;
   firstName: string;
   lastName: string;
   initiallyHadSpecialSavedName: boolean;
@@ -18,6 +21,7 @@ export interface PlayerPersonalDetailsEditorProps {
 
 export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorProps) {
   const { 
+    options,
     firstName, 
     lastName, 
     initiallyHadSpecialSavedName,
@@ -26,6 +30,8 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
     uniformNumber,
     update
   } = props;
+
+  const positionOptions = options.positions.map(p => ({ value: p.key, displayName: p.name, subText: 'subtext goes here' }));
   
   return <PersonalDetailsEditorContainer>
     <FlexRow gap='8px'>
@@ -76,6 +82,22 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           allowedCharacters={digits}
           onChange={uniformNumber => update({ type: 'updateUniformNumber', uniformNumber: uniformNumber })}
         />
+      </FlexFracItem>
+    </FlexRow>
+    <FlexRow gap='8px'>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Primary Position</FieldLabel>
+        <SelectField 
+          value='1' 
+          options={positionOptions}
+          onChange={() => {}} 
+        />
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
       </FlexFracItem>
     </FlexRow>
   </PersonalDetailsEditorContainer>
