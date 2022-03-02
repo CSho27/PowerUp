@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import styled from "styled-components"
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
-import { SelectField, SelectFieldOption } from "../../components/SelectField/selectField";
+import { SelectField } from "../../components/SelectField/selectField";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
 import { PlayerEditorOptions } from "./loadPlayerEditorApiClient";
@@ -89,9 +89,11 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
           value='1' 
-          options={positionOptions}
-          onChange={() => {}} 
-        />
+          onChange={value => console.log(value)} 
+        >
+          <option value='1'>{'q'.repeat(100)}</option>
+          <option value='2'>Two</option>
+        </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
       </FlexFracItem>
@@ -122,5 +124,7 @@ type FlexFrac =
 | '1/4'
 
 const FlexFracItem = styled.div<{ frac: FlexFrac }>`
-  flex: 1 1 calc(100% * ${p => `(${p.frac})`});
+  --width: calc(100% * ${p => `(${p.frac})`});
+  width: var(--width);
+  flex: 0 0 var(--width);
 `
