@@ -5,6 +5,7 @@ export type IconType =
 | 'box-archive'
 | 'chevron-down'
 | 'circle-notch'
+| 'floppy-disk'
 | 'folder-open'
 | 'pen-to-square'
 | 'user-pen'

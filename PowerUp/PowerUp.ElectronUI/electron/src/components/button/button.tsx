@@ -60,8 +60,8 @@ const sizingStyles = {
     --font-size: ${FONT_SIZES.default_16};
   `,
   Medium: `
-    --horizontal-padding: 20px;
-    --vertical-padding: 12px;
+    --horizontal-padding: 16px;
+    --vertical-padding: 8px;
     --border-radius: 2px;
     --font-size: ${FONT_SIZES._18};
   `,

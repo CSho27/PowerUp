@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components"
 import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
+import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
@@ -78,6 +79,9 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       <OutlineHeader fontSize={FONT_SIZES._40} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
       </OutlineHeader>
+      <div style={{ flex: 'auto', display: 'flex', justifyContent: 'flex-end' }}>
+        <Button variant='Fill' size='Medium' onClick={savePlayer} icon='floppy-disk'>Save</Button>
+      </div>
     </PlayerHeaderContainer>
     <TabButtonNav 
       selectedTab={{ key: 'Personal', name: 'Personal' }}
@@ -96,6 +100,10 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       />
     </ContentWithHangingHeader>
   </PowerUpLayout>
+
+  async function savePlayer() {
+    console.log(state)
+  } 
 }
 
 const PlayerHeaderContainer = styled.div`
