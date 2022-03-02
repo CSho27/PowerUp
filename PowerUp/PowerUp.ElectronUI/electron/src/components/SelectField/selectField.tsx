@@ -14,9 +14,11 @@ type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<H
 export function SelectField(props: SelectFieldProps) {
   const { value, onChange, children } = props;
 
+  const displayedValue = value && getDisplayedValue(value, children);
+
   return <Wrapper>
-    <SelectedContent>
-      {value && getDisplayedValue(value, children)}
+    <SelectedContent isEmpty={!displayedValue}>
+      {displayedValue ?? '.'}
     </SelectedContent>
     <Icon icon='chevron-down'/>
     <Selector value={value} onChange={handleChange}>
@@ -34,8 +36,6 @@ export function SelectField(props: SelectFieldProps) {
       ? selectedOption.props.children as string
       : undefined
   }
-  
-
 }
 
 const Wrapper = styled.div`
@@ -54,7 +54,8 @@ const Wrapper = styled.div`
   }
 `
 
-const SelectedContent = styled.span`
+const SelectedContent = styled.span<{ isEmpty: boolean; }>`
+  opacity: ${p => p.isEmpty ? 0 : undefined};
   flex: auto;
   overflow-x: hidden;
   text-overflow: ellipsis;
