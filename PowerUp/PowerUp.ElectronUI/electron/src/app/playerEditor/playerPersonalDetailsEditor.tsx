@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import styled from "styled-components"
+import { Button } from "../../components/button/button";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { SelectField } from "../../components/SelectField/selectField";
@@ -96,8 +97,14 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
+        <FieldLabel>Voice</FieldLabel>
+        <SelectField value='1' onChange={() => {}}>
+        </SelectField>
       </FlexFracItem>
-      <FlexFracItem frac='1/4'>
+      <FlexFracItem frac='1/4' style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Button variant='Fill' size='Small' onClick={() =>  console.log('Find Closest Clicked')}>
+          Find Closest
+        </Button>
       </FlexFracItem>
     </FlexRow>
   </PersonalDetailsEditorContainer>
