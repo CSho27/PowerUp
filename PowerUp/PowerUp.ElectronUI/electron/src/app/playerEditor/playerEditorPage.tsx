@@ -70,7 +70,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       >
         {state.personalDetails.position.name}
       </PositionBubble>
-      <OutlineHeader fontSize={FONT_SIZES._48} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
+      <OutlineHeader fontSize={FONT_SIZES._40} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
       </OutlineHeader>
     </PlayerHeaderContainer>
