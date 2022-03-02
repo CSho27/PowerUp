@@ -123,5 +123,5 @@ type FlexFrac =
 const FlexFracItem = styled.div<{ frac: FlexFrac }>`
   --width: calc(100% * ${p => `(${p.frac})`});
   width: var(--width);
-  flex: 0 0 var(--width);
+  flex: 0 1 var(--width);
 `
