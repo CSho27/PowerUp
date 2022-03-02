@@ -4,7 +4,7 @@ import { COLORS } from "../../style/constants";
 import { Icon } from "../icon/icon";
 
 export interface SelectFieldProps {
-  value: string | undefined;
+  value: string | number | undefined;
   disabled?: boolean;
   onChange: (value: string) => void;
   children?: OptionElement[];
@@ -15,7 +15,7 @@ type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<H
 export function SelectField(props: SelectFieldProps) {
   const { value, disabled, onChange, children } = props;
 
-  const displayedValue = value && getDisplayedValue(value, children);
+  const displayedValue = value && getDisplayedValue(value?.toString(), children);
 
   return <ContentWrapper disabled={!!disabled}>
     <SelectedContent isEmpty={!displayedValue}>
@@ -31,8 +31,8 @@ export function SelectField(props: SelectFieldProps) {
     onChange(event.target.value);
   }
 
-  function getDisplayedValue(value: string, children: OptionElement[] | undefined): string | undefined {
-    if(!children)
+  function getDisplayedValue(value: string | undefined, children: OptionElement[] | undefined): string | undefined {
+    if(!children || !value)
       return
     
     const selectedOption = children.find(c => c.props.value === value);

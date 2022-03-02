@@ -4,7 +4,7 @@ import { Button } from "../../components/button/button";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { SelectField } from "../../components/SelectField/selectField";
-import { toKeyedCode, toOption, toOptions } from "../../components/SelectField/selectFieldHelpers";
+import { toKeyedCode, toOption, toOptions, toSimpleCode } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
 import { PlayerEditorOptions } from "./loadPlayerEditorApiClient";
@@ -26,7 +26,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
   } = props;
   
   return <PersonalDetailsEditorContainer>
-    <FlexRow gap='8px' withBottomPadding>
+    <FlexRow gap='16px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>First Name</FieldLabel>
         <TextField 
@@ -46,7 +46,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
-        <FlexRow gap='8px' vAlignCenter>
+        <FlexRow gap='16px' vAlignCenter>
           <FieldLabel>Saved Name</FieldLabel>
           {initiallyHadSpecialSavedName &&
           <FlexRow gap='4px' vAlignCenter style={{ flex: 'auto' }}>
@@ -76,7 +76,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         />
       </FlexFracItem>
     </FlexRow>
-    <FlexRow gap='8px' withBottomPadding>
+    <FlexRow gap='16px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
@@ -105,6 +105,44 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <Button variant='Fill' size='Small' onClick={() =>  console.log('Find Closest Clicked')}>
           Find Closest
         </Button>
+      </FlexFracItem>
+    </FlexRow>
+    <FlexRow gap='16px' withBottomPadding>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Bats</FieldLabel>
+        <SelectField 
+          value={details?.battingSide.key} 
+          onChange={key => update({ type: 'updateBattingSide', battingSide: toKeyedCode(options.battingSideOptions, key)})} 
+        >
+          {toOptions(options.battingSideOptions)}
+        </SelectField>
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Batting Stance</FieldLabel>
+        <SelectField 
+          value={details.battingStance?.id} 
+          onChange={id => update({ type: 'updateBattingStance', battingStance: toSimpleCode(options.battingStanceOptions, id)})} 
+        >
+          {toOptions(options.battingStanceOptions)}
+        </SelectField>
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Throws</FieldLabel>
+        <SelectField 
+          value={details.throwingArm?.key}
+          onChange={throwingArm => update({ type: 'updateThrowingArm', throwingArm: toKeyedCode(options.throwingArmOptions, throwingArm)})}
+        >
+          {toOptions(options.throwingArmOptions)}
+        </SelectField>
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Pitching Mechanics</FieldLabel>
+        <SelectField 
+          value={details.pitchingMechanics?.id} 
+          onChange={id => update({ type: 'updatePitchingMechanics', mechanics: toSimpleCode(options.pitchingMechanicsOptions, id)})} 
+        >
+          {toOptions(options.battingStanceOptions)}
+        </SelectField>
       </FlexFracItem>
     </FlexRow>
   </PersonalDetailsEditorContainer>

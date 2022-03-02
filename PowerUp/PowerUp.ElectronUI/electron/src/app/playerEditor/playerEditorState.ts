@@ -1,5 +1,6 @@
 import { Dispatch } from "react"
 import { KeyedCode } from "../shared/keyedCode"
+import { SimpleCode } from "../shared/simpleCode"
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 
 export interface PlayerEditorState {
@@ -27,6 +28,10 @@ export interface PlayerPersonalDetails {
   uniformNumber: string;
   position: KeyedCode;
   pitcherType: KeyedCode;
+  battingSide: KeyedCode;
+  battingStance: SimpleCode;
+  throwingArm: KeyedCode;
+  pitchingMechanics: SimpleCode;
 }
 
 export type PlayerPersonalDetailsAction =
@@ -37,7 +42,10 @@ export type PlayerPersonalDetailsAction =
 | { type: 'updateUniformNumber', uniformNumber: string }
 | { type: 'updatePosition', position: KeyedCode }
 | { type: 'updatePitcherType', pitcherType: KeyedCode }
-
+| { type: 'updateBattingSide', battingSide: KeyedCode }
+| { type: 'updateBattingStance', battingStance: SimpleCode }
+| { type: 'updateThrowingArm', throwingArm: KeyedCode }
+| { type: 'updatePitchingMechanics', mechanics: SimpleCode }
 
 export interface PlayerPersonalDetailsContext {
   swingManRole: KeyedCode;
@@ -85,6 +93,26 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         ...state,
         pitcherType: action.pitcherType
       }
+    case 'updateBattingSide':
+      return {
+        ...state,
+        battingSide: action.battingSide
+      }
+    case 'updateBattingStance':
+      return {
+        ...state,
+        battingStance: action.battingStance
+      }
+    case 'updateThrowingArm':
+      return {
+        ...state,
+        throwingArm: action.throwingArm
+      }
+    case 'updatePitchingMechanics':
+      return {
+        ...state,
+        pitchingMechanics: action.mechanics
+      }
   }
 }
 
@@ -106,7 +134,11 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       savedName: personalDetails.savedName,
       uniformNumber: personalDetails.uniformNumber,
       position: personalDetails.position,
-      pitcherType: personalDetails.pitcherType
+      pitcherType: personalDetails.pitcherType,
+      battingSide: personalDetails.battingSide,
+      battingStance: personalDetails.battingStance,
+      throwingArm: personalDetails.throwingArm,
+      pitchingMechanics: personalDetails.pitchingMechanics
     }
   }
 }
