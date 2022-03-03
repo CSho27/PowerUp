@@ -3,7 +3,7 @@ using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
 {
-  public class SavePlayerCommand : ICommand<PlayerEditorDTO, object>
+  public class SavePlayerCommand : ICommand<SavePlayerRequest, object>
   {
     private const string GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_after.dat";
     
@@ -14,11 +14,20 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       _characterLibrary = characterLibrary;
     }
 
-    public object Execute(PlayerEditorDTO request)
+    public object Execute(SavePlayerRequest request)
     {
       using var writer = new PlayerWriter(_characterLibrary, GAME_SAVE_PATH);
-      writer.Write(request.PowerProsId!.Value, request.ToGSPlayer());
-      return new { Result = "Great Success!" };
+      return new { };
     }
+  }
+
+  public class SavePlayerRequest
+  {
+    public string? Key { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? SavedName { get; set; }
+    public string? Position { get; set; }
+    public string? PlayerNumber { get; set; }
   }
 }
