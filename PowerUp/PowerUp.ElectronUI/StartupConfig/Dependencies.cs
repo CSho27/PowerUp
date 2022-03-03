@@ -1,4 +1,5 @@
-﻿using PowerUp.GameSave.Api;
+﻿using PowerUp.Entities.Players.Api;
+using PowerUp.GameSave.Api;
 using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
 
@@ -10,6 +11,7 @@ namespace PowerUp.ElectronUI.StartupConfig
     {
       services.AddTransient<IRosterImportApi>(provider => new RosterImportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>()));
       services.AddTransient<IPlayerMapper>(provider => new PlayerMapper(provider.GetRequiredService<ISpecialSavedNameLibrary>()));
+      services.AddTransient<IPlayerApi>(provider => new PlayerApi());
     }
   }
 }

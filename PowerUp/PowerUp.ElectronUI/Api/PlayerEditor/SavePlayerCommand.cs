@@ -1,33 +1,64 @@
-﻿using PowerUp.GameSave.Objects.Players;
-using PowerUp.Libraries;
+﻿using PowerUp.Databases;
+using PowerUp.Entities.Players;
+using PowerUp.Entities.Players.Api;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
 {
   public class SavePlayerCommand : ICommand<SavePlayerRequest, object>
   {
-    private const string GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/pm2maus_after.dat";
-    
-    private readonly ICharacterLibrary _characterLibrary;
+    private readonly IPlayerApi _playerApi;
 
-    public SavePlayerCommand(ICharacterLibrary characterLibrary)
+    public SavePlayerCommand(IPlayerApi playerApi)
     {
-      _characterLibrary = characterLibrary;
+      _playerApi = playerApi;
     }
 
     public object Execute(SavePlayerRequest request)
     {
-      using var writer = new PlayerWriter(_characterLibrary, GAME_SAVE_PATH);
-      return new { };
+      if(request.PlayerKey == null)
+        throw new ArgumentNullException(nameof(request.PlayerKey));
+
+      var player = DatabaseConfig.JsonDatabase.Load<Player>(request.PlayerKey);
+      _playerApi.UpdatePlayer(player, request.GetParameters());
+      DatabaseConfig.JsonDatabase.Save(player);
+
+      return new { Result = "Great Success!" };
     }
   }
 
   public class SavePlayerRequest
   {
-    public string? Key { get; set; }
+    public string? PlayerKey { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public bool UseSpecialSavedName { get; set; }
     public string? SavedName { get; set; }
-    public string? Position { get; set; }
-    public string? PlayerNumber { get; set; }
+    public string? UniformNumber { get; set; }
+    public string? PositionKey  { get; set; }
+    public string? PitcherTypeKey { get; set; }
+    public int? VoiceId { get; set; }
+    public string? BattingSideKey { get; set; }
+    public int? BattingStanceId { get; set; }
+    public string? ThrowingArmKey { get; set; }
+    public int? PitchingMechanicsId { get; set; }
+
+    public PlayerParameters GetParameters()
+    {
+      return new PlayerParameters
+      {
+        FirstName = FirstName,
+        LastName = LastName,
+        KeepSpecialSavedName = UseSpecialSavedName,
+        SavedName = SavedName,
+        UniformNumber = UniformNumber,
+        Position = Enum.Parse<Position>(PositionKey!),
+        PitcherType = Enum.Parse<PitcherType>(PitcherTypeKey!),
+        VoiceId = VoiceId,
+        BattingSide = Enum.Parse<BattingSide>(BattingSideKey!),
+        BattingStanceId = BattingStanceId,
+        ThrowingArm = Enum.Parse<ThrowingArm>(ThrowingArmKey!),
+        PitchingMechanicsId = PitchingMechanicsId,
+      };
+    }
   }
 }

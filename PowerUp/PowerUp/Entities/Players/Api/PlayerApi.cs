@@ -8,7 +8,7 @@ namespace PowerUp.Entities.Players.Api
     void UpdatePlayer(Player player, PlayerParameters parameters);
   }
 
-  public class PlayerApi
+  public class PlayerApi : IPlayerApi
   {
     public void UpdatePlayer(Player player, PlayerParameters parameters)
     {
@@ -21,12 +21,12 @@ namespace PowerUp.Entities.Players.Api
         player.SavedName = parameters.SavedName!;
 
       player.UniformNumber = parameters.UniformNumber!;
-      player.PrimaryPosition = Enum.Parse<Position>(parameters.PositionKey!);
-      player.PitcherType = Enum.Parse<PitcherType>(parameters.PitcherTypeKey!);
+      player.PrimaryPosition = parameters.Position;
+      player.PitcherType = parameters.PitcherType;
       player.VoiceId = parameters.VoiceId!.Value;
-      player.BattingSide = Enum.Parse<BattingSide>(parameters.BattingSideKey!);
+      player.BattingSide = parameters.BattingSide;
       player.BattingStanceId = parameters.BattingStanceId!.Value;
-      player.ThrowingArm = Enum.Parse<ThrowingArm>(parameters.ThrowingArmKey!);
+      player.ThrowingArm = parameters.ThrowingArm;
       player.PitchingMechanicsId = parameters.PitchingMechanicsId!.Value;
     }
   }
@@ -38,12 +38,12 @@ namespace PowerUp.Entities.Players.Api
     public bool KeepSpecialSavedName { get; set; }
     public string? SavedName { get; set; }
     public string? UniformNumber { get; set; }
-    public string? PositionKey { get; set; }
-    public string? PitcherTypeKey { get; set; }
+    public Position Position { get; set; }
+    public PitcherType PitcherType { get; set; }
     public int? VoiceId { get; set; }
-    public string? BattingSideKey { get; set; }
+    public BattingSide BattingSide { get; set; }
     public int? BattingStanceId { get; set; }
-    public string? ThrowingArmKey { get; set; }
+    public ThrowingArm ThrowingArm { get; set; }
     public int? PitchingMechanicsId { get; set; }
   }
 
@@ -66,12 +66,8 @@ namespace PowerUp.Entities.Players.Api
       ThrowIfNull(parameters.UniformNumber);
       ThrowIfLongerThanMaxLength(parameters.UniformNumber, 3);
 
-      ThrowIfNull(parameters.PositionKey);
-      ThrowIfNull(parameters.PitcherTypeKey);
       ThrowIfNull(parameters.VoiceId);
-      ThrowIfNull(parameters.BattingSideKey);
       ThrowIfNull(parameters.BattingStanceId);
-      ThrowIfNull(parameters.ThrowingArmKey);
       ThrowIfNull(parameters.PitchingMechanicsId);
     }
   }
