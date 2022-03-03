@@ -141,7 +141,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           value={details.pitchingMechanics?.id} 
           onChange={id => update({ type: 'updatePitchingMechanics', mechanics: toSimpleCode(options.pitchingMechanicsOptions, id)})} 
         >
-          {toOptions(options.battingStanceOptions)}
+          {toOptions(options.pitchingMechanicsOptions)}
         </SelectField>
       </FlexFracItem>
     </FlexRow>
