@@ -7,7 +7,6 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
-import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
 import { AppContext } from "../app";
@@ -18,10 +17,11 @@ import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
-import { SavePlayerApiClient } from "./savePlayerApiClient";
+import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
 
 export interface PlayerEditorPageProps {
   appContext: AppContext;
+  playerKey: string;
   editorResponse: PlayerEditorResponse 
 }
 
@@ -37,7 +37,7 @@ const tabs = [
 const tabOptions: KeyedCode[] = tabs.map(t => ({ key: t, name: t }));
 
 export function PlayerEditorPage(props: PlayerEditorPageProps) {
-  const { appContext, editorResponse } = props;
+  const { appContext, playerKey, editorResponse } = props;
   const { options } = editorResponse;
 
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
@@ -102,7 +102,25 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   </PowerUpLayout>
 
   async function savePlayer() {
-    console.log(state)
+    const { personalDetails } = state;
+    
+    const request: SavePlayerRequest = {
+      playerKey: playerKey,
+      firstName: personalDetails.firstName,
+      lastName: personalDetails.lastName,
+      useSpecialSavedName: personalDetails.useSpecialSavedName,
+      savedName: personalDetails.savedName,
+      uniformNumber: personalDetails.uniformNumber,
+      positionKey: personalDetails.position.key,
+      pitcherTypeKey: personalDetails.pitcherType.key,
+      voiceId: editorResponse.personalDetails.voiceId.id, // TODO: Implement Voice
+      battingSideKey: personalDetails.battingSide.key,
+      battingStanceId: personalDetails.battingStance.id,
+      throwingArmKey: personalDetails.throwingArm.key,
+      pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+    }
+    const response = await apiClientRef.current.execute(request);
+    console.log(response);
   } 
 }
 
@@ -117,5 +135,5 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
   
   const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);
   const response = await apiClient.execute({ playerKey: pageDef.playerKey });
-  return <PlayerEditorPage appContext={appContext} editorResponse={response} />;
+  return <PlayerEditorPage appContext={appContext} playerKey={pageDef.playerKey} editorResponse={response} />;
 }

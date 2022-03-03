@@ -1,10 +1,11 @@
 ﻿using PowerUp.Databases;
+using PowerUp.ElectronUI.Api.Shared;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
 {
-  public class SavePlayerCommand : ICommand<SavePlayerRequest, object>
+  public class SavePlayerCommand : ICommand<SavePlayerRequest, ResultResponse>
   {
     private readonly IPlayerApi _playerApi;
 
@@ -13,16 +14,16 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       _playerApi = playerApi;
     }
 
-    public object Execute(SavePlayerRequest request)
+    public ResultResponse Execute(SavePlayerRequest request)
     {
-      if(request.PlayerKey == null)
+      if (request.PlayerKey == null)
         throw new ArgumentNullException(nameof(request.PlayerKey));
 
       var player = DatabaseConfig.JsonDatabase.Load<Player>(request.PlayerKey);
       _playerApi.UpdatePlayer(player, request.GetParameters());
       DatabaseConfig.JsonDatabase.Save(player);
 
-      return new { Result = "Great Success!" };
+      return ResultResponse.Succeeded();
     }
   }
 
