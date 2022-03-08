@@ -5,6 +5,7 @@ namespace PowerUp.Entities.Players
 {
   public class PlayerKeyParams : KeyParams
   {
+    public override int Id { get; set; }
     public string Type { get; set; }
     public string? ImportSource { get; set; }
     public int? Year { get; set; }
@@ -13,8 +14,9 @@ namespace PowerUp.Entities.Players
     public int? BasePowerProsTeam { get; set; }
     public string? BirthDate { get; set; }
 
-    private PlayerKeyParams(EntitySourceType type, string lastName, string firstName, string? importSource, int? sourcePowerProsId, int? year, DateOnly? birthDate)
+    private PlayerKeyParams(int id, EntitySourceType type, string lastName, string firstName, string? importSource, int? sourcePowerProsId, int? year, DateOnly? birthDate)
     {
+      Id = id;
       Type = type.ToString().ToUpperInvariant();
       ImportSource = importSource;
       Year = year;
@@ -26,6 +28,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerKeyParams ForBasePlayer(string lastName, string firstName, int sourcePowerProsId)
       => new PlayerKeyParams(
+        id: 0,
         type: EntitySourceType.Base,
         lastName: lastName,
         firstName: firstName,
@@ -37,6 +40,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerKeyParams ForImportedPlayer(string importSource, string lastName, string firstName, int sourcePowerProsId)
       => new PlayerKeyParams(
+        id: 0,
         type: EntitySourceType.Imported,
         lastName: lastName,
         firstName: firstName,
@@ -48,6 +52,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerKeyParams ForGeneratedPlayer(string lastName, string firstName, int year, DateOnly? birthDate)
       => new PlayerKeyParams(
+        id: 0,
         type: EntitySourceType.Generated,
         lastName: lastName,
         firstName: firstName,
@@ -59,6 +64,7 @@ namespace PowerUp.Entities.Players
 
     public static PlayerKeyParams ForCustomPlayer(string lastName, string firstName)
       => new PlayerKeyParams(
+        id: 0,
         type: EntitySourceType.Custom,
         lastName: lastName,
         firstName: firstName,

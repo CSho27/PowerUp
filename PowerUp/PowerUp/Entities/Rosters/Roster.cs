@@ -32,13 +32,15 @@ namespace PowerUp.Entities.Rosters
 
   public class RosterKeyParams : KeyParams
   {
+    public override int Id { get;set; }
     public string Type { get; set; }
     public string? Name { get; set; }
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
 
-    private RosterKeyParams(EntitySourceType type, string? name, string? importSource, int? year)
+    private RosterKeyParams(int id, EntitySourceType type, string? name, string? importSource, int? year)
     {
+      Id = id;
       Type = type.ToString().ToUpperInvariant();
       ImportSource = importSource;
       Year = year;
@@ -47,6 +49,7 @@ namespace PowerUp.Entities.Rosters
 
     public static RosterKeyParams ForBaseRoster()
       => new RosterKeyParams(
+        id: 0,
         type: EntitySourceType.Base,
         name: null,
         importSource: null,
@@ -55,6 +58,7 @@ namespace PowerUp.Entities.Rosters
 
     public static RosterKeyParams ForImportedRoster(string importSource)
       => new RosterKeyParams(
+        id: 0,
         type: EntitySourceType.Imported,
         name: null,
         importSource: importSource,
@@ -63,6 +67,7 @@ namespace PowerUp.Entities.Rosters
 
     public static RosterKeyParams ForGeneratedRoster(int year)
       => new RosterKeyParams(
+        id: 0,
         type: EntitySourceType.Generated,
         name: null,
         importSource: null,
@@ -71,6 +76,7 @@ namespace PowerUp.Entities.Rosters
 
     public static RosterKeyParams ForCustomRoster(string name)
       => new RosterKeyParams(
+        id: 0,
         type: EntitySourceType.Custom,
         name: name,
         importSource: null,

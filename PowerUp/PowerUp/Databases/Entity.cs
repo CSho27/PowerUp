@@ -10,6 +10,7 @@ namespace PowerUp.Databases
 
   public abstract class Entity<TKeyParams> : IEntity where TKeyParams : KeyParams
   {
+    public int? Id { get; set; }
     protected abstract TKeyParams GetKeyParams();
     public string GetKey() => KeyFor(GetKeyParams());
     public static string KeyFor(TKeyParams keyParams) => keyParams;
@@ -17,6 +18,8 @@ namespace PowerUp.Databases
 
   public abstract class KeyParams
   {
+    public abstract int Id { get; set; }
+
     public static implicit operator string(KeyParams keyParams)
     {
       var @params = keyParams

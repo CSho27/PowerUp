@@ -4,13 +4,15 @@ namespace PowerUp.Entities.Teams
 {
   public class TeamKeyParams : KeyParams
   {
+    public override int Id { get; set; }
     public string Type { get; set; }
     public string? ImportSource { get; set; }
     public int? Year { get; set; }
     public string Name { get; set; }
 
-    private TeamKeyParams(EntitySourceType type, string name, string? importSource, int? year)
+    private TeamKeyParams(int id, EntitySourceType type, string name, string? importSource, int? year)
     {
+      Id = id;
       Type = type.ToString().ToUpperInvariant();
       ImportSource = importSource;
       Year = year;
@@ -19,6 +21,7 @@ namespace PowerUp.Entities.Teams
 
     public static TeamKeyParams ForBaseTeam(string name)
       => new TeamKeyParams(
+        id: 0,
         type: EntitySourceType.Base,
         name: name,
         importSource: null,
@@ -27,6 +30,7 @@ namespace PowerUp.Entities.Teams
 
     public static TeamKeyParams ForImportedTeam(string importSource, string name)
       => new TeamKeyParams(
+        id: 0,
         type: EntitySourceType.Imported,
         name: name,
         importSource: importSource,
@@ -35,6 +39,7 @@ namespace PowerUp.Entities.Teams
 
     public static TeamKeyParams ForGeneratedTeam(string name, int year)
       => new TeamKeyParams(
+        id: 0,
         type: EntitySourceType.Generated,
         name: name,
         importSource: null,
@@ -43,6 +48,7 @@ namespace PowerUp.Entities.Teams
 
     public static TeamKeyParams ForCustomTeam(string name)
       => new TeamKeyParams(
+        id: 0,
         type: EntitySourceType.Custom,
         name: name,
         importSource: null,
