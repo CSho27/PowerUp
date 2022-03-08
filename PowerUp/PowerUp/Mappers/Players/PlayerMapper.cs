@@ -41,7 +41,7 @@ namespace PowerUp.Mappers.Players
             : EntitySourceType.Imported,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
-        SavedName = gsPlayer.SavedName!.Contains("*")
+        SavedName = gsPlayer.SavedName!.Contains('*')
           ? _savedNameLibrary[(int)gsPlayer.SpecialSavedNameId!]
           : gsPlayer.SavedName,
         SpecialSavedNameId = gsPlayer.SavedName.Contains('*')
