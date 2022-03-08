@@ -3,8 +3,9 @@ using System.Linq;
 
 namespace PowerUp.Databases
 {
-  public interface IEntity 
+  public interface IEntity
   {
+    public int? Id { get; set; }
     string GetKey();
   }
 
