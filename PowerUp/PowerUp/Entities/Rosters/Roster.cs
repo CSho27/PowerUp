@@ -20,66 +20,18 @@ namespace PowerUp.Entities.Rosters
         kvp => kvp.Key
       );
 
-    protected override RosterKeyParams GetKeyParams() => SourceType switch
+    protected override RosterKeyParams GetKeyParams() => new RosterKeyParams
     {
-      EntitySourceType.Base => RosterKeyParams.ForBaseRoster(),
-      EntitySourceType.Imported => RosterKeyParams.ForImportedRoster(ImportSource!),
-      EntitySourceType.Generated => RosterKeyParams.ForGeneratedRoster(Year!.Value),
-      EntitySourceType.Custom => RosterKeyParams.ForCustomRoster(Name!),
-      _ => throw new NotImplementedException()
+      Type = SourceType.ToString().ToUpperInvariant(),
+      Name = Name,
+      ImportSource = ImportSource
     };
   }
 
   public class RosterKeyParams : KeyParams
   {
-    public string Type { get; set; }
+    public string? Type { get; set; }
     public string? Name { get; set; }
-    public int? Year { get; set; }
     public string? ImportSource { get; set; }
-
-    private RosterKeyParams(int id, EntitySourceType type, string? name, string? importSource, int? year)
-    {
-      Id = id;
-      Type = type.ToString().ToUpperInvariant();
-      ImportSource = importSource;
-      Year = year;
-      Name = name;
-    }
-
-    public static RosterKeyParams ForBaseRoster()
-      => new RosterKeyParams(
-        id: 0,
-        type: EntitySourceType.Base,
-        name: null,
-        importSource: null,
-        year: null
-      );
-
-    public static RosterKeyParams ForImportedRoster(string importSource)
-      => new RosterKeyParams(
-        id: 0,
-        type: EntitySourceType.Imported,
-        name: null,
-        importSource: importSource,
-        year: null
-      );
-
-    public static RosterKeyParams ForGeneratedRoster(int year)
-      => new RosterKeyParams(
-        id: 0,
-        type: EntitySourceType.Generated,
-        name: null,
-        importSource: null,
-        year: year
-      );
-
-    public static RosterKeyParams ForCustomRoster(string name)
-      => new RosterKeyParams(
-        id: 0,
-        type: EntitySourceType.Custom,
-        name: name,
-        importSource: null,
-        year: null
-      );
   }
 }

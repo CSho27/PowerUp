@@ -28,13 +28,13 @@ namespace PowerUp.Entities.Players
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
 
-    protected override PlayerKeyParams GetKeyParams() => SourceType switch
+    protected override PlayerKeyParams GetKeyParams() => new PlayerKeyParams
     {
-      EntitySourceType.Base => PlayerKeyParams.ForBasePlayer(LastName, FirstName, SourcePowerProsId!.Value),
-      EntitySourceType.Imported => PlayerKeyParams.ForImportedPlayer(ImportSource!, LastName, FirstName, SourcePowerProsId!.Value),
-      EntitySourceType.Generated => PlayerKeyParams.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
-      EntitySourceType.Custom => PlayerKeyParams.ForCustomPlayer(LastName, FirstName),
-      _ => throw new NotImplementedException()
+      Type = SourceType.ToString().ToUpperInvariant(),
+      LastName = LastName,
+      FirstName = FirstName,
+      SourceId = SourcePowerProsId,
+      ImportSource = ImportSource
     };
 
     public double GetOverallRating() => PrimaryPosition == Position.Pitcher
