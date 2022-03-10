@@ -4,7 +4,6 @@ namespace PowerUp.Entities.Teams
 {
   public class TeamKeyParams : KeyParams
   {
-    public override int Id { get; set; }
     public string Type { get; set; }
     public string? ImportSource { get; set; }
     public int? Year { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,9 +10,11 @@ namespace PowerUp.Databases
 {
   public static class FileKeySerializer
   {
+    private static object chars = Path.GetInvalidFileNameChars().Concat(new[] { '.', ' ', '-', '\'' });
+
     public static string Serialize<T>(T @object)
     {
-      var properties = typeof(T).GetProperties();
+      var properties = typeof(T).GetProperties().OrderByDescending(p => p.Name == "Id");
       
       if(properties.Any(p => HasUnsupportedPropertyType(p.PropertyType)))
         throw new InvalidOperationException("FileKey object can only contain string, int, or Enum types");
@@ -23,7 +26,7 @@ namespace PowerUp.Databases
     public static T Deserialize<T>(string fileKeyString)
     {
       var returnType = typeof(T);
-      var properties = returnType.GetProperties().ToArray();
+      var properties = returnType.GetProperties().OrderByDescending(p => p.Name == "Id").ToArray();
 
       if (properties.Any(p => HasUnsupportedPropertyType(p.PropertyType)))
         throw new InvalidOperationException("FileKey object can only contain string, int, or Enum types");

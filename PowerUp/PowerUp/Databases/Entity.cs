@@ -14,20 +14,21 @@ namespace PowerUp.Databases
   public abstract class Entity<TKeyParams> : IEntity where TKeyParams : KeyParams
   {
     public int? Id { get; set; }
-    public abstract IDictionary<string, string> GetFileKeys();
-    public string GetKey()
-    {
-      var kvpStrings = GetFileKeys()
-        .Select(kvp => $"{kvp.Key}~{kvp.Value}")
-        .Prepend($"Id~{Id}");
+    protected abstract TKeyParams GetKeyParams();
 
-      return string.Join('_', kvpStrings);
+    public TKeyParams GetFileKeys()
+    {
+      var @params = GetKeyParams();
+      @params.Id = Id!.Value;
+      return @params;
     }
+
+    public string GetKey() => FileKeySerializer.Serialize(GetFileKeys());
   }
 
   public abstract class KeyParams
   {
-    public abstract int Id { get; set; }
+    public int Id { get; set; }
 
     public static implicit operator string(KeyParams keyParams)
     {

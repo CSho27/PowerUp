@@ -15,6 +15,13 @@ namespace PowerUp.Tests.Databases
     }
 
     [Test]
+    public void Serialize_ShouldAlwaysSerializeWithIdFirst()
+    {
+      var result = FileKeySerializer.Serialize(new { Name = "Bob", Type = TestEnum.One, Id = 1 });
+      result.ShouldBe("1_Bob_One");
+    }
+
+    [Test]
     public void Serialize_ShouldSerializePOCO()
     {
       var result = FileKeySerializer.Serialize(new TestClass 
