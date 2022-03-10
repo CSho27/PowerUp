@@ -3,20 +3,12 @@ using System.Linq;
 
 namespace PowerUp.Databases
 {
-  public interface IEntity
-  {
-    public int? Id { get; set; }
-    public object GetFileKeyObject();
-  }
-
-  public abstract class Entity<TKeyParams> : IEntity where TKeyParams : KeyParams
+  public abstract class Entity<TKeyParams> where TKeyParams : KeyParams
   {
     public int? Id { get; set; }
     protected abstract TKeyParams GetKeyParams();
 
-    public TKeyParams GetFileKeys() => (TKeyParams)GetFileKeyObject();
-
-    public object GetFileKeyObject()
+    public TKeyParams GetFileKeys()
     {
       var @params = GetKeyParams();
       @params.Id = Id!.Value;

@@ -128,15 +128,6 @@ namespace PowerUp
       }
     }
 
-    static void PrintRedsPlayers()
-    {
-      var reds = DatabaseConfig.JsonDatabase.Load<Team>(TeamKeyParams.ForBaseTeam("Cincinnati Reds"));
-      foreach(var player in reds.GetPlayers())
-      {
-        Console.WriteLine($"{player.PrimaryPosition.GetAbbrev()} {player.LastName}, {player.FirstName} POW:{player.HitterAbilities.Power}");
-      }
-    }
-
     static void BuildPlayerValueLibrary(ICharacterLibrary characterLibrary)
     {
       var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));

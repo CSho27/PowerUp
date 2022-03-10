@@ -15,10 +15,10 @@ namespace PowerUp.Mappers
     public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
 
-    public IDictionary<ushort, string>? KeysByPPId { get; set; }
+    public IDictionary<ushort, int>? IdsByPPId { get; set; }
 
-    public static TeamMappingParameters FromImportParameters(RosterImportParameters importParameters, IDictionary<ushort, string> keysByPPId)
-      => new TeamMappingParameters { IsBase = importParameters.IsBase, ImportSource = importParameters.ImportSource, KeysByPPId = keysByPPId };
+    public static TeamMappingParameters FromImportParameters(RosterImportParameters importParameters, IDictionary<ushort, int> idsByPPId)
+      => new TeamMappingParameters { IsBase = importParameters.IsBase, ImportSource = importParameters.ImportSource, IdsByPPId = idsByPPId };
   }
 
   public static class TeamMapper
@@ -29,10 +29,10 @@ namespace PowerUp.Mappers
       TeamMappingParameters parameters
     )
     {
-      if (parameters.KeysByPPId == null)
-        throw new ArgumentNullException(nameof(parameters.KeysByPPId));
+      if (parameters.IdsByPPId == null)
+        throw new ArgumentNullException(nameof(parameters.IdsByPPId));
 
-      var keysByPPId = parameters.KeysByPPId;
+      var idsByPPId = parameters.IdsByPPId;
       var playerEntries = gsTeam.PlayerEntries;
       var ppTeam = (MLBPPTeam)playerEntries!.First().PowerProsTeamId!.Value;
 
@@ -47,20 +47,20 @@ namespace PowerUp.Mappers
           : parameters.ImportSource,
         PlayerDefinitions = playerEntries!
           .Where(p => p.PowerProsPlayerId != 0)
-          .Select(p => p.MapToPlayerRoleDefinition(keysByPPId)),
+          .Select(p => p.MapToPlayerRoleDefinition(idsByPPId)),
         NoDHLineup = lineupDefinition!.NoDHLineup!
-          .Select(p => p.MapToLineupSlot(keysByPPId)),
+          .Select(p => p.MapToLineupSlot(idsByPPId)),
         DHLineup = lineupDefinition!.DHLineup!
-          .Select(p => p.MapToLineupSlot(keysByPPId))
+          .Select(p => p.MapToLineupSlot(idsByPPId))
       };
     }
 
     public static PlayerRoleDefinition MapToPlayerRoleDefinition(
       this GSTeamPlayerEntry gsPlayerEntry,
-      IDictionary<ushort, string> keysById
+      IDictionary<ushort, int> idsByPPId
     )
     {
-      var playerKey = keysById[gsPlayerEntry.PowerProsPlayerId!.Value];
+      var playerKey = idsByPPId[gsPlayerEntry.PowerProsPlayerId!.Value];
       return new PlayerRoleDefinition(playerKey)
       {
         IsAAA = gsPlayerEntry.IsAAA!.Value && !gsPlayerEntry.IsMLB!.Value,
@@ -74,13 +74,13 @@ namespace PowerUp.Mappers
 
     public static LineupSlot MapToLineupSlot(
       this GSLineupPlayer lineupPlayer,
-      IDictionary<ushort, string> keysById
+      IDictionary<ushort, int> idsByPPId
     )
     {
       return new LineupSlot 
       { 
-        PlayerKey = lineupPlayer.PowerProsPlayerId != 0
-          ? keysById[lineupPlayer.PowerProsPlayerId!.Value]
+        PlayerId = lineupPlayer.PowerProsPlayerId != 0
+          ? idsByPPId[lineupPlayer.PowerProsPlayerId!.Value]
           : null,
         Position = lineupPlayer.Position != 0
           ? (Position)lineupPlayer.Position!
@@ -91,7 +91,7 @@ namespace PowerUp.Mappers
     public static (GSTeam team, GSLineupDefinition lineupDef) MapToGSTeamAndLineup(
       this Team team,
       MLBPPTeam mlbPPTeam,
-      IDictionary<string, ushort> idsByKey
+      IDictionary<int, ushort> idsByKey
     )
     {
       return (
@@ -103,7 +103,7 @@ namespace PowerUp.Mappers
     public static GSTeam MapToGSTeam(
       this Team team,
       MLBPPTeam mlbPPTeam,
-      IDictionary<string, ushort> idsByKey
+      IDictionary<int, ushort> ppIdsById
     )
     {
       var playerCount = team.PlayerDefinitions.Count();
@@ -112,7 +112,7 @@ namespace PowerUp.Mappers
       return new GSTeam
       {
         PlayerEntries = team.PlayerDefinitions
-          .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, idsByKey[p.PlayerKey]))
+          .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, ppIdsById[p.PlayerId]))
           .Concat(emptyPlayerSlots)
       };
     }
@@ -139,25 +139,25 @@ namespace PowerUp.Mappers
 
     public static GSLineupDefinition MapToGSLineup(
       this Team team,
-      IDictionary<string, ushort> idsByKey
+      IDictionary<int, ushort> ppIdsById
     )
     {
       return new GSLineupDefinition
       {
-        NoDHLineup = team.NoDHLineup.Select(e => e.MapToGSLineupPlayer(idsByKey)),
-        DHLineup = team.DHLineup.Select(e => e.MapToGSLineupPlayer(idsByKey))
+        NoDHLineup = team.NoDHLineup.Select(e => e.MapToGSLineupPlayer(ppIdsById)),
+        DHLineup = team.DHLineup.Select(e => e.MapToGSLineupPlayer(ppIdsById))
       };
     }
 
     public static GSLineupPlayer MapToGSLineupPlayer(
       this LineupSlot lineupSlot,
-      IDictionary<string, ushort> idsByKey
+      IDictionary<int, ushort> ppIdsById
     )
     {
       return new GSLineupPlayer
       {
-        PowerProsPlayerId = lineupSlot.PlayerKey != null
-          ? idsByKey[lineupSlot.PlayerKey]
+        PowerProsPlayerId = lineupSlot.PlayerId != null
+          ? ppIdsById[lineupSlot.PlayerId!.Value]
           : (ushort)0,
         Position = lineupSlot.Position != Position.Pitcher
           ? (ushort)lineupSlot.Position

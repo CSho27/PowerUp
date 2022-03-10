@@ -26,14 +26,14 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public PlayerEditorResponse Execute(LoadPlayerEditorRequest request)
     {
-      var player = DatabaseConfig.JsonDatabase.Load<Player>(request.PlayerKey!);
-      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, player);
+      var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
+      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, player!);
     }
   }
 
   public class LoadPlayerEditorRequest
   {
-    public string? PlayerKey { get; set; }
+    public int? PlayerId { get; set; }
   }
 
   public class PlayerEditorResponse

@@ -28,6 +28,6 @@ namespace PowerUp.Entities.Teams
     };
 
     public IEnumerable<Player> GetPlayers() => PlayerDefinitions
-      .Select(pd => DatabaseConfig.JsonDatabase.Load<Player>(pd.PlayerKey));
+      .Select(pd => DatabaseConfig.PlayerDatabase.Load(pd.PlayerId)!);
   }
 }

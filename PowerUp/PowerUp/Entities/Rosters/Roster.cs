@@ -13,10 +13,10 @@ namespace PowerUp.Entities.Rosters
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
 
-    public IDictionary<MLBPPTeam, string> TeamKeysByPPTeam { get; set; } = new Dictionary<MLBPPTeam, string>();
-    public IDictionary<Team, MLBPPTeam> GetTeams() => TeamKeysByPPTeam
+    public IDictionary<MLBPPTeam, int> TeamIdsByPPTeam { get; set; } = new Dictionary<MLBPPTeam, int>();
+    public IDictionary<Team, MLBPPTeam> GetTeams() => TeamIdsByPPTeam
       .ToDictionary(
-        kvp => DatabaseConfig.JsonDatabase.Load<Team>(kvp.Value),
+        kvp => DatabaseConfig.TeamDatabase.Load(kvp.Value)!,
         kvp => kvp.Key
       );
 

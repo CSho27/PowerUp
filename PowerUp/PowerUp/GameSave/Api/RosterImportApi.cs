@@ -41,14 +41,14 @@ namespace PowerUp.GameSave.Api
         var gameSave = reader.Read();
         var gsPlayers = gameSave.Players.Where(p => p.PowerProsId.HasValue && p.PowerProsId != 0);
 
-        var playerKeysByPPId = new Dictionary<ushort, string>();
+        var playerIdsByPPId = new Dictionary<ushort, int>();
         var players = new List<Player>();
 
         foreach (var gsPlayer in gsPlayers)
         {
           var player = _playerMapper.MapToPlayer(gsPlayer, PlayerMappingParameters.FromRosterImport(parameters));
-          DatabaseConfig.JsonDatabase.Save(player);
-          playerKeysByPPId.Add(gsPlayer.PowerProsId!.Value, player.Id!.ToString()!);
+          DatabaseConfig.PlayerDatabase.Save(player);
+          playerIdsByPPId.Add(gsPlayer.PowerProsId!.Value, player.Id!.Value);
           players.Add(player);
         }
 
@@ -57,7 +57,7 @@ namespace PowerUp.GameSave.Api
         if (gsTeams.Count != gsLineups.Count)
           throw new InvalidOperationException("Number of teams and lineups must match");
 
-        var teamKeysByPPTeam = new Dictionary<MLBPPTeam, string>();
+        var teamKeysByPPTeam = new Dictionary<MLBPPTeam, int>();
         var teams = new List<Team>();
 
         for (int i=0; i<gsTeams.Count; i++)
@@ -66,9 +66,9 @@ namespace PowerUp.GameSave.Api
           var gsLineup = gsLineups[i];
           var teamId = gsTeam.PlayerEntries!.First().PowerProsTeamId!.Value;
 
-          var team = gsTeam.MapToTeam(gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerKeysByPPId));
-          DatabaseConfig.JsonDatabase.Save(team);
-          teamKeysByPPTeam.Add((MLBPPTeam)teamId, team.Id!.ToString()!);
+          var team = gsTeam.MapToTeam(gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerIdsByPPId));
+          DatabaseConfig.TeamDatabase.Save(team);
+          teamKeysByPPTeam.Add((MLBPPTeam)teamId, team.Id!.Value);
           teams.Add(team);
         }
 
@@ -83,10 +83,10 @@ namespace PowerUp.GameSave.Api
           ImportSource = parameters.IsBase
             ? null
             : parameters.ImportSource,
-          TeamKeysByPPTeam = teamKeysByPPTeam
+          TeamIdsByPPTeam = teamKeysByPPTeam
         };
 
-        DatabaseConfig.JsonDatabase.Save(roster);
+        DatabaseConfig.RosterDatabase.Save(roster);
 
         return new RosterImportResult
         {

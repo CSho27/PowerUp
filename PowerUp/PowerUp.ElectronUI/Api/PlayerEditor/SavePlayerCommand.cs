@@ -16,12 +16,12 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public ResultResponse Execute(SavePlayerRequest request)
     {
-      if (request.PlayerKey == null)
-        throw new ArgumentNullException(nameof(request.PlayerKey));
+      if (!request.PlayerId.HasValue)
+        throw new ArgumentNullException(nameof(request.PlayerId));
 
-      var player = DatabaseConfig.JsonDatabase.Load<Player>(request.PlayerKey);
+      var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
       _playerApi.UpdatePlayer(player, request.GetParameters());
-      DatabaseConfig.JsonDatabase.Save(player);
+      DatabaseConfig.PlayerDatabase.Save(player);
 
       return ResultResponse.Succeeded();
     }
@@ -29,7 +29,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class SavePlayerRequest
   {
-    public string? PlayerKey { get; set; }
+    public int? PlayerId { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool UseSpecialSavedName { get; set; }

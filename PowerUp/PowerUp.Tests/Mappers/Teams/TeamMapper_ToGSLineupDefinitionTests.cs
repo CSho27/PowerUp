@@ -11,22 +11,22 @@ namespace PowerUp.Tests.Mappers.Teams
   public class TeamMapper_ToGSLineupDefinitionTests
   {
     private Team team;
-    private Dictionary<string, ushort> idsByKey;
+    private Dictionary<int, ushort> ppIdsById;
 
     [SetUp]
     public void SetUp()
     {
-      var sizemore = "Sizemore";
-      var nixon = "Nixon";
-      var hafner = "Hafner";
-      var martinez = "Martinez";
-      var blake = "Blake";
-      var dellucci = "Dellucci";
-      var peralta = "Peralta";
-      var barfield = "Barfield";
-      var marte = "Marte";
+      var sizemore = 24;
+      var nixon = 7;
+      var hafner = 48;
+      var martinez = 41;
+      var blake = 3;
+      var dellucci = 20;
+      var peralta = 2;
+      var barfield = 17;
+      var marte = 5;
 
-      idsByKey = new Dictionary<string, ushort>()
+      ppIdsById = new Dictionary<int, ushort>()
       {
         { sizemore, 1 },
         { nixon, 2 },
@@ -43,27 +43,27 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         NoDHLineup = new[]
         {
-          new LineupSlot { PlayerKey = sizemore, Position = Position.CenterField },
-          new LineupSlot { PlayerKey = nixon, Position = Position.RightField },
-          new LineupSlot { PlayerKey = hafner, Position = Position.FirstBase },
-          new LineupSlot { PlayerKey = martinez, Position = Position.Catcher },
-          new LineupSlot { PlayerKey = dellucci, Position = Position.LeftField },
-          new LineupSlot { PlayerKey = peralta, Position = Position.Shortstop },
-          new LineupSlot { PlayerKey = barfield, Position = Position.SecondBase },
-          new LineupSlot { PlayerKey = marte, Position = Position.ThirdBase },
-          new LineupSlot { PlayerKey = null, Position = Position.Pitcher  }
+          new LineupSlot { PlayerId = sizemore, Position = Position.CenterField },
+          new LineupSlot { PlayerId = nixon, Position = Position.RightField },
+          new LineupSlot { PlayerId = hafner, Position = Position.FirstBase },
+          new LineupSlot { PlayerId = martinez, Position = Position.Catcher },
+          new LineupSlot { PlayerId = dellucci, Position = Position.LeftField },
+          new LineupSlot { PlayerId = peralta, Position = Position.Shortstop },
+          new LineupSlot { PlayerId = barfield, Position = Position.SecondBase },
+          new LineupSlot { PlayerId = marte, Position = Position.ThirdBase },
+          new LineupSlot { PlayerId = null, Position = Position.Pitcher  }
         },
         DHLineup = new[]
         {
-          new LineupSlot { PlayerKey = sizemore, Position = Position.CenterField },
-          new LineupSlot { PlayerKey = nixon, Position = Position.RightField },
-          new LineupSlot { PlayerKey = hafner, Position = Position.DesignatedHitter },
-          new LineupSlot { PlayerKey = martinez, Position = Position.Catcher },
-          new LineupSlot { PlayerKey = blake, Position = Position.FirstBase },
-          new LineupSlot { PlayerKey = dellucci, Position = Position.LeftField },
-          new LineupSlot { PlayerKey = peralta, Position = Position.Shortstop },
-          new LineupSlot { PlayerKey = barfield, Position = Position.SecondBase },
-          new LineupSlot { PlayerKey = marte, Position = Position.ThirdBase },
+          new LineupSlot { PlayerId = sizemore, Position = Position.CenterField },
+          new LineupSlot { PlayerId = nixon, Position = Position.RightField },
+          new LineupSlot { PlayerId = hafner, Position = Position.DesignatedHitter },
+          new LineupSlot { PlayerId = martinez, Position = Position.Catcher },
+          new LineupSlot { PlayerId = blake, Position = Position.FirstBase },
+          new LineupSlot { PlayerId = dellucci, Position = Position.LeftField },
+          new LineupSlot { PlayerId = peralta, Position = Position.Shortstop },
+          new LineupSlot { PlayerId = barfield, Position = Position.SecondBase },
+          new LineupSlot { PlayerId = marte, Position = Position.ThirdBase },
         }
       };
     }
@@ -71,7 +71,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToGSLineup_MapsNoDHLineup()
     {
-      var result = team.MapToGSLineup(idsByKey);
+      var result = team.MapToGSLineup(ppIdsById);
       var noDH = result.NoDHLineup;
 
       noDH.ElementAt(0).PowerProsPlayerId.ShouldBe((ushort)1);
@@ -112,7 +112,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToGSLineup_MapsDHLineup()
     {
-      var result = team.MapToGSLineup(idsByKey);
+      var result = team.MapToGSLineup(ppIdsById);
       var dh = result.DHLineup;
 
       dh.ElementAt(0).PowerProsPlayerId.ShouldBe((ushort)1);

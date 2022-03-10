@@ -4,7 +4,7 @@ namespace PowerUp.Entities.Teams
 {
   public class LineupSlot
   {
-    public string? PlayerKey { get; set; }
+    public int? PlayerId { get; set; }
     public Position Position { get; set; } 
   }
 }
