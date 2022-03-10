@@ -60,12 +60,12 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
     public static TeamDetails FromRosterTeamAndPlayers(Roster roster, Team team, IEnumerable<Player> allPlayers)
     {
-      var ppTeam = roster.TeamKeysByPPTeam.Single(m => m.Value == team.GetKey()).Key;
-      var playersOnTeam = team.PlayerDefinitions.Select(pd => allPlayers.Single(p => pd.PlayerKey == p.GetKey())).ToList();
+      var ppTeam = roster.TeamKeysByPPTeam.Single(m => m.Value == team.Id.ToString()).Key;
+      var playersOnTeam = team.PlayerDefinitions.Select(pd => allPlayers.Single(p => pd.PlayerKey == p.Id.ToString())).ToList();
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.GetKey(), team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
+      return new TeamDetails(team.Id.ToString()!, team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
     }
   }
 
@@ -102,7 +102,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static PlayerDetails FromPlayer(Player player)
     {
       return new PlayerDetails(
-        key: player.GetKey(),
+        key: player.Id.ToString()!,
         savedName: player.SavedName,
         uniformNumber: player.UniformNumber,
         position: player.PrimaryPosition,

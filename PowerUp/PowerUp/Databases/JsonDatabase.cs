@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace PowerUp.Databases
@@ -43,14 +44,14 @@ namespace PowerUp.Databases
 
       var directory = Path.Combine(_dataDirectory, dirName);
       Directory.CreateDirectory(directory);
-      var filePath = Path.Combine(directory, KeyToFileName(@object.GetKey()));
+      var filePath = Path.Combine(directory, KeysToFilename(@object.GetFileKeyObject()));
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
       File.WriteAllText(filePath, stringObject);
     }
 
     public TObject Load<TObject>(string key) where TObject : IEntity
     {
-      var filePath = Path.Join(_dataDirectory, GetDirectoryName<TObject>(), KeyToFileName(key));
+      var filePath = Path.Join(_dataDirectory, GetDirectoryName<TObject>(), KeysToFilename(key));
       var stringObject = File.ReadAllText(filePath);
       var @object = JsonSerializer.Deserialize<TObject>(stringObject, _serializerOptions);
       if (@object == null)
@@ -75,7 +76,18 @@ namespace PowerUp.Databases
       File.WriteAllTextAsync(_metadataPath, stringObject);
     }
 
-    private static string KeyToFileName(string key) => $"{key}.json";
+    private string FindFileNameForId<TObject>(int Id)
+    {
+      var file = Directory.EnumerateFiles(_dataDirectory, GetDirectoryName<TObject>()).Single(f => true);
+      return "";
+    }
+
+    private static string KeysToFilename(object keyObject) => $"{FileKeySerializer.Serialize(keyObject)}.json";
+    private static dynamic GetKeysFromFilename(string filename)
+    {
+      var keyString = filename.Replace(".json", "");
+      return FileKeySerializer.Deserialize<dynamic>(keyString);
+    } 
     private static string GetDirectoryName<TObject>() => $"{typeof(TObject).Name}s";
   }
 
