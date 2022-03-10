@@ -29,31 +29,31 @@ namespace PowerUp.Databases
 
     public void Save(TEntity @object)
     {
+      Directory.CreateDirectory(_databaseDirectory);
+
       if (!@object.Id.HasValue)
       {
         @object.Id = _metadata.IncrementId();
         SaveMetadata();
       }
 
-      Directory.CreateDirectory(_databaseDirectory);
-      var existingFilename = FindFilenameForId(@object.Id!.Value);
-      var newFilename = KeysToFilename(@object.GetFileKeys());
+      var existingFilePath = FindFilenameForId(@object.Id!.Value);
+      var newFilePath = Path.Combine(_databaseDirectory, KeysToFilename(@object.GetFileKeys()));
 
-      if (existingFilename != null && existingFilename != newFilename)
-        File.Delete(Path.Combine(_databaseDirectory, existingFilename));
+      if (existingFilePath != null && existingFilePath != newFilePath)
+        File.Delete(Path.Combine(_databaseDirectory, existingFilePath));
 
-      var filePath = Path.Combine(_databaseDirectory, newFilename);
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
-      File.WriteAllText(filePath, stringObject);
+      File.WriteAllText(newFilePath, stringObject);
     }
 
     public TEntity? Load(int id)
     {
-      var filename = FindFilenameForId(id);
-      if(filename == null)
+      var filePath = FindFilenameForId(id);
+      if(filePath == null)
         return null;
 
-      var stringObject = File.ReadAllText(Path.Combine(_databaseDirectory, filename));
+      var stringObject = File.ReadAllText(filePath);
       var @object = JsonSerializer.Deserialize<TEntity>(stringObject, _serializerOptions);
       if (@object == null)
         throw new Exception("Failed to serialize object");
@@ -78,9 +78,9 @@ namespace PowerUp.Databases
     }
 
     private string? FindFilenameForId(int id)
-      => Directory.EnumerateFiles(_databaseDirectory).SingleOrDefault(f => FilenameToKeys(f).Id == id);
+      => Directory.EnumerateFiles(_databaseDirectory).Select(f => Path.GetFileName(f)).Where(n => n != "Metadata").SingleOrDefault(n => FilenameToKeys(n).Id == id);
 
-    private static string KeysToFilename(object keyObject) => $"{FileKeySerializer.Serialize(keyObject)}.json";
+    private static string KeysToFilename(TKeyParams keyObject) => $"{FileKeySerializer.Serialize(keyObject)}.json";
     private static TKeyParams FilenameToKeys(string filename)
     {
       var keyString = filename.Replace(".json", "");

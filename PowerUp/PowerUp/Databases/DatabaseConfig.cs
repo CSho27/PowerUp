@@ -13,6 +13,8 @@ namespace PowerUp.Databases
     public static void Initialize(string dataDirectory)
     {
       PlayerDatabase = new PlayerDatabase(dataDirectory);
+      TeamDatabase = new TeamDatabase(dataDirectory);
+      RosterDatabase = new RosterDatabase(dataDirectory);
     }
   }
 
