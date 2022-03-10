@@ -1,20 +1,28 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace PowerUp.Databases
 {
   public interface IEntity
   {
     public int? Id { get; set; }
-    string GetKey();
+    public string GetKey();
   }
 
   public abstract class Entity<TKeyParams> : IEntity where TKeyParams : KeyParams
   {
     public int? Id { get; set; }
-    protected abstract TKeyParams GetKeyParams();
-    public string GetKey() => KeyFor(GetKeyParams());
-    public static string KeyFor(TKeyParams keyParams) => keyParams;
+    public abstract IDictionary<string, string> GetFileKeys();
+    public string GetKey()
+    {
+      var kvpStrings = GetFileKeys()
+        .Select(kvp => $"{kvp.Key}~{kvp.Value}")
+        .Prepend($"Id~{Id}");
+
+      return string.Join('_', kvpStrings);
+    }
   }
 
   public abstract class KeyParams

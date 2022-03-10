@@ -47,9 +47,9 @@ namespace PowerUp.GameSave.Api
         foreach (var gsPlayer in gsPlayers)
         {
           var player = _playerMapper.MapToPlayer(gsPlayer, PlayerMappingParameters.FromRosterImport(parameters));
+          DatabaseConfig.JsonDatabase.Save(player);
           playerKeysByPPId.Add(gsPlayer.PowerProsId!.Value, player.GetKey());
           players.Add(player);
-          DatabaseConfig.JsonDatabase.Save(player);
         }
 
         var gsTeams = gameSave.Teams.ToList();
@@ -67,9 +67,9 @@ namespace PowerUp.GameSave.Api
           var teamId = gsTeam.PlayerEntries!.First().PowerProsTeamId!.Value;
 
           var team = gsTeam.MapToTeam(gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerKeysByPPId));
+          DatabaseConfig.JsonDatabase.Save(team);
           teamKeysByPPTeam.Add((MLBPPTeam)teamId, team.GetKey());
           teams.Add(team);
-          DatabaseConfig.JsonDatabase.Save(team);
         }
 
         var roster = new Roster

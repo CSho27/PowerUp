@@ -18,16 +18,13 @@ namespace PowerUp.Entities.Teams
     public IEnumerable<LineupSlot> NoDHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
     public IEnumerable<LineupSlot> DHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
 
+    public override IDictionary<string, string> GetFileKeys() => new Dictionary<string, string>
+    {
+      { "SourceType", SourceType.ToString() },
+      { "Name" , Name },
+    };
+
     public IEnumerable<Player> GetPlayers() => PlayerDefinitions
       .Select(pd => DatabaseConfig.JsonDatabase.Load<Player>(pd.PlayerKey));
-
-    protected override TeamKeyParams GetKeyParams() => SourceType switch
-    {
-      EntitySourceType.Base => TeamKeyParams.ForBaseTeam(Name),
-      EntitySourceType.Imported => TeamKeyParams.ForImportedTeam(ImportSource!, Name),
-      EntitySourceType.Generated => TeamKeyParams.ForGeneratedTeam(Name, Year!.Value),
-      EntitySourceType.Custom => TeamKeyParams.ForCustomTeam(Name),
-      _ => throw new NotImplementedException()
-    };
   }
 }

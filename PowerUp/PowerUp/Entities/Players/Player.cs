@@ -1,19 +1,11 @@
 ﻿using PowerUp.Databases;
 using System;
+using System.Collections.Generic;
 
 namespace PowerUp.Entities.Players
 {
   public class Player : Entity<PlayerKeyParams>
   {
-    protected override PlayerKeyParams GetKeyParams() => SourceType switch
-    {
-      EntitySourceType.Base => PlayerKeyParams.ForBasePlayer(LastName, FirstName, SourcePowerProsId!.Value),
-      EntitySourceType.Imported => PlayerKeyParams.ForImportedPlayer(ImportSource!, LastName, FirstName, SourcePowerProsId!.Value),
-      EntitySourceType.Generated => PlayerKeyParams.ForGeneratedPlayer(LastName, FirstName, Year!.Value, BirthDate),
-      EntitySourceType.Custom => PlayerKeyParams.ForCustomPlayer(LastName, FirstName),
-      _ => throw new NotImplementedException()
-    };
-
     public EntitySourceType SourceType { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
@@ -35,6 +27,14 @@ namespace PowerUp.Entities.Players
     public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
+
+    public override IDictionary<string, string> GetFileKeys() => new Dictionary<string, string>
+    {
+      { "SourceType", SourceType.ToString() },
+      { "LastName" , LastName },
+      { "FirstName", FirstName },
+      { "SourceId", SourcePowerProsId?.ToString() ?? "" }
+    };
 
     public double GetOverallRating() => PrimaryPosition == Position.Pitcher
       ? PitcherAbilities.GetPitcherRating()

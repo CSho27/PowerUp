@@ -20,13 +20,10 @@ namespace PowerUp.Entities.Rosters
         kvp => kvp.Key
       );
 
-    protected override RosterKeyParams GetKeyParams() => SourceType switch
+    public override IDictionary<string, string> GetFileKeys() => new Dictionary<string, string>
     {
-      EntitySourceType.Base => RosterKeyParams.ForBaseRoster(),
-      EntitySourceType.Imported => RosterKeyParams.ForImportedRoster(ImportSource!),
-      EntitySourceType.Generated => RosterKeyParams.ForGeneratedRoster(Year!.Value),
-      EntitySourceType.Custom => RosterKeyParams.ForCustomRoster(Name!),
-      _ => throw new NotImplementedException()
+      { "SourceType", SourceType.ToString() },
+      { "Name" , Name },
     };
   }
 
