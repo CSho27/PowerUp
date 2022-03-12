@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -22,6 +23,8 @@ namespace PowerUp.Databases
       {
         Converters = { new DateOnlyJsonConverter() }
       };
+
+      Directory.CreateDirectory(_databaseDirectory);
       _metadataPath = Path.Combine(_databaseDirectory, "./Metadata");
 
       LoadMetadata();
@@ -29,8 +32,6 @@ namespace PowerUp.Databases
 
     public void Save(TEntity @object)
     {
-      Directory.CreateDirectory(_databaseDirectory);
-
       if (!@object.Id.HasValue)
       {
         @object.Id = _metadata.IncrementId();
@@ -53,12 +54,28 @@ namespace PowerUp.Databases
       if(filePath == null)
         return null;
 
+      return Load(filePath);
+    }
+
+    private TEntity Load(string filePath)
+    {
       var stringObject = File.ReadAllText(filePath);
       var @object = JsonSerializer.Deserialize<TEntity>(stringObject, _serializerOptions);
       if (@object == null)
         throw new Exception("Failed to serialize object");
 
       return @object;
+    }
+
+    public IEnumerable<TEntity> LoadBy(Func<TKeyParams, bool> conditionCallback)
+    {
+      return Directory.EnumerateFiles(_databaseDirectory).Where(p =>
+      {
+        var keys = GetKeysForFilePath(p);
+        return keys != null
+          ? conditionCallback(keys)
+          : false;
+      }).Select(Load);
     }
 
     private void LoadMetadata()
@@ -78,15 +95,21 @@ namespace PowerUp.Databases
     }
 
     private string? FindPathForId(int id)
-      => Directory.EnumerateFiles(_databaseDirectory).SingleOrDefault(p => IsCorrectFile(p, id));
+      => Directory.EnumerateFiles(_databaseDirectory).SingleOrDefault(p => FileMatchesId(p, id));
 
-    private bool IsCorrectFile(string filePath, int id)
+    private TKeyParams? GetKeysForFilePath(string filePath)
     {
       var filename = Path.GetFileName(filePath);
       if (filename == "Metadata")
-        return false;
+        return null;
 
-      return FilenameToKeys(filename).Id == id;
+      return FilenameToKeys(filename);
+    }
+
+    private bool FileMatchesId(string filePath, int id)
+    {
+      var fileKeys = GetKeysForFilePath(filePath);
+      return fileKeys?.Id == id;
     }
 
     private static string KeysToFilename(TKeyParams keyObject) => $"{FileKeySerializer.Serialize(keyObject)}.json";
