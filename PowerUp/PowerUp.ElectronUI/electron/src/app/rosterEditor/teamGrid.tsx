@@ -54,7 +54,7 @@ export function TeamGrid(props: TeamGridProps) {
     </thead>
     <PlayerTableBody>
     {hitters.map(h => 
-      <PlayerRow key={h.playerKey}>
+      <PlayerRow key={h.playerId}>
         {getPlayerDetailsColumns(h)}
         <td>{h.trajectory}</td>
         <td>{h.contact}</td>
@@ -86,7 +86,7 @@ export function TeamGrid(props: TeamGridProps) {
     </thead>
     <PlayerTableBody>
     {pitchers.map(p => 
-      <PlayerRow key={p.playerKey}>
+      <PlayerRow key={p.playerId}>
         {getPlayerDetailsColumns(p)}
         <td>{p.pitcherType}</td>
         <td>{p.topSpeed} mph</td>
@@ -120,7 +120,7 @@ export function TeamGrid(props: TeamGridProps) {
           variant='Outline'
           icon='user-pen'
           squarePadding
-          onClick={() => editPlayer(details.playerKey)}
+          onClick={() => editPlayer(details.playerId)}
         />
       </td>
       <td>
@@ -155,8 +155,8 @@ export function TeamGrid(props: TeamGridProps) {
     </>
   }
 
-  function editPlayer(playerKey: string) {
-    appContext.setPage({ page: 'PlayerEditorPage', playerKey: playerKey });
+  function editPlayer(playerId: number) {
+    appContext.setPage({ page: 'PlayerEditorPage', playerId: playerId });
   }
 }
 

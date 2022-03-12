@@ -66,7 +66,7 @@ export function HomePage(props: HomePageProps) {
   </PowerUpLayout>
 
   function startFromBase() {
-    appContext.setPage({ page: 'RosterEditorPage', rosterKey: 'BASE' });  
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: 1 });  
   }
 }
 

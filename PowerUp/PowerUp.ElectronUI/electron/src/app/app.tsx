@@ -34,7 +34,7 @@ export function App(props: ApplicationStartupData) {
   }, [])
 
   useGlobalBindings(
-    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerKey: 'BASE_Abreu_Bobby_1' }) }
+    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) }
   )
 
   return <>

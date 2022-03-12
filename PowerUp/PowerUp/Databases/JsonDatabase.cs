@@ -37,11 +37,11 @@ namespace PowerUp.Databases
         SaveMetadata();
       }
 
-      var existingFilePath = FindFilenameForId(@object.Id!.Value);
+      var existingFilePath = FindPathForId(@object.Id!.Value);
       var newFilePath = Path.Combine(_databaseDirectory, KeysToFilename(@object.GetFileKeys()));
 
       if (existingFilePath != null && existingFilePath != newFilePath)
-        File.Delete(Path.Combine(_databaseDirectory, existingFilePath));
+        File.Delete(existingFilePath);
 
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
       File.WriteAllText(newFilePath, stringObject);
@@ -49,7 +49,7 @@ namespace PowerUp.Databases
 
     public TEntity? Load(int id)
     {
-      var filePath = FindFilenameForId(id);
+      var filePath = FindPathForId(id);
       if(filePath == null)
         return null;
 
@@ -77,8 +77,17 @@ namespace PowerUp.Databases
       File.WriteAllTextAsync(_metadataPath, stringObject);
     }
 
-    private string? FindFilenameForId(int id)
-      => Directory.EnumerateFiles(_databaseDirectory).Select(f => Path.GetFileName(f)).Where(n => n != "Metadata").SingleOrDefault(n => FilenameToKeys(n).Id == id);
+    private string? FindPathForId(int id)
+      => Directory.EnumerateFiles(_databaseDirectory).SingleOrDefault(p => IsCorrectFile(p, id));
+
+    private bool IsCorrectFile(string filePath, int id)
+    {
+      var filename = Path.GetFileName(filePath);
+      if (filename == "Metadata")
+        return false;
+
+      return FilenameToKeys(filename).Id == id;
+    }
 
     private static string KeysToFilename(TKeyParams keyObject) => $"{FileKeySerializer.Serialize(keyObject)}.json";
     private static TKeyParams FilenameToKeys(string filename)

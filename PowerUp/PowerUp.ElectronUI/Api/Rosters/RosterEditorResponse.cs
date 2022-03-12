@@ -38,7 +38,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
   public class TeamDetails
   {
-    public string TeamKey { get; set; }
+    public int TeamId { get; set; }
     public string Name { get; set; }
     public string PowerProsName { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -47,9 +47,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public IEnumerable<PitcherDetails> Pitchers { get; set; }
     public int Overall { get; set; }
 
-    public TeamDetails(string key, string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
+    public TeamDetails(int id, string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
     {
-      TeamKey = key;
+      TeamId = id;
       Name = name;
       PowerProsName = powerProsName;
       Division = division;
@@ -65,13 +65,13 @@ namespace PowerUp.ElectronUI.Api.Rosters
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.Id.ToString()!, team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
+      return new TeamDetails(team.Id!.Value, team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
     }
   }
 
   public class PlayerDetails
   {
-    public string PlayerKey { get; set; }
+    public int PlayerId { get; set; }
     public string SavedName { get; set; }
     public string UniformNumber { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -81,7 +81,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public string BatsAndThrows { get; set; }
 
     public PlayerDetails(
-      string key,
+      int id,
       string savedName,
       string uniformNumber,
       Position position,
@@ -90,7 +90,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string batsAndThrows
     )
     {
-      PlayerKey = key;
+      PlayerId = id;
       SavedName = savedName;
       UniformNumber = uniformNumber;
       Position = position;
@@ -102,7 +102,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static PlayerDetails FromPlayer(Player player)
     {
       return new PlayerDetails(
-        key: player.Id.ToString()!,
+        id: player.Id!.Value,
         savedName: player.SavedName,
         uniformNumber: player.UniformNumber,
         position: player.PrimaryPosition,
@@ -124,7 +124,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public int ErrorResistance { get; set; }
 
     public HitterDetails(
-      string key,
+      int id,
       string savedName,
       string uniformNumber,
       Position position,
@@ -138,7 +138,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int armStrength,
       int fielding,
       int errorResistance
-    ) : base(key, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -155,7 +155,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       var hitterAbilities = player.HitterAbilities;
 
       return new HitterDetails(
-        key: playerDetails.PlayerKey,
+        id: playerDetails.PlayerId,
         savedName: playerDetails.SavedName,
         uniformNumber: playerDetails.UniformNumber,
         position: playerDetails.Position,
@@ -184,7 +184,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public string? BreakingBall3 { get; set; }
 
     public PitcherDetails(
-      string key,
+      int id,
       string savedName,
       string uniformNumber,
       Position position,
@@ -198,7 +198,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string? breakingBall1,
       string? breakingBall2,
       string? breakingBall3
-    ) : base(key, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
     {
       PitcherType = pitcherType;
       TopSpeed = topSpeed;
@@ -236,7 +236,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         .ToList();
 
       return new PitcherDetails(
-        key: playerDetails.PlayerKey,
+        id: playerDetails.PlayerId,
         savedName: playerDetails.SavedName,
         uniformNumber: playerDetails.UniformNumber,
         position: playerDetails.Position,

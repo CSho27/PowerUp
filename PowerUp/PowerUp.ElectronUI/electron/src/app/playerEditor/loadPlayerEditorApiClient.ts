@@ -4,7 +4,7 @@ import { PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode";
 
 export interface LoadPlayerEditorRequest {
-  playerKey: string;
+  playerId: number;
 }
 
 export interface PlayerEditorResponse {

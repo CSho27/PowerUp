@@ -49,7 +49,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   </PowerUpLayout>
 
   function toTeamGrid(team: TeamDetails) {
-    return <TeamWrapper key={team.teamKey}>
+    return <TeamWrapper key={team.teamId}>
       <TeamGrid appContext={appContext} team={team} />
     </TeamWrapper>
   }

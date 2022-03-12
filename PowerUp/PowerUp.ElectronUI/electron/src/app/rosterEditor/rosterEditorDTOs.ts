@@ -12,7 +12,7 @@ export interface RosterDetails {
 }
 
 export interface TeamDetails {
-  teamKey: string;
+  teamId: number;
   name: string;
   powerProsName: string;
   division: string;
@@ -21,7 +21,7 @@ export interface TeamDetails {
 }
 
 export interface PlayerDetails {
-  playerKey: string;
+  playerId: number;
   savedName: string;
   uniformNumber: string;
   position: Position;
