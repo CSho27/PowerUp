@@ -25,12 +25,31 @@ namespace PowerUp
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary);
-      PrintAllPlayers(characterLibrary);
+      //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
       //BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
+      FindPlayersByLastName();
+    }
+
+    static void FindPlayersByLastName()
+    {
+
+      var playerDatabase = new PlayerDatabase(DATA_DIRECTORY);
+      var time = TimeAction(() =>
+      {
+        playerDatabase.LoadBy("LastName", "Pena");
+      });
+      Console.WriteLine($"Time: {time}");
+    }
+
+    static TimeSpan TimeAction(Action action)
+    {
+      var startTime = DateTime.Now;
+      action();
+      return DateTime.Now - startTime;
     }
 
     static void AnalyzeGameSave(ICharacterLibrary characterLibrary)

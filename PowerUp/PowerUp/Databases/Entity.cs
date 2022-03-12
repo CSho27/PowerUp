@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PowerUp.Databases
@@ -20,24 +22,26 @@ namespace PowerUp.Databases
   {
     public int Id { get; set; }
 
-    public static implicit operator string(KeyParams keyParams)
+    public IEnumerable<KeyValuePair<string, string>> GetKeysAndValues()
     {
-      var @params = keyParams
-        .GetType()
-        .GetProperties()
-        .Select(p => p.GetValue(keyParams))
-        .Where(v => v != null);
+      var properties = GetType().GetProperties().OrderByDescending(p => p.Name == "Id");
 
-      return ScrubKey(string.Join("_", @params)); ;
+      if (properties.Any(p => HasUnsupportedPropertyType(p.PropertyType)))
+        throw new InvalidOperationException("FileKey object can only contain string, int, or Enum types");
+
+      return properties.Select(p => new KeyValuePair<string, string>(p.Name, p.GetValue(this)?.ToString() ?? ""));
     }
 
-    private static string ScrubKey(string key)
-    {
-      var scrubbedKey = key;
-      foreach (var @char in Path.GetInvalidFileNameChars().Concat(new[] { '.', ' ', '-', '\'' }))
-        scrubbedKey = scrubbedKey.Replace(@char.ToString(), "");
+    private static bool IsString(Type type) => type.IsAssignableTo(typeof(string));
+    private static bool IsInt(Type type) => type.IsAssignableTo(typeof(int?));
+    private static bool IsEnum(Type type) => type.IsAssignableTo(typeof(Enum))
+      || (Nullable.GetUnderlyingType(type)?.IsAssignableTo(typeof(Enum)) ?? false);
 
-      return scrubbedKey;
+    private static bool HasUnsupportedPropertyType(Type type)
+    {
+      return !IsString(type)
+        && !IsInt(type)
+        && !IsEnum(type);
     }
   }
 }

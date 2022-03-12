@@ -14,7 +14,7 @@ namespace PowerUp.Databases
     private readonly string _metadataPath;
     private readonly JsonSerializerOptions _serializerOptions;
 
-    private JsonDatabaseMetadata _metadata = new JsonDatabaseMetadata();
+    private JsonDatabaseMetadata<TKeyParams> _metadata = new JsonDatabaseMetadata<TKeyParams>();
 
     public JsonDatabase(string dataDirectory)
     {
@@ -33,12 +33,9 @@ namespace PowerUp.Databases
     public void Save(TEntity @object)
     {
       if (!@object.Id.HasValue)
-      {
         @object.Id = _metadata.IncrementId();
-        SaveMetadata();
-      }
 
-      var existingFilePath = FindPathForId(@object.Id!.Value);
+      var existingFilePath = _metadata.GetFilepathsFor("Id", @object.Id!.Value).SingleOrDefault();
       var newFilePath = Path.Combine(_databaseDirectory, KeysToFilename(@object.GetFileKeys()));
 
       if (existingFilePath != null && existingFilePath != newFilePath)
@@ -46,11 +43,14 @@ namespace PowerUp.Databases
 
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
       File.WriteAllText(newFilePath, stringObject);
+      
+      _metadata.UpdateIndexes(@object.GetFileKeys(), newFilePath);
+      SaveMetadata();
     }
 
     public TEntity? Load(int id)
     {
-      var filePath = FindPathForId(id);
+      var filePath = _metadata.GetFilepathsFor("Id", id).SingleOrDefault();
       if(filePath == null)
         return null;
 
@@ -67,16 +67,7 @@ namespace PowerUp.Databases
       return @object;
     }
 
-    public IEnumerable<TEntity> LoadBy(Func<TKeyParams, bool> conditionCallback)
-    {
-      return Directory.EnumerateFiles(_databaseDirectory).Where(p =>
-      {
-        var keys = GetKeysForFilePath(p);
-        return keys != null
-          ? conditionCallback(keys)
-          : false;
-      }).Select(Load);
-    }
+    public IEnumerable<TEntity> LoadBy(string key, object value) => _metadata.GetFilepathsFor(key, value).Select(Load);
 
     private void LoadMetadata()
     {
@@ -85,7 +76,7 @@ namespace PowerUp.Databases
       
       File.ReadAllTextAsync(_metadataPath).ContinueWith(stringObject =>
       {
-        _metadata = JsonSerializer.Deserialize<JsonDatabaseMetadata>(stringObject.Result, _serializerOptions)!;
+        _metadata = JsonSerializer.Deserialize<JsonDatabaseMetadata<TKeyParams>>(stringObject.Result, _serializerOptions)!;
       });
     }
     private void SaveMetadata()
@@ -94,35 +85,19 @@ namespace PowerUp.Databases
       File.WriteAllTextAsync(_metadataPath, stringObject);
     }
 
-    private string? FindPathForId(int id)
-      => Directory.EnumerateFiles(_databaseDirectory).SingleOrDefault(p => FileMatchesId(p, id));
-
-    private TKeyParams? GetKeysForFilePath(string filePath)
-    {
-      var filename = Path.GetFileName(filePath);
-      if (filename == "Metadata")
-        return null;
-
-      return FilenameToKeys(filename);
-    }
-
-    private bool FileMatchesId(string filePath, int id)
-    {
-      var fileKeys = GetKeysForFilePath(filePath);
-      return fileKeys?.Id == id;
-    }
-
-    private static string KeysToFilename(TKeyParams keyObject) => $"{FileKeySerializer.Serialize(keyObject)}.json";
-    private static TKeyParams FilenameToKeys(string filename)
-    {
-      var keyString = filename.Replace(".json", "");
-      return FileKeySerializer.Deserialize<TKeyParams>(keyString);
-    } 
+    private static string KeysToFilename(TKeyParams keyObject) => $"{FilenameBuilder.Build(keyObject)}.json";
   }
 
-  public class JsonDatabaseMetadata
+  public class JsonDatabaseMetadata<TKeyParams> where TKeyParams : KeyParams
   {
-    public int NextId { get; set; } = 1;
+    public int NextId { get; set; }
+    public IDictionary<string, IDictionary<string, IEnumerable<string>>> Indexes { get; set; }
+
+    public JsonDatabaseMetadata()
+    {
+      NextId = 1;
+      Indexes = new Dictionary<string, IDictionary<string, IEnumerable<string>>>();
+    }
 
     public int IncrementId()
     {
@@ -130,5 +105,32 @@ namespace PowerUp.Databases
       NextId = currentId + 1;
       return currentId;
     }
+
+    public void UpdateIndexes(TKeyParams keyParams, string filename)
+    {
+      foreach(var kvp in keyParams.GetKeysAndValues())
+      {
+        var existing = GetFilepathsFor(kvp.Key, kvp.Value);
+        if(!Indexes.ContainsKey(kvp.Key))
+          Indexes.Add(kvp.Key, new Dictionary<string, IEnumerable<string>>());
+
+        Indexes[kvp.Key][kvp.Value] = existing
+          .Where(p => Path.GetFileName(p).Split('_')[0] != keyParams.Id.ToString())
+          .Append(filename);
+      }
+    }
+
+    public IEnumerable<string> GetFilepathsFor(string key, object value)
+    {
+      Indexes.TryGetValue(key, out var filePathDictionary);
+      if(filePathDictionary == null)
+        return Enumerable.Empty<string>();
+
+      filePathDictionary.TryGetValue(value.ToString()!, out var filePaths);
+      if (filePaths == null)
+        return Enumerable.Empty<string>();
+
+      return filePaths;
+    } 
   }
 }

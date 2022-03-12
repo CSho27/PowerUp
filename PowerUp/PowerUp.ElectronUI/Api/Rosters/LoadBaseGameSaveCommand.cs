@@ -22,7 +22,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public RosterEditorResponse Execute(LoadBaseRequest request)
     {
       var baseRoster = DatabaseConfig.RosterDatabase
-        .LoadBy(k => k.ImportSource == EntitySourceType.Base.ToString())
+        .LoadBy("Type", EntitySourceType.Base)
         .SingleOrDefault();
 
       if(baseRoster == null)
