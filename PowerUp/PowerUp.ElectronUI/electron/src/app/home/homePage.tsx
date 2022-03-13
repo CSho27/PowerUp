@@ -62,8 +62,9 @@ export function HomePage(props: HomePageProps) {
   </PowerUpLayout>
 
   function openExisting() {
-    appContext.openModal(<Modal>
-      <Button variant='Fill' size='Small' onClick={openExisting}>Open Again</Button>
+    appContext.openModal(closeDialog => <Modal>
+      <Button variant='Outline' size='Small' onClick={closeDialog}>Close</Button>
+      <Button variant='Fill' size='Small' onClick={openExisting}>Open Another</Button>
     </Modal>)
   }
 

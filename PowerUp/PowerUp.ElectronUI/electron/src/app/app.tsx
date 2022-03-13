@@ -15,8 +15,10 @@ export interface ApplicationStartupData {
 export interface AppContext {
   commandFetcher: CommandFetcher;
   setPage: (pageDef: PageLoadDefinition) => void;
-  openModal: (dialog: ReactElement<ModalProps>) => () => void;
+  openModal: (renderModal: RenderModalCallback) => void;
 }
+
+export type RenderModalCallback = (closeDialog: () => void) => ReactElement<ModalProps>;
 
 export function App(props: ApplicationStartupData) {
   const { commandUrl } = props;
@@ -55,12 +57,12 @@ export function App(props: ApplicationStartupData) {
     update({ type: 'updatePage', newPage: newPage });
   }
 
-  function openModal(modal: ReactElement<ModalProps>) {
+  function openModal(renderModal: RenderModalCallback) {
     var key = GenerateId().toString();
-    update({ type: 'openModal', modal: { key: key, modal: modal } });
-    return () => update({ type: 'closeModal', modalKey: key });
+    var closeDialog = () => update({ type: 'closeModal', modalKey: key });
+    update({ type: 'openModal', modal: { key: key, modal: renderModal(closeDialog) } });
   }
-
+  
   function toRenderedModal(modalDef: ModalDefinition, index: number) {
     return index === state.modals.length - 1
       ? <ModalPageCover key={modalDef.key}>{modalDef.modal}</ModalPageCover>
