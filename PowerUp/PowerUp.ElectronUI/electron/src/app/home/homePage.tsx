@@ -1,14 +1,12 @@
-import { useRef } from "react";
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
+import { Modal } from "../../components/modal/modal";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
-import { PageLoadDefinition, PageLoadFunction } from "../pages";
-import { RosterEditorPage } from "../rosterEditor/rosterEditorPage";
+import { PageLoadFunction } from "../pages";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { ImportBaseRosterApiClient } from "../rosterEditor/importBaseRosterApiClient";
 
 export interface HomePageProps {
   appContext: AppContext
@@ -16,8 +14,6 @@ export interface HomePageProps {
 
 export function HomePage(props: HomePageProps) {
   const {appContext } = props;
-
-  const apiClientRef = useRef(new ImportBaseRosterApiClient(appContext.commandFetcher));
 
   return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
@@ -28,7 +24,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='folder-open'
           textAlign='left'
-          onClick={() => {}}
+          onClick={openExisting}
         >
           Open Existing Roster
         </Button>
@@ -64,6 +60,12 @@ export function HomePage(props: HomePageProps) {
       </ButtonSectionWrapper>
     </ContentWrapper>
   </PowerUpLayout>
+
+  function openExisting() {
+    appContext.openModal(<Modal>
+      <Button variant='Fill' size='Small' onClick={openExisting}>Open Again</Button>
+    </Modal>)
+  }
 
   function startFromBase() {
     appContext.setPage({ page: 'RosterEditorPage', rosterId: 1 });  
