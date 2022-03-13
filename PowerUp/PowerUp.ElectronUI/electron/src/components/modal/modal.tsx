@@ -4,12 +4,13 @@ import '@reach/dialog/styles.css';
 import './modal.css';
 
 export interface ModalProps {
+  ariaLabel: string;
   children: React.ReactNode;
 }
 
 export function Modal(props: ModalProps) {
   return <ReachDialog 
-    aria-label='modal'
+    aria-label={props.ariaLabel}
     style={{ backgroundColor: COLORS.jet.superlight_90, boxShadow: '0px 3px 16px -8px' }}
   >
     {props.children}

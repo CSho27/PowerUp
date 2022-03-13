@@ -23,7 +23,7 @@ export function toOption(code: OptionCode) {
 export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?: boolean) {
   const options = codes.map(toOption);
   return icludeEmptyOption
-    ? [<option value=''></option>, ...options]
+    ? [<option key='' value=''></option>, ...options]
     : options;
 }
 
