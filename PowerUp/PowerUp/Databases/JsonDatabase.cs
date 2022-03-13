@@ -35,23 +35,18 @@ namespace PowerUp.Databases
       if (!@object.Id.HasValue)
         @object.Id = _metadata.IncrementId();
 
-      var existingFilePath = _metadata.GetFilepathsFor("Id", @object.Id!.Value).SingleOrDefault();
-      var newFilePath = Path.Combine(_databaseDirectory, KeysToFilename(@object.GetFileKeys()));
-
-      if (existingFilePath != null && existingFilePath != newFilePath)
-        File.Delete(existingFilePath);
-
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
-      File.WriteAllText(newFilePath, stringObject);
+      var filePath = GetFilePath(@object.Id.Value);
+      File.WriteAllText(filePath, stringObject);
       
-      _metadata.UpdateIndexes(@object.GetFileKeys(), newFilePath);
+      //_metadata.UpdateIndexes(@object.GetFileKeys(), filename);
       SaveMetadata();
     }
 
     public TEntity? Load(int id)
     {
-      var filePath = _metadata.GetFilepathsFor("Id", id).SingleOrDefault();
-      if(filePath == null)
+      var filePath = GetFilePath(id); //_metadata.GetFilenamesFor("Id", id).SingleOrDefault();
+      if (filePath == null)
         return null;
 
       return Load(filePath);
@@ -67,7 +62,7 @@ namespace PowerUp.Databases
       return @object;
     }
 
-    public IEnumerable<TEntity> LoadBy(string key, object value) => _metadata.GetFilepathsFor(key, value).Select(Load);
+    public IEnumerable<TEntity> LoadBy(string key, object value) => _metadata.GetFilenamesFor(key, value).Select(n => Load(Path.Combine(_databaseDirectory, n)));
 
     private void LoadMetadata()
     {
@@ -82,10 +77,10 @@ namespace PowerUp.Databases
     private void SaveMetadata()
     {
       var stringObject = JsonSerializer.Serialize(_metadata, _serializerOptions);
-      File.WriteAllTextAsync(_metadataPath, stringObject);
+      File.WriteAllText(_metadataPath, stringObject);
     }
 
-    private static string KeysToFilename(TKeyParams keyObject) => $"{FilenameBuilder.Build(keyObject)}.json";
+    private string GetFilePath(int id) => Path.Combine(_databaseDirectory, $"{id}.json");
   }
 
   public class JsonDatabaseMetadata<TKeyParams> where TKeyParams : KeyParams
@@ -110,7 +105,7 @@ namespace PowerUp.Databases
     {
       foreach(var kvp in keyParams.GetKeysAndValues())
       {
-        var existing = GetFilepathsFor(kvp.Key, kvp.Value);
+        var existing = GetFilenamesFor(kvp.Key, kvp.Value);
         if(!Indexes.ContainsKey(kvp.Key))
           Indexes.Add(kvp.Key, new Dictionary<string, IEnumerable<string>>());
 
@@ -120,17 +115,17 @@ namespace PowerUp.Databases
       }
     }
 
-    public IEnumerable<string> GetFilepathsFor(string key, object value)
+    public IEnumerable<string> GetFilenamesFor(string key, object value)
     {
       Indexes.TryGetValue(key, out var filePathDictionary);
       if(filePathDictionary == null)
         return Enumerable.Empty<string>();
 
-      filePathDictionary.TryGetValue(value.ToString()!, out var filePaths);
-      if (filePaths == null)
+      filePathDictionary.TryGetValue(value.ToString()!, out var filenames);
+      if (filenames == null)
         return Enumerable.Empty<string>();
 
-      return filePaths;
+      return filenames;
     } 
   }
 }
