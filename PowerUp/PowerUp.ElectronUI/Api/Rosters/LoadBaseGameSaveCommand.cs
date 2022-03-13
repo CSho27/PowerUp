@@ -38,8 +38,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       }
       else
       {
-        var teams = baseRoster.GetTeams().Select(kvp => kvp.Key);
-        var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(baseRoster, teams, teams.SelectMany(t => t.GetPlayers()));
+        var rosterDetails = RosterDetails.FromRoster(baseRoster);
         return new RosterEditorResponse(rosterDetails);
       }
 
