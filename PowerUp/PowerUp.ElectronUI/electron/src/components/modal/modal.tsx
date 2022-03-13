@@ -8,7 +8,10 @@ export interface ModalProps {
 }
 
 export function Modal(props: ModalProps) {
-  return <ReachDialog aria-label='Existing Rosters'>
+  return <ReachDialog 
+    aria-label='modal'
+    style={{ backgroundColor: COLORS.jet.superlight_90, boxShadow: '0px 3px 16px -8px' }}
+  >
     {props.children}
   </ReachDialog>
 }
