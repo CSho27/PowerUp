@@ -22,7 +22,11 @@ const config = {
         use: {
           loader: "ts-loader"
         }
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ]
   },
   resolve: {
