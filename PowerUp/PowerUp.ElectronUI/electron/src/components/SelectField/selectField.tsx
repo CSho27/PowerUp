@@ -22,7 +22,7 @@ export function SelectField(props: SelectFieldProps) {
       {displayedValue ?? '.'}
     </SelectedContent>
     <Icon icon='chevron-down'/>
-    <Selector disabled={disabled} value={value} onChange={handleChange}>
+    <Selector disabled={!!disabled} value={value ?? ''} onChange={handleChange}>
       {children}
     </Selector>
   </ContentWrapper>
