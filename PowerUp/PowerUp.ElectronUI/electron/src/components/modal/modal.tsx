@@ -1,6 +1,7 @@
 import { DialogContent as ReachDialog, DialogOverlay as ReachDialogOverlay } from '@reach/dialog';
-import "@reach/dialog/styles.css";
 import { COLORS } from '../../style/constants';
+import '@reach/dialog/styles.css';
+import './modal.css';
 
 export interface ModalProps {
   children: React.ReactNode;
