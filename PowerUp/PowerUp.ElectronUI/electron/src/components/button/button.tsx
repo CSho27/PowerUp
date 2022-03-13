@@ -55,7 +55,7 @@ export function Button(props: ButtonProps) {
 const sizingStyles = {
   Small: `
     --horizontal-padding: 12px;
-    --vertical-padding: 3px;
+    --vertical-padding: 2px;
     --border-radius: 2px;
     --font-size: ${FONT_SIZES.default_16};
   `,
@@ -78,7 +78,7 @@ const sizingStyles = {
 const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefined, squarePadding: boolean | undefined }>`
   ${p => sizingStyles[p.size]}
   padding: var(--vertical-padding) ${p => p.squarePadding ? '' : 'var(--horizontal-padding)'};
-  border-style: none;
+  border: solid 1px var(--background-color);
   border-radius: var(--border-radius);
   font-weight: 500;
   font-size: var(--font-size);
