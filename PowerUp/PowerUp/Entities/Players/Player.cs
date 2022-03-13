@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PowerUp.Entities.Players
 {
-  public class Player : Entity<PlayerKeyParams>
+  public class Player : Entity
   {
     public EntitySourceType SourceType { get; set; }
     public string LastName { get; set; } = string.Empty;
@@ -27,15 +27,6 @@ namespace PowerUp.Entities.Players
     public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
-
-    protected override PlayerKeyParams GetKeyParams() => new PlayerKeyParams
-    {
-      Type = SourceType.ToString().ToUpperInvariant(),
-      LastName = LastName,
-      FirstName = FirstName,
-      SourceId = SourcePowerProsId,
-      ImportSource = ImportSource
-    };
 
     public double GetOverallRating() => PrimaryPosition == Position.Pitcher
       ? PitcherAbilities.GetPitcherRating()

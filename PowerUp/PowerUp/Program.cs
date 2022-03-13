@@ -38,11 +38,10 @@ namespace PowerUp
     {
 
       var playerDatabase = new PlayerDatabase(DATA_DIRECTORY);
-      System.Threading.Thread.Sleep(5000);
 
       var time = TimeAction(() =>
       {
-        var results = playerDatabase.LoadBy("LastName", "Pena");
+        var results = playerDatabase.LoadAll().Where(p => p.LastName == "Pena");
         Console.WriteLine(results.Count());
       });
       Console.WriteLine($"Time: {time}");

@@ -6,15 +6,15 @@ using System.Text.Json;
 
 namespace PowerUp.Databases
 {
-  public abstract class JsonDatabase<TEntity, TKeyParams>
-    where TEntity : Entity<TKeyParams>
-    where TKeyParams : KeyParams
+  public abstract class JsonDatabase<TEntity> where TEntity : Entity
   {
+    private const string METADATA_FILE_NAME = ".Metadata";
+
     private readonly string _databaseDirectory;
     private readonly string _metadataPath;
     private readonly JsonSerializerOptions _serializerOptions;
 
-    private JsonDatabaseMetadata<TKeyParams> _metadata = new JsonDatabaseMetadata<TKeyParams>();
+    private JsonDatabaseMetadata _metadata = new JsonDatabaseMetadata();
 
     public JsonDatabase(string dataDirectory)
     {
@@ -25,7 +25,7 @@ namespace PowerUp.Databases
       };
 
       Directory.CreateDirectory(_databaseDirectory);
-      _metadataPath = Path.Combine(_databaseDirectory, "./Metadata");
+      _metadataPath = Path.Combine(_databaseDirectory, METADATA_FILE_NAME);
 
       LoadMetadata();
     }
@@ -39,13 +39,12 @@ namespace PowerUp.Databases
       var filePath = GetFilePath(@object.Id.Value);
       File.WriteAllText(filePath, stringObject);
       
-      //_metadata.UpdateIndexes(@object.GetFileKeys(), filename);
       SaveMetadata();
     }
 
     public TEntity? Load(int id)
     {
-      var filePath = GetFilePath(id); //_metadata.GetFilenamesFor("Id", id).SingleOrDefault();
+      var filePath = GetFilePath(id);
       if (filePath == null)
         return null;
 
@@ -62,18 +61,19 @@ namespace PowerUp.Databases
       return @object;
     }
 
-    public IEnumerable<TEntity> LoadBy(string key, object value) => _metadata.GetFilenamesFor(key, value).Select(n => Load(Path.Combine(_databaseDirectory, n)));
+    public IEnumerable<TEntity> LoadAll () => Directory.EnumerateFiles(_databaseDirectory)
+      .Where(p => Path.GetFileName(p) != METADATA_FILE_NAME)
+      .Select(p => Load(p));
 
     private void LoadMetadata()
     {
       if (!File.Exists(_metadataPath))
         return;
-      
-      File.ReadAllTextAsync(_metadataPath).ContinueWith(stringObject =>
-      {
-        _metadata = JsonSerializer.Deserialize<JsonDatabaseMetadata<TKeyParams>>(stringObject.Result, _serializerOptions)!;
-      });
+
+      var stringObject = File.ReadAllText(_metadataPath);
+      _metadata = JsonSerializer.Deserialize<JsonDatabaseMetadata>(stringObject, _serializerOptions)!;
     }
+
     private void SaveMetadata()
     {
       var stringObject = JsonSerializer.Serialize(_metadata, _serializerOptions);
@@ -83,15 +83,13 @@ namespace PowerUp.Databases
     private string GetFilePath(int id) => Path.Combine(_databaseDirectory, $"{id}.json");
   }
 
-  public class JsonDatabaseMetadata<TKeyParams> where TKeyParams : KeyParams
+  public class JsonDatabaseMetadata
   {
     public int NextId { get; set; }
-    public IDictionary<string, IDictionary<string, IEnumerable<string>>> Indexes { get; set; }
 
     public JsonDatabaseMetadata()
     {
       NextId = 1;
-      Indexes = new Dictionary<string, IDictionary<string, IEnumerable<string>>>();
     }
 
     public int IncrementId()
@@ -100,32 +98,5 @@ namespace PowerUp.Databases
       NextId = currentId + 1;
       return currentId;
     }
-
-    public void UpdateIndexes(TKeyParams keyParams, string filename)
-    {
-      foreach(var kvp in keyParams.GetKeysAndValues())
-      {
-        var existing = GetFilenamesFor(kvp.Key, kvp.Value);
-        if(!Indexes.ContainsKey(kvp.Key))
-          Indexes.Add(kvp.Key, new Dictionary<string, IEnumerable<string>>());
-
-        Indexes[kvp.Key][kvp.Value] = existing
-          .Where(p => Path.GetFileName(p).Split('_')[0] != keyParams.Id.ToString())
-          .Append(filename);
-      }
-    }
-
-    public IEnumerable<string> GetFilenamesFor(string key, object value)
-    {
-      Indexes.TryGetValue(key, out var filePathDictionary);
-      if(filePathDictionary == null)
-        return Enumerable.Empty<string>();
-
-      filePathDictionary.TryGetValue(value.ToString()!, out var filenames);
-      if (filenames == null)
-        return Enumerable.Empty<string>();
-
-      return filenames;
-    } 
   }
 }

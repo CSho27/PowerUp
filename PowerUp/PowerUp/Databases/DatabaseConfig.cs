@@ -18,17 +18,17 @@ namespace PowerUp.Databases
     }
   }
 
-  public class PlayerDatabase : JsonDatabase<Player, PlayerKeyParams>
+  public class PlayerDatabase : JsonDatabase<Player>
   {
     public PlayerDatabase(string dataDirectory): base(dataDirectory) { }
   }
 
-  public class TeamDatabase : JsonDatabase<Team, TeamKeyParams>
+  public class TeamDatabase : JsonDatabase<Team>
   {
     public TeamDatabase(string dataDirectory) : base(dataDirectory) { }
   }
 
-  public class RosterDatabase : JsonDatabase<Roster, RosterKeyParams>
+  public class RosterDatabase : JsonDatabase<Roster>
   {
     public RosterDatabase(string dataDirectory) : base(dataDirectory) { }
   }

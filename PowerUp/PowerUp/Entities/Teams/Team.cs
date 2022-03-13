@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PowerUp.Entities.Teams
 {
-  public class Team : Entity<TeamKeyParams>
+  public class Team : Entity
   {
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -16,13 +16,6 @@ namespace PowerUp.Entities.Teams
 
     public IEnumerable<LineupSlot> NoDHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
     public IEnumerable<LineupSlot> DHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
-
-    protected override TeamKeyParams GetKeyParams() => new TeamKeyParams
-    {
-      Type = SourceType.ToString().ToUpperInvariant(),
-      Name = Name,
-      ImportSource = ImportSource
-    };
 
     public IEnumerable<Player> GetPlayers() => PlayerDefinitions
       .Select(pd => DatabaseConfig.PlayerDatabase.Load(pd.PlayerId)!);
