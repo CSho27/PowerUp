@@ -64,8 +64,11 @@ export function App(props: ApplicationStartupData) {
   }
   
   function toRenderedModal(modalDef: ModalDefinition, index: number) {
-    return index === state.modals.length - 1
-      ? <ModalPageCover key={modalDef.key}>{modalDef.modal}</ModalPageCover>
-      : <ModalPageCover transparent key={modalDef.key}>{modalDef.modal}</ModalPageCover>
+    return <ModalPageCover 
+      key={modalDef.key}
+      transparent={index !== state.modals.length - 1}
+    >
+      {modalDef.modal}
+    </ModalPageCover>
   }
 };

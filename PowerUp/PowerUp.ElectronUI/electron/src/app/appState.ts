@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { ModalProps } from "../components/modal/modal";
 
 export interface AppState {
@@ -13,7 +13,7 @@ export interface ModalDefinition {
 }
 
 export type AppStateAction =
-| { type: 'updatePage', newPage: React.ReactNode }
+| { type: 'updatePage', newPage: ReactNode }
 | { type: 'openModal', modal: ModalDefinition }
 | { type: 'closeModal', modalKey: string }
 | { type: 'updateIsLoading', isLoading: boolean }
@@ -23,7 +23,8 @@ export function AppStateReducer(state: AppState, action: AppStateAction): AppSta
     case 'updatePage':
       return {
         ...state,
-        currentPage: action.newPage
+        currentPage: action.newPage,
+        modals: []
       }
     case 'openModal':
       return {

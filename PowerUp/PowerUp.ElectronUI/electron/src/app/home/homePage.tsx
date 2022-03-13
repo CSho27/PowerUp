@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import styled from "styled-components";
+import { LoaderOptionsPlugin } from "webpack";
 import { Button } from "../../components/button/button";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { Modal } from "../../components/modal/modal";
@@ -6,14 +8,23 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadFunction } from "../pages";
+import { ImportBaseRosterApiClient } from "../rosterEditor/importBaseRosterApiClient";
+import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
+import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { ExistingRostersModal } from "./existingRostersModal";
 
 export interface HomePageProps {
-  appContext: AppContext
+  appContext: AppContext;
 }
 
 export function HomePage(props: HomePageProps) {
-  const {appContext } = props;
+  const { appContext } = props;
+
+  const apiClientsRef = useRef({
+    baseApiClient: new ImportBaseRosterApiClient(appContext.commandFetcher),
+    existingOptionsApiClient: new LoadExistingRosterOptionsApiClient(appContext.commandFetcher)
+  })
 
   return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
@@ -24,7 +35,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='folder-open'
           textAlign='left'
-          onClick={openExisting}
+          onClick={openExistingModal}
         >
           Open Existing Roster
         </Button>
@@ -61,15 +72,18 @@ export function HomePage(props: HomePageProps) {
     </ContentWrapper>
   </PowerUpLayout>
 
-  function openExisting() {
-    appContext.openModal(closeDialog => <Modal>
-      <Button variant='Outline' size='Small' onClick={closeDialog}>Close</Button>
-      <Button variant='Fill' size='Small' onClick={openExisting}>Open Another</Button>
-    </Modal>)
+  async function openExistingModal() {
+    const response = await apiClientsRef.current.existingOptionsApiClient.execute();
+    appContext.openModal(closeDialog => <ExistingRostersModal 
+      appContext={appContext} 
+      options={response} 
+      closeDialog={closeDialog}
+    />)
   }
 
-  function startFromBase() {
-    appContext.setPage({ page: 'RosterEditorPage', rosterId: 1 });  
+  async function startFromBase() {
+    const response = await apiClientsRef.current.baseApiClient.execute();
+    appContext.setPage({ page: 'RosterEditorPage', response: response });  
   }
 }
 
