@@ -9,6 +9,7 @@ export interface ButtonProps {
   icon?: IconType;
   textAlign?: ButtonTextAlignment;
   squarePadding?: boolean;
+  disabled?: boolean;
   children?: React.ReactNode;
   onClick: () => void;
 }
@@ -18,7 +19,7 @@ export type ButtonSize = 'Small' | 'Medium' | 'Large';
 export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, icon, textAlign, squarePadding, children, onClick } = props;
+  const { variant, size, icon, textAlign, squarePadding, disabled, children, onClick } = props;
 
   const buttonContent = !icon 
     ? children
@@ -27,24 +28,31 @@ export function Button(props: ButtonProps) {
         {children && <span>{children}</span>}
       </IconAndTextContainer>
 
+  const handleClick = disabled
+    ? undefined
+    : onClick;
+
   switch (variant) {
     case "Fill":
       return <FillButton 
-        onClick={onClick} 
+        disabled={disabled}
+        onClick={handleClick}
         size={size} 
         textAlign={textAlign}
         squarePadding={squarePadding}
       >{buttonContent}</FillButton>;
     case "Outline":
       return <OutlineButton 
-        onClick={onClick} 
+        disabled={disabled}
+        onClick={handleClick} 
         size={size} 
         textAlign={textAlign}
         squarePadding={squarePadding}
       >{buttonContent}</OutlineButton>;
     case "Ghost":
       return <GhostButton 
-        onClick={onClick} 
+        disabled={disabled}
+        onClick={handleClick} 
         size={size} 
         textAlign={textAlign}
         squarePadding={squarePadding}
@@ -88,8 +96,13 @@ const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefin
   background-color: var(--background-color);
   cursor: pointer;
 
-  &:hover {
+  &:hover&:not(:disabled) {
     background-color: var(--hover-color);
+  }
+
+  &:disabled {
+    opacity: .7;
+    cursor: default;
   }
 `;
 
@@ -108,7 +121,6 @@ const OutlineButton = styled(BaseButton)`
 const GhostButton = styled(BaseButton)`
   --text-color: ${COLORS.jet.light_39};
   --hover-color: ${COLORS.jet.light_39};
-
   &:hover {
     --text-color: ${COLORS.richBlack};
   }
