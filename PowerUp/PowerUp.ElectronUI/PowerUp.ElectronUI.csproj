@@ -24,7 +24,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Api\Home\" />
     <Folder Include="Assets\" />
   </ItemGroup>
 </Project>

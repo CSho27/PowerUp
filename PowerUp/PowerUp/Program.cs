@@ -17,7 +17,7 @@ namespace PowerUp
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
     private const string DATA_DIRECTORY = "C:/Users/short/Documents/PowerUp/";
-    private const int PLAYER_ID = 370;
+    private const int PLAYER_ID = 1;
 
     static void Main(string[] args)
     {
@@ -29,9 +29,9 @@ namespace PowerUp
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
-      //BuildPlayerValueLibrary(characterLibrary);
+      BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
-      FindPlayersByLastName();
+      //FindPlayersByLastName();
     }
 
     static void FindPlayersByLastName()
@@ -61,9 +61,9 @@ namespace PowerUp
         Console.ReadLine();
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(PLAYER_ID);
-        var bitString = player.UnknownBytes_81_88!.ToBitString();
+        var bitString = player.VoiceBytes!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString} - {player.VoiceId}");
       }
     }
 
@@ -159,22 +159,12 @@ namespace PowerUp
         var player = playerReader.Read(id);
         if(player.PowerProsId != 0 )
         {
-          var added = false;
-          var index = 0;
-          while (!added)
-          {
-            var indexString = index != 0
-              ? index.ToString()
-              : "";
-            added = playersAndValues.TryAdd($"{player.FirstName![0]}.{player.LastName!}{indexString}", player.Face!.Value);
-            index++;
-          }
+          playersAndValues.TryAdd($"{player.FirstName}_{player.LastName}", player.VoiceId!.Value);
         }
-
       };
 
-      var csvLines = playersAndValues.Select(p => $"{p.Key},{p.Value}");
-      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/FaceId_Library.csv"), csvLines);
+      var csvLines = playersAndValues.OrderBy(kvp => kvp.Key.Split('_')[1]).Select(p => $"{p.Key.Replace('_', ' ')},{p.Value}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/Voice_Library.csv"), csvLines);
     }
 
     static void FindDuplicatesInLibrary()

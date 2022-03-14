@@ -28,6 +28,7 @@ export interface PlayerPersonalDetails {
   uniformNumber: string;
   position: KeyedCode;
   pitcherType: KeyedCode;
+  voice: SimpleCode;
   battingSide: KeyedCode;
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
@@ -42,6 +43,7 @@ export type PlayerPersonalDetailsAction =
 | { type: 'updateUniformNumber', uniformNumber: string }
 | { type: 'updatePosition', position: KeyedCode }
 | { type: 'updatePitcherType', pitcherType: KeyedCode }
+| { type: 'updateVoice', voice: SimpleCode }
 | { type: 'updateBattingSide', battingSide: KeyedCode }
 | { type: 'updateBattingStance', battingStance: SimpleCode }
 | { type: 'updateThrowingArm', throwingArm: KeyedCode }
@@ -93,6 +95,11 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         ...state,
         pitcherType: action.pitcherType
       }
+    case 'updateVoice':
+      return {
+        ...state,
+        voice: action.voice
+      }
     case 'updateBattingSide':
       return {
         ...state,
@@ -135,6 +142,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       uniformNumber: personalDetails.uniformNumber,
       position: personalDetails.position,
       pitcherType: personalDetails.pitcherType,
+      voice: personalDetails.voice,
       battingSide: personalDetails.battingSide,
       battingStance: personalDetails.battingStance,
       throwingArm: personalDetails.throwingArm,

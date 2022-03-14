@@ -30,7 +30,7 @@ export interface PlayerPersonalDetails {
   uniformNumber: string;
   position: PositionCode;
   pitcherType: KeyedCode;
-  voiceId: SimpleCode;
+  voice: SimpleCode;
   battingSide: KeyedCode;
   battingStance: SimpleCode;
   throwingArm: KeyedCode;

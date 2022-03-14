@@ -113,7 +113,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       uniformNumber: personalDetails.uniformNumber,
       positionKey: personalDetails.position.key,
       pitcherTypeKey: personalDetails.pitcherType.key,
-      voiceId: editorResponse.personalDetails.voiceId.id, // TODO: Implement Voice
+      voiceId: personalDetails.voice.id,
       battingSideKey: personalDetails.battingSide.key,
       battingStanceId: personalDetails.battingStance.id,
       throwingArmKey: personalDetails.throwingArm.key,

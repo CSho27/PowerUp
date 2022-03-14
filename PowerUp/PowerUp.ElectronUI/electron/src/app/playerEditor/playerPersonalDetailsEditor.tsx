@@ -98,7 +98,11 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
         <FieldLabel>Voice</FieldLabel>
-        <SelectField value='1' onChange={() => {}}>
+        <SelectField 
+          value={details.voice?.id} 
+          onChange={voice => update({ type: 'updateVoice', voice: toSimpleCode(options.voiceOptions, voice)})}
+        >
+          {toOptions(options.voiceOptions)}
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4' style={{ display: 'flex', alignItems: 'flex-end' }}>

@@ -88,7 +88,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public string UniformNumber { get; }
     public KeyedCode Position { get; }
     public KeyedCode PitcherType { get; }
-    public SimpleCode VoiceId { get; }
+    public SimpleCode Voice { get; }
     public KeyedCode BattingSide { get; }
     public SimpleCode BattingStance { get; }
     public KeyedCode ThrowingArm { get; }
@@ -111,7 +111,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       UniformNumber = player.UniformNumber;
       Position = player.PrimaryPosition.ToKeyedCode(useAbbrev: true);
       PitcherType = player.PitcherType.ToKeyedCode();
-      VoiceId = new SimpleCode(id: player.VoiceId, name: voiceLibrary[player.VoiceId]);
+      Voice = new SimpleCode(id: player.VoiceId, name: voiceLibrary[player.VoiceId]);
       BattingSide = player.BattingSide.ToKeyedCode();
       BattingStance = new SimpleCode(id: player.BattingStanceId, name: battingStanceLibrary[player.BattingStanceId]);
       ThrowingArm = player.ThrowingArm.ToKeyedCode();

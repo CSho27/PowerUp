@@ -470,7 +470,7 @@ namespace PowerUp.GameSave.Objects.Players
     public byte[]? UnknownBytes_8d_92 { get; set; }
 
 
-    [GSUInt(0x92, bits: 16, bitOffset: 0)]
+    [GSUInt(0x92, bits: 14, bitOffset: 2)]
     public ushort? VoiceId { get; set; }
 
     [GSBytes(0x94, numberOfBytes: 1)]
