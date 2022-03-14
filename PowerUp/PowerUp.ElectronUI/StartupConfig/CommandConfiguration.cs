@@ -11,6 +11,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<SavePlayerCommand>();
       services.AddSingleton<LoadBaseGameSaveCommand>();
       services.AddSingleton<LoadPlayerEditorCommand>();
+      services.AddSingleton<LoadExistingRosterCommand>();
+      services.AddSingleton<LoadExistingRosterOptionsCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -19,6 +21,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(SavePlayerCommand), "SavePlayer");
       commandRegistry.RegisterCommand(typeof(LoadBaseGameSaveCommand), "LoadBaseGameSave");
       commandRegistry.RegisterCommand(typeof(LoadPlayerEditorCommand), "LoadPlayerEditor");
+      commandRegistry.RegisterCommand(typeof(LoadExistingRosterCommand), "LoadExistingRoster");
+      commandRegistry.RegisterCommand(typeof(LoadExistingRosterOptionsCommand), "LoadExistingRosterOptions");
     }
   }
 }

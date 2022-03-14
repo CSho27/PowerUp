@@ -26,14 +26,14 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public PlayerEditorResponse Execute(LoadPlayerEditorRequest request)
     {
-      var player = DatabaseConfig.JsonDatabase.Load<Player>(request.PlayerKey!);
-      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, player);
+      var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
+      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, player!);
     }
   }
 
   public class LoadPlayerEditorRequest
   {
-    public string? PlayerKey { get; set; }
+    public int? PlayerId { get; set; }
   }
 
   public class PlayerEditorResponse
@@ -88,7 +88,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public string UniformNumber { get; }
     public KeyedCode Position { get; }
     public KeyedCode PitcherType { get; }
-    public SimpleCode VoiceId { get; }
+    public SimpleCode Voice { get; }
     public KeyedCode BattingSide { get; }
     public SimpleCode BattingStance { get; }
     public KeyedCode ThrowingArm { get; }
@@ -111,7 +111,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       UniformNumber = player.UniformNumber;
       Position = player.PrimaryPosition.ToKeyedCode(useAbbrev: true);
       PitcherType = player.PitcherType.ToKeyedCode();
-      VoiceId = new SimpleCode(id: player.VoiceId, name: voiceLibrary[player.VoiceId]);
+      Voice = new SimpleCode(id: player.VoiceId, name: voiceLibrary[player.VoiceId]);
       BattingSide = player.BattingSide.ToKeyedCode();
       BattingStance = new SimpleCode(id: player.BattingStanceId, name: battingStanceLibrary[player.BattingStanceId]);
       ThrowingArm = player.ThrowingArm.ToKeyedCode();

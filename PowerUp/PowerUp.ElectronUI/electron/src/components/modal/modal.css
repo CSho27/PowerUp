@@ -1,0 +1,14 @@
+
+[data-reach-dialog-content] {
+  animation: .25s 1 forwards fade-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  } 
+}

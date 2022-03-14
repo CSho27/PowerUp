@@ -21,7 +21,7 @@ import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
 
 export interface PlayerEditorPageProps {
   appContext: AppContext;
-  playerKey: string;
+  playerId: number;
   editorResponse: PlayerEditorResponse 
 }
 
@@ -37,7 +37,7 @@ const tabs = [
 const tabOptions: KeyedCode[] = tabs.map(t => ({ key: t, name: t }));
 
 export function PlayerEditorPage(props: PlayerEditorPageProps) {
-  const { appContext, playerKey, editorResponse } = props;
+  const { appContext, playerId, editorResponse } = props;
   const { options } = editorResponse;
 
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
@@ -105,7 +105,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
     const { personalDetails } = state;
     
     const request: SavePlayerRequest = {
-      playerKey: playerKey,
+      playerId: playerId,
       firstName: personalDetails.firstName,
       lastName: personalDetails.lastName,
       useSpecialSavedName: personalDetails.useSpecialSavedName,
@@ -113,7 +113,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       uniformNumber: personalDetails.uniformNumber,
       positionKey: personalDetails.position.key,
       pitcherTypeKey: personalDetails.pitcherType.key,
-      voiceId: editorResponse.personalDetails.voiceId.id, // TODO: Implement Voice
+      voiceId: personalDetails.voice.id,
       battingSideKey: personalDetails.battingSide.key,
       battingStanceId: personalDetails.battingStance.id,
       throwingArmKey: personalDetails.throwingArm.key,
@@ -134,6 +134,6 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
   if(pageDef.page !== 'PlayerEditorPage') throw '';
   
   const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);
-  const response = await apiClient.execute({ playerKey: pageDef.playerKey });
-  return <PlayerEditorPage appContext={appContext} playerKey={pageDef.playerKey} editorResponse={response} />;
+  const response = await apiClient.execute({ playerId: pageDef.playerId });
+  return <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />;
 }

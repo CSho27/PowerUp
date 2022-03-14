@@ -52,8 +52,13 @@ namespace PowerUp.ElectronUI
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Electron}/{action=Index}");
+          name: "default",
+          pattern: "{controller=Electron}/{action=Index}"
+        );
+        endpoints.MapControllerRoute(
+          name: "default",
+          pattern: "{controller=GameSaveImport}/{action=Import}"
+        );
       });
 
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };

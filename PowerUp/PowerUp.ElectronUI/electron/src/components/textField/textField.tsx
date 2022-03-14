@@ -4,6 +4,7 @@ import { COLORS } from "../../style/constants";
 
 export interface TextFieldProps {
   value: string | undefined;
+  id?: string;
   disabled?: boolean;
   placeholder?: string;
   autoFocus?: boolean;
@@ -13,10 +14,11 @@ export interface TextFieldProps {
 }
 
 export function TextField(props: TextFieldProps) {
-  const { value, disabled, placeholder, autoFocus, maxLength, allowedCharacters, onChange } = props;
+  const { value, id, disabled, placeholder, autoFocus, maxLength, allowedCharacters, onChange } = props;
 
   return <TextFieldWrapper disabled={!!disabled}>
     <TextInput
+      id={id}
       type='text'
       disabled={disabled}
       placeholder={placeholder ?? 'Enter text'}

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace PowerUp.Databases
 {
-  public interface IJsonDatabase
+  public abstract class JsonDatabase<TEntity> where TEntity : Entity
   {
-    void Save<TObject>(TObject @object) where TObject : IEntity;
-    TObject Load<TObject>(string key) where TObject : IEntity;
-  }
+    private const string METADATA_FILE_NAME = ".Metadata";
 
-  public class JsonDatabase : IJsonDatabase 
-  {
-    private readonly string _dataDirectory;
+    private readonly string _databaseDirectory;
     private readonly string _metadataPath;
     private readonly JsonSerializerOptions _serializerOptions;
 
@@ -21,81 +18,85 @@ namespace PowerUp.Databases
 
     public JsonDatabase(string dataDirectory)
     {
-      _dataDirectory = dataDirectory;
+      _databaseDirectory = Path.Combine(dataDirectory, $"{typeof(TEntity).Name}s");
       _serializerOptions = new JsonSerializerOptions()
       {
         Converters = { new DateOnlyJsonConverter() }
       };
-      _metadataPath = Path.Combine(_dataDirectory, "./Metadata");
+
+      Directory.CreateDirectory(_databaseDirectory);
+      _metadataPath = Path.Combine(_databaseDirectory, METADATA_FILE_NAME);
 
       LoadMetadata();
     }
 
-    public void Save<TObject>(TObject @object) where TObject : IEntity
+    public void Save(TEntity @object)
     {
-      var dirName = GetDirectoryName<TObject>();
-
       if (!@object.Id.HasValue)
-      {
-        @object.Id = _metadata.IncrementId(dirName);
-        SaveMetadata();
-      }
+        @object.Id = _metadata.IncrementId();
 
-      var directory = Path.Combine(_dataDirectory, dirName);
-      Directory.CreateDirectory(directory);
-      var filePath = Path.Combine(directory, KeyToFileName(@object.GetKey()));
       var stringObject = JsonSerializer.Serialize(@object, _serializerOptions);
+      var filePath = GetFilePath(@object.Id.Value);
       File.WriteAllText(filePath, stringObject);
+      
+      SaveMetadata();
     }
 
-    public TObject Load<TObject>(string key) where TObject : IEntity
+    public TEntity? Load(int id)
     {
-      var filePath = Path.Join(_dataDirectory, GetDirectoryName<TObject>(), KeyToFileName(key));
+      var filePath = GetFilePath(id);
+      if (filePath == null)
+        return null;
+
+      return Load(filePath);
+    }
+
+    private TEntity Load(string filePath)
+    {
       var stringObject = File.ReadAllText(filePath);
-      var @object = JsonSerializer.Deserialize<TObject>(stringObject, _serializerOptions);
+      var @object = JsonSerializer.Deserialize<TEntity>(stringObject, _serializerOptions);
       if (@object == null)
-        throw new Exception($"Failed to serialize object for {key}");
+        throw new Exception("Failed to serialize object");
 
       return @object;
     }
+
+    public IEnumerable<TEntity> LoadAll () => Directory.EnumerateFiles(_databaseDirectory)
+      .Where(p => Path.GetFileName(p) != METADATA_FILE_NAME)
+      .Select(p => Load(p));
 
     private void LoadMetadata()
     {
       if (!File.Exists(_metadataPath))
         return;
-      
-      File.ReadAllTextAsync(_metadataPath).ContinueWith(stringObject =>
-      {
-        _metadata = JsonSerializer.Deserialize<JsonDatabaseMetadata>(stringObject.Result, _serializerOptions)!;
-      });
+
+      var stringObject = File.ReadAllText(_metadataPath);
+      _metadata = JsonSerializer.Deserialize<JsonDatabaseMetadata>(stringObject, _serializerOptions)!;
     }
+
     private void SaveMetadata()
     {
       var stringObject = JsonSerializer.Serialize(_metadata, _serializerOptions);
-      File.WriteAllTextAsync(_metadataPath, stringObject);
+      File.WriteAllText(_metadataPath, stringObject);
     }
 
-    private static string KeyToFileName(string key) => $"{key}.json";
-    private static string GetDirectoryName<TObject>() => $"{typeof(TObject).Name}s";
+    private string GetFilePath(int id) => Path.Combine(_databaseDirectory, $"{id}.json");
   }
 
   public class JsonDatabaseMetadata
   {
-    public IDictionary<string, int> IdCounts { get; set; } = new Dictionary<string, int>();
+    public int NextId { get; set; }
 
-    public int IncrementId(string directoryName)
+    public JsonDatabaseMetadata()
     {
-      var currentId = GetNextId(directoryName);
-      IdCounts[directoryName] = currentId + 1;
-      return currentId;
+      NextId = 1;
     }
 
-    private int GetNextId(string directoryName)
+    public int IncrementId()
     {
-      var exists = IdCounts.TryGetValue(directoryName, out var nextId);
-      return exists
-        ? nextId
-        : 1;
+      var currentId = NextId;
+      NextId = currentId + 1;
+      return currentId;
     }
   }
 }

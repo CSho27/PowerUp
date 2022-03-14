@@ -21,7 +21,12 @@ namespace PowerUp.ElectronUI.Controllers
 
     public IActionResult Index()
     {
-      return new ApplicationStartupResult(_webHostEnvironment, COMMAND_URL, null);
+      return new ApplicationStartupResult(
+        _webHostEnvironment, 
+        COMMAND_URL, 
+        GameSaveImportController.GameSaveImportUrl, 
+        null
+      );
     }
 
     [Route(COMMAND_URL), HttpPost]

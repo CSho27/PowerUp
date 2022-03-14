@@ -9,6 +9,7 @@ using PowerUp.Mappers;
 using PowerUp.Mappers.Players;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PowerUp.GameSave.Api
@@ -31,24 +32,24 @@ namespace PowerUp.GameSave.Api
 
     public RosterImportResult ImportRoster(RosterImportParameters parameters)
     {
-      if(parameters.FilePath == null)
-        throw new ArgumentNullException(nameof(parameters.FilePath));
+      if(parameters.Stream == null)
+        throw new ArgumentNullException(nameof(parameters.Stream));
       if (!parameters.IsBase && parameters.ImportSource == null)
         throw new ArgumentNullException(nameof(parameters.ImportSource));
 
-      using (var reader = new GameSaveReader(_characterLibrary, parameters.FilePath))
+      using (var reader = new GameSaveReader(_characterLibrary, parameters.Stream))
       {
         var gameSave = reader.Read();
         var gsPlayers = gameSave.Players.Where(p => p.PowerProsId.HasValue && p.PowerProsId != 0);
 
-        var playerKeysByPPId = new Dictionary<ushort, string>();
+        var playerIdsByPPId = new Dictionary<ushort, int>();
         var players = new List<Player>();
 
         foreach (var gsPlayer in gsPlayers)
         {
           var player = _playerMapper.MapToPlayer(gsPlayer, PlayerMappingParameters.FromRosterImport(parameters));
-          DatabaseConfig.JsonDatabase.Save(player);
-          playerKeysByPPId.Add(gsPlayer.PowerProsId!.Value, player.GetKey());
+          DatabaseConfig.PlayerDatabase.Save(player);
+          playerIdsByPPId.Add(gsPlayer.PowerProsId!.Value, player.Id!.Value);
           players.Add(player);
         }
 
@@ -57,7 +58,7 @@ namespace PowerUp.GameSave.Api
         if (gsTeams.Count != gsLineups.Count)
           throw new InvalidOperationException("Number of teams and lineups must match");
 
-        var teamKeysByPPTeam = new Dictionary<MLBPPTeam, string>();
+        var teamKeysByPPTeam = new Dictionary<MLBPPTeam, int>();
         var teams = new List<Team>();
 
         for (int i=0; i<gsTeams.Count; i++)
@@ -66,9 +67,9 @@ namespace PowerUp.GameSave.Api
           var gsLineup = gsLineups[i];
           var teamId = gsTeam.PlayerEntries!.First().PowerProsTeamId!.Value;
 
-          var team = gsTeam.MapToTeam(gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerKeysByPPId));
-          DatabaseConfig.JsonDatabase.Save(team);
-          teamKeysByPPTeam.Add((MLBPPTeam)teamId, team.GetKey());
+          var team = gsTeam.MapToTeam(gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerIdsByPPId));
+          DatabaseConfig.TeamDatabase.Save(team);
+          teamKeysByPPTeam.Add((MLBPPTeam)teamId, team.Id!.Value);
           teams.Add(team);
         }
 
@@ -83,10 +84,10 @@ namespace PowerUp.GameSave.Api
           ImportSource = parameters.IsBase
             ? null
             : parameters.ImportSource,
-          TeamKeysByPPTeam = teamKeysByPPTeam
+          TeamIdsByPPTeam = teamKeysByPPTeam
         };
 
-        DatabaseConfig.JsonDatabase.Save(roster);
+        DatabaseConfig.RosterDatabase.Save(roster);
 
         return new RosterImportResult
         {
@@ -101,7 +102,7 @@ namespace PowerUp.GameSave.Api
 
   public class RosterImportParameters
   {
-    public string? FilePath { get; set; }
+    public Stream? Stream { get; set; }
     public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
   }

@@ -1,5 +1,6 @@
 ﻿using PowerUp.Libraries;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace PowerUp.GameSave.IO
@@ -11,6 +12,11 @@ namespace PowerUp.GameSave.IO
     public GameSaveObjectReader(ICharacterLibrary characterLibrary, string fileName)
     {
       _reader = new GameSaveFileReader(characterLibrary, fileName);
+    }
+
+    public GameSaveObjectReader(ICharacterLibrary characterLibrary, Stream stream)
+    {
+      _reader = new GameSaveFileReader(characterLibrary, stream);
     }
 
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class

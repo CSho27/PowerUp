@@ -2,7 +2,7 @@
 {
   public class PlayerRoleDefinition
   {
-    public string PlayerKey { get; set; }
+    public int PlayerId { get; set; }
     public bool IsAAA { get; set; }
     public bool IsPinchHitter { get; set; }
     public bool IsPinchRunner { get; set; }
@@ -11,9 +11,9 @@
 
     public PitcherRole PitcherRole { get; set; }
 
-    public PlayerRoleDefinition(string playerKey)
+    public PlayerRoleDefinition(int playerId)
     {
-      PlayerKey = playerKey;
+      PlayerId = playerId;
     }
   }
 

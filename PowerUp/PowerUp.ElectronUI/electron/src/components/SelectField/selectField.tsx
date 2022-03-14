@@ -5,6 +5,7 @@ import { Icon } from "../icon/icon";
 
 export interface SelectFieldProps {
   value: string | number | undefined;
+  id?: string;
   disabled?: boolean;
   onChange: (value: string) => void;
   children?: OptionElement[];
@@ -13,7 +14,7 @@ export interface SelectFieldProps {
 type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement>>
 
 export function SelectField(props: SelectFieldProps) {
-  const { value, disabled, onChange, children } = props;
+  const { value, disabled, id, onChange, children } = props;
 
   const displayedValue = value && getDisplayedValue(value?.toString(), children);
 
@@ -22,7 +23,7 @@ export function SelectField(props: SelectFieldProps) {
       {displayedValue ?? '.'}
     </SelectedContent>
     <Icon icon='chevron-down'/>
-    <Selector disabled={disabled} value={value} onChange={handleChange}>
+    <Selector id={id} disabled={!!disabled} value={value ?? ''} onChange={handleChange}>
       {children}
     </Selector>
   </ContentWrapper>

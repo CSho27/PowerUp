@@ -4,7 +4,7 @@ import { PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode";
 
 export interface LoadPlayerEditorRequest {
-  playerKey: string;
+  playerId: number;
 }
 
 export interface PlayerEditorResponse {
@@ -30,7 +30,7 @@ export interface PlayerPersonalDetails {
   uniformNumber: string;
   position: PositionCode;
   pitcherType: KeyedCode;
-  voiceId: SimpleCode;
+  voice: SimpleCode;
   battingSide: KeyedCode;
   battingStance: SimpleCode;
   throwingArm: KeyedCode;

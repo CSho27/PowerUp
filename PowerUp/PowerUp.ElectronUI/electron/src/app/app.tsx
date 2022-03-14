@@ -1,44 +1,56 @@
-import { useEffect, useReducer } from 'react';
+import { ReactElement, useEffect, useReducer } from 'react';
+import { ModalPageCover, ModalProps } from '../components/modal/modal';
 import { FullPageSpinner } from '../components/fullPageSpinner/fullPageSpinner';
 import { useGlobalBindings } from '../nimbleKey/globalBinding';
 import { CommandFetcher } from '../utils/commandFetcher';
-import { AppStateReducer } from './appState';
+import { GenerateId } from '../utils/generateId';
+import { AppStateReducer, ModalDefinition } from './appState';
 import { GlobalStyles } from './globalStyles';
-import { HomePage } from './home/homePage';
 import { PageLoadDefinition, pageRegistry } from './pages';
 
 export interface ApplicationStartupData {
   commandUrl: string;
+  rosterImportUrl: string;
 }
 
 export interface AppContext {
   commandFetcher: CommandFetcher;
   setPage: (pageDef: PageLoadDefinition) => void;
+  openModal: (renderModal: RenderModalCallback) => void;
+  performWithSpinner: PerformWithSpinnerCallback;
 }
 
+export type RenderModalCallback = (closeDialog: () => void) => ReactElement<ModalProps>;
+export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
+
 export function App(props: ApplicationStartupData) {
-  const { commandUrl } = props;
+  const { commandUrl, rosterImportUrl } = props;
   
   const [state, update] = useReducer(AppStateReducer, {
     currentPage: <></>,
+    modals: [],
     isLoading: false
   });
 
   const appContext: AppContext = {
-    commandFetcher: new CommandFetcher(commandUrl, isLoading => update({ type: 'updateIsLoading', isLoading: isLoading })),
-    setPage: setPage 
+    commandFetcher: new CommandFetcher(commandUrl, performWithSpinner),
+    setPage: setPage,
+    openModal: openModal,
+    performWithSpinner: performWithSpinner
   };
 
   useEffect(() => {
-    setPage({ page: 'HomePage' });
+    setPage({ page: 'HomePage', importUrl: rosterImportUrl });
   }, [])
 
   useGlobalBindings(
-    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerKey: 'BASE_Abreu_Bobby_1' }) }
+    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) }
   )
 
   return <>
     {state.currentPage}
+    {state.modals.length > 0 && 
+    state.modals.map(toRenderedModal)}
     {state.isLoading && <FullPageSpinner/>}
     <GlobalStyles />
   </>
@@ -46,6 +58,28 @@ export function App(props: ApplicationStartupData) {
   async function setPage(pageDef: PageLoadDefinition) {
     const pageLoader = pageRegistry[pageDef.page];
     const newPage = await pageLoader(appContext, pageDef);
-    update({type: 'updatePage', newPage: newPage });
+    update({ type: 'updatePage', newPage: newPage });
+  }
+
+  function openModal(renderModal: RenderModalCallback) {
+    var key = GenerateId().toString();
+    var closeDialog = () => update({ type: 'closeModal', modalKey: key });
+    update({ type: 'openModal', modal: { key: key, modal: renderModal(closeDialog) } });
+  }
+
+  async function performWithSpinner<T>(action: () => Promise<T>): Promise<T> {
+    update({ type: 'updateIsLoading', isLoading: true });
+    var returnValue = await action();
+    update({ type: 'updateIsLoading', isLoading: false });
+    return returnValue;
+  }
+  
+  function toRenderedModal(modalDef: ModalDefinition, index: number) {
+    return <ModalPageCover 
+      key={modalDef.key}
+      transparent={index !== state.modals.length - 1}
+    >
+      {modalDef.modal}
+    </ModalPageCover>
   }
 };

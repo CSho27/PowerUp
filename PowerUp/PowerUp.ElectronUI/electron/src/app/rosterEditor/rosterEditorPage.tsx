@@ -5,11 +5,9 @@ import { ContentWithHangingHeader } from "../../components/hangingHeader/hanging
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
-import { HomePage } from "../home/homePage";
-import { PageLoadFunction } from "../pages";
+import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { TeamGrid } from "./teamGrid";
 
@@ -49,7 +47,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   </PowerUpLayout>
 
   function toTeamGrid(team: TeamDetails) {
-    return <TeamWrapper key={team.teamKey}>
+    return <TeamWrapper key={team.teamId}>
       <TeamGrid appContext={appContext} team={team} />
     </TeamWrapper>
   }
@@ -60,7 +58,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   }
 
   function returnHome() {
-    appContext.setPage({ page: 'HomePage' })
+    appContext.setPage({ page: 'HomePage', importUrl: '' })
   }
 }
 
@@ -80,12 +78,12 @@ const TeamWrapper = styled.div`
 `
 
 
-export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext) => {
-  const apiClient = new ImportBaseRosterApiClient(appContext.commandFetcher);
-  const response = await apiClient.execute();
+export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition ) => {
+  if(pageDef.page !== 'RosterEditorPage') throw '';
+  
   return <RosterEditorPage 
     appContext={appContext} 
-    divisionOptions={response.divisionOptions}
-    rosterDetails={response.rosterDetails} 
+    divisionOptions={pageDef.response.divisionOptions}
+    rosterDetails={pageDef.response.rosterDetails} 
   />
 }

@@ -1,7 +1,7 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
 
 export interface SavePlayerRequest {
-  playerKey: string;
+  playerId: number;
   firstName: string;
   lastName: string;
   useSpecialSavedName: boolean;

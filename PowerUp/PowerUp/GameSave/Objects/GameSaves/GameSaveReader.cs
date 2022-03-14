@@ -5,6 +5,7 @@ using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PowerUp.GameSave.Objects.GameSaves
 {
@@ -15,6 +16,11 @@ namespace PowerUp.GameSave.Objects.GameSaves
     public GameSaveReader(ICharacterLibrary characterLibrary, string filePath)
     {
       _reader = new GameSaveObjectReader(characterLibrary, filePath);
+    }
+
+    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream)
+    {
+      _reader = new GameSaveObjectReader(characterLibrary, stream);
     }
 
     /// <summary>

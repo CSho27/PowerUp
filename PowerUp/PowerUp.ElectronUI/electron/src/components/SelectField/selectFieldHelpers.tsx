@@ -20,8 +20,11 @@ export function toOption(code: OptionCode) {
   throw 'Invalid OptionCode type';
 }
 
-export function toOptions(codes: KeyedCode[] | SimpleCode[]) {
-  return codes.map(toOption);
+export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?: boolean) {
+  const options = codes.map(toOption);
+  return icludeEmptyOption
+    ? [<option key='' value=''></option>, ...options]
+    : options;
 }
 
 export function toKeyedCode(options: KeyedCode[], value: string): KeyedCode {

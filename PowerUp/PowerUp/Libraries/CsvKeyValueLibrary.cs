@@ -17,7 +17,7 @@ namespace PowerUp.Libraries
     protected abstract TValue OnKeyNotFound(TKey key);
     protected abstract TKey OnValueNotFound(TValue value);
 
-    protected IEnumerable<KeyValuePair<TKey, TValue>> GetAll() => _valuesByKey.Select(p => p);
+    protected IEnumerable<KeyValuePair<TKey, TValue>> GetAll() => _valuesByKey.AsEnumerable();
 
     public CsvKeyValueLibrary(string libraryFilePath)
     {
@@ -29,11 +29,11 @@ namespace PowerUp.Libraries
       _keysByValue = keyValuePairs.ToDictionary(p => p.Value, p => p.Key);
     }
 
-    public TValue this[TKey key] => _valuesByKey.TryGetValue(key, out var value) 
+    public virtual TValue this[TKey key] => _valuesByKey.TryGetValue(key, out var value) 
       ? value 
       : OnKeyNotFound(key);
 
-    public TKey this[TValue value] => _keysByValue.TryGetValue(value, out var key)
+    public virtual TKey this[TValue value] => _keysByValue.TryGetValue(value, out var key)
       ? key
       : OnValueNotFound(value);
 

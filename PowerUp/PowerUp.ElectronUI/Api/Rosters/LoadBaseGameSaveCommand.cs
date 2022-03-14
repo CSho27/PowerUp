@@ -1,4 +1,6 @@
-﻿using PowerUp.GameSave.Api;
+﻿using PowerUp.Databases;
+using PowerUp.Entities;
+using PowerUp.GameSave.Api;
 using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Api.Rosters
@@ -19,14 +21,27 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
     public RosterEditorResponse Execute(LoadBaseRequest request)
     {
-      var parameters = new RosterImportParameters
+      var baseRoster = DatabaseConfig.RosterDatabase
+        .LoadAll()
+        .SingleOrDefault(r => r.SourceType == EntitySourceType.Base);
+
+      if(baseRoster == null)
       {
-        FilePath = _baseGameSavePathProvider.GetPath(),
-        IsBase = true
-      };
-      var result = _rosterImportApi.ImportRoster(parameters);
-      var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
-      return new RosterEditorResponse(rosterDetails);
+        using var stream = new FileStream(_baseGameSavePathProvider.GetPath(), FileMode.Open, FileAccess.Read);
+        var parameters = new RosterImportParameters
+        {
+          Stream = stream,
+          IsBase = true
+        };
+        var result = _rosterImportApi.ImportRoster(parameters);
+        var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
+        return new RosterEditorResponse(rosterDetails);
+      }
+      else
+      {
+        var rosterDetails = RosterDetails.FromRoster(baseRoster);
+        return new RosterEditorResponse(rosterDetails);
+      }
     }
   }
 

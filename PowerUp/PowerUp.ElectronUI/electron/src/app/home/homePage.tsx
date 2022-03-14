@@ -1,23 +1,32 @@
 import { useRef } from "react";
 import styled from "styled-components";
+import { LoaderOptionsPlugin } from "webpack";
 import { Button } from "../../components/button/button";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
+import { Modal } from "../../components/modal/modal";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
-import { RosterEditorPage } from "../rosterEditor/rosterEditorPage";
-import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ImportBaseRosterApiClient } from "../rosterEditor/importBaseRosterApiClient";
+import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
+import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
+import { PowerUpLayout } from "../shared/powerUpLayout";
+import { ExistingRostersModal } from "./existingRostersModal";
+import { ImportRosterModal } from "./importRosterModal";
 
 export interface HomePageProps {
-  appContext: AppContext
+  appContext: AppContext;
+  importUrl: string;
 }
 
 export function HomePage(props: HomePageProps) {
-  const {appContext } = props;
+  const { appContext, importUrl } = props;
 
-  const apiClientRef = useRef(new ImportBaseRosterApiClient(appContext.commandFetcher));
+  const apiClientsRef = useRef({
+    baseApiClient: new ImportBaseRosterApiClient(appContext.commandFetcher),
+    existingOptionsApiClient: new LoadExistingRosterOptionsApiClient(appContext.commandFetcher)
+  })
 
   return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
@@ -28,7 +37,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='folder-open'
           textAlign='left'
-          onClick={() => {}}
+          onClick={openExistingModal}
         >
           Open Existing Roster
         </Button>
@@ -48,7 +57,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='upload'
           textAlign='left'
-          onClick={() => {}}
+          onClick={openImportModal}
         >
           Import Roster
         </Button>
@@ -65,8 +74,26 @@ export function HomePage(props: HomePageProps) {
     </ContentWrapper>
   </PowerUpLayout>
 
-  function startFromBase() {
-    appContext.setPage({ page: 'RosterEditorPage', rosterKey: 'BASE' });  
+  async function openExistingModal() {
+    const response = await apiClientsRef.current.existingOptionsApiClient.execute();
+    appContext.openModal(closeDialog => <ExistingRostersModal 
+      appContext={appContext} 
+      options={response} 
+      closeDialog={closeDialog}
+    />)
+  }
+
+  function openImportModal() {
+    appContext.openModal(closeDialog => <ImportRosterModal
+      appContext={appContext}
+      importUrl={importUrl}
+      closeDialog={closeDialog}
+    />);
+  }
+
+  async function startFromBase() {
+    const response = await apiClientsRef.current.baseApiClient.execute();
+    appContext.setPage({ page: 'RosterEditorPage', response: response });  
   }
 }
 
@@ -109,6 +136,9 @@ const Subheader = styled.h1`
   color: ${COLORS.secondaryRed.regular_44};
 `
 
-export const loadHomePage: PageLoadFunction = async (appContext: AppContext) => {
-  return <HomePage appContext={appContext}/>
+export const loadHomePage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  if(pageDef.page !== 'HomePage')
+    throw 'Wrong page def';
+
+  return <HomePage appContext={appContext} importUrl={pageDef.importUrl} />
 }
