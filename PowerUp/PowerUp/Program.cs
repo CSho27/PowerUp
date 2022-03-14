@@ -61,7 +61,7 @@ namespace PowerUp
         Console.ReadLine();
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(PLAYER_ID);
-        var bitString = player.VoiceBytes!.ToBitString();
+        var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString} - {player.VoiceId}");
       }
