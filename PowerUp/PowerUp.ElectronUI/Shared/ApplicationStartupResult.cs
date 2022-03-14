@@ -5,9 +5,13 @@ namespace PowerUp.ElectronUI.Shared
 {
   public class ApplicationStartupResult : ContentResult
   {
-    public ApplicationStartupResult(IWebHostEnvironment webHostEnvironment, string commandUrl, object? indexResponse)
+    public ApplicationStartupResult(
+      IWebHostEnvironment webHostEnvironment, 
+      string commandUrl, 
+      string rosterImportUrl,
+      object? indexResponse)
     {
-      var startupData = new ApplicationStartupData(commandUrl, indexResponse);
+      var startupData = new ApplicationStartupData(commandUrl, rosterImportUrl, indexResponse);
       var dataDiv = $@"
         <div id=""index-response-json-data"" data=""{JsonConvert.SerializeObject(startupData).Replace("\"", "'")}"" />
       ";
@@ -21,11 +25,13 @@ namespace PowerUp.ElectronUI.Shared
   public class ApplicationStartupData
   {
     public string CommandUrl { get; }
+    public string RosterImportUrl { get; }
     public object? IndexResponse { get; }
 
-    public ApplicationStartupData(string commandUrl, object? indexResponse)
+    public ApplicationStartupData(string commandUrl, string rosterImportUrl, object? indexResponse)
     {
       CommandUrl = commandUrl;
+      RosterImportUrl = rosterImportUrl;
       IndexResponse = indexResponse;
     }
   }

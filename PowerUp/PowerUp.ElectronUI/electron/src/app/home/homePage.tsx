@@ -7,19 +7,21 @@ import { Modal } from "../../components/modal/modal";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
-import { PageLoadFunction } from "../pages";
+import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { ImportBaseRosterApiClient } from "../rosterEditor/importBaseRosterApiClient";
 import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ExistingRostersModal } from "./existingRostersModal";
+import { ImportRosterModal } from "./importRosterModal";
 
 export interface HomePageProps {
   appContext: AppContext;
+  importUrl: string;
 }
 
 export function HomePage(props: HomePageProps) {
-  const { appContext } = props;
+  const { appContext, importUrl } = props;
 
   const apiClientsRef = useRef({
     baseApiClient: new ImportBaseRosterApiClient(appContext.commandFetcher),
@@ -55,7 +57,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='upload'
           textAlign='left'
-          onClick={() => {}}
+          onClick={openImportModal}
         >
           Import Roster
         </Button>
@@ -79,6 +81,14 @@ export function HomePage(props: HomePageProps) {
       options={response} 
       closeDialog={closeDialog}
     />)
+  }
+
+  function openImportModal() {
+    appContext.openModal(closeDialog => <ImportRosterModal
+      appContext={appContext}
+      importUrl={importUrl}
+      closeDialog={closeDialog}
+    />);
   }
 
   async function startFromBase() {
@@ -126,6 +136,9 @@ const Subheader = styled.h1`
   color: ${COLORS.secondaryRed.regular_44};
 `
 
-export const loadHomePage: PageLoadFunction = async (appContext: AppContext) => {
-  return <HomePage appContext={appContext}/>
+export const loadHomePage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  if(pageDef.page !== 'HomePage')
+    throw 'Wrong page def';
+
+  return <HomePage appContext={appContext} importUrl={pageDef.importUrl} />
 }

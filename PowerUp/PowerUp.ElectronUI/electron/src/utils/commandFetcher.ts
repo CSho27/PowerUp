@@ -1,31 +1,31 @@
+import { PerformWithSpinnerCallback } from "../app/app";
 
 export class CommandFetcher {
   private readonly commandUrl: string;
-  private readonly setIsLoading: (isLoading: boolean) => void;
+  private readonly performWithSpinner: PerformWithSpinnerCallback;
 
-  constructor(commandUrl: string, setIsLoading: (isLoading: boolean) => void) {
+  constructor(commandUrl: string, performWithSpinner: PerformWithSpinnerCallback) {
     this.commandUrl = commandUrl;
-    this.setIsLoading = setIsLoading;
+    this.performWithSpinner = performWithSpinner;
   }
 
   readonly execute = async (commandName: string, request: any): Promise<any> => {
-    try {
-      this.setIsLoading(true);
-      const response = await fetch('/command', {
-        method: 'POST',
-        mode: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ commandName: commandName, request: request })
-      });
-      const responseJson = await response.json(); 
-      this.setIsLoading(false);
-      return responseJson;
-    } catch (error) {
-      this.setIsLoading(false);
-      console.error(error);
-      return new Promise((_, reject) => reject(error));
-    }
+    return this.performWithSpinner(async () => {
+      try {
+        const response = await fetch(this.commandUrl, {
+          method: 'POST',
+          mode: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ commandName: commandName, request: request })
+        });
+        const responseJson = await response.json(); 
+        return responseJson;
+      } catch (error) {
+        console.error(error);
+        return new Promise((_, reject) => reject(error));
+      }
+    })
   }
 }

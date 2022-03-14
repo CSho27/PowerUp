@@ -27,9 +27,10 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
       if(baseRoster == null)
       {
+        using var stream = new FileStream(_baseGameSavePathProvider.GetPath(), FileMode.Open, FileAccess.Read);
         var parameters = new RosterImportParameters
         {
-          FilePath = _baseGameSavePathProvider.GetPath(),
+          Stream = stream,
           IsBase = true
         };
         var result = _rosterImportApi.ImportRoster(parameters);
@@ -41,7 +42,6 @@ namespace PowerUp.ElectronUI.Api.Rosters
         var rosterDetails = RosterDetails.FromRoster(baseRoster);
         return new RosterEditorResponse(rosterDetails);
       }
-
     }
   }
 

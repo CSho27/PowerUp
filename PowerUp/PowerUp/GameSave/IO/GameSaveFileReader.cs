@@ -16,6 +16,12 @@ namespace PowerUp.GameSave.IO
       _characterLibrary = characterLibrary;
     }
 
+    public GameSaveFileReader(ICharacterLibrary characterLibrary, Stream stream)
+    {
+      _stream = stream;
+      _characterLibrary = characterLibrary;
+    }
+
     public byte[] ReadBytes(long offset, int numberOfBytes)
     {
       var reader = GetReaderFor(offset);

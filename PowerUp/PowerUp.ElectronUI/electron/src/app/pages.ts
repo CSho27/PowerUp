@@ -6,7 +6,7 @@ import { RosterEditorResponse } from "./rosterEditor/rosterEditorDTOs";
 import { loadRosterEditorPage } from "./rosterEditor/rosterEditorPage";
 
 export type PageLoadDefinition =
-| { page: 'HomePage' }
+| { page: 'HomePage', importUrl: string }
 | { page: 'RosterEditorPage', response: RosterEditorResponse }
 | { page: 'PlayerEditorPage', playerId: number }
 

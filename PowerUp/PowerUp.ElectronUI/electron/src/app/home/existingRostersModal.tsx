@@ -28,12 +28,12 @@ export function ExistingRostersModal(props: ExistingRostersModalProps) {
     </div>
     <div style={{ display: 'flex', gap: '4px' }}>
       <Button variant='Outline' size='Small' onClick={closeDialog}>Cancel</Button>
-      <Button variant='Fill' size='Small' disabled={!selectedRoster} onClick={() => loadExisting(selectedRoster!.id)}>Open</Button>
+      <Button variant='Fill' size='Small' disabled={!selectedRoster} onClick={loadExisting}>Open</Button>
     </div>
   </Modal>
 
-  async function loadExisting(rosterId: number) {
-    const response = await apiClientRef.current.execute({ rosterId: rosterId });
+  async function loadExisting() {
+    const response = await apiClientRef.current.execute({ rosterId: selectedRoster!.id });
     appContext.setPage({ page: 'RosterEditorPage', response: response }); 
   }
 }

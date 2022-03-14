@@ -10,18 +10,21 @@ import { PageLoadDefinition, pageRegistry } from './pages';
 
 export interface ApplicationStartupData {
   commandUrl: string;
+  rosterImportUrl: string;
 }
 
 export interface AppContext {
   commandFetcher: CommandFetcher;
   setPage: (pageDef: PageLoadDefinition) => void;
   openModal: (renderModal: RenderModalCallback) => void;
+  performWithSpinner: PerformWithSpinnerCallback;
 }
 
 export type RenderModalCallback = (closeDialog: () => void) => ReactElement<ModalProps>;
+export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
 
 export function App(props: ApplicationStartupData) {
-  const { commandUrl } = props;
+  const { commandUrl, rosterImportUrl } = props;
   
   const [state, update] = useReducer(AppStateReducer, {
     currentPage: <></>,
@@ -30,13 +33,14 @@ export function App(props: ApplicationStartupData) {
   });
 
   const appContext: AppContext = {
-    commandFetcher: new CommandFetcher(commandUrl, isLoading => update({ type: 'updateIsLoading', isLoading: isLoading })),
+    commandFetcher: new CommandFetcher(commandUrl, performWithSpinner),
     setPage: setPage,
-    openModal: openModal
+    openModal: openModal,
+    performWithSpinner: performWithSpinner
   };
 
   useEffect(() => {
-    setPage({ page: 'HomePage' });
+    setPage({ page: 'HomePage', importUrl: rosterImportUrl });
   }, [])
 
   useGlobalBindings(
@@ -61,6 +65,13 @@ export function App(props: ApplicationStartupData) {
     var key = GenerateId().toString();
     var closeDialog = () => update({ type: 'closeModal', modalKey: key });
     update({ type: 'openModal', modal: { key: key, modal: renderModal(closeDialog) } });
+  }
+
+  async function performWithSpinner<T>(action: () => Promise<T>): Promise<T> {
+    update({ type: 'updateIsLoading', isLoading: true });
+    var returnValue = await action();
+    update({ type: 'updateIsLoading', isLoading: false });
+    return returnValue;
   }
   
   function toRenderedModal(modalDef: ModalDefinition, index: number) {

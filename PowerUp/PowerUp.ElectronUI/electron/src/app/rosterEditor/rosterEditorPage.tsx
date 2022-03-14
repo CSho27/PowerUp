@@ -58,7 +58,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   }
 
   function returnHome() {
-    appContext.setPage({ page: 'HomePage' })
+    appContext.setPage({ page: 'HomePage', importUrl: '' })
   }
 }
 
