@@ -1,13 +1,16 @@
+import Portal from "@reach/portal"
 import styled, { keyframes } from "styled-components"
 import { COLORS } from "../../style/constants"
 import { Icon } from "../icon/icon"
 
 export function FullPageSpinner() {
-  return <PageCover>
-    <SpinnerWrapper>
-      <Icon icon='circle-notch' style={{ display: 'block' }}/>
-    </SpinnerWrapper>
-  </PageCover>
+  return <Portal>
+    <PageCover>
+      <SpinnerWrapper>
+        <Icon icon='circle-notch' style={{ display: 'block' }}/>
+      </SpinnerWrapper>
+    </PageCover>,
+  </Portal>
 }
 
 const PageCover = styled.div`
