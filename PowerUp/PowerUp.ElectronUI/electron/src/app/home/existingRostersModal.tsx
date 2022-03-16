@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { SelectField } from "../../components/SelectField/selectField";
 import { toOptions, tryToSimpleCode } from "../../components/SelectField/selectFieldHelpers";
 import { AppContext } from "../app";
-import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
 import { SimpleCode } from "../shared/simpleCode";
 
 export interface ExistingRostersModalProps {

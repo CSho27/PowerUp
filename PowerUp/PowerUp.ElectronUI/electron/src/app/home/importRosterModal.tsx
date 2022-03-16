@@ -4,7 +4,6 @@ import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
-import { ImportRosterApiClient } from "../rosterEditor/importRosterApiClient";
 
 export interface ImportRosterModalProps {
   appContext: AppContext;
@@ -23,7 +22,6 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
     rosterName: undefined,
     selectedFile: undefined
   });
-  const apiClientRef = useRef()
 
   const isReadyToSubmit = state.rosterName
     && state.rosterName.length > 0
