@@ -1,19 +1,30 @@
 import { ReactElement } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../app/app";
+import { BreadcrumbDefinition } from "../../app/appState";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 
 export interface BreadcrumbsProps {
-  children: ReactElement<CrumbProps>[];
+  appContext: AppContext;
 }
 
-
 export function Breadcrumbs(props: BreadcrumbsProps) {
+  const { breadcrumbs, popBreadcrumb } = props.appContext
+  
   return <nav aria-label="Breadcrumb">
-    <BreadcrumbList>{props.children.map(toCrumb)}</BreadcrumbList>
+    <BreadcrumbList>{breadcrumbs.map(toCrumb)}</BreadcrumbList>
   </nav>
 
-  function toCrumb(child: ReactElement<CrumbProps>) {
-    return <Wrapper key={child.key}>{child}</Wrapper>;
+  function toCrumb(breadcrumb: BreadcrumbDefinition, index: number) {
+    const isCurrentPage = index == breadcrumbs.length-1;
+    return <Wrapper key={breadcrumb.id}>
+      <CrumbLink
+        isCurrentPage={isCurrentPage}
+        onClick={!isCurrentPage
+          ? () => popBreadcrumb(breadcrumb.id) 
+          : undefined}
+      >{breadcrumb.title}</CrumbLink>
+    </Wrapper>;
   }
 }
 
@@ -42,25 +53,13 @@ const Wrapper = styled.li`
   }
 `
 
-export interface CrumbProps {
-  children?: React.ReactNode;
-  onClick?: () => void;
-}
-
-export function Crumb(props: CrumbProps) {
-  return <CrumbLink onClick={props.onClick}>
-    {props.children}
-  </CrumbLink>;
-}
-
-const CrumbLink = styled.a`
+const CrumbLink = styled.a<{ isCurrentPage: boolean }>`
   text-decoration: none;
- 
-  ${p => p.onClick
-    ? `&:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }`
-    : undefined
-  }
+
+  ${p => !p.isCurrentPage && `
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  `}  
 `

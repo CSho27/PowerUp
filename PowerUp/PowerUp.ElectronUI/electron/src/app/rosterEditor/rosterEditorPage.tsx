@@ -1,14 +1,17 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
+import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
-import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { PageLoadDefinition, PageLoadFunction, RosterLoadDefinition } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
+import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
+import { ImportRosterApiClient } from "./importRosterApiClient";
+import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
+import { RosterDetails, RosterEditorResponse, TeamDetails } from "./rosterEditorDTOs";
 import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {
@@ -24,10 +27,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
 
   const header = <>
-    <Breadcrumbs>
-      <Crumb key='Home' onClick={returnHome}>Home</Crumb>
-      <Crumb key='RosterEditor'>{rosterName}</Crumb>
-    </Breadcrumbs>
+    <Breadcrumbs appContext={appContext}/>
     <RosterHeader>{rosterName}</RosterHeader>
     <TabButtonNav 
       selectedTab={selectedDivision}
@@ -78,12 +78,33 @@ const TeamWrapper = styled.div`
 `
 
 
-export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition ) => {
+export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
   if(pageDef.page !== 'RosterEditorPage') throw '';
-  
-  return <RosterEditorPage 
-    appContext={appContext} 
-    divisionOptions={pageDef.response.divisionOptions}
-    rosterDetails={pageDef.response.rosterDetails} 
-  />
+
+  const response = await loadRoster(appContext, pageDef.rosterLoadDef);
+  return {
+    title: response.rosterDetails.name,
+    renderPage: (appContext) => <RosterEditorPage 
+      appContext={appContext} 
+      divisionOptions={response.divisionOptions}
+      rosterDetails={response.rosterDetails} 
+    />
+  }
+}
+
+function loadRoster(appContext: AppContext, rosterLoadDef: RosterLoadDefinition): Promise<RosterEditorResponse> {
+  switch(rosterLoadDef.type) {
+    case 'Base':
+      const baseApiClient = new ImportBaseRosterApiClient(appContext.commandFetcher);
+      return baseApiClient.execute();
+    case 'Existing':
+      const existingApiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
+      return existingApiClient.execute({ rosterId: rosterLoadDef.rosterId }); ;
+    case 'Import':
+      const importApiClient = new ImportRosterApiClient(rosterLoadDef.importUrl, appContext.performWithSpinner)
+      return importApiClient.execute({ 
+        file: rosterLoadDef.selectedFile!,
+        importSource: rosterLoadDef.importSource!
+       });
+  }
 }

@@ -23,7 +23,7 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
     rosterName: undefined,
     selectedFile: undefined
   });
-  const apiClientRef = useRef(new ImportRosterApiClient(importUrl, appContext.performWithSpinner))
+  const apiClientRef = useRef()
 
   const isReadyToSubmit = state.rosterName
     && state.rosterName.length > 0
@@ -54,11 +54,12 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
     </div>
   </Modal>
 
-  async function importRoster() {
-    const response = await apiClientRef.current.execute({ 
-      file: state.selectedFile!,
+  function importRoster() {
+    appContext.setPage({ page: 'RosterEditorPage', rosterLoadDef: {
+      type: 'Import',
+      importUrl: importUrl,
+      selectedFile: state.selectedFile!,
       importSource: state.rosterName!
-     });
-    appContext.setPage({ page: 'RosterEditorPage', response: response }); 
+    } }); 
   }
 }

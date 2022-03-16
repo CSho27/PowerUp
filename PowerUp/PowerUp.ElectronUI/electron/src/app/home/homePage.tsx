@@ -23,10 +23,7 @@ export interface HomePageProps {
 export function HomePage(props: HomePageProps) {
   const { appContext, importUrl } = props;
 
-  const apiClientsRef = useRef({
-    baseApiClient: new ImportBaseRosterApiClient(appContext.commandFetcher),
-    existingOptionsApiClient: new LoadExistingRosterOptionsApiClient(appContext.commandFetcher)
-  })
+  const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
 
   return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
@@ -66,7 +63,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='box-archive'
           textAlign='left'
-          onClick={startFromBase}
+          onClick={() => appContext.setPage({ page: 'RosterEditorPage', rosterLoadDef: { type: 'Base' }})}
         >
           Start From Base Roster
         </Button>  
@@ -75,7 +72,7 @@ export function HomePage(props: HomePageProps) {
   </PowerUpLayout>
 
   async function openExistingModal() {
-    const response = await apiClientsRef.current.existingOptionsApiClient.execute();
+    const response = await existingOptionsApiClientRef.current.execute();
     appContext.openModal(closeDialog => <ExistingRostersModal 
       appContext={appContext} 
       options={response} 
@@ -89,11 +86,6 @@ export function HomePage(props: HomePageProps) {
       importUrl={importUrl}
       closeDialog={closeDialog}
     />);
-  }
-
-  async function startFromBase() {
-    const response = await apiClientsRef.current.baseApiClient.execute();
-    appContext.setPage({ page: 'RosterEditorPage', response: response });  
   }
 }
 
@@ -140,5 +132,8 @@ export const loadHomePage: PageLoadFunction = async (appContext: AppContext, pag
   if(pageDef.page !== 'HomePage')
     throw 'Wrong page def';
 
-  return <HomePage appContext={appContext} importUrl={pageDef.importUrl} />
+  return {
+    title: 'Home',
+    renderPage: (appContext) => <HomePage appContext={appContext} importUrl={pageDef.importUrl} />
+  }
 }

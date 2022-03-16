@@ -17,7 +17,6 @@ export interface ExistingRostersModalProps {
 export function ExistingRostersModal(props: ExistingRostersModalProps) {
   const { appContext, options, closeDialog } = props;
   const [selectedRoster, setSelectedRoster] = useState<SimpleCode | undefined>(undefined)
-  const apiClientRef = useRef(new LoadExistingRosterApiClient(appContext.commandFetcher));
 
   return <Modal ariaLabel='Load Roster'>
     <div style={{ paddingBottom: '16px' }}>
@@ -32,8 +31,10 @@ export function ExistingRostersModal(props: ExistingRostersModalProps) {
     </div>
   </Modal>
 
-  async function loadExisting() {
-    const response = await apiClientRef.current.execute({ rosterId: selectedRoster!.id });
-    appContext.setPage({ page: 'RosterEditorPage', response: response }); 
+  function loadExisting() {
+    appContext.setPage({ page: 'RosterEditorPage', rosterLoadDef: { 
+      type: 'Existing',
+      rosterId: selectedRoster!.id
+    } }); 
   }
 }

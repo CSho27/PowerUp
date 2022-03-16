@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components"
-import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
+import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
@@ -56,10 +56,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const positionType = getPositionType(state.personalDetails.position.key as Position);
 
   const header = <>
-    <Breadcrumbs>
-      <Crumb key='Home' onClick={() => {}}>Home</Crumb>
-      <Crumb key='RosterEditor' onClick={() => {}}>Roster</Crumb>
-    </Breadcrumbs>
+    <Breadcrumbs appContext={appContext}/>
     <PlayerHeaderContainer>
       <div style={{ flex: '0 0 250px'}}>
         <PlayerNameBubble 
@@ -135,5 +132,9 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
   
   const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);
   const response = await apiClient.execute({ playerId: pageDef.playerId });
-  return <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />;
+
+  return {
+    title: `${response.personalDetails.firstName} ${response.personalDetails.lastName}`,
+    renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />
+  }
 }
