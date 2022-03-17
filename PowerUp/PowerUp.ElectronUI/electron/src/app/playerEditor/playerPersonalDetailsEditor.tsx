@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button } from "../../components/button/button";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
+import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { SelectField } from "../../components/SelectField/selectField";
 import { toKeyedCode, toOption, toOptions, toSimpleCode } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
@@ -25,7 +26,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
     update
   } = props;
   
-  return <PersonalDetailsEditorContainer>
+  return <>
     <FlexRow gap='16px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>First Name</FieldLabel>
@@ -149,30 +150,5 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         </SelectField>
       </FlexFracItem>
     </FlexRow>
-  </PersonalDetailsEditorContainer>
+  </>
 }
-
-const PersonalDetailsEditorContainer = styled.div`
-  padding: 16px;
-`
-
-type FlexRowGap =
-| '4px'
-| '8px'
-| '16px'
-
-const FlexRow = styled.div<{ gap: FlexRowGap, withBottomPadding?: boolean, vAlignCenter?: boolean }>`
-  display: flex;
-  gap: ${p => p.gap};
-  align-items: ${p => p.vAlignCenter ? 'center' : undefined};
-  padding-bottom: ${p => p.withBottomPadding ? '16px' : undefined};
-`
-
-type FlexFrac = 
-| '1/4'
-
-const FlexFracItem = styled.div<{ frac: FlexFrac }>`
-  --width: calc(100% * ${p => `(${p.frac})`});
-  width: var(--width);
-  flex: 0 1 var(--width);
-`

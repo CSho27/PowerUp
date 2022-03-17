@@ -89,12 +89,14 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
 
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
-      <PlayerPersonalDetailsEditor
-        options={options}
-        initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
-        details={state.personalDetails}
-        update={updatePersonalDetails}      
-      />
+      <EditorContainer>
+        <PlayerPersonalDetailsEditor
+          options={options}
+          initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
+          details={state.personalDetails}
+          update={updatePersonalDetails}      
+        />
+      </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
 
@@ -138,3 +140,7 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
     renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />
   }
 }
+
+const EditorContainer = styled.div`
+padding: 16px;
+`
