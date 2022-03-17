@@ -5,7 +5,7 @@ using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Api.Rosters
 {
-  public class LoadBaseGameSaveCommand : ICommand<LoadBaseRequest, RosterEditorResponse>
+  public class LoadBaseGameSaveCommand : ICommand<LoadBaseRequest, LoadBaseResponse>
   {
     private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
     private readonly IRosterImportApi _rosterImportApi;
@@ -19,7 +19,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       _rosterImportApi = rosterImportApi;
     }
 
-    public RosterEditorResponse Execute(LoadBaseRequest request)
+    public LoadBaseResponse Execute(LoadBaseRequest request)
     {
       var baseRoster = DatabaseConfig.RosterDatabase
         .LoadAll()
@@ -33,17 +33,20 @@ namespace PowerUp.ElectronUI.Api.Rosters
           Stream = stream,
           IsBase = true
         };
-        var result = _rosterImportApi.ImportRoster(parameters);
-        var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
-        return new RosterEditorResponse(rosterDetails);
+        baseRoster = _rosterImportApi.ImportRoster(parameters).Roster;
       }
-      else
+
+      return new LoadBaseResponse
       {
-        var rosterDetails = RosterDetails.FromRoster(baseRoster);
-        return new RosterEditorResponse(rosterDetails);
-      }
+        RosterId = baseRoster!.Id!.Value
+      };
     }
   }
 
   public class LoadBaseRequest { }
+
+  public class LoadBaseResponse 
+  { 
+    public int RosterId { get; set; }
+  }
 }

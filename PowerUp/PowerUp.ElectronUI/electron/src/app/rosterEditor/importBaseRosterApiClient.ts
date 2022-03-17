@@ -1,5 +1,8 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
-import { RosterEditorResponse } from "./rosterEditorDTOs";
+
+export interface LoadBaseRosterResponse {
+  rosterId: number;
+}
 
 export class ImportBaseRosterApiClient {
   private readonly commandName = 'LoadBaseGameSave';
@@ -9,7 +12,7 @@ export class ImportBaseRosterApiClient {
     this.commandFetcher = commandFetcher;
   }
 
-  execute = (): Promise<RosterEditorResponse> => {
+  execute = (): Promise<LoadBaseRosterResponse> => {
     return this.commandFetcher.execute(this.commandName, {});
   }
 }

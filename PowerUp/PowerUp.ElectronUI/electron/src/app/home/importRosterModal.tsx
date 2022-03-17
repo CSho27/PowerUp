@@ -4,6 +4,7 @@ import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
+import { ImportRosterApiClient } from "../rosterEditor/importRosterApiClient";
 
 export interface ImportRosterModalProps {
   appContext: AppContext;
@@ -18,6 +19,9 @@ interface State {
 
 export function ImportRosterModal(props: ImportRosterModalProps) {
   const { appContext, importUrl, closeDialog } = props;
+
+  const importApiClientRef = useRef(new ImportRosterApiClient(importUrl, appContext.performWithSpinner));
+
   const [state, setState] = useState<State>({
     rosterName: undefined,
     selectedFile: undefined
@@ -52,12 +56,8 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
     </div>
   </Modal>
 
-  function importRoster() {
-    appContext.setPage({ page: 'RosterEditorPage', rosterLoadDef: {
-      type: 'Import',
-      importUrl: importUrl,
-      selectedFile: state.selectedFile!,
-      importSource: state.rosterName!
-    } }); 
+  async function importRoster() {
+    const response = await importApiClientRef.current.execute({ file: state.selectedFile!, importSource: state.rosterName! })
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 }

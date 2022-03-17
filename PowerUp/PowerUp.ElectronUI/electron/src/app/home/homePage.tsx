@@ -6,6 +6,7 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { ImportBaseRosterApiClient } from "../rosterEditor/importBaseRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ExistingRostersModal } from "./existingRostersModal";
@@ -19,6 +20,7 @@ export interface HomePageProps {
 export function HomePage(props: HomePageProps) {
   const { appContext, importUrl } = props;
 
+  const loadBaseRosterApiClientRef = useRef(new ImportBaseRosterApiClient(appContext.commandFetcher));
   const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
 
   return <PowerUpLayout>
@@ -59,7 +61,7 @@ export function HomePage(props: HomePageProps) {
           size='Large'
           icon='box-archive'
           textAlign='left'
-          onClick={() => appContext.setPage({ page: 'RosterEditorPage', rosterLoadDef: { type: 'Base' }})}
+          onClick={loadBaseRoster}
         >
           Start From Base Roster
         </Button>  
@@ -82,6 +84,11 @@ export function HomePage(props: HomePageProps) {
       importUrl={importUrl}
       closeDialog={closeDialog}
     />);
+  }
+
+  async function loadBaseRoster() {
+    const response = await loadBaseRosterApiClientRef.current.execute();
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 }
 

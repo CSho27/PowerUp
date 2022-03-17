@@ -5,6 +5,7 @@ import { Modal } from "../../components/modal/modal";
 import { SelectField } from "../../components/SelectField/selectField";
 import { toOptions, tryToSimpleCode } from "../../components/SelectField/selectFieldHelpers";
 import { AppContext } from "../app";
+import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
 import { SimpleCode } from "../shared/simpleCode";
 
 export interface ExistingRostersModalProps {
@@ -30,10 +31,7 @@ export function ExistingRostersModal(props: ExistingRostersModalProps) {
     </div>
   </Modal>
 
-  function loadExisting() {
-    appContext.setPage({ page: 'RosterEditorPage', rosterLoadDef: { 
-      type: 'Existing',
-      rosterId: selectedRoster!.id
-    } }); 
+  async function loadExisting() {
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: selectedRoster!.id }); 
   }
 }

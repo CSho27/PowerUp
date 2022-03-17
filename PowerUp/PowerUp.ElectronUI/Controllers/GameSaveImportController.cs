@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PowerUp.ElectronUI.Api.Rosters;
 using PowerUp.GameSave.Api;
 
 namespace PowerUp.ElectronUI.Controllers
@@ -24,8 +23,7 @@ namespace PowerUp.ElectronUI.Controllers
         ImportSource = formData["importSource"]
       };
       var result = _rosterImportApi.ImportRoster(parameters);
-      var rosterDetails = RosterDetails.FromRosterTeamsAndPlayers(result.Roster!, result.Teams, result.Players);
-      return new JsonResult(new RosterEditorResponse(rosterDetails));
+      return new JsonResult(new { RosterId = result.Roster!.Id!.Value });
     }
   }
 }

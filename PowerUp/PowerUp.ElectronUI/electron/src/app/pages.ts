@@ -6,13 +6,8 @@ import { loadRosterEditorPage } from "./rosterEditor/rosterEditorPage";
 
 export type PageLoadDefinition =
 | { page: 'HomePage', importUrl: string }
-| { page: 'RosterEditorPage', rosterLoadDef: RosterLoadDefinition }
+| { page: 'RosterEditorPage', rosterId: number }
 | { page: 'PlayerEditorPage', playerId: number }
-
-export type RosterLoadDefinition =
-| { type: 'Base' }
-| { type: 'Existing', rosterId: number }
-| { type: 'Import', importUrl: string, selectedFile: File, importSource: string }
 
 export interface PageDefinition {
   title: string;

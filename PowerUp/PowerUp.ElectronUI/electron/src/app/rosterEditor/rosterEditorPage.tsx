@@ -5,13 +5,11 @@ import { ContentWithHangingHeader } from "../../components/hangingHeader/hanging
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
-import { PageLoadDefinition, PageLoadFunction, RosterLoadDefinition } from "../pages";
+import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
-import { ImportBaseRosterApiClient } from "./importBaseRosterApiClient";
-import { ImportRosterApiClient } from "./importRosterApiClient";
 import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
-import { RosterDetails, RosterEditorResponse, TeamDetails } from "./rosterEditorDTOs";
+import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {
@@ -56,10 +54,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     setSelectedDivision(division);
     teamsRef.current?.scrollTo({ top: 0, behavior: 'auto' })
   }
-
-  function returnHome() {
-    appContext.setPage({ page: 'HomePage', importUrl: '' })
-  }
 }
 
 const RosterHeader = styled.h1`
@@ -81,7 +75,8 @@ const TeamWrapper = styled.div`
 export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
   if(pageDef.page !== 'RosterEditorPage') throw '';
 
-  const response = await loadRoster(appContext, pageDef.rosterLoadDef);
+  const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
+  const response = await apiClient.execute({ rosterId: pageDef.rosterId });
   return {
     title: response.rosterDetails.name,
     renderPage: (appContext) => <RosterEditorPage 
@@ -92,19 +87,4 @@ export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppCont
   }
 }
 
-function loadRoster(appContext: AppContext, rosterLoadDef: RosterLoadDefinition): Promise<RosterEditorResponse> {
-  switch(rosterLoadDef.type) {
-    case 'Base':
-      const baseApiClient = new ImportBaseRosterApiClient(appContext.commandFetcher);
-      return baseApiClient.execute();
-    case 'Existing':
-      const existingApiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
-      return existingApiClient.execute({ rosterId: rosterLoadDef.rosterId }); ;
-    case 'Import':
-      const importApiClient = new ImportRosterApiClient(rosterLoadDef.importUrl, appContext.performWithSpinner)
-      return importApiClient.execute({ 
-        file: rosterLoadDef.selectedFile!,
-        importSource: rosterLoadDef.importSource!
-       });
-  }
-}
+      
