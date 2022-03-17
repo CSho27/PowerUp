@@ -37,6 +37,17 @@ export interface PlayerPersonalDetails {
   pitchingMechanics: SimpleCode;
 }
 
+export interface PositionCapabilityDetails {
+  pitcher: KeyedCode;
+  catcher: KeyedCode;
+  firstBase: KeyedCode;
+  secondBase: KeyedCode;
+  thirdBase: KeyedCode;
+  leftField: KeyedCode;
+  centerField: KeyedCode;
+  rightField: KeyedCode;
+}
+
 export class LoadPlayerEditorApiClient {
   private readonly commandName = 'LoadPlayerEditor';
   private readonly commandFetcher: CommandFetcher;
