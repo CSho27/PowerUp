@@ -29,12 +29,6 @@ namespace PowerUp.ElectronUI.Api.Rosters
       Teams = teams;
     }
 
-    public static RosterDetails FromRosterTeamsAndPlayers(Roster roster, IEnumerable<Team> allTeams, IEnumerable<Player> allPlayers)
-    {
-      var teams = allTeams.Select(t => TeamDetails.FromRosterTeamAndPlayers(roster, t, allPlayers));
-      return new RosterDetails(roster!.Name, teams);
-    }
-
     public static RosterDetails FromRoster(Roster roster)
     {
       var teams = roster.GetTeams().Select(kvp => TeamDetails.FromTeam(kvp.Key, kvp.Value));
@@ -62,16 +56,6 @@ namespace PowerUp.ElectronUI.Api.Rosters
       Hitters = hitters;
       Pitchers = pitchers;
       Overall = overall;
-    }
-
-    public static TeamDetails FromRosterTeamAndPlayers(Roster roster, Team team, IEnumerable<Player> allPlayers)
-    {
-      var ppTeam = roster.TeamIdsByPPTeam.Single(m => m.Value == team.Id).Key;
-      var playersOnTeam = team.PlayerDefinitions.Select(pd => allPlayers.Single(p => pd.PlayerId == p.Id)).ToList();
-      var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
-      var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
-
-      return new TeamDetails(team.Id!.Value, team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
     }
 
     public static TeamDetails FromTeam(Team team, MLBPPTeam ppTeam)

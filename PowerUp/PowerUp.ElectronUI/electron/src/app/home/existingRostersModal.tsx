@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
@@ -17,7 +17,6 @@ export interface ExistingRostersModalProps {
 export function ExistingRostersModal(props: ExistingRostersModalProps) {
   const { appContext, options, closeDialog } = props;
   const [selectedRoster, setSelectedRoster] = useState<SimpleCode | undefined>(undefined)
-  const apiClientRef = useRef(new LoadExistingRosterApiClient(appContext.commandFetcher));
 
   return <Modal ariaLabel='Load Roster'>
     <div style={{ paddingBottom: '16px' }}>
@@ -33,7 +32,6 @@ export function ExistingRostersModal(props: ExistingRostersModalProps) {
   </Modal>
 
   async function loadExisting() {
-    const response = await apiClientRef.current.execute({ rosterId: selectedRoster!.id });
-    appContext.setPage({ page: 'RosterEditorPage', response: response }); 
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: selectedRoster!.id }); 
   }
 }

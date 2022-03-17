@@ -6,6 +6,10 @@ export interface ImportRosterRequest {
   importSource: string;
 }
 
+export interface ImportRosterResponse {
+  rosterId: number;
+}
+
 export class ImportRosterApiClient {
   private readonly importUrl: string;
   private readonly performWithSpinner: PerformWithSpinnerCallback;
@@ -15,7 +19,7 @@ export class ImportRosterApiClient {
     this.performWithSpinner = performWithSpinner;
   }
 
-  execute = async (request: ImportRosterRequest): Promise<RosterEditorResponse> => {
+  execute = async (request: ImportRosterRequest): Promise<ImportRosterResponse> => {
     return this.performWithSpinner(async () => {
       try {
         const formData = new FormData();

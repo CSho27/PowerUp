@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import { Breadcrumbs, Crumb } from "../../components/breadcrumbs/breadcrumbs";
+import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
@@ -8,6 +8,7 @@ import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { TeamGrid } from "./teamGrid";
 
@@ -24,10 +25,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
 
   const header = <>
-    <Breadcrumbs>
-      <Crumb key='Home' onClick={returnHome}>Home</Crumb>
-      <Crumb key='RosterEditor'>{rosterName}</Crumb>
-    </Breadcrumbs>
+    <Breadcrumbs appContext={appContext}/>
     <RosterHeader>{rosterName}</RosterHeader>
     <TabButtonNav 
       selectedTab={selectedDivision}
@@ -56,10 +54,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     setSelectedDivision(division);
     teamsRef.current?.scrollTo({ top: 0, behavior: 'auto' })
   }
-
-  function returnHome() {
-    appContext.setPage({ page: 'HomePage', importUrl: '' })
-  }
 }
 
 const RosterHeader = styled.h1`
@@ -78,12 +72,19 @@ const TeamWrapper = styled.div`
 `
 
 
-export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition ) => {
+export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
   if(pageDef.page !== 'RosterEditorPage') throw '';
-  
-  return <RosterEditorPage 
-    appContext={appContext} 
-    divisionOptions={pageDef.response.divisionOptions}
-    rosterDetails={pageDef.response.rosterDetails} 
-  />
+
+  const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
+  const response = await apiClient.execute({ rosterId: pageDef.rosterId });
+  return {
+    title: response.rosterDetails.name,
+    renderPage: (appContext) => <RosterEditorPage 
+      appContext={appContext} 
+      divisionOptions={response.divisionOptions}
+      rosterDetails={response.rosterDetails} 
+    />
+  }
 }
+
+      

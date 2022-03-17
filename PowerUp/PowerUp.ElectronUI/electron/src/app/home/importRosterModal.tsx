@@ -19,11 +19,13 @@ interface State {
 
 export function ImportRosterModal(props: ImportRosterModalProps) {
   const { appContext, importUrl, closeDialog } = props;
+
+  const importApiClientRef = useRef(new ImportRosterApiClient(importUrl, appContext.performWithSpinner));
+
   const [state, setState] = useState<State>({
     rosterName: undefined,
     selectedFile: undefined
   });
-  const apiClientRef = useRef(new ImportRosterApiClient(importUrl, appContext.performWithSpinner))
 
   const isReadyToSubmit = state.rosterName
     && state.rosterName.length > 0
@@ -55,10 +57,7 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
   </Modal>
 
   async function importRoster() {
-    const response = await apiClientRef.current.execute({ 
-      file: state.selectedFile!,
-      importSource: state.rosterName!
-     });
-    appContext.setPage({ page: 'RosterEditorPage', response: response }); 
+    const response = await importApiClientRef.current.execute({ file: state.selectedFile!, importSource: state.rosterName! })
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 }
