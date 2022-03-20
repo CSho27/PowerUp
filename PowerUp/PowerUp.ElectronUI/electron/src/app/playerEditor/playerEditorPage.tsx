@@ -15,8 +15,9 @@ import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
-import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { getInitialStateFromResponse, getPersonalDetailsReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
+import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
 
 export interface PlayerEditorPageProps {
@@ -48,6 +49,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   }
   const [state, update] = useReducerWithContext(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse), reducerContext);
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
+  const [positionCapabilityDetails, updatePositionCapabilities] = getPositionCapabilityDetailsReducer(state, update);
 
   const savedName = personalDetails.useSpecialSavedName
     ? editorResponse.personalDetails.savedName

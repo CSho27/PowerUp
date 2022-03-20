@@ -9,8 +9,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   public class PlayerEditorResponse
   {
     public PlayerEditorOptions Options { get; }
-    public PlayerPersonalDetails PersonalDetails { get; }
-    public PositionCapabilityDetails PositionCapabilityDetails { get; }
+    public PlayerPersonalDetailsDto PersonalDetails { get; }
+    public PositionCapabilityDetailsDto PositionCapabilityDetails { get; }
 
     public PlayerEditorResponse(
       IVoiceLibrary voiceLibrary,
@@ -20,8 +20,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     )
     {
       Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
-      PersonalDetails = new PlayerPersonalDetails(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
-      PositionCapabilityDetails = new PositionCapabilityDetails(player.PositonCapabilities);
+      PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
+      PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
     }
   }
 
@@ -48,7 +48,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     }
   }
 
-  public class PlayerPersonalDetails
+  public class PlayerPersonalDetailsDto
   {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
@@ -67,7 +67,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public KeyedCode ThrowingArm { get; }
     public SimpleCode PitchingMechanics { get; }
 
-    public PlayerPersonalDetails(
+    public PlayerPersonalDetailsDto(
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
       IPitchingMechanicsLibrary pitchingMechanicsLibrary,
@@ -92,7 +92,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     }
   }
 
-  public class PositionCapabilityDetails
+  public class PositionCapabilityDetailsDto
   {
     public KeyedCode Pitcher { get; set; }
     public KeyedCode Catcher { get; set; }
@@ -104,7 +104,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public KeyedCode CenterField { get; set; }
     public KeyedCode RightField { get; set; }
 
-    public PositionCapabilityDetails(PositionCapabilities positionCapabilities)
+    public PositionCapabilityDetailsDto(PositionCapabilities positionCapabilities)
     {
       Pitcher = positionCapabilities.Pitcher.ToKeyedCode();
       Catcher = positionCapabilities.Catcher.ToKeyedCode();

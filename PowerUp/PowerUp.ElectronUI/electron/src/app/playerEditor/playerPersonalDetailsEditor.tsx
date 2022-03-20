@@ -8,6 +8,7 @@ import { SelectField } from "../../components/SelectField/selectField";
 import { toKeyedCode, toOption, toOptions, toSimpleCode } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
+import { PositionCode } from "../shared/positionCode";
 import { PlayerEditorOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
 
@@ -82,7 +83,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
           value={details.position?.key} 
-          onChange={position => update({ type: 'updatePosition', position: toKeyedCode(options.positions, position)})} 
+          onChange={position => update({ type: 'updatePosition', position: toKeyedCode(options.positions, position) as PositionCode })} 
         >
           {toOptions(options.positions)}
         </SelectField>
