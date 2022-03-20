@@ -28,9 +28,9 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     <Breadcrumbs appContext={appContext}/>
     <RosterHeader>{rosterName}</RosterHeader>
     <TabButtonNav 
-      selectedTab={selectedDivision}
-      tabOptions={divisionOptions}
-      onChange={handleDivisionChange}
+      selectedTab={selectedDivision.name}
+      tabOptions={divisionOptions.map(o => o.name)}
+      onChange={t => handleDivisionChange(divisionOptions.find(o => o.name === t)!) }
     />
   </> 
 

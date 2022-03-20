@@ -81,21 +81,29 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       </div>
     </PlayerHeaderContainer>
     <TabButtonNav 
-      selectedTab={{ key: 'Personal', name: 'Personal' }}
-      tabOptions={tabOptions}
-      onChange={() => {}}
+      selectedTab={state.selectedTab}
+      tabOptions={playerEditorTabOptions.slice()}
+      onChange={t => update({ type: 'updateSelectedTab', selectedTab: t as PlayerEditorTab })}
     />
   </> 
 
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <EditorContainer>
+        {state.selectedTab === 'Personal' && 
         <PlayerPersonalDetailsEditor
           options={options}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={state.personalDetails}
           update={updatePersonalDetails}      
-        />
+        />}
+        {state.selectedTab === 'Positions' &&
+        <PositionCapabilitiesEditor 
+          primaryPosition={state.personalDetails.position}
+          options={options.positionCapabilityOptions}
+          positionCapabilityDetails={positionCapabilityDetails}
+          update={updatePositionCapabilities}
+        />}
       </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>

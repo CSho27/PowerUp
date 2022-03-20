@@ -1,21 +1,20 @@
 import styled from "styled-components"
-import { KeyedCode } from "../../app/shared/keyedCode"
 import { COLORS, FONT_SIZES } from "../../style/constants"
 
 export interface TabButtonNavProps {
-  selectedTab: KeyedCode;
-  tabOptions: KeyedCode[];
-  onChange: (selectedTab: KeyedCode) => void;
+  selectedTab: string;
+  tabOptions: string[];
+  onChange: (selectedTab: string) => void;
 }
 
 export function TabButtonNav(props: TabButtonNavProps) {
   return <nav>
     <TabButtonListWrapper>
-      {props.tabOptions.map(o => <TabButton
-        key={o.key} 
-        text={o.name} 
-        isSelected={props.selectedTab.key === o.key} 
-        onClick={() => o.key != props.selectedTab.key && props.onChange(o)}
+      {props.tabOptions.map(t => <TabButton
+        key={t} 
+        text={t} 
+        isSelected={props.selectedTab === t} 
+        onClick={() => t != props.selectedTab && props.onChange(t)}
       />)}
     </TabButtonListWrapper>
   </nav>
