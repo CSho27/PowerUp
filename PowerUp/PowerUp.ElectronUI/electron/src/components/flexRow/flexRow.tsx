@@ -14,6 +14,8 @@ export const FlexRow = styled.div<{ gap: FlexRowGap, withBottomPadding?: boolean
 
 export type FlexFrac = 
 | '1/4'
+| '1/6'
+| '1/8'
 
 export const FlexFracItem = styled.div<{ frac: FlexFrac }>`
   --width: calc(100% * ${p => `(${p.frac})`});

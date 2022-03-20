@@ -2,6 +2,11 @@ import { CommandFetcher } from "../../utils/commandFetcher";
 
 export interface SavePlayerRequest {
   playerId: number;
+  personalDetails: PersonalDetailsRequest;
+  positionCapabilities: PositionCapabilitiesRequest;
+}
+
+export interface PersonalDetailsRequest {
   firstName: string;
   lastName: string;
   useSpecialSavedName: boolean;
@@ -14,6 +19,18 @@ export interface SavePlayerRequest {
   battingStanceId: number;
   throwingArmKey: string;
   pitchingMechanicsId: number;
+}
+
+export interface PositionCapabilitiesRequest {
+  pitcher: string;
+  catcher: string;
+  firstBase: string;
+  secondBase: string;
+  thirdBase: string;
+  shortstop: string;
+  leftField: string;
+  centerField: string;
+  rightField: string;
 }
 
 export class SavePlayerApiClient {

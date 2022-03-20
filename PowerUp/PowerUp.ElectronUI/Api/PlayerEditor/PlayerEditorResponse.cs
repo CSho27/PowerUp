@@ -34,7 +34,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public IEnumerable<SimpleCode> BattingStanceOptions { get; }
     public IEnumerable<KeyedCode> ThrowingArmOptions => EnumExtensions.GetKeyedCodeList<ThrowingArm>();
     public IEnumerable<SimpleCode> PitchingMechanicsOptions { get; }
-    public IEnumerable<KeyedCode> PositionCapabilityOptions => EnumExtensions.GetKeyedCodeList<Grade>();
+    public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
 
     public PlayerEditorOptions(
       IVoiceLibrary voiceLibrary,

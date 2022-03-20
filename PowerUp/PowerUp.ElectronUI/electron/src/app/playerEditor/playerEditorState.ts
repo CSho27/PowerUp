@@ -109,7 +109,7 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         position: action.position,
         pitcherType: isPitcher 
           ? context.starterRole
-          : context.swingManRole
+          : context.swingManRole,
       }
     case 'updatePitcherType':
       return {
@@ -157,6 +157,7 @@ export interface PositionCapabilityDetails {
   firstBase: KeyedCode;
   secondBase: KeyedCode;
   thirdBase: KeyedCode;
+  shortstop: KeyedCode;
   leftField: KeyedCode;
   centerField: KeyedCode;
   rightField: KeyedCode;
@@ -168,6 +169,7 @@ export type PositionCapabilityDetailsAction =
 | { type: 'updateFirstBaseAbility', ability: KeyedCode }
 | { type: 'updateSecondBaseAbility', ability: KeyedCode }
 | { type: 'updateThirdBaseAbility', ability: KeyedCode }
+| { type: 'updateShortstopAbility', ability: KeyedCode }
 | { type: 'updateLeftFieldAbility', ability: KeyedCode }
 | { type: 'updateCenterFieldAbility', ability: KeyedCode }
 | { type: 'updateRightFieldAbility', ability: KeyedCode }
@@ -198,6 +200,11 @@ export function PositionCapabilityDetailsReducer(state: PositionCapabilityDetail
       return {
         ...state,
         thirdBase: action.ability
+      }
+    case 'updateShortstopAbility':
+      return {
+        ...state,
+        shortstop: action.ability
       }
     case 'updateLeftFieldAbility':
       return {
@@ -235,6 +242,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       firstBase: positionCapabilities.firstBase,
       secondBase: positionCapabilities.secondBase,
       thirdBase: positionCapabilities.thirdBase,
+      shortstop: positionCapabilities.shortstop,
       leftField: positionCapabilities.leftField,
       centerField: positionCapabilities.centerField,
       rightField: positionCapabilities.rightField

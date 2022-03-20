@@ -1,7 +1,4 @@
-﻿using PowerUp.Validation;
-using System;
-
-namespace PowerUp.Entities.Players.Api
+﻿namespace PowerUp.Entities.Players.Api
 {
   public interface IPlayerApi
   {
@@ -14,10 +11,16 @@ namespace PowerUp.Entities.Players.Api
     {
       new PlayerParametersValidator().Validate(parameters);
 
+      UpdatePersonalDetails(player, parameters.PersonalDetails!);
+      UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
+    }
+
+    private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)
+    {
       player.FirstName = parameters.FirstName!;
       player.LastName = parameters.LastName!;
 
-      if(!parameters.KeepSpecialSavedName)
+      if (!parameters.KeepSpecialSavedName)
         player.SavedName = parameters.SavedName!;
 
       player.UniformNumber = parameters.UniformNumber!;
@@ -29,46 +32,18 @@ namespace PowerUp.Entities.Players.Api
       player.ThrowingArm = parameters.ThrowingArm;
       player.PitchingMechanicsId = parameters.PitchingMechanicsId!.Value;
     }
-  }
 
-  public class PlayerParameters
-  {
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public bool KeepSpecialSavedName { get; set; }
-    public string? SavedName { get; set; }
-    public string? UniformNumber { get; set; }
-    public Position Position { get; set; }
-    public PitcherType PitcherType { get; set; }
-    public int? VoiceId { get; set; }
-    public BattingSide BattingSide { get; set; }
-    public int? BattingStanceId { get; set; }
-    public ThrowingArm ThrowingArm { get; set; }
-    public int? PitchingMechanicsId { get; set; }
-  }
-
-  public class PlayerParametersValidator : Validator<PlayerParameters>
-  {
-    public override void Validate(PlayerParameters parameters)
+    private void UpdatePositionCapabilities(PositionCapabilities positionCapabitlies, PlayerPositionCapabilitiesParameters parameters)
     {
-      ThrowIfNullOrEmpty(parameters.FirstName);
-      ThrowIfLongerThanMaxLength(parameters.FirstName, 14);
-      
-      ThrowIfNullOrEmpty(parameters.LastName);
-      ThrowIfLongerThanMaxLength(parameters.LastName, 14);
-      
-      if(!parameters.KeepSpecialSavedName)
-      {
-        ThrowIfNullOrEmpty(parameters.SavedName);
-        ThrowIfLongerThanMaxLength(parameters.SavedName, 10);
-      }
-
-      ThrowIfNull(parameters.UniformNumber);
-      ThrowIfLongerThanMaxLength(parameters.UniformNumber, 3);
-
-      ThrowIfNull(parameters.VoiceId);
-      ThrowIfNull(parameters.BattingStanceId);
-      ThrowIfNull(parameters.PitchingMechanicsId);
+      positionCapabitlies.Pitcher = parameters.Pitcher;
+      positionCapabitlies.Catcher = parameters.Catcher;
+      positionCapabitlies.FirstBase = parameters.FirstBase;
+      positionCapabitlies.SecondBase = parameters.SecondBase;
+      positionCapabitlies.ThirdBase = parameters.ThirdBase;
+      positionCapabitlies.Shortstop = parameters.Shortstop;
+      positionCapabitlies.LeftField = parameters.LeftField;
+      positionCapabitlies.CenterField = parameters.CenterField;
+      positionCapabitlies.RightField = parameters.RightField;
     }
   }
 }

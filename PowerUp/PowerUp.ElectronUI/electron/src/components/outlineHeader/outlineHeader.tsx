@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FONT_SIZES } from '../../style/constants';
 import { textOutline } from '../../style/outlineHelper';
 
-export interface OutlineheaderProps {
+export interface OutlineHeaderProps {
   textColor: string;
   strokeColor: string; 
   slanted?: boolean;
@@ -11,7 +11,7 @@ export interface OutlineheaderProps {
   allCaps?: boolean;
 }
 
-export const OutlineHeader = styled.h1<OutlineheaderProps>`
+export const OutlineHeader = styled.h1<OutlineHeaderProps>`
   line-height: 1;
   font-size: ${p => p.fontSize ?? FONT_SIZES._64};
   font-style: ${p => p.slanted ? 'italic' : undefined};

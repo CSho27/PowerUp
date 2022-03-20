@@ -45,19 +45,11 @@ export interface PositionCapabilityDetailsDto {
   firstBase: KeyedCode;
   secondBase: KeyedCode;
   thirdBase: KeyedCode;
+  shortstop: KeyedCode;
   leftField: KeyedCode;
   centerField: KeyedCode;
   rightField: KeyedCode;
 }
-
-export type Grade = 
-| 'A'
-| 'B'
-| 'C'
-| 'D'
-| 'E'
-| 'F'
-| 'G'
 
 export class LoadPlayerEditorApiClient {
   private readonly commandName = 'LoadPlayerEditor';

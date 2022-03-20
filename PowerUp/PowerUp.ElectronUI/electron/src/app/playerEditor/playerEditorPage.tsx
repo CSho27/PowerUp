@@ -103,7 +103,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         <PositionCapabilitiesEditor 
           primaryPosition={state.personalDetails.position}
           options={options.positionCapabilityOptions}
-          positionCapabilityDetails={positionCapabilityDetails}
+          details={positionCapabilityDetails}
           update={updatePositionCapabilities}
         />}
       </EditorContainer>
@@ -111,22 +111,36 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   </PowerUpLayout>
 
   async function savePlayer() {
-    const { personalDetails } = state;
+    const { personalDetails, positionCapabilityDetails } = state;
     
     const request: SavePlayerRequest = {
       playerId: playerId,
-      firstName: personalDetails.firstName,
-      lastName: personalDetails.lastName,
-      useSpecialSavedName: personalDetails.useSpecialSavedName,
-      savedName: personalDetails.savedName,
-      uniformNumber: personalDetails.uniformNumber,
-      positionKey: personalDetails.position.key,
-      pitcherTypeKey: personalDetails.pitcherType.key,
-      voiceId: personalDetails.voice.id,
-      battingSideKey: personalDetails.battingSide.key,
-      battingStanceId: personalDetails.battingStance.id,
-      throwingArmKey: personalDetails.throwingArm.key,
-      pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+      personalDetails: {
+        firstName: personalDetails.firstName,
+        lastName: personalDetails.lastName,
+        useSpecialSavedName: personalDetails.useSpecialSavedName,
+        savedName: personalDetails.savedName,
+        uniformNumber: personalDetails.uniformNumber,
+        positionKey: personalDetails.position.key,
+        pitcherTypeKey: personalDetails.pitcherType.key,
+        voiceId: personalDetails.voice.id,
+        battingSideKey: personalDetails.battingSide.key,
+        battingStanceId: personalDetails.battingStance.id,
+        throwingArmKey: personalDetails.throwingArm.key,
+        pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+      },
+      positionCapabilities: {
+        pitcher: positionCapabilityDetails.pitcher!.key,
+        catcher: positionCapabilityDetails.catcher!.key,
+        firstBase: positionCapabilityDetails.firstBase!.key,
+        secondBase: positionCapabilityDetails.secondBase!.key,
+        thirdBase: positionCapabilityDetails.thirdBase!.key,
+        shortstop: positionCapabilityDetails.shortstop!.key,
+        leftField: positionCapabilityDetails.leftField!.key,
+        centerField: positionCapabilityDetails.centerField!.key,
+        rightField: positionCapabilityDetails.rightField!.key
+      }
+
     }
     const response = await apiClientRef.current.execute(request);
     console.log(response);
