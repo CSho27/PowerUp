@@ -1,21 +1,45 @@
 import { Dispatch } from "react"
 import { KeyedCode } from "../shared/keyedCode"
+import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 
 export interface PlayerEditorState {
+  selectedTab: PlayerEditorTab;
   personalDetails: PlayerPersonalDetails;
+  positionCapabilityDetails: PositionCapabilityDetails;
 }
 
+export type PlayerEditorTab = typeof playerEditorTabOptions[number];
+export const playerEditorTabOptions = [
+  'Personal',
+  'Positions'
+] as const
+
 export type PlayerEditorAction =
+| { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
+| { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
 
 export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
+    case 'updateSelectedTab':
+      return {
+        ...state,
+        selectedTab: action.selectedTab
+      }
     case 'updatePersonalDetails':
       return {
         ...state,
-        personalDetails: PlayerPersonalDetailReducer(state.personalDetails, action.action, context)
+        personalDetails: PlayerPersonalDetailReducer(state.personalDetails, action.action, context),
+        positionCapabilityDetails: action.action.type === 'updatePosition'
+          ? getDefaultCapabilitiesForPosition(action.action.position.key)
+          : state.positionCapabilityDetails
+      }
+    case 'updatePositionCapabilityDetails':
+      return {
+        ...state,
+        positionCapabilityDetails: PositionCapabilityDetailsReducer(state.positionCapabilityDetails, action.action)
       }
   }
 }
@@ -26,7 +50,7 @@ export interface PlayerPersonalDetails {
   useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
-  position: KeyedCode;
+  position: PositionCode;
   pitcherType: KeyedCode;
   voice: SimpleCode;
   battingSide: KeyedCode;
@@ -41,7 +65,7 @@ export type PlayerPersonalDetailsAction =
 | { type: 'toggleUseSpecialSavedName' }
 | { type: 'updateSavedName', savedName: string }
 | { type: 'updateUniformNumber', uniformNumber: string }
-| { type: 'updatePosition', position: KeyedCode }
+| { type: 'updatePosition', position: PositionCode }
 | { type: 'updatePitcherType', pitcherType: KeyedCode }
 | { type: 'updateVoice', voice: SimpleCode }
 | { type: 'updateBattingSide', battingSide: KeyedCode }
@@ -88,7 +112,7 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         position: action.position,
         pitcherType: isPitcher 
           ? context.starterRole
-          : context.swingManRole
+          : context.swingManRole,
       }
     case 'updatePitcherType':
       return {
@@ -130,10 +154,181 @@ export function getPersonalDetailsReducer(state: PlayerEditorState, update: Disp
   ]
 }
 
+export interface PositionCapabilityDetails {
+  pitcher: KeyedCode;
+  catcher: KeyedCode;
+  firstBase: KeyedCode;
+  secondBase: KeyedCode;
+  thirdBase: KeyedCode;
+  shortstop: KeyedCode;
+  leftField: KeyedCode;
+  centerField: KeyedCode;
+  rightField: KeyedCode;
+}
+
+export type PositionCapabilityDetailsAction = { position: Position, ability: KeyedCode }
+
+export function PositionCapabilityDetailsReducer(state: PositionCapabilityDetails, action: PositionCapabilityDetailsAction): PositionCapabilityDetails {
+  switch(action.position) {
+    case 'Pitcher':
+      return {
+        ...state,
+        pitcher: action.ability
+      }
+    case 'Catcher':
+      return {
+        ...state,
+        catcher: action.ability
+      }
+    case 'FirstBase':
+      return {
+        ...state,
+        firstBase: action.ability
+      }
+    case 'SecondBase':
+      return {
+        ...state,
+        secondBase: action.ability
+      }
+    case 'ThirdBase':
+      return {
+        ...state,
+        thirdBase: action.ability
+      }
+    case 'Shortstop':
+      return {
+        ...state,
+        shortstop: action.ability
+      }
+    case 'LeftField':
+      return {
+        ...state,
+        leftField: action.ability
+      }
+    case 'CenterField':
+      return {
+        ...state,
+        centerField: action.ability
+      }
+    case 'RightField':
+      return {
+        ...state,
+        rightField: action.ability
+      }
+    default:
+      throw 'cannot update ability for this position'      
+  }
+}
+
+export function getPositionCapabilityDetailsReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [PositionCapabilityDetails, Dispatch<PositionCapabilityDetailsAction>] {
+  return [
+    state.positionCapabilityDetails,
+    (action: PositionCapabilityDetailsAction) => update({ type: 'updatePositionCapabilityDetails', action: action })
+  ]
+}
+
+export function getDefaultCapabilitiesForPosition(position: Position) : PositionCapabilityDetails {
+  const a = { key: 'A', name: 'A' };
+  const e = { key: 'E', name: 'E' };
+  const f = { key: 'F', name: 'F' };
+  const g = { key: 'G', name: 'G' };
+  const baseCapabilities: PositionCapabilityDetails = {
+    pitcher: g,
+    catcher: g,
+    firstBase: g,
+    secondBase: g,
+    thirdBase: g,
+    shortstop: g,
+    leftField: g,
+    centerField: g,
+    rightField: g
+  } 
+  
+  switch(position) {
+    case 'Pitcher':
+      return {
+        ...baseCapabilities,
+        pitcher: a
+      }
+    case 'Catcher':
+      return {
+        ...baseCapabilities,
+        catcher: a
+      }
+    case 'FirstBase':
+      return {
+        ...baseCapabilities,
+        firstBase: a,
+        secondBase: f,
+        thirdBase: f,
+        shortstop: f
+      }
+    case 'SecondBase':
+      return {
+        ...baseCapabilities,
+        firstBase: f,
+        secondBase: a,
+        thirdBase: e,
+        shortstop: e
+      }
+    case 'ThirdBase':
+      return {
+        ...baseCapabilities,
+        firstBase: f,
+        secondBase: e,
+        thirdBase: a,
+        shortstop: e
+      }
+    case 'Shortstop':
+      return {
+        ...baseCapabilities,
+        firstBase: f,
+        secondBase: e,
+        thirdBase: e,
+        shortstop: a
+      }
+    case 'LeftField':
+      return {
+        ...baseCapabilities,
+        leftField: a,
+        centerField: e,
+        rightField: e
+      }
+    case 'CenterField':
+      return {
+        ...baseCapabilities,
+        leftField: e,
+        centerField: a,
+        rightField: e
+      }
+    case 'RightField':
+      return {
+        ...baseCapabilities,
+        leftField: e,
+        centerField: e,
+        rightField: a
+      }
+    default:
+      throw 'Cannot update abaility for this position';
+  }
+}
+
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
-  const { personalDetails } = response
+  const { personalDetails, positionCapabilityDetails: positionCapabilities } = response
   
   return {
+    selectedTab: 'Personal',
+    positionCapabilityDetails: {
+      pitcher: positionCapabilities.pitcher,
+      catcher: positionCapabilities.catcher,
+      firstBase: positionCapabilities.firstBase,
+      secondBase: positionCapabilities.secondBase,
+      thirdBase: positionCapabilities.thirdBase,
+      shortstop: positionCapabilities.shortstop,
+      leftField: positionCapabilities.leftField,
+      centerField: positionCapabilities.centerField,
+      rightField: positionCapabilities.rightField
+    },
     personalDetails: {
       firstName: personalDetails.firstName,
       lastName: personalDetails.lastName,

@@ -15,8 +15,9 @@ import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
-import { getInitialStateFromResponse, getPersonalDetailsReducer, PlayerEditorStateReducer, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { getInitialStateFromResponse, getPersonalDetailsReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
+import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
 
 export interface PlayerEditorPageProps {
@@ -48,6 +49,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   }
   const [state, update] = useReducerWithContext(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse), reducerContext);
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
+  const [positionCapabilityDetails, updatePositionCapabilities] = getPositionCapabilityDetailsReducer(state, update);
 
   const savedName = personalDetails.useSpecialSavedName
     ? editorResponse.personalDetails.savedName
@@ -81,40 +83,64 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       </div>
     </PlayerHeaderContainer>
     <TabButtonNav 
-      selectedTab={{ key: 'Personal', name: 'Personal' }}
-      tabOptions={tabOptions}
-      onChange={() => {}}
+      selectedTab={state.selectedTab}
+      tabOptions={playerEditorTabOptions.slice()}
+      onChange={t => update({ type: 'updateSelectedTab', selectedTab: t as PlayerEditorTab })}
     />
   </> 
 
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
-      <PlayerPersonalDetailsEditor
-        options={options}
-        initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
-        details={state.personalDetails}
-        update={updatePersonalDetails}      
-      />
+      <EditorContainer>
+        {state.selectedTab === 'Personal' && 
+        <PlayerPersonalDetailsEditor
+          options={options}
+          initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
+          details={state.personalDetails}
+          update={updatePersonalDetails}      
+        />}
+        {state.selectedTab === 'Positions' &&
+        <PositionCapabilitiesEditor 
+          primaryPosition={state.personalDetails.position}
+          options={options.positionCapabilityOptions}
+          details={positionCapabilityDetails}
+          update={updatePositionCapabilities}
+        />}
+      </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
 
   async function savePlayer() {
-    const { personalDetails } = state;
+    const { personalDetails, positionCapabilityDetails } = state;
     
     const request: SavePlayerRequest = {
       playerId: playerId,
-      firstName: personalDetails.firstName,
-      lastName: personalDetails.lastName,
-      useSpecialSavedName: personalDetails.useSpecialSavedName,
-      savedName: personalDetails.savedName,
-      uniformNumber: personalDetails.uniformNumber,
-      positionKey: personalDetails.position.key,
-      pitcherTypeKey: personalDetails.pitcherType.key,
-      voiceId: personalDetails.voice.id,
-      battingSideKey: personalDetails.battingSide.key,
-      battingStanceId: personalDetails.battingStance.id,
-      throwingArmKey: personalDetails.throwingArm.key,
-      pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+      personalDetails: {
+        firstName: personalDetails.firstName,
+        lastName: personalDetails.lastName,
+        useSpecialSavedName: personalDetails.useSpecialSavedName,
+        savedName: personalDetails.savedName,
+        uniformNumber: personalDetails.uniformNumber,
+        positionKey: personalDetails.position.key,
+        pitcherTypeKey: personalDetails.pitcherType.key,
+        voiceId: personalDetails.voice.id,
+        battingSideKey: personalDetails.battingSide.key,
+        battingStanceId: personalDetails.battingStance.id,
+        throwingArmKey: personalDetails.throwingArm.key,
+        pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+      },
+      positionCapabilities: {
+        pitcher: positionCapabilityDetails.pitcher!.key,
+        catcher: positionCapabilityDetails.catcher!.key,
+        firstBase: positionCapabilityDetails.firstBase!.key,
+        secondBase: positionCapabilityDetails.secondBase!.key,
+        thirdBase: positionCapabilityDetails.thirdBase!.key,
+        shortstop: positionCapabilityDetails.shortstop!.key,
+        leftField: positionCapabilityDetails.leftField!.key,
+        centerField: positionCapabilityDetails.centerField!.key,
+        rightField: positionCapabilityDetails.rightField!.key
+      }
+
     }
     const response = await apiClientRef.current.execute(request);
     console.log(response);
@@ -138,3 +164,7 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
     renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />
   }
 }
+
+const EditorContainer = styled.div`
+padding: 16px;
+`

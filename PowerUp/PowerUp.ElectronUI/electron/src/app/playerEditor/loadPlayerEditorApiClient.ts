@@ -9,7 +9,8 @@ export interface LoadPlayerEditorRequest {
 
 export interface PlayerEditorResponse {
   options: PlayerEditorOptions; 
-  personalDetails: PlayerPersonalDetails;
+  personalDetails: PlayerPersonalDetailsDto;
+  positionCapabilityDetails: PositionCapabilityDetailsDto;
 }
 
 export interface PlayerEditorOptions {
@@ -20,9 +21,10 @@ export interface PlayerEditorOptions {
   battingStanceOptions: SimpleCode[];
   throwingArmOptions: KeyedCode[];
   pitchingMechanicsOptions: SimpleCode[];
+  positionCapabilityOptions: KeyedCode[];
 }
 
-export interface PlayerPersonalDetails {
+export interface PlayerPersonalDetailsDto {
   firstName: string;
   lastName: string;
   isSpecialSavedName: boolean;
@@ -35,6 +37,18 @@ export interface PlayerPersonalDetails {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+}
+
+export interface PositionCapabilityDetailsDto {
+  pitcher: KeyedCode;
+  catcher: KeyedCode;
+  firstBase: KeyedCode;
+  secondBase: KeyedCode;
+  thirdBase: KeyedCode;
+  shortstop: KeyedCode;
+  leftField: KeyedCode;
+  centerField: KeyedCode;
+  rightField: KeyedCode;
 }
 
 export class LoadPlayerEditorApiClient {

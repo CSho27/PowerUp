@@ -55,7 +55,7 @@ export const COLORS = {
   },
   grades: {
     A_pink_51: 'hsl(313deg 100% 51%)',
-    B_red_46: 'hsl(250deg 80% 46%)',
+    B_red_46: 'hsl(350deg 80% 46%)',
     C_orange_59: 'hsl(19deg 92% 59%)',
     D_yellow_49: 'hsl(44deg 86% 49%)',
     E_green_34: 'hsl(132deg 65% 34%)',
