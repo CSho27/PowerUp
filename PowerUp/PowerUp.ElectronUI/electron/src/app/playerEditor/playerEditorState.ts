@@ -313,6 +313,66 @@ export function getDefaultCapabilitiesForPosition(position: Position) : Position
   }
 }
 
+export interface HitterAbilities {
+  trajectory: number;
+  contact: number;
+  power: number;
+  runSpeed: number;
+  armStrength: number;
+  fielding: number;
+  errorResistance: number;
+}
+
+export type HitterAbilitiesAction =
+| { type: 'updateTrajectory', trajectory: number }
+| { type: 'updateContact', contact: number }
+| { type: 'updatePower', power: number }
+| { type: 'updateRunSpeed', runSpeed: number }
+| { type: 'updateArmStrength', armStrength: number }
+| { type: 'updateFielding', fielding: number }
+| { type: 'updateErrorResistance', errorResistance: number }
+
+export function HitterAbilitiesReducer(state: HitterAbilities, action: HitterAbilitiesAction): HitterAbilities {
+  switch(action.type) {
+    case 'updateTrajectory':
+      return {
+        ...state,
+        trajectory: action.trajectory
+      }
+    case 'updateContact':
+      return {
+        ...state,
+        contact: action.contact
+      }
+    case 'updatePower':
+      return {
+        ...state,
+        power: action.power
+      }
+    case 'updateRunSpeed':
+      return {
+        ...state,
+        runSpeed: action.runSpeed
+      }
+    case 'updateArmStrength':
+      return {
+        ...state,
+        armStrength: action.armStrength
+      }
+    case 'updateFielding':
+      return {
+        ...state,
+        fielding: action.fielding
+      }
+    case 'updateErrorResistance':
+      return {
+        ...state,
+        errorResistance: action.errorResistance
+      }
+  }
+}
+
+
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
   const { personalDetails, positionCapabilityDetails: positionCapabilities } = response
   
