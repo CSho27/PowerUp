@@ -2,7 +2,6 @@ import { Dispatch } from "react";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { Grade, GradeLetter } from "../../components/gradeLetter/gradeLetter";
-import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { SelectField } from "../../components/SelectField/selectField";
 import { toKeyedCode, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { KeyedCode } from "../shared/keyedCode";
@@ -24,55 +23,55 @@ export function PositionCapabilitiesEditor(props: PositionCapabilitiesEditorProp
       position='Pitcher'
       label='Pitcher'
       grade={details.pitcher.key as Grade}
-      update={gradeCode => update({ type: 'updatePitcherAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'Pitcher', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='Catcher'
       label='Catcher'
       grade={details.catcher.key as Grade}
-      update={gradeCode => update({ type: 'updateCatcherAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'Catcher', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='FirstBase'
       label='First Base'
       grade={details.firstBase.key as Grade}
-      update={gradeCode => update({ type: 'updateFirstBaseAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'FirstBase', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='SecondBase'
       label='Second Base'
       grade={details.secondBase.key as Grade}
-      update={gradeCode => update({ type: 'updateSecondBaseAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'SecondBase', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='ThirdBase'
       label='Third Base'
       grade={details.thirdBase.key as Grade}
-      update={gradeCode => update({ type: 'updateThirdBaseAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'ThirdBase', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='Shortstop'
       label='Shortstop'
       grade={details.shortstop.key as Grade}
-      update={gradeCode => update({ type: 'updateShortstopAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'Shortstop', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='LeftField'
       label='Left Field'
       grade={details.leftField.key as Grade}
-      update={gradeCode => update({ type: 'updateLeftFieldAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'LeftField', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='CenterField'
       label='Center Field'
       grade={details.centerField.key as Grade}
-      update={gradeCode => update({ type: 'updateCenterFieldAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'CenterField', ability: gradeCode })}
     />
     <PositionCapabilityRow 
       position='RightField'
       label='Right Field'
       grade={details.rightField.key as Grade}
-      update={gradeCode => update({ type: 'updateRightFieldAbility', ability: gradeCode })}
+      update={gradeCode => update({ position: 'RightField', ability: gradeCode })}
     />
   </>
 
