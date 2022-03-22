@@ -10,6 +10,7 @@ interface BaseNumberFieldProps {
   autoFocus?: boolean;
   min?: number;
   max?: number;
+  stepSize?: number;
 }
 
 export interface PossiblyUndefinedNumberFieldProps extends BaseNumberFieldProps {
@@ -26,7 +27,8 @@ export interface DefinedNumberFieldProps extends BaseNumberFieldProps {
 
 export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNumberFieldProps) {
   const { id, type, disabled, placeholder, autoFocus, max, min, onChange } = props;
-  
+  const step = props.stepSize ?? 1;
+
   const [value, setValue]  = useState(props.value);
   useEffect(() => {
     if(props.value != value)
@@ -40,27 +42,27 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
       disabled={disabled}
       placeholder={placeholder ?? 'Enter number'}
       value={value ?? ''}
-      onChange={handleNumberChanged}
-      onBlur={handleBlur}
+      onChange={handleInputChanged}
+      onBlur={() => setValueAndCallOnChange(value)}
       autoFocus={autoFocus}
     />
     <NumberInputStepperWrapper>
       <NumberInputStepper 
         tabIndex={0} 
-        onClick={() => setValue(scrubValue((value ?? 0) + 1))}
+        onClick={() => setValueAndCallOnChange((value ?? 0) + step)}
       >
         <Icon icon='chevron-up'/>
       </NumberInputStepper>
       <NumberInputStepper  
         tabIndex={0} 
-        onClick={() => setValue(scrubValue((value ?? 0) - 1))}
+        onClick={() => setValueAndCallOnChange((value ?? 0) - step)}
       >
         <Icon icon='chevron-down' />
       </NumberInputStepper>
     </NumberInputStepperWrapper>
   </NumberFieldWrapper> 
 
-  function handleNumberChanged(event: ChangeEvent<HTMLInputElement>) {
+  function handleInputChanged(event: ChangeEvent<HTMLInputElement>) {
     const textValue = event.target.value;
     const numberValue = textValue?.length > 0
       ? Number.parseInt(textValue)
@@ -68,18 +70,17 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
     setValue(numberValue);
   }
 
-  function handleBlur() {
-    if(type === 'Defined')
-      handleDefinedBlur();
-    else 
-      handlePossiblyUndefinedBlur();
-  }
-
-  function scrubValue(value: number | undefined): number | undefined {
-    if(type === 'Defined')
-      return scrubValueForDefined(value);
-    else
-      return scrubValueForPossiblyUndefined(value);
+  function setValueAndCallOnChange(value: number | undefined) {
+    if(type === 'Defined') {
+      const newValue = scrubValueForDefined(value);
+      setValue(newValue)
+      onChange(newValue);
+    }
+    else {
+      const newValue = scrubValueForPossiblyUndefined(value)
+      setValue(newValue);
+      (onChange as (value: number | undefined) => void)(newValue); 
+    }
   }
 
   function scrubValueForDefined(value: number | undefined): number {
@@ -100,23 +101,6 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
       return newValue;
     else
       return newValue;    
-  }
-
-  function handleDefinedBlur() {
-    if(type !== 'Defined')
-      throw 'invalid operation';
-    const newValue = scrubValueForDefined(value)
-    setValue(newValue)
-    onChange(newValue);
-  }
-
-  function handlePossiblyUndefinedBlur() {
-    if(type !== 'PossiblyUndefined')
-      throw 'invalid operation';
-    const newValue = scrubValueForPossiblyUndefined(value)
-    setValue(newValue)
-    onChange(newValue);
-    (onChange as (value: number | undefined) => void)(newValue); 
   }
 }
 
