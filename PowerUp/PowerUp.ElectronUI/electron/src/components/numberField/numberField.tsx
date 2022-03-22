@@ -27,9 +27,10 @@ export interface DefinedNumberFieldProps extends BaseNumberFieldProps {
 
 export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNumberFieldProps) {
   const { id, type, disabled, placeholder, autoFocus, max, min, onChange } = props;
-  const step = props.stepSize ?? 1;
+  const stepSize = props.stepSize ?? 1;
 
   const [value, setValue]  = useState(props.value);
+
   useEffect(() => {
     if(props.value != value)
       setValue(props.value);
@@ -49,18 +50,30 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
     <NumberInputStepperWrapper>
       <NumberInputStepper 
         tabIndex={0} 
-        onClick={() => setValueAndCallOnChange((value ?? 0) + step)}
+        onMouseDown={() => startIncrementing(value ?? 0, stepSize)}
       >
         <Icon icon='chevron-up'/>
       </NumberInputStepper>
       <NumberInputStepper  
         tabIndex={0} 
-        onClick={() => setValueAndCallOnChange((value ?? 0) - step)}
+        onMouseDown={() => startIncrementing(value ?? 0, -1 * stepSize)}
       >
         <Icon icon='chevron-down' />
       </NumberInputStepper>
     </NumberInputStepperWrapper>
   </NumberFieldWrapper> 
+
+  function startIncrementing(currentValue: number, stepValue: number, timeoutLength?: number) {
+    const nextValue = currentValue + stepValue;
+    const length = timeoutLength ?? 500;
+    const halfLength = length / 2;
+    const nextLength = halfLength > 50
+      ? halfLength
+      : 50;
+    setValueAndCallOnChange(nextValue);
+    const timeout = setTimeout(() => startIncrementing(nextValue, stepValue, nextLength), length)
+    window.addEventListener('mouseup', () => clearTimeout(timeout));
+  }
 
   function handleInputChanged(event: ChangeEvent<HTMLInputElement>) {
     const textValue = event.target.value;
