@@ -14,8 +14,9 @@ import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
-import { getInitialStateFromResponse, getPersonalDetailsReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
@@ -25,17 +26,6 @@ export interface PlayerEditorPageProps {
   playerId: number;
   editorResponse: PlayerEditorResponse 
 }
-
-const tabs = [
-  'Personal',
-//'Appearance',
-  'Positions',
-  'Hitter',
-  'Pitcher',
-//'Special'
-]
-
-const tabOptions: KeyedCode[] = tabs.map(t => ({ key: t, name: t }));
 
 export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, playerId, editorResponse } = props;
@@ -50,6 +40,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const [state, update] = useReducerWithContext(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse), reducerContext);
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
   const [positionCapabilityDetails, updatePositionCapabilities] = getPositionCapabilityDetailsReducer(state, update);
+  const [hitterAbilities, updateHitterAbilities] = getHitterAbilitiesReducer(state, update);
 
   const savedName = personalDetails.useSpecialSavedName
     ? editorResponse.personalDetails.savedName
@@ -105,6 +96,11 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           options={options.positionCapabilityOptions}
           details={positionCapabilityDetails}
           update={updatePositionCapabilities}
+        />}
+        {state.selectedTab === 'Hitter' &&
+        <HitterAbilitiesEditor
+          details={hitterAbilities}
+          update={updateHitterAbilities}
         />}
       </EditorContainer>
     </ContentWithHangingHeader>

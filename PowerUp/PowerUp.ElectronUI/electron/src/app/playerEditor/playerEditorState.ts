@@ -8,18 +8,24 @@ export interface PlayerEditorState {
   selectedTab: PlayerEditorTab;
   personalDetails: PlayerPersonalDetails;
   positionCapabilityDetails: PositionCapabilityDetails;
+  hitterAbilities: HitterAbilities;
 }
 
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
 export const playerEditorTabOptions = [
   'Personal',
-  'Positions'
+  'Positions',
+//'Appearance',
+  'Hitter',
+//'Pitcher',
+//'Special'
 ] as const
 
 export type PlayerEditorAction =
 | { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
+| { type: 'updateHitterAbilities', action: HitterAbilitiesAction }
 
 export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
@@ -40,6 +46,11 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
       return {
         ...state,
         positionCapabilityDetails: PositionCapabilityDetailsReducer(state.positionCapabilityDetails, action.action)
+      }
+    case 'updateHitterAbilities':
+      return {
+        ...state,
+        hitterAbilities: HitterAbilitiesReducer(state.hitterAbilities, action.action)
       }
   }
 }
@@ -372,9 +383,16 @@ export function HitterAbilitiesReducer(state: HitterAbilities, action: HitterAbi
   }
 }
 
+export function getHitterAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [HitterAbilities, Dispatch<HitterAbilitiesAction>] {
+  return [
+    state.hitterAbilities,
+    (action: HitterAbilitiesAction) => update({ type: 'updateHitterAbilities', action: action })
+  ]
+}
+
 
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
-  const { personalDetails, positionCapabilityDetails: positionCapabilities } = response
+  const { personalDetails, positionCapabilityDetails: positionCapabilities, hitterAbilityDetails: hitterAbilities } = response
   
   return {
     selectedTab: 'Personal',
@@ -402,6 +420,15 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       battingStance: personalDetails.battingStance,
       throwingArm: personalDetails.throwingArm,
       pitchingMechanics: personalDetails.pitchingMechanics
+    },
+    hitterAbilities: {
+      trajectory: hitterAbilities.trajectory,
+      contact: hitterAbilities.contact,
+      power: hitterAbilities.power,
+      runSpeed: hitterAbilities.runSpeed,
+      armStrength: hitterAbilities.armStrength,
+      fielding: hitterAbilities.fielding,
+      errorResistance: hitterAbilities.errorResistance
     }
   }
 }

@@ -1,11 +1,10 @@
 import { Dispatch } from "react";
-import styled from "styled-components"
 import { Button } from "../../components/button/button";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { SelectField } from "../../components/SelectField/selectField";
-import { toKeyedCode, toOption, toOptions, toSimpleCode } from "../../components/SelectField/selectFieldHelpers";
+import { toKeyedCode, toOptions, toSimpleCode } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
 import { PositionCode } from "../shared/positionCode";
