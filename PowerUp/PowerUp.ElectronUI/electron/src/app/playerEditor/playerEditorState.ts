@@ -1,4 +1,5 @@
 import { Dispatch } from "react"
+import { Grade } from "../../components/gradeLetter/gradeLetter";
 import { KeyedCode } from "../shared/keyedCode"
 import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
@@ -388,6 +389,26 @@ export function getHitterAbilitiesReducer(state: PlayerEditorState, update: Disp
     state.hitterAbilities,
     (action: HitterAbilitiesAction) => update({ type: 'updateHitterAbilities', action: action })
   ]
+}
+
+export function getGradeFor0_15(value: number): Grade {
+  if(value >= 14) return 'A';
+  if(value >= 12) return 'B';
+  if(value >= 10) return 'C';
+  if(value >= 8)  return 'D';
+  if(value >= 6)  return 'E';
+  if(value >= 4)  return 'F';
+  else            return 'G'; 
+}
+
+export function getGradeForPower(value: number): Grade {
+  if(value >= 180) return 'A';
+  if(value >= 140) return 'B';
+  if(value >= 120) return 'C';
+  if(value >= 100)  return 'D';
+  if(value >= 85)  return 'E';
+  if(value >= 25)  return 'F';
+  else            return 'G'; 
 }
 
 
