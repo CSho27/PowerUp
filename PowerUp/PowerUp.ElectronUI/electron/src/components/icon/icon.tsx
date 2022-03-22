@@ -4,6 +4,7 @@ export type IconType =
 | 'arrow-up'
 | 'box-archive'
 | 'chevron-down'
+| 'chevron-up'
 | 'circle-notch'
 | 'floppy-disk'
 | 'folder-open'
