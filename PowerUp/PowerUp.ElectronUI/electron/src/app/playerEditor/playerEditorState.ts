@@ -3,7 +3,7 @@ import { Grade } from "../../components/gradeLetter/gradeLetter";
 import { KeyedCode } from "../shared/keyedCode"
 import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
-import { fromDto, HotZoneGridAction, HotZoneGridState, HotZoneGridStateReducer } from "./hotZoneGrid";
+import { HotZoneGridAction, HotZoneGridState, HotZoneGridStateReducer } from "./hotZoneGrid";
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 
 export interface PlayerEditorState {
@@ -465,7 +465,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       armStrength: hitterAbilities.armStrength,
       fielding: hitterAbilities.fielding,
       errorResistance: hitterAbilities.errorResistance,
-      hotZones: fromDto(hitterAbilities.hotZones)
+      hotZones: hitterAbilities.hotZones
     }
   }
 }

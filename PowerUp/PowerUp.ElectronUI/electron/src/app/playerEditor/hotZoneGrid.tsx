@@ -88,11 +88,6 @@ function nextPreference(preference: HotZonePreference): HotZonePreference {
   }
 }
 
-export function fromDto(dto: HotZoneGridDto): HotZoneGridState {
-  return { ...dto };
-}
-
-
 export interface HotZoneGridProps {
   battingSide: BattingSide;
   grid: HotZoneGridState;
