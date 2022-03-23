@@ -1,3 +1,5 @@
+import { HotZonePreference } from "./hotZoneGrid";
+
 export interface HotZoneGridDto {
   upAndIn: HotZonePreference;
   up: HotZonePreference;
@@ -5,9 +7,7 @@ export interface HotZoneGridDto {
   middleIn: HotZonePreference;
   middle: HotZonePreference;
   middleAway: HotZonePreference;
-  lowAndIn: HotZonePreference;
-  low: HotZonePreference;
-  lowAndAway: HotZonePreference;
+  downAndIn: HotZonePreference;
+  down: HotZonePreference;
+  downAndAway: HotZonePreference;
 }
-
-export type HotZonePreference = 'Neutral' | 'Hot' | 'Cold';

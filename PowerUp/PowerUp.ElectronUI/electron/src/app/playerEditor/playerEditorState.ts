@@ -3,6 +3,7 @@ import { Grade } from "../../components/gradeLetter/gradeLetter";
 import { KeyedCode } from "../shared/keyedCode"
 import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
+import { fromDto, HotZoneGridAction, HotZoneGridState, HotZoneGridStateReducer } from "./hotZoneGrid";
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 
 export interface PlayerEditorState {
@@ -333,6 +334,7 @@ export interface HitterAbilities {
   armStrength: number;
   fielding: number;
   errorResistance: number;
+  hotZones: HotZoneGridState;
 }
 
 export type HitterAbilitiesAction =
@@ -343,6 +345,7 @@ export type HitterAbilitiesAction =
 | { type: 'updateArmStrength', armStrength: number }
 | { type: 'updateFielding', fielding: number }
 | { type: 'updateErrorResistance', errorResistance: number }
+| { type: 'updateHotZones', hzAction: HotZoneGridAction }
 
 export function HitterAbilitiesReducer(state: HitterAbilities, action: HitterAbilitiesAction): HitterAbilities {
   switch(action.type) {
@@ -381,6 +384,11 @@ export function HitterAbilitiesReducer(state: HitterAbilities, action: HitterAbi
         ...state,
         errorResistance: action.errorResistance
       }
+    case 'updateHotZones':
+      return {
+        ...state,
+        hotZones: HotZoneGridStateReducer(state.hotZones, action.hzAction)
+      }
   }
 }
 
@@ -388,6 +396,13 @@ export function getHitterAbilitiesReducer(state: PlayerEditorState, update: Disp
   return [
     state.hitterAbilities,
     (action: HitterAbilitiesAction) => update({ type: 'updateHitterAbilities', action: action })
+  ]
+}
+
+export function getHotZoneGridReducer(state: HitterAbilities, update: Dispatch<HitterAbilitiesAction>) : [HotZoneGridState, Dispatch<HotZoneGridAction>] {
+  return [
+    state.hotZones,
+    (action: HotZoneGridAction) => update({ type: 'updateHotZones', hzAction: action })
   ]
 }
 
@@ -449,7 +464,8 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       runSpeed: hitterAbilities.runSpeed,
       armStrength: hitterAbilities.armStrength,
       fielding: hitterAbilities.fielding,
-      errorResistance: hitterAbilities.errorResistance
+      errorResistance: hitterAbilities.errorResistance,
+      hotZones: fromDto(hitterAbilities.hotZones)
     }
   }
 }

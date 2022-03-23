@@ -3,15 +3,19 @@ import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { GradeLetter } from "../../components/gradeLetter/gradeLetter";
 import { NumberField } from "../../components/numberField/numberField";
-import { getGradeFor0_15, getGradeForPower, HitterAbilities, HitterAbilitiesAction } from "./playerEditorState";
+import { BattingSide, HotZoneGrid } from "./hotZoneGrid";
+import { getGradeFor0_15, getGradeForPower, getHotZoneGridReducer, HitterAbilities, HitterAbilitiesAction } from "./playerEditorState";
 
 export interface HitterAbilitiesEditorProps {
+  battingSide: BattingSide;
   details: HitterAbilities;
   update: Dispatch<HitterAbilitiesAction>;
 }
 
 export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
-  const { details, update } = props;
+  const { battingSide, details, update } = props;
+
+  const [hotZones, updateHotZones] = getHotZoneGridReducer(details, update);
   
   return <>
     <FlexRow gap='16px'>
@@ -142,6 +146,11 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
         </FlexRow>
       </FlexFracItem>
       <FlexFracItem frac='1/2'>
+        <HotZoneGrid 
+          battingSide={battingSide} 
+          grid={hotZones}
+          update={updateHotZones}
+        />
       </FlexFracItem>
     </FlexRow>
   </>

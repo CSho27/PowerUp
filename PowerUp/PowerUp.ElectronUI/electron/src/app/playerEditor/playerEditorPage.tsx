@@ -15,6 +15,7 @@ import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
+import { BattingSide } from "./hotZoneGrid";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
@@ -99,6 +100,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         />}
         {state.selectedTab === 'Hitter' &&
         <HitterAbilitiesEditor
+          battingSide={state.personalDetails.battingSide.key as BattingSide}
           details={hitterAbilities}
           update={updateHitterAbilities}
         />}
