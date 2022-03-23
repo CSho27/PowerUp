@@ -32,13 +32,15 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public int? PlayerId { get; set; }
     public PersonalDetailsRequest? PersonalDetails { get; set; }
     public PositionCapabilitiesRequest? PositionCapabilities { get; set; }
+    public HitterAbilitiesRequest? HitterAbilities { get; set; }
 
     public PlayerParameters GetParameters()
     {
       return new PlayerParameters
       {
         PersonalDetails = PersonalDetails!.GetParameters(),
-        PositionCapabilities = PositionCapabilities!.GetParameters()
+        PositionCapabilities = PositionCapabilities!.GetParameters(),
+        HitterAbilities = HitterAbilities!.GetParameters(),
       };
     }
   }
@@ -103,6 +105,33 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         LeftField = Enum.Parse<Grade>(LeftField!),
         CenterField = Enum.Parse<Grade>(CenterField!),
         RightField = Enum.Parse<Grade>(RightField!)
+      };
+    }
+  }
+  
+  public class HitterAbilitiesRequest
+  {
+    public int Trajectory { get; set; }
+    public int Contact { get; set; }
+    public int Power { get; set; }
+    public int RunSpeed { get; set; }
+    public int ArmStrength { get; set; }
+    public int Fielding { get; set; }
+    public int ErrorResistance { get; set; }
+    public HotZoneGridDto? HotZoneGrid { get; set; }
+
+    public PlayerHitterAbilityParameters GetParameters()
+    {
+      return new PlayerHitterAbilityParameters
+      {
+        Trajectory = Trajectory,
+        Contact = Contact,
+        Power = Power,
+        RunSpeed = RunSpeed,
+        ArmStrength = ArmStrength,
+        Fielding = Fielding,
+        ErrorResistance = ErrorResistance,
+        HotZoneGridParameters = HotZoneGrid?.GetParameters()
       };
     }
   }

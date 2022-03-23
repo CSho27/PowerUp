@@ -13,6 +13,7 @@
 
       UpdatePersonalDetails(player, parameters.PersonalDetails!);
       UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
+      UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
     }
 
     private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)
@@ -44,6 +45,29 @@
       positionCapabitlies.LeftField = parameters.LeftField;
       positionCapabitlies.CenterField = parameters.CenterField;
       positionCapabitlies.RightField = parameters.RightField;
+    }
+
+    private void UpdateHitterAbilities(HitterAbilities hitterAbilities, PlayerHitterAbilityParameters parameters)
+    {
+      var hzParams = parameters.HotZoneGridParameters!;
+
+      hitterAbilities.Trajectory = parameters.Trajectory;
+      hitterAbilities.Contact = parameters.Contact;
+      hitterAbilities.Power = parameters.Power;
+      hitterAbilities.RunSpeed = parameters.RunSpeed;
+      hitterAbilities.ArmStrength = parameters.ArmStrength;
+      hitterAbilities.Fielding = parameters.Fielding;
+      hitterAbilities.ErrorResistance = parameters.ErrorResistance;
+
+      hitterAbilities.HotZones.UpAndIn = hzParams.UpAndIn;
+      hitterAbilities.HotZones.Up = hzParams.Up;
+      hitterAbilities.HotZones.UpAndAway = hzParams.UpAndAway;
+      hitterAbilities.HotZones.MiddleIn = hzParams.MiddleIn;
+      hitterAbilities.HotZones.Middle = hzParams.Middle;
+      hitterAbilities.HotZones.MiddleAway = hzParams.MiddleAway;
+      hitterAbilities.HotZones.DownAndIn = hzParams.DownAndIn;
+      hitterAbilities.HotZones.Down = hzParams.Down;
+      hitterAbilities.HotZones.DownAndAway = hzParams.DownAndAway;
     }
   }
 }

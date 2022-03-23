@@ -109,7 +109,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   </PowerUpLayout>
 
   async function savePlayer() {
-    const { personalDetails, positionCapabilityDetails } = state;
+    const { personalDetails, positionCapabilityDetails, hitterAbilities } = state;
     
     const request: SavePlayerRequest = {
       playerId: playerId,
@@ -137,8 +137,17 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         leftField: positionCapabilityDetails.leftField!.key,
         centerField: positionCapabilityDetails.centerField!.key,
         rightField: positionCapabilityDetails.rightField!.key
+      },
+      hitterAbilities: {
+        trajectory: hitterAbilities.trajectory,
+        contact: hitterAbilities.contact,
+        power: hitterAbilities.power,
+        runSpeed: hitterAbilities.runSpeed,
+        armStrength: hitterAbilities.armStrength,
+        fielding: hitterAbilities.fielding,
+        errorResistance: hitterAbilities.errorResistance,
+        hotZoneGrid: hitterAbilities.hotZones
       }
-
     }
     const response = await apiClientRef.current.execute(request);
     console.log(response);

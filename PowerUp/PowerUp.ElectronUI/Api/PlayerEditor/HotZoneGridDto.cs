@@ -1,4 +1,5 @@
 ﻿using PowerUp.Entities.Players;
+using PowerUp.Entities.Players.Api;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
@@ -37,6 +38,22 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       DownAndIn = grid.DownAndIn;
       Down = grid.Down;
       DownAndAway = grid.DownAndAway;
+    }
+
+    public HotZoneGridParameters GetParameters()
+    {
+      return new HotZoneGridParameters
+      {
+        UpAndIn = UpAndIn,
+        Up = Up,
+        UpAndAway = UpAndAway,
+        MiddleIn = MiddleIn,
+        Middle = Middle,
+        MiddleAway = MiddleAway,
+        DownAndIn = DownAndIn,
+        Down = Down,
+        DownAndAway = DownAndAway,
+      };
     }
   }
 }
