@@ -120,7 +120,7 @@ export function HotZoneGrid(props: HotZoneGridProps) {
 
   return <HotZoneGridWrapper>
     <HotZoneGridBatterSlot visible={battingSide !== 'Left'}>Batter</HotZoneGridBatterSlot>
-    <HotZoneGridTable>
+    <table>
       <tbody>
         <tr>
           {battingSide !== 'Left' && up.map(toCell)}
@@ -135,7 +135,7 @@ export function HotZoneGrid(props: HotZoneGridProps) {
           {battingSide === 'Left' && down.reverse().map(toCell)}
         </tr>
       </tbody>
-    </HotZoneGridTable>
+    </table>
     <HotZoneGridBatterSlot visible={battingSide !== 'Right'}>Batter</HotZoneGridBatterSlot>
   </HotZoneGridWrapper>
 
@@ -154,9 +154,6 @@ const HotZoneGridBatterSlot = styled.div<{ visible: boolean }>`
   writing-mode: vertical-lr;
   text-orientation: upright;
   text-align: center;
-`
-
-const HotZoneGridTable = styled.table`
 `
 
 const HzTd = styled.td`
