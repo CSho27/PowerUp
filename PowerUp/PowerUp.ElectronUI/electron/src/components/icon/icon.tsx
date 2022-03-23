@@ -2,6 +2,9 @@ import * as React from 'react';
 
 export type IconType = 
 | 'arrow-up'
+| 'arrow-down'
+| 'arrow-left'
+| 'arrow-right'
 | 'box-archive'
 | 'chevron-down'
 | 'chevron-up'
