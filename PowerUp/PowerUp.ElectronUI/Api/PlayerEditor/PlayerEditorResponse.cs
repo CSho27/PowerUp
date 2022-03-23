@@ -11,6 +11,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PlayerEditorOptions Options { get; }
     public PlayerPersonalDetailsDto PersonalDetails { get; }
     public PositionCapabilityDetailsDto PositionCapabilityDetails { get; }
+    public HitterAbilityDetailsDto HitterAbilityDetails { get; }
 
     public PlayerEditorResponse(
       IVoiceLibrary voiceLibrary,
@@ -22,6 +23,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
       PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
+      HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
     }
   }
 
@@ -115,6 +117,31 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       LeftField = positionCapabilities.LeftField.ToKeyedCode();
       CenterField = positionCapabilities.CenterField.ToKeyedCode();
       RightField = positionCapabilities.RightField.ToKeyedCode();
+    }
+  }
+
+  public class HitterAbilityDetailsDto
+  {
+    public int Trajectory { get; set; }
+    public int Contact { get; set; }
+    public int Power { get; set; }
+    public int RunSpeed { get; set; }
+    public int ArmStrength { get; set; }
+    public int Fielding { get; set; }
+    public int ErrorResistance { get; set; }
+
+    public HotZoneGridDto HotZones { get; set; }
+
+    public HitterAbilityDetailsDto(HitterAbilities hitterAbilities)
+    {
+      Trajectory = hitterAbilities.Trajectory;
+      Contact = hitterAbilities.Contact;
+      Power = hitterAbilities.Power;
+      RunSpeed = hitterAbilities.RunSpeed;
+      ArmStrength = hitterAbilities.ArmStrength;
+      Fielding = hitterAbilities.Fielding;
+      ErrorResistance = hitterAbilities.ErrorResistance;
+      HotZones = new HotZoneGridDto(hitterAbilities.HotZones);
     }
   }
 }

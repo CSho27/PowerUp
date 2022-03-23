@@ -61,6 +61,11 @@ export const COLORS = {
     E_green_34: 'hsl(132deg 65% 34%)',
     F_blue_54: 'hsl(221deg 100% 54%)',
     G_gray_55: 'hsl(0deg 0% 55%)'
+  },
+  hotZones: {
+    neutral_gray_42: 'hsl(0deg 0% 42%)',
+    cold_blue_48: 'hsl(234deg 55% 48%)',
+    hot_red_51: 'hsl(7deg 59% 51%)'
   }
 }
 

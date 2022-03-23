@@ -1,9 +1,5 @@
 ﻿using PowerUp.Databases;
-using PowerUp.ElectronUI.Api.Shared;
-using PowerUp.Entities;
-using PowerUp.Entities.Players;
 using PowerUp.Libraries;
-using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
 {

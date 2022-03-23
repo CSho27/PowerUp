@@ -23,5 +23,11 @@ namespace PowerUp.Validation
       if (value != null && value.Length > maxLength)
         throw new ArgumentOutOfRangeException(nameof(value));
     }
+
+    protected void ThrowIfNotBetween(int? value, int min, int max)
+    {
+      if(value < min || value > max)
+        throw new ArgumentOutOfRangeException(nameof(value));
+    }
   }
 }

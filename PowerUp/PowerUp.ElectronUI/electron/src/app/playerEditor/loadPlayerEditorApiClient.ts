@@ -2,6 +2,7 @@ import { CommandFetcher } from "../../utils/commandFetcher";
 import { KeyedCode } from "../shared/keyedCode";
 import { PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode";
+import { HotZoneGridDto } from "./hotZoneGridDto";
 
 export interface LoadPlayerEditorRequest {
   playerId: number;
@@ -11,6 +12,7 @@ export interface PlayerEditorResponse {
   options: PlayerEditorOptions; 
   personalDetails: PlayerPersonalDetailsDto;
   positionCapabilityDetails: PositionCapabilityDetailsDto;
+  hitterAbilityDetails: HitterAbilityDetailsDto;
 }
 
 export interface PlayerEditorOptions {
@@ -49,6 +51,17 @@ export interface PositionCapabilityDetailsDto {
   leftField: KeyedCode;
   centerField: KeyedCode;
   rightField: KeyedCode;
+}
+
+export interface HitterAbilityDetailsDto {
+  trajectory: number;
+  contact: number;
+  power: number;
+  runSpeed: number;
+  armStrength: number;
+  fielding: number;
+  errorResistance: number;
+  hotZones: HotZoneGridDto;
 }
 
 export class LoadPlayerEditorApiClient {

@@ -1,9 +1,11 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
+import { HotZoneGridDto } from "./hotZoneGridDto";
 
 export interface SavePlayerRequest {
   playerId: number;
   personalDetails: PersonalDetailsRequest;
   positionCapabilities: PositionCapabilitiesRequest;
+  hitterAbilities: HitterAbilitiesSaveRequest;
 }
 
 export interface PersonalDetailsRequest {
@@ -31,6 +33,17 @@ export interface PositionCapabilitiesRequest {
   leftField: string;
   centerField: string;
   rightField: string;
+}
+
+export interface HitterAbilitiesSaveRequest {
+  trajectory: number;
+  contact: number;
+  power: number;
+  runSpeed: number;
+  armStrength: number;
+  fielding: number;
+  errorResistance: number;
+  hotZoneGrid: HotZoneGridDto;
 }
 
 export class SavePlayerApiClient {

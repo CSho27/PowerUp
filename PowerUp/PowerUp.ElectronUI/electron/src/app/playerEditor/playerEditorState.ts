@@ -1,25 +1,33 @@
 import { Dispatch } from "react"
+import { Grade } from "../../components/gradeLetter/gradeLetter";
 import { KeyedCode } from "../shared/keyedCode"
 import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
+import { HotZoneGridAction, HotZoneGridState, HotZoneGridStateReducer } from "./hotZoneGrid";
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 
 export interface PlayerEditorState {
   selectedTab: PlayerEditorTab;
   personalDetails: PlayerPersonalDetails;
   positionCapabilityDetails: PositionCapabilityDetails;
+  hitterAbilities: HitterAbilities;
 }
 
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
 export const playerEditorTabOptions = [
   'Personal',
-  'Positions'
+  'Positions',
+//'Appearance',
+  'Hitter',
+//'Pitcher',
+//'Special'
 ] as const
 
 export type PlayerEditorAction =
 | { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
+| { type: 'updateHitterAbilities', action: HitterAbilitiesAction }
 
 export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
@@ -40,6 +48,11 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
       return {
         ...state,
         positionCapabilityDetails: PositionCapabilityDetailsReducer(state.positionCapabilityDetails, action.action)
+      }
+    case 'updateHitterAbilities':
+      return {
+        ...state,
+        hitterAbilities: HitterAbilitiesReducer(state.hitterAbilities, action.action)
       }
   }
 }
@@ -313,8 +326,109 @@ export function getDefaultCapabilitiesForPosition(position: Position) : Position
   }
 }
 
+export interface HitterAbilities {
+  trajectory: number;
+  contact: number;
+  power: number;
+  runSpeed: number;
+  armStrength: number;
+  fielding: number;
+  errorResistance: number;
+  hotZones: HotZoneGridState;
+}
+
+export type HitterAbilitiesAction =
+| { type: 'updateTrajectory', trajectory: number }
+| { type: 'updateContact', contact: number }
+| { type: 'updatePower', power: number }
+| { type: 'updateRunSpeed', runSpeed: number }
+| { type: 'updateArmStrength', armStrength: number }
+| { type: 'updateFielding', fielding: number }
+| { type: 'updateErrorResistance', errorResistance: number }
+| { type: 'updateHotZones', hzAction: HotZoneGridAction }
+
+export function HitterAbilitiesReducer(state: HitterAbilities, action: HitterAbilitiesAction): HitterAbilities {
+  switch(action.type) {
+    case 'updateTrajectory':
+      return {
+        ...state,
+        trajectory: action.trajectory
+      }
+    case 'updateContact':
+      return {
+        ...state,
+        contact: action.contact
+      }
+    case 'updatePower':
+      return {
+        ...state,
+        power: action.power
+      }
+    case 'updateRunSpeed':
+      return {
+        ...state,
+        runSpeed: action.runSpeed
+      }
+    case 'updateArmStrength':
+      return {
+        ...state,
+        armStrength: action.armStrength
+      }
+    case 'updateFielding':
+      return {
+        ...state,
+        fielding: action.fielding
+      }
+    case 'updateErrorResistance':
+      return {
+        ...state,
+        errorResistance: action.errorResistance
+      }
+    case 'updateHotZones':
+      return {
+        ...state,
+        hotZones: HotZoneGridStateReducer(state.hotZones, action.hzAction)
+      }
+  }
+}
+
+export function getHitterAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [HitterAbilities, Dispatch<HitterAbilitiesAction>] {
+  return [
+    state.hitterAbilities,
+    (action: HitterAbilitiesAction) => update({ type: 'updateHitterAbilities', action: action })
+  ]
+}
+
+export function getHotZoneGridReducer(state: HitterAbilities, update: Dispatch<HitterAbilitiesAction>) : [HotZoneGridState, Dispatch<HotZoneGridAction>] {
+  return [
+    state.hotZones,
+    (action: HotZoneGridAction) => update({ type: 'updateHotZones', hzAction: action })
+  ]
+}
+
+export function getGradeFor0_15(value: number): Grade {
+  if(value >= 14) return 'A';
+  if(value >= 12) return 'B';
+  if(value >= 10) return 'C';
+  if(value >= 8)  return 'D';
+  if(value >= 6)  return 'E';
+  if(value >= 4)  return 'F';
+  else            return 'G'; 
+}
+
+export function getGradeForPower(value: number): Grade {
+  if(value >= 180) return 'A';
+  if(value >= 140) return 'B';
+  if(value >= 120) return 'C';
+  if(value >= 100)  return 'D';
+  if(value >= 85)  return 'E';
+  if(value >= 25)  return 'F';
+  else            return 'G'; 
+}
+
+
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
-  const { personalDetails, positionCapabilityDetails: positionCapabilities } = response
+  const { personalDetails, positionCapabilityDetails: positionCapabilities, hitterAbilityDetails: hitterAbilities } = response
   
   return {
     selectedTab: 'Personal',
@@ -342,6 +456,16 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       battingStance: personalDetails.battingStance,
       throwingArm: personalDetails.throwingArm,
       pitchingMechanics: personalDetails.pitchingMechanics
+    },
+    hitterAbilities: {
+      trajectory: hitterAbilities.trajectory,
+      contact: hitterAbilities.contact,
+      power: hitterAbilities.power,
+      runSpeed: hitterAbilities.runSpeed,
+      armStrength: hitterAbilities.armStrength,
+      fielding: hitterAbilities.fielding,
+      errorResistance: hitterAbilities.errorResistance,
+      hotZones: hitterAbilities.hotZones
     }
   }
 }
