@@ -5,7 +5,7 @@ namespace PowerUp.ElectronUI.Controllers
 {
   public class GameSaveImportController : Controller
   {
-    public const string GameSaveImportUrl = "/import";
+    private const string GameSaveImportUrl = "/import";
 
     private readonly IRosterImportApi _rosterImportApi;
 

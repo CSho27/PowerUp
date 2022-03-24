@@ -24,7 +24,6 @@ namespace PowerUp.ElectronUI.Controllers
       return new ApplicationStartupResult(
         _webHostEnvironment, 
         COMMAND_URL, 
-        GameSaveImportController.GameSaveImportUrl, 
         null
       );
     }

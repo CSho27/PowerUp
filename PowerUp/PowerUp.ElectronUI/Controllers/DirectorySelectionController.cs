@@ -6,7 +6,7 @@ namespace PowerUp.ElectronUI.Controllers
 {
   public class DirectorySelectionController : Controller
   {
-    public const string DirectorySelectionUrl = "/select-directory";
+    private const string DirectorySelectionUrl = "/select-directory";
 
     [Route(DirectorySelectionUrl), HttpGet]
     public async Task<ActionResult> SelectDirectory()

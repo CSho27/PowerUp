@@ -10,7 +10,6 @@ import { PageLoadDefinition, pageRegistry } from './pages';
 
 export interface ApplicationStartupData {
   commandUrl: string;
-  rosterImportUrl: string;
 }
 
 export interface AppContext {
@@ -26,7 +25,7 @@ export type RenderModalCallback = (closeDialog: () => void) => ReactElement<Moda
 export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
 
 export function App(props: ApplicationStartupData) {
-  const { commandUrl, rosterImportUrl } = props;
+  const { commandUrl } = props;
   
   const initialState: AppState = {
     breadcrumbs: [],
@@ -47,7 +46,7 @@ export function App(props: ApplicationStartupData) {
   };
 
   useEffect(() => {
-    setPage({ page: 'HomePage', importUrl: rosterImportUrl });
+    setPage({ page: 'HomePage' });
   }, [])
 
   useGlobalBindings(
