@@ -20,11 +20,13 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
   public class RosterDetails
   {
+    public int RosterId { get; set; }
     public string Name { get; set; }
     public IEnumerable<TeamDetails> Teams { get; set; }
 
-    public RosterDetails(string name, IEnumerable<TeamDetails> teams)
+    public RosterDetails(int rosterId, string name, IEnumerable<TeamDetails> teams)
     {
+      RosterId = rosterId;
       Name = name;
       Teams = teams;
     }
@@ -32,7 +34,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static RosterDetails FromRoster(Roster roster)
     {
       var teams = roster.GetTeams().Select(kvp => TeamDetails.FromTeam(kvp.Key, kvp.Value));
-      return new RosterDetails(roster.Name, teams);
+      return new RosterDetails(roster.Id!.Value, roster.Name, teams);
     }
   }
 

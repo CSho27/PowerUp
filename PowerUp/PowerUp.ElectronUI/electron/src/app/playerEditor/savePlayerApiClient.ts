@@ -1,4 +1,5 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
+import { ResultResponse } from "../shared/resultResponse";
 import { HotZoneGridDto } from "./hotZoneGridDto";
 
 export interface SavePlayerRequest {
@@ -54,7 +55,7 @@ export class SavePlayerApiClient {
     this.commandFetcher = commandFetcher;
   } 
 
-  readonly execute = (request: SavePlayerRequest): Promise<any> => {
+  readonly execute = (request: SavePlayerRequest): Promise<ResultResponse> => {
     return this.commandFetcher.execute(this.commandName, request);
   }
 }

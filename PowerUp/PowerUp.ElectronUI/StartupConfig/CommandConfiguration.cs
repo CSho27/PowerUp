@@ -13,6 +13,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<LoadPlayerEditorCommand>();
       services.AddSingleton<LoadExistingRosterCommand>();
       services.AddSingleton<LoadExistingRosterOptionsCommand>();
+      services.AddSingleton<ExportRosterCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -23,6 +24,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(LoadPlayerEditorCommand), "LoadPlayerEditor");
       commandRegistry.RegisterCommand(typeof(LoadExistingRosterCommand), "LoadExistingRoster");
       commandRegistry.RegisterCommand(typeof(LoadExistingRosterOptionsCommand), "LoadExistingRosterOptions");
+      commandRegistry.RegisterCommand(typeof(ExportRosterCommand), "ExportRoster");
     }
   }
 }

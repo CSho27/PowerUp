@@ -6,6 +6,7 @@ import { Icon, IconType } from "../icon/icon";
 export interface ButtonProps {
   variant: ButtonVariant;
   size: ButtonSize;
+  id?: string;
   icon?: IconType;
   textAlign?: ButtonTextAlignment;
   squarePadding?: boolean;
@@ -19,7 +20,7 @@ export type ButtonSize = 'Small' | 'Medium' | 'Large';
 export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, icon, textAlign, squarePadding, disabled, children, onClick } = props;
+  const { variant, size, id, icon, textAlign, squarePadding, disabled, children, onClick } = props;
 
   const buttonContent = !icon 
     ? children
@@ -35,6 +36,7 @@ export function Button(props: ButtonProps) {
   switch (variant) {
     case "Fill":
       return <FillButton 
+        id={id}
         disabled={disabled}
         onClick={handleClick}
         size={size} 
@@ -43,6 +45,7 @@ export function Button(props: ButtonProps) {
       >{buttonContent}</FillButton>;
     case "Outline":
       return <OutlineButton 
+        id={id}
         disabled={disabled}
         onClick={handleClick} 
         size={size} 
@@ -51,6 +54,7 @@ export function Button(props: ButtonProps) {
       >{buttonContent}</OutlineButton>;
     case "Ghost":
       return <GhostButton 
+        id={id}
         disabled={disabled}
         onClick={handleClick} 
         size={size} 

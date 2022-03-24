@@ -9,6 +9,7 @@ export type IconType =
 | 'chevron-down'
 | 'chevron-up'
 | 'circle-notch'
+| 'download'
 | 'floppy-disk'
 | 'folder-open'
 | 'pen-to-square'

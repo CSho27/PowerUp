@@ -1,5 +1,4 @@
 import { PerformWithSpinnerCallback } from "../app";
-import { RosterEditorResponse } from "./rosterEditorDTOs";
 
 export interface ImportRosterRequest {
   file: File;

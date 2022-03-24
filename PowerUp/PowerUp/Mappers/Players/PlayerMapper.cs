@@ -18,7 +18,7 @@ namespace PowerUp.Mappers.Players
   public interface IPlayerMapper
   {
     Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters);
-    GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam);
+    GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam, int powerProsId);
   }
 
   public class PlayerMapper : IPlayerMapper
@@ -67,7 +67,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam)
+    public GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam, int powerProsId)
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
@@ -78,6 +78,7 @@ namespace PowerUp.Mappers.Players
 
       return new GSPlayer
       {
+        PowerProsId = (ushort)powerProsId,
         PowerProsTeamId = (ushort)mlbPPTeam,
 
         LastName = player.LastName,
