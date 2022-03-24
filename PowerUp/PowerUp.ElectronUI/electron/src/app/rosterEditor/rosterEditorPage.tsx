@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
+import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
@@ -10,6 +11,7 @@ import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
+import { RosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {
@@ -26,7 +28,16 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   const header = <>
     <Breadcrumbs appContext={appContext}/>
-    <RosterHeader>{rosterName}</RosterHeader>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <RosterHeader>{rosterName}</RosterHeader>
+      <Button 
+        size='Medium' 
+        variant='Fill' 
+        squarePadding
+        icon='download'
+        onClick={openExportModal} 
+      />
+    </div>
     <TabButtonNav 
       selectedTab={selectedDivision.name}
       tabOptions={divisionOptions.map(o => o.name)}
@@ -53,6 +64,10 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   function handleDivisionChange(division: KeyedCode) {
     setSelectedDivision(division);
     teamsRef.current?.scrollTo({ top: 0, behavior: 'auto' })
+  }
+
+  function openExportModal() {
+    appContext.openModal(closeDialog => <RosterExportModal appContext={appContext} closeDialog={closeDialog} />)
   }
 }
 
