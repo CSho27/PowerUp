@@ -7,6 +7,7 @@ export interface RosterEditorResponse {
 }
 
 export interface RosterDetails {
+  rosterId: number;
   name: string
   teams: TeamDetails[];
 }

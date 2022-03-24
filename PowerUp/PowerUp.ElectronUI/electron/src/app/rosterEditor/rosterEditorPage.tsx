@@ -22,7 +22,7 @@ export interface RosterEditorPageProps {
 
 export function RosterEditorPage(props: RosterEditorPageProps) {
   const { appContext, divisionOptions, rosterDetails } = props;
-  const { name: rosterName, teams } = rosterDetails;
+  const { rosterId, name: rosterName, teams } = rosterDetails;
 
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
 
@@ -67,7 +67,11 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   }
 
   function openExportModal() {
-    appContext.openModal(closeDialog => <RosterExportModal appContext={appContext} closeDialog={closeDialog} />)
+    appContext.openModal(closeDialog => <RosterExportModal 
+      appContext={appContext} 
+      rosterId={rosterId}
+      closeDialog={closeDialog} 
+    />)
   }
 }
 
