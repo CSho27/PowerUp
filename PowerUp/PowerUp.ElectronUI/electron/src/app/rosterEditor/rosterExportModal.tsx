@@ -15,7 +15,7 @@ export interface RosterExportModalProps {
 
 export function RosterExportModal(props: RosterExportModalProps) {
   const { appContext, rosterId, closeDialog } = props;
-  const directorySelectionApiClientRef = useRef(new DirectorySelectionApiClient());
+  const directorySelectionApiClientRef = useRef(new DirectorySelectionApiClient())//new FileSystemSelectionApiClient(appContext.commandFetcher));
   const exportApiClientRef = useRef(new ExportRosterApiClient(appContext.commandFetcher));
   const [selectedDirectory, setSelectedDirectory] = useState<string|undefined>(undefined);
 
@@ -43,8 +43,8 @@ export function RosterExportModal(props: RosterExportModalProps) {
   </Modal>
 
   async function selectDirectory() {
-    const response = await directorySelectionApiClientRef.current.execute();
-    setSelectedDirectory(response.directoryPath);
+    const response = await directorySelectionApiClientRef.current.execute({ selectionType: 'Directory' });
+    setSelectedDirectory(response.path ?? undefined);
   }
 
   async function exportRoster() {
