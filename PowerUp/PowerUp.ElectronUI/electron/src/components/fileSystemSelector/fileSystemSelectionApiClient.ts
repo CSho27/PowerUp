@@ -10,7 +10,7 @@ export interface FileSystemSelectionResponse {
   path: string | null;
 }
 
-export class DirectorySelectionApiClient {
+export class FileSystemSelectionApiClient {
   execute = async (request: FileSystemSelectionRequest): Promise<FileSystemSelectionResponse> => {
     try {
       const response = await fetch('./file-system-selection', {
