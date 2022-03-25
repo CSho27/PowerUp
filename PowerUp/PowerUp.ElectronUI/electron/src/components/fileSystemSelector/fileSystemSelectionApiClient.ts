@@ -4,6 +4,12 @@ export type FileSystemSelectionType =
 
 export interface FileSystemSelectionRequest {
   selectionType: FileSystemSelectionType;
+  fileFilter?: FileFilterRequest;
+}
+
+export interface FileFilterRequest {
+  name: string;
+  allowedExtensions: string[];
 }
 
 export interface FileSystemSelectionResponse {

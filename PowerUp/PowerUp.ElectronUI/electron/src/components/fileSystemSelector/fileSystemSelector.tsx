@@ -8,10 +8,20 @@ export interface FileSystemSelectorProps {
   selectedPath: string | undefined;
   onSelection: (path: string | undefined) => void;
   id?: string;
+  fileFilter?: FileFilter;
+  disabled?: boolean;
 }
 
+export interface FileFilter {
+  name: string;
+  allowedExtensions: FileExtension[];
+}
+
+export type FileExtension =
+| 'dat'
+
 export function FileSystemSelector(props: FileSystemSelectorProps) {
-  const { id, type, selectedPath, onSelection } = props;
+  const { type, selectedPath, onSelection, id, fileFilter, disabled } = props;
   const directorySelectionApiClientRef = useRef(new FileSystemSelectionApiClient());
   const splitPath = selectedPath?.split(/\\|\//);
   const selectedItem = splitPath
@@ -28,6 +38,7 @@ export function FileSystemSelector(props: FileSystemSelectorProps) {
         icon={type === 'Directory'
           ? 'folder'
           : 'file'}
+        disabled={disabled}
         onClick={selectDirectory}
         >
         Choose {type}
@@ -38,9 +49,14 @@ export function FileSystemSelector(props: FileSystemSelectorProps) {
   </FileSystemSelectorWrapper>
 
   async function selectDirectory() {
-    const response = await directorySelectionApiClientRef.current.execute({ selectionType: type });
-    if(response.path != selectedPath)
-    onSelection(response.path ?? undefined);
+    const response = await directorySelectionApiClientRef.current.execute({ 
+      selectionType: type,
+      fileFilter: !!fileFilter
+        ? { name: fileFilter.name, allowedExtensions: fileFilter.allowedExtensions }
+        : undefined
+    });
+    if(response.path && response.path != selectedPath)
+      onSelection(response.path ?? undefined);
   }
 }
 
