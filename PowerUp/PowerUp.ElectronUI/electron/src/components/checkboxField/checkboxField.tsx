@@ -4,28 +4,25 @@ import { COLORS } from "../../style/constants";
 
 export interface CheckboxFieldProps {
   checked: boolean;
+  onToggle: () => void;
+  id?: string;
   size?: CheckboxFieldSize;
-  onChecked: (checked: boolean) => void;
 }
 
 export type CheckboxFieldSize = 'Small' | 'Medium'
 
 export function CheckboxField(props: CheckboxFieldProps) {
-  const { checked, size, onChecked } = props;
+  const { checked, onToggle, id, size } = props;
   
   return <CheckboxWrapper size={size ?? 'Medium'} checked={checked}>
     {checked ? '\u2713': ''}
-    <CheckboxInput 
+    <CheckboxInput
+      id={id} 
       type='checkbox'
       checked={checked}
-      onChange={handleChecked}
+      onChange={onToggle}
     />
   </CheckboxWrapper>
-
-  function handleChecked(event: ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value === 'on';
-    onChecked(value);
-  }
 }
 
 const sizingStyles: { [key in CheckboxFieldSize]: string } = {
@@ -65,4 +62,5 @@ const CheckboxInput = styled.input`
   width: 100%;
   height: 100%;
   opacity: 0;
+  cursor: pointer;
 `

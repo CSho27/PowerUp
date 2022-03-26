@@ -4,8 +4,12 @@ import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { AppContext } from "../app";
-import { DirectorySelectionApiClient } from "./directorySelectionApiClient";
+import { FileSystemSelectionApiClient } from "../../components/fileSystemSelector/fileSystemSelectionApiClient";
 import { ExportRosterApiClient } from "./exportRosterApiClient";
+import { FileSystemSelector } from "../../components/fileSystemSelector/fileSystemSelector";
+import { FlexRow } from "../../components/flexRow/flexRow";
+import { CheckboxField } from "../../components/checkboxField/checkboxField";
+import { FONT_SIZES } from "../../style/constants";
 
 export interface RosterExportModalProps {
   appContext: AppContext;
@@ -13,53 +17,68 @@ export interface RosterExportModalProps {
   closeDialog: () => void;
 }
 
+interface State {
+  useBaseGameSave: boolean;
+  selectedGameSaveFile: string | undefined; 
+  selectedDirectory: string | undefined;
+}
+
 export function RosterExportModal(props: RosterExportModalProps) {
   const { appContext, rosterId, closeDialog } = props;
-  const directorySelectionApiClientRef = useRef(new DirectorySelectionApiClient());
+  
   const exportApiClientRef = useRef(new ExportRosterApiClient(appContext.commandFetcher));
-  const [selectedDirectory, setSelectedDirectory] = useState<string|undefined>(undefined);
+  const [state, setState] = useState<State>({
+    useBaseGameSave: true,
+    selectedGameSaveFile: undefined,
+    selectedDirectory: undefined
+  });
 
   return <Modal ariaLabel='Export Roster'>
     <div style={{ paddingBottom: '16px' }}>
-      <FieldLabel htmlFor='gameSaveExportLocationSelector'>Export Location</FieldLabel>
-      <div style={{ display: 'flex', gap: '16px', alignItems: 'baseline' }}>
-        <div style={{ flex: '0 0 auto' }}>
-          <Button 
-            id='gameSaveExportLocationSelector'
+      <FlexRow gap='16px' vAlignCenter>
+        <FieldLabel htmlFor='gameSaveToCopyFromSelector'>Game Save to Copy From</FieldLabel>
+        <FlexRow gap='4px' vAlignCenter style={{ flex: 'auto' }}>
+          <CheckboxField 
+            id='useBaseGameSave'
+            checked={state.useBaseGameSave}
             size='Small'
-            variant='Outline'
-            onClick={selectDirectory}
-            >
-            Choose Directory
-          </Button>
-        </div>
-        <DirectoryDisplay style={{ flex: '0 1 auto'}}>{selectedDirectory}</DirectoryDisplay>
-      </div>
+            onToggle={() => setState(p => ({...p, useBaseGameSave: !state.useBaseGameSave }))}
+            />
+          <label htmlFor='useBaseGameSave' style={{ fontSize: FONT_SIZES._14 }}>Use Base Game Save</label>
+        </FlexRow>
+      </FlexRow>
+      <FileSystemSelector
+        id='gameSaveToCopyFromSelector'
+        type='File'
+        selectedPath={state.useBaseGameSave ? undefined : state.selectedGameSaveFile}
+        fileFilter={{ name: 'PowerPros Game Save', allowedExtensions: ['dat'] }}
+        disabled={state.useBaseGameSave}
+        onSelection={file => setState(p => ({ ...p, selectedGameSaveFile: file }))}
+      />
+    </div>
+    <div style={{ paddingBottom: '16px' }}>
+      <FieldLabel htmlFor='gameSaveExportLocationSelector'>Export Location</FieldLabel>
+      <FileSystemSelector
+        id='gameSaveExportLocationSelector'
+        type='Directory'
+        selectedPath={state.selectedDirectory}
+        onSelection={dir => setState(p => ({ ...p, selectedDirectory: dir }))}
+      />
     </div>
     <div style={{ display: 'flex', gap: '4px' }}>
       <Button variant='Outline' size='Small' onClick={closeDialog}>Cancel</Button>
-      <Button variant='Fill' size='Small' disabled={!selectedDirectory} onClick={exportRoster}>Export</Button>
+      <Button variant='Fill' size='Small' disabled={!state.selectedDirectory || (!state.useBaseGameSave && !state.selectedGameSaveFile)} onClick={exportRoster}>Export</Button>
     </div>
   </Modal>
-
-  async function selectDirectory() {
-    const response = await directorySelectionApiClientRef.current.execute();
-    setSelectedDirectory(response.directoryPath);
-  }
 
   async function exportRoster() {
     const response = await exportApiClientRef.current.execute({
       rosterId: rosterId,
-      directoryPath: selectedDirectory!
+      sourceGameSavePath: state.selectedGameSaveFile,
+      directoryPath: state.selectedDirectory!
     });
 
     if(response.success)
       closeDialog();
   }
 }
-
-const DirectoryDisplay = styled.span`
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-`

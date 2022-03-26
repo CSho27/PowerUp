@@ -54,7 +54,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
             <CheckboxField 
               checked={details.useSpecialSavedName}
               size='Small'
-              onChecked={() => update({ type: 'toggleUseSpecialSavedName' })}
+              onToggle={() => update({ type: 'toggleUseSpecialSavedName' })}
             />
             <span style={{ fontSize: FONT_SIZES._14 }}>Use Special Saved Name</span>
           </FlexRow>}

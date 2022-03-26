@@ -8,7 +8,6 @@ import { ImportRosterApiClient } from "../rosterEditor/importRosterApiClient";
 
 export interface ImportRosterModalProps {
   appContext: AppContext;
-  importUrl: string;
   closeDialog: () => void;
 }
 
@@ -18,9 +17,9 @@ interface State {
 }
 
 export function ImportRosterModal(props: ImportRosterModalProps) {
-  const { appContext, importUrl, closeDialog } = props;
+  const { appContext, closeDialog } = props;
 
-  const importApiClientRef = useRef(new ImportRosterApiClient(importUrl, appContext.performWithSpinner));
+  const importApiClientRef = useRef(new ImportRosterApiClient(appContext.performWithSpinner));
 
   const [state, setState] = useState<State>({
     rosterName: undefined,

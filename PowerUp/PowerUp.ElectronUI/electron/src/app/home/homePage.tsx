@@ -14,11 +14,10 @@ import { ImportRosterModal } from "./importRosterModal";
 
 export interface HomePageProps {
   appContext: AppContext;
-  importUrl: string;
 }
 
 export function HomePage(props: HomePageProps) {
-  const { appContext, importUrl } = props;
+  const { appContext } = props;
 
   const loadBaseRosterApiClientRef = useRef(new ImportBaseRosterApiClient(appContext.commandFetcher));
   const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
@@ -81,7 +80,6 @@ export function HomePage(props: HomePageProps) {
   function openImportModal() {
     appContext.openModal(closeDialog => <ImportRosterModal
       appContext={appContext}
-      importUrl={importUrl}
       closeDialog={closeDialog}
     />);
   }
@@ -137,6 +135,6 @@ export const loadHomePage: PageLoadFunction = async (appContext: AppContext, pag
 
   return {
     title: 'Home',
-    renderPage: (appContext) => <HomePage appContext={appContext} importUrl={pageDef.importUrl} />
+    renderPage: (appContext) => <HomePage appContext={appContext} />
   }
 }

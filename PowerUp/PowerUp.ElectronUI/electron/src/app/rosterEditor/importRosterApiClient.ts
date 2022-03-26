@@ -10,11 +10,9 @@ export interface ImportRosterResponse {
 }
 
 export class ImportRosterApiClient {
-  private readonly importUrl: string;
   private readonly performWithSpinner: PerformWithSpinnerCallback;
 
-  constructor(importUrl: string, performWithSpinner: PerformWithSpinnerCallback) {
-    this.importUrl = importUrl;
+  constructor(performWithSpinner: PerformWithSpinnerCallback) {
     this.performWithSpinner = performWithSpinner;
   }
 
