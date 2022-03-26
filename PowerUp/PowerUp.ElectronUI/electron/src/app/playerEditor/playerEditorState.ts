@@ -641,7 +641,7 @@ export function getGradeForControl(value: number): Grade {
   if(value >= 155) return 'B';
   if(value >= 135) return 'C';
   if(value >= 120) return 'D';
-  if(value >= 120) return 'E';
+  if(value >= 110) return 'E';
   if(value >= 100) return 'F';
   else             return 'G'; 
 }
