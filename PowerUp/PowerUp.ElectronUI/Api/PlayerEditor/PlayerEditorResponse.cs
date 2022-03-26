@@ -155,7 +155,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PitcherAbilityDetailsDto
   {
-    public int TopSpeedMph { get; set; }
+    public int TopSpeed { get; set; }
     public int Control { get; set; }
     public int Stamina { get; set; }
 
@@ -194,7 +194,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public PitcherAbilityDetailsDto(PitcherAbilities pitcherAbilities)
     {
-      TopSpeedMph = (int)pitcherAbilities.TopSpeedMph;
+      TopSpeed = (int)pitcherAbilities.TopSpeedMph;
       Control = pitcherAbilities.Control;
       Stamina = pitcherAbilities.Stamina;
 

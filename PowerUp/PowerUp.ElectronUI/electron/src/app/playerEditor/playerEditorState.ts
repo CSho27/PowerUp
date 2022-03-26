@@ -11,6 +11,7 @@ export interface PlayerEditorState {
   personalDetails: PlayerPersonalDetails;
   positionCapabilityDetails: PositionCapabilityDetails;
   hitterAbilities: HitterAbilities;
+  pitcherAbilities: PitcherAbilities;
 }
 
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
@@ -19,7 +20,7 @@ export const playerEditorTabOptions = [
   'Positions',
 //'Appearance',
   'Hitter',
-//'Pitcher',
+  'Pitcher',
 //'Special'
 ] as const
 
@@ -28,6 +29,7 @@ export type PlayerEditorAction =
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
 | { type: 'updateHitterAbilities', action: HitterAbilitiesAction }
+| { type: 'updatePitcherAbilities', action: PitcherAbilitiesAction }
 
 export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
@@ -53,6 +55,11 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
       return {
         ...state,
         hitterAbilities: HitterAbilitiesReducer(state.hitterAbilities, action.action)
+      }
+    case 'updatePitcherAbilities':
+      return {
+        ...state,
+        pitcherAbilities: PitcherAbilitiesReducer(state.pitcherAbilities, action.action)
       }
   }
 }
@@ -406,6 +413,209 @@ export function getHotZoneGridReducer(state: HitterAbilities, update: Dispatch<H
   ]
 }
 
+export interface PitcherAbilities {
+  topSpeed: number;
+  control: number;
+  stamina: number;
+
+  twoSeamType: KeyedCode | undefined;
+  twoSeamMovement: number;
+
+  slider1Type: KeyedCode | undefined;
+  slider1Movement: number;
+
+  slider2Type: KeyedCode | undefined;
+  slider2Movement: number;
+
+  curve1Type: KeyedCode | undefined;
+  curve1Movement: number;
+
+  curve2Type: KeyedCode | undefined;
+  curve2Movement: number;
+
+  fork1Type: KeyedCode | undefined;
+  fork1Movement: number;
+
+  fork2Type: KeyedCode | undefined;
+  fork2Movement: number;
+
+  sinker1Type: KeyedCode | undefined;
+  sinker1Movement: number;
+
+  sinker2Type: KeyedCode | undefined;
+  sinker2Movement: number;
+
+  sinkingFastball1Type: KeyedCode | undefined;
+  sinkingFastball1Movement: number;
+
+  sinkingFastball2Type: KeyedCode | undefined;
+  sinkingFastball2Movement: number;
+}
+
+export type PitcherAbilitiesAction = 
+| { type: 'updateTopSpeed', topSpeed: number }
+| { type: 'updateControl', control: number }
+| { type: 'updateStamina', stamina: number }
+| { type: 'updateTwoSeamType', twoSeamType: KeyedCode | undefined }
+| { type: 'updateTwoSeamMovement', movement: number }
+| { type: 'updateSlider1Type', sliderType: KeyedCode | undefined }
+| { type: 'updateSlider1Movement', movement: number }
+| { type: 'updateSlider2Type', sliderType: KeyedCode | undefined }
+| { type: 'updateSlider2Movement', movement: number }
+| { type: 'updateCurve1Type', curveType: KeyedCode | undefined }
+| { type: 'updateCurve1Movmement', movement: number }
+| { type: 'updateCurve2Type', curveType: KeyedCode | undefined }
+| { type: 'updateCurve2Movement', movement: number }
+| { type: 'updateFork1Type', forkType: KeyedCode | undefined }
+| { type: 'updateFork1Movement', movement: number }
+| { type: 'updateFork2Type', forkType: KeyedCode | undefined }
+| { type: 'updateFork2Movement', movement: number }
+| { type: 'updateSinker1Type', sinkerType: KeyedCode | undefined }
+| { type: 'updateSinker1Movement', movement: number }
+| { type: 'updateSinker2Type', sinkerType: KeyedCode | undefined }
+| { type: 'updateSinker2Movement', movement: number }
+| { type: 'updateSinkingFastball1Type', sinkingFastballType: KeyedCode | undefined }
+| { type: 'updateSinkingFastball1Movement', movement: number }
+| { type: 'updateSinkingFastball2Type', sinkingFastballType: KeyedCode | undefined }
+| { type: 'updateSinkingFastball2Movement', movement: number }
+
+export function PitcherAbilitiesReducer(state: PitcherAbilities, action: PitcherAbilitiesAction): PitcherAbilities {
+  switch(action.type) {
+    case 'updateTopSpeed':
+      return {
+        ...state,
+        topSpeed: action.topSpeed
+      }
+    case 'updateControl':
+      return {
+        ...state,
+        control: action.control
+      }
+    case 'updateStamina':
+      return {
+        ...state,
+        stamina: action.stamina
+      }
+    case 'updateTwoSeamType':
+      return {
+        ...state,
+        twoSeamType: action.twoSeamType,
+      }
+    case 'updateTwoSeamMovement':
+      return {
+        ...state,
+        twoSeamMovement: action.movement
+      }
+    case 'updateSlider1Type':
+      return {
+        ...state,
+        slider1Type: action.sliderType
+      }
+    case 'updateSlider1Movement':
+      return {
+        ...state,
+        slider1Movement: action.movement
+      }
+    case 'updateSlider2Type':
+      return {
+        ...state,
+        slider2Type: action.sliderType
+      }
+    case 'updateSlider2Movement':
+      return {
+        ...state,
+        slider2Movement: action.movement
+      }
+    case 'updateCurve1Type':
+      return {
+        ...state,
+        curve1Type: action.curveType
+      }
+    case 'updateCurve1Movmement':
+      return {
+        ...state,
+        curve1Movement: action.movement
+      }
+    case 'updateCurve2Type':
+      return {
+        ...state,
+        curve2Type: action.curveType
+      }
+    case 'updateCurve2Movement':
+      return {
+        ...state,
+        curve2Movement: action.movement
+      }
+    case 'updateFork1Type':
+      return {
+        ...state,
+        fork1Type: action.forkType
+      }
+    case 'updateFork1Movement':
+      return {
+        ...state,
+        fork1Movement: action.movement
+      } 
+    case 'updateFork2Type':
+      return {
+        ...state,
+        fork2Type: action.forkType
+      }
+    case 'updateFork2Movement':
+      return {
+        ...state,
+        fork2Movement: action.movement
+      }
+    case 'updateSinker1Type':
+      return {
+        ...state,
+        sinker1Type: action.sinkerType
+      }
+    case 'updateSinker1Movement':
+      return {
+        ...state,
+        sinker1Movement: action.movement
+      }
+    case 'updateSinker2Type':
+      return {
+        ...state,
+        sinker2Type: action.sinkerType
+      }
+    case 'updateSinker2Movement':
+      return {
+        ...state,
+        sinker2Movement: action.movement
+      }
+    case 'updateSinkingFastball1Type':
+      return {
+        ...state,
+        sinkingFastball1Type: action.sinkingFastballType
+      }
+    case 'updateSinkingFastball1Movement':
+      return {
+        ...state,
+        sinkingFastball1Movement: action.movement
+      }
+    case 'updateSinkingFastball2Type':
+      return {
+        ...state,
+        sinkingFastball2Type: action.sinkingFastballType
+      }
+    case 'updateSinkingFastball2Movement':
+      return {
+        ...state,
+        sinkingFastball2Movement: action.movement
+      }
+  }
+}
+
+export function getPitcherAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [PitcherAbilities, Dispatch<PitcherAbilitiesAction>] {
+  return [
+    state.pitcherAbilities,
+    (action: PitcherAbilitiesAction) => update({ type: 'updatePitcherAbilities', action: action })
+  ]
+}
+
 export function getGradeFor0_15(value: number): Grade {
   if(value >= 14) return 'A';
   if(value >= 12) return 'B';
@@ -428,7 +638,12 @@ export function getGradeForPower(value: number): Grade {
 
 
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
-  const { personalDetails, positionCapabilityDetails: positionCapabilities, hitterAbilityDetails: hitterAbilities } = response
+  const { 
+    personalDetails, 
+    positionCapabilityDetails: positionCapabilities, 
+    hitterAbilityDetails: hitterAbilities,
+    pitcherAbilityDetails: pitcherAbilities
+  } = response
   
   return {
     selectedTab: 'Personal',
@@ -466,6 +681,33 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       fielding: hitterAbilities.fielding,
       errorResistance: hitterAbilities.errorResistance,
       hotZones: hitterAbilities.hotZones
+    },
+    pitcherAbilities: {
+      topSpeed: pitcherAbilities.topSpeed,
+      control: pitcherAbilities.control,
+      stamina: pitcherAbilities.stamina,
+      twoSeamType: pitcherAbilities.twoSeamType ?? undefined,
+      twoSeamMovement: pitcherAbilities.twoSeamMovement ?? 1,
+      slider1Type: pitcherAbilities.slider1Type ?? undefined,
+      slider1Movement: pitcherAbilities.slider1Movement ?? 1,
+      slider2Type: pitcherAbilities.slider2Type ?? undefined,
+      slider2Movement: pitcherAbilities.slider2Movement ?? 1,
+      curve1Type: pitcherAbilities.curve1Type ?? undefined,
+      curve1Movement: pitcherAbilities.curve1Movement ?? 1,
+      curve2Type: pitcherAbilities.curve2Type ?? undefined,
+      curve2Movement: pitcherAbilities.curve1Movement ?? 1,
+      fork1Type: pitcherAbilities.fork1Type ?? undefined,
+      fork1Movement: pitcherAbilities.fork1Movement ?? 1,
+      fork2Type: pitcherAbilities.fork2Type ?? undefined,
+      fork2Movement: pitcherAbilities.fork2Movement ?? 1,
+      sinker1Type: pitcherAbilities.sinker1Type ?? undefined,
+      sinker1Movement: pitcherAbilities.sinker1Movement ?? 1,
+      sinker2Type: pitcherAbilities.sinker1Type ?? undefined,
+      sinker2Movement: pitcherAbilities.sinker2Movement ?? 1,
+      sinkingFastball1Type: pitcherAbilities.sinkingFastball1Type ?? undefined,
+      sinkingFastball1Movement: pitcherAbilities.sinkingFastball1Movement ?? 1,
+      sinkingFastball2Type: pitcherAbilities.sinkingFastball2Type ?? undefined,
+      sinkingFastball2Movement: pitcherAbilities.sinkingFastball2Movement ?? 1
     }
   }
 }
