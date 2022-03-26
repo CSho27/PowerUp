@@ -17,7 +17,8 @@ import { PowerUpLayout } from "../shared/powerUpLayout";
 import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
 import { BattingSide } from "./hotZoneGrid";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
-import { getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { PitcherAbilitiesEditor } from "./pitcherAbilitiesEditor";
+import { getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
@@ -42,6 +43,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
   const [positionCapabilityDetails, updatePositionCapabilities] = getPositionCapabilityDetailsReducer(state, update);
   const [hitterAbilities, updateHitterAbilities] = getHitterAbilitiesReducer(state, update);
+  const [pitcherAbilities, updatePitcherAbilities] = getPitcherAbilitiesReducer(state, update);
 
   const savedName = personalDetails.useSpecialSavedName
     ? editorResponse.personalDetails.savedName
@@ -103,6 +105,11 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           battingSide={state.personalDetails.battingSide.key as BattingSide}
           details={hitterAbilities}
           update={updateHitterAbilities}
+        />}
+        {state.selectedTab === 'Pitcher' &&
+        <PitcherAbilitiesEditor
+          details={pitcherAbilities}
+          update={updatePitcherAbilities}
         />}
       </EditorContainer>
     </ContentWithHangingHeader>
