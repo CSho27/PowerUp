@@ -1,7 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.ElectronUI.Api.Shared;
 using PowerUp.GameSave.Api;
-using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Api.Rosters
 {
@@ -23,8 +22,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
       var parameters = new RosterExportParameters 
       {
-        ExportDirectory = request.DirectoryPath,
-        Roster = roster
+        Roster = roster,
+        SourceGameSave = request.SourceGameSavePath,
+        ExportDirectory = request.DirectoryPath
       };
 
       _rosterExportApi.ExportRoster(parameters);
@@ -36,6 +36,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
   public class ExportRosterRequest
   {
     public int RosterId { get; set; }
+    public string? SourceGameSavePath { get; set; }
     public string? DirectoryPath { get; set; }
   }
 }

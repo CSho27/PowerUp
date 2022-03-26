@@ -9,8 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.GameSave.Api
 {
@@ -56,7 +54,7 @@ namespace PowerUp.GameSave.Api
         fileExists = File.Exists(rosterFilePath);
       }
 
-      File.Copy(_baseGameSavePathProvider.GetPath(), rosterFilePath);
+      File.Copy(parameters.SourceGameSave ?? _baseGameSavePathProvider.GetPath(), rosterFilePath);
 
       using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath))
       {
@@ -94,6 +92,7 @@ namespace PowerUp.GameSave.Api
   public class RosterExportParameters
   {
     public Roster? Roster { get; set; }
+    public string? SourceGameSave { get; set; }
     public string? ExportDirectory { get; set; }
   }
 }

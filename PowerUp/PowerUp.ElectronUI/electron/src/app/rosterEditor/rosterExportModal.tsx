@@ -67,13 +67,14 @@ export function RosterExportModal(props: RosterExportModalProps) {
     </div>
     <div style={{ display: 'flex', gap: '4px' }}>
       <Button variant='Outline' size='Small' onClick={closeDialog}>Cancel</Button>
-      <Button variant='Fill' size='Small' disabled={!state.selectedDirectory || (state.useBaseGameSave && !state.selectedGameSaveFile)} onClick={exportRoster}>Export</Button>
+      <Button variant='Fill' size='Small' disabled={!state.selectedDirectory || (!state.useBaseGameSave && !state.selectedGameSaveFile)} onClick={exportRoster}>Export</Button>
     </div>
   </Modal>
 
   async function exportRoster() {
     const response = await exportApiClientRef.current.execute({
       rosterId: rosterId,
+      sourceGameSavePath: state.selectedGameSaveFile,
       directoryPath: state.selectedDirectory!
     });
 

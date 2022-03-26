@@ -20,8 +20,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         throw new ArgumentNullException(nameof(request.PlayerId));
 
       var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
-      _playerApi.UpdatePlayer(player, request.GetParameters());
-      DatabaseConfig.PlayerDatabase.Save(player);
+      _playerApi.UpdatePlayer(player!, request.GetParameters());
+      DatabaseConfig.PlayerDatabase.Save(player!);
 
       return ResultResponse.Succeeded();
     }

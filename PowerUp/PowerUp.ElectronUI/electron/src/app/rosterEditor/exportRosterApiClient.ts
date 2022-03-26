@@ -4,6 +4,7 @@ import { ResultResponse } from "../shared/resultResponse";
 
 export interface ExportRosterRequest {
   rosterId: number;
+  sourceGameSavePath?: string;
   directoryPath: string;
 }
 
