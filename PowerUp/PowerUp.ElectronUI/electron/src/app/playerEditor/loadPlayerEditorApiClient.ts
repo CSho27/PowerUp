@@ -13,6 +13,7 @@ export interface PlayerEditorResponse {
   personalDetails: PlayerPersonalDetailsDto;
   positionCapabilityDetails: PositionCapabilityDetailsDto;
   hitterAbilityDetails: HitterAbilityDetailsDto;
+  pitcherAbilityDetails: PitcherAbilityDetailsDto;
 }
 
 export interface PlayerEditorOptions {
@@ -62,6 +63,45 @@ export interface HitterAbilityDetailsDto {
   fielding: number;
   errorResistance: number;
   hotZones: HotZoneGridDto;
+}
+
+export interface PitcherAbilityDetailsDto {
+  topSpeed: number;
+  control: number;
+  stamina: number;
+
+  twoSeamType: KeyedCode | null;
+  twoSeamMovement: number | null;
+
+  slider1Type: KeyedCode | null;
+  slider1Movement: number | null;
+
+  slider2Type: KeyedCode | null;
+  slider2Movement: number | null;
+
+  curve1Type: KeyedCode | null;
+  curve1Movement: number | null;
+
+  curve2Type: KeyedCode | null;
+  curve2Movement: number | null;
+
+  fork1Type: KeyedCode | null;
+  fork1Movement: number | null;
+
+  fork2Type: KeyedCode | null;
+  fork2Movement: number | null;
+
+  sinker1Type: KeyedCode | null;
+  sinker1Movement: number | null;
+
+  sinker2Type: KeyedCode | null;
+  sinker2Movement: number | null;
+
+  sinkingFastball1Type: KeyedCode | null;
+  sinkingFastball1Movement: number | null;
+
+  sinkingFastball2Type: KeyedCode | null;
+  sinkingFastball2Movement: number | null;
 }
 
 export class LoadPlayerEditorApiClient {
