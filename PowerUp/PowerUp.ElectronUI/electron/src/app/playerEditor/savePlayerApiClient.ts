@@ -7,6 +7,7 @@ export interface SavePlayerRequest {
   personalDetails: PersonalDetailsRequest;
   positionCapabilities: PositionCapabilitiesRequest;
   hitterAbilities: HitterAbilitiesSaveRequest;
+  pitcherAbilities: PitcherAbilitiesSaveRequest;
 }
 
 export interface PersonalDetailsRequest {
@@ -45,6 +46,45 @@ export interface HitterAbilitiesSaveRequest {
   fielding: number;
   errorResistance: number;
   hotZoneGrid: HotZoneGridDto;
+}
+
+export interface PitcherAbilitiesSaveRequest {
+  topSpeed: number;
+  control: number;
+  stamina: number;
+  
+  twoSeamTypeKey: string | null;
+  twoSeamMovement: number | null;
+  
+  slider1TypeKey: string | null;
+  slider1Movement: number | null;
+  
+  slider2TypeKey: string | null;
+  slider2Movement:  number | null;
+
+  curve1TypeKey: string | null;
+  curve1Movement: number | null;
+
+  curve2TypeKey: string | null;
+  curve2Movement: number | null;
+
+  fork1TypeKey: string | null;
+  fork1Movement: number | null;
+
+  fork2TypeKey: string | null;
+  fork2Movement: number | null;
+
+  sinker1TypeKey: string | null;
+  sinker1Movement: number | null;
+  
+  sinker2TypeKey: string | null;
+  sinker2Movement: number | null;
+
+  sinkingFastball1TypeKey: string | null;
+  sinkingFastball1Movement: number | null;
+  
+  sinkingFastball2TypeKey: string | null;
+  sinkingFastball2Movement: number | null;
 }
 
 export class SavePlayerApiClient {

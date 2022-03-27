@@ -7,6 +7,7 @@ namespace PowerUp.Entities.Players.Api
     public PlayerPersonalDetailsParameters? PersonalDetails { get; set; }
     public PlayerPositionCapabilitiesParameters? PositionCapabilities { get; set; }
     public PlayerHitterAbilityParameters? HitterAbilities { get; set; }
+    public PlayerPitcherAbilitiesParameters? PitcherAbilities { get; set; }
   }
 
   public class PlayerPersonalDetailsParameters
@@ -63,12 +64,53 @@ namespace PowerUp.Entities.Players.Api
     public HotZonePreference DownAndAway { get; set; }
   }
 
+  public class PlayerPitcherAbilitiesParameters
+  {
+    public int TopSpeed { get; set; }
+    public int Control { get; set; }
+    public int Stamina { get; set; }
+
+    public bool HasTwoSeam { get; set; }
+    public int? TwoSeamMovement { get; set; }
+
+    public SliderType? Slider1Type { get; set; }
+    public int? Slider1Movement { get; set; }
+
+    public SliderType? Slider2Type { get; set; }
+    public int? Slider2Movement { get; set; }
+
+    public CurveType? Curve1Type { get; set; }
+    public int? Curve1Movement { get; set; }
+
+    public CurveType? Curve2Type { get; set; }
+    public int? Curve2Movement { get; set; }
+
+    public ForkType? Fork1Type { get; set; }
+    public int? Fork1Movement { get; set; }
+
+    public ForkType? Fork2Type { get; set; }
+    public int? Fork2Movement { get; set; }
+
+    public SinkerType? Sinker1Type { get; set; }
+    public int? Sinker1Movement { get; set; }
+
+    public SinkerType? Sinker2Type { get; set; }
+    public int? Sinker2Movement { get; set; }
+
+    public SinkingFastballType? SinkingFastball1Type { get; set; }
+    public int? SinkingFastball1Movement { get; set; }
+
+    public SinkingFastballType? SinkingFastball2Type { get; set; }
+    public int? SinkingFastball2Movement { get; set; }
+  }
+
   public class PlayerParametersValidator : Validator<PlayerParameters>
   {
     public override void Validate(PlayerParameters parameters)
     {
       new PlayerPersonalDetailsParametersValidator().Validate(parameters.PersonalDetails!);
       new PlayerHitterAbilityParametersValidator().Validate(parameters.HitterAbilities!);
+      new PlayerPitcherAbilityParametersValidator().Validate(parameters.PitcherAbilities!);
     }
   }
 
@@ -110,5 +152,59 @@ namespace PowerUp.Entities.Players.Api
       ThrowIfNotBetween(parameters.ErrorResistance, 1, 15);
       ThrowIfNull(parameters.HotZoneGridParameters);
     }
+  }
+
+  public class PlayerPitcherAbilityParametersValidator : Validator<PlayerPitcherAbilitiesParameters>
+  {
+    public override void Validate(PlayerPitcherAbilitiesParameters parameters)
+    {
+      ThrowIfNotBetween(parameters.TopSpeed, 49, 105);
+      ThrowIfNotBetween(parameters.Control, 1, 255);
+      ThrowIfNotBetween(parameters.Stamina, 1, 255);
+
+      if (parameters.HasTwoSeam)
+        ThrowIfNull(parameters.TwoSeamMovement);
+      ThrowIfNotBetween(parameters.TwoSeamMovement, 1, 3);
+
+      if (parameters.Slider1Type != null)
+        ThrowIfNull(parameters.Slider1Movement);
+      ThrowIfNotBetween(parameters.Slider1Movement, 1, 7);
+
+      if (parameters.Slider2Type != null)
+        ThrowIfNull(parameters.Slider2Movement);
+      ThrowIfNotBetween(parameters.Slider2Movement, 1, 7);
+
+      if (parameters.Curve1Type != null)
+        ThrowIfNull(parameters.Curve1Movement);
+      ThrowIfNotBetween(parameters.Curve1Movement, 1, 7);
+
+      if (parameters.Curve2Type != null)
+        ThrowIfNull(parameters.Curve2Movement);
+      ThrowIfNotBetween(parameters.Curve2Movement, 1, 7);
+
+      if (parameters.Fork1Type != null)
+        ThrowIfNull(parameters.Fork1Movement);
+      ThrowIfNotBetween(parameters.Fork1Movement, 1, 7);
+
+      if (parameters.Fork2Type != null)
+        ThrowIfNull(parameters.Fork2Movement);
+      ThrowIfNotBetween(parameters.Fork2Movement, 1, 7);
+
+      if (parameters.Sinker1Type != null)
+        ThrowIfNull(parameters.Sinker1Movement);
+      ThrowIfNotBetween(parameters.Sinker1Movement, 1, 7);
+
+      if (parameters.Sinker2Type != null)
+        ThrowIfNull(parameters.Sinker2Movement);
+      ThrowIfNotBetween(parameters.Sinker2Movement, 1, 7);
+
+      if (parameters.SinkingFastball1Type != null)
+        ThrowIfNull(parameters.SinkingFastball1Type);
+      ThrowIfNotBetween(parameters.SinkingFastball1Movement, 1, 7);
+
+      if (parameters.SinkingFastball2Type != null)
+        ThrowIfNull(parameters.SinkingFastball2Movement);
+      ThrowIfNotBetween(parameters.SinkingFastball2Movement, 1, 7);
+    } 
   }
 }

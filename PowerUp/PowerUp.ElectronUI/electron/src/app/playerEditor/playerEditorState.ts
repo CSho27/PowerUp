@@ -706,26 +706,37 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       topSpeed: pitcherAbilities.topSpeed,
       control: pitcherAbilities.control,
       stamina: pitcherAbilities.stamina,
+      
       twoSeamType: pitcherAbilities.twoSeamType ?? undefined,
       twoSeamMovement: pitcherAbilities.twoSeamMovement ?? 1,
+      
       slider1Type: pitcherAbilities.slider1Type ?? undefined,
       slider1Movement: pitcherAbilities.slider1Movement ?? 1,
+      
       slider2Type: pitcherAbilities.slider2Type ?? undefined,
       slider2Movement: pitcherAbilities.slider2Movement ?? 1,
+      
       curve1Type: pitcherAbilities.curve1Type ?? undefined,
       curve1Movement: pitcherAbilities.curve1Movement ?? 1,
+      
       curve2Type: pitcherAbilities.curve2Type ?? undefined,
-      curve2Movement: pitcherAbilities.curve1Movement ?? 1,
+      curve2Movement: pitcherAbilities.curve2Movement ?? 1,
+      
       fork1Type: pitcherAbilities.fork1Type ?? undefined,
       fork1Movement: pitcherAbilities.fork1Movement ?? 1,
+      
       fork2Type: pitcherAbilities.fork2Type ?? undefined,
       fork2Movement: pitcherAbilities.fork2Movement ?? 1,
+      
       sinker1Type: pitcherAbilities.sinker1Type ?? undefined,
       sinker1Movement: pitcherAbilities.sinker1Movement ?? 1,
-      sinker2Type: pitcherAbilities.sinker1Type ?? undefined,
+      
+      sinker2Type: pitcherAbilities.sinker2Type ?? undefined,
       sinker2Movement: pitcherAbilities.sinker2Movement ?? 1,
+      
       sinkingFastball1Type: pitcherAbilities.sinkingFastball1Type ?? undefined,
       sinkingFastball1Movement: pitcherAbilities.sinkingFastball1Movement ?? 1,
+
       sinkingFastball2Type: pitcherAbilities.sinkingFastball2Type ?? undefined,
       sinkingFastball2Movement: pitcherAbilities.sinkingFastball2Movement ?? 1
     }

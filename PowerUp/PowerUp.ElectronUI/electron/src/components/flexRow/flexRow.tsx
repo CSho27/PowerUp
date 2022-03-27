@@ -1,4 +1,4 @@
-import React, { cloneElement, PropsWithChildren, ReactElement, ReactNode } from "react";
+import React, { cloneElement, CSSProperties, PropsWithChildren, ReactElement, ReactNode } from "react";
 import styled from "styled-components"
 
 export type FlexRowGap =
@@ -10,6 +10,7 @@ export interface FlexRowProps {
   gap: FlexRowGap,
   withBottomPadding?: boolean;
   vAlignCenter?: boolean;
+  style?: CSSProperties;
 }
 
 export function FlexRow(props:  PropsWithChildren<FlexRowProps>) {
