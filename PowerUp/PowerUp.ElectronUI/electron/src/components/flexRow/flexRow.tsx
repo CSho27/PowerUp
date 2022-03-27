@@ -52,6 +52,8 @@ export type FlexFrac =
 | '1/5'
 | '1/6'
 | '1/8'
+| '1/16'
+| '1/24'
 
 export interface FlexFracItemProps {
   frac: FlexFrac;
@@ -60,7 +62,9 @@ export interface FlexFracItemProps {
 }
 
 export const FlexFracItem = styled.div<FlexFracItemProps>`
-  flex: 0 0 ${p => `calc((100% * (${p.frac})) - ${p.gapAdjustment})`};
+  --width: ${p => `calc((100% * (${p.frac})) - ${p.gapAdjustment})`};
+  width: var(--width);
+  flex: 0 0 var(--width);
 `
 
 export const FlexAutoItem = styled.div<{ allowShrink?: boolean }>`
