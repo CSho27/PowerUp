@@ -1,3 +1,4 @@
+import React, { cloneElement, PropsWithChildren, ReactElement, ReactNode } from "react";
 import styled from "styled-components"
 
 export type FlexRowGap =
@@ -5,7 +6,39 @@ export type FlexRowGap =
 | '8px'
 | '16px'
 
-export const FlexRow = styled.div<{ gap: FlexRowGap, withBottomPadding?: boolean, vAlignCenter?: boolean }>`
+export interface FlexRowProps {
+  gap: FlexRowGap,
+  withBottomPadding?: boolean;
+  vAlignCenter?: boolean;
+}
+
+export function FlexRow(props:  PropsWithChildren<FlexRowProps>) {
+  const childCount = React.Children.count(props.children);
+  const gap = Number.parseInt(props.gap.replace('px', ''));
+  const totalGapWidth = (childCount - 1) * gap;
+  const gapAdjustment = totalGapWidth / childCount;
+  
+  return <FlexRowWrapper {...props}>
+    {React.Children.map(props.children, mapWithGap)}
+  </FlexRowWrapper>
+
+  function mapWithGap(child: ReactNode) {
+    if(!isFlexFracItem(child))
+      return child;
+
+    const newProps: FlexFracItemProps = {
+      ...child.props,
+      gapAdjustment: `${gapAdjustment}px`
+    }
+    return cloneElement(child, newProps, child.props.children)
+  }
+
+  function isFlexFracItem(child: ReactNode): child is ReactElement<PropsWithChildren<FlexFracItemProps>> {
+    return !!(child as ReactElement<FlexFracItemProps>)?.props?.frac;
+  }
+}
+
+const FlexRowWrapper = styled.div<{ gap: FlexRowGap, withBottomPadding?: boolean, vAlignCenter?: boolean }>`
   display: flex;
   gap: ${p => p.gap};
   align-items: ${p => p.vAlignCenter ? 'center' : undefined};
@@ -16,11 +49,20 @@ export type FlexFrac =
 | '1/2'
 | '1/3'
 | '1/4'
+| '1/5'
 | '1/6'
 | '1/8'
 
-export const FlexFracItem = styled.div<{ frac: FlexFrac }>`
-  --width: calc(100% * ${p => `(${p.frac})`});
-  width: var(--width);
-  flex: 0 1 var(--width);
+export interface FlexFracItemProps {
+  frac: FlexFrac;
+  /** LEAVE EMPTY, WILL BE OVERWRITTEN BY SURROUNDING FLEX ROW */
+  gapAdjustment?: string;
+}
+
+export const FlexFracItem = styled.div<FlexFracItemProps>`
+  flex: 0 0 ${p => `calc((100% * (${p.frac})) - ${p.gapAdjustment})`};
+`
+
+export const FlexAutoItem = styled.div<{ allowShrink?: boolean }>`
+  flex: 1 ${p => p.allowShrink ? '1' : '0'} auto;
 `
