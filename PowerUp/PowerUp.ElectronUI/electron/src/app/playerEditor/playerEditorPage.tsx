@@ -108,6 +108,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         />}
         {state.selectedTab === 'Pitcher' &&
         <PitcherAbilitiesEditor
+          options={options}
           details={pitcherAbilities}
           update={updatePitcherAbilities}
         />}

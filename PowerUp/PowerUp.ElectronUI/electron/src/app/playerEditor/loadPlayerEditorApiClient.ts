@@ -25,6 +25,12 @@ export interface PlayerEditorOptions {
   throwingArmOptions: KeyedCode[];
   pitchingMechanicsOptions: SimpleCode[];
   positionCapabilityOptions: KeyedCode[];
+  twoSeamOptions: KeyedCode[];
+  sliderOptions: KeyedCode[];
+  curveOptions: KeyedCode[];
+  forkOptions: KeyedCode[];
+  sinkerOptions: KeyedCode[];
+  sinkingFastballOptions: KeyedCode[];
 }
 
 export interface PlayerPersonalDetailsDto {

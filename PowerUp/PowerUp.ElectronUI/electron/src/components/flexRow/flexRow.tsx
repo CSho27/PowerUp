@@ -47,7 +47,10 @@ const FlexRowWrapper = styled.div<{ gap: FlexRowGap, withBottomPadding?: boolean
 
 export type FlexFrac = 
 | '1/2'
+
 | '1/3'
+| '2/3'
+
 | '1/4'
 | '1/5'
 | '1/6'
