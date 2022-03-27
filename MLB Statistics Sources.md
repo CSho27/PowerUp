@@ -27,7 +27,7 @@
 - API reference: http://statsapi.mlb.com/docs/ (Not publically available)
 - MLB's official statistics api
 - Public facing, but its docs are not for some reason
-- I registered to get access to the api docs and am waiting to hear back
+- According to MLB this API is only for the use of the MLB and its affiliates, they just put zero effort into protecting their apis from public calls
 - This npm library can be used as a partial api reference https://github.com/asbeane/mlb-stats-api
 - This is probably the best api available with the best chance of long term support, but without the docs it's borderline worthless
 <br/>
