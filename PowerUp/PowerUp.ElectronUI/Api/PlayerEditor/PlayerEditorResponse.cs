@@ -12,6 +12,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PlayerPersonalDetailsDto PersonalDetails { get; }
     public PositionCapabilityDetailsDto PositionCapabilityDetails { get; }
     public HitterAbilityDetailsDto HitterAbilityDetails { get; }
+    public PitcherAbilityDetailsDto PitcherAbilityDetails { get; }
 
     public PlayerEditorResponse(
       IVoiceLibrary voiceLibrary,
@@ -24,6 +25,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
       PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
       HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
+      PitcherAbilityDetails = new PitcherAbilityDetailsDto(player.PitcherAbilities);
     }
   }
 
@@ -37,6 +39,12 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public IEnumerable<KeyedCode> ThrowingArmOptions => EnumExtensions.GetKeyedCodeList<ThrowingArm>();
     public IEnumerable<SimpleCode> PitchingMechanicsOptions { get; }
     public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
+    public IEnumerable<KeyedCode> TwoSeamOptions => new[] { new KeyedCode("TwoSeam", "Two Seam") };
+    public IEnumerable<KeyedCode> SliderOptions => EnumExtensions.GetKeyedCodeList<SliderType>();
+    public IEnumerable<KeyedCode> CurveOptions => EnumExtensions.GetKeyedCodeList<CurveType>();
+    public IEnumerable<KeyedCode> ForkOptions => EnumExtensions.GetKeyedCodeList<ForkType>();
+    public IEnumerable<KeyedCode> SinkerOptions => EnumExtensions.GetKeyedCodeList<SinkerType>();
+    public IEnumerable<KeyedCode> SinkingFastballOptions => EnumExtensions.GetKeyedCodeList<SinkingFastballType>();
 
     public PlayerEditorOptions(
       IVoiceLibrary voiceLibrary,
@@ -142,6 +150,88 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Fielding = hitterAbilities.Fielding;
       ErrorResistance = hitterAbilities.ErrorResistance;
       HotZones = new HotZoneGridDto(hitterAbilities.HotZones);
+    }
+  }
+
+  public class PitcherAbilityDetailsDto
+  {
+    public int TopSpeed { get; set; }
+    public int Control { get; set; }
+    public int Stamina { get; set; }
+
+    public KeyedCode? TwoSeamType { get; set; }
+    public int? TwoSeamMovement { get; set; }
+
+    public KeyedCode? Slider1Type { get; set; }
+    public int? Slider1Movement { get; set; }
+
+    public KeyedCode? Slider2Type { get; set; }
+    public int? Slider2Movement { get; set; }
+
+    public KeyedCode? Curve1Type { get; set; }
+    public int? Curve1Movement { get; set; }
+
+    public KeyedCode? Curve2Type { get; set; }
+    public int? Curve2Movement { get; set; }
+
+    public KeyedCode? Fork1Type { get; set; }
+    public int? Fork1Movement { get; set; }
+
+    public KeyedCode? Fork2Type { get; set; }
+    public int? Fork2Movement { get; set; }
+
+    public KeyedCode? Sinker1Type { get; set; }
+    public int? Sinker1Movement { get; set; }
+
+    public KeyedCode? Sinker2Type { get; set; }
+    public int? Sinker2Movement { get; set; }
+
+    public KeyedCode? SinkingFastball1Type { get; set; }
+    public int? SinkingFastball1Movement { get; set; }
+
+    public KeyedCode? SinkingFastball2Type { get; set; }
+    public int? SinkingFastball2Movement { get; set; }
+
+    public PitcherAbilityDetailsDto(PitcherAbilities pitcherAbilities)
+    {
+      TopSpeed = (int)pitcherAbilities.TopSpeedMph;
+      Control = pitcherAbilities.Control;
+      Stamina = pitcherAbilities.Stamina;
+
+      TwoSeamType = pitcherAbilities.HasTwoSeam
+        ? new KeyedCode("TwoSeam", "Two Seam")
+        : null;
+      TwoSeamMovement = pitcherAbilities.TwoSeamMovement;
+
+      Slider1Type = pitcherAbilities.Slider1Type?.ToKeyedCode();
+      Slider1Movement = pitcherAbilities.Slider1Movement;
+
+      Slider2Type = pitcherAbilities.Slider2Type?.ToKeyedCode();
+      Slider2Movement = pitcherAbilities.Slider2Movement;
+
+      Curve1Type = pitcherAbilities.Curve1Type?.ToKeyedCode();
+      Curve1Movement = pitcherAbilities.Curve1Movement;
+
+      Curve2Type = pitcherAbilities.Curve2Type?.ToKeyedCode();
+      Curve2Movement = pitcherAbilities.Curve2Movement;
+
+      Fork1Type = pitcherAbilities.Fork1Type?.ToKeyedCode();
+      Fork1Movement = pitcherAbilities.Fork1Movement;
+
+      Fork2Type = pitcherAbilities.Fork2Type?.ToKeyedCode();
+      Fork2Movement = pitcherAbilities.Fork2Movement;
+
+      Sinker1Type = pitcherAbilities.Sinker1Type?.ToKeyedCode();
+      Sinker1Movement = pitcherAbilities.Sinker1Movement;
+
+      Sinker2Type = pitcherAbilities.Sinker2Type?.ToKeyedCode();
+      Sinker2Movement = pitcherAbilities.Sinker2Movement;
+
+      SinkingFastball1Type = pitcherAbilities.SinkingFastball1Type?.ToKeyedCode();
+      SinkingFastball1Movement = pitcherAbilities.SinkingFastball1Movement;
+
+      SinkingFastball2Type = pitcherAbilities.SinkingFastball2Type?.ToKeyedCode();
+      SinkingFastball2Movement = pitcherAbilities.SinkingFastball2Movement;
     }
   }
 }

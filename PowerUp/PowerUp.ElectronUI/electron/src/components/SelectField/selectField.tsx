@@ -51,7 +51,7 @@ const ContentWrapper = styled.div<{ disabled: boolean }>`
   padding: 1px 2px;
   padding-right: 8px;
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
 
   border: solid 2px ${COLORS.transparent.regular_100};
@@ -65,6 +65,7 @@ const SelectedContent = styled.span<{ isEmpty: boolean; }>`
   opacity: ${p => p.isEmpty ? 0 : undefined};
   flex: auto;
   overflow-x: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `
 
