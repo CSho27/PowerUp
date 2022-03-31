@@ -191,7 +191,12 @@ namespace PowerUp.Mappers.Players
         IsRefinedHitter = hittingSpecialAbilities.HittingApproach.Refined,
         IsToughOut = hittingSpecialAbilities.HittingApproach.ToughOut,
         IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.Intimidator,
-        IsSparkplug = hittingSpecialAbilities.HittingApproach.Sparkplug
+        IsSparkplug = hittingSpecialAbilities.HittingApproach.Sparkplug,
+
+        // Small Ball
+        SmallBall = (short)hittingSpecialAbilities.SmallBall.SmallBall,
+        Bunting = (ushort)hittingSpecialAbilities.SmallBall.Bunting,
+        InfieldHitter = (ushort)hittingSpecialAbilities.SmallBall.InfieldHitting,
       };
     }
 

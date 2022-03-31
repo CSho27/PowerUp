@@ -689,5 +689,29 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsIntimidatingHitter!.Value.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSmallBall()
+    {
+      player.SpecialAbilities.Hitter.SmallBall.SmallBall = SpecialPositive_Negative.Negative;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.SmallBall!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBunting()
+    {
+      player.SpecialAbilities.Hitter.SmallBall.Bunting = BuntingAbility.Good;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Bunting!.Value.ShouldBe((ushort)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapInfielderHitting()
+    {
+      player.SpecialAbilities.Hitter.SmallBall.InfieldHitting = InfieldHittingAbility.GreatInfieldHitter;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.InfieldHitter!.Value.ShouldBe((ushort)2);
+    }
   }
 }

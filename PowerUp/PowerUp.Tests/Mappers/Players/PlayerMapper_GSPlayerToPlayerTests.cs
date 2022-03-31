@@ -110,6 +110,9 @@ namespace PowerUp.Tests.Mappers.Players
         IsToughOut = false,
         IsIntimidatingHitter = false,
         IsSparkplug = false,
+        SmallBall = 0,
+        Bunting = 0,
+        InfieldHitter = 0,
       };
     }
 
@@ -823,5 +826,28 @@ namespace PowerUp.Tests.Mappers.Players
       result.SpecialAbilities.Hitter.HittingApproach.Sparkplug.ShouldBe(true);
     }
 
+    [Test]
+    public void MapToPlayer_ShouldMapSmallBall()
+    {
+      gsPlayer.SmallBall = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SmallBall.SmallBall.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBunting()
+    {
+      gsPlayer.Bunting = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SmallBall.Bunting.ShouldBe(BuntingAbility.BuntMaster);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapInfieldHitting()
+    {
+      gsPlayer.InfieldHitter = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SmallBall.InfieldHitting.ShouldBe(InfieldHittingAbility.GoodInfieldHitter);
+    }
   }
 }

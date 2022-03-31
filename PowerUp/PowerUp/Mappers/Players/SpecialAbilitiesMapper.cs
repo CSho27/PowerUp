@@ -35,6 +35,7 @@ namespace PowerUp.Mappers.Players
       {
         SituationalHitting = GetSituationalHittingSpecialAbilities(player),
         HittingApproach = GetHittingApproachSpecialAbilities(player),
+        SmallBall = GetSmallBallSpecialAbilities(player),
       };
     }
 
@@ -68,6 +69,16 @@ namespace PowerUp.Mappers.Players
         ToughOut = player.IsToughOut!.Value,
         Intimidator = player.IsIntimidatingHitter!.Value,
         Sparkplug = player.IsSparkplug!.Value
+      };
+    }
+
+    public static SmallBallSpecialAbilities GetSmallBallSpecialAbilities(GSPlayer player)
+    {
+      return new SmallBallSpecialAbilities
+      {
+        SmallBall = (SpecialPositive_Negative)player.SmallBall!.Value,
+        Bunting = (BuntingAbility)player.Bunting!.Value,
+        InfieldHitting = (InfieldHittingAbility)player.InfieldHitter!.Value,
       };
     }
   }
