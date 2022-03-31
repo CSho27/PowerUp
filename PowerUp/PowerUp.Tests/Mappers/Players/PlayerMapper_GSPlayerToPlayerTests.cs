@@ -89,6 +89,15 @@ namespace PowerUp.Tests.Mappers.Players
         SinkingFastball1Movement = 0,
         SinkingFastball2Type = 0,
         SinkingFastball2Movement = 0,
+        IsStar = false,
+        Durability = 0,
+        Morale = 0,
+        HittingConsistency = 0,
+        HittingVersusLefty1 = 0,
+        HittingVersusLefty2 = 0,
+        IsTableSetter = false,
+        IsBackToBackHitter = false,
+        IsHotHitter = false,
       };
     }
 
@@ -632,6 +641,78 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.SinkingFastball2Movement = 7;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.PitcherAbilities.SinkingFastball2Movement.ShouldBe(7);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsStar()
+    {
+      gsPlayer.IsStar = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.Star.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapDurability()
+    {
+      gsPlayer.Durability = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.Durability.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapMorale()
+    {
+      gsPlayer.Morale = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.Morale.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHittingConsistency()
+    {
+      gsPlayer.HittingConsistency = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.Consistency.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHittingVersusLefty1()
+    {
+      gsPlayer.HittingVersusLefty1 = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.VersusLefty.ShouldBe(Special1_5.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHittingVersusLefty2()
+    {
+      gsPlayer.HittingVersusLefty2 = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.VersusLefty.ShouldBe(Special1_5.Five);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapTableSetter()
+    {
+      gsPlayer.IsTableSetter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.TableSetter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBackToBackHitter()
+    {
+      gsPlayer.IsBackToBackHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.BackToBackHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotHitter()
+    {
+      gsPlayer.IsHotHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.HotHitter.ShouldBe(true);
     }
   }
 }

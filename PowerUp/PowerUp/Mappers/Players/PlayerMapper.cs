@@ -64,6 +64,7 @@ namespace PowerUp.Mappers.Players
         PositonCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
         PitcherAbilities = gsPlayer.GetPitcherAbilities(),
+        SpecialAbilities = SpecialAbilitiesMapper.GetSpecialAbilities(gsPlayer)
       };
     }
 
@@ -75,6 +76,9 @@ namespace PowerUp.Mappers.Players
       var hitterAbilities = player.HitterAbilities;
       var hotZones = player.HitterAbilities.HotZones;
       var pitcherAbilities = player.PitcherAbilities;
+      var generalSpecialAbilities = player.SpecialAbilities.General;
+      var hittingSpecialAbilities = player.SpecialAbilities.Hitter;
+      var pitchingSpecialAbilities = player.SpecialAbilities.Pitcher;
 
       return new GSPlayer
       {
@@ -161,6 +165,18 @@ namespace PowerUp.Mappers.Players
         SinkingFastball2Movement = (ushort)(pitcherAbilities.SinkingFastball2Movement ?? 0),
 
         // Special Abilities
+        // General
+        IsStar = generalSpecialAbilities.Star,
+        Durability = (short)generalSpecialAbilities.Durability,
+        Morale = (short)generalSpecialAbilities.Morale,
+
+        // Hitting
+        HittingConsistency = (short)hittingSpecialAbilities.SituationalHitting.Consistency,
+        HittingVersusLefty1 = (short)hittingSpecialAbilities.SituationalHitting.VersusLefty,
+        HittingVersusLefty2 = (short)hittingSpecialAbilities.SituationalHitting.VersusLefty,
+        IsTableSetter = hittingSpecialAbilities.SituationalHitting.TableSetter,
+        IsBackToBackHitter = hittingSpecialAbilities.SituationalHitting.BackToBackHitter,
+        IsHotHitter = hittingSpecialAbilities.SituationalHitting.HotHitter,
       };
     }
 

@@ -11,7 +11,7 @@
   {
     public bool Star { get; set; }
     public Special2_4 Durability { get; set; }
-    public SpecialPositive_Negative GoodMorale { get; set; }
+    public SpecialPositive_Negative Morale { get; set; }
   }
 
   public class HitterSpecialAbilities
@@ -28,7 +28,7 @@
     public Special2_4 Consistency { get; set; }
     public Special1_5 VersusLefty { get; set; }
     public bool TableSetter { get; set; }
-    public bool GoodBackToBackHitter { get; set; }
+    public bool BackToBackHitter { get; set; }
     public bool HotHitter { get; set; }
     public bool RallyHitter { get; set; }
     public bool GoodPinchHitter { get; set; }
