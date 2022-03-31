@@ -113,6 +113,13 @@ namespace PowerUp.Tests.Mappers.Players
         SmallBall = 0,
         Bunting = 0,
         InfieldHitter = 0,
+        BaseRunning = 0,
+        Stealing = 0,
+        IsAggressiveBaserunner = false,
+        AggressiveOrCautiousBaseStealer = 0,
+        IsToughRunner = false,
+        WillBreakupDoublePlay = false,
+        WillSlideHeadFirst = false,
       };
     }
 
@@ -848,6 +855,62 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.InfieldHitter = 1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.SmallBall.InfieldHitting.ShouldBe(InfieldHittingAbility.GoodInfieldHitter);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBaseRunning()
+    {
+      gsPlayer.BaseRunning = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.BaseRunning.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapStealing()
+    {
+      gsPlayer.Stealing = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.Stealing.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveRunner()
+    {
+      gsPlayer.IsAggressiveBaserunner = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.AggressiveRunner.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveOrCautiousBaseStealer()
+    {
+      gsPlayer.AggressiveOrCautiousBaseStealer = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.AggressiveOrPatientBaseStealer.ShouldBe(AggressiveOrPatient.Aggressive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsToughRunner()
+    {
+      gsPlayer.IsToughRunner = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.ToughRunner.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWillBreakupDoublePlay()
+    {
+      gsPlayer.WillBreakupDoublePlay = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.BreakupDoublePlay.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWillSlideHeadFirst()
+    {
+      gsPlayer.WillSlideHeadFirst = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.HeadFirstSlide.ShouldBe(true);
     }
   }
 }

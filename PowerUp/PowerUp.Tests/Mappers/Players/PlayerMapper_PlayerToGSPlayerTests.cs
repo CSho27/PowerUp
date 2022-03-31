@@ -713,5 +713,61 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.InfieldHitter!.Value.ShouldBe((ushort)2);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBaseRunning()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.BaseRunning = Special2_4.Two;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BaseRunning!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapStealing()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.Stealing = Special2_4.Four;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Stealing!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapAggressiveBaserunner()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.AggressiveRunner = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsAggressiveBaserunner!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapAggressiveOrCautiousBaseStealer()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.AggressiveOrPatientBaseStealer = AggressiveOrPatient.Patient;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.AggressiveOrCautiousBaseStealer!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapToughRunner()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.ToughRunner = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsToughRunner!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBreakupDoublePlay()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.BreakupDoublePlay = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.WillBreakupDoublePlay!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapWillSlideHeadFirst()
+    {
+      player.SpecialAbilities.Hitter.BaseRunning.HeadFirstSlide = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.WillSlideHeadFirst!.Value.ShouldBe(true);
+    }
   }
 }

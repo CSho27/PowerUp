@@ -197,6 +197,15 @@ namespace PowerUp.Mappers.Players
         SmallBall = (short)hittingSpecialAbilities.SmallBall.SmallBall,
         Bunting = (ushort)hittingSpecialAbilities.SmallBall.Bunting,
         InfieldHitter = (ushort)hittingSpecialAbilities.SmallBall.InfieldHitting,
+
+        // Base Running
+        BaseRunning = (short)hittingSpecialAbilities.BaseRunning.BaseRunning,
+        Stealing = (short)hittingSpecialAbilities.BaseRunning.Stealing,
+        IsAggressiveBaserunner = hittingSpecialAbilities.BaseRunning.AggressiveRunner,
+        AggressiveOrCautiousBaseStealer = (short)hittingSpecialAbilities.BaseRunning.AggressiveOrPatientBaseStealer,
+        IsToughRunner = hittingSpecialAbilities.BaseRunning.ToughRunner,
+        WillBreakupDoublePlay = hittingSpecialAbilities.BaseRunning.BreakupDoublePlay,
+        WillSlideHeadFirst = hittingSpecialAbilities.BaseRunning.HeadFirstSlide
       };
     }
 
