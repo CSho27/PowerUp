@@ -34,6 +34,7 @@ namespace PowerUp.Mappers.Players
       return new HitterSpecialAbilities
       {
         SituationalHitting = GetSituationalHittingSpecialAbilities(player),
+        HittingApproach = GetHittingApproachSpecialAbilities(player),
       };
     }
 
@@ -48,6 +49,25 @@ namespace PowerUp.Mappers.Players
         TableSetter = player.IsTableSetter!.Value,
         BackToBackHitter = player.IsBackToBackHitter!.Value,
         HotHitter = player.IsHotHitter!.Value
+      };
+    }
+
+    public static HittingApproachSpecialAbilities GetHittingApproachSpecialAbilities(GSPlayer player)
+    {
+      return new HittingApproachSpecialAbilities
+      {
+        ContactHitter = player.IsContactHitter!.Value,
+        PowerHitter = player.IsPowerHitter!.Value,
+        SluggerOrSlapHitter = (SluggerOrSlapHitter)player.SlugOrSlap!.Value,
+        PushHitter = player.IsPushHitter!.Value,
+        PullHitter = player.IsPullHitter!.Value,
+        SprayHitter = player.IsSprayHitter!.Value,
+        FirstballHitter = player.IsFirstballHitter!.Value,
+        AggressiveOrPatientHitter = (AggressiveOrPatient)player.AggressiveOrPatientHitter!.Value,
+        Refined = player.IsRefinedHitter!.Value,
+        ToughOut = player.IsToughOut!.Value,
+        Intimidator = player.IsIntimidatingHitter!.Value,
+        Sparkplug = player.IsSparkplug!.Value
       };
     }
   }

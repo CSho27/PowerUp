@@ -171,12 +171,27 @@ namespace PowerUp.Mappers.Players
         Morale = (short)generalSpecialAbilities.Morale,
 
         // Hitting
+        // Situational
         HittingConsistency = (short)hittingSpecialAbilities.SituationalHitting.Consistency,
         HittingVersusLefty1 = (short)hittingSpecialAbilities.SituationalHitting.VersusLefty,
         HittingVersusLefty2 = (short)hittingSpecialAbilities.SituationalHitting.VersusLefty,
         IsTableSetter = hittingSpecialAbilities.SituationalHitting.TableSetter,
         IsBackToBackHitter = hittingSpecialAbilities.SituationalHitting.BackToBackHitter,
         IsHotHitter = hittingSpecialAbilities.SituationalHitting.HotHitter,
+
+        // Approach
+        IsContactHitter = hittingSpecialAbilities.HittingApproach.ContactHitter,
+        IsPowerHitter = hittingSpecialAbilities.HittingApproach.PowerHitter,
+        SlugOrSlap = (short)hittingSpecialAbilities.HittingApproach.SluggerOrSlapHitter,
+        IsPushHitter = hittingSpecialAbilities.HittingApproach.PushHitter,
+        IsPullHitter = hittingSpecialAbilities.HittingApproach.PullHitter,
+        IsSprayHitter = hittingSpecialAbilities.HittingApproach.SprayHitter,
+        IsFirstballHitter = hittingSpecialAbilities.HittingApproach.FirstballHitter,
+        AggressiveOrPatientHitter = (short)hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter,
+        IsRefinedHitter = hittingSpecialAbilities.HittingApproach.Refined,
+        IsToughOut = hittingSpecialAbilities.HittingApproach.ToughOut,
+        IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.Intimidator,
+        IsSparkplug = hittingSpecialAbilities.HittingApproach.Sparkplug
       };
     }
 

@@ -601,5 +601,93 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsHotHitter!.Value.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapContactHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.ContactHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsContactHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPowerHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.PowerHitter= true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsPowerHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSlugOrSlapHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.SluggerOrSlapHitter = SluggerOrSlapHitter.SlapHitter;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.SlugOrSlap!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPushHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.PushHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsPushHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPullHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.PullHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsPullHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSprayHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.SprayHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsSprayHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapFirstballHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.FirstballHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsFirstballHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapAggressiveOrPatientHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter = AggressiveOrPatient.Aggressive;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.AggressiveOrPatientHitter!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapRefined()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.Refined = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsRefinedHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapToughOut()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.ToughOut = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsToughOut!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapIntimidatingHitter()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.Intimidator = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsIntimidatingHitter!.Value.ShouldBe(true);
+    }
   }
 }

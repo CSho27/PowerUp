@@ -98,6 +98,18 @@ namespace PowerUp.Tests.Mappers.Players
         IsTableSetter = false,
         IsBackToBackHitter = false,
         IsHotHitter = false,
+        IsContactHitter = false,
+        IsPowerHitter = false,
+        SlugOrSlap = 0,
+        IsPushHitter = false,
+        IsPullHitter = false,
+        IsSprayHitter = false,
+        IsFirstballHitter = false,
+        AggressiveOrPatientHitter = 0,
+        IsRefinedHitter = false,
+        IsToughOut = false,
+        IsIntimidatingHitter = false,
+        IsSparkplug = false,
       };
     }
 
@@ -714,5 +726,102 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.SituationalHitting.HotHitter.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToPlayer_ShouldMapContactHitter()
+    {
+      gsPlayer.IsContactHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.ContactHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPowerHitter()
+    {
+      gsPlayer.IsPowerHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.PowerHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSlugOrSlapHitter()
+    {
+      gsPlayer.SlugOrSlap = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.SluggerOrSlapHitter.ShouldBe(SluggerOrSlapHitter.Slugger);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPushHitter()
+    {
+      gsPlayer.IsPushHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.PushHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPullHitter()
+    {
+      gsPlayer.IsPullHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.PullHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSprayHitter()
+    {
+      gsPlayer.IsSprayHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.SprayHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFirstballHitter()
+    {
+      gsPlayer.IsFirstballHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.FirstballHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveOrPatientHitter()
+    {
+      gsPlayer.AggressiveOrPatientHitter = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter.ShouldBe(AggressiveOrPatient.Patient);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRefined()
+    {
+      gsPlayer.IsRefinedHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.Refined.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapToughOut()
+    {
+      gsPlayer.IsToughOut = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.ToughOut.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIntimidator()
+    {
+      gsPlayer.IsIntimidatingHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.Intimidator.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSparkplug()
+    {
+      gsPlayer.IsSparkplug = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.Sparkplug.ShouldBe(true);
+    }
+
   }
 }

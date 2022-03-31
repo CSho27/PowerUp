@@ -69,7 +69,7 @@ namespace PowerUp.Entities.Players
   public enum AggressiveOrPatient
   {
     Patient = -1,
-    Aggressive = 0
+    Aggressive = 1
   }
 
   public enum BuntingAbility
