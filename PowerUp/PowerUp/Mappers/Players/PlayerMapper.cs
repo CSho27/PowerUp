@@ -205,7 +205,20 @@ namespace PowerUp.Mappers.Players
         AggressiveOrCautiousBaseStealer = (short)hittingSpecialAbilities.BaseRunning.AggressiveOrPatientBaseStealer,
         IsToughRunner = hittingSpecialAbilities.BaseRunning.ToughRunner,
         WillBreakupDoublePlay = hittingSpecialAbilities.BaseRunning.BreakupDoublePlay,
-        WillSlideHeadFirst = hittingSpecialAbilities.BaseRunning.HeadFirstSlide
+        WillSlideHeadFirst = hittingSpecialAbilities.BaseRunning.HeadFirstSlide,
+
+        // Fielding
+        IsGoldGlover = hittingSpecialAbilities.Fielding.GoldGlover,
+        CanSpiderCatch = hittingSpecialAbilities.Fielding.SpiderCatch,
+        CanBarehandCatch = hittingSpecialAbilities.Fielding.BarehandCatch,
+        IsAggressiveFielder = hittingSpecialAbilities.Fielding.AggressiveFielder,
+        IsPivotMan = hittingSpecialAbilities.Fielding.PivotMan,
+        IsErrorProne = hittingSpecialAbilities.Fielding.ErrorProne,
+        IsGoodBlocker = hittingSpecialAbilities.Fielding.GoodBlocker,
+        Catching = (ushort)hittingSpecialAbilities.Fielding.CatchingAbility,
+        Throwing = (short)hittingSpecialAbilities.Fielding.Throwing,
+        HasCannonArm = hittingSpecialAbilities.Fielding.CannonArm,
+        IsTrashTalker = hittingSpecialAbilities.Fielding.TrashTalk
       };
     }
 

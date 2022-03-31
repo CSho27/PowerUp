@@ -120,6 +120,17 @@ namespace PowerUp.Tests.Mappers.Players
         IsToughRunner = false,
         WillBreakupDoublePlay = false,
         WillSlideHeadFirst = false,
+        IsGoldGlover = false,
+        CanSpiderCatch = false,
+        CanBarehandCatch = false,
+        IsAggressiveFielder = false,
+        IsPivotMan = false,
+        IsErrorProne = false,
+        IsGoodBlocker = false,
+        Catching = 0,
+        Throwing = 0,
+        HasCannonArm = false,
+        IsTrashTalker = false,
       };
     }
 
@@ -911,6 +922,94 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.WillSlideHeadFirst = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.BaseRunning.HeadFirstSlide.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoldGlover()
+    {
+      gsPlayer.IsGoldGlover = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.GoldGlover.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSpiderCatch()
+    {
+      gsPlayer.CanSpiderCatch = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.SpiderCatch.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBarehandCatch()
+    {
+      gsPlayer.CanBarehandCatch = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.BarehandCatch.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveFielder()
+    {
+      gsPlayer.IsAggressiveFielder = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.AggressiveFielder.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPivotMan()
+    {
+      gsPlayer.IsPivotMan = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.PivotMan.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapErrorProne()
+    {
+      gsPlayer.IsErrorProne = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.ErrorProne.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodBlocker()
+    {
+      gsPlayer.IsGoodBlocker = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.GoodBlocker.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCatchingAbility()
+    {
+      gsPlayer.Catching = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.CatchingAbility.ShouldBe(CatchingAbility.GreatCatcher);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapThrowing()
+    {
+      gsPlayer.Throwing = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.Throwing.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCannonArm()
+    {
+      gsPlayer.HasCannonArm = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.CannonArm.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapTrashTalk()
+    {
+      gsPlayer.IsTrashTalker = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.TrashTalk.ShouldBe(true);
     }
   }
 }

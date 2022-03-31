@@ -37,6 +37,7 @@ namespace PowerUp.Mappers.Players
         HittingApproach = GetHittingApproachSpecialAbilities(player),
         SmallBall = GetSmallBallSpecialAbilities(player),
         BaseRunning = GetBaseRunningSpecialAbilities(player),
+        Fielding = GetFieldingSpecialAbilities(player)
       };
     }
 
@@ -94,6 +95,24 @@ namespace PowerUp.Mappers.Players
         ToughRunner = player.IsToughRunner!.Value,
         BreakupDoublePlay = player.WillBreakupDoublePlay!.Value,
         HeadFirstSlide = player.WillSlideHeadFirst!.Value
+      };
+    }
+
+    public static FieldingSpecialAbilities GetFieldingSpecialAbilities(GSPlayer player)
+    {
+      return new FieldingSpecialAbilities
+      {
+        GoldGlover = player.IsGoldGlover!.Value,
+        SpiderCatch = player.CanSpiderCatch!.Value,
+        BarehandCatch = player.CanBarehandCatch!.Value,
+        AggressiveFielder = player.IsAggressiveFielder!.Value,
+        PivotMan = player.IsPivotMan!.Value,
+        ErrorProne = player.IsErrorProne!.Value,
+        GoodBlocker = player.IsGoodBlocker!.Value,
+        CatchingAbility = (CatchingAbility)player.Catching!.Value,
+        Throwing = (Special2_4)player.Throwing!.Value,
+        CannonArm = player.HasCannonArm!.Value,
+        TrashTalk = player.IsTrashTalker!.Value
       };
     }
   }
