@@ -693,7 +693,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapAggressiveOrPatientHitter()
     {
-      player.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter = AggressiveOrPatient.Aggressive;
+      player.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter = AggressiveOrPatientHitter.Aggressive;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.AggressiveOrPatientHitter!.Value.ShouldBe((short)1);
     }
@@ -765,7 +765,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapAggressiveBaserunner()
     {
-      player.SpecialAbilities.Hitter.BaseRunning.AggressiveRunner = true;
+      player.SpecialAbilities.Hitter.BaseRunning.IsAggressiveRunner = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsAggressiveBaserunner!.Value.ShouldBe(true);
     }
@@ -773,7 +773,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapAggressiveOrCautiousBaseStealer()
     {
-      player.SpecialAbilities.Hitter.BaseRunning.AggressiveOrPatientBaseStealer = AggressiveOrPatient.Patient;
+      player.SpecialAbilities.Hitter.BaseRunning.AggressiveOrCautiousBaseStealer = AggressiveOrCautiousBaseStealer.Cautious;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.AggressiveOrCautiousBaseStealer!.Value.ShouldBe((short)-1);
     }

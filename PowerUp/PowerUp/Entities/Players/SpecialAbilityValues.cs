@@ -66,9 +66,15 @@ namespace PowerUp.Entities.Players
     Slugger = 1
   }
 
-  public enum AggressiveOrPatient
+  public enum AggressiveOrPatientHitter
   {
     Patient = -1,
+    Aggressive = 1
+  }
+
+  public enum AggressiveOrCautiousBaseStealer
+  {
+    Cautious = -1,
     Aggressive = 1
   }
 

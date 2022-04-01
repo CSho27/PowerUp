@@ -875,7 +875,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.AggressiveOrPatientHitter = -1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter.ShouldBe(AggressiveOrPatient.Patient);
+      result.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter.ShouldBe(AggressiveOrPatientHitter.Patient);
     }
 
     [Test]
@@ -955,7 +955,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsAggressiveBaserunner = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.BaseRunning.AggressiveRunner.ShouldBe(true);
+      result.SpecialAbilities.Hitter.BaseRunning.IsAggressiveRunner.ShouldBe(true);
     }
 
     [Test]
@@ -963,7 +963,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.AggressiveOrCautiousBaseStealer = 1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.BaseRunning.AggressiveOrPatientBaseStealer.ShouldBe(AggressiveOrPatient.Aggressive);
+      result.SpecialAbilities.Hitter.BaseRunning.AggressiveOrCautiousBaseStealer.ShouldBe(AggressiveOrCautiousBaseStealer.Aggressive);
     }
 
     [Test]

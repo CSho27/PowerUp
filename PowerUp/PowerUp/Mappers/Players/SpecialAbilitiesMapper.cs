@@ -73,7 +73,7 @@ namespace PowerUp.Mappers.Players
         SprayHitter = player.IsSprayHitter!.Value,
         FirstballHitter = player.IsFirstballHitter!.Value,
         AggressiveOrPatientHitter = player.AggressiveOrPatientHitter != 0
-          ? (AggressiveOrPatient)player.AggressiveOrPatientHitter!.Value
+          ? (AggressiveOrPatientHitter)player.AggressiveOrPatientHitter!.Value
           : null,
         Refined = player.IsRefinedHitter!.Value,
         ToughOut = player.IsToughOut!.Value,
@@ -102,8 +102,10 @@ namespace PowerUp.Mappers.Players
       {
         BaseRunning = (Special2_4)player.BaseRunning!.Value,
         Stealing = (Special2_4)player.Stealing!.Value,
-        AggressiveRunner = player.IsAggressiveBaserunner!.Value,
-        AggressiveOrPatientBaseStealer = (AggressiveOrPatient)player.AggressiveOrCautiousBaseStealer!.Value,
+        IsAggressiveRunner = player.IsAggressiveBaserunner!.Value,
+        AggressiveOrCautiousBaseStealer = player.AggressiveOrCautiousBaseStealer != 0
+          ? (AggressiveOrCautiousBaseStealer)player.AggressiveOrCautiousBaseStealer!.Value
+          : null,
         ToughRunner = player.IsToughRunner!.Value,
         BreakupDoublePlay = player.WillBreakupDoublePlay!.Value,
         HeadFirstSlide = player.WillSlideHeadFirst!.Value

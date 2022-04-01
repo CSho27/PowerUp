@@ -217,8 +217,10 @@ namespace PowerUp.Mappers.Players
         // Base Running
         BaseRunning = (short)hittingSpecialAbilities.BaseRunning.BaseRunning,
         Stealing = (short)hittingSpecialAbilities.BaseRunning.Stealing,
-        IsAggressiveBaserunner = hittingSpecialAbilities.BaseRunning.AggressiveRunner,
-        AggressiveOrCautiousBaseStealer = (short)hittingSpecialAbilities.BaseRunning.AggressiveOrPatientBaseStealer,
+        IsAggressiveBaserunner = hittingSpecialAbilities.BaseRunning.IsAggressiveRunner,
+        AggressiveOrCautiousBaseStealer = hittingSpecialAbilities.BaseRunning.AggressiveOrCautiousBaseStealer.HasValue
+          ? (short)hittingSpecialAbilities.BaseRunning.AggressiveOrCautiousBaseStealer
+          : (short)0,
         IsToughRunner = hittingSpecialAbilities.BaseRunning.ToughRunner,
         WillBreakupDoublePlay = hittingSpecialAbilities.BaseRunning.BreakupDoublePlay,
         WillSlideHeadFirst = hittingSpecialAbilities.BaseRunning.HeadFirstSlide,

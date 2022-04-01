@@ -46,7 +46,7 @@
     public bool PullHitter { get; set; }
     public bool SprayHitter { get; set; }
     public bool FirstballHitter { get; set; }
-    public AggressiveOrPatient? AggressiveOrPatientHitter { get; set; }
+    public AggressiveOrPatientHitter? AggressiveOrPatientHitter { get; set; }
     public bool Refined { get; set; }
     public bool ToughOut { get; set; }
     public bool Intimidator { get; set; }
@@ -64,8 +64,8 @@
   {
     public Special2_4 BaseRunning { get; set; }
     public Special2_4 Stealing { get; set; }
-    public bool AggressiveRunner { get; set; }
-    public AggressiveOrPatient AggressiveOrPatientBaseStealer { get; set; }
+    public bool IsAggressiveRunner { get; set; }
+    public AggressiveOrCautiousBaseStealer? AggressiveOrCautiousBaseStealer { get; set; }
     public bool ToughRunner { get; set; }
     public bool BreakupDoublePlay { get; set; }
     public bool HeadFirstSlide { get; set; }
