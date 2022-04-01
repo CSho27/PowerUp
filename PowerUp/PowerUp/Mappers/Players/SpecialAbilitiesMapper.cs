@@ -57,7 +57,9 @@ namespace PowerUp.Mappers.Players
       {
         ContactHitter = player.IsContactHitter!.Value,
         PowerHitter = player.IsPowerHitter!.Value,
-        SluggerOrSlapHitter = (SluggerOrSlapHitter)player.SlugOrSlap!.Value,
+        SluggerOrSlapHitter = player.SlugOrSlap != 0
+          ? (SluggerOrSlapHitter)player.SlugOrSlap!.Value
+          : null,
         PushHitter = player.IsPushHitter!.Value,
         PullHitter = player.IsPullHitter!.Value,
         SprayHitter = player.IsSprayHitter!.Value,

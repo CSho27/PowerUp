@@ -182,7 +182,9 @@ namespace PowerUp.Mappers.Players
         // Approach
         IsContactHitter = hittingSpecialAbilities.HittingApproach.ContactHitter,
         IsPowerHitter = hittingSpecialAbilities.HittingApproach.PowerHitter,
-        SlugOrSlap = (short)hittingSpecialAbilities.HittingApproach.SluggerOrSlapHitter,
+        SlugOrSlap = hittingSpecialAbilities.HittingApproach.SluggerOrSlapHitter.HasValue
+          ?(short)hittingSpecialAbilities.HittingApproach.SluggerOrSlapHitter
+          : (short)0,
         IsPushHitter = hittingSpecialAbilities.HittingApproach.PushHitter,
         IsPullHitter = hittingSpecialAbilities.HittingApproach.PullHitter,
         IsSprayHitter = hittingSpecialAbilities.HittingApproach.SprayHitter,

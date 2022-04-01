@@ -41,7 +41,7 @@
   {
     public bool ContactHitter { get; set; }
     public bool PowerHitter { get; set; }
-    public SluggerOrSlapHitter SluggerOrSlapHitter { get; set; }
+    public SluggerOrSlapHitter? SluggerOrSlapHitter { get; set; }
     public bool PushHitter { get; set; }
     public bool PullHitter { get; set; }
     public bool SprayHitter { get; set; }
