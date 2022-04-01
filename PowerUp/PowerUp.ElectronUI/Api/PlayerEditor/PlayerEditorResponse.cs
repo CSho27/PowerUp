@@ -13,6 +13,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PositionCapabilityDetailsDto PositionCapabilityDetails { get; }
     public HitterAbilityDetailsDto HitterAbilityDetails { get; }
     public PitcherAbilityDetailsDto PitcherAbilityDetails { get; }
+    public SpecialAbilitiesDto SpecialAbilityDetails { get; }
 
     public PlayerEditorResponse(
       IVoiceLibrary voiceLibrary,
@@ -26,6 +27,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
       HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
       PitcherAbilityDetails = new PitcherAbilityDetailsDto(player.PitcherAbilities);
+      SpecialAbilityDetails = new SpecialAbilitiesDto(player.SpecialAbilities);
     }
   }
 
@@ -155,42 +157,42 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PitcherAbilityDetailsDto
   {
-    public int TopSpeed { get; set; }
-    public int Control { get; set; }
-    public int Stamina { get; set; }
+    public int TopSpeed { get; }
+    public int Control { get; }
+    public int Stamina { get; }
 
-    public KeyedCode? TwoSeamType { get; set; }
-    public int? TwoSeamMovement { get; set; }
+    public KeyedCode? TwoSeamType { get; }
+    public int? TwoSeamMovement { get; }
 
-    public KeyedCode? Slider1Type { get; set; }
-    public int? Slider1Movement { get; set; }
+    public KeyedCode? Slider1Type { get; }
+    public int? Slider1Movement { get; }
 
-    public KeyedCode? Slider2Type { get; set; }
-    public int? Slider2Movement { get; set; }
+    public KeyedCode? Slider2Type { get; }
+    public int? Slider2Movement { get; }
 
-    public KeyedCode? Curve1Type { get; set; }
-    public int? Curve1Movement { get; set; }
+    public KeyedCode? Curve1Type { get; }
+    public int? Curve1Movement { get; }
 
-    public KeyedCode? Curve2Type { get; set; }
-    public int? Curve2Movement { get; set; }
+    public KeyedCode? Curve2Type { get; }
+    public int? Curve2Movement { get; }
 
-    public KeyedCode? Fork1Type { get; set; }
-    public int? Fork1Movement { get; set; }
+    public KeyedCode? Fork1Type { get; }
+    public int? Fork1Movement { get; }
 
-    public KeyedCode? Fork2Type { get; set; }
-    public int? Fork2Movement { get; set; }
+    public KeyedCode? Fork2Type { get; }
+    public int? Fork2Movement { get; }
 
-    public KeyedCode? Sinker1Type { get; set; }
-    public int? Sinker1Movement { get; set; }
+    public KeyedCode? Sinker1Type { get; }
+    public int? Sinker1Movement { get; }
 
-    public KeyedCode? Sinker2Type { get; set; }
+    public KeyedCode? Sinker2Type { get; }
     public int? Sinker2Movement { get; set; }
 
-    public KeyedCode? SinkingFastball1Type { get; set; }
-    public int? SinkingFastball1Movement { get; set; }
+    public KeyedCode? SinkingFastball1Type { get; }
+    public int? SinkingFastball1Movement { get; }
 
-    public KeyedCode? SinkingFastball2Type { get; set; }
-    public int? SinkingFastball2Movement { get; set; }
+    public KeyedCode? SinkingFastball2Type { get; }
+    public int? SinkingFastball2Movement { get; }
 
     public PitcherAbilityDetailsDto(PitcherAbilities pitcherAbilities)
     {
@@ -232,6 +234,196 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
       SinkingFastball2Type = pitcherAbilities.SinkingFastball2Type?.ToKeyedCode();
       SinkingFastball2Movement = pitcherAbilities.SinkingFastball2Movement;
+    }
+  }
+
+  public class SpecialAbilitiesDto
+  {
+    // General
+    public bool IsStar { get; }
+    public KeyedCode Durability { get; }
+    public KeyedCode Morale { get; }
+    // Hitter
+    // Situational
+    public KeyedCode HittingConsistency { get; }
+    public KeyedCode VersusLefty { get; }
+    public bool IsTableSetter { get; }
+    public bool IsBackToBackHitter { get; }
+    public bool IsHotHitter { get; }
+    public bool IsRallyHitter { get; }
+    public bool IsGoodPinchHitter { get; }
+    public KeyedCode? BasesLoadedHitter { get; }
+    public KeyedCode? WalkOffHitter { get; }
+    public KeyedCode ClutchHitter { get; }
+    // Approach
+    public bool IsContactHitter { get; }
+    public bool IsPowerHitter { get; }
+    public KeyedCode?  SluggerOrSlapHitter { get; }
+    public bool IsPushHitter { get; }
+    public bool IsPullHitter { get; }
+    public bool IsSprayHitter { get; }
+    public bool IsFirstballHitter { get; }
+    public KeyedCode? AggressiveOrPatientHitter { get; }
+    public bool IsRefinedHitter { get; }
+    public bool IsToughOut { get; }
+    public bool IsIntimidatingHitter { get; }
+    public bool IsSparkplug { get; }
+    // Small Ball
+    public KeyedCode SmallBall { get; }
+    public KeyedCode? Bunting { get; }
+    public KeyedCode? InfieldHitter { get; }
+    // Base Running
+    public KeyedCode BaseRunning { get; }
+    public KeyedCode Stealing { get; }
+    public bool IsAggressiveRunner { get; }
+    public KeyedCode? AggressiveOrPatientBaseStealer { get; }
+    public bool IsToughRunner { get; }
+    public bool WillBreakupDoublePlay { get; }
+    public bool WillSlideHeadFirst { get; }
+    // Fielding
+    public bool IsGoldGlover { get; }
+    public bool CanSpiderCatch { get; }
+    public bool CanBarehandCatch { get; }
+    public bool IsAggressiveFielder { get; }
+    public bool IsPivotMan { get; }
+    public bool IsErrorProne { get; }
+    public bool IsGoodBlocker { get; }
+    public KeyedCode? Catching { get; }
+    public KeyedCode Throwing { get; }
+    public bool HasCannonArm { get; }
+    public bool IsTrashTalker { get; }
+    // Pitching
+    // Situational
+    public KeyedCode PitchingConsistency { get; }
+    public KeyedCode PitchingVersusLefty { get; }
+    public KeyedCode Poise { get; }
+    public bool PoorVersusRunner { get; }
+    public KeyedCode WithRunnersInScoringPosition { get; }
+    public bool IsSlowStarter { get; }
+    public bool IsStarterFinisher { get; }
+    public bool IsChokeArtist { get; }
+    public bool IsSandbag { get; }
+    public bool DoctorK { get; }
+    public bool IsWalkProne { get; }
+    public KeyedCode Luck { get; }
+    public KeyedCode Recovery { get; }
+    // Demeanor
+    public bool IsIntimidatingPitcher { get; }
+    public KeyedCode? BattlerOrPokerFace { get; }
+    public bool IsHotHead { get; }
+    // Mechanics
+    public bool GoodDelivery { get; }
+    public KeyedCode Release { get; }
+    public bool GoodPace { get; }
+    public bool GoodReflexes { get; }
+    public bool GoodPickoff { get; }
+    // Pitch Qualities
+    public KeyedCode? PowerOrBreakingBallPitcher { get; }
+    public KeyedCode FastballLife { get; }
+    public KeyedCode Spin { get; }
+    public KeyedCode SafeOrFatPitch { get; }
+    public KeyedCode GroundBallOrFlyBallPitcher { get; }
+    public bool Gyroball { get; }
+    public bool ShuttoSpin { get; }
+
+    public SpecialAbilitiesDto(SpecialAbilities abilities)
+    {
+      // General
+      var general = abilities.General;
+      IsStar = general.IsStar;
+      Durability = general.Durability.ToKeyedCode();
+      Morale = general.Morale.ToKeyedCode();
+      // Hitter
+      // Situational
+      var situationalHitting = abilities.Hitter.SituationalHitting;
+      HittingConsistency = situationalHitting.Consistency.ToKeyedCode();
+      VersusLefty = situationalHitting.VersusLefty.ToKeyedCode();
+      IsTableSetter = situationalHitting.IsTableSetter;
+      IsBackToBackHitter = situationalHitting.IsBackToBackHitter;
+      IsHotHitter = situationalHitting.IsHotHitter;
+      IsRallyHitter = situationalHitting.IsRallyHitter;
+      IsGoodPinchHitter = situationalHitting.IsGoodPinchHitter;
+      BasesLoadedHitter = situationalHitting.BasesLoadedHitter?.ToKeyedCode();
+      WalkOffHitter = situationalHitting.WalkOffHitter?.ToKeyedCode();
+      ClutchHitter = situationalHitting.ClutchHitter.ToKeyedCode();
+      // Approach
+      var approach = abilities.Hitter.HittingApproach;
+      IsContactHitter = approach.IsContactHitter;
+      IsPowerHitter = approach.IsPowerHitter;
+      SluggerOrSlapHitter = approach.SluggerOrSlapHitter?.ToKeyedCode();
+      IsPushHitter = approach.IsPushHitter;
+      IsPullHitter = approach.IsPullHitter;
+      IsSprayHitter = approach.IsSprayHitter;
+      IsFirstballHitter = approach.IsFirstballHitter;
+      AggressiveOrPatientHitter = approach.AggressiveOrPatientHitter?.ToKeyedCode();
+      IsRefinedHitter = approach.IsRefinedHitter;
+      IsToughOut = approach.IsToughOut;
+      IsIntimidatingHitter = approach.IsIntimidator;
+      IsSparkplug = approach.IsSparkplug;
+      // Small Ball
+      var smallBall = abilities.Hitter.SmallBall;
+      SmallBall = smallBall.SmallBall.ToKeyedCode();
+      Bunting = smallBall.Bunting?.ToKeyedCode();
+      InfieldHitter = smallBall.InfieldHitting?.ToKeyedCode();
+      // Base Running
+      var baseRunning = abilities.Hitter.BaseRunning;
+      BaseRunning = baseRunning.BaseRunning.ToKeyedCode();
+      Stealing = baseRunning.Stealing.ToKeyedCode();
+      IsAggressiveRunner = baseRunning.IsAggressiveRunner;
+      AggressiveOrPatientBaseStealer = baseRunning.AggressiveOrCautiousBaseStealer?.ToKeyedCode();
+      IsToughRunner = baseRunning.IsToughRunner;
+      WillBreakupDoublePlay = baseRunning.WillBreakupDoublePlay;
+      WillSlideHeadFirst = baseRunning.WillSlideHeadFirst;
+      // Fielding
+      var fielding = abilities.Hitter.Fielding;
+      IsGoldGlover = fielding.IsGoldGlover;
+      CanSpiderCatch = fielding.CanSpiderCatch;
+      CanBarehandCatch = fielding.CanBarehandCatch;
+      IsAggressiveFielder = fielding.IsAggressiveFielder;
+      IsPivotMan = fielding.IsPivotMan;
+      IsErrorProne = fielding.IsErrorProne;
+      IsGoodBlocker = fielding.IsGoodBlocker;
+      Catching = fielding.Catching?.ToKeyedCode();
+      Throwing = fielding.Throwing.ToKeyedCode();
+      HasCannonArm = fielding.HasCannonArm;
+      IsTrashTalker = fielding.IsTrashTalker;
+      // Pitching
+      // Situational
+      var situationalPitching = abilities.Pitcher.SituationalPitching;
+      PitchingConsistency = situationalPitching.Consistency.ToKeyedCode();
+      PitchingVersusLefty = situationalPitching.VersusLefty.ToKeyedCode();
+      Poise = situationalPitching.Poise.ToKeyedCode();
+      PoorVersusRunner = situationalPitching.PoorVersusRunner;
+      WithRunnersInScoringPosition = situationalPitching.WithRunnersInSocringPosition.ToKeyedCode();
+      IsSlowStarter = situationalPitching.IsSlowStarter;
+      IsStarterFinisher = situationalPitching.IsStarterFinisher;
+      IsChokeArtist = situationalPitching.IsChokeArtist;
+      IsSandbag = situationalPitching.IsSandbag;
+      DoctorK = situationalPitching.DoctorK;
+      IsWalkProne = situationalPitching.IsWalkProne;
+      Luck = situationalPitching.Luck.ToKeyedCode();
+      Recovery = situationalPitching.Recovery.ToKeyedCode();
+      // Demeanor
+      var demeanor = abilities.Pitcher.Demeanor;
+      IsIntimidatingPitcher = demeanor.IsIntimidator;
+      BattlerOrPokerFace = demeanor.BattlerPokerFace?.ToKeyedCode();
+      IsHotHead = demeanor.IsHotHead;
+      // Mechanics
+      var mechanics = abilities.Pitcher.PitchingMechanics;
+      GoodDelivery = mechanics.GoodDelivery;
+      Release = mechanics.Release.ToKeyedCode();
+      GoodPace = mechanics.GoodPace;
+      GoodReflexes = mechanics.GoodReflexes;
+      GoodPickoff = mechanics.GoodPickoff;
+      // Pitch Qualities
+      var pitchQualities = abilities.Pitcher.PitchQuailities;
+      PowerOrBreakingBallPitcher = pitchQualities.PowerOrBreakingBallPitcher?.ToKeyedCode();
+      FastballLife = pitchQualities.FastballLife.ToKeyedCode();
+      Spin = pitchQualities.Spin.ToKeyedCode();
+      SafeOrFatPitch = pitchQualities.SafeOrFatPitch.ToKeyedCode();
+      GroundBallOrFlyBallPitcher = pitchQualities.GroundBallOrFlyBallPitcher.ToKeyedCode();
+      Gyroball = pitchQualities.Gyroball;
+      ShuttoSpin = pitchQualities.ShuttoSpin;
     }
   }
 }
