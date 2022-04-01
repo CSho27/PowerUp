@@ -1,10 +1,5 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Mappers.Players
 {
@@ -16,6 +11,7 @@ namespace PowerUp.Mappers.Players
       {
         General = GetGeneralSpecialAbilities(player),
         Hitter = GetHitterSpecialAbilities(player),
+        Pitcher = GetPitcherSpecialAbilities(player),
       };
     } 
 
@@ -113,6 +109,61 @@ namespace PowerUp.Mappers.Players
         Throwing = (Special2_4)player.Throwing!.Value,
         CannonArm = player.HasCannonArm!.Value,
         TrashTalk = player.IsTrashTalker!.Value
+      };
+    }
+
+    public static PitcherSpecialAbilities GetPitcherSpecialAbilities(GSPlayer player)
+    {
+      return new PitcherSpecialAbilities
+      {
+        SituationalPitching = GetSituationalPitchingSpecialAbilities(player),
+        Demeanor = GetPitchingDemeanorSpecialAbilities(player),
+        PitchingMechanics = GetPitchingMechanicsSpecialAbilities(player),
+        PitchQuailities = GetPitchQuailitiesSpecialAbilities(player),
+      };
+    }
+
+    public static SituationalPitchingSpecialAbilities GetSituationalPitchingSpecialAbilities(GSPlayer player)
+    {
+      return new SituationalPitchingSpecialAbilities
+      {
+        Consistency = (Special2_4)player.PitchingConsistency!.Value,
+        VersusLefty = (Special2_4)player.VersusLeftHandedBatter!.Value,
+        Poise = (Special2_4)player.Poise!.Value,
+        PoorVersusRunner = player.PoorVersusRunner!.Value,
+        WithRunnersInSocringPosition = (Special2_4)player.WithRunnersInScoringPosition!.Value,
+        SlowStarter = player.IsSlowStarter!.Value,
+        StarterFinisher = player.IsStarterFinisher!.Value,
+        ChokeArtist = player.IsChokeArtist!.Value,
+        Sandbag = player.IsSandbag!.Value,
+        DoctorK = player.DoctorK!.Value,
+        Walk = player.WalkProne!.Value,
+        Lucky = (SpecialPositive_Negative)player.Luck!.Value,
+        Recovery = (Special2_4)player.Recovery!.Value
+      };
+    }
+
+    public static PitchingDemeanorSpecialAbilities GetPitchingDemeanorSpecialAbilities(GSPlayer player)
+    {
+      return new PitchingDemeanorSpecialAbilities
+      {
+
+      };
+    }
+
+    public static PitchingMechanicsSpecialAbilities GetPitchingMechanicsSpecialAbilities(GSPlayer player)
+    {
+      return new PitchingMechanicsSpecialAbilities
+      {
+
+      };
+    }
+
+    public static PitchQuailitiesSpecialAbilities GetPitchQuailitiesSpecialAbilities(GSPlayer player)
+    {
+      return new PitchQuailitiesSpecialAbilities
+      {
+
       };
     }
   }

@@ -99,7 +99,7 @@
     public Special2_4 Consistency { get; set; }
     public Special2_4 VersusLefty { get; set; }
     public Special2_4 Poise { get; set; }
-    public Special2_4 VersusRunner { get; set; }
+    public bool PoorVersusRunner { get; set; }
     public Special2_4 WithRunnersInSocringPosition { get; set; }
     public bool SlowStarter { get; set; }
     public bool StarterFinisher { get; set; }

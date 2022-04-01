@@ -857,5 +857,110 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsTrashTalker!.Value.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPitchingConsistency()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.Consistency = Special2_4.Two;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.PitchingConsistency!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapVersusLeftHandedBatter()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.VersusLefty = Special2_4.Four;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.VersusLeftHandedBatter!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPoise()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.Poise = Special2_4.Two;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Poise!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPoorVersusRunner()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.PoorVersusRunner = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.PoorVersusRunner!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapWithRunnersInScoringPosition()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.WithRunnersInSocringPosition = Special2_4.Four;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.WithRunnersInScoringPosition!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapIsSlowStarter()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.SlowStarter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsSlowStarter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapIsStarterFinisher()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.StarterFinisher = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsStarterFinisher!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapChokeArtist()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.ChokeArtist = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsChokeArtist!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSandbag()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.Sandbag = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsSandbag!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapDoctorK()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.DoctorK = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.DoctorK!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapWalkProne()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.Walk = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.WalkProne!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapLucky()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.Lucky = SpecialPositive_Negative.Negative;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Luck!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapRecovery()
+    {
+      player.SpecialAbilities.Pitcher.SituationalPitching.Recovery = Special2_4.Four;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Recovery!.Value.ShouldBe((short)1);
+    }
   }
 }
+

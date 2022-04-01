@@ -218,7 +218,23 @@ namespace PowerUp.Mappers.Players
         Catching = (ushort)hittingSpecialAbilities.Fielding.CatchingAbility,
         Throwing = (short)hittingSpecialAbilities.Fielding.Throwing,
         HasCannonArm = hittingSpecialAbilities.Fielding.CannonArm,
-        IsTrashTalker = hittingSpecialAbilities.Fielding.TrashTalk
+        IsTrashTalker = hittingSpecialAbilities.Fielding.TrashTalk,
+
+        // Pitching
+        // Situational
+        PitchingConsistency = (short)pitchingSpecialAbilities.SituationalPitching.Consistency,
+        VersusLeftHandedBatter = (short)pitchingSpecialAbilities.SituationalPitching.VersusLefty,
+        Poise = (short)pitchingSpecialAbilities.SituationalPitching.Poise,
+        PoorVersusRunner = pitchingSpecialAbilities.SituationalPitching.PoorVersusRunner,
+        WithRunnersInScoringPosition = (short)pitchingSpecialAbilities.SituationalPitching.WithRunnersInSocringPosition,
+        IsSlowStarter = pitchingSpecialAbilities.SituationalPitching.SlowStarter,
+        IsStarterFinisher = pitchingSpecialAbilities.SituationalPitching.StarterFinisher,
+        IsChokeArtist = pitchingSpecialAbilities.SituationalPitching.ChokeArtist,
+        IsSandbag = pitchingSpecialAbilities.SituationalPitching.Sandbag,
+        DoctorK = pitchingSpecialAbilities.SituationalPitching.DoctorK,
+        WalkProne = pitchingSpecialAbilities.SituationalPitching.Walk,
+        Luck = (short)pitchingSpecialAbilities.SituationalPitching.Lucky,
+        Recovery = (short)pitchingSpecialAbilities.SituationalPitching.Recovery
       };
     }
 
