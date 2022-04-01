@@ -66,24 +66,24 @@
     public Special2_4 Stealing { get; set; }
     public bool IsAggressiveRunner { get; set; }
     public AggressiveOrCautiousBaseStealer? AggressiveOrCautiousBaseStealer { get; set; }
-    public bool ToughRunner { get; set; }
-    public bool BreakupDoublePlay { get; set; }
-    public bool HeadFirstSlide { get; set; }
+    public bool IsToughRunner { get; set; }
+    public bool WillBreakupDoublePlay { get; set; }
+    public bool WillSlideHeadFirst { get; set; }
   }
 
   public class FieldingSpecialAbilities
   {
-    public bool GoldGlover { get; set; }
-    public bool SpiderCatch { get; set; }
-    public bool BarehandCatch { get; set; }
-    public bool AggressiveFielder { get; set; }
-    public bool PivotMan { get; set; }
-    public bool ErrorProne { get; set; }
-    public bool GoodBlocker { get; set; }
-    public CatchingAbility CatchingAbility { get; set; }
+    public bool IsGoldGlover { get; set; }
+    public bool CanSpiderCatch { get; set; }
+    public bool CanBarehandCatch { get; set; }
+    public bool IsAggressiveFielder { get; set; }
+    public bool IsPivotMan { get; set; }
+    public bool IsErrorProne { get; set; }
+    public bool IsGoodBlocker { get; set; }
+    public CatchingAbility? Catching { get; set; }
     public Special2_4 Throwing { get; set; }
-    public bool CannonArm { get; set; }
-    public bool TrashTalk { get; set; }
+    public bool HasCannonArm { get; set; }
+    public bool IsTrashTalker { get; set; }
   }
 
   public class PitcherSpecialAbilities

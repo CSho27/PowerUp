@@ -221,22 +221,24 @@ namespace PowerUp.Mappers.Players
         AggressiveOrCautiousBaseStealer = hittingSpecialAbilities.BaseRunning.AggressiveOrCautiousBaseStealer.HasValue
           ? (short)hittingSpecialAbilities.BaseRunning.AggressiveOrCautiousBaseStealer
           : (short)0,
-        IsToughRunner = hittingSpecialAbilities.BaseRunning.ToughRunner,
-        WillBreakupDoublePlay = hittingSpecialAbilities.BaseRunning.BreakupDoublePlay,
-        WillSlideHeadFirst = hittingSpecialAbilities.BaseRunning.HeadFirstSlide,
+        IsToughRunner = hittingSpecialAbilities.BaseRunning.IsToughRunner,
+        WillBreakupDoublePlay = hittingSpecialAbilities.BaseRunning.WillBreakupDoublePlay,
+        WillSlideHeadFirst = hittingSpecialAbilities.BaseRunning.WillSlideHeadFirst,
 
         // Fielding
-        IsGoldGlover = hittingSpecialAbilities.Fielding.GoldGlover,
-        CanSpiderCatch = hittingSpecialAbilities.Fielding.SpiderCatch,
-        CanBarehandCatch = hittingSpecialAbilities.Fielding.BarehandCatch,
-        IsAggressiveFielder = hittingSpecialAbilities.Fielding.AggressiveFielder,
-        IsPivotMan = hittingSpecialAbilities.Fielding.PivotMan,
-        IsErrorProne = hittingSpecialAbilities.Fielding.ErrorProne,
-        IsGoodBlocker = hittingSpecialAbilities.Fielding.GoodBlocker,
-        Catching = (ushort)hittingSpecialAbilities.Fielding.CatchingAbility,
+        IsGoldGlover = hittingSpecialAbilities.Fielding.IsGoldGlover,
+        CanSpiderCatch = hittingSpecialAbilities.Fielding.CanSpiderCatch,
+        CanBarehandCatch = hittingSpecialAbilities.Fielding.CanBarehandCatch,
+        IsAggressiveFielder = hittingSpecialAbilities.Fielding.IsAggressiveFielder,
+        IsPivotMan = hittingSpecialAbilities.Fielding.IsPivotMan,
+        IsErrorProne = hittingSpecialAbilities.Fielding.IsErrorProne,
+        IsGoodBlocker = hittingSpecialAbilities.Fielding.IsGoodBlocker,
+        Catching = hittingSpecialAbilities.Fielding.Catching.HasValue
+          ? (ushort)hittingSpecialAbilities.Fielding.Catching
+          : (ushort)0,
         Throwing = (short)hittingSpecialAbilities.Fielding.Throwing,
-        HasCannonArm = hittingSpecialAbilities.Fielding.CannonArm,
-        IsTrashTalker = hittingSpecialAbilities.Fielding.TrashTalk,
+        HasCannonArm = hittingSpecialAbilities.Fielding.HasCannonArm,
+        IsTrashTalker = hittingSpecialAbilities.Fielding.IsTrashTalker,
 
         // Pitching
         // Situational

@@ -106,9 +106,9 @@ namespace PowerUp.Mappers.Players
         AggressiveOrCautiousBaseStealer = player.AggressiveOrCautiousBaseStealer != 0
           ? (AggressiveOrCautiousBaseStealer)player.AggressiveOrCautiousBaseStealer!.Value
           : null,
-        ToughRunner = player.IsToughRunner!.Value,
-        BreakupDoublePlay = player.WillBreakupDoublePlay!.Value,
-        HeadFirstSlide = player.WillSlideHeadFirst!.Value
+        IsToughRunner = player.IsToughRunner!.Value,
+        WillBreakupDoublePlay = player.WillBreakupDoublePlay!.Value,
+        WillSlideHeadFirst = player.WillSlideHeadFirst!.Value
       };
     }
 
@@ -116,17 +116,19 @@ namespace PowerUp.Mappers.Players
     {
       return new FieldingSpecialAbilities
       {
-        GoldGlover = player.IsGoldGlover!.Value,
-        SpiderCatch = player.CanSpiderCatch!.Value,
-        BarehandCatch = player.CanBarehandCatch!.Value,
-        AggressiveFielder = player.IsAggressiveFielder!.Value,
-        PivotMan = player.IsPivotMan!.Value,
-        ErrorProne = player.IsErrorProne!.Value,
-        GoodBlocker = player.IsGoodBlocker!.Value,
-        CatchingAbility = (CatchingAbility)player.Catching!.Value,
+        IsGoldGlover = player.IsGoldGlover!.Value,
+        CanSpiderCatch = player.CanSpiderCatch!.Value,
+        CanBarehandCatch = player.CanBarehandCatch!.Value,
+        IsAggressiveFielder = player.IsAggressiveFielder!.Value,
+        IsPivotMan = player.IsPivotMan!.Value,
+        IsErrorProne = player.IsErrorProne!.Value,
+        IsGoodBlocker = player.IsGoodBlocker!.Value,
+        Catching = player.Catching != 0
+          ? (CatchingAbility)player.Catching!.Value
+          : null,
         Throwing = (Special2_4)player.Throwing!.Value,
-        CannonArm = player.HasCannonArm!.Value,
-        TrashTalk = player.IsTrashTalker!.Value
+        HasCannonArm = player.HasCannonArm!.Value,
+        IsTrashTalker = player.IsTrashTalker!.Value
       };
     }
 

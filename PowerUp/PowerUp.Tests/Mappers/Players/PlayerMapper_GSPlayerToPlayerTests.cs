@@ -971,7 +971,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsToughRunner = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.BaseRunning.ToughRunner.ShouldBe(true);
+      result.SpecialAbilities.Hitter.BaseRunning.IsToughRunner.ShouldBe(true);
     }
 
     [Test]
@@ -979,7 +979,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.WillBreakupDoublePlay = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.BaseRunning.BreakupDoublePlay.ShouldBe(true);
+      result.SpecialAbilities.Hitter.BaseRunning.WillBreakupDoublePlay.ShouldBe(true);
     }
 
     [Test]
@@ -987,7 +987,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.WillSlideHeadFirst = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.BaseRunning.HeadFirstSlide.ShouldBe(true);
+      result.SpecialAbilities.Hitter.BaseRunning.WillSlideHeadFirst.ShouldBe(true);
     }
 
     [Test]
@@ -995,7 +995,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsGoldGlover = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.GoldGlover.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.IsGoldGlover.ShouldBe(true);
     }
 
     [Test]
@@ -1003,7 +1003,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.CanSpiderCatch = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.SpiderCatch.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.CanSpiderCatch.ShouldBe(true);
     }
 
     [Test]
@@ -1011,7 +1011,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.CanBarehandCatch = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.BarehandCatch.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.CanBarehandCatch.ShouldBe(true);
     }
 
     [Test]
@@ -1019,7 +1019,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsAggressiveFielder = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.AggressiveFielder.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.IsAggressiveFielder.ShouldBe(true);
     }
 
     [Test]
@@ -1027,7 +1027,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsPivotMan = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.PivotMan.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.IsPivotMan.ShouldBe(true);
     }
 
     [Test]
@@ -1035,7 +1035,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsErrorProne = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.ErrorProne.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.IsErrorProne.ShouldBe(true);
     }
 
     [Test]
@@ -1043,7 +1043,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsGoodBlocker = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.GoodBlocker.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.IsGoodBlocker.ShouldBe(true);
     }
 
     [Test]
@@ -1051,7 +1051,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.Catching = 2;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.CatchingAbility.ShouldBe(CatchingAbility.GreatCatcher);
+      result.SpecialAbilities.Hitter.Fielding.Catching.ShouldBe(CatchingAbility.GreatCatcher);
     }
 
     [Test]
@@ -1067,7 +1067,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.HasCannonArm = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.CannonArm.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.HasCannonArm.ShouldBe(true);
     }
 
     [Test]
@@ -1075,7 +1075,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsTrashTalker = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.Fielding.TrashTalk.ShouldBe(true);
+      result.SpecialAbilities.Hitter.Fielding.IsTrashTalker.ShouldBe(true);
     }
 
     [Test]
