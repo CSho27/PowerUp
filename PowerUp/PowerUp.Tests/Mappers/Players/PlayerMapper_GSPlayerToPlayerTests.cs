@@ -136,7 +136,7 @@ namespace PowerUp.Tests.Mappers.Players
         HasCannonArm = false,
         IsTrashTalker = false,
         PitchingConsistency = 0,
-        VersusLeftHandedBatter = 0,
+        PitchingVersusLefty = 0,
         Poise = 0,
         PoorVersusRunner = false,
         WithRunnersInScoringPosition = 0,
@@ -145,7 +145,7 @@ namespace PowerUp.Tests.Mappers.Players
         IsChokeArtist = false,
         IsSandbag = false,
         DoctorK = false,
-        WalkProne = false,
+        IsWalkProne = false,
         Luck = 0,
         Recovery = 0,
         IsIntimidatingPitcher = false,
@@ -819,7 +819,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsContactHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.ContactHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsContactHitter.ShouldBe(true);
     }
 
     [Test]
@@ -827,7 +827,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsPowerHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.PowerHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsPowerHitter.ShouldBe(true);
     }
 
     [Test]
@@ -843,7 +843,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsPushHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.PushHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsPushHitter.ShouldBe(true);
     }
 
     [Test]
@@ -851,7 +851,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsPullHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.PullHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsPullHitter.ShouldBe(true);
     }
 
     [Test]
@@ -859,7 +859,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsSprayHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.SprayHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsSprayHitter.ShouldBe(true);
     }
 
     [Test]
@@ -867,7 +867,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsFirstballHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.FirstballHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsFirstballHitter.ShouldBe(true);
     }
 
     [Test]
@@ -883,7 +883,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsRefinedHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.Refined.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsRefinedHitter.ShouldBe(true);
     }
 
     [Test]
@@ -891,7 +891,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsToughOut = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.ToughOut.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsToughOut.ShouldBe(true);
     }
 
     [Test]
@@ -899,7 +899,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsIntimidatingHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.Intimidator.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsIntimidator.ShouldBe(true);
     }
 
     [Test]
@@ -907,7 +907,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsSparkplug = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.HittingApproach.Sparkplug.ShouldBe(true);
+      result.SpecialAbilities.Hitter.HittingApproach.IsSparkplug.ShouldBe(true);
     }
 
     [Test]
@@ -1089,7 +1089,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToPlayer_ShouldMapVersusLeftHanded()
     {
-      gsPlayer.VersusLeftHandedBatter = -1;
+      gsPlayer.PitchingVersusLefty = -1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Pitcher.SituationalPitching.VersusLefty.ShouldBe(Special2_4.Two);
     }
@@ -1123,7 +1123,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsSlowStarter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.SituationalPitching.SlowStarter.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsSlowStarter.ShouldBe(true);
     }
 
     [Test]
@@ -1131,7 +1131,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsStarterFinisher = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.SituationalPitching.StarterFinisher.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsStarterFinisher.ShouldBe(true);
     }
 
     [Test]
@@ -1139,7 +1139,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsChokeArtist = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.SituationalPitching.ChokeArtist.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsChokeArtist.ShouldBe(true);
     }
 
     [Test]
@@ -1147,7 +1147,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsSandbag = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.SituationalPitching.Sandbag.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsSandbag.ShouldBe(true);
     }
 
     [Test]
@@ -1161,9 +1161,9 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToPlayer_ShouldMapWalk()
     {
-      gsPlayer.WalkProne = true;
+      gsPlayer.IsWalkProne = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.SituationalPitching.Walk.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsWalkProne.ShouldBe(true);
     }
 
     [Test]
@@ -1171,7 +1171,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.Luck = 1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.SituationalPitching.Lucky.ShouldBe(SpecialPositive_Negative.Positive);
+      result.SpecialAbilities.Pitcher.SituationalPitching.Luck.ShouldBe(SpecialPositive_Negative.Positive);
     }
 
     [Test]
@@ -1187,7 +1187,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsIntimidatingPitcher = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.Demeanor.Intimidator.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.Demeanor.IsIntimidator.ShouldBe(true);
     }
 
     [Test]
@@ -1211,7 +1211,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsHotHead = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Pitcher.Demeanor.HotHead.ShouldBe(true);
+      result.SpecialAbilities.Pitcher.Demeanor.IsHotHead.ShouldBe(true);
     }
 
     [Test]

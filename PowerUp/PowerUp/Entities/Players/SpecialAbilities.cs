@@ -39,18 +39,18 @@
 
   public class HittingApproachSpecialAbilities
   {
-    public bool ContactHitter { get; set; }
-    public bool PowerHitter { get; set; }
+    public bool IsContactHitter { get; set; }
+    public bool IsPowerHitter { get; set; }
     public SluggerOrSlapHitter? SluggerOrSlapHitter { get; set; }
-    public bool PushHitter { get; set; }
-    public bool PullHitter { get; set; }
-    public bool SprayHitter { get; set; }
-    public bool FirstballHitter { get; set; }
+    public bool IsPushHitter { get; set; }
+    public bool IsPullHitter { get; set; }
+    public bool IsSprayHitter { get; set; }
+    public bool IsFirstballHitter { get; set; }
     public AggressiveOrPatientHitter? AggressiveOrPatientHitter { get; set; }
-    public bool Refined { get; set; }
-    public bool ToughOut { get; set; }
-    public bool Intimidator { get; set; }
-    public bool Sparkplug { get; set; }
+    public bool IsRefinedHitter { get; set; }
+    public bool IsToughOut { get; set; }
+    public bool IsIntimidator { get; set; }
+    public bool IsSparkplug { get; set; }
   }
 
   public class SmallBallSpecialAbilities
@@ -101,21 +101,21 @@
     public Special2_4 Poise { get; set; }
     public bool PoorVersusRunner { get; set; }
     public Special2_4 WithRunnersInSocringPosition { get; set; }
-    public bool SlowStarter { get; set; }
-    public bool StarterFinisher { get; set; }
-    public bool ChokeArtist { get; set; }
-    public bool Sandbag { get; set; }
+    public bool IsSlowStarter { get; set; }
+    public bool IsStarterFinisher { get; set; }
+    public bool IsChokeArtist { get; set; }
+    public bool IsSandbag { get; set; }
     public bool DoctorK { get; set; }
-    public bool Walk { get; set; }
-    public SpecialPositive_Negative Lucky { get; set; }
+    public bool IsWalkProne { get; set; }
+    public SpecialPositive_Negative Luck { get; set; }
     public Special2_4 Recovery { get; set; }
   }
 
   public class PitchingDemeanorSpecialAbilities
   {
-    public bool Intimidator { get; set; }
+    public bool IsIntimidator { get; set; }
     public BattlerPokerFace? BattlerPokerFace { get; set; }
-    public bool HotHead { get; set; }
+    public bool IsHotHead { get; set; }
   }
 
   public class PitchingMechanicsSpecialAbilities

@@ -389,7 +389,7 @@ namespace PowerUp.GameSave.Objects.Players
     public short? Release { get; set; }
 
     [GSSInt(0x7e, bits: 2, bitOffset: 6)]
-    public short? VersusLeftHandedBatter { get; set; }
+    public short? PitchingVersusLefty { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 0)]
     public bool? PoorVersusRunner { get; set; }
@@ -407,7 +407,7 @@ namespace PowerUp.GameSave.Objects.Players
     public bool? DoctorK { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 5)]
-    public bool? WalkProne { get; set; }
+    public bool? IsWalkProne { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 6)]
     public bool? IsSandbag { get; set; }

@@ -1911,7 +1911,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Writes_VersusLeftHandedBatter(int playerId, short value)
     {
-      var playerToWrite = new GSPlayer { VersusLeftHandedBatter = value };
+      var playerToWrite = new GSPlayer { PitchingVersusLefty = value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1919,7 +1919,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.VersusLeftHandedBatter.ShouldBe(value);
+      loadedPlayer.PitchingVersusLefty.ShouldBe(value);
     }
 
     [Test]
@@ -2013,7 +2013,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Writes_WalkProne(int playerId, bool value)
     {
-      var playerToWrite = new GSPlayer { WalkProne = value };
+      var playerToWrite = new GSPlayer { IsWalkProne = value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2021,7 +2021,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.WalkProne.ShouldBe(value);
+      loadedPlayer.IsWalkProne.ShouldBe(value);
     }
 
     [Test]

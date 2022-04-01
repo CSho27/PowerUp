@@ -188,22 +188,22 @@ namespace PowerUp.Mappers.Players
         ClutchHitter = (short)hittingSpecialAbilities.SituationalHitting.ClutchHitter,
 
         // Approach
-        IsContactHitter = hittingSpecialAbilities.HittingApproach.ContactHitter,
-        IsPowerHitter = hittingSpecialAbilities.HittingApproach.PowerHitter,
+        IsContactHitter = hittingSpecialAbilities.HittingApproach.IsContactHitter,
+        IsPowerHitter = hittingSpecialAbilities.HittingApproach.IsPowerHitter,
         SlugOrSlap = hittingSpecialAbilities.HittingApproach.SluggerOrSlapHitter.HasValue
           ?(short)hittingSpecialAbilities.HittingApproach.SluggerOrSlapHitter
           : (short)0,
-        IsPushHitter = hittingSpecialAbilities.HittingApproach.PushHitter,
-        IsPullHitter = hittingSpecialAbilities.HittingApproach.PullHitter,
-        IsSprayHitter = hittingSpecialAbilities.HittingApproach.SprayHitter,
-        IsFirstballHitter = hittingSpecialAbilities.HittingApproach.FirstballHitter,
+        IsPushHitter = hittingSpecialAbilities.HittingApproach.IsPushHitter,
+        IsPullHitter = hittingSpecialAbilities.HittingApproach.IsPullHitter,
+        IsSprayHitter = hittingSpecialAbilities.HittingApproach.IsSprayHitter,
+        IsFirstballHitter = hittingSpecialAbilities.HittingApproach.IsFirstballHitter,
         AggressiveOrPatientHitter = hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter.HasValue
           ? (short)hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter
           : (short)0,
-        IsRefinedHitter = hittingSpecialAbilities.HittingApproach.Refined,
-        IsToughOut = hittingSpecialAbilities.HittingApproach.ToughOut,
-        IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.Intimidator,
-        IsSparkplug = hittingSpecialAbilities.HittingApproach.Sparkplug,
+        IsRefinedHitter = hittingSpecialAbilities.HittingApproach.IsRefinedHitter,
+        IsToughOut = hittingSpecialAbilities.HittingApproach.IsToughOut,
+        IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.IsIntimidator,
+        IsSparkplug = hittingSpecialAbilities.HittingApproach.IsSparkplug,
 
         // Small Ball
         SmallBall = (short)hittingSpecialAbilities.SmallBall.SmallBall,
@@ -243,24 +243,24 @@ namespace PowerUp.Mappers.Players
         // Pitching
         // Situational
         PitchingConsistency = (short)pitchingSpecialAbilities.SituationalPitching.Consistency,
-        VersusLeftHandedBatter = (short)pitchingSpecialAbilities.SituationalPitching.VersusLefty,
+        PitchingVersusLefty = (short)pitchingSpecialAbilities.SituationalPitching.VersusLefty,
         Poise = (short)pitchingSpecialAbilities.SituationalPitching.Poise,
         PoorVersusRunner = pitchingSpecialAbilities.SituationalPitching.PoorVersusRunner,
         WithRunnersInScoringPosition = (short)pitchingSpecialAbilities.SituationalPitching.WithRunnersInSocringPosition,
-        IsSlowStarter = pitchingSpecialAbilities.SituationalPitching.SlowStarter,
-        IsStarterFinisher = pitchingSpecialAbilities.SituationalPitching.StarterFinisher,
-        IsChokeArtist = pitchingSpecialAbilities.SituationalPitching.ChokeArtist,
-        IsSandbag = pitchingSpecialAbilities.SituationalPitching.Sandbag,
+        IsSlowStarter = pitchingSpecialAbilities.SituationalPitching.IsSlowStarter,
+        IsStarterFinisher = pitchingSpecialAbilities.SituationalPitching.IsStarterFinisher,
+        IsChokeArtist = pitchingSpecialAbilities.SituationalPitching.IsChokeArtist,
+        IsSandbag = pitchingSpecialAbilities.SituationalPitching.IsSandbag,
         DoctorK = pitchingSpecialAbilities.SituationalPitching.DoctorK,
-        WalkProne = pitchingSpecialAbilities.SituationalPitching.Walk,
-        Luck = (short)pitchingSpecialAbilities.SituationalPitching.Lucky,
+        IsWalkProne = pitchingSpecialAbilities.SituationalPitching.IsWalkProne,
+        Luck = (short)pitchingSpecialAbilities.SituationalPitching.Luck,
         Recovery = (short)pitchingSpecialAbilities.SituationalPitching.Recovery,
 
         // Demeanor
-        IsIntimidatingPitcher = pitchingSpecialAbilities.Demeanor.Intimidator,
+        IsIntimidatingPitcher = pitchingSpecialAbilities.Demeanor.IsIntimidator,
         IsBattler = pitchingSpecialAbilities.Demeanor.BattlerPokerFace == BattlerPokerFace.Battler,
         HasPokerFace = pitchingSpecialAbilities.Demeanor.BattlerPokerFace == BattlerPokerFace.PokerFace,
-        IsHotHead = pitchingSpecialAbilities.Demeanor.HotHead,
+        IsHotHead = pitchingSpecialAbilities.Demeanor.IsHotHead,
 
         // Mechanics
         GoodDelivery = pitchingSpecialAbilities.PitchingMechanics.GoodDelivery,

@@ -63,22 +63,22 @@ namespace PowerUp.Mappers.Players
     {
       return new HittingApproachSpecialAbilities
       {
-        ContactHitter = player.IsContactHitter!.Value,
-        PowerHitter = player.IsPowerHitter!.Value,
+        IsContactHitter = player.IsContactHitter!.Value,
+        IsPowerHitter = player.IsPowerHitter!.Value,
         SluggerOrSlapHitter = player.SlugOrSlap != 0
           ? (SluggerOrSlapHitter)player.SlugOrSlap!.Value
           : null,
-        PushHitter = player.IsPushHitter!.Value,
-        PullHitter = player.IsPullHitter!.Value,
-        SprayHitter = player.IsSprayHitter!.Value,
-        FirstballHitter = player.IsFirstballHitter!.Value,
+        IsPushHitter = player.IsPushHitter!.Value,
+        IsPullHitter = player.IsPullHitter!.Value,
+        IsSprayHitter = player.IsSprayHitter!.Value,
+        IsFirstballHitter = player.IsFirstballHitter!.Value,
         AggressiveOrPatientHitter = player.AggressiveOrPatientHitter != 0
           ? (AggressiveOrPatientHitter)player.AggressiveOrPatientHitter!.Value
           : null,
-        Refined = player.IsRefinedHitter!.Value,
-        ToughOut = player.IsToughOut!.Value,
-        Intimidator = player.IsIntimidatingHitter!.Value,
-        Sparkplug = player.IsSparkplug!.Value
+        IsRefinedHitter = player.IsRefinedHitter!.Value,
+        IsToughOut = player.IsToughOut!.Value,
+        IsIntimidator = player.IsIntimidatingHitter!.Value,
+        IsSparkplug = player.IsSparkplug!.Value
       };
     }
 
@@ -148,17 +148,17 @@ namespace PowerUp.Mappers.Players
       return new SituationalPitchingSpecialAbilities
       {
         Consistency = (Special2_4)player.PitchingConsistency!.Value,
-        VersusLefty = (Special2_4)player.VersusLeftHandedBatter!.Value,
+        VersusLefty = (Special2_4)player.PitchingVersusLefty!.Value,
         Poise = (Special2_4)player.Poise!.Value,
         PoorVersusRunner = player.PoorVersusRunner!.Value,
         WithRunnersInSocringPosition = (Special2_4)player.WithRunnersInScoringPosition!.Value,
-        SlowStarter = player.IsSlowStarter!.Value,
-        StarterFinisher = player.IsStarterFinisher!.Value,
-        ChokeArtist = player.IsChokeArtist!.Value,
-        Sandbag = player.IsSandbag!.Value,
+        IsSlowStarter = player.IsSlowStarter!.Value,
+        IsStarterFinisher = player.IsStarterFinisher!.Value,
+        IsChokeArtist = player.IsChokeArtist!.Value,
+        IsSandbag = player.IsSandbag!.Value,
         DoctorK = player.DoctorK!.Value,
-        Walk = player.WalkProne!.Value,
-        Lucky = (SpecialPositive_Negative)player.Luck!.Value,
+        IsWalkProne = player.IsWalkProne!.Value,
+        Luck = (SpecialPositive_Negative)player.Luck!.Value,
         Recovery = (Special2_4)player.Recovery!.Value
       };
     }
@@ -167,13 +167,13 @@ namespace PowerUp.Mappers.Players
     {
       return new PitchingDemeanorSpecialAbilities
       {
-        Intimidator = player.IsIntimidatingPitcher!.Value,
+        IsIntimidator = player.IsIntimidatingPitcher!.Value,
         BattlerPokerFace = player.IsBattler!.Value
           ? BattlerPokerFace.Battler
           : player.HasPokerFace!.Value
             ? BattlerPokerFace.PokerFace
             : null,
-        HotHead = player.IsHotHead!.Value
+        IsHotHead = player.IsHotHead!.Value
       };
     }
 

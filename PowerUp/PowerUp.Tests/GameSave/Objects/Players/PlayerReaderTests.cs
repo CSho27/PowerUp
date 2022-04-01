@@ -1274,7 +1274,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.VersusLeftHandedBatter.ShouldBe(abilityValue);
+      player.PitchingVersusLefty.ShouldBe(abilityValue);
     }
 
     [Test]
@@ -1340,7 +1340,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.WalkProne.ShouldBe(abilityValue);
+      player.IsWalkProne.ShouldBe(abilityValue);
     }
 
     [Test]
