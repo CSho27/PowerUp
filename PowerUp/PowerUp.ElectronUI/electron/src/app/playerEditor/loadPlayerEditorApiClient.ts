@@ -110,13 +110,27 @@ export interface PitcherAbilityDetailsDto {
   sinkingFastball2Movement: number | null;
 }
 
-export interface SpecialAbilitiesDto {
-  // General
+export interface SpecialAbilitiesDetailsDto {
+  general: GeneralSpecialAbilitiesDetailsDto;
+  hitter: HitterSpecialAblitiesDetailsDto;
+  pitcher: PitcherSpecialAbilitiesDetailsDto;
+}
+
+export interface GeneralSpecialAbilitiesDetailsDto {
   isStar: boolean;
   durability: KeyedCode;
   morale: KeyedCode;
-  // Hitter
-  // Situational
+}
+
+export interface HitterSpecialAblitiesDetailsDto {
+  situational: SituationalHittingSpecialAbilitiesDetailsDto;
+  approach: HittingApproachSpecialAbilitiesDetailsDto;
+  smallBall: SmallBallSpecialAbilitiesDetailsDto;
+  baseRunning: BaseRunningSpecialAbilitiesDetailsDto;
+  fielding: FieldingSpecialAbilitiesDetailsDto;
+}
+
+export interface SituationalHittingSpecialAbilitiesDetailsDto {
   hittingConsistency: KeyedCode;
   versusLefty: KeyedCode;
   isTableSetter: boolean;
@@ -127,7 +141,9 @@ export interface SpecialAbilitiesDto {
   basesLoadedHitter: KeyedCode | null;
   walkOffHitter: KeyedCode | null;
   clutchHitter: KeyedCode;
-  // Approach
+}
+
+export interface HittingApproachSpecialAbilitiesDetailsDto {
   isContactHitter: boolean;
   isPowerHitter: boolean;
   sluggerOrSlapHitter: KeyedCode | null;
@@ -140,11 +156,15 @@ export interface SpecialAbilitiesDto {
   isToughOut: boolean;
   isIntimidatingHitter: boolean;
   isSparkplug: boolean;
-  // Small Ball
+}
+
+export interface SmallBallSpecialAbilitiesDetailsDto {
   smallBall: KeyedCode;
   bunting: KeyedCode | null;
   infieldHitter: KeyedCode | null;
-  // Base Running
+}
+
+export interface BaseRunningSpecialAbilitiesDetailsDto {
   baseRunning: KeyedCode;
   stealing: KeyedCode;
   isAggressiveRunner: boolean;
@@ -152,7 +172,9 @@ export interface SpecialAbilitiesDto {
   isToughRunner: boolean;
   willBreakupDoublePlay: boolean;
   willSlideHeadFirst: boolean;
-  // Fielding
+}
+
+export interface FieldingSpecialAbilitiesDetailsDto {
   isGoldGlover: boolean;
   canSpiderCatch: boolean;
   canBarehandCatch: boolean;
@@ -164,8 +186,16 @@ export interface SpecialAbilitiesDto {
   throwing: KeyedCode;
   hasCannonArm: boolean;
   isTrashTalker: boolean;
-  // Pitching
-  // Situational
+}
+
+export interface PitcherSpecialAbilitiesDetailsDto {
+  situational: SituationalPitchingSpecialAbilitiesDetailsDto;
+  demeanor: PitchingDemeanorSpecialAbilitiesDetailsDto;
+  mechanics: PitchingMechanicsSpecialAbilitiesDetailsDto;
+  pitchQualities: PitchQualitiesSpecialAbilitiesDetailsDto;
+}
+
+export interface SituationalPitchingSpecialAbilitiesDetailsDto {
   pitchingConsistency: KeyedCode;
   pitchingVersusLefty: KeyedCode;
   poise: KeyedCode;
@@ -179,18 +209,24 @@ export interface SpecialAbilitiesDto {
   isWalkProne: boolean;
   luck: KeyedCode
   recovery: KeyedCode
-  // Demeanor
+}
+
+export interface PitchingDemeanorSpecialAbilitiesDetailsDto {
   isIntimidatingPitcher: boolean;
   battlerOrPokerFace: KeyedCode | null;
   isHotHead: boolean;
-  // Mechanics
+}
+
+export interface PitchingMechanicsSpecialAbilitiesDetailsDto {
   goodDelivery: boolean;
   release: KeyedCode;
   goodPace: boolean;
   goodReflexes: boolean;
   goodPickoff: boolean;
-  // Pitch Qualities
-  powerOrBreakingBallPitcher: KeyedCode | null;
+}
+
+export interface PitchQualitiesSpecialAbilitiesDetailsDto {
+    powerOrBreakingBallPitcher: KeyedCode | null;
   fastballLife: KeyedCode;
   spin: KeyedCode;
   safeOrFatPitch: KeyedCode;
