@@ -147,7 +147,12 @@ namespace PowerUp.Tests.Mappers.Players
         IsIntimidatingPitcher = false,
         IsBattler = false,
         HasPokerFace = false,
-        IsHotHead = false
+        IsHotHead = false,
+        GoodDelivery = false,
+        Release = 0,
+        HasGoodPace = false,
+        HasGoodReflexes = false,
+        GoodPickoff = false,
       };
     }
 
@@ -1163,6 +1168,46 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.IsHotHead = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Pitcher.Demeanor.HotHead.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodDelivery()
+    {
+      gsPlayer.GoodDelivery = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodDelivery.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRelease()
+    {
+      gsPlayer.Release = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.Release.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHasGoodPace()
+    {
+      gsPlayer.HasGoodPace = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodPace.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodReflexes()
+    {
+      gsPlayer.HasGoodReflexes = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodReflexes.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodPickoff()
+    {
+      gsPlayer.GoodPickoff = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodPickoff.ShouldBe(true);
     }
   }
 }

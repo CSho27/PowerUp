@@ -241,6 +241,13 @@ namespace PowerUp.Mappers.Players
         IsBattler = pitchingSpecialAbilities.Demeanor.BattlerPokerFace == BattlerPokerFace.Battler,
         HasPokerFace = pitchingSpecialAbilities.Demeanor.BattlerPokerFace == BattlerPokerFace.PokerFace,
         IsHotHead = pitchingSpecialAbilities.Demeanor.HotHead,
+
+        // Mechanics
+        GoodDelivery = pitchingSpecialAbilities.PitchingMechanics.GoodDelivery,
+        Release = (short)pitchingSpecialAbilities.PitchingMechanics.Release,
+        HasGoodPace = pitchingSpecialAbilities.PitchingMechanics.GoodPace,
+        HasGoodReflexes = pitchingSpecialAbilities.PitchingMechanics.GoodReflexes,
+        GoodPickoff = pitchingSpecialAbilities.PitchingMechanics.GoodPickoff,
       };
     }
 

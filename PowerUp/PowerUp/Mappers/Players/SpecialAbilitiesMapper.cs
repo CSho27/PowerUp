@@ -161,7 +161,11 @@ namespace PowerUp.Mappers.Players
     {
       return new PitchingMechanicsSpecialAbilities
       {
-
+        GoodDelivery = player.GoodDelivery!.Value,
+        Release = (Special2_4)player.Release!.Value,
+        GoodPace = player.HasGoodPace!.Value,
+        GoodReflexes = player.HasGoodReflexes!.Value,
+        GoodPickoff = player.GoodPickoff!.Value
       };
     }
 

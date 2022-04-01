@@ -993,6 +993,46 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsHotHead!.Value.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodDelivery()
+    {
+      player.SpecialAbilities.Pitcher.PitchingMechanics.GoodDelivery = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodDelivery!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapRelease()
+    {
+      player.SpecialAbilities.Pitcher.PitchingMechanics.Release = Special2_4.Two;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Release!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodPace()
+    {
+      player.SpecialAbilities.Pitcher.PitchingMechanics.GoodPace = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.HasGoodPace!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodReflexes()
+    {
+      player.SpecialAbilities.Pitcher.PitchingMechanics.GoodReflexes = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.HasGoodReflexes!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodPickoff()
+    {
+      player.SpecialAbilities.Pitcher.PitchingMechanics.GoodPickoff = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodPickoff!.Value.ShouldBe(true);
+    }
   }
 }
 
