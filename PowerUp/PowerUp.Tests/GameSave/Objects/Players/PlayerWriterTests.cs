@@ -925,7 +925,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Writes_ClutchHit(int playerId, short value)
     {
-      var playerToWrite = new GSPlayer { ClutchHit = value };
+      var playerToWrite = new GSPlayer { ClutchHitter = value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -933,7 +933,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.ClutchHit.ShouldBe(value);
+      loadedPlayer.ClutchHitter.ShouldBe(value);
     }
 
     [Test]

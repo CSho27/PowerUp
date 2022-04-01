@@ -166,7 +166,7 @@ namespace PowerUp.Mappers.Players
 
         // Special Abilities
         // General
-        IsStar = generalSpecialAbilities.Star,
+        IsStar = generalSpecialAbilities.IsStar,
         Durability = (short)generalSpecialAbilities.Durability,
         Morale = (short)generalSpecialAbilities.Morale,
 
@@ -175,9 +175,17 @@ namespace PowerUp.Mappers.Players
         HittingConsistency = (short)hittingSpecialAbilities.SituationalHitting.Consistency,
         HittingVersusLefty1 = (short)hittingSpecialAbilities.SituationalHitting.VersusLefty,
         HittingVersusLefty2 = (short)hittingSpecialAbilities.SituationalHitting.VersusLefty,
-        IsTableSetter = hittingSpecialAbilities.SituationalHitting.TableSetter,
-        IsBackToBackHitter = hittingSpecialAbilities.SituationalHitting.BackToBackHitter,
-        IsHotHitter = hittingSpecialAbilities.SituationalHitting.HotHitter,
+        IsTableSetter = hittingSpecialAbilities.SituationalHitting.IsTableSetter,
+        IsBackToBackHitter = hittingSpecialAbilities.SituationalHitting.IsBackToBackHitter,
+        IsHotHitter = hittingSpecialAbilities.SituationalHitting.IsHotHitter,
+        IsRallyHitter = hittingSpecialAbilities.SituationalHitting.IsRallyHitter,
+        BasesLoadedHitter = hittingSpecialAbilities.SituationalHitting.BasesLoadedHitter.HasValue
+          ? (ushort)hittingSpecialAbilities.SituationalHitting.BasesLoadedHitter.Value
+          : (ushort)0,
+        WalkoffHitter = hittingSpecialAbilities.SituationalHitting.WalkOffHitter.HasValue
+          ? (ushort)hittingSpecialAbilities.SituationalHitting.WalkOffHitter.Value
+          : (ushort)0,
+        ClutchHitter = (short)hittingSpecialAbilities.SituationalHitting.ClutchHitter,
 
         // Approach
         IsContactHitter = hittingSpecialAbilities.HittingApproach.ContactHitter,

@@ -19,7 +19,7 @@ namespace PowerUp.Mappers.Players
     {
       return new GeneralSpecialAbilities
       {
-        Star = player.IsStar!.Value,
+        IsStar = player.IsStar!.Value,
         Durability = (Special2_4)player.Durability!,
         Morale = (SpecialPositive_Negative)player.Morale!,
       };
@@ -45,9 +45,17 @@ namespace PowerUp.Mappers.Players
         VersusLefty = player.HittingVersusLefty1 != 0
           ? (Special1_5)player.HittingVersusLefty1!
           : (Special1_5)player.HittingVersusLefty2!,
-        TableSetter = player.IsTableSetter!.Value,
-        BackToBackHitter = player.IsBackToBackHitter!.Value,
-        HotHitter = player.IsHotHitter!.Value
+        IsTableSetter = player.IsTableSetter!.Value,
+        IsBackToBackHitter = player.IsBackToBackHitter!.Value,
+        IsHotHitter = player.IsHotHitter!.Value,
+        IsRallyHitter = player.IsRallyHitter!.Value,
+        BasesLoadedHitter = player.BasesLoadedHitter != 0
+         ? (BasesLoadedHitter)player.BasesLoadedHitter!.Value
+         : null,
+        WalkOffHitter = player.WalkoffHitter != 0
+          ? (WalkOffHitter)player.WalkoffHitter!.Value
+          : null,
+        ClutchHitter = (Special1_5)player.ClutchHitter!.Value
       };
     }
 

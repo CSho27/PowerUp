@@ -537,7 +537,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapIsStar()
     {
-      player.SpecialAbilities.General.Star = true;
+      player.SpecialAbilities.General.IsStar = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsStar!.Value.ShouldBe(true);
     }
@@ -580,7 +580,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapTableSetter()
     {
-      player.SpecialAbilities.Hitter.SituationalHitting.TableSetter = true;
+      player.SpecialAbilities.Hitter.SituationalHitting.IsTableSetter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsTableSetter!.Value.ShouldBe(true);
     }
@@ -589,7 +589,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapBackToBackHitter()
     {
-      player.SpecialAbilities.Hitter.SituationalHitting.BackToBackHitter = true;
+      player.SpecialAbilities.Hitter.SituationalHitting.IsBackToBackHitter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsBackToBackHitter!.Value.ShouldBe(true);
     }
@@ -597,9 +597,41 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapHotHitter()
     {
-      player.SpecialAbilities.Hitter.SituationalHitting.HotHitter = true;
+      player.SpecialAbilities.Hitter.SituationalHitting.IsHotHitter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsHotHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapRallyHitter ()
+    {
+      player.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsRallyHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBasesLoadedHitter()
+    {
+      player.SpecialAbilities.Hitter.SituationalHitting.BasesLoadedHitter = BasesLoadedHitter.HitsWell;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BasesLoadedHitter!.Value.ShouldBe((ushort)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapWalkOffHitter()
+    {
+      player.SpecialAbilities.Hitter.SituationalHitting.WalkOffHitter= WalkOffHitter.HitsWell;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.WalkoffHitter!.Value.ShouldBe((ushort)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapClutchHitter()
+    {
+      player.SpecialAbilities.Hitter.SituationalHitting.ClutchHitter = Special1_5.One;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.ClutchHitter!.Value.ShouldBe((short)-2);
     }
 
     [Test]

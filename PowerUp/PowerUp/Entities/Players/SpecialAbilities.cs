@@ -9,7 +9,7 @@
 
   public class GeneralSpecialAbilities
   {
-    public bool Star { get; set; }
+    public bool IsStar { get; set; }
     public Special2_4 Durability { get; set; }
     public SpecialPositive_Negative Morale { get; set; }
   }
@@ -27,11 +27,11 @@
   {
     public Special2_4 Consistency { get; set; }
     public Special1_5 VersusLefty { get; set; }
-    public bool TableSetter { get; set; }
-    public bool BackToBackHitter { get; set; }
-    public bool HotHitter { get; set; }
-    public bool RallyHitter { get; set; }
-    public bool GoodPinchHitter { get; set; }
+    public bool IsTableSetter { get; set; }
+    public bool IsBackToBackHitter { get; set; }
+    public bool IsHotHitter { get; set; }
+    public bool IsRallyHitter { get; set; }
+    public bool IsGoodPinchHitter { get; set; }
     public BasesLoadedHitter? BasesLoadedHitter { get; set; }
     public WalkOffHitter? WalkOffHitter { get; set; }
     public Special1_5 ClutchHitter { get; set; }

@@ -647,7 +647,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.ClutchHit.ShouldBe(abilityValue);
+      player.ClutchHitter.ShouldBe(abilityValue);
     }
 
     [Test]

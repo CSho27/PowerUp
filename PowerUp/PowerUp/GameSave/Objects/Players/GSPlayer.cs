@@ -208,7 +208,7 @@ namespace PowerUp.GameSave.Objects.Players
     public short? HittingVersusLefty2 { get; set; }
 
     [GSSInt(0x70, bits: 3, bitOffset: 0)]
-    public short? ClutchHit { get; set; }
+    public short? ClutchHitter { get; set; }
 
     [GSBoolean(0x70, bitOffset: 3)]
     public bool? IsTableSetter { get; set; }

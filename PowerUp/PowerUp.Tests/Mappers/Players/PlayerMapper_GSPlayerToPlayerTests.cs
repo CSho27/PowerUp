@@ -98,6 +98,10 @@ namespace PowerUp.Tests.Mappers.Players
         IsTableSetter = false,
         IsBackToBackHitter = false,
         IsHotHitter = false,
+        IsRallyHitter = false,
+        BasesLoadedHitter = 0,
+        WalkoffHitter = 0,
+        ClutchHitter = 0,
         IsContactHitter = false,
         IsPowerHitter = false,
         SlugOrSlap = 0,
@@ -711,7 +715,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsStar = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.General.Star.ShouldBe(true);
+      result.SpecialAbilities.General.IsStar.ShouldBe(true);
     }
 
     [Test]
@@ -759,7 +763,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsTableSetter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.SituationalHitting.TableSetter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsTableSetter.ShouldBe(true);
     }
 
     [Test]
@@ -767,7 +771,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsBackToBackHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.SituationalHitting.BackToBackHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsBackToBackHitter.ShouldBe(true);
     }
 
     [Test]
@@ -775,7 +779,39 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.IsHotHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SpecialAbilities.Hitter.SituationalHitting.HotHitter.ShouldBe(true);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsHotHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRallyHitter()
+    {
+      gsPlayer.IsRallyHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBasesLoadedHitter()
+    {
+      gsPlayer.BasesLoadedHitter = 3;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.BasesLoadedHitter.ShouldBe(BasesLoadedHitter.HitsWellAndHomersOften);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWalkOffHitter()
+    {
+      gsPlayer.WalkoffHitter = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.WalkOffHitter.ShouldBe(WalkOffHitter.HomersOften);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapClutchHitter()
+    {
+      gsPlayer.ClutchHitter = -3;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.ClutchHitter.ShouldBe(Special1_5.Two);
     }
 
     [Test]
