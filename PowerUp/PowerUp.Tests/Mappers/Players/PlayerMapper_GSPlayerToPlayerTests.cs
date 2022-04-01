@@ -153,6 +153,14 @@ namespace PowerUp.Tests.Mappers.Players
         HasGoodPace = false,
         HasGoodReflexes = false,
         GoodPickoff = false,
+        PowerOrBreakingBallPitcher = 0,
+        FastballLife = 0,
+        Spin = 0,
+        SafeOrFatPitch = 0,
+        GroundBallOrFlyBallPitcher = 0,
+        GoodLowPitch = false,
+        Gyroball = false,
+        ShuttoSpin = false
       };
     }
 
@@ -1208,6 +1216,69 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.GoodPickoff = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Pitcher.PitchingMechanics.GoodPickoff.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPowerOrBreakingBallPitcher()
+    {
+      gsPlayer.PowerOrBreakingBallPitcher = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.PowerOrBreakingBallPitcher.ShouldBe(PowerOrBreakingBallPitcher.Power);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFastballLife()
+    {
+      gsPlayer.FastballLife = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.FastballLife.ShouldBe(Special2_4.Two);
+    }
+    [Test]
+    public void MapToPlayer_ShouldMapSpin()
+    {
+      gsPlayer.Spin = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.Spin.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSafeOrFatPitch()
+    {
+      gsPlayer.SafeOrFatPitch = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.SafeOrFatPitch.ShouldBe(SpecialPositive_Negative.Negative);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGroundballOrFlytBallPitcher()
+    {
+      gsPlayer.GroundBallOrFlyBallPitcher = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.GroundBallOrFlyBallPitcher.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodLowPitch()
+    {
+      gsPlayer.GoodLowPitch = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.GoodLowPitch.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGyroball()
+    {
+      gsPlayer.Gyroball = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.Gyroball.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapShuttoSpin()
+    {
+      gsPlayer.ShuttoSpin = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ShouldBe(true);
     }
   }
 }

@@ -173,7 +173,16 @@ namespace PowerUp.Mappers.Players
     {
       return new PitchQuailitiesSpecialAbilities
       {
-
+        PowerOrBreakingBallPitcher = player.PowerOrBreakingBallPitcher != 0
+          ? (PowerOrBreakingBallPitcher)player.PowerOrBreakingBallPitcher!.Value
+          : null,
+        FastballLife = (Special2_4)player.FastballLife!.Value,
+        Spin = (Special2_4)player.Spin!.Value,
+        SafeOrFatPitch = (SpecialPositive_Negative)player.SafeOrFatPitch!.Value,
+        GroundBallOrFlyBallPitcher = (SpecialPositive_Negative)player.GroundBallOrFlyBallPitcher!.Value,
+        GoodLowPitch = player.GoodLowPitch!.Value,
+        Gyroball = player.Gyroball!.Value,
+        ShuttoSpin = player.ShuttoSpin!.Value
       };
     }
   }

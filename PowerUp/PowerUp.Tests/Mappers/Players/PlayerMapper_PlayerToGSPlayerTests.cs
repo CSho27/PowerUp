@@ -1033,6 +1033,70 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.GoodPickoff!.Value.ShouldBe(true);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPowerOrBreakingBallPitcher()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.PowerOrBreakingBallPitcher = PowerOrBreakingBallPitcher.Power;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.PowerOrBreakingBallPitcher!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapFastballLife()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.FastballLife = Special2_4.Four;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.FastballLife!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSpin()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.Spin = Special2_4.Two;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Spin!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapSafeOrFatPitch()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.SafeOrFatPitch = SpecialPositive_Negative.Positive;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.SafeOrFatPitch!.Value.ShouldBe((short)1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGroundBallOrFlyBallPitcher()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.GroundBallOrFlyBallPitcher = SpecialPositive_Negative.Negative;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GroundBallOrFlyBallPitcher!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodLowPitch()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.GoodLowPitch = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodLowPitch!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGyroball()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.Gyroball = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Gyroball!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapShuttoSpin()
+    {
+      player.SpecialAbilities.Pitcher.PitchQuailities.ShuttoSpin = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.ShuttoSpin!.Value.ShouldBe(true);
+    }
   }
 }
 

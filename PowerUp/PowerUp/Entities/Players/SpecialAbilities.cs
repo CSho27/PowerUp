@@ -129,7 +129,7 @@
 
   public class PitchQuailitiesSpecialAbilities
   {
-    public PowerOrBreakingBallPitcher PowerOrBreakingBallPitcher { get; set; }
+    public PowerOrBreakingBallPitcher? PowerOrBreakingBallPitcher { get; set; }
     public Special2_4 FastballLife { get; set; }
     public Special2_4 Spin { get; set; }
     public SpecialPositive_Negative SafeOrFatPitch { get; set; }

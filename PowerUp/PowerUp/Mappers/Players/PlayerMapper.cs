@@ -248,6 +248,18 @@ namespace PowerUp.Mappers.Players
         HasGoodPace = pitchingSpecialAbilities.PitchingMechanics.GoodPace,
         HasGoodReflexes = pitchingSpecialAbilities.PitchingMechanics.GoodReflexes,
         GoodPickoff = pitchingSpecialAbilities.PitchingMechanics.GoodPickoff,
+
+        // Pitch Qualities
+        PowerOrBreakingBallPitcher = pitchingSpecialAbilities.PitchQuailities.PowerOrBreakingBallPitcher.HasValue
+          ? (short)pitchingSpecialAbilities.PitchQuailities.PowerOrBreakingBallPitcher.Value
+          : (short)0,
+        FastballLife = (short)pitchingSpecialAbilities.PitchQuailities.FastballLife,
+        Spin = (short)pitchingSpecialAbilities.PitchQuailities.Spin,
+        SafeOrFatPitch = (short)pitchingSpecialAbilities.PitchQuailities.SafeOrFatPitch,
+        GroundBallOrFlyBallPitcher = (short)pitchingSpecialAbilities.PitchQuailities.GroundBallOrFlyBallPitcher,
+        GoodLowPitch = pitchingSpecialAbilities.PitchQuailities.GoodLowPitch,
+        Gyroball = pitchingSpecialAbilities.PitchQuailities.Gyroball,
+        ShuttoSpin = pitchingSpecialAbilities.PitchQuailities.ShuttoSpin
       };
     }
 
