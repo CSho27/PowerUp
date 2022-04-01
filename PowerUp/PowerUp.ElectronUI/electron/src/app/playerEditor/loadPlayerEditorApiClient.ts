@@ -110,6 +110,95 @@ export interface PitcherAbilityDetailsDto {
   sinkingFastball2Movement: number | null;
 }
 
+export interface SpecialAbilitiesDto {
+  // General
+  isStar: boolean;
+  durability: KeyedCode;
+  morale: KeyedCode;
+  // Hitter
+  // Situational
+  hittingConsistency: KeyedCode;
+  versusLefty: KeyedCode;
+  isTableSetter: boolean;
+  isBackToBackHitter: boolean;
+  isHotHitter: boolean;
+  isRallyHitter: boolean;
+  isGoodPinchHitter: boolean;
+  basesLoadedHitter: KeyedCode | null;
+  walkOffHitter: KeyedCode | null;
+  clutchHitter: KeyedCode;
+  // Approach
+  isContactHitter: boolean;
+  isPowerHitter: boolean;
+  sluggerOrSlapHitter: KeyedCode | null;
+  isPushHitter: boolean;
+  isPullHitter: boolean;
+  isSprayHitter: boolean;
+  isFirstballHitter: boolean;
+  aggressiveOrPatientHitter: KeyedCode | null;
+  isRefinedHitter: boolean;
+  isToughOut: boolean;
+  isIntimidatingHitter: boolean;
+  isSparkplug: boolean;
+  // Small Ball
+  smallBall: KeyedCode;
+  bunting: KeyedCode | null;
+  infieldHitter: KeyedCode | null;
+  // Base Running
+  baseRunning: KeyedCode;
+  stealing: KeyedCode;
+  isAggressiveRunner: boolean;
+  aggressiveOrPatientBaseStealer: KeyedCode | null;
+  isToughRunner: boolean;
+  willBreakupDoublePlay: boolean;
+  willSlideHeadFirst: boolean;
+  // Fielding
+  isGoldGlover: boolean;
+  canSpiderCatch: boolean;
+  canBarehandCatch: boolean;
+  isAggressiveFielder: boolean;
+  isPivotMan: boolean;
+  isErrorProne: boolean;
+  isGoodBlocker: boolean;
+  catching: KeyedCode | null;
+  throwing: KeyedCode;
+  hasCannonArm: boolean;
+  isTrashTalker: boolean;
+  // Pitching
+  // Situational
+  pitchingConsistency: KeyedCode;
+  pitchingVersusLefty: KeyedCode;
+  poise: KeyedCode;
+  poorVersusRunner: boolean;
+  withRunnersInScoringPosition: KeyedCode;
+  isSlowStarter: boolean;
+  isStarterFinisher: boolean;
+  isChokeArtist: boolean;
+  isSandbag: boolean
+  doctorK: boolean
+  isWalkProne: boolean;
+  luck: KeyedCode
+  recovery: KeyedCode
+  // Demeanor
+  isIntimidatingPitcher: boolean;
+  battlerOrPokerFace: KeyedCode | null;
+  isHotHead: boolean;
+  // Mechanics
+  goodDelivery: boolean;
+  release: KeyedCode;
+  goodPace: boolean;
+  goodReflexes: boolean;
+  goodPickoff: boolean;
+  // Pitch Qualities
+  powerOrBreakingBallPitcher: KeyedCode | null;
+  fastballLife: KeyedCode;
+  spin: KeyedCode;
+  safeOrFatPitch: KeyedCode;
+  groundBallOrFlyBallPitcher: KeyedCode;
+  gyroball: boolean;
+  shuttoSpin: boolean;
+}
+
 export class LoadPlayerEditorApiClient {
   private readonly commandName = 'LoadPlayerEditor';
   private readonly commandFetcher: CommandFetcher;
