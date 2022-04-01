@@ -961,6 +961,38 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.Recovery!.Value.ShouldBe((short)1);
     }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPitchingIntimidator()
+    {
+      player.SpecialAbilities.Pitcher.Demeanor.Intimidator = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsIntimidatingPitcher!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBattler()
+    {
+      player.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace = BattlerPokerFace.Battler;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsBattler!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapPokerFace()
+    {
+      player.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace = BattlerPokerFace.PokerFace;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.HasPokerFace!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapHotHead()
+    {
+      player.SpecialAbilities.Pitcher.Demeanor.HotHead = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsHotHead!.Value.ShouldBe(true);
+    }
   }
 }
 

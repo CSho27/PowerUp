@@ -114,7 +114,7 @@
   public class PitchingDemeanorSpecialAbilities
   {
     public bool Intimidator { get; set; }
-    public BattlerPokerFace BattlerPokerFace { get; set; }
+    public BattlerPokerFace? BattlerPokerFace { get; set; }
     public bool HotHead { get; set; }
   }
 

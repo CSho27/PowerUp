@@ -144,6 +144,10 @@ namespace PowerUp.Tests.Mappers.Players
         WalkProne = false,
         Luck = 0,
         Recovery = 0,
+        IsIntimidatingPitcher = false,
+        IsBattler = false,
+        HasPokerFace = false,
+        IsHotHead = false
       };
     }
 
@@ -1127,6 +1131,38 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.Recovery = -1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Pitcher.SituationalPitching.Recovery.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPitchingIntimidatorRecovery()
+    {
+      gsPlayer.IsIntimidatingPitcher = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.Intimidator.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsBattler()
+    {
+      gsPlayer.IsBattler = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace.ShouldBe(BattlerPokerFace.Battler);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHasPokerFace()
+    {
+      gsPlayer.HasPokerFace = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace.ShouldBe(BattlerPokerFace.PokerFace);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotHead()
+    {
+      gsPlayer.IsHotHead = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.HotHead.ShouldBe(true);
     }
   }
 }

@@ -147,7 +147,13 @@ namespace PowerUp.Mappers.Players
     {
       return new PitchingDemeanorSpecialAbilities
       {
-
+        Intimidator = player.IsIntimidatingPitcher!.Value,
+        BattlerPokerFace = player.IsBattler!.Value
+          ? BattlerPokerFace.Battler
+          : player.HasPokerFace!.Value
+            ? BattlerPokerFace.PokerFace
+            : null,
+        HotHead = player.IsHotHead!.Value
       };
     }
 

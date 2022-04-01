@@ -234,7 +234,13 @@ namespace PowerUp.Mappers.Players
         DoctorK = pitchingSpecialAbilities.SituationalPitching.DoctorK,
         WalkProne = pitchingSpecialAbilities.SituationalPitching.Walk,
         Luck = (short)pitchingSpecialAbilities.SituationalPitching.Lucky,
-        Recovery = (short)pitchingSpecialAbilities.SituationalPitching.Recovery
+        Recovery = (short)pitchingSpecialAbilities.SituationalPitching.Recovery,
+
+        // Demeanor
+        IsIntimidatingPitcher = pitchingSpecialAbilities.Demeanor.Intimidator,
+        IsBattler = pitchingSpecialAbilities.Demeanor.BattlerPokerFace == BattlerPokerFace.Battler,
+        HasPokerFace = pitchingSpecialAbilities.Demeanor.BattlerPokerFace == BattlerPokerFace.PokerFace,
+        IsHotHead = pitchingSpecialAbilities.Demeanor.HotHead,
       };
     }
 
