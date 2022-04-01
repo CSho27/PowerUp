@@ -56,8 +56,8 @@
   public class SmallBallSpecialAbilities
   {
     public SpecialPositive_Negative SmallBall { get; set; }
-    public BuntingAbility Bunting { get; set; }
-    public InfieldHittingAbility InfieldHitting { get; set; }
+    public BuntingAbility? Bunting { get; set; }
+    public InfieldHittingAbility? InfieldHitting { get; set; }
   }
 
   public class BaseRunningSpecialAbilities

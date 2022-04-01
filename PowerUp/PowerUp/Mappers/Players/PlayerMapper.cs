@@ -207,8 +207,12 @@ namespace PowerUp.Mappers.Players
 
         // Small Ball
         SmallBall = (short)hittingSpecialAbilities.SmallBall.SmallBall,
-        Bunting = (ushort)hittingSpecialAbilities.SmallBall.Bunting,
-        InfieldHitter = (ushort)hittingSpecialAbilities.SmallBall.InfieldHitting,
+        Bunting = hittingSpecialAbilities.SmallBall.Bunting.HasValue
+          ? (ushort)hittingSpecialAbilities.SmallBall.Bunting.Value
+          : (ushort)0,
+        InfieldHitter = hittingSpecialAbilities.SmallBall.InfieldHitting.HasValue
+          ? (ushort)hittingSpecialAbilities.SmallBall.InfieldHitting
+          : (ushort)0,
 
         // Base Running
         BaseRunning = (short)hittingSpecialAbilities.BaseRunning.BaseRunning,

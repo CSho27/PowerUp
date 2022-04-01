@@ -87,8 +87,12 @@ namespace PowerUp.Mappers.Players
       return new SmallBallSpecialAbilities
       {
         SmallBall = (SpecialPositive_Negative)player.SmallBall!.Value,
-        Bunting = (BuntingAbility)player.Bunting!.Value,
-        InfieldHitting = (InfieldHittingAbility)player.InfieldHitter!.Value,
+        Bunting = player.Bunting != 0
+          ? (BuntingAbility)player.Bunting!.Value
+          : null,
+        InfieldHitting = player.InfieldHitter != 0
+          ? (InfieldHittingAbility)player.InfieldHitter!.Value
+          : null,
       };
     }
 
