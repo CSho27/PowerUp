@@ -64,7 +64,9 @@ namespace PowerUp.Mappers.Players
         PullHitter = player.IsPullHitter!.Value,
         SprayHitter = player.IsSprayHitter!.Value,
         FirstballHitter = player.IsFirstballHitter!.Value,
-        AggressiveOrPatientHitter = (AggressiveOrPatient)player.AggressiveOrPatientHitter!.Value,
+        AggressiveOrPatientHitter = player.AggressiveOrPatientHitter != 0
+          ? (AggressiveOrPatient)player.AggressiveOrPatientHitter!.Value
+          : null,
         Refined = player.IsRefinedHitter!.Value,
         ToughOut = player.IsToughOut!.Value,
         Intimidator = player.IsIntimidatingHitter!.Value,

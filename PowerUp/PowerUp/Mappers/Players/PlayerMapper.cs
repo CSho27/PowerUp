@@ -189,7 +189,9 @@ namespace PowerUp.Mappers.Players
         IsPullHitter = hittingSpecialAbilities.HittingApproach.PullHitter,
         IsSprayHitter = hittingSpecialAbilities.HittingApproach.SprayHitter,
         IsFirstballHitter = hittingSpecialAbilities.HittingApproach.FirstballHitter,
-        AggressiveOrPatientHitter = (short)hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter,
+        AggressiveOrPatientHitter = hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter.HasValue
+          ? (short)hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter
+          : (short)0,
         IsRefinedHitter = hittingSpecialAbilities.HittingApproach.Refined,
         IsToughOut = hittingSpecialAbilities.HittingApproach.ToughOut,
         IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.Intimidator,

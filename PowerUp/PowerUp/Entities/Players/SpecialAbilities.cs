@@ -46,7 +46,7 @@
     public bool PullHitter { get; set; }
     public bool SprayHitter { get; set; }
     public bool FirstballHitter { get; set; }
-    public AggressiveOrPatient AggressiveOrPatientHitter { get; set; }
+    public AggressiveOrPatient? AggressiveOrPatientHitter { get; set; }
     public bool Refined { get; set; }
     public bool ToughOut { get; set; }
     public bool Intimidator { get; set; }
