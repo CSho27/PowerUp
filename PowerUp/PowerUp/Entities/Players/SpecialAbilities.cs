@@ -91,7 +91,7 @@
     public SituationalPitchingSpecialAbilities SituationalPitching { get; set; } = new SituationalPitchingSpecialAbilities();
     public PitchingDemeanorSpecialAbilities Demeanor { get; set; } = new PitchingDemeanorSpecialAbilities();
     public PitchingMechanicsSpecialAbilities PitchingMechanics { get; set; } = new PitchingMechanicsSpecialAbilities();
-    public PitchQuailitiesSpecialAbilities PitchQuailities { get; set; } = new PitchQuailitiesSpecialAbilities();
+    public PitchQualitiesSpecialAbilities PitchQuailities { get; set; } = new PitchQualitiesSpecialAbilities();
   }
 
   public class SituationalPitchingSpecialAbilities
@@ -127,7 +127,7 @@
     public bool GoodPickoff { get; set; }
   }
 
-  public class PitchQuailitiesSpecialAbilities
+  public class PitchQualitiesSpecialAbilities
   {
     public PowerOrBreakingBallPitcher? PowerOrBreakingBallPitcher { get; set; }
     public Special2_4 FastballLife { get; set; }

@@ -189,9 +189,9 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static PitchQuailitiesSpecialAbilities GetPitchQuailitiesSpecialAbilities(GSPlayer player)
+    public static PitchQualitiesSpecialAbilities GetPitchQuailitiesSpecialAbilities(GSPlayer player)
     {
-      return new PitchQuailitiesSpecialAbilities
+      return new PitchQualitiesSpecialAbilities
       {
         PowerOrBreakingBallPitcher = player.PowerOrBreakingBallPitcher != 0
           ? (PowerOrBreakingBallPitcher)player.PowerOrBreakingBallPitcher!.Value
