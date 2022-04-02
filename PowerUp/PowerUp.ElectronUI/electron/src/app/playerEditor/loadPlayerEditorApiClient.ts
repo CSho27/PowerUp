@@ -226,7 +226,7 @@ export interface PitchingMechanicsSpecialAbilitiesDetailsDto {
 }
 
 export interface PitchQualitiesSpecialAbilitiesDetailsDto {
-    powerOrBreakingBallPitcher: KeyedCode | null;
+  powerOrBreakingBallPitcher: KeyedCode | null;
   fastballLife: KeyedCode;
   spin: KeyedCode;
   safeOrFatPitch: KeyedCode;
