@@ -37,8 +37,8 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
 
   const reducerContext: PlayerPersonalDetailsContext = {
-    swingManRole: options.pitcherTypes.find(t => t.key === 'SwingMan') as KeyedCode,
-    starterRole: options.pitcherTypes.find(t => t.key === 'Starter') as KeyedCode
+    swingManRole: options.personalDetailsOptions.pitcherTypes.find(t => t.key === 'SwingMan') as KeyedCode,
+    starterRole: options.personalDetailsOptions.pitcherTypes.find(t => t.key === 'Starter') as KeyedCode
   }
   const [state, update] = useReducerWithContext(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse), reducerContext);
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
@@ -90,7 +90,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
       <EditorContainer>
         {state.selectedTab === 'Personal' && 
         <PlayerPersonalDetailsEditor
-          options={options}
+          options={options.personalDetailsOptions}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={personalDetails}
           update={updatePersonalDetails}      
@@ -110,7 +110,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         />}
         {state.selectedTab === 'Pitcher' &&
         <PitcherAbilitiesEditor
-          options={options}
+          options={options.pitcherAbilitiesOptions}
           details={pitcherAbilities}
           update={updatePitcherAbilities}
         />}

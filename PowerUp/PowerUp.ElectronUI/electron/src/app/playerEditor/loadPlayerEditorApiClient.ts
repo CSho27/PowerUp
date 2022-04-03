@@ -18,6 +18,12 @@ export interface PlayerEditorResponse {
 }
 
 export interface PlayerEditorOptions {
+  personalDetailsOptions: PersonalDetailsOptions;  
+  positionCapabilityOptions: KeyedCode[];
+  pitcherAbilitiesOptions: PitcherAbilitiesOptions;
+}
+
+export interface PersonalDetailsOptions {
   voiceOptions: SimpleCode[];
   positions: PositionCode[];
   pitcherTypes: KeyedCode[];
@@ -25,7 +31,9 @@ export interface PlayerEditorOptions {
   battingStanceOptions: SimpleCode[];
   throwingArmOptions: KeyedCode[];
   pitchingMechanicsOptions: SimpleCode[];
-  positionCapabilityOptions: KeyedCode[];
+}
+
+export interface PitcherAbilitiesOptions {
   twoSeamOptions: KeyedCode[];
   sliderOptions: KeyedCode[];
   curveOptions: KeyedCode[];

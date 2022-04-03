@@ -33,6 +33,22 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PlayerEditorOptions
   {
+    public PlayerPersonalDetailsOptions PersonalDetailsOptions { get; set; }
+    public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
+    public PitcherAbilitiesOptions PitcherAbilitiesOptions => new PitcherAbilitiesOptions();
+
+    public PlayerEditorOptions(
+      IVoiceLibrary voiceLibrary,
+      IBattingStanceLibrary battingStanceLibrary,
+      IPitchingMechanicsLibrary pitchingMechanicsLibrary
+    )
+    {
+      PersonalDetailsOptions = new PlayerPersonalDetailsOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
+    }
+  }
+
+  public class PlayerPersonalDetailsOptions
+  {
     public IEnumerable<SimpleCode> VoiceOptions { get; }
     public IEnumerable<KeyedCode> Positions => new PrimaryPositionOptions();
     public IEnumerable<KeyedCode> PitcherTypes => EnumExtensions.GetKeyedCodeList<PitcherType>();
@@ -40,15 +56,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public IEnumerable<SimpleCode> BattingStanceOptions { get; }
     public IEnumerable<KeyedCode> ThrowingArmOptions => EnumExtensions.GetKeyedCodeList<ThrowingArm>();
     public IEnumerable<SimpleCode> PitchingMechanicsOptions { get; }
-    public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
-    public IEnumerable<KeyedCode> TwoSeamOptions => new[] { new KeyedCode("TwoSeam", "Two Seam") };
-    public IEnumerable<KeyedCode> SliderOptions => EnumExtensions.GetKeyedCodeList<SliderType>();
-    public IEnumerable<KeyedCode> CurveOptions => EnumExtensions.GetKeyedCodeList<CurveType>();
-    public IEnumerable<KeyedCode> ForkOptions => EnumExtensions.GetKeyedCodeList<ForkType>();
-    public IEnumerable<KeyedCode> SinkerOptions => EnumExtensions.GetKeyedCodeList<SinkerType>();
-    public IEnumerable<KeyedCode> SinkingFastballOptions => EnumExtensions.GetKeyedCodeList<SinkingFastballType>();
 
-    public PlayerEditorOptions(
+    public PlayerPersonalDetailsOptions(
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
       IPitchingMechanicsLibrary pitchingMechanicsLibrary
@@ -58,6 +67,16 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       BattingStanceOptions = battingStanceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
       PitchingMechanicsOptions = pitchingMechanicsLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
     }
+  }
+
+  public class PitcherAbilitiesOptions
+  {
+    public IEnumerable<KeyedCode> TwoSeamOptions => new[] { new KeyedCode("TwoSeam", "Two Seam") };
+    public IEnumerable<KeyedCode> SliderOptions => EnumExtensions.GetKeyedCodeList<SliderType>();
+    public IEnumerable<KeyedCode> CurveOptions => EnumExtensions.GetKeyedCodeList<CurveType>();
+    public IEnumerable<KeyedCode> ForkOptions => EnumExtensions.GetKeyedCodeList<ForkType>();
+    public IEnumerable<KeyedCode> SinkerOptions => EnumExtensions.GetKeyedCodeList<SinkerType>();
+    public IEnumerable<KeyedCode> SinkingFastballOptions => EnumExtensions.GetKeyedCodeList<SinkingFastballType>();
   }
 
   public class PlayerPersonalDetailsDto
