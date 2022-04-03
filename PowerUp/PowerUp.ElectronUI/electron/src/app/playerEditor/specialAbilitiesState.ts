@@ -1,4 +1,6 @@
+import { Dispatch } from 'react';
 import { KeyedCode } from '../shared/keyedCode';
+import { SpecialAbilitiesDetailsDto } from './loadPlayerEditorApiClient';
 
 export interface SpecialAbilities {
   general: GeneralSpecialAbilities;
@@ -277,6 +279,13 @@ export function GeneralSpecialAbilitiesReducer(state: GeneralSpecialAbilities, a
   }
 }
 
+export function getGeneralSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [GeneralSpecialAbilities, Dispatch<GeneralSpecialAbilitiesAction>] {
+  return [
+    state.general,
+    (action: GeneralSpecialAbilitiesAction) => update({ type: 'updateGeneralAbility', generalAction: action })
+  ]
+}
+
 export function HitterSpecialAbilitiesReducer(state: HitterSpecialAblities, action: HitterSpecialAbilitiesAction): HitterSpecialAblities {
   switch(action.type) {
     case 'updateSituationalAbility':
@@ -362,6 +371,13 @@ export function SituationalHittingSpecialAbilitiesReducer(state: SituationalHitt
   }
 }
 
+export function getSituationalHittingSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [SituationalHittingSpecialAbilities, Dispatch<SituationalHittingSpecialAbilitiesAction>] {
+  return [
+    state.hitter.situational,
+    (action: SituationalHittingSpecialAbilitiesAction) => update({ type: 'updateHitterAbility', hitterAction: { type: 'updateSituationalAbility', situationalAction: action } })
+  ]
+}
+
 export function HittingApproachSpecialAbilitiesReducer(state: HittingApproachSpecialAbilities, action: HittingApproachSpecialAbilitiesAction): HittingApproachSpecialAbilities {
   switch(action.type) {
     case 'updateIsContactHitter':
@@ -427,6 +443,13 @@ export function HittingApproachSpecialAbilitiesReducer(state: HittingApproachSpe
   }
 }
 
+export function getHittingApproachSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [HittingApproachSpecialAbilities, Dispatch<HittingApproachSpecialAbilitiesAction>] {
+  return [
+    state.hitter.approach,
+    (action: HittingApproachSpecialAbilitiesAction) => update({ type: 'updateHitterAbility', hitterAction: { type: 'updateHittingApproachAbility', approachAction: action } })
+  ]
+}
+
 export function SmallBallSpecialAbilitiesReducer(state: SmallBallSpecialAbilities, action: SmallBallSpecialAbilitiesAction): SmallBallSpecialAbilities {
   switch(action.type) {
     case 'updateSmallBall':
@@ -445,6 +468,13 @@ export function SmallBallSpecialAbilitiesReducer(state: SmallBallSpecialAbilitie
         infieldHitter: action.infieldHitter
       }
   }
+}
+
+export function getSmallBallSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [SmallBallSpecialAbilities, Dispatch<SmallBallSpecialAbilitiesAction>] {
+  return [
+    state.hitter.smallBall,
+    (action: SmallBallSpecialAbilitiesAction) => update({ type: 'updateHitterAbility', hitterAction: { type: 'updateSmallBallAbility', smallBallAction: action } })
+  ]
 }
 
 export function BaseRunningSpecialAbilitiesReducer(state: BaseRunningSpecialAbilities, action: BaseRunningSpecialAbilitiesAction): BaseRunningSpecialAbilities {
@@ -485,6 +515,13 @@ export function BaseRunningSpecialAbilitiesReducer(state: BaseRunningSpecialAbil
         willSlideHeadFirst: action.willSlideHeadFirst
       }
   }
+}
+
+export function getBaseRunningSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [BaseRunningSpecialAbilities, Dispatch<BaseRunningSpecialAbilitiesAction>] {
+  return [
+    state.hitter.baseRunning,
+    (action: BaseRunningSpecialAbilitiesAction) => update({ type: 'updateHitterAbility', hitterAction: { type: 'updateBaseRunningAbility', baseRunningAction: action } })
+  ]
 }
 
 export function FieldingSpecialAbilitiesReducer(state: FieldingSpecialAbilities, action: FieldingSpecialAbilitiesAction): FieldingSpecialAbilities {
@@ -545,6 +582,13 @@ export function FieldingSpecialAbilitiesReducer(state: FieldingSpecialAbilities,
         isTrashTalker: action.isTrashTalker
       }
   }
+}
+
+export function getFieldingSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [FieldingSpecialAbilities, Dispatch<FieldingSpecialAbilitiesAction>] {
+  return [
+    state.hitter.fielding,
+    (action: FieldingSpecialAbilitiesAction) => update({ type: 'updateHitterAbility', hitterAction: { type: 'updateFieldingAbility', fieldingAction: action } })
+  ]
 }
 
 export function PitcherSpecialAbilitiesReducer(state: PitcherSpecialAbilities, action: PitcherSpecialAbilitiesAction): PitcherSpecialAbilities {
@@ -642,6 +686,13 @@ export function SituationalPitchingSpecialAbilitiesReducer(state: SituationalPit
   }
 }
 
+export function getSituationalPitchingSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [SituationalPitchingSpecialAbilities, Dispatch<SituationalPitchingSpecialAbilitiesAction>] {
+  return [
+    state.pitcher.situational,
+    (action: SituationalPitchingSpecialAbilitiesAction) => update({ type: 'updatePitcherAbility', pitcherAction: { type: 'updateSituationalAbility', situationalAction: action } })
+  ]
+}
+
 export function PitchingDemeanorSpecialAbilitiesReducer(state: PitchingDemeanorSpecialAbilities, action: PitchingDemeanorSpecialAbilitiesAction): PitchingDemeanorSpecialAbilities {
   switch(action.type) {
     case 'updateIsIntimidatingPitcher':
@@ -660,6 +711,13 @@ export function PitchingDemeanorSpecialAbilitiesReducer(state: PitchingDemeanorS
         isHotHead: action.isHotHead
       }
   }
+}
+
+export function getPitchingDemeanorSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [PitchingDemeanorSpecialAbilities, Dispatch<PitchingDemeanorSpecialAbilitiesAction>] {
+  return [
+    state.pitcher.demeanor,
+    (action: PitchingDemeanorSpecialAbilitiesAction) => update({ type: 'updatePitcherAbility', pitcherAction: { type: 'updatePitchingDemeanor', demeanorAction: action } })
+  ]
 }
 
 export function PitchingMechanicsSpecialAbilitiesReducer(state: PitchingMechanicsSpecialAbilities, action: PitchingMechanicsSpecialAbilitiesAction): PitchingMechanicsSpecialAbilities {
@@ -690,6 +748,13 @@ export function PitchingMechanicsSpecialAbilitiesReducer(state: PitchingMechanic
         goodPickoff: action.goodPickoff
       }
   }
+}
+
+export function getPitchingMechanicsSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [PitchingMechanicsSpecialAbilities, Dispatch<PitchingMechanicsSpecialAbilitiesAction>] {
+  return [
+    state.pitcher.mechanics,
+    (action: PitchingMechanicsSpecialAbilitiesAction) => update({ type: 'updatePitcherAbility', pitcherAction: { type: 'updateMechanics', mechanicsAction: action } })
+  ]
 }
 
 export function PitchQualitiesSpecialAbilitiesReducer(state: PitchQualitiesSpecialAbilities, action: PitchQualitiesSpecialAbilitiesAction): PitchQualitiesSpecialAbilities {
@@ -729,5 +794,119 @@ export function PitchQualitiesSpecialAbilitiesReducer(state: PitchQualitiesSpeci
         ...state,
         shuttoSpin: action.shuttoSpin
       }
+  }
+}
+
+export function getPitchQualitiesSpecialAbilitiesReducer(state: SpecialAbilities, update: Dispatch<SpecialAbilitiesAction>) : [PitchQualitiesSpecialAbilities, Dispatch<PitchQualitiesSpecialAbilitiesAction>] {
+  return [
+    state.pitcher.pitchQualities,
+    (action: PitchQualitiesSpecialAbilitiesAction) => update({ type: 'updatePitcherAbility', pitcherAction: { type: 'updatePitchQualities', pitchQualitiesAction: action } })
+  ]
+}
+
+export function getInitialSpecialAbilitiesFromResponse(response: SpecialAbilitiesDetailsDto): SpecialAbilities {
+  const { general, hitter, pitcher } = response;
+  const { situational: situationalHitting, approach, smallBall, baseRunning, fielding } = hitter;
+  const { situational: situationalPitching, demeanor, mechanics, pitchQualities } = pitcher;
+  
+  return {
+    general: {
+      isStar: general.isStar,
+      durability: general.durability,
+      morale: general.morale
+    },
+    hitter:  {
+      situational: {
+        hittingConsistency: situationalHitting.hittingConsistency,
+        versusLefty: situationalHitting.versusLefty,
+        isTableSetter: situationalHitting.isTableSetter,
+        isBackToBackHitter: situationalHitting.isBackToBackHitter,
+        isHotHitter: situationalHitting.isHotHitter,
+        isRallyHitter: situationalHitting.isRallyHitter,
+        isGoodPinchHitter: situationalHitting.isGoodPinchHitter,
+        basesLoadedHitter: situationalHitting.basesLoadedHitter ?? undefined,
+        walkOffHitter: situationalHitting.walkOffHitter ?? undefined,
+        clutchHitter: situationalHitting.clutchHitter
+      },
+      approach: {
+        isContactHitter: approach.isContactHitter,
+        isPowerHitter: approach.isPowerHitter,
+        sluggerOrSlapHitter: approach.sluggerOrSlapHitter ?? undefined,
+        isPushHitter: approach.isPushHitter,
+        isPullHitter: approach.isPullHitter,
+        isSprayHitter: approach.isSprayHitter,
+        isFirstballHitter: approach.isFirstballHitter,
+        aggressiveOrPatientHitter: approach.aggressiveOrPatientHitter ?? undefined,
+        isRefinedHitter: approach.isRefinedHitter,
+        isToughOut: approach.isToughOut,
+        isIntimidatingHitter: approach.isIntimidatingHitter,
+        isSparkplug: approach.isSparkplug
+      },
+      smallBall: {
+        smallBall: smallBall.smallBall,
+        bunting: smallBall.bunting ?? undefined,
+        infieldHitter: smallBall.infieldHitter ?? undefined
+      },
+      baseRunning: {
+        baseRunning: baseRunning.baseRunning,
+        stealing: baseRunning.stealing,
+        isAggressiveRunner: baseRunning.isAggressiveRunner,
+        aggressiveOrPatientBaseStealer: baseRunning.aggressiveOrPatientBaseStealer ?? undefined,
+        isToughRunner: baseRunning.isToughRunner,
+        willBreakupDoublePlay: baseRunning.willBreakupDoublePlay,
+        willSlideHeadFirst: baseRunning.willSlideHeadFirst
+      },
+      fielding: {
+        isGoldGlover: fielding.isGoldGlover,
+        canSpiderCatch: fielding.canSpiderCatch,
+        canBarehandCatch: fielding.canBarehandCatch,
+        isAggressiveFielder: fielding.isAggressiveFielder,
+        isPivotMan: fielding.isPivotMan,
+        isErrorProne: fielding.isErrorProne,
+        isGoodBlocker: fielding.isGoodBlocker,
+        catching: fielding.catching ?? undefined,
+        throwing: fielding.throwing,
+        hasCannonArm: fielding.hasCannonArm,
+        isTrashTalker: fielding.isTrashTalker
+      }
+    },
+    pitcher: {
+      situational: {
+        consistency: situationalPitching.pitchingConsistency,
+        versusLefty: situationalPitching.pitchingVersusLefty,
+        poise: situationalPitching.poise,
+        poorVersusRunner: situationalPitching.poorVersusRunner,
+        withRunnersInScoringPosition: situationalPitching.withRunnersInScoringPosition,
+        isSlowStarter: situationalPitching.isSlowStarter,
+        isStarterFinisher: situationalPitching.isStarterFinisher,
+        isChokeArtist: situationalPitching.isChokeArtist,
+        isSandbag: situationalPitching.isSandbag,
+        doctorK: situationalPitching.doctorK,
+        isWalkProne: situationalPitching.isWalkProne,
+        luck: situationalPitching.luck,
+        recovery: situationalPitching.recovery
+      },
+      demeanor: {
+        isIntimidatingPitcher: demeanor.isIntimidatingPitcher,
+        battlerOrPokerFace: demeanor.battlerOrPokerFace ?? undefined,
+        isHotHead: demeanor.isHotHead
+      },
+      mechanics: {
+        goodDelivery: mechanics.goodDelivery,
+        release: mechanics.release,
+        goodPace: mechanics.goodPace,
+        goodReflexes: mechanics.goodReflexes,
+        goodPickoff: mechanics.goodPickoff
+      },
+      pitchQualities: {
+        powerOrBreakingBallPitcher: pitchQualities.powerOrBreakingBallPitcher ?? undefined,
+        fastballLife: pitchQualities.fastballLife,
+        spin: pitchQualities.spin,
+        safeOrFatPitch: pitchQualities.safeOrFatPitch,
+        groundBallOrFlyBallPitcher: pitchQualities.groundBallOrFlyBallPitcher,
+        gyroball: pitchQualities.gyroball,
+        shuttoSpin: pitchQualities.shuttoSpin
+      }
+    }
   }
 }

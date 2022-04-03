@@ -5,6 +5,7 @@ import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
 import { HotZoneGridAction, HotZoneGridState, HotZoneGridStateReducer } from "./hotZoneGrid";
 import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
+import { getInitialSpecialAbilitiesFromResponse, SpecialAbilities, SpecialAbilitiesAction, SpecialAbilitiesReducer } from "./specialAbilitiesState";
 
 export interface PlayerEditorState {
   selectedTab: PlayerEditorTab;
@@ -12,6 +13,7 @@ export interface PlayerEditorState {
   positionCapabilityDetails: PositionCapabilityDetails;
   hitterAbilities: HitterAbilities;
   pitcherAbilities: PitcherAbilities;
+  specialAbilities: SpecialAbilities;
 }
 
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
@@ -21,7 +23,7 @@ export const playerEditorTabOptions = [
 //'Appearance',
   'Hitter',
   'Pitcher',
-//'Special'
+  'Special'
 ] as const
 
 export type PlayerEditorAction =
@@ -30,6 +32,7 @@ export type PlayerEditorAction =
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
 | { type: 'updateHitterAbilities', action: HitterAbilitiesAction }
 | { type: 'updatePitcherAbilities', action: PitcherAbilitiesAction }
+| { type: 'updateSpecialAbilities', action: SpecialAbilitiesAction }
 
 export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
@@ -60,6 +63,11 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
       return {
         ...state,
         pitcherAbilities: PitcherAbilitiesReducer(state.pitcherAbilities, action.action)
+      }
+    case 'updateSpecialAbilities':
+      return {
+        ...state,
+        specialAbilities: SpecialAbilitiesReducer(state.specialAbilities, action.action)
       }
   }
 }
@@ -616,6 +624,13 @@ export function getPitcherAbilitiesReducer(state: PlayerEditorState, update: Dis
   ]
 }
 
+export function getSepcialAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [SpecialAbilities, Dispatch<SpecialAbilitiesAction>] {
+  return [
+    state.specialAbilities,
+    (action: SpecialAbilitiesAction) => update({ type: 'updateSpecialAbilities', action: action })
+  ]
+}
+
 export function getGradeFor0_15(value: number): Grade {
   if(value >= 14) return 'A';
   if(value >= 12) return 'B';
@@ -739,6 +754,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
 
       sinkingFastball2Type: pitcherAbilities.sinkingFastball2Type ?? undefined,
       sinkingFastball2Movement: pitcherAbilities.sinkingFastball2Movement ?? 1
-    }
+    },
+    specialAbilities: getInitialSpecialAbilitiesFromResponse(response.specialAbilityDetails)
   }
 }

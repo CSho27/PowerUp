@@ -18,10 +18,11 @@ import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
 import { BattingSide } from "./hotZoneGrid";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PitcherAbilitiesEditor } from "./pitcherAbilitiesEditor";
-import { getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, getSepcialAbilitiesReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
+import { SpecialAbilitiesEditor } from "./specialAbilitiesEditor";
 
 export interface PlayerEditorPageProps {
   appContext: AppContext;
@@ -44,6 +45,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const [positionCapabilityDetails, updatePositionCapabilities] = getPositionCapabilityDetailsReducer(state, update);
   const [hitterAbilities, updateHitterAbilities] = getHitterAbilitiesReducer(state, update);
   const [pitcherAbilities, updatePitcherAbilities] = getPitcherAbilitiesReducer(state, update);
+  const [specialAbilities, updateSpecialAbilities] = getSepcialAbilitiesReducer(state, update);
 
   const savedName = personalDetails.useSpecialSavedName
     ? editorResponse.personalDetails.savedName
@@ -90,7 +92,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         <PlayerPersonalDetailsEditor
           options={options}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
-          details={state.personalDetails}
+          details={personalDetails}
           update={updatePersonalDetails}      
         />}
         {state.selectedTab === 'Positions' &&
@@ -111,6 +113,11 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           options={options}
           details={pitcherAbilities}
           update={updatePitcherAbilities}
+        />}
+        {state.selectedTab === 'Special' &&
+        <SpecialAbilitiesEditor
+          details={specialAbilities}
+          update={updateSpecialAbilities}
         />}
       </EditorContainer>
     </ContentWithHangingHeader>

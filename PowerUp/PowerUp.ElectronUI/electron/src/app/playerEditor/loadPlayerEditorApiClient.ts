@@ -14,6 +14,7 @@ export interface PlayerEditorResponse {
   positionCapabilityDetails: PositionCapabilityDetailsDto;
   hitterAbilityDetails: HitterAbilityDetailsDto;
   pitcherAbilityDetails: PitcherAbilityDetailsDto;
+  specialAbilityDetails: SpecialAbilitiesDetailsDto;
 }
 
 export interface PlayerEditorOptions {
