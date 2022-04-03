@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../style/constants";
 
