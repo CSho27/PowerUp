@@ -21,6 +21,7 @@ export interface PlayerEditorOptions {
   personalDetailsOptions: PersonalDetailsOptions;  
   positionCapabilityOptions: KeyedCode[];
   pitcherAbilitiesOptions: PitcherAbilitiesOptions;
+  specialAbilitiesOptions: SpecialAbilitiesOptions;
 }
 
 export interface PersonalDetailsOptions {
@@ -40,6 +41,22 @@ export interface PitcherAbilitiesOptions {
   forkOptions: KeyedCode[];
   sinkerOptions: KeyedCode[];
   sinkingFastballOptions: KeyedCode[];
+}
+
+export interface SpecialAbilitiesOptions {
+  special1_5Options: KeyedCode[];
+  special2_4Options: KeyedCode[];
+  specialPositive_NegativeOptions: KeyedCode[];
+  basesLoadedHitterOptions: KeyedCode[];
+  walkOffHitterOptions: KeyedCode[];
+  sluggerOrSlapHitterOptions: KeyedCode[];
+  aggressiveOrPatientHitterOptions: KeyedCode[];
+  aggressiveOrCautiousBaseStealerOptions: KeyedCode[];
+  buntingAbilityOptions: KeyedCode[];
+  infieldHittingAbilityOptions: KeyedCode[];
+  catchingAbilityOptions: KeyedCode[];
+  battlerPokerFaceOptions: KeyedCode[];
+  powerOrBreakingBallPitcher: KeyedCode[];
 }
 
 export interface PlayerPersonalDetailsDto {

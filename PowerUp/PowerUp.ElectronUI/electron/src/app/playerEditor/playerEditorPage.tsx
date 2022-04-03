@@ -116,6 +116,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         />}
         {state.selectedTab === 'Special' &&
         <SpecialAbilitiesEditor
+          options={options.specialAbilitiesOptions}
           details={specialAbilities}
           update={updateSpecialAbilities}
         />}

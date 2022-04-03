@@ -1,7 +1,9 @@
 import { Dispatch } from "react";
+import { SpecialAbilitiesOptions } from "./loadPlayerEditorApiClient";
 import { SpecialAbilities, SpecialAbilitiesAction } from "./specialAbilitiesState"
 
 export interface SpecialAbilitiesEditorProps {
+  options: SpecialAbilitiesOptions;
   details: SpecialAbilities;
   update: Dispatch<SpecialAbilitiesAction>;
 }

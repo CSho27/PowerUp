@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PowerUp.Entities.Players
+﻿namespace PowerUp.Entities.Players
 {
   public enum Special1_5
   {

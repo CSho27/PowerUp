@@ -36,6 +36,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PlayerPersonalDetailsOptions PersonalDetailsOptions { get; set; }
     public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
     public PitcherAbilitiesOptions PitcherAbilitiesOptions => new PitcherAbilitiesOptions();
+    public SpecialAbilitiesOptions SpecialAbilitiesOptions => new SpecialAbilitiesOptions();
 
     public PlayerEditorOptions(
       IVoiceLibrary voiceLibrary,
@@ -77,6 +78,23 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public IEnumerable<KeyedCode> ForkOptions => EnumExtensions.GetKeyedCodeList<ForkType>();
     public IEnumerable<KeyedCode> SinkerOptions => EnumExtensions.GetKeyedCodeList<SinkerType>();
     public IEnumerable<KeyedCode> SinkingFastballOptions => EnumExtensions.GetKeyedCodeList<SinkingFastballType>();
+  }
+
+  public class SpecialAbilitiesOptions
+  {
+    public IEnumerable<KeyedCode> Special1_5Options => EnumExtensions.GetKeyedCodeList<Special1_5>();
+    public IEnumerable<KeyedCode> Special2_4Options => EnumExtensions.GetKeyedCodeList<Special2_4>();
+    public IEnumerable<KeyedCode> SpecialPositive_NegativeOptions => EnumExtensions.GetKeyedCodeList<SpecialPositive_Negative>();
+    public IEnumerable<KeyedCode> BasesLoadedHitterOptions => EnumExtensions.GetKeyedCodeList<BasesLoadedHitter>();
+    public IEnumerable<KeyedCode> WalkOffHitterOptions => EnumExtensions.GetKeyedCodeList<WalkOffHitter>();
+    public IEnumerable<KeyedCode> SluggerOrSlapHitterOptions => EnumExtensions.GetKeyedCodeList<SluggerOrSlapHitter>();
+    public IEnumerable<KeyedCode> AggressiveOrPatientHitterOptions => EnumExtensions.GetKeyedCodeList<AggressiveOrPatientHitter>();
+    public IEnumerable<KeyedCode> AggressiveOrCautiousBaseStealerOptions => EnumExtensions.GetKeyedCodeList<AggressiveOrCautiousBaseStealer>();
+    public IEnumerable<KeyedCode> BuntingAbilityOptions => EnumExtensions.GetKeyedCodeList<BuntingAbility>();
+    public IEnumerable<KeyedCode> InfieldHittingAbilityOptions => EnumExtensions.GetKeyedCodeList<InfieldHittingAbility>();
+    public IEnumerable<KeyedCode> CatchingAbilityOptions => EnumExtensions.GetKeyedCodeList<InfieldHittingAbility>();
+    public IEnumerable<KeyedCode> BattlerPokerFaceOptions => EnumExtensions.GetKeyedCodeList<BattlerPokerFace>();
+    public IEnumerable<KeyedCode> PowerOrBreakingBallPitcher => EnumExtensions.GetKeyedCodeList<PowerOrBreakingBallPitcher>();
   }
 
   public class PlayerPersonalDetailsDto
