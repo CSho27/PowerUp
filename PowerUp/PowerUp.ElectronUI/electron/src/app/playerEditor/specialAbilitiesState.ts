@@ -1,4 +1,4 @@
-import { KeyedCode } from "../shared/keyedCode";
+import { KeyedCode } from '../shared/keyedCode';
 
 export interface SpecialAbilities {
   general: GeneralSpecialAbilities;
@@ -86,8 +86,8 @@ export interface PitcherSpecialAbilities {
 }
 
 export interface SituationalPitchingSpecialAbilities {
-  pitchingConsistency: KeyedCode;
-  pitchingVersusLefty: KeyedCode;
+  consistency: KeyedCode;
+  versusLefty: KeyedCode;
   poise: KeyedCode;
   poorVersusRunner: boolean;
   withRunnersInScoringPosition: KeyedCode;
@@ -152,7 +152,7 @@ export type SituationalHittingSpecialAbilitiesAction =
 | { type: 'updateIsGoodPinchHitter', isGoodPinchHitter: boolean }
 | { type: 'updateBasesLoadedHitter', basesLoadedHitter: KeyedCode | undefined }
 | { type: 'updateWalkOffHitter', walkOffHitter: KeyedCode | undefined }
-| { type: 'updateClutchHitter', clutchHitter: KeyedCode | undefined }
+| { type: 'updateClutchHitter', clutchHitter: KeyedCode }
 
 export type HittingApproachSpecialAbilitiesAction =
 | { type: 'updateIsContactHitter', isContactHitter: boolean }
@@ -202,8 +202,8 @@ export type PitcherSpecialAbilitiesAction =
 | { type: 'updatePitchQualities', pitchQualitiesAction: PitchQualitiesSpecialAbilitiesAction }
 
 export type SituationalPitchingSpecialAbilitiesAction =
-| { type: 'updatePitchingConsistency', pitchingConsistency: KeyedCode }
-| { type: 'updatePitchingVersusLefty', pitchingVersusLefty: KeyedCode }
+| { type: 'updateConsistency', consistency: KeyedCode }
+| { type: 'updateVersusLefty', versusLefty: KeyedCode }
 | { type: 'updatePoise', poise: KeyedCode }
 | { type: 'updatePoorVersusRunner', poorVersusRunner: boolean }
 | { type: 'updateWithRunnersInScoringPosition', withRunnersInScoringPosition: KeyedCode }
@@ -258,15 +258,108 @@ export function SpecialAbilitiesReducer(state: SpecialAbilities, action: Special
 }
 
 export function GeneralSpecialAbilitiesReducer(state: GeneralSpecialAbilities, action: GeneralSpecialAbilitiesAction): GeneralSpecialAbilities {
-  return state;
+  switch(action.type) {
+    case 'updateIsStar':
+      return {
+        ...state,
+        isStar: action.isStar
+      }
+    case 'updateDurability':
+      return {
+        ...state,
+        durability: action.durability
+      }
+    case 'updateMorale':
+      return {
+        ...state,
+        morale: action.morale
+      }
+  }
 }
 
 export function HitterSpecialAbilitiesReducer(state: HitterSpecialAblities, action: HitterSpecialAbilitiesAction): HitterSpecialAblities {
-  return state;
+  switch(action.type) {
+    case 'updateSituationalAbility':
+      return {
+        ...state,
+        situational: SituationalHittingSpecialAbilitiesReducer(state.situational, action.situationalAction)
+      }
+    case 'updateHittingApproachAbility':
+      return {
+        ...state,
+        approach: HittingApproachSpecialAbilitiesReducer(state.approach, action.approachAction)
+      }
+    case 'updateSmallBallAbility':
+      return {
+        ...state,
+        smallBall: SmallBallSpecialAbilitiesReducer(state.smallBall, action.smallBallAction)
+      }
+    case 'updateBaseRunningAbility':
+      return {
+        ...state,
+        baseRunning: BaseRunningSpecialAbilitiesReducer(state.baseRunning, action.baseRunningAction)
+      }
+    case 'updateFieldingAbility':
+      return {
+        ...state,
+        fielding: FieldingSpecialAbilitiesReducer(state.fielding, action.fieldingAction)
+      }
+  }
 }
 
-export function PitcherSpecialAbilitiesReducer(state: PitcherSpecialAbilities, action: PitcherSpecialAbilitiesAction): PitcherSpecialAbilities {
-  return state;
+export function SituationalHittingSpecialAbilitiesReducer(state: SituationalHittingSpecialAbilities, action: SituationalHittingSpecialAbilitiesAction): SituationalHittingSpecialAbilities {
+  switch(action.type) {
+    case 'updateConsistency':
+      return {
+        ...state,
+        hittingConsistency: action.consistency
+      }
+    case 'updateVersusLefty':
+      return {
+        ...state,
+        versusLefty: action.versusLefty
+      }
+    case 'updateIsTableSetter':
+      return {
+        ...state,
+        isTableSetter: action.isTableSetter
+      }
+    case 'updateIsBackToBackHitter':
+      return {
+        ...state,
+        isBackToBackHitter: action.isBackToBackHitter
+      }
+    case 'updateIsHotHitter':
+      return {
+        ...state,
+        isHotHitter: action.isHotHitter
+      }
+    case 'updateIsRallyHitter':
+      return {
+        ...state,
+        isRallyHitter: action.isRallyHitter
+      }
+    case 'updateIsGoodPinchHitter':
+      return {
+        ...state,
+        isGoodPinchHitter: action.isGoodPinchHitter
+      }
+    case 'updateBasesLoadedHitter':
+      return {
+        ...state,
+        basesLoadedHitter: action.basesLoadedHitter
+      }
+    case 'updateWalkOffHitter':
+      return {
+        ...state,
+        walkOffHitter: action.walkOffHitter
+      }
+    case 'updateClutchHitter':
+      return {
+        ...state,
+        clutchHitter: action.clutchHitter
+      }
+  }
 }
 
 export function HittingApproachSpecialAbilitiesReducer(state: HittingApproachSpecialAbilities, action: HittingApproachSpecialAbilitiesAction): HittingApproachSpecialAbilities {
@@ -330,6 +423,311 @@ export function HittingApproachSpecialAbilitiesReducer(state: HittingApproachSpe
       return {
         ...state,
         isSparkplug: action.isSparkplug
+      }
+  }
+}
+
+export function SmallBallSpecialAbilitiesReducer(state: SmallBallSpecialAbilities, action: SmallBallSpecialAbilitiesAction): SmallBallSpecialAbilities {
+  switch(action.type) {
+    case 'updateSmallBall':
+      return {
+        ...state,
+        smallBall: action.smallBall
+      }
+    case 'updateBunting':
+      return {
+        ...state,
+        bunting: action.bunting
+      }
+    case 'updateInfieldHitter':
+      return {
+        ...state,
+        infieldHitter: action.infieldHitter
+      }
+  }
+}
+
+export function BaseRunningSpecialAbilitiesReducer(state: BaseRunningSpecialAbilities, action: BaseRunningSpecialAbilitiesAction): BaseRunningSpecialAbilities {
+  switch(action.type) {
+    case 'updateBaseRunning':
+      return {
+        ...state,
+        baseRunning: action.baseRunning
+      }
+    case 'updateStealing':
+      return {
+        ...state,
+        stealing: action.stealing
+      }
+    case 'updateIsAggressiveRunner':
+      return {
+        ...state,
+        isAggressiveRunner: action.isAggressiveRunner
+      }
+    case 'updateAggressiveOrPatientBaseStealer':
+      return {
+        ...state,
+        aggressiveOrPatientBaseStealer: action.aggressiveOrPatientBaseStealer
+      }
+    case 'updateIsToughRunner':
+      return {
+        ...state,
+        isToughRunner: action.isToughRunner
+      }
+    case 'updateWillBreakupDoublePlay':
+      return {
+        ...state,
+        willBreakupDoublePlay: action.willBreakupDoublePlay
+      }
+    case 'updateWillSlideHeadFirst':
+      return {
+        ...state,
+        willSlideHeadFirst: action.willSlideHeadFirst
+      }
+  }
+}
+
+export function FieldingSpecialAbilitiesReducer(state: FieldingSpecialAbilities, action: FieldingSpecialAbilitiesAction): FieldingSpecialAbilities {
+  switch(action.type) {
+    case 'updateIsGoldGlover':
+      return {
+        ...state,
+        isGoldGlover: action.isGoldGlover
+      }
+    case 'updateCanSpiderCatch':
+      return {
+        ...state,
+        canSpiderCatch: action.canSpiderCatch
+      }
+    case 'updateCanBarehandCatch':
+      return {
+        ...state,
+        canBarehandCatch: action.canBarehandCatch
+      }
+    case 'updateIsAggressiveFielder':
+      return {
+        ...state,
+        isAggressiveFielder: action.isAggressiveFielder
+      }
+    case 'updateIsPivotMan':
+      return {
+        ...state,
+        isPivotMan: action.isPivotMan
+      }
+    case 'updateIsErrorProne':
+      return {
+        ...state,
+        isErrorProne: action.isErrorProne
+      }
+    case 'updateIsGoodBlocker':
+      return {
+        ...state,
+        isGoodBlocker: action.isGoodBlocker
+      }
+    case 'updateCatching':
+      return {
+        ...state,
+        catching: action.catching
+      }
+    case 'updateThrowing':
+      return {
+        ...state,
+        throwing: action.throwing
+      }
+    case 'updateHasCannonArm':
+      return {
+        ...state,
+        hasCannonArm: action.hasCannonArm
+      }
+    case 'updateIsTrashTalker':
+      return {
+        ...state,
+        isTrashTalker: action.isTrashTalker
+      }
+  }
+}
+
+export function PitcherSpecialAbilitiesReducer(state: PitcherSpecialAbilities, action: PitcherSpecialAbilitiesAction): PitcherSpecialAbilities {
+  switch(action.type) {
+    case 'updateSituationalAbility':
+      return {
+        ...state,
+        situational: SituationalPitchingSpecialAbilitiesReducer(state.situational, action.situationalAction)
+      }
+    case 'updatePitchingDemeanor':
+      return {
+        ...state,
+        demeanor: PitchingDemeanorSpecialAbilitiesReducer(state.demeanor, action.demeanorAction)
+      }
+    case 'updateMechanics':
+      return {
+        ...state,
+        mechanics: PitchingMechanicsSpecialAbilitiesReducer(state.mechanics, action.mechanicsAction)
+      }
+    case 'updatePitchQualities':
+      return {
+        ...state,
+        pitchQualities: PitchQualitiesSpecialAbilitiesReducer(state.pitchQualities, action.pitchQualitiesAction)
+      }
+  }
+}
+
+export function SituationalPitchingSpecialAbilitiesReducer(state: SituationalPitchingSpecialAbilities, action: SituationalPitchingSpecialAbilitiesAction): SituationalPitchingSpecialAbilities {
+  switch(action.type) {
+    case 'updateConsistency':
+      return {
+        ...state,
+        consistency: action.consistency
+      }
+    case 'updateVersusLefty':
+      return {
+        ...state,
+        versusLefty: action.versusLefty
+      }
+    case 'updatePoise':
+      return {
+        ...state,
+        poise: action.poise
+      }
+    case 'updatePoorVersusRunner':
+      return {
+        ...state,
+        poorVersusRunner: action.poorVersusRunner
+      }
+    case 'updateWithRunnersInScoringPosition':
+      return {
+        ...state,
+        withRunnersInScoringPosition: action.withRunnersInScoringPosition
+      }
+    case 'updateIsSlowStarter':
+      return {
+        ...state,
+        isSlowStarter: action.isSlowStarter
+      }
+    case 'updateIsStarterFinisher':
+      return {
+        ...state,
+        isStarterFinisher: action.isStarterFinisher
+      }
+    case 'updateIsChokeArtist':
+      return {
+        ...state,
+        isChokeArtist: action.isChokeArtist
+      }
+    case 'updateIsSandbag':
+      return {
+        ...state,
+        isSandbag: action.isSandbag
+      }
+    case 'updateDoctorK':
+      return {
+        ...state,
+        doctorK: action.doctorK
+      }
+    case 'updateIsWalkProne':
+      return {
+        ...state,
+        isWalkProne: action.isWalkProne
+      }
+    case 'updateLuck':
+      return {
+        ...state,
+        luck: action.luck
+      }
+    case 'updateRecovery':
+      return {
+        ...state,
+        recovery: action.recovery
+      }
+  }
+}
+
+export function PitchingDemeanorSpecialAbilitiesReducer(state: PitchingDemeanorSpecialAbilities, action: PitchingDemeanorSpecialAbilitiesAction): PitchingDemeanorSpecialAbilities {
+  switch(action.type) {
+    case 'updateIsIntimidatingPitcher':
+      return {
+        ...state,
+        isIntimidatingPitcher: action.isIntimidatingPitcher
+      }
+    case 'updateBattlerOrPokerFace':
+      return {
+        ...state,
+        battlerOrPokerFace: action.battlerOrPokerFace
+      }
+    case 'updateIsHotHead':
+      return {
+        ...state,
+        isHotHead: action.isHotHead
+      }
+  }
+}
+
+export function PitchingMechanicsSpecialAbilitiesReducer(state: PitchingMechanicsSpecialAbilities, action: PitchingMechanicsSpecialAbilitiesAction): PitchingMechanicsSpecialAbilities {
+  switch(action.type) {
+    case 'updateGoodDelivery':
+      return {
+        ...state,
+        goodDelivery: action.goodDelivery
+      }
+    case 'updateRelease':
+      return {
+        ...state,
+        release: action.release
+      }
+    case 'updateGoodPace':
+      return {
+        ...state,
+        goodPace: action.goodPace
+      }
+    case 'updateGoodReflexes':
+      return {
+        ...state,
+        goodReflexes: action.goodReflexes
+      }
+    case 'updateGoodPickoff':
+      return {
+        ...state,
+        goodPickoff: action.goodPickoff
+      }
+  }
+}
+
+export function PitchQualitiesSpecialAbilitiesReducer(state: PitchQualitiesSpecialAbilities, action: PitchQualitiesSpecialAbilitiesAction): PitchQualitiesSpecialAbilities {
+  switch(action.type) {
+    case 'updatePowerOrBreakingBallPitcher':
+      return {
+        ...state,
+        powerOrBreakingBallPitcher: action.powerOrBreakingBallPitcher
+      }
+    case 'updateFastballLife':
+      return {
+        ...state,
+        fastballLife: action.fastballLife
+      }
+    case 'updateSpin':
+      return {
+        ...state,
+        spin: action.spin
+      }
+    case 'updateSafeOrFatPitch':
+      return {
+        ...state,
+        safeOrFatPitch: action.safeOrFatPitch
+      }
+    case 'updateGroundBallOrFlyBallPitcher':
+      return {
+        ...state,
+        groundBallOrFlyBallPitcher: action.groundBallOrFlyBallPitcher
+      }
+    case 'updateGyroball':
+      return {
+        ...state,
+        gyroball: action.gyroball
+      }
+    case 'updateShuttoSpin':
+      return {
+        ...state,
+        shuttoSpin: action.shuttoSpin
       }
   }
 }
