@@ -8,6 +8,7 @@ namespace PowerUp.Entities.Players.Api
     public PlayerPositionCapabilitiesParameters? PositionCapabilities { get; set; }
     public PlayerHitterAbilityParameters? HitterAbilities { get; set; }
     public PlayerPitcherAbilitiesParameters? PitcherAbilities { get; set; }
+    public SpecialAbilitiesParameters? SpecialAbilities { get; set; }
   }
 
   public class PlayerPersonalDetailsParameters

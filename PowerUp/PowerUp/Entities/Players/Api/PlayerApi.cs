@@ -132,5 +132,144 @@
         ? parameters.SinkingFastball2Movement
         : null;
     }
+
+    private void UpdateSpecialAbilities(SpecialAbilities specialAbilities, SpecialAbilitiesParameters parameters)
+    {
+      UpdateGeneralSpecialAbilities(specialAbilities.General, parameters.General);
+      UpdateHitterSpecialAbilities(specialAbilities.Hitter, parameters.Hitter);
+      UpdatePitcherSpecialAbilities(specialAbilities.Pitcher, parameters.Pitcher);
+    }
+
+    private void UpdateGeneralSpecialAbilities(GeneralSpecialAbilities general, GeneralSpecialAbilitiesParameters parameters)
+    {
+      general.IsStar = parameters.IsStar;
+      general.Durability = parameters.Durability;
+      general.Morale = parameters.Morale;
+    }
+
+    private void UpdateHitterSpecialAbilities(HitterSpecialAbilities hitter, HitterSpecialAbilitiesParameters parameters)
+    {
+      UpdateSituationalHittingSpecialAbilities(hitter.SituationalHitting, parameters.SituationalHitting);
+      UpdateHittingApproachSpecialAbilities(hitter.HittingApproach, parameters.HittingApproach);
+      UpdateSmallBallSpecialAbilities(hitter.SmallBall, parameters.SmallBall);
+      UpdateBaseRunningSpecialAbilities(hitter.BaseRunning, parameters.BaseRunning);
+      UpdateFieldingSpecialAbilities(hitter.Fielding, parameters.Fielding);
+    }
+
+    private void UpdateSituationalHittingSpecialAbilities(SituationalHittingSpecialAbilities situational, SituationalHittingSpecialAbilitiesParameters parameters)
+    {
+      situational.Consistency = parameters.Consistency;
+      situational.VersusLefty = parameters.VersusLefty;
+      situational.IsTableSetter = parameters.IsTableSetter;
+      situational.IsBackToBackHitter = parameters.IsBackToBackHitter;
+      situational.IsHotHitter = parameters.IsHotHitter;
+      situational.IsRallyHitter = parameters.IsRallyHitter;
+      situational.IsGoodPinchHitter = parameters.IsGoodPinchHitter;
+      situational.BasesLoadedHitter = parameters.BasesLoadedHitter;
+      situational.WalkOffHitter = parameters.WalkOffHitter;
+      situational.ClutchHitter = parameters.ClutchHitter;
+    }
+
+    private void UpdateHittingApproachSpecialAbilities(HittingApproachSpecialAbilities approach, HittingApproachSpecialAbilitiesParameters parameters)
+    {
+      approach.IsContactHitter = parameters.IsContactHitter;
+      approach.IsPowerHitter = parameters.IsPowerHitter;
+      approach.SluggerOrSlapHitter = parameters.SluggerOrSlapHitter;
+      approach.IsPushHitter = parameters.IsPushHitter;
+      approach.IsPullHitter = parameters.IsPullHitter;
+      approach.IsSprayHitter = parameters.IsSprayHitter;
+      approach.IsFirstballHitter = parameters.IsFirstballHitter;
+      approach.AggressiveOrPatientHitter = parameters.AggressiveOrPatientHitter;
+      approach.IsRefinedHitter = parameters.IsRefinedHitter;
+      approach.IsToughOut = parameters.IsToughOut;
+      approach.IsIntimidator = parameters.IsIntimidator;
+      approach.IsSparkplug = parameters.IsSparkplug;
+    }
+
+    private void UpdateSmallBallSpecialAbilities(SmallBallSpecialAbilities smallBall, SmallBallSpecialAbilitiesParameters parameters)
+    {
+      smallBall.SmallBall = parameters.SmallBall;
+      smallBall.Bunting = parameters.Bunting;
+      smallBall.InfieldHitting = parameters.InfieldHitting;
+    }
+
+    private void UpdateBaseRunningSpecialAbilities(BaseRunningSpecialAbilities baseRunning, BaseRunningSpecialAbilitiesParameters parameters)
+    {
+      baseRunning.BaseRunning = parameters.BaseRunning;
+      baseRunning.Stealing = parameters.Stealing;
+      baseRunning.IsAggressiveRunner = parameters.IsAggressiveRunner;
+      baseRunning.AggressiveOrCautiousBaseStealer = parameters.AggressiveOrCautiousBaseStealer;
+      baseRunning.IsToughRunner = parameters.IsToughRunner;
+      baseRunning.WillBreakupDoublePlay = parameters.WillBreakupDoublePlay;
+      baseRunning.WillSlideHeadFirst = parameters.WillSlideHeadFirst;
+    }
+
+    private void UpdateFieldingSpecialAbilities(FieldingSpecialAbilities fielding, FieldingSpecialAbilitiesParameters parameters)
+    {
+      fielding.IsGoldGlover = parameters.IsGoldGlover;
+      fielding.CanSpiderCatch = parameters.CanSpiderCatch;
+      fielding.CanBarehandCatch = parameters.CanBarehandCatch;
+      fielding.IsAggressiveFielder = parameters.IsAggressiveFielder;
+      fielding.IsPivotMan = parameters.IsPivotMan;
+      fielding.IsErrorProne = parameters.IsErrorProne;
+      fielding.IsGoodBlocker = parameters.IsGoodBlocker;
+      fielding.Catching = parameters.Catching;
+      fielding.Throwing = parameters.Throwing;
+      fielding.HasCannonArm = parameters.HasCannonArm;
+      fielding.IsTrashTalker = parameters.IsTrashTalker;
+    }
+
+    private void UpdatePitcherSpecialAbilities(PitcherSpecialAbilities pitcher, PitcherSpecialAbilitiesParameters parameters)
+    {
+      UpdateSituationalPitchingAbilities(pitcher.SituationalPitching, parameters.SituationalPitching);
+      UpdatePitchingDemeanorSpecialAbilities(pitcher.Demeanor, parameters.Demeanor);
+      UpdatePitchingMechanicsSpecialAbilities(pitcher.PitchingMechanics, parameters.PitchingMechanics);
+      UpdatePitchQualitiesSpecialAbilities(pitcher.PitchQuailities, parameters.PitchQuailities);
+    } 
+
+    private void UpdateSituationalPitchingAbilities(SituationalPitchingSpecialAbilities situational, SituationalPitchingSpecialAbilitiesParameters parameters)
+    {
+      situational.Consistency = parameters.Consistency;
+      situational.VersusLefty = parameters.VersusLefty;
+      situational.Poise = parameters.Poise;
+      situational.PoorVersusRunner = parameters.PoorVersusRunner;
+      situational.WithRunnersInSocringPosition = parameters.WithRunnersInSocringPosition;
+      situational.IsSlowStarter = parameters.IsSlowStarter;
+      situational.IsStarterFinisher = parameters.IsStarterFinisher;
+      situational.IsChokeArtist = parameters.IsChokeArtist;
+      situational.IsSandbag = parameters.IsSandbag;
+      situational.DoctorK = parameters.DoctorK;
+      situational.IsWalkProne = parameters.IsWalkProne;
+      situational.Luck = parameters.Luck;
+      situational.Recovery = parameters.Recovery;
+    }
+    
+    private void UpdatePitchingDemeanorSpecialAbilities(PitchingDemeanorSpecialAbilities demeanor, PitchingDemeanorSpecialAbilitiesParameters parameters)
+    {
+      demeanor.IsIntimidator = parameters.IsIntimidator;
+      demeanor.BattlerPokerFace = parameters.BattlerPokerFace;
+      demeanor.IsHotHead = parameters.IsHotHead;
+    }
+
+    private void UpdatePitchingMechanicsSpecialAbilities(PitchingMechanicsSpecialAbilities mechanics, PitchingMechanicsSpecialAbilitiesParameters parameters)
+    {
+      mechanics.GoodDelivery = parameters.GoodDelivery;
+      mechanics.Release = parameters.Release;
+      mechanics.GoodPace = parameters.GoodPace;
+      mechanics.GoodReflexes = parameters.GoodReflexes;
+      mechanics.GoodPickoff = parameters.GoodPickoff;
+    }
+
+    private void UpdatePitchQualitiesSpecialAbilities(PitchQualitiesSpecialAbilities pitchQualities, PitchQualitiesSpecialAbilitiesParameters parameters)
+    {
+      pitchQualities.PowerOrBreakingBallPitcher = parameters.PowerOrBreakingBallPitcher;
+      pitchQualities.FastballLife = parameters.FastballLife;
+      pitchQualities.Spin = parameters.Spin;
+      pitchQualities.SafeOrFatPitch = parameters.SafeOrFatPitch;
+      pitchQualities.GroundBallOrFlyBallPitcher = parameters.GroundBallOrFlyBallPitcher;
+      pitchQualities.GoodLowPitch = parameters.GoodLowPitch;
+      pitchQualities.Gyroball = parameters.Gyroball;
+      pitchQualities.ShuttoSpin = parameters.ShuttoSpin;
+    }
   }
 }
