@@ -257,6 +257,7 @@ export interface PitchQualitiesSpecialAbilitiesDetailsDto {
   spin: KeyedCode;
   safeOrFatPitch: KeyedCode;
   groundBallOrFlyBallPitcher: KeyedCode;
+  goodLowPitch: boolean;
   gyroball: boolean;
   shuttoSpin: boolean;
 }

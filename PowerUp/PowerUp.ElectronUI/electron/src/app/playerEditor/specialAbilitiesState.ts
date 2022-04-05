@@ -123,6 +123,7 @@ export interface PitchQualitiesSpecialAbilities {
   spin: KeyedCode;
   safeOrFatPitch: KeyedCode;
   groundBallOrFlyBallPitcher: KeyedCode;
+  goodLowPitch: boolean;
   gyroball: boolean;
   shuttoSpin: boolean;
 }
@@ -236,6 +237,7 @@ export type PitchQualitiesSpecialAbilitiesAction =
 | { type: 'updateSpin', spin: KeyedCode }
 | { type: 'updateSafeOrFatPitch', safeOrFatPitch: KeyedCode }
 | { type: 'updateGroundBallOrFlyBallPitcher', groundBallOrFlyBallPitcher: KeyedCode }
+| { type: 'updateGoodLowPitch', goodLowPitch: boolean }
 | { type: 'updateGyroball', gyroball: boolean }
 | { type: 'updateShuttoSpin', shuttoSpin: boolean }
 
@@ -784,6 +786,11 @@ export function PitchQualitiesSpecialAbilitiesReducer(state: PitchQualitiesSpeci
         ...state,
         groundBallOrFlyBallPitcher: action.groundBallOrFlyBallPitcher
       }
+    case 'updateGoodLowPitch':
+      return {
+        ...state,
+        goodLowPitch: action.goodLowPitch
+      }
     case 'updateGyroball':
       return {
         ...state,
@@ -904,6 +911,7 @@ export function getInitialSpecialAbilitiesFromResponse(response: SpecialAbilitie
         spin: pitchQualities.spin,
         safeOrFatPitch: pitchQualities.safeOrFatPitch,
         groundBallOrFlyBallPitcher: pitchQualities.groundBallOrFlyBallPitcher,
+        goodLowPitch: pitchQualities.goodLowPitch,
         gyroball: pitchQualities.gyroball,
         shuttoSpin: pitchQualities.shuttoSpin
       }

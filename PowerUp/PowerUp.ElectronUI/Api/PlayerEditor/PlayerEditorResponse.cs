@@ -82,8 +82,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class SpecialAbilitiesOptions
   {
-    public IEnumerable<KeyedCode> Special1_5Options => EnumExtensions.GetKeyedCodeList<Special1_5>();
-    public IEnumerable<KeyedCode> Special2_4Options => EnumExtensions.GetKeyedCodeList<Special2_4>();
+    public IEnumerable<KeyedCode> Special1_5Options => EnumExtensions.GetKeyedCodeList<Special1_5>(useAbbrev: true);
+    public IEnumerable<KeyedCode> Special2_4Options => EnumExtensions.GetKeyedCodeList<Special2_4>(useAbbrev: true);
     public IEnumerable<KeyedCode> SpecialPositive_NegativeOptions => EnumExtensions.GetKeyedCodeList<SpecialPositive_Negative>();
     public IEnumerable<KeyedCode> BasesLoadedHitterOptions => EnumExtensions.GetKeyedCodeList<BasesLoadedHitter>();
     public IEnumerable<KeyedCode> WalkOffHitterOptions => EnumExtensions.GetKeyedCodeList<WalkOffHitter>();
@@ -92,7 +92,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public IEnumerable<KeyedCode> AggressiveOrCautiousBaseStealerOptions => EnumExtensions.GetKeyedCodeList<AggressiveOrCautiousBaseStealer>();
     public IEnumerable<KeyedCode> BuntingAbilityOptions => EnumExtensions.GetKeyedCodeList<BuntingAbility>();
     public IEnumerable<KeyedCode> InfieldHittingAbilityOptions => EnumExtensions.GetKeyedCodeList<InfieldHittingAbility>();
-    public IEnumerable<KeyedCode> CatchingAbilityOptions => EnumExtensions.GetKeyedCodeList<InfieldHittingAbility>();
+    public IEnumerable<KeyedCode> CatchingAbilityOptions => EnumExtensions.GetKeyedCodeList<CatchingAbility>();
     public IEnumerable<KeyedCode> BattlerPokerFaceOptions => EnumExtensions.GetKeyedCodeList<BattlerPokerFace>();
     public IEnumerable<KeyedCode> PowerOrBreakingBallPitcher => EnumExtensions.GetKeyedCodeList<PowerOrBreakingBallPitcher>();
   }
@@ -536,6 +536,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public KeyedCode Spin { get; }
     public KeyedCode SafeOrFatPitch { get; }
     public KeyedCode GroundBallOrFlyBallPitcher { get; }
+    public bool GoodLowPitch { get; }
     public bool Gyroball { get; }
     public bool ShuttoSpin { get; }
 
@@ -546,6 +547,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Spin = pitchQualities.Spin.ToKeyedCode();
       SafeOrFatPitch = pitchQualities.SafeOrFatPitch.ToKeyedCode();
       GroundBallOrFlyBallPitcher = pitchQualities.GroundBallOrFlyBallPitcher.ToKeyedCode();
+      GoodLowPitch = pitchQualities.GoodLowPitch;
       Gyroball = pitchQualities.Gyroball;
       ShuttoSpin = pitchQualities.ShuttoSpin;
     }

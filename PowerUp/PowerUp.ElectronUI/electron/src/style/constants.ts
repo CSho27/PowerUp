@@ -5,6 +5,7 @@ export const COLORS = {
     regular_18: 'hsl(180deg 1% 18%)',
     regular_25: 'hsl(180deg 1% 25%)',
     light_39: 'hsl(180deg 1% 39%)',
+    light_50: 'hsl(180deg 1% 50%)',
     lighter_71: 'hsl(180deg 1% 71%)',
     evenLighter_80: 'hsl(180deg 1% 80%)',
     superlight_85: 'hsl(180deg 1% 85%)',

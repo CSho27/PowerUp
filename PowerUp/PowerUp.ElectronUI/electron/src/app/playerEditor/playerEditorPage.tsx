@@ -118,6 +118,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         <SpecialAbilitiesEditor
           options={options.specialAbilitiesOptions}
           details={specialAbilities}
+          isPitcher={positionType === 'Pitcher'}
           update={updateSpecialAbilities}
         />}
       </EditorContainer>

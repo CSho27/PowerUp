@@ -7,7 +7,7 @@ export interface SpecialAbilityRadioButtonProps {
   name: string;
   label: string;
   effect: SpecialAbilityEffect;
-  numericValue?: number;
+  numericValue?: string;
   checked: boolean;
   onSelect: () => void;
   id?: string;
@@ -18,15 +18,17 @@ export type SpecialAbilityEffect = 'Neutral' | 'Positive' | 'Negative';
 export function SpecialAbilityRadioButton(props: SpecialAbilityRadioButtonProps) {
   const { name, label, effect, numericValue, checked, onSelect, id } = props;
   
-  return <OuterWrapper effect={effect} checked={checked} onClick={onSelect}>
+  return <OuterWrapper title={label} effect={effect} checked={checked} onClick={onSelect}>
     <InnerWrapper>
-      <RadioButton 
-        id={id}
-        groupName={name}
-        value={label}
-        checked={checked}
-        onSelect={() => {}}
-      />
+      <RadioButtonContainer>
+        <RadioButton 
+          id={id}
+          groupName={name}
+          value={label}
+          checked={checked}
+          onSelect={() => {}}
+          />
+      </RadioButtonContainer>
       <LabelContainer>
         <OutlineHeader
           fontSize={FONT_SIZES._18}
@@ -46,8 +48,8 @@ export function SpecialAbilityRadioButton(props: SpecialAbilityRadioButtonProps)
 
 const colors: { [key in SpecialAbilityEffect]: string } = {
   Neutral: `
-    --inner-color: ${COLORS.jet.evenLighter_80};
-    --outer-color: ${COLORS.jet.lighter_71};
+    --inner-color: ${COLORS.jet.lighter_71};
+    --outer-color: ${COLORS.jet.light_50};
   `,
   Positive: `
     --inner-color: ${COLORS.primaryBlue.lighter_69};
@@ -62,8 +64,8 @@ const colors: { [key in SpecialAbilityEffect]: string } = {
 const OuterWrapper = styled.div<{ effect: SpecialAbilityEffect, checked: boolean }>`
   ${p => colors[p.effect]}
   background-color: var(--outer-color);
-  border-radius: 8px;
-  width: 150px;
+  border-radius: 6px;
+  min-width: 180px;
   padding: 3px;
   display: flex;
   align-items: center;
@@ -72,9 +74,10 @@ const OuterWrapper = styled.div<{ effect: SpecialAbilityEffect, checked: boolean
   line-height: 1;
   opacity: ${p => p.checked ? '1' : '.4'};
   cursor: pointer;
+  user-select: none;
 
   :hover {
-    opacity: ${p => p.checked ? '1' : '.6'};
+    opacity: ${p => p.checked ? '1' : '.5'};
   }
 `
 
@@ -86,6 +89,10 @@ const InnerWrapper = styled.div`
   padding: 4px;
   display: flex;
   align-items: center;
+`
+
+const RadioButtonContainer = styled.div`
+  flex: 0 0 auto
 `
 
 const LabelContainer = styled.div`
