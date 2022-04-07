@@ -15,6 +15,7 @@
       UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
       UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
       UpdatePitcherAbilities(player.PitcherAbilities, parameters.PitcherAbilities!);
+      UpdateSpecialAbilities(player.SpecialAbilities, parameters.SpecialAbilities!);
     }
 
     private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)

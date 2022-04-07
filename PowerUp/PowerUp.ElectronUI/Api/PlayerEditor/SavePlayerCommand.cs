@@ -34,6 +34,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PositionCapabilitiesRequest? PositionCapabilities { get; set; }
     public HitterAbilitiesRequest? HitterAbilities { get; set; }
     public PitcherAbilitiesRequest? PitcherAbilities { get; set; }
+    public SpecialAbilitiesRequest? SpecialAbilities { get; set; }
 
     public PlayerParameters GetParameters()
     {
@@ -42,7 +43,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         PersonalDetails = PersonalDetails!.GetParameters(),
         PositionCapabilities = PositionCapabilities!.GetParameters(),
         HitterAbilities = HitterAbilities!.GetParameters(),
-        PitcherAbilities = PitcherAbilities!.GetParameters()
+        PitcherAbilities = PitcherAbilities!.GetParameters(),
+        SpecialAbilities = SpecialAbilities!.GetParameters()
       };
     }
   }

@@ -8,6 +8,16 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public GeneralSpecialAbilitiesRequest? GeneralSpecialAbilitiesRequest { get; set; }
     public HitterSpecialAbilitiesRequest? HitterSpecialAbilitiesRequest { get; set; }
     public PitcherSpecialAbilitiesRequest? PitcherSpecialAbilitiesRequest { get; set; }
+
+    public SpecialAbilitiesParameters GetParameters()
+    {
+      return new SpecialAbilitiesParameters
+      {
+        General = GeneralSpecialAbilitiesRequest!.GetParameters(),
+        Hitter = HitterSpecialAbilitiesRequest!.GetParameters(),
+        Pitcher = PitcherSpecialAbilitiesRequest!.GetParameters(),
+      };
+    }
   }
 
   public class GeneralSpecialAbilitiesRequest
@@ -33,6 +43,19 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public HittingApproachSpecialAbilitiesRequest? Approach { get; set; }
     public SmallBallSpecialAbilitiesRequest? SmallBall { get; set; }
     public BaseRunningSpecialAbilitiesRequest? BaseRunning { get; set; }
+    public FieldingSpecialAbilitiesRequest? Fielding { get; set; }
+
+    public HitterSpecialAbilitiesParameters GetParameters()
+    {
+      return new HitterSpecialAbilitiesParameters
+      {
+        SituationalHitting = Situational!.GetParameters(),
+        HittingApproach = Approach!.GetParameters(),
+        SmallBall = SmallBall!.GetParameters(),
+        BaseRunning = BaseRunning!.GetParameters(),
+        Fielding = Fielding!.GetParameters()
+      };
+    }
   }
 
   public class SituationalHittingSpecialAbilitiesRequest
@@ -198,6 +221,18 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PitchingDemeanorSpecialAbilitiesRequest? Demeanor { get; set; }
     public PitchingMechanicsSpecialAbilitiesRequest? Mechanics { get; set; }
     public PitchQualitiesSpecialAbilitiesRequest? PitchQualities { get; set; }
+
+    public PitcherSpecialAbilitiesParameters GetParameters()
+    {
+      return new PitcherSpecialAbilitiesParameters
+      {
+        SituationalPitching = Situational!.GetParameters(),
+        Demeanor = Demeanor!.GetParameters(),
+        PitchingMechanics = Mechanics!.GetParameters(),
+        PitchQuailities = PitchQualities!.GetParameters()
+      };
+    }
+
   }
 
   public class SituationalPitchingSpecialAbilitiesRequest
@@ -215,6 +250,26 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsWalkProne { get; set; }
     public string? LuckKey { get; set; }
     public string? RecoveryKey { get; set; }
+
+    public SituationalPitchingSpecialAbilitiesParameters GetParameters()
+    {
+      return new SituationalPitchingSpecialAbilitiesParameters
+      {
+        Consistency = Enum.Parse<Special2_4>(ConsistencyKey!),
+        VersusLefty = Enum.Parse<Special2_4>(VersusLeftyKey!),
+        Poise = Enum.Parse<Special2_4>(PoiseKey!),
+        PoorVersusRunner = PoorVersusRunner,
+        WithRunnersInSocringPosition = Enum.Parse<Special2_4>(WithRunnersInScoringPositionKey!),
+        IsSlowStarter = IsSlowStarter,
+        IsStarterFinisher = IsStarterFinisher,
+        IsChokeArtist = IsChokeArtist,
+        IsSandbag = IsSandbag,  
+        DoctorK = DoctorK,  
+        IsWalkProne = IsWalkProne,
+        Luck = Enum.Parse<SpecialPositive_Negative>(LuckKey!),
+        Recovery = Enum.Parse<Special2_4>(RecoveryKey!)
+      };
+    }
   }
 
   public class PitchingDemeanorSpecialAbilitiesRequest
@@ -222,15 +277,39 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsIntimidator { get; set; }
     public string? BattlerPokerFaceKey { get; set; }
     public bool IsHotHead { get; set; }
+
+    public PitchingDemeanorSpecialAbilitiesParameters GetParameters()
+    {
+      return new PitchingDemeanorSpecialAbilitiesParameters
+      {
+        IsIntimidator = IsIntimidator,
+        BattlerPokerFace = BattlerPokerFaceKey != null
+          ? Enum.Parse<BattlerPokerFace>(BattlerPokerFaceKey)
+          : null,
+        IsHotHead = IsHotHead
+      };
+    }
   }
 
   public class PitchingMechanicsSpecialAbilitiesRequest
   {
     public bool GoodDelivery { get; set; }
-    public string? Release { get; set; }
+    public string? ReleaseKey { get; set; }
     public bool GoodPace { get; set; }
     public bool GoodReflexes { get; set; }
     public bool GoodPickoff { get; set; }
+
+    public PitchingMechanicsSpecialAbilitiesParameters GetParameters()
+    {
+      return new PitchingMechanicsSpecialAbilitiesParameters
+      {
+        GoodDelivery = GoodDelivery,
+        Release = Enum.Parse<Special2_4>(ReleaseKey!),
+        GoodPace = GoodPace,
+        GoodReflexes = GoodReflexes,
+        GoodPickoff = GoodPickoff
+      };
+    }
   }
 
   public class PitchQualitiesSpecialAbilitiesRequest
@@ -243,5 +322,22 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool GoodLowPitch { get; set; }
     public bool Gyroball { get; set; }
     public bool ShuttoSpin { get; set; }
+
+    public PitchQualitiesSpecialAbilitiesParameters GetParameters()
+    {
+      return new PitchQualitiesSpecialAbilitiesParameters
+      {
+        PowerOrBreakingBallPitcher = PowerOrBreakingBallPitcherKey != null
+          ? Enum.Parse<PowerOrBreakingBallPitcher>(PowerOrBreakingBallPitcherKey)
+          : null,
+        FastballLife = Enum.Parse<Special2_4>(FastballLifeKey!),
+        Spin = Enum.Parse<Special2_4>(SpinKey!),
+        SafeOrFatPitch = Enum.Parse<SpecialPositive_Negative>(SafeOrFatPitchKey!),
+        GroundBallOrFlyBallPitcher = Enum.Parse<SpecialPositive_Negative>(GroundBallOrFlyBallPitcherKey!),
+        GoodLowPitch = GoodLowPitch,
+        Gyroball = Gyroball,
+        ShuttoSpin = ShuttoSpin
+      };
+    }
   }
 }
