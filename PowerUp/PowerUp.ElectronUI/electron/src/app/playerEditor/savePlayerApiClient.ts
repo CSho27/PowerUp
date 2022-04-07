@@ -87,6 +87,69 @@ export interface PitcherAbilitiesSaveRequest {
   sinkingFastball2Movement: number | null;
 }
 
+export interface SpecialAbilitiesRequest {
+  generalSpecialAbilitiesRequest: GeneralSpecialAbilitiesRequest;
+  hitterSpecialAbilitiesRequest: HitterSpecialAbilitiesRequest;
+  pitcherSpecialAbilitiesRequest: PitcherSpecialAbilitiesRequest;
+}
+
+export interface GeneralSpecialAbilitiesRequest {
+  isStar: boolean;
+  durabilityKey: string; 
+  moraleKey: string;
+}
+
+export interface HitterSpecialAbilitiesRequest {
+  situational: SituationalHittingSpecialAbilitiesRequest;
+  approach: HittingApproachSpecialAbilitiesRequest;
+  smallBall: SmallBallSpecialAbilitiesRequest;
+  baseRunning: BaseRunningSpecialAbilitiesRequest;
+  fielding: FieldingSpecialAbilitiesRequest;
+}
+
+export interface SituationalHittingSpecialAbilitiesRequest {
+  
+}
+
+export interface HittingApproachSpecialAbilitiesRequest {
+
+}
+
+export interface SmallBallSpecialAbilitiesRequest {
+
+}
+
+export interface BaseRunningSpecialAbilitiesRequest {
+
+}
+
+export interface FieldingSpecialAbilitiesRequest {
+
+}
+
+export interface PitcherSpecialAbilitiesRequest {
+  situational: SituationalPitchingSpecialAbilitiesRequest; 
+  demeanor: PitchingDemeanorSpecialAbilitiesRequest; 
+  mechanics: PitchingMechanicsSpecialAbilitiesRequest; 
+  pitchQualities: PitchQualitiesSpecialAbilitiesRequest; 
+}
+
+export interface SituationalPitchingSpecialAbilitiesRequest {
+
+}
+
+export interface PitchingDemeanorSpecialAbilitiesRequest {
+
+}
+
+export interface PitchingMechanicsSpecialAbilitiesRequest {
+
+}
+
+export interface PitchQualitiesSpecialAbilitiesRequest {
+  
+}
+
 export class SavePlayerApiClient {
   private readonly commandName = 'SavePlayer';
   private readonly commandFetcher: CommandFetcher;
