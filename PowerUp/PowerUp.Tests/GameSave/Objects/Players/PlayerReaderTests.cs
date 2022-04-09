@@ -1509,9 +1509,9 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)35052)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35675)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)35194)]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2284)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2907)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2426)]
     public void Reads_VoiceId(int playerId, ushort voiceId)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);

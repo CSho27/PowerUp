@@ -2212,9 +2212,9 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)35612)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)35440)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)35069)]
+    [TestCase(JASON_GIAMBI_ID, (ushort)2284)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2907)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2426)]
     public void Writes_VoiceId(int playerId, ushort value)
     {
       var playerToWrite = new GSPlayer { VoiceId = value };
