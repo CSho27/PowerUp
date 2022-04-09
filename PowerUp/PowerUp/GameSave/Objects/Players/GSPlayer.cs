@@ -34,7 +34,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x51, bits: 10, bitOffset: 7)]
     public ushort? PlayerNumber { get; set; }
 
-    [GSUInt(0x54, bits: 8, bitOffset: 5)]
+    [GSUInt(0x54, bits: 8, bitOffset: 4)]
     public ushort? Face { get; set; }
 
     [GSUInt(0x55, bits: 4, bitOffset: 4)]

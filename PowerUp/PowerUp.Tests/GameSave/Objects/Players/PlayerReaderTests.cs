@@ -86,19 +86,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
     }
 
-    // TODO: Fix face
-    /*
     [Test]
-    [TestCase(JASON_GIAMBI_ID, 122)]
-    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
-    [TestCase(PAUL_PITCHER_ID, 13)]
-    public void Reads_Face(int playerId, int face)
+    [TestCase(JASON_GIAMBI_ID, (ushort)102)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)180)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)206)]
+    public void Reads_Face(int playerId, ushort face)
     {
-      using var loader = new PlayerLoader(TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Load(playerId);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
       player.Face.ShouldBe(face);
     }
-    */
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)0)]
