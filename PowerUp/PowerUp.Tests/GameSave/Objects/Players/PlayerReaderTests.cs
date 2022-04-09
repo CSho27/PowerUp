@@ -96,27 +96,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.Face.ShouldBe(face);
     }
+    
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_Skin(int playerId, ushort skin)
+    public void Reads_SkinAndEyes(int playerId, ushort skinAndEyes)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.Skin.ShouldBe(skin);
-    }
-
-    [Test]
-    [TestCase(JASON_GIAMBI_ID, false)]
-    [TestCase(SAMMY_SPEEDSTER_ID, true)]
-    [TestCase(PAUL_PITCHER_ID, false)]
-    public void Reads_AreEyesBrown(int playerId, bool areEyesBrown)
-    {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
-      var player = loader.Read(playerId);
-      player.AreEyesBrown.ShouldBe(areEyesBrown);
+      player.SkinAndEyes.ShouldBe(skinAndEyes);
     }
 
     [Test]

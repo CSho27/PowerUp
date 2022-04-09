@@ -39,12 +39,6 @@ namespace PowerUp.GameSave.Objects.Players
 
     [GSUInt(0x55, bits: 4, bitOffset: 4)]
     public ushort? SkinAndEyes { get; set; }
-    public ushort? Skin => SkinAndEyes.HasValue
-      ? (ushort)(SkinAndEyes % 5)
-      : null;
-    public bool? AreEyesBrown => SkinAndEyes.HasValue
-      ? SkinAndEyes >= 5
-      : null;
 
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Bat { get; set; }

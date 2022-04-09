@@ -133,8 +133,6 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SkinAndEyes.ShouldBe(skinAndEyes);
-      loadedPlayer.Skin.ShouldBe((ushort)(skinAndEyes % 5));
-      loadedPlayer.AreEyesBrown.ShouldBe(skinAndEyes >= 5);
     }
 
     [Test]
