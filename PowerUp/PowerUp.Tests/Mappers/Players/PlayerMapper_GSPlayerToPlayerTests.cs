@@ -41,6 +41,20 @@ namespace PowerUp.Tests.Mappers.Players
         BattingForm = 0,
         ThrowsLefty = false,
         PitchingForm = 0,
+        Face = 0,
+        SkinAndEyes = 0,
+        Hair = 0,
+        HairColor = 0,
+        FacialHair = 0,
+        FacialHairColor = 0,
+        EyewearType = 0,
+        EyewearColor = 0,
+        EarringSide = 0,
+        EarringColor = 0,
+        Bat = 0,
+        Glove = 0,
+        RightWristband = 0,
+        LeftWristband = 0,
         PitcherCapability = 0,
         CatcherCapability = 0,
         FirstBaseCapability = 0,
@@ -304,6 +318,70 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.PitchingForm = 3;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.PitchingMechanicsId.ShouldBe(3);
+    }
+
+    [Test]
+    [TestCase((ushort)5, 5)]
+    [TestCase((ushort)196, 178)]
+    public void MapToPlayer_ShouldMapFaceId(ushort ppFaceId, int expectedFaceId)
+    {
+      gsPlayer.Face = ppFaceId;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.FaceId.ShouldBe(expectedFaceId);
+    }
+
+    [Test]
+    [TestCase((ushort)5, null)]
+    [TestCase((ushort)179, EyebrowThickness.Thick)]
+    [TestCase((ushort)196, EyebrowThickness.Thin)]
+    [TestCase((ushort)232, null)]
+    public void MapToPlayer_ShouldMapEyebrowThickness(ushort ppFaceId, EyebrowThickness? expectedValue)
+    {
+      gsPlayer.Face = ppFaceId;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EyebrowThickness.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort) 0, (ushort)0, null)]
+    [TestCase((ushort) 177, (ushort)0, SkinColor.One)]
+    [TestCase((ushort) 200, (ushort)3, SkinColor.Four)]
+    [TestCase((ushort) 232, (ushort)6, SkinColor.Two)]
+    public void MapToPlayer_ShouldMapSkinColor(ushort faceId, ushort skinAndEyesValue, SkinColor? expectedValue)
+    {
+      gsPlayer.Face = faceId;
+      gsPlayer.SkinAndEyes = skinAndEyesValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.SkinColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort)0, null)]
+    [TestCase((ushort)177, (ushort)0, EyeColor.Blue)]
+    [TestCase((ushort)193, (ushort)3, null)]
+    [TestCase((ushort)232, (ushort)6, EyeColor.Brown)]
+    public void MapToPlayer_ShouldMapEyeColor(ushort faceId, ushort skinAndEyesValue, EyeColor? expectedValue)
+    {
+      gsPlayer.Face = faceId;
+      gsPlayer.SkinAndEyes = skinAndEyesValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EyeColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBatColor()
+    {
+      gsPlayer.Bat = 3;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.BatColor.ShouldBe(BatColor.Black_Natural);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGloveColor()
+    {
+      gsPlayer.Glove = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.GloveColor.ShouldBe(GloveColor.Tan);
     }
 
     [Test]

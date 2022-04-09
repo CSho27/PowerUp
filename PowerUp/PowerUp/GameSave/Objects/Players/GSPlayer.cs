@@ -65,7 +65,7 @@ namespace PowerUp.GameSave.Objects.Players
     public ushort? FacialHairColor { get; set; }
 
     [GSUInt(0x5A, bits: 2, bitOffset: 4)]
-    public ushort? EarringType { get; set; }
+    public ushort? EarringSide { get; set; }
 
     [GSUInt(0x5A, bits: 4, bitOffset: 6)]
     public ushort? EarringColor { get; set; }

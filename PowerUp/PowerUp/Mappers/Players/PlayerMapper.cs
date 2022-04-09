@@ -61,10 +61,11 @@ namespace PowerUp.Mappers.Players
           ? ThrowingArm.Left
           : ThrowingArm.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
+        Appearance = AppearanceMapper.GetAppearance(gsPlayer),
         PositonCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
         PitcherAbilities = gsPlayer.GetPitcherAbilities(),
-        SpecialAbilities = SpecialAbilitiesMapper.GetSpecialAbilities(gsPlayer)
+        SpecialAbilities = SpecialAbilitiesMapper.GetSpecialAbilities(gsPlayer),
       };
     }
 

@@ -277,7 +277,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Writes_EarringType(int playerId, ushort earringType)
     {
-      var playerToWrite = new GSPlayer { EarringType = earringType };
+      var playerToWrite = new GSPlayer { EarringSide = earringType };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -285,7 +285,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.EarringType.ShouldBe(earringType);
+      loadedPlayer.EarringSide.ShouldBe(earringType);
     }
 
     [Test]

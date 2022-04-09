@@ -205,7 +205,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.EarringType.ShouldBe(earringType);
+      player.EarringSide.ShouldBe(earringType);
     }
 
     [Test]

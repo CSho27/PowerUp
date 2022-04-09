@@ -59,7 +59,7 @@
 
   public enum EarringSide
   {
-    Right,
+    Right = 1,
     Left,
     Both
   }
@@ -87,7 +87,9 @@
     public SkinColor? SkinColor { get; set; }
     public EyeColor? EyeColor { get; set; }
     public int HairStyleId { get; set; }
+    public int HairColorId { get; set; }
     public int FacialHairStyleId { get; set; }
+    public int FacialHairColorId { get; set; }
     public BatColor BatColor { get; set; }
     public GloveColor GloveColor { get; set; }
     public int? EyewearId { get; set; }
