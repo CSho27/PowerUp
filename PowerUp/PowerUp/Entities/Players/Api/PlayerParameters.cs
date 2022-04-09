@@ -146,7 +146,7 @@ namespace PowerUp.Entities.Players.Api
     {
       ThrowIfNotBetween(parameters.Trajectory, 1, 4);
       ThrowIfNotBetween(parameters.Contact, 1, 15);
-      ThrowIfNotBetween(parameters.Power, 1, 255);
+      ThrowIfNotBetween(parameters.Power, 0, 255);
       ThrowIfNotBetween(parameters.RunSpeed, 1, 15);
       ThrowIfNotBetween(parameters.ArmStrength, 1, 15);
       ThrowIfNotBetween(parameters.Fielding, 1, 15);
@@ -160,8 +160,8 @@ namespace PowerUp.Entities.Players.Api
     public override void Validate(PlayerPitcherAbilitiesParameters parameters)
     {
       ThrowIfNotBetween(parameters.TopSpeed, 49, 105);
-      ThrowIfNotBetween(parameters.Control, 1, 255);
-      ThrowIfNotBetween(parameters.Stamina, 1, 255);
+      ThrowIfNotBetween(parameters.Control, 0, 255);
+      ThrowIfNotBetween(parameters.Stamina, 0, 255);
 
       if (parameters.HasTwoSeam)
         ThrowIfNull(parameters.TwoSeamMovement);
