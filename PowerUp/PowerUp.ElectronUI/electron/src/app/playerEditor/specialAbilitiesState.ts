@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
 import { KeyedCode } from '../shared/keyedCode';
 import { SpecialAbilitiesDetailsDto } from './loadPlayerEditorApiClient';
+import { SpecialAbilitiesRequest } from './savePlayerApiClient';
 
 export interface SpecialAbilities {
   general: GeneralSpecialAbilities;
@@ -911,6 +912,114 @@ export function getInitialSpecialAbilitiesFromResponse(response: SpecialAbilitie
         spin: pitchQualities.spin,
         safeOrFatPitch: pitchQualities.safeOrFatPitch,
         groundBallOrFlyBallPitcher: pitchQualities.groundBallOrFlyBallPitcher,
+        goodLowPitch: pitchQualities.goodLowPitch,
+        gyroball: pitchQualities.gyroball,
+        shuttoSpin: pitchQualities.shuttoSpin
+      }
+    }
+  }
+}
+
+export function buildSpecialAbilitiesRequestFromState(state: SpecialAbilities): SpecialAbilitiesRequest {
+  const { general, hitter, pitcher } = state;
+  const { situational: situationalHitting, approach, smallBall, baseRunning, fielding } = hitter;
+  const { situational: situationalPitching, demeanor, mechanics, pitchQualities } = pitcher;
+  
+  return {
+    generalSpecialAbilitiesRequest: {
+      isStar: general.isStar,
+      durabilityKey: general.durability.key,
+      moraleKey: general.morale.key
+    },
+    hitterSpecialAbilitiesRequest: {
+      situational: {
+        consistencyKey: situationalHitting.hittingConsistency.key,
+        versusLeftyKey: situationalHitting.versusLefty.key,
+        isTableSetter: situationalHitting.isTableSetter,
+        isBackToBackHitter: situationalHitting.isBackToBackHitter,
+        isHotHitter: situationalHitting.isHotHitter,
+        isRallyHitter: situationalHitting.isRallyHitter,
+        isGoodPinchHitter: situationalHitting.isGoodPinchHitter,
+        basesLoadedHitterKey: situationalHitting.basesLoadedHitter?.key ?? null,
+        walkOffHitterKey: situationalHitting.walkOffHitter?.key ?? null,
+        clutchHitterKey: situationalHitting.clutchHitter.key
+      },
+      approach: {
+        isContactHitter: approach.isContactHitter,
+        isPowerHitter: approach.isPowerHitter,
+        sluggerOrSlapHitterKey: approach.sluggerOrSlapHitter?.key ?? null,
+        isPushHitter: approach.isPushHitter,
+        isPullHitter: approach.isPullHitter,
+        isSprayHitter: approach.isSprayHitter,
+        isFirstballHitter: approach.isFirstballHitter,
+        aggressiveOrPatientHitterKey: approach.aggressiveOrPatientHitter?.key ?? null,
+        isRefinedHitter: approach.isRefinedHitter,
+        isToughOut: approach.isToughOut,
+        isIntimidator: approach.isIntimidatingHitter,
+        isSparkplug: approach.isSparkplug
+      },
+      smallBall: {
+        smallBallKey: smallBall.smallBall.key,
+        buntingKey: smallBall.bunting?.key ?? null,
+        infieldHittingKey: smallBall.infieldHitter?.key ?? null
+      },
+      baseRunning: {
+        baseRunningKey: baseRunning.baseRunning.key,
+        stealingKey: baseRunning.stealing.key,
+        isAggressiveRunner: baseRunning.isAggressiveRunner,
+        aggressiveOrCautiousBaseStealerKey: baseRunning.aggressiveOrPatientBaseStealer?.key ?? null,
+        isToughRunner: baseRunning.isToughRunner,
+        willBreakupDoublePlay: baseRunning.willBreakupDoublePlay,
+        willSlideHeadFirst: baseRunning.willSlideHeadFirst
+      },
+      fielding: {
+        isGoldGlover: fielding.isGoldGlover,
+        canSpiderCatch: fielding.canSpiderCatch,
+        canBarehandCatch: fielding.canBarehandCatch,
+        isAggressiveFielder: fielding.isAggressiveFielder,
+        isPivotMan: fielding.isPivotMan,
+        isErrorProne: fielding.isErrorProne,
+        isGoodBlocker: fielding.isGoodBlocker,
+        catchingKey: fielding.catching?.key ?? null,
+        throwingKey: fielding.throwing.key,
+        hasCannonArm: fielding.hasCannonArm,
+        isTrashTalker: fielding.isTrashTalker
+      }
+    },
+    pitcherSpecialAbilitiesRequest: {
+      situational: {
+        consistencyKey: situationalPitching.consistency.key,
+        versusLeftyKey: situationalPitching.versusLefty.key,
+        poiseKey: situationalPitching.poise.key,
+        poorVersusRunner: situationalPitching.poorVersusRunner,
+        withRunnersInScoringPositionKey: situationalPitching.withRunnersInScoringPosition.key,
+        isSlowStarter: situationalPitching.isSlowStarter,
+        isStarterFinisher: situationalPitching.isStarterFinisher,
+        isChokeArtist: situationalPitching.isChokeArtist,
+        isSandbag: situationalPitching.isSandbag,
+        doctorK: situationalPitching.doctorK,
+        isWalkProne: situationalPitching.isWalkProne,
+        luckKey: situationalPitching.luck.key,
+        recoveryKey: situationalPitching.recovery.key
+      },
+      demeanor: {
+        isIntimidator: demeanor.isIntimidatingPitcher,
+        battlerPokerFaceKey: demeanor.battlerOrPokerFace?.key ?? null,
+        isHotHead: demeanor.isHotHead
+      },
+      mechanics: {
+        goodDelivery: mechanics.goodDelivery,
+        releaseKey: mechanics.release.key,
+        goodPace: mechanics.goodPace,
+        goodReflexes: mechanics.goodReflexes,
+        goodPickoff: mechanics.goodPickoff
+      },
+      pitchQualities: {
+        powerOrBreakingBallPitcherKey: pitchQualities.powerOrBreakingBallPitcher?.key ?? null,
+        fastballLifeKey: pitchQualities.fastballLife.key,
+        spinKey: pitchQualities.spin.key,
+        safeOrFatPitchKey: pitchQualities.safeOrFatPitch.key,
+        groundBallOrFlyBallPitcherKey: pitchQualities.groundBallOrFlyBallPitcher.key,
         goodLowPitch: pitchQualities.goodLowPitch,
         gyroball: pitchQualities.gyroball,
         shuttoSpin: pitchQualities.shuttoSpin

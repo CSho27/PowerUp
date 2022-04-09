@@ -66,7 +66,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsBackToBackHitter { get; set; }
     public bool IsHotHitter { get; set; }
     public bool IsRallyHitter { get; set; }
-    public bool IsGoodPitcher { get; set; }
+    public bool IsGoodPinchHitter { get; set; }
     public string? BasesLoadedHitterKey { get; set; }
     public string? WalkOffHitterKey { get; set; }
     public string? ClutchHitterKey { get; set; }
@@ -81,7 +81,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         IsBackToBackHitter = IsBackToBackHitter,
         IsHotHitter = IsHotHitter,
         IsRallyHitter = IsRallyHitter,
-        IsGoodPinchHitter = IsGoodPitcher,
+        IsGoodPinchHitter = IsGoodPinchHitter,
         BasesLoadedHitter = BasesLoadedHitterKey != null
           ? Enum.Parse<BasesLoadedHitter>(BasesLoadedHitterKey)
           : null,
