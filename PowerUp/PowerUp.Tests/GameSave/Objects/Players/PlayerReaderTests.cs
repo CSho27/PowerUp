@@ -183,7 +183,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.GlassesType.ShouldBe(glassesType);
+      player.EyewearType.ShouldBe(glassesType);
     }
 
     [Test]
@@ -194,7 +194,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
-      player.GlassesColor.ShouldBe(glassesColor);
+      player.EyewearColor.ShouldBe(glassesColor);
     }
 
     [Test]

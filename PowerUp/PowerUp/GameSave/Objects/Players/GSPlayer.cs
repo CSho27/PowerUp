@@ -72,10 +72,10 @@ namespace PowerUp.GameSave.Objects.Players
 
     // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
     [GSUInt(0x5b, bits: 4, bitOffset: 2)]
-    public ushort? GlassesType { get; set; }
+    public ushort? EyewearType { get; set; }
 
     [GSUInt(0x5c, bits: 4, bitOffset: 0)]
-    public ushort? GlassesColor { get; set; }
+    public ushort? EyewearColor { get; set; }
 
     [GSUInt(0x5c, bits: 8, bitOffset: 4)]
     public ushort? BattingForm { get; set; }

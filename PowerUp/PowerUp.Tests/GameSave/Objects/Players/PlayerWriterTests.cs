@@ -243,7 +243,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)13)]
     public void Writes_GlassesType(int playerId, ushort glassesType)
     {
-      var playerToWrite = new GSPlayer { GlassesType = glassesType };
+      var playerToWrite = new GSPlayer { EyewearType = glassesType };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -251,7 +251,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.GlassesType.ShouldBe(glassesType);
+      loadedPlayer.EyewearType.ShouldBe(glassesType);
     }
 
     [Test]
@@ -260,7 +260,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)10)]
     public void Writes_GlassesColor(int playerId, ushort glassesColor)
     {
-      var playerToWrite = new GSPlayer { GlassesColor = glassesColor };
+      var playerToWrite = new GSPlayer { EyewearColor = glassesColor };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -268,7 +268,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.GlassesColor.ShouldBe(glassesColor);
+      loadedPlayer.EyewearColor.ShouldBe(glassesColor);
     }
 
     [Test]

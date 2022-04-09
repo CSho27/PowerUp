@@ -24,6 +24,7 @@ namespace PowerUp.Entities.Players
     public int BattingStanceId { get; set; }
     public ThrowingArm ThrowingArm { get; set; }
     public int PitchingMechanicsId { get; set; }
+    public Appearance Appearance { get; set; } = new Appearance();
     public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
