@@ -89,6 +89,82 @@ namespace PowerUp.Tests.Mappers.Players
         SinkingFastball1Movement = 0,
         SinkingFastball2Type = 0,
         SinkingFastball2Movement = 0,
+        IsStar = false,
+        Durability = 0,
+        Morale = 0,
+        HittingConsistency = 0,
+        HittingVersusLefty1 = 0,
+        HittingVersusLefty2 = 0,
+        IsTableSetter = false,
+        IsBackToBackHitter = false,
+        IsHotHitter = false,
+        IsRallyHitter = false,
+        BasesLoadedHitter = 0,
+        WalkoffHitter = 0,
+        ClutchHitter = 0,
+        IsContactHitter = false,
+        IsPowerHitter = false,
+        SlugOrSlap = 0,
+        IsPushHitter = false,
+        IsPullHitter = false,
+        IsSprayHitter = false,
+        IsFirstballHitter = false,
+        AggressiveOrPatientHitter = 0,
+        IsRefinedHitter = false,
+        IsToughOut = false,
+        IsIntimidatingHitter = false,
+        IsSparkplug = false,
+        SmallBall = 0,
+        Bunting = 0,
+        InfieldHitter = 0,
+        BaseRunning = 0,
+        Stealing = 0,
+        IsAggressiveBaserunner = false,
+        AggressiveOrCautiousBaseStealer = 0,
+        IsToughRunner = false,
+        WillBreakupDoublePlay = false,
+        WillSlideHeadFirst = false,
+        IsGoldGlover = false,
+        CanSpiderCatch = false,
+        CanBarehandCatch = false,
+        IsAggressiveFielder = false,
+        IsPivotMan = false,
+        IsErrorProne = false,
+        IsGoodBlocker = false,
+        Catching = 0,
+        Throwing = 0,
+        HasCannonArm = false,
+        IsTrashTalker = false,
+        PitchingConsistency = 0,
+        PitchingVersusLefty = 0,
+        Poise = 0,
+        PoorVersusRunner = false,
+        WithRunnersInScoringPosition = 0,
+        IsSlowStarter = false,
+        IsStarterFinisher = false,
+        IsChokeArtist = false,
+        IsSandbag = false,
+        DoctorK = false,
+        IsWalkProne = false,
+        Luck = 0,
+        Recovery = 0,
+        IsIntimidatingPitcher = false,
+        IsBattler = false,
+        HasPokerFace = false,
+        IsHotHead = false,
+        GoodDelivery = false,
+        Release = 0,
+        HasGoodPace = false,
+        HasGoodReflexes = false,
+        GoodPickoff = false,
+        PowerOrBreakingBallPitcher = 0,
+        FastballLife = 0,
+        Spin = 0,
+        SafeOrFatPitch = 0,
+        GroundBallOrFlyBallPitcher = 0,
+        GoodLowPitch = false,
+        Gyroball = false,
+        ShuttoSpin = false
       };
     }
 
@@ -632,6 +708,613 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.SinkingFastball2Movement = 7;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.PitcherAbilities.SinkingFastball2Movement.ShouldBe(7);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsStar()
+    {
+      gsPlayer.IsStar = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.IsStar.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapDurability()
+    {
+      gsPlayer.Durability = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.Durability.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapMorale()
+    {
+      gsPlayer.Morale = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.Morale.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHittingConsistency()
+    {
+      gsPlayer.HittingConsistency = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.Consistency.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHittingVersusLefty1()
+    {
+      gsPlayer.HittingVersusLefty1 = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.VersusLefty.ShouldBe(Special1_5.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHittingVersusLefty2()
+    {
+      gsPlayer.HittingVersusLefty2 = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.VersusLefty.ShouldBe(Special1_5.Five);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapTableSetter()
+    {
+      gsPlayer.IsTableSetter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsTableSetter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBackToBackHitter()
+    {
+      gsPlayer.IsBackToBackHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsBackToBackHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotHitter()
+    {
+      gsPlayer.IsHotHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsHotHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRallyHitter()
+    {
+      gsPlayer.IsRallyHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBasesLoadedHitter()
+    {
+      gsPlayer.BasesLoadedHitter = 3;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.BasesLoadedHitter.ShouldBe(BasesLoadedHitter.HitsWellAndHomersOften);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWalkOffHitter()
+    {
+      gsPlayer.WalkoffHitter = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.WalkOffHitter.ShouldBe(WalkOffHitter.HomersOften);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapClutchHitter()
+    {
+      gsPlayer.ClutchHitter = -3;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.ClutchHitter.ShouldBe(Special1_5.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapContactHitter()
+    {
+      gsPlayer.IsContactHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsContactHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPowerHitter()
+    {
+      gsPlayer.IsPowerHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsPowerHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSlugOrSlapHitter()
+    {
+      gsPlayer.SlugOrSlap = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.SluggerOrSlapHitter.ShouldBe(SluggerOrSlapHitter.Slugger);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPushHitter()
+    {
+      gsPlayer.IsPushHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsPushHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPullHitter()
+    {
+      gsPlayer.IsPullHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsPullHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSprayHitter()
+    {
+      gsPlayer.IsSprayHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsSprayHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFirstballHitter()
+    {
+      gsPlayer.IsFirstballHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsFirstballHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveOrPatientHitter()
+    {
+      gsPlayer.AggressiveOrPatientHitter = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter.ShouldBe(AggressiveOrPatientHitter.Patient);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRefined()
+    {
+      gsPlayer.IsRefinedHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsRefinedHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapToughOut()
+    {
+      gsPlayer.IsToughOut = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsToughOut.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIntimidator()
+    {
+      gsPlayer.IsIntimidatingHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsIntimidator.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSparkplug()
+    {
+      gsPlayer.IsSparkplug = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsSparkplug.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSmallBall()
+    {
+      gsPlayer.SmallBall = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SmallBall.SmallBall.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBunting()
+    {
+      gsPlayer.Bunting = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SmallBall.Bunting.ShouldBe(BuntingAbility.BuntMaster);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapInfieldHitting()
+    {
+      gsPlayer.InfieldHitter = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SmallBall.InfieldHitting.ShouldBe(InfieldHittingAbility.GoodInfieldHitter);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBaseRunning()
+    {
+      gsPlayer.BaseRunning = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.BaseRunning.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapStealing()
+    {
+      gsPlayer.Stealing = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.Stealing.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveRunner()
+    {
+      gsPlayer.IsAggressiveBaserunner = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.IsAggressiveRunner.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveOrCautiousBaseStealer()
+    {
+      gsPlayer.AggressiveOrCautiousBaseStealer = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.AggressiveOrCautiousBaseStealer.ShouldBe(AggressiveOrCautiousBaseStealer.Aggressive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsToughRunner()
+    {
+      gsPlayer.IsToughRunner = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.IsToughRunner.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWillBreakupDoublePlay()
+    {
+      gsPlayer.WillBreakupDoublePlay = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.WillBreakupDoublePlay.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWillSlideHeadFirst()
+    {
+      gsPlayer.WillSlideHeadFirst = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.BaseRunning.WillSlideHeadFirst.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoldGlover()
+    {
+      gsPlayer.IsGoldGlover = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.IsGoldGlover.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSpiderCatch()
+    {
+      gsPlayer.CanSpiderCatch = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.CanSpiderCatch.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapBarehandCatch()
+    {
+      gsPlayer.CanBarehandCatch = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.CanBarehandCatch.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapAggressiveFielder()
+    {
+      gsPlayer.IsAggressiveFielder = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.IsAggressiveFielder.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPivotMan()
+    {
+      gsPlayer.IsPivotMan = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.IsPivotMan.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapErrorProne()
+    {
+      gsPlayer.IsErrorProne = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.IsErrorProne.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodBlocker()
+    {
+      gsPlayer.IsGoodBlocker = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.IsGoodBlocker.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCatchingAbility()
+    {
+      gsPlayer.Catching = 2;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.Catching.ShouldBe(CatchingAbility.GreatCatcher);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapThrowing()
+    {
+      gsPlayer.Throwing = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.Throwing.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapCannonArm()
+    {
+      gsPlayer.HasCannonArm = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.HasCannonArm.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapTrashTalk()
+    {
+      gsPlayer.IsTrashTalker = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.Fielding.IsTrashTalker.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPitchingConsistency()
+    {
+      gsPlayer.PitchingConsistency = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.Consistency.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapVersusLeftHanded()
+    {
+      gsPlayer.PitchingVersusLefty = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.VersusLefty.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPoise()
+    {
+      gsPlayer.Poise = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.Poise.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPoorVersusRunner()
+    {
+      gsPlayer.PoorVersusRunner = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.PoorVersusRunner.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWithRunnersInScoringPosition()
+    {
+      gsPlayer.WithRunnersInScoringPosition = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.WithRunnersInSocringPosition.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsSlowStarter()
+    {
+      gsPlayer.IsSlowStarter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsSlowStarter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapStarterFinisher()
+    {
+      gsPlayer.IsStarterFinisher = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsStarterFinisher.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapChokeArtist()
+    {
+      gsPlayer.IsChokeArtist = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsChokeArtist.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSandbag()
+    {
+      gsPlayer.IsSandbag = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsSandbag.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapDoctorK()
+    {
+      gsPlayer.DoctorK = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.DoctorK.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapWalk()
+    {
+      gsPlayer.IsWalkProne = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.IsWalkProne.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapLucky()
+    {
+      gsPlayer.Luck = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.Luck.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRecovery()
+    {
+      gsPlayer.Recovery = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.SituationalPitching.Recovery.ShouldBe(Special2_4.Two);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPitchingIntimidatorRecovery()
+    {
+      gsPlayer.IsIntimidatingPitcher = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.IsIntimidator.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsBattler()
+    {
+      gsPlayer.IsBattler = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace.ShouldBe(BattlerPokerFace.Battler);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHasPokerFace()
+    {
+      gsPlayer.HasPokerFace = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace.ShouldBe(BattlerPokerFace.PokerFace);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHotHead()
+    {
+      gsPlayer.IsHotHead = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.Demeanor.IsHotHead.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodDelivery()
+    {
+      gsPlayer.GoodDelivery = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodDelivery.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapRelease()
+    {
+      gsPlayer.Release = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.Release.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapHasGoodPace()
+    {
+      gsPlayer.HasGoodPace = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodPace.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodReflexes()
+    {
+      gsPlayer.HasGoodReflexes = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodReflexes.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodPickoff()
+    {
+      gsPlayer.GoodPickoff = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchingMechanics.GoodPickoff.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapPowerOrBreakingBallPitcher()
+    {
+      gsPlayer.PowerOrBreakingBallPitcher = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.PowerOrBreakingBallPitcher.ShouldBe(PowerOrBreakingBallPitcher.Power);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFastballLife()
+    {
+      gsPlayer.FastballLife = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.FastballLife.ShouldBe(Special2_4.Two);
+    }
+    [Test]
+    public void MapToPlayer_ShouldMapSpin()
+    {
+      gsPlayer.Spin = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.Spin.ShouldBe(Special2_4.Four);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapSafeOrFatPitch()
+    {
+      gsPlayer.SafeOrFatPitch = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.SafeOrFatPitch.ShouldBe(SpecialPositive_Negative.Negative);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGroundballOrFlytBallPitcher()
+    {
+      gsPlayer.GroundBallOrFlyBallPitcher = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.GroundBallOrFlyBallPitcher.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodLowPitch()
+    {
+      gsPlayer.GoodLowPitch = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.GoodLowPitch.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGyroball()
+    {
+      gsPlayer.Gyroball = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.Gyroball.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapShuttoSpin()
+    {
+      gsPlayer.ShuttoSpin = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ShouldBe(true);
     }
   }
 }

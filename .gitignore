@@ -8,6 +8,9 @@ SaveFileAnalysis/*.dat
 PowerUp/PowerUp.ElectronUI/wwwroot/*
 !PowerUp/PowerUp.ElectronUI/wwwroot/assets
 
+#NCrunch
+*.ncrunch*
+.*crunch*.local.xml
 
 # User-specific files
 *.rsuser

@@ -8,6 +8,7 @@ export interface SavePlayerRequest {
   positionCapabilities: PositionCapabilitiesRequest;
   hitterAbilities: HitterAbilitiesSaveRequest;
   pitcherAbilities: PitcherAbilitiesSaveRequest;
+  specialAbilities: SpecialAbilitiesRequest;
 }
 
 export interface PersonalDetailsRequest {
@@ -85,6 +86,132 @@ export interface PitcherAbilitiesSaveRequest {
   
   sinkingFastball2TypeKey: string | null;
   sinkingFastball2Movement: number | null;
+}
+
+export interface SpecialAbilitiesRequest {
+  generalSpecialAbilitiesRequest: GeneralSpecialAbilitiesRequest;
+  hitterSpecialAbilitiesRequest: HitterSpecialAbilitiesRequest;
+  pitcherSpecialAbilitiesRequest: PitcherSpecialAbilitiesRequest;
+}
+
+export interface GeneralSpecialAbilitiesRequest {
+  isStar: boolean;
+  durabilityKey: string; 
+  moraleKey: string;
+}
+
+export interface HitterSpecialAbilitiesRequest {
+  situational: SituationalHittingSpecialAbilitiesRequest;
+  approach: HittingApproachSpecialAbilitiesRequest;
+  smallBall: SmallBallSpecialAbilitiesRequest;
+  baseRunning: BaseRunningSpecialAbilitiesRequest;
+  fielding: FieldingSpecialAbilitiesRequest;
+}
+
+export interface SituationalHittingSpecialAbilitiesRequest {
+  consistencyKey: string;
+  versusLeftyKey: string;
+  isTableSetter: boolean;
+  isBackToBackHitter: boolean;
+  isHotHitter: boolean;
+  isRallyHitter: boolean;
+  isGoodPinchHitter: boolean;
+  basesLoadedHitterKey: string | null;
+  walkOffHitterKey: string | null;
+  clutchHitterKey: string;
+}
+
+export interface HittingApproachSpecialAbilitiesRequest {
+  isContactHitter: boolean;
+  isPowerHitter: boolean;
+  sluggerOrSlapHitterKey: string | null;
+  isPushHitter: boolean;
+  isPullHitter: boolean;
+  isSprayHitter: boolean;
+  isFirstballHitter: boolean;
+  aggressiveOrPatientHitterKey: string | null;
+  isRefinedHitter: boolean;
+  isToughOut: boolean;
+  isIntimidator: boolean;
+  isSparkplug: boolean;
+}
+
+export interface SmallBallSpecialAbilitiesRequest {
+  smallBallKey: string;
+  buntingKey: string | null;
+  infieldHittingKey: string | null;
+}
+
+export interface BaseRunningSpecialAbilitiesRequest {
+  baseRunningKey: string;
+  stealingKey: string;
+  isAggressiveRunner: boolean;
+  aggressiveOrCautiousBaseStealerKey: string | null;
+  isToughRunner: boolean;
+  willBreakupDoublePlay: boolean;
+  willSlideHeadFirst: boolean;
+}
+
+export interface FieldingSpecialAbilitiesRequest {
+  isGoldGlover: boolean;
+  canSpiderCatch: boolean;
+  canBarehandCatch: boolean;
+  isAggressiveFielder: boolean;
+  isPivotMan: boolean;
+  isErrorProne: boolean;
+  isGoodBlocker: boolean;
+  catchingKey: string | null;
+  throwingKey: string;
+  hasCannonArm: boolean;
+  isTrashTalker: boolean;
+}
+
+export interface PitcherSpecialAbilitiesRequest {
+  situational: SituationalPitchingSpecialAbilitiesRequest; 
+  demeanor: PitchingDemeanorSpecialAbilitiesRequest; 
+  mechanics: PitchingMechanicsSpecialAbilitiesRequest; 
+  pitchQualities: PitchQualitiesSpecialAbilitiesRequest; 
+}
+
+export interface SituationalPitchingSpecialAbilitiesRequest {
+  consistencyKey: string;
+  versusLeftyKey: string;
+  poiseKey: string;
+  poorVersusRunner: boolean;
+  withRunnersInScoringPositionKey: string;
+  isSlowStarter: boolean;
+  isStarterFinisher: boolean;
+  isChokeArtist: boolean;
+  isSandbag: boolean;
+  doctorK: boolean;
+  isWalkProne: boolean;
+  luckKey: string;
+  recoveryKey: string;
+}
+
+export interface PitchingDemeanorSpecialAbilitiesRequest {
+  isIntimidator: boolean;
+  battlerPokerFaceKey: string | null;
+  isHotHead: boolean;
+}
+
+export interface PitchingMechanicsSpecialAbilitiesRequest {
+  goodDelivery: boolean;
+  releaseKey: string;
+  goodPace: boolean;
+  goodReflexes: boolean;
+  goodPickoff: boolean;
+}
+
+export interface PitchQualitiesSpecialAbilitiesRequest {
+  powerOrBreakingBallPitcherKey: string | null;
+  fastballLifeKey: string;
+  spinKey: string;
+  safeOrFatPitchKey: string;
+  groundBallOrFlyBallPitcherKey: string;
+  goodLowPitch: boolean;
+  gyroball: boolean;
+  shuttoSpin: boolean;
 }
 
 export class SavePlayerApiClient {

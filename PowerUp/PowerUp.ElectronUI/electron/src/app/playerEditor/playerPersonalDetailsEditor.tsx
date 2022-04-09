@@ -8,11 +8,11 @@ import { toKeyedCode, toOptions, toSimpleCode } from "../../components/SelectFie
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
 import { PositionCode } from "../shared/positionCode";
-import { PlayerEditorOptions } from "./loadPlayerEditorApiClient";
+import { PersonalDetailsOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
-  options: PlayerEditorOptions;
+  options: PersonalDetailsOptions;
   initiallyHadSpecialSavedName: boolean;
   details: PlayerPersonalDetails;
   update: Dispatch<PlayerPersonalDetailsAction>;

@@ -27,6 +27,7 @@ namespace PowerUp.Entities.Players
     public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
+    public SpecialAbilities SpecialAbilities { get; set; } = new SpecialAbilities();
 
     public double GetOverallRating() => PrimaryPosition == Position.Pitcher
       ? PitcherAbilities.GetPitcherRating()

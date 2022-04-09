@@ -5,7 +5,9 @@ export const COLORS = {
     regular_18: 'hsl(180deg 1% 18%)',
     regular_25: 'hsl(180deg 1% 25%)',
     light_39: 'hsl(180deg 1% 39%)',
+    light_50: 'hsl(180deg 1% 50%)',
     lighter_71: 'hsl(180deg 1% 71%)',
+    evenLighter_80: 'hsl(180deg 1% 80%)',
     superlight_85: 'hsl(180deg 1% 85%)',
     superlight_90: 'hsl(180deg 1% 90%)'
   },
@@ -22,6 +24,7 @@ export const COLORS = {
     regular_5: 'hsl(196deg 60% 5%)'
   },
   secondaryRed: {
+    light_69: 'hsl(6deg 71% 69%)',
     regular_44: 'hsl(6deg 71% 44%)'
   },
   transparent: {
@@ -66,7 +69,7 @@ export const COLORS = {
     neutral_gray_42: 'hsl(0deg 0% 42%)',
     cold_blue_48: 'hsl(234deg 55% 48%)',
     hot_red_51: 'hsl(7deg 59% 51%)'
-  }
+  },
 }
 
 const defaultFontSize = 16;
