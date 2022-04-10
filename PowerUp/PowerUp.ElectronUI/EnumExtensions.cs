@@ -7,7 +7,7 @@ namespace PowerUp.ElectronUI
     public static KeyedCode ToKeyedCode(this Enum value, bool useAbbrev = false) => new KeyedCode(value.ToString(), useAbbrev ? value.GetAbbrev() : value.GetDisplayName());
     public static KeyedCode ToNumberedKeyedCode<TEnum>(this TEnum value, bool useAbbrev = false, bool addOne = false) where TEnum : struct, Enum
     {
-      var intValue = value as int?;
+      int intValue = (int)Enum.Parse(typeof(TEnum), value.ToString());
       var displayValue = addOne
         ? intValue + 1
         : intValue;
@@ -16,7 +16,7 @@ namespace PowerUp.ElectronUI
         ? value.GetAbbrev() 
         : value.GetDisplayName();
 
-      return new KeyedCode(value.ToString(), $"{displayValue} - {name}");
+      return new KeyedCode(value.ToString(), $"{displayValue}-{name}");
     }
 
 
