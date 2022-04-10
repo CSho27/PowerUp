@@ -10,6 +10,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     public PlayerEditorOptions Options { get; }
     public PlayerPersonalDetailsDto PersonalDetails { get; }
+    public AppearanceDetailsDto AppearanceDetails { get; }
     public PositionCapabilityDetailsDto PositionCapabilityDetails { get; }
     public HitterAbilityDetailsDto HitterAbilityDetails { get; }
     public PitcherAbilityDetailsDto PitcherAbilityDetails { get; }
@@ -25,6 +26,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     {
       Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, faceLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
+      AppearanceDetails = new AppearanceDetailsDto(faceLibrary, player.Appearance);
       PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
       HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
       PitcherAbilityDetails = new PitcherAbilityDetailsDto(player.PitcherAbilities);
@@ -78,34 +80,23 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     public IEnumerable<SimpleCode> FaceOptions { get; }
     public IEnumerable<KeyedCode> EyebrowThicknessOptions => EnumExtensions.GetKeyedCodeList<EyebrowThickness>();
-    public IEnumerable<KeyedCode> SkinColorOptions => EnumExtensions.GetKeyedCodeList<SkinColor>(c => GetNumberedKeyedCode(c, addOne: true));
-    public IEnumerable<KeyedCode> EyeColorOptions => EnumExtensions.GetKeyedCodeList<EyeColor>(c => GetNumberedKeyedCode(c, addOne: true));
-    public IEnumerable<KeyedCode> HairStyleOptions => EnumExtensions.GetKeyedCodeList<HairStyle>(c => GetNumberedKeyedCode(c));
-    public IEnumerable<KeyedCode> FacialHairStyleOptions => EnumExtensions.GetKeyedCodeList<FacialHairStyle>(c => GetNumberedKeyedCode(c));
-    public IEnumerable<KeyedCode> HairColorOptions => EnumExtensions.GetKeyedCodeList<HairColor>(c => GetNumberedKeyedCode(c, addOne: true));
-    public IEnumerable<KeyedCode> BatColorOptions => EnumExtensions.GetKeyedCodeList<BatColor>(c => GetNumberedKeyedCode(c, addOne: true));
-    public IEnumerable<KeyedCode> GloveColorOptions => EnumExtensions.GetKeyedCodeList<GloveColor>(c => GetNumberedKeyedCode(c, addOne: true));
-    public IEnumerable<KeyedCode> EyewearTypeOptions => EnumExtensions.GetKeyedCodeList<EyewearType>(c => GetNumberedKeyedCode(c));
+    public IEnumerable<KeyedCode> SkinColorOptions => EnumExtensions.GetKeyedCodeList<SkinColor>();
+    public IEnumerable<KeyedCode> EyeColorOptions => EnumExtensions.GetKeyedCodeList<EyeColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> HairStyleOptions => EnumExtensions.GetKeyedCodeList<HairStyle>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> FacialHairStyleOptions => EnumExtensions.GetKeyedCodeList<FacialHairStyle>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> HairColorOptions => EnumExtensions.GetKeyedCodeList<HairColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> BatColorOptions => EnumExtensions.GetKeyedCodeList<BatColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> GloveColorOptions => EnumExtensions.GetKeyedCodeList<GloveColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> EyewearTypeOptions => EnumExtensions.GetKeyedCodeList<EyewearType>(c => c.ToNumberedKeyedCode());
     public IEnumerable<KeyedCode> EyewearFrameColorOptions => EnumExtensions.GetKeyedCodeList<EyewearFrameColor>();
     public IEnumerable<KeyedCode> EyewearLensColorOptions => EnumExtensions.GetKeyedCodeList<EyewearLensColor>();
-    public IEnumerable<KeyedCode> EarringSideOptions => EnumExtensions.GetKeyedCodeList<EarringSide>(c => GetNumberedKeyedCode(c));
-    public IEnumerable<KeyedCode> AccessoryColorOptions => EnumExtensions.GetKeyedCodeList<AccessoryColor>(c => GetNumberedKeyedCode(c, addOne: true));
+    public IEnumerable<KeyedCode> EarringSideOptions => EnumExtensions.GetKeyedCodeList<EarringSide>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> AccessoryColorOptions => EnumExtensions.GetKeyedCodeList<AccessoryColor>(c => c.ToNumberedKeyedCode(addOne: true));
 
     public PlayerAppearanceOptions(IFaceLibrary faceLibrary)
     {
       FaceOptions = faceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
     }
-
-    private static KeyedCode GetNumberedKeyedCode<TEnum>(TEnum value, bool? addOne = null) where TEnum : struct, Enum
-    {
-      var intValue = value as int?;
-      var displayValue = addOne == true
-        ? intValue + 1
-        : intValue;
-
-      return new KeyedCode(value.ToString(), $"{displayValue} - {value.GetDisplayName()}");
-    }
-
   }
 
   public class PitcherAbilitiesOptions
@@ -176,6 +167,48 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       BattingStance = new SimpleCode(id: player.BattingStanceId, name: battingStanceLibrary[player.BattingStanceId]);
       ThrowingArm = player.ThrowingArm.ToKeyedCode();
       PitchingMechanics = new SimpleCode(id: player.PitchingMechanicsId, name: pitchingMechanicsLibrary[player.PitchingMechanicsId]);
+    }
+  }
+
+  public class AppearanceDetailsDto
+  {
+    public SimpleCode Face { get; set; }
+    public KeyedCode? Eyebrows { get; set; }
+    public KeyedCode? SkinColor { get; set; }
+    public KeyedCode? EyeColor { get; set; }
+    public KeyedCode? HairStyle { get; set; }
+    public KeyedCode? HairColor { get; set; }
+    public KeyedCode? FacialHairStyle { get; set; }
+    public KeyedCode? FacialHairColor { get; set; }
+    public KeyedCode BatColor { get; set; }
+    public KeyedCode GloveColor { get; set; }
+    public KeyedCode? EyewearType { get; set; }
+    public KeyedCode? EyewearFrameColor { get; set; }
+    public KeyedCode? EyewearLensColor { get; set; }
+    public KeyedCode? EarringSide { get; set; }
+    public KeyedCode? EarringColor { get; set; }
+    public KeyedCode? RightWristbandColor { get; set; }
+    public KeyedCode? LeftWristbandColor { get; set; }
+
+    public AppearanceDetailsDto(IFaceLibrary faceLibrary, Appearance appearance)
+    {
+      Face = new SimpleCode(id: appearance.FaceId, name: faceLibrary[appearance.FaceId]);
+      Eyebrows = appearance.EyebrowThickness?.ToKeyedCode();
+      SkinColor = appearance.SkinColor?.ToKeyedCode();
+      EyeColor = appearance.EyeColor?.ToNumberedKeyedCode(addOne: true);
+      HairStyle = appearance.HairStyle?.ToNumberedKeyedCode();
+      HairColor = appearance.HairColor?.ToNumberedKeyedCode(addOne: true);
+      FacialHairStyle = appearance.FacialHairStyle?.ToNumberedKeyedCode();
+      FacialHairColor = appearance.FacialHairColor?.ToNumberedKeyedCode(addOne: true);
+      BatColor = appearance.BatColor.ToKeyedCode();
+      GloveColor = appearance.GloveColor.ToKeyedCode();
+      EyewearType = appearance.EyewearType?.ToNumberedKeyedCode();
+      EyewearFrameColor = appearance.EyewearFrameColor?.ToKeyedCode();
+      EyewearLensColor = appearance.EyewearLensColor?.ToKeyedCode();
+      EarringSide = appearance.EarringSide?.ToNumberedKeyedCode();
+      EarringColor = appearance.EarringColor?.ToNumberedKeyedCode(addOne: true);
+      RightWristbandColor = appearance.RightWristbandColor?.ToNumberedKeyedCode(addOne: true);
+      LeftWristbandColor = appearance.LeftWristbandColor?.ToNumberedKeyedCode(addOne: true);
     }
   }
 
