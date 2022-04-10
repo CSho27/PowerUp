@@ -184,7 +184,7 @@ namespace PowerUp.Entities.Players.Api
       if (parameters.FacialHairStyle.HasValue)
         ThrowIfNull(parameters.FacialHairColor);
 
-      if (parameters.EyewearType.HasValue)
+      if (parameters.EyewearType.HasValue && parameters.EyewearType != EyewearType.EyeBlack)
       {
         ThrowIfNull(parameters.EyewearFrameColor);
         ThrowIfNull(parameters.EyewearLensColor);

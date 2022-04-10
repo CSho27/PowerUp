@@ -974,10 +974,10 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorState, player
       batColorKey: appearance.batColor.key,
       gloveColorKey: appearance.gloveColor.key,
       eyewearTypeKey: appearance.eyewearType?.key ?? null,
-      eyewearFrameColorKey: !!appearance.eyewearType    
+      eyewearFrameColorKey: !!appearance.eyewearType && appearance.eyewearType.key != 'EyeBlack'   
         ? appearance.eyewearFrameColor.key
         : null,
-      eyewearLensColorKey: !!appearance.eyewearType
+      eyewearLensColorKey: !!appearance.eyewearType && appearance.eyewearType.key != 'EyeBlack'
         ? appearance.eyewearLensColor.key
         : null,
       earringSideKey: appearance.earringSide?.key ?? null,

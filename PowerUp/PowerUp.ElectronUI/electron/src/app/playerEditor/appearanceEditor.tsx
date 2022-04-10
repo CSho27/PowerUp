@@ -128,7 +128,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
             onChange={eyewear => update({ type: 'updateEyewearType', eyewearType: tryFromOptions(options.eyewearTypeOptions, eyewear) })}
           >{toOptions(options.eyewearTypeOptions, true)}</SelectField> 
         </FlexFracItem> 
-        {!!details.eyewearType &&
+        {!!details.eyewearType && details.eyewearType.key != 'EyeBlack' &&
         <FlexFracItem frac='1/3'>
           <FieldLabel htmlFor='eyewearFrameColor'>Frame</FieldLabel>
           <SelectField 
@@ -137,7 +137,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
             onChange={color => update({ type: 'updateEyewearFrameColor', frameColor: fromOptions(options.eyewearFrameColorOptions, color) })}
           >{toOptions(options.eyewearFrameColorOptions)}</SelectField> 
         </FlexFracItem>}
-        {!!details.eyewearType && 
+        {!!details.eyewearType && details.eyewearType.key != 'EyeBlack' && 
         <FlexFracItem frac='1/3'>
           <FieldLabel htmlFor='eyewearLensColor'>Lens</FieldLabel>
           <SelectField 

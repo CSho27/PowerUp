@@ -75,10 +75,10 @@
       appearance.BatColor = parameters.BatColor;
       appearance.GloveColor = parameters.GloveColor;
       appearance.EyewearType = parameters.EyewearType;
-      appearance.EyewearFrameColor = parameters.EyewearType.HasValue
+      appearance.EyewearFrameColor = parameters.EyewearType.HasValue && parameters.EyewearType != EyewearType.EyeBlack
         ? parameters.EyewearFrameColor
         : null;
-      appearance.EyewearLensColor = parameters.EyewearType.HasValue
+      appearance.EyewearLensColor = parameters.EyewearType.HasValue && parameters.EyewearType != EyewearType.EyeBlack
         ? parameters.EyewearLensColor
         : null;
       appearance.EarringSide = parameters.EarringSide;
