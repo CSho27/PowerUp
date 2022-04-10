@@ -34,6 +34,23 @@ export interface PersonalDetailsOptions {
   pitchingMechanicsOptions: SimpleCode[];
 }
 
+export interface AppearanceOptions {
+  faceOptions: SimpleCode[];
+  eyebrowThicknessOptions: KeyedCode[];
+  skinColorOptions: KeyedCode[];
+  eyeColorOptions: KeyedCode[];
+  hairStyleOptions: KeyedCode[];
+  facialHairStyleOptions: KeyedCode[];
+  hairColorOptions: KeyedCode[];
+  batColorOptions: KeyedCode[];
+  gloveColorOptions: KeyedCode[];
+  eyewearTypeOptions: KeyedCode[];
+  eyewearFrameColorOptions: KeyedCode[];
+  eyewearLensColorOptions: KeyedCode[];
+  earringSideOptions: KeyedCode[];
+  accessoryColorOptions: KeyedCode[];
+}
+
 export interface PitcherAbilitiesOptions {
   twoSeamOptions: KeyedCode[];
   sliderOptions: KeyedCode[];
@@ -72,6 +89,26 @@ export interface PlayerPersonalDetailsDto {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+}
+
+export interface PlayerAppearanceDetailsDto {
+  face: SimpleCode;
+  eyebrows: KeyedCode | null;
+  skinColor: KeyedCode | null;
+  eyeColor: KeyedCode | null;
+  hairStyle: KeyedCode | null;
+  hairColor: KeyedCode | null;
+  facialHairStyle: KeyedCode | null;
+  facialHairColor: KeyedCode | null;
+  batColor: KeyedCode;
+  gloveColor: KeyedCode;
+  eyewearType: KeyedCode  | null;
+  eyewearFrameColor: KeyedCode | null;
+  eyewearLensColor: KeyedCode | null;
+  earringSide: KeyedCode | null;
+  earringColor: KeyedCode | null;
+  rightWristbandColor: KeyedCode | null;
+  leftWristbandColor: KeyedCode | null;
 }
 
 export interface PositionCapabilityDetailsDto {
