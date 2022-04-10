@@ -175,7 +175,7 @@
     Red 
   }
 
-  public enum EyewearStyle
+  public enum EyewearType
   {
     [DisplayName("Eye Black")]
     EyeBlack = 1,
@@ -248,13 +248,13 @@
     public EyebrowThickness? EyebrowThickness { get; set; }
     public SkinColor? SkinColor { get; set; }
     public EyeColor? EyeColor { get; set; }
-    public int HairStyleId { get; set; }
-    public int HairColorId { get; set; }
-    public int FacialHairStyleId { get; set; }
-    public int FacialHairColorId { get; set; }
+    public HairStyle? HairStyle { get; set; }
+    public HairColor? HairColor { get; set; }
+    public FacialHairStyle? FacialHairStyle { get; set; }
+    public HairColor? FacialHairColor { get; set; }
     public BatColor BatColor { get; set; }
     public GloveColor GloveColor { get; set; }
-    public int? EyewearId { get; set; }
+    public EyewearType? EyewearType { get; set; }
     public EyewearFrameColor? EyewearFrameColor { get; set; }
     public EyewearLensColor? EyewearLensColor { get; set; }
     public EarringSide? EarringSide { get; set;}

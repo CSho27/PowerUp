@@ -369,6 +369,128 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    [TestCase((ushort) 0, null)]
+    [TestCase((ushort) 3, HairStyle.FlatShort)]
+    public void MapToPlayer_ShouldMapHairStyle(ushort gsValue, HairStyle? expectedValue)
+    {
+      gsPlayer.Hair = gsValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.HairStyle.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort) 2, null)]
+    [TestCase((ushort)3, (ushort) 2, HairColor.DarkBlonde)]
+    public void MapToPlayer_ShouldMapHairColor(ushort gsHairValue, ushort gsHairColorValue, HairColor? expectedValue)
+    {
+      gsPlayer.Hair = gsHairValue;
+      gsPlayer.HairColor = gsHairColorValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.HairColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, null)]
+    [TestCase((ushort)3, FacialHairStyle.FuManchu)]
+    public void MapToPlayer_ShouldMapFacialHairStyle(ushort gsValue, FacialHairStyle? expectedValue)
+    {
+      gsPlayer.FacialHair = gsValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.FacialHairStyle.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort)2, null)]
+    [TestCase((ushort)3, (ushort)2, HairColor.DarkBlonde)]
+    public void MapToPlayer_ShouldMapFacialHairColor(ushort gsHairValue, ushort gsHairColorValue, HairColor? expectedValue)
+    {
+      gsPlayer.FacialHair = gsHairValue;
+      gsPlayer.FacialHairColor = gsHairColorValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.FacialHairColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, null)]
+    [TestCase((ushort)3, EyewearType.RectangleRecSpecs)]
+    public void MapToPlayer_ShouldMapEyewearType(ushort gsValue, EyewearType? expectedValue)
+    {
+      gsPlayer.EyewearType = gsValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EyewearType.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort)2, null)]
+    [TestCase((ushort)1, (ushort)2, null)]
+    [TestCase((ushort)3, (ushort)2, EyewearFrameColor.Black)]
+    [TestCase((ushort)3, (ushort)5, EyewearFrameColor.Gray)]
+    [TestCase((ushort)3, (ushort)7, EyewearFrameColor.Red)]
+    public void MapToPlayer_ShouldMapEyewearFrameColor(ushort gsEyewearValue, ushort gsEyewearColorValue, EyewearFrameColor? expectedValue)
+    {
+      gsPlayer.EyewearType = gsEyewearValue;
+      gsPlayer.EyewearColor = gsEyewearColorValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EyewearFrameColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort)2, null)]
+    [TestCase((ushort)1, (ushort)2, null)]
+    [TestCase((ushort)3, (ushort)2, EyewearLensColor.Black)]
+    [TestCase((ushort)3, (ushort)3, EyewearLensColor.Clear)]
+    [TestCase((ushort)3, (ushort)7, EyewearLensColor.Orange)]
+    public void MapToPlayer_ShouldMapEyewearLensColor(ushort gsEyewearValue, ushort gsEyewearColorValue, EyewearLensColor? expectedValue)
+    {
+      gsPlayer.EyewearType = gsEyewearValue;
+      gsPlayer.EyewearColor = gsEyewearColorValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EyewearLensColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, null)]
+    [TestCase((ushort)3, EarringSide.Both)]
+    public void MapToPlayer_ShouldMapEarringSide(ushort gsValue, EarringSide? expectedValue)
+    {
+      gsPlayer.EarringSide = gsValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EarringSide.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, (ushort)2, null)]
+    [TestCase((ushort)3, (ushort)2, AccessoryColor.Red)]
+    public void MapToPlayer_ShouldMapEarringColor(ushort gsSideValue, ushort gsColorValue, AccessoryColor? expectedValue)
+    {
+      gsPlayer.EarringSide = gsSideValue;
+      gsPlayer.EarringColor = gsColorValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.EarringColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, null)]
+    [TestCase((ushort)3, AccessoryColor.Red)]
+    public void MapToPlayer_ShouldMapRightWristband(ushort gsValue, AccessoryColor? expectedValue)
+    {
+      gsPlayer.RightWristband = gsValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.RightWristbandColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase((ushort)0, null)]
+    [TestCase((ushort)1, AccessoryColor.Black)]
+    public void MapToPlayer_ShouldMapLeftWristband(ushort gsValue, AccessoryColor? expectedValue)
+    {
+      gsPlayer.LeftWristband = gsValue;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Appearance.LeftWristbandColor.ShouldBe(expectedValue);
+    }
+
+
+    [Test]
     public void MapToPlayer_ShouldMapBatColor()
     {
       gsPlayer.Bat = 3;
