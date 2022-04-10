@@ -4,7 +4,7 @@ import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { GradeLetter } from "../../components/gradeLetter/gradeLetter";
 import { NumberField } from "../../components/numberField/numberField";
 import { SelectField } from "../../components/SelectField/selectField";
-import { toOptions, tryToKeyedCode } from "../../components/SelectField/selectFieldHelpers";
+import { toOptions, tryFromOptions } from "../../components/SelectField/selectFieldHelpers";
 import { KeyedCode } from "../shared/keyedCode";
 import { PitcherAbilitiesOptions } from "./loadPlayerEditorApiClient";
 import { getGradeForControl, getGradeForStamina, PitcherAbilities, PitcherAbilitiesAction } from "./playerEditorState";
@@ -242,7 +242,7 @@ function PitchTypeRow(props: PitchTypeRowProps) {
       <SelectField 
         id={typeId}
         value={typeValue?.key}
-        onChange={type => onTypeChange(tryToKeyedCode(typeOptions, type))}
+        onChange={type => onTypeChange(tryFromOptions(typeOptions, type))}
       >{toOptions(typeOptions, true)}</SelectField>
     </FlexFracItem>
     <FlexFracItem frac='1/24' />

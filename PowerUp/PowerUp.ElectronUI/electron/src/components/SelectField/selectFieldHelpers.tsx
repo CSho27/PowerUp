@@ -27,30 +27,6 @@ export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?:
     : options;
 }
 
-export function toKeyedCode<TKeyedCode extends KeyedCode>(options: TKeyedCode[], value: string): TKeyedCode {
-  const keyedCode = tryToKeyedCode(options, value);
-  if(!keyedCode)
-    throw `'${value}' not found in options`;
-  
-  return keyedCode;
-}
-
-export function tryToKeyedCode<TKeyedCode extends KeyedCode>(options: TKeyedCode[], value: string): TKeyedCode | undefined {
-  return options.find(o => o.key === value);
-}
-
-export function toSimpleCode<TSimpleCode extends SimpleCode>(options: TSimpleCode[], value: string): TSimpleCode {
-  const simpleCode = tryToSimpleCode(options, value);
-  if(!simpleCode)
-    throw `'${value}' not found in options`;
-  
-  return simpleCode;
-}
-
-export function tryToSimpleCode<TSimpleCode extends SimpleCode>(options: TSimpleCode[], value: string): TSimpleCode | undefined {
-  return options.find(o => o.id.toString() === value);
-}
-
 export function fromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode {
   const code = tryFromOptions(options, value);
   if(!code)

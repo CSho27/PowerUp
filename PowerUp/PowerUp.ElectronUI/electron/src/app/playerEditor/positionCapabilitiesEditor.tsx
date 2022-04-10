@@ -3,7 +3,7 @@ import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { Grade, GradeLetter } from "../../components/gradeLetter/gradeLetter";
 import { SelectField } from "../../components/SelectField/selectField";
-import { toKeyedCode, toOptions } from "../../components/SelectField/selectFieldHelpers";
+import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { KeyedCode } from "../shared/keyedCode";
 import { Position, PositionCode } from "../shared/positionCode";
 import { PositionCapabilityDetails, PositionCapabilityDetailsAction } from "./playerEditorState";
@@ -93,7 +93,7 @@ export function PositionCapabilitiesEditor(props: PositionCapabilitiesEditorProp
         id={id}
         value={grade}
         disabled={primaryPosition.key === position}
-        onChange={grade => update(toKeyedCode(options, grade))}
+        onChange={grade => update(fromOptions(options, grade))}
       >
         {toOptions(options)}
       </SelectField>
