@@ -1,4 +1,4 @@
-import { ChangeEvent, DetailedHTMLProps, ReactElement, ReactNode, useRef, useState } from "react";
+import { ChangeEvent, DetailedHTMLProps, ReactElement } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../style/constants";
 import { Icon } from "../icon/icon";
@@ -17,11 +17,13 @@ export function SelectField(props: SelectFieldProps) {
   const { value, disabled, id, onChange, children } = props;
 
   const hasValue = value != null && value != undefined;
-  const displayedValue = hasValue && getDisplayedValue(value?.toString(), children);
+  const displayedValue = hasValue
+    ? getDisplayedValue(value?.toString(), children)
+    : '.';
 
   return <ContentWrapper disabled={!!disabled}>
-    <SelectedContent isEmpty={!displayedValue}>
-      {displayedValue ?? '.'}
+    <SelectedContent isEmpty={!hasValue}>
+      {displayedValue}
     </SelectedContent>
     <Icon icon='chevron-down'/>
     <Selector id={id} disabled={!!disabled} value={value ?? ''} onChange={handleChange}>
