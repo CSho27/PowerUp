@@ -19,10 +19,11 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
       IPitchingMechanicsLibrary pitchingMechanicsLibrary,
+      IFaceLibrary faceLibrary,
       Player player
     )
     {
-      Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
+      Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, faceLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
       PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
       HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
@@ -33,18 +34,21 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PlayerEditorOptions
   {
-    public PlayerPersonalDetailsOptions PersonalDetailsOptions { get; set; }
+    public PlayerPersonalDetailsOptions PersonalDetailsOptions { get; }
     public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
+    public PlayerAppearanceOptions AppearanceOptions { get; }
     public PitcherAbilitiesOptions PitcherAbilitiesOptions => new PitcherAbilitiesOptions();
     public SpecialAbilitiesOptions SpecialAbilitiesOptions => new SpecialAbilitiesOptions();
 
     public PlayerEditorOptions(
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
-      IPitchingMechanicsLibrary pitchingMechanicsLibrary
+      IPitchingMechanicsLibrary pitchingMechanicsLibrary,
+      IFaceLibrary faceLibrary
     )
     {
       PersonalDetailsOptions = new PlayerPersonalDetailsOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
+      AppearanceOptions = new PlayerAppearanceOptions(faceLibrary);
     }
   }
 
@@ -68,6 +72,40 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       BattingStanceOptions = battingStanceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
       PitchingMechanicsOptions = pitchingMechanicsLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
     }
+  }
+
+  public class PlayerAppearanceOptions
+  {
+    public IEnumerable<SimpleCode> FaceOptions { get; }
+    public IEnumerable<KeyedCode> EyebrowThicknessOptions => EnumExtensions.GetKeyedCodeList<EyebrowThickness>();
+    public IEnumerable<KeyedCode> SkinColorOptions => EnumExtensions.GetKeyedCodeList<SkinColor>(c => GetNumberedKeyedCode(c, addOne: true));
+    public IEnumerable<KeyedCode> EyeColorOptions => EnumExtensions.GetKeyedCodeList<EyeColor>(c => GetNumberedKeyedCode(c, addOne: true));
+    public IEnumerable<KeyedCode> HairStyleOptions => EnumExtensions.GetKeyedCodeList<HairStyle>(c => GetNumberedKeyedCode(c));
+    public IEnumerable<KeyedCode> FacialHairStyleOptions => EnumExtensions.GetKeyedCodeList<FacialHairStyle>(c => GetNumberedKeyedCode(c));
+    public IEnumerable<KeyedCode> HairColorOptions => EnumExtensions.GetKeyedCodeList<HairColor>(c => GetNumberedKeyedCode(c, addOne: true));
+    public IEnumerable<KeyedCode> BatColorOptions => EnumExtensions.GetKeyedCodeList<BatColor>(c => GetNumberedKeyedCode(c, addOne: true));
+    public IEnumerable<KeyedCode> GloveColorOptions => EnumExtensions.GetKeyedCodeList<GloveColor>(c => GetNumberedKeyedCode(c, addOne: true));
+    public IEnumerable<KeyedCode> EyewearTypeOptions => EnumExtensions.GetKeyedCodeList<EyewearType>(c => GetNumberedKeyedCode(c));
+    public IEnumerable<KeyedCode> EyewearFrameColorOptions => EnumExtensions.GetKeyedCodeList<EyewearFrameColor>();
+    public IEnumerable<KeyedCode> EyewearLensColorOptions => EnumExtensions.GetKeyedCodeList<EyewearLensColor>();
+    public IEnumerable<KeyedCode> EarringSideOptions => EnumExtensions.GetKeyedCodeList<EarringSide>(c => GetNumberedKeyedCode(c));
+    public IEnumerable<KeyedCode> AccessoryColorOptions => EnumExtensions.GetKeyedCodeList<AccessoryColor>(c => GetNumberedKeyedCode(c, addOne: true));
+
+    public PlayerAppearanceOptions(IFaceLibrary faceLibrary)
+    {
+      FaceOptions = faceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
+    }
+
+    private static KeyedCode GetNumberedKeyedCode<TEnum>(TEnum value, bool? addOne = null) where TEnum : struct, Enum
+    {
+      var intValue = value as int?;
+      var displayValue = addOne == true
+        ? intValue + 1
+        : intValue;
+
+      return new KeyedCode(value.ToString(), $"{displayValue} - {value.GetDisplayName()}");
+    }
+
   }
 
   public class PitcherAbilitiesOptions
