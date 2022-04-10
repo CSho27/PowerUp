@@ -27,7 +27,7 @@ export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?:
     : options;
 }
 
-export function toKeyedCode(options: KeyedCode[], value: string): KeyedCode {
+export function toKeyedCode<TKeyedCode extends KeyedCode>(options: TKeyedCode[], value: string): TKeyedCode {
   const keyedCode = tryToKeyedCode(options, value);
   if(!keyedCode)
     throw `'${value}' not found in options`;
@@ -35,11 +35,11 @@ export function toKeyedCode(options: KeyedCode[], value: string): KeyedCode {
   return keyedCode;
 }
 
-export function tryToKeyedCode(options: KeyedCode[], value: string): KeyedCode | undefined {
+export function tryToKeyedCode<TKeyedCode extends KeyedCode>(options: TKeyedCode[], value: string): TKeyedCode | undefined {
   return options.find(o => o.key === value);
 }
 
-export function toSimpleCode(options: SimpleCode[], value: string): SimpleCode {
+export function toSimpleCode<TSimpleCode extends SimpleCode>(options: TSimpleCode[], value: string): TSimpleCode {
   const simpleCode = tryToSimpleCode(options, value);
   if(!simpleCode)
     throw `'${value}' not found in options`;
@@ -47,6 +47,24 @@ export function toSimpleCode(options: SimpleCode[], value: string): SimpleCode {
   return simpleCode;
 }
 
-export function tryToSimpleCode(options: SimpleCode[], value: string): SimpleCode | undefined {
+export function tryToSimpleCode<TSimpleCode extends SimpleCode>(options: TSimpleCode[], value: string): TSimpleCode | undefined {
   return options.find(o => o.id.toString() === value);
+}
+
+export function fromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode {
+  const code = tryFromOptions(options, value);
+  if(!code)
+    throw `'${value}' not found in options`;
+
+  return code;
+}
+
+export function tryFromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode | undefined {
+  if(options.length === 0)
+    return undefined;
+  
+  if(options.every(isKeyedCode))
+    return options.find(o => (o as KeyedCode).key === value);
+  if(options.every(isSimpleCode))
+    return options.find(o => (o as SimpleCode).id.toString() === value);
 }
