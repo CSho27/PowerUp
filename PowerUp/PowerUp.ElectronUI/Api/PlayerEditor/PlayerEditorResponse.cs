@@ -109,16 +109,9 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       : base(id, name)
     {
       var faceType = FaceTypeHelpers.GetFaceType(id);
-
-      CanChooseSkin = faceType == FaceType.Anime
-        || faceType == FaceType.Standard
-        || faceType == FaceType.StandardWithoutEyeColor;
-
-      CanChooseEyebrows = faceType == FaceType.Standard
-        || faceType == FaceType.StandardWithoutEyeColor;
-
-      CanChooseEyes = faceType == FaceType.Anime
-        || faceType == FaceType.Standard;
+      CanChooseSkin = FaceTypeHelpers.CanChooseSkinColor(faceType);
+      CanChooseEyebrows = FaceTypeHelpers.CanChooseEyebrows(faceType);
+      CanChooseEyes = FaceTypeHelpers.CanChooseEyes(faceType);
     }
   }
 

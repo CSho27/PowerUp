@@ -24,5 +24,18 @@
       else
         return FaceType.Other;
     }
+
+    public static bool CanChooseSkinColor(FaceType faceType)
+      => faceType == FaceType.Anime
+        || faceType == FaceType.Standard
+        || faceType == FaceType.StandardWithoutEyeColor;
+
+    public static bool CanChooseEyebrows(FaceType faceType)
+      => faceType == FaceType.Standard
+        || faceType == FaceType.StandardWithoutEyeColor;
+
+    public static bool CanChooseEyes(FaceType faceType)
+      => faceType == FaceType.Anime
+        || faceType == FaceType.Standard;
   }
 }

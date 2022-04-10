@@ -5,6 +5,7 @@ namespace PowerUp.Entities.Players.Api
   public class PlayerParameters
   {
     public PlayerPersonalDetailsParameters? PersonalDetails { get; set; }
+    public PlayerAppearanceParameters? Appearance { get; set; }
     public PlayerPositionCapabilitiesParameters? PositionCapabilities { get; set; }
     public PlayerHitterAbilityParameters? HitterAbilities { get; set; }
     public PlayerPitcherAbilitiesParameters? PitcherAbilities { get; set; }
@@ -25,6 +26,27 @@ namespace PowerUp.Entities.Players.Api
     public int? BattingStanceId { get; set; }
     public ThrowingArm ThrowingArm { get; set; }
     public int? PitchingMechanicsId { get; set; }
+  }
+
+  public class PlayerAppearanceParameters
+  {
+    public int FaceId { get; set; }
+    public EyebrowThickness? EyebrowThickness { get; set; }
+    public SkinColor? SkinColor { get; set; }
+    public EyeColor? EyeColor { get; set; }
+    public HairStyle? HairStyle { get; set; }
+    public HairColor? HairColor { get; set; }
+    public FacialHairStyle? FacialHairStyle { get; set; }
+    public HairColor? FacialHairColor { get; set; }
+    public BatColor BatColor { get; set; }
+    public GloveColor GloveColor { get; set; }
+    public EyewearType? EyewearType { get; set; }
+    public EyewearFrameColor? EyewearFrameColor { get; set; }
+    public EyewearLensColor? EyewearLensColor { get; set; }
+    public EarringSide? EarringSide { get; set; }
+    public AccessoryColor? EarringColor { get; set; }
+    public AccessoryColor? RightWristbandColor { get; set; }
+    public AccessoryColor? LeftWristbandColor { get; set; }
   }
 
   public class PlayerPositionCapabilitiesParameters
@@ -110,6 +132,7 @@ namespace PowerUp.Entities.Players.Api
     public override void Validate(PlayerParameters parameters)
     {
       new PlayerPersonalDetailsParametersValidator().Validate(parameters.PersonalDetails!);
+      new PlayerAppearanceParametersValidator().Validate(parameters.Appearance!);
       new PlayerHitterAbilityParametersValidator().Validate(parameters.HitterAbilities!);
       new PlayerPitcherAbilityParametersValidator().Validate(parameters.PitcherAbilities!);
     }
@@ -137,6 +160,38 @@ namespace PowerUp.Entities.Players.Api
       ThrowIfNull(parameters.VoiceId);
       ThrowIfNull(parameters.BattingStanceId);
       ThrowIfNull(parameters.PitchingMechanicsId);
+    }
+  }
+
+  public class PlayerAppearanceParametersValidator : Validator<PlayerAppearanceParameters>
+  {
+    public override void Validate(PlayerAppearanceParameters parameters)
+    {
+      var faceType = FaceTypeHelpers.GetFaceType(parameters.FaceId);
+
+      if (FaceTypeHelpers.CanChooseEyebrows(faceType))
+        ThrowIfNull(parameters.EyebrowThickness);
+      
+      if (FaceTypeHelpers.CanChooseSkinColor(faceType))
+        ThrowIfNull(parameters.SkinColor);
+
+      if (FaceTypeHelpers.CanChooseEyes(faceType))
+        ThrowIfNull(parameters.EyeColor);
+
+      if(parameters.HairStyle.HasValue)
+        ThrowIfNull(parameters.HairColor);
+
+      if (parameters.FacialHairStyle.HasValue)
+        ThrowIfNull(parameters.FacialHairColor);
+
+      if (parameters.EyewearType.HasValue)
+      {
+        ThrowIfNull(parameters.EyewearFrameColor);
+        ThrowIfNull(parameters.EyewearLensColor);
+      }
+
+      if (parameters.EarringSide.HasValue)
+        ThrowIfNull(parameters.EarringColor);
     }
   }
 

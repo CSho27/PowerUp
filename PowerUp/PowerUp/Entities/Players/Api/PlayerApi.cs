@@ -12,6 +12,7 @@
       new PlayerParametersValidator().Validate(parameters);
 
       UpdatePersonalDetails(player, parameters.PersonalDetails!);
+      UpdateAppearance(player.Appearance, parameters.Appearance!);
       UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
       UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
       UpdatePitcherAbilities(player.PitcherAbilities, parameters.PitcherAbilities!);
@@ -47,6 +48,45 @@
       positionCapabitlies.LeftField = parameters.LeftField;
       positionCapabitlies.CenterField = parameters.CenterField;
       positionCapabitlies.RightField = parameters.RightField;
+    }
+
+    private void UpdateAppearance(Appearance appearance, PlayerAppearanceParameters parameters)
+    {
+      var faceType = FaceTypeHelpers.GetFaceType(parameters.FaceId);
+
+      appearance.FaceId = parameters.FaceId;
+      appearance.EyebrowThickness = FaceTypeHelpers.CanChooseEyebrows(faceType)
+        ? parameters.EyebrowThickness
+        : null;
+      appearance.SkinColor = FaceTypeHelpers.CanChooseSkinColor(faceType)
+        ? parameters.SkinColor
+        : null;
+      appearance.EyeColor = FaceTypeHelpers.CanChooseEyes(faceType)
+        ? parameters.EyeColor
+        : null;
+      appearance.HairStyle = parameters.HairStyle;
+      appearance.HairColor = parameters.HairStyle.HasValue
+        ? parameters.HairColor
+        : null;
+      appearance.FacialHairStyle = parameters.FacialHairStyle;
+      appearance.FacialHairColor = parameters.FacialHairStyle.HasValue
+        ? parameters.FacialHairColor
+        : null;
+      appearance.BatColor = parameters.BatColor;
+      appearance.GloveColor = parameters.GloveColor;
+      appearance.EyewearType = parameters.EyewearType;
+      appearance.EyewearFrameColor = parameters.EyewearType.HasValue
+        ? parameters.EyewearFrameColor
+        : null;
+      appearance.EyewearLensColor = parameters.EyewearType.HasValue
+        ? parameters.EyewearLensColor
+        : null;
+      appearance.EarringSide = parameters.EarringSide;
+      appearance.EarringColor = parameters.EarringSide.HasValue
+        ? parameters.EarringColor
+        : null;
+      appearance.RightWristbandColor = parameters.RightWristbandColor;
+      appearance.LeftWristbandColor= parameters.LeftWristbandColor;
     }
 
     private void UpdateHitterAbilities(HitterAbilities hitterAbilities, PlayerHitterAbilityParameters parameters)
