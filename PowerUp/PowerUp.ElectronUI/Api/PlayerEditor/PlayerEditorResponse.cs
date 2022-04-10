@@ -188,7 +188,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class AppearanceDetailsDto
   {
-    public SimpleCode Face { get; set; }
+    public FaceCode Face { get; set; }
     public KeyedCode? Eyebrows { get; set; }
     public KeyedCode? SkinColor { get; set; }
     public KeyedCode? EyeColor { get; set; }
@@ -208,7 +208,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public AppearanceDetailsDto(IFaceLibrary faceLibrary, Appearance appearance)
     {
-      Face = new SimpleCode(id: appearance.FaceId, name: faceLibrary[appearance.FaceId]);
+      Face = new FaceCode(id: appearance.FaceId, name: faceLibrary[appearance.FaceId]);
       Eyebrows = appearance.EyebrowThickness?.ToKeyedCode();
       SkinColor = appearance.SkinColor?.ToKeyedCode();
       EyeColor = appearance.EyeColor?.ToNumberedKeyedCode(addOne: true);

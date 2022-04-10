@@ -5,6 +5,7 @@ import { HotZoneGridDto } from "./hotZoneGridDto";
 export interface SavePlayerRequest {
   playerId: number;
   personalDetails: PersonalDetailsRequest;
+  appearance: AppearanceRequest;
   positionCapabilities: PositionCapabilitiesRequest;
   hitterAbilities: HitterAbilitiesSaveRequest;
   pitcherAbilities: PitcherAbilitiesSaveRequest;
@@ -24,6 +25,26 @@ export interface PersonalDetailsRequest {
   battingStanceId: number;
   throwingArmKey: string;
   pitchingMechanicsId: number;
+}
+
+export interface AppearanceRequest {
+  faceId: number;
+  eyebrowThicknessKey: string | null;
+  skinColorKey: string | null;
+  eyeColorKey: string | null;
+  hairStyleKey: string | null;
+  hairColorKey: string | null;
+  facialHairStyleKey: string | null;
+  facialHairColorKey: string | null;
+  batColorKey: string | null;
+  gloveColorKey: string | null;
+  eyewearTypeKey: string | null;
+  eyewearFrameColorKey: string | null;
+  eyewearLensColorKey: string | null;
+  earringSideKey: string | null;
+  earringColorKey: string | null;
+  rightWristbandColorKey: string | null;
+  leftWristbandColorKey: string | null;
 }
 
 export interface PositionCapabilitiesRequest {

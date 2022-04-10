@@ -929,6 +929,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
 export function buildSavePlayerRequestFromState(state: PlayerEditorState, playerId: number): SavePlayerRequest {
   const { 
     personalDetails, 
+    appearance,
     positionCapabilityDetails, 
     pitcherAbilities, 
     hitterAbilities, 
@@ -950,6 +951,41 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorState, player
       battingStanceId: personalDetails.battingStance.id,
       throwingArmKey: personalDetails.throwingArm.key,
       pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+    },
+    appearance: {
+      faceId: appearance.face.id,
+      eyebrowThicknessKey: appearance.face.canChooseEyebrows
+        ? appearance.eyebrows.key
+        : null,
+      skinColorKey: appearance.face.canChooseSkin
+        ? appearance.skinColor.key
+        : null,
+      eyeColorKey: appearance.face.canChooseEyes
+        ? appearance.eyeColor.key
+        : null,
+      hairStyleKey: appearance.hairStyle?.key ?? null,
+      hairColorKey: !!appearance.hairStyle
+        ? appearance.hairColor.key
+        : null,
+      facialHairStyleKey: appearance.facialHairStyle?.key ?? null,
+      facialHairColorKey: !!appearance.facialHairStyle
+        ? appearance.facialHairColor.key
+        : null,
+      batColorKey: appearance.batColor.key,
+      gloveColorKey: appearance.gloveColor.key,
+      eyewearTypeKey: appearance.eyewearType?.key ?? null,
+      eyewearFrameColorKey: !!appearance.eyewearType    
+        ? appearance.eyewearFrameColor.key
+        : null,
+      eyewearLensColorKey: !!appearance.eyewearType
+        ? appearance.eyewearLensColor.key
+        : null,
+      earringSideKey: appearance.earringSide?.key ?? null,
+      earringColorKey: !!appearance.earringSide
+        ? appearance.earringColor.key
+        : null,
+      rightWristbandColorKey: appearance.rightWristbandColor?.key ?? null,
+      leftWristbandColorKey: appearance.leftWristbandColor?.key ?? null
     },
     positionCapabilities: {
       pitcher: positionCapabilityDetails.pitcher.key,

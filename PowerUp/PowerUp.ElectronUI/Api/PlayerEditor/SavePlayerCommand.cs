@@ -104,7 +104,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public string? EarringSideKey { get; set; }
     public string? EarringColorKey { get; set; }
     public string? RightWristbandColorKey { get; set; }
-    public string? LeftWristbandKey { get; set; }
+    public string? LeftWristbandColorKey { get; set; }
 
     public PlayerAppearanceParameters GetParameters()
     {
@@ -154,8 +154,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         RightWristbandColor = RightWristbandColorKey != null
           ? Enum.Parse<AccessoryColor>(RightWristbandColorKey)
           : null,
-        LeftWristbandColor = LeftWristbandKey != null
-          ? Enum.Parse<AccessoryColor>(LeftWristbandKey)
+        LeftWristbandColor = LeftWristbandColorKey != null
+          ? Enum.Parse<AccessoryColor>(LeftWristbandColorKey)
           : null,
       };
     }
