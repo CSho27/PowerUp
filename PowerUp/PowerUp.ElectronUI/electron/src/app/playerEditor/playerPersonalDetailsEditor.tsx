@@ -82,7 +82,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
           value={details.position?.key} 
-          onChange={position => update({ type: 'updatePosition', position: toKeyedCode(options.positions, position) as PositionCode })} 
+          onChange={position => update({ type: 'updatePosition', position: toKeyedCode(options.positions, position) })} 
         >
           {toOptions(options.positions)}
         </SelectField>

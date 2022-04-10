@@ -319,6 +319,14 @@ export function AppearanceReducer(state: Appearance, action: AppearanceAction): 
   }
 }
 
+export function getAppearanceReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [Appearance, Dispatch<AppearanceAction>] {
+  return [
+    state.appearance,
+    (action: AppearanceAction) => update({ type: 'updateAppearance', action: action })
+  ]
+}
+
+
 export interface PositionCapabilityDetails {
   pitcher: KeyedCode;
   catcher: KeyedCode;
