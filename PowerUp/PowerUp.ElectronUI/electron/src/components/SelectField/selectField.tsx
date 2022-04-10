@@ -16,7 +16,8 @@ type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<H
 export function SelectField(props: SelectFieldProps) {
   const { value, disabled, id, onChange, children } = props;
 
-  const displayedValue = value && getDisplayedValue(value?.toString(), children);
+  const hasValue = value != null && value != undefined;
+  const displayedValue = hasValue && getDisplayedValue(value?.toString(), children);
 
   return <ContentWrapper disabled={!!disabled}>
     <SelectedContent isEmpty={!displayedValue}>
