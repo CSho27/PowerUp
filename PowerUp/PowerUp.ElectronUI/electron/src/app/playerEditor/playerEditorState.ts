@@ -4,13 +4,14 @@ import { KeyedCode } from "../shared/keyedCode"
 import { Position, PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode"
 import { HotZoneGridAction, HotZoneGridState, HotZoneGridStateReducer } from "./hotZoneGrid";
-import { PlayerEditorResponse } from "./loadPlayerEditorApiClient"
+import { FaceCode, PlayerEditorResponse } from "./loadPlayerEditorApiClient"
 import { SavePlayerRequest } from "./savePlayerApiClient";
 import { buildSpecialAbilitiesRequestFromState, getInitialSpecialAbilitiesFromResponse, SpecialAbilities, SpecialAbilitiesAction, SpecialAbilitiesReducer } from "./specialAbilitiesState";
 
 export interface PlayerEditorState {
   selectedTab: PlayerEditorTab;
   personalDetails: PlayerPersonalDetails;
+  appearance: Appearance;
   positionCapabilityDetails: PositionCapabilityDetails;
   hitterAbilities: HitterAbilities;
   pitcherAbilities: PitcherAbilities;
@@ -21,7 +22,7 @@ export type PlayerEditorTab = typeof playerEditorTabOptions[number];
 export const playerEditorTabOptions = [
   'Personal',
   'Positions',
-//'Appearance',
+  'Appearance',
   'Hitter',
   'Pitcher',
   'Special'
@@ -30,6 +31,7 @@ export const playerEditorTabOptions = [
 export type PlayerEditorAction =
 | { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
+| { type: 'updateAppearance', action: AppearanceAction }
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
 | { type: 'updateHitterAbilities', action: HitterAbilitiesAction }
 | { type: 'updatePitcherAbilities', action: PitcherAbilitiesAction }
@@ -49,6 +51,11 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
         positionCapabilityDetails: action.action.type === 'updatePosition'
           ? getDefaultCapabilitiesForPosition(action.action.position.key)
           : state.positionCapabilityDetails
+      }
+    case 'updateAppearance':
+      return {
+        ...state,
+        appearance: AppearanceReducer(state.appearance, action.action) 
       }
     case 'updatePositionCapabilityDetails':
       return {
@@ -181,6 +188,135 @@ export function getPersonalDetailsReducer(state: PlayerEditorState, update: Disp
     state.personalDetails,
     (action: PlayerPersonalDetailsAction) => update({ type: 'updatePersonalDetails', action: action })
   ]
+}
+
+export interface Appearance {
+  face: FaceCode;
+  eyebrows: KeyedCode;
+  skinColor: KeyedCode;
+  eyeColor: KeyedCode;
+  hairStyle: KeyedCode | undefined;
+  hairColor: KeyedCode;
+  facialHairStyle: KeyedCode | undefined;
+  facialHairColor: KeyedCode;
+  batColor: KeyedCode;
+  gloveColor: KeyedCode;
+  eyewearType: KeyedCode | undefined;
+  eyewearFrameColor: KeyedCode;
+  eyewearLensColor: KeyedCode;
+  earringSide: KeyedCode | undefined;
+  earringColor: KeyedCode;
+  rightWristbandColor: KeyedCode | undefined;
+  leftWristbandColor: KeyedCode | undefined;
+}
+
+export type AppearanceAction =
+| { type: 'updateFace', face: FaceCode }
+| { type: 'updateEyebrows', eyebrows: KeyedCode }
+| { type: 'updateSkinColor', skinColor: KeyedCode }
+| { type: 'updateEyeColor', eyeColor: KeyedCode }
+| { type: 'updateHairStyle', hairStyle: KeyedCode | undefined }
+| { type: 'updateHairColor', hairColor: KeyedCode }
+| { type: 'updateFacialHairStyle', facialHairStyle: KeyedCode | undefined }
+| { type: 'updateFacialHairColor', facialHairColor: KeyedCode }
+| { type: 'updateBatColor', batColor: KeyedCode }
+| { type: 'updateGloveColor', gloveColor: KeyedCode }
+| { type: 'updateEyewearType', eyewearType: KeyedCode | undefined }
+| { type: 'updateEyewearFrameColor', frameColor: KeyedCode }
+| { type: 'updateEyewearLensColor', lensColor: KeyedCode }
+| { type: 'updateEarringSide', earringSide: KeyedCode | undefined }
+| { type: 'updateEarringColor', earringColor: KeyedCode }
+| { type: 'updateRightWristbandColor', color: KeyedCode | undefined }
+| { type: 'updateLeftWristbandColor', color: KeyedCode | undefined }
+
+export function AppearanceReducer(state: Appearance, action: AppearanceAction): Appearance {
+  switch(action.type) {
+    case 'updateFace':
+      return {
+        ...state,
+        face: action.face
+      }
+    case 'updateEyebrows':
+      return {
+        ...state,
+        eyebrows: action.eyebrows
+      }
+    case 'updateSkinColor':
+      return {
+        ...state,
+        skinColor: action.skinColor
+      }
+    case 'updateEyeColor':
+      return {
+        ...state,
+        eyeColor: action.eyeColor
+      }
+    case 'updateHairStyle':
+      return {
+        ...state,
+        hairStyle: action.hairStyle
+      }
+    case 'updateHairColor':
+      return {
+        ...state,
+        hairColor: action.hairColor
+      }
+    case 'updateFacialHairStyle':
+      return {
+        ...state,
+        facialHairStyle: action.facialHairStyle
+      } 
+    case 'updateFacialHairColor':
+      return {
+        ...state,
+        facialHairColor: action.facialHairColor
+      }
+    case 'updateBatColor':
+      return {
+        ...state,
+        batColor: action.batColor
+      }
+    case 'updateGloveColor':
+      return {
+        ...state,
+        gloveColor: action.gloveColor
+      }
+    case 'updateEyewearType':
+      return {
+        ...state,
+        eyewearType: action.eyewearType
+      }
+    case 'updateEyewearFrameColor': 
+      return  {
+        ...state,
+        eyewearFrameColor: action.frameColor
+      }
+    case 'updateEyewearLensColor':
+      return {
+        ...state,
+        eyewearLensColor: action.lensColor
+      }
+    case 'updateEarringSide':
+      return {
+        ...state,
+        earringSide: action.earringSide
+      }
+    case 'updateEarringColor':
+      return {
+        ...state,
+        earringColor: action.earringColor
+      }
+    case 'updateRightWristbandColor':
+      return {
+        ...state,
+        rightWristbandColor: action.color
+      }
+    case 'updateLeftWristbandColor':
+      return {
+        ...state,
+        leftWristbandColor: action.color
+      }
+  }
 }
 
 export interface PositionCapabilityDetails {
@@ -676,10 +812,13 @@ export function getGradeForStamina(value: number): Grade {
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
   const { 
     personalDetails, 
+    appearanceDetails: appearance,
     positionCapabilityDetails: positionCapabilities, 
     hitterAbilityDetails: hitterAbilities,
     pitcherAbilityDetails: pitcherAbilities
   } = response
+
+  const { appearanceOptions  } = response.options
   
   return {
     selectedTab: 'Personal',
@@ -707,6 +846,25 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       battingStance: personalDetails.battingStance,
       throwingArm: personalDetails.throwingArm,
       pitchingMechanics: personalDetails.pitchingMechanics
+    },
+    appearance: {
+      face: appearance.face,
+      eyebrows: appearance.eyebrows ?? appearanceOptions.eyebrowThicknessOptions[0],
+      skinColor: appearance.skinColor ?? appearanceOptions.skinColorOptions[0],
+      eyeColor: appearance.eyeColor ?? appearanceOptions.eyeColorOptions[0],
+      hairStyle: appearance.hairStyle ?? undefined,
+      hairColor: appearance.hairColor ?? appearanceOptions.hairColorOptions[0],
+      facialHairStyle: appearance.facialHairStyle ?? undefined,
+      facialHairColor: appearance.facialHairColor ?? appearanceOptions.hairColorOptions[0],
+      batColor: appearance.batColor,
+      gloveColor: appearance.gloveColor,
+      eyewearType: appearance.eyewearType ?? undefined,
+      eyewearFrameColor: appearance.eyewearFrameColor ?? appearanceOptions.eyewearFrameColorOptions[0],
+      eyewearLensColor: appearance.eyewearLensColor ?? appearanceOptions.eyewearLensColorOptions[0],
+      earringSide: appearance.earringSide ?? undefined,
+      earringColor: appearance.earringColor ?? appearanceOptions.accessoryColorOptions[0],
+      rightWristbandColor : appearance.rightWristbandColor ?? undefined,
+      leftWristbandColor: appearance.leftWristbandColor ?? undefined
     },
     hitterAbilities: {
       trajectory: hitterAbilities.trajectory,

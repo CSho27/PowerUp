@@ -14,6 +14,7 @@ import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { AppearanceEditor } from "./appearanceEditor";
 import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
 import { BattingSide } from "./hotZoneGrid";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
@@ -94,6 +95,10 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={personalDetails}
           update={updatePersonalDetails}      
+        />}
+        {state.selectedTab === 'Appearance' &&
+        <AppearanceEditor 
+          
         />}
         {state.selectedTab === 'Positions' &&
         <PositionCapabilitiesEditor 

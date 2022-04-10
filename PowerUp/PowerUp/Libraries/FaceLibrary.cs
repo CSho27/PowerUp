@@ -21,6 +21,5 @@ namespace PowerUp.Libraries
 
     protected override string ParseKey(string keyString) => keyString;
     protected override int ParseValue(string valueString) => int.Parse(valueString);
-
   }
 }

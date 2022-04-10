@@ -78,7 +78,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PlayerAppearanceOptions
   {
-    public IEnumerable<SimpleCode> FaceOptions { get; }
+    public IEnumerable<FaceCode> FaceOptions { get; }
     public IEnumerable<KeyedCode> EyebrowThicknessOptions => EnumExtensions.GetKeyedCodeList<EyebrowThickness>();
     public IEnumerable<KeyedCode> SkinColorOptions => EnumExtensions.GetKeyedCodeList<SkinColor>();
     public IEnumerable<KeyedCode> EyeColorOptions => EnumExtensions.GetKeyedCodeList<EyeColor>(c => c.ToNumberedKeyedCode(addOne: true));
@@ -95,7 +95,30 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public PlayerAppearanceOptions(IFaceLibrary faceLibrary)
     {
-      FaceOptions = faceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
+      FaceOptions = faceLibrary.GetAll().Select(v => new FaceCode(id: v.Key, name: v.Value));
+    }
+  }
+
+  public class FaceCode : SimpleCode
+  {
+    public bool CanChooseSkin { get; }
+    public bool CanChooseEyebrows { get; }
+    public bool CanChooseEyes { get; }
+
+    public FaceCode(int id, string name)
+      : base(id, name)
+    {
+      var faceType = FaceTypeHelpers.GetFaceType(id);
+
+      CanChooseSkin = faceType == FaceType.Anime
+        || faceType == FaceType.Standard
+        || faceType == FaceType.StandardWithoutEyeColor;
+
+      CanChooseEyebrows = faceType == FaceType.Standard
+        || faceType == FaceType.StandardWithoutEyeColor;
+
+      CanChooseEyes = faceType == FaceType.Anime
+        || faceType == FaceType.Standard;
     }
   }
 

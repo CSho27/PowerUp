@@ -11,6 +11,7 @@ export interface LoadPlayerEditorRequest {
 export interface PlayerEditorResponse {
   options: PlayerEditorOptions; 
   personalDetails: PlayerPersonalDetailsDto;
+  appearanceDetails: PlayerAppearanceDetailsDto;
   positionCapabilityDetails: PositionCapabilityDetailsDto;
   hitterAbilityDetails: HitterAbilityDetailsDto;
   pitcherAbilityDetails: PitcherAbilityDetailsDto;
@@ -19,6 +20,7 @@ export interface PlayerEditorResponse {
 
 export interface PlayerEditorOptions {
   personalDetailsOptions: PersonalDetailsOptions;  
+  appearanceOptions: AppearanceOptions;
   positionCapabilityOptions: KeyedCode[];
   pitcherAbilitiesOptions: PitcherAbilitiesOptions;
   specialAbilitiesOptions: SpecialAbilitiesOptions;
@@ -35,7 +37,7 @@ export interface PersonalDetailsOptions {
 }
 
 export interface AppearanceOptions {
-  faceOptions: SimpleCode[];
+  faceOptions: FaceCode[];
   eyebrowThicknessOptions: KeyedCode[];
   skinColorOptions: KeyedCode[];
   eyeColorOptions: KeyedCode[];
@@ -49,6 +51,12 @@ export interface AppearanceOptions {
   eyewearLensColorOptions: KeyedCode[];
   earringSideOptions: KeyedCode[];
   accessoryColorOptions: KeyedCode[];
+}
+
+export interface FaceCode extends SimpleCode {
+  canChooseSkin: boolean;
+  canChooseEyebrows: boolean;
+  canChooseEyes: boolean;
 }
 
 export interface PitcherAbilitiesOptions {
@@ -92,7 +100,7 @@ export interface PlayerPersonalDetailsDto {
 }
 
 export interface PlayerAppearanceDetailsDto {
-  face: SimpleCode;
+  face: FaceCode;
   eyebrows: KeyedCode | null;
   skinColor: KeyedCode | null;
   eyeColor: KeyedCode | null;
