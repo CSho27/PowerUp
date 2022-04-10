@@ -73,6 +73,7 @@ namespace PowerUp.Mappers.Players
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
+      var appearance = player.Appearance;
       var positionCapabilities = player.PositonCapabilities;
       var hitterAbilities = player.HitterAbilities;
       var hotZones = player.HitterAbilities.HotZones;
@@ -80,6 +81,13 @@ namespace PowerUp.Mappers.Players
       var generalSpecialAbilities = player.SpecialAbilities.General;
       var hittingSpecialAbilities = player.SpecialAbilities.Hitter;
       var pitchingSpecialAbilities = player.SpecialAbilities.Pitcher;
+
+      var skinColorValue = (int?)appearance.SkinColor ?? 0;
+      var eyewearFrameColorValue = (int?)appearance.EyewearFrameColor ?? 0;
+      var eyewearLensColorValue = (int?)appearance.EyewearLensColor ?? 0;
+
+      var rightWristbandValue = (int?)appearance.RightWristbandColor ?? 0;
+      var leftWristbandValue = (int?)appearance.LeftWristbandColor ?? 0;
 
       return new GSPlayer
       {
@@ -104,6 +112,30 @@ namespace PowerUp.Mappers.Players
         BattingForm = (ushort)player.BattingStanceId,
         ThrowsLefty = player.ThrowingArm == ThrowingArm.Left,
         PitchingForm = (ushort)player.PitchingMechanicsId,
+
+        // Appearance
+        Face = appearance.EyebrowThickness == EyebrowThickness.Thin
+          ? (ushort)(appearance.FaceId + AppearanceMapper.THICK_EYEBROW_OFFSET)
+          : (ushort)appearance.FaceId,
+        SkinAndEyes = appearance.EyeColor == EyeColor.Blue
+          ? (ushort)(skinColorValue + AppearanceMapper.EYE_COLOR_OFFSET)
+          : (ushort)skinColorValue,
+        Hair = (ushort?)appearance.HairStyle ?? 0,
+        HairColor = (ushort?)appearance.HairColor ?? 0,
+        FacialHair = (ushort?)appearance.FacialHairStyle ?? 0,
+        FacialHairColor = (ushort?)appearance.FacialHairColor ?? 0,
+        Bat = (ushort)appearance.BatColor,
+        Glove = (ushort)appearance.GloveColor,
+        EyewearType = (ushort?)appearance.EyewearType ?? 0,
+        EyewearColor = (ushort)(eyewearFrameColorValue * AppearanceMapper.EYEWEAR_OFFSET + eyewearLensColorValue),
+        EarringSide = (ushort?)appearance.EarringSide ?? 0,
+        EarringColor = (ushort?)appearance.EarringColor ?? 0,
+        RightWristband = appearance.RightWristbandColor.HasValue
+          ? (ushort)(rightWristbandValue + 1)
+          : (ushort)0,
+        LeftWristband = appearance.LeftWristbandColor.HasValue
+          ? (ushort)(leftWristbandValue + 1)
+          : (ushort)0,
 
         // Position Capabilities
         PitcherCapability = (ushort)positionCapabilities.Pitcher,

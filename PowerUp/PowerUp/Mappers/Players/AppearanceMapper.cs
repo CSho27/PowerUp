@@ -1,15 +1,14 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.GameSave.Objects.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Mappers.Players
 {
   public static class AppearanceMapper
   {
+    public const int THICK_EYEBROW_OFFSET = 18;
+    public const int EYE_COLOR_OFFSET = 5;
+    public const int EYEWEAR_OFFSET = 3;
+
     public static Appearance GetAppearance(GSPlayer player)
     {
       var ppFaceId = player.Face!.Value;
@@ -20,16 +19,16 @@ namespace PowerUp.Mappers.Players
       {
         // Adjusts thin eyebrow ids to be their thick eyebrow alternatives so that we can store all that info in separate values
         FaceId = faceHasThinEyebrows
-          ? ppFaceId - 18
+          ? ppFaceId - THICK_EYEBROW_OFFSET
           : ppFaceId,
         EyebrowThickness = faceType == FaceType.Standard || faceType == FaceType.StandardWithoutEyeColor
           ? faceHasThinEyebrows ? EyebrowThickness.Thin : EyebrowThickness.Thick
           : null,
         SkinColor = faceType == FaceType.Player || faceType == FaceType.Other
           ? null
-          : (SkinColor)(player.SkinAndEyes!.Value % 5),
+          : (SkinColor)(player.SkinAndEyes!.Value % EYE_COLOR_OFFSET),
         EyeColor = faceType == FaceType.Standard || faceType == FaceType.Anime
-          ? player.SkinAndEyes > 4 ? EyeColor.Brown : EyeColor.Blue
+          ? player.SkinAndEyes >= EYE_COLOR_OFFSET ? EyeColor.Brown : EyeColor.Blue
           : null,
         HairStyle = player.Hair != 0
           ? (HairStyle)player.Hair!.Value
@@ -49,10 +48,10 @@ namespace PowerUp.Mappers.Players
           ? (EyewearType)player.EyewearType!.Value
           : null,
         EyewearFrameColor = player.EyewearType > 1
-          ? (EyewearFrameColor)(player.EyewearColor!.Value/3)
+          ? (EyewearFrameColor)(player.EyewearColor!.Value / EYEWEAR_OFFSET)
           : null,
         EyewearLensColor = player.EyewearType > 1 
-          ? (EyewearLensColor)(player.EyewearColor!.Value%3)
+          ? (EyewearLensColor)(player.EyewearColor!.Value % EYEWEAR_OFFSET)
           : null,
         EarringSide = player.EarringSide != 0
           ? (EarringSide)player.EarringSide!.Value
