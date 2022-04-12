@@ -166,12 +166,11 @@
   
   public enum GloveColor 
   { 
-    Brown, 
+    Orange, 
     Black,
     Tan, 
     Blue, 
-    [DisplayName("Dark Brown")]
-    DarkBrown, 
+    Brown, 
     Red 
   }
 

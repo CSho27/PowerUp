@@ -1,6 +1,7 @@
 import { KeyedCode } from "../../app/shared/keyedCode";
 import { SimpleCode } from "../../app/shared/simpleCode";
-import { ListboxOption } from "@reach/listbox";
+import { ListboxOption, ListboxOptionProps } from "@reach/listbox";
+import { ReactElement } from "react";
 
 export type OptionCode = KeyedCode | SimpleCode;
 
@@ -24,8 +25,12 @@ export function toOption(code: OptionCode) {
 export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?: boolean) {
   const options = codes.map(toOption);
   return icludeEmptyOption
-    ? [<ListboxOption key='' value='.' style={{ color: 'transparent' }}>.</ListboxOption>, ...options]
+    ? withEmptyOption(options)
     : options;
+}
+
+export function withEmptyOption(options: ReactElement<ListboxOptionProps>[]): ReactElement<ListboxOptionProps>[] {
+  return [<ListboxOption key='' value='.' style={{ color: 'transparent' }}>.</ListboxOption>, ...options]
 }
 
 export function fromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode {

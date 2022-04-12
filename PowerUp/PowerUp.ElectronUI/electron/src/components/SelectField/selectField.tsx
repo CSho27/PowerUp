@@ -13,7 +13,7 @@ export interface SelectFieldProps {
   children?: OptionElement[];
 }
 
-type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement>>
+export type OptionElement = ReactElement<DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement>>
 
 export function SelectField(props: SelectFieldProps) {
   const { disabled, id, onChange, children } = props;

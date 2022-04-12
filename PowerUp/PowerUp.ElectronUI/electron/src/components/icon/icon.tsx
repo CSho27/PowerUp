@@ -15,6 +15,7 @@ export type IconType =
 | 'folder'
 | 'folder-open'
 | 'pen-to-square'
+| 'square'
 | 'user-pen'
 | 'upload'
 | 'wand-magic-sparkles'

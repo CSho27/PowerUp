@@ -208,7 +208,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapGloveColor()
     {
-      player.Appearance.GloveColor = GloveColor.DarkBrown;
+      player.Appearance.GloveColor = GloveColor.Brown;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.Glove.ShouldBe((ushort)4);
     }
