@@ -147,7 +147,10 @@ const NumberInputStepperWrapper = styled.div`
   top: 0;
   height: 100%;
   width: 1.1rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   background-color: ${COLORS.white.regular_100};
 `
 
