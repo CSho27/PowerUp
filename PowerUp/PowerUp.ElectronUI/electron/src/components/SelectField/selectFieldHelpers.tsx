@@ -1,5 +1,6 @@
 import { KeyedCode } from "../../app/shared/keyedCode";
 import { SimpleCode } from "../../app/shared/simpleCode";
+import { ListboxOption } from "@reach/listbox";
 
 export type OptionCode = KeyedCode | SimpleCode;
 
@@ -13,9 +14,9 @@ function isSimpleCode(code: OptionCode): code is SimpleCode {
 
 export function toOption(code: OptionCode) {
   if(isKeyedCode(code))
-    return <option key={code.key} value={code.key}>{code.name}</option>
+    return <ListboxOption key={code.key} value={code.key}>{code.name}</ListboxOption>
   if(isSimpleCode(code))
-    return <option key={code.id} value={code.id.toString()}>{code.name}</option>
+    return <ListboxOption key={code.id} value={code.id.toString()}>{code.name}</ListboxOption>
 
   throw 'Invalid OptionCode type';
 }
@@ -23,7 +24,7 @@ export function toOption(code: OptionCode) {
 export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?: boolean) {
   const options = codes.map(toOption);
   return icludeEmptyOption
-    ? [<option key='' value=''></option>, ...options]
+    ? [<ListboxOption key='' value='.' style={{ color: 'transparent' }}>.</ListboxOption>, ...options]
     : options;
 }
 
