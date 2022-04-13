@@ -198,12 +198,12 @@ function toColorOption(code: KeyedCode, getColor: (key: string) => string | unde
     key={code.key} 
     value={code.key}
   >
-    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+    <ColorOptionWrapper>
       <Icon icon='square' style={{ color: getColor(code.key) }}/>
-      <div>
+      <OptionTextContainer>
         {code.name}
-      </div>
-    </div>
+      </OptionTextContainer>
+    </ColorOptionWrapper>
   </ListboxOption>
 }
 
@@ -232,12 +232,14 @@ function toBatColorOption(code: KeyedCode): OptionElement {
       key={code.key} 
       value={code.key}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-        <SplitColorIcon icon='square' firstColor={firstColor} secondColor={secondColor} />
-        <div>
+      <ColorOptionWrapper>
+        <SquareWrapper>
+          <SplitColorSquare firstColor={firstColor} secondColor={secondColor} />
+        </SquareWrapper>
+        <OptionTextContainer>
           {code.name}
-        </div>
-      </div>
+        </OptionTextContainer>
+      </ColorOptionWrapper>
     </ListboxOption> 
     }
 }
@@ -381,6 +383,29 @@ function getAccessoryColor(key: string): string | undefined {
   }
 }
 
-const SplitColorIcon = styled(Icon)<{ firstColor: string, secondColor: string }>`
-  background: linear-gradient(-45deg, ${p=> p.firstColor} 0 50%, ${p => p.secondColor} 50% )
+const ColorOptionWrapper = styled.div`
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`
+
+const OptionTextContainer = styled.div`
+  flex: auto;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+`
+
+const SquareWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const SplitColorSquare = styled.div<{ firstColor: string, secondColor: string }>`
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(-45deg, ${p => p.secondColor} 0 50%, ${p=> p.firstColor} 50%);
+  border-radius: 2px;
 `
