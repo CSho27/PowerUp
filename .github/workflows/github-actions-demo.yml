@@ -10,7 +10,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
       with:
@@ -20,4 +19,6 @@ jobs:
       run: dotnet tool install --global ElectronNET.CLI --version 13.5.1
         
     - name: Publish Electron Application    
-      run: cd ./PowerUp/PowerUp.ElectronUI; electronize build /target win;
+      run: cd ./PowerUp/PowerUp.ElectronUI;
+        ls;
+        electronize build /target win;
