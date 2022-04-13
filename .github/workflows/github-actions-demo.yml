@@ -4,5 +4,6 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - run: cd ./PowerUp/PowerUp.ElectronUI
       - run: dotnet tool update ElectronNET.CLI -g
       - run: electronize build /target win
