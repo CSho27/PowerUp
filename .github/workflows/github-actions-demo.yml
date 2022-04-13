@@ -24,7 +24,7 @@ jobs:
       run: dotnet tool install --global ElectronNET.CLI --version 13.5.1
         
     - name: Publish Electron Application    
-      run: cd /home/runner/work/PowerUp//PowerUp/PowerUp.ElectronUI; electronize build /target win;
+      run: cd /home/runner/work/PowerUp/PowerUp/PowerUp.ElectronUI; electronize build /target win;
         
     - name: Install Zip
       run: sudo apt install zip;
