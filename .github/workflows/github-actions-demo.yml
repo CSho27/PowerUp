@@ -30,7 +30,7 @@ jobs:
       run: sudo apt install zip;
         
     - name: Zip Unpacked Application
-      run: ls; zip -r release.zip ./bin/Desktop/win-unpacked
+      run: zip -r release.zip ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
       
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
