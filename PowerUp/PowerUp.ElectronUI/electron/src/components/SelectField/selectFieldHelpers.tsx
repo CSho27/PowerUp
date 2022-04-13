@@ -30,7 +30,7 @@ export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?:
 }
 
 export function withEmptyOption(options: ReactElement<ListboxOptionProps>[]): ReactElement<ListboxOptionProps>[] {
-  return [<ListboxOption key='' value='.' style={{ color: 'transparent' }}>.</ListboxOption>, ...options]
+  return [<ListboxOption key='' value='None' style={{ color: 'transparent' }}>None</ListboxOption>, ...options]
 }
 
 export function fromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode {
