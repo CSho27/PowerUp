@@ -133,8 +133,6 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SkinAndEyes.ShouldBe(skinAndEyes);
-      loadedPlayer.Skin.ShouldBe((ushort)(skinAndEyes % 5));
-      loadedPlayer.AreEyesBrown.ShouldBe(skinAndEyes >= 5);
     }
 
     [Test]
@@ -245,7 +243,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)13)]
     public void Writes_GlassesType(int playerId, ushort glassesType)
     {
-      var playerToWrite = new GSPlayer { GlassesType = glassesType };
+      var playerToWrite = new GSPlayer { EyewearType = glassesType };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -253,7 +251,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.GlassesType.ShouldBe(glassesType);
+      loadedPlayer.EyewearType.ShouldBe(glassesType);
     }
 
     [Test]
@@ -262,7 +260,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)10)]
     public void Writes_GlassesColor(int playerId, ushort glassesColor)
     {
-      var playerToWrite = new GSPlayer { GlassesColor = glassesColor };
+      var playerToWrite = new GSPlayer { EyewearColor = glassesColor };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -270,7 +268,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.GlassesColor.ShouldBe(glassesColor);
+      loadedPlayer.EyewearColor.ShouldBe(glassesColor);
     }
 
     [Test]
@@ -279,7 +277,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Writes_EarringType(int playerId, ushort earringType)
     {
-      var playerToWrite = new GSPlayer { EarringType = earringType };
+      var playerToWrite = new GSPlayer { EarringSide = earringType };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -287,7 +285,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.EarringType.ShouldBe(earringType);
+      loadedPlayer.EarringSide.ShouldBe(earringType);
     }
 
     [Test]

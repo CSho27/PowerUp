@@ -132,6 +132,152 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    [TestCase(5, null, (ushort)5)]
+    [TestCase(179, EyebrowThickness.Thick, (ushort)179)]
+    [TestCase(179, EyebrowThickness.Thin, (ushort)197)]
+    public void MapToGSPlayer_ShouldMapFaceId(int faceId, EyebrowThickness? eyebrowThickness, ushort ppFaceId)
+    {
+      player.Appearance.FaceId = faceId;
+      player.Appearance.EyebrowThickness = eyebrowThickness;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Face.ShouldBe(ppFaceId);
+    }
+
+    [Test]
+    [TestCase(null, null, (ushort)0)]
+    [TestCase(SkinColor.One, EyeColor.Brown, (ushort)0)]
+    [TestCase(SkinColor.One, EyeColor.Blue, (ushort)5)]
+    [TestCase(SkinColor.Five, EyeColor.Brown, (ushort)4)]
+    [TestCase(SkinColor.Five, EyeColor.Blue, (ushort)9)]
+    public void MapToGSPlayer_ShouldMapSkinAndEyes(SkinColor? skin, EyeColor? eyeColor, ushort exptectedValue)
+    {
+      player.Appearance.SkinColor = skin;
+      player.Appearance.EyeColor = eyeColor;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.SkinAndEyes.ShouldBe(exptectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(HairStyle.Basic, (ushort)15)]
+    public void MapToGSPlayer_ShouldMapHairStyle(HairStyle? hairStyle, ushort expectedValue)
+    {
+      player.Appearance.HairStyle = hairStyle;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Hair.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(HairColor.Brown, (ushort)7)]
+    public void MapToGSPlayer_ShouldMapHairColor(HairColor? hairColor, ushort expectedValue)
+    {
+      player.Appearance.HairColor = hairColor;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.HairColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(FacialHairStyle.KlingonGoatee, (ushort)23)]
+    public void MapToGSPlayer_ShouldMapFacialHairStyle(FacialHairStyle? hairStyle, ushort expectedValue)
+    {
+      player.Appearance.FacialHairStyle = hairStyle;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.FacialHair.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(HairColor.Brown, (ushort)7)]
+    public void MapToGSPlayer_ShouldMapFacialHairColor(HairColor? hairColor, ushort expectedValue)
+    {
+      player.Appearance.FacialHairColor = hairColor;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.FacialHairColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapBatColor()
+    {
+      player.Appearance.BatColor = BatColor.Black_Natural;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Bat.ShouldBe((ushort)3);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGloveColor()
+    {
+      player.Appearance.GloveColor = GloveColor.Brown;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.Glove.ShouldBe((ushort)4);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(EyewearType.HalfJacket, (ushort)11)]
+    public void MapToGSPlayer_ShouldMapEyewearType(EyewearType? eyewearType, ushort expectedValue)
+    {
+      player.Appearance.EyewearType = eyewearType;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.EyewearType.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, null, (ushort)0)]
+    [TestCase(EyewearFrameColor.Black, EyewearLensColor.Clear, (ushort)0)]
+    [TestCase(EyewearFrameColor.Black, EyewearLensColor.Orange, (ushort)1)]
+    [TestCase(EyewearFrameColor.Red, EyewearLensColor.Orange, (ushort)7)]
+    [TestCase(EyewearFrameColor.Gold, EyewearLensColor.Black, (ushort)14)]
+    public void MapToGSPlayer_ShouldMapEyewearColor(EyewearFrameColor? frame, EyewearLensColor? lens, ushort exptectedValue)
+    {
+      player.Appearance.EyewearFrameColor = frame;
+      player.Appearance.EyewearLensColor = lens;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.EyewearColor.ShouldBe(exptectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(EarringSide.Both, (ushort)3)]
+    public void MapToGSPlayer_ShouldMapEarringSide(EarringSide? earringSide, ushort expectedValue)
+    {
+      player.Appearance.EarringSide = earringSide;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.EarringSide.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(AccessoryColor.DarkBlue, (ushort)3)]
+    public void MapToGSPlayer_ShouldMapEarringColor(AccessoryColor? earringColor, ushort expectedValue)
+    {
+      player.Appearance.EarringColor = earringColor;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.EarringColor.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(AccessoryColor.Pink, (ushort)5)]
+    public void MapToGSPlayer_ShouldMapRightWristbandColor(AccessoryColor? color, ushort expectedValue)
+    {
+      player.Appearance.RightWristbandColor = color;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.RightWristband.ShouldBe(expectedValue);
+    }
+
+    [Test]
+    [TestCase(null, (ushort)0)]
+    [TestCase(AccessoryColor.Yellow, (ushort)8)]
+    public void MapToGSPlayer_ShouldMapLefttWristbandColor(AccessoryColor? color, ushort expectedValue)
+    {
+      player.Appearance.LeftWristbandColor = color;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.LeftWristband.ShouldBe(expectedValue);
+    }
+
+    [Test]
     public void MapToGSPlayer_ShouldMapPitcherCapability()
     {
       player.PositonCapabilities.Pitcher = Grade.G;

@@ -34,17 +34,11 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x51, bits: 10, bitOffset: 7)]
     public ushort? PlayerNumber { get; set; }
 
-    [GSUInt(0x54, bits: 8, bitOffset: 5)]
+    [GSUInt(0x54, bits: 8, bitOffset: 4)]
     public ushort? Face { get; set; }
 
     [GSUInt(0x55, bits: 4, bitOffset: 4)]
     public ushort? SkinAndEyes { get; set; }
-    public ushort? Skin => SkinAndEyes.HasValue
-      ? (ushort)(SkinAndEyes % 5)
-      : null;
-    public bool? AreEyesBrown => SkinAndEyes.HasValue
-      ? SkinAndEyes >= 5
-      : null;
 
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Bat { get; set; }
@@ -71,17 +65,17 @@ namespace PowerUp.GameSave.Objects.Players
     public ushort? FacialHairColor { get; set; }
 
     [GSUInt(0x5A, bits: 2, bitOffset: 4)]
-    public ushort? EarringType { get; set; }
+    public ushort? EarringSide { get; set; }
 
     [GSUInt(0x5A, bits: 4, bitOffset: 6)]
     public ushort? EarringColor { get; set; }
 
     // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
     [GSUInt(0x5b, bits: 4, bitOffset: 2)]
-    public ushort? GlassesType { get; set; }
+    public ushort? EyewearType { get; set; }
 
     [GSUInt(0x5c, bits: 4, bitOffset: 0)]
-    public ushort? GlassesColor { get; set; }
+    public ushort? EyewearColor { get; set; }
 
     [GSUInt(0x5c, bits: 8, bitOffset: 4)]
     public ushort? BattingForm { get; set; }

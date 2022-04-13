@@ -8,22 +8,25 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     private readonly IVoiceLibrary _voiceLibrary;
     private readonly IBattingStanceLibrary _batttingStanceLibrary;
     private readonly IPitchingMechanicsLibrary _pitchingMechanicsLibrary;
+    private readonly IFaceLibrary _faceLibrary;
 
     public LoadPlayerEditorCommand(
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
-      IPitchingMechanicsLibrary pitchingMechanicsLibrary
+      IPitchingMechanicsLibrary pitchingMechanicsLibrary,
+      IFaceLibrary faceLibrary
     )
     {
       _voiceLibrary = voiceLibrary;
       _batttingStanceLibrary = battingStanceLibrary;
       _pitchingMechanicsLibrary = pitchingMechanicsLibrary;
+      _faceLibrary = faceLibrary;
     }
 
     public PlayerEditorResponse Execute(LoadPlayerEditorRequest request)
     {
       var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
-      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, player!);
+      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, _faceLibrary, player!);
     }
   }
 

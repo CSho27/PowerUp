@@ -24,12 +24,12 @@ namespace PowerUp
       var characterLibrary = new CharacterLibrary(Path.Combine(DATA_DIRECTORY, "./data/Character_Library.csv"));
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      //AnalyzeGameSave(characterLibrary);
+      AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
-      BuildPlayerValueLibrary(characterLibrary);
+      //BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
       //FindPlayersByLastName();
     }
@@ -63,7 +63,7 @@ namespace PowerUp
         var player = loader.Read(PLAYER_ID);
         var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString} - {player.VoiceId}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString} - {player.SkinAndEyes}");
       }
     }
 
@@ -159,17 +159,17 @@ namespace PowerUp
         var player = playerReader.Read(id);
         if(player.PowerProsId != 0 )
         {
-          playersAndValues.TryAdd($"{player.FirstName}_{player.LastName}", player.VoiceId!.Value);
+          playersAndValues.TryAdd($"{player.FirstName}_{player.LastName}", player.Face!.Value);
         }
       };
 
-      var csvLines = playersAndValues.OrderBy(kvp => kvp.Key.Split('_')[1]).Select(p => $"{p.Key.Replace('_', ' ')},{p.Value}");
-      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/Voice_Library.csv"), csvLines);
+      var csvLines = playersAndValues.OrderBy(kvp => kvp.Value).Select(p => $"{p.Value+20} - {p.Key.Replace('_', ' ')},{p.Value}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/ddddFace_Library.csv"), csvLines);
     }
 
     static void FindDuplicatesInLibrary()
     {
-      var filePathToCheck = Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv");
+      var filePathToCheck = Path.Combine(DATA_DIRECTORY, "./data/Face_Library.csv");
 
       var keyValuePairs = File.ReadAllLines(filePathToCheck)
         .Select(l => l.Split(','))

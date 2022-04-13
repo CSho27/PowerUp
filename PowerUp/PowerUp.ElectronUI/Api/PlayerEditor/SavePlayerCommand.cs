@@ -31,6 +31,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     public int? PlayerId { get; set; }
     public PersonalDetailsRequest? PersonalDetails { get; set; }
+    public AppearanceRequest? Appearance { get; set; }
     public PositionCapabilitiesRequest? PositionCapabilities { get; set; }
     public HitterAbilitiesRequest? HitterAbilities { get; set; }
     public PitcherAbilitiesRequest? PitcherAbilities { get; set; }
@@ -41,6 +42,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       return new PlayerParameters
       {
         PersonalDetails = PersonalDetails!.GetParameters(),
+        Appearance = Appearance!.GetParameters(),
         PositionCapabilities = PositionCapabilities!.GetParameters(),
         HitterAbilities = HitterAbilities!.GetParameters(),
         PitcherAbilities = PitcherAbilities!.GetParameters(),
@@ -80,6 +82,81 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         BattingStanceId = BattingStanceId,
         ThrowingArm = Enum.Parse<ThrowingArm>(ThrowingArmKey!),
         PitchingMechanicsId = PitchingMechanicsId,
+      };
+    }
+  }
+
+  public class AppearanceRequest
+  {
+    public int? FaceId { get; set; }
+    public string? EyebrowThicknessKey { get; set; }
+    public string? SkinColorKey { get; set; }
+    public string? EyeColorKey { get; set; }
+    public string? HairStyleKey { get; set; }
+    public string? HairColorKey { get; set; }
+    public string? FacialHairStyleKey { get; set; }
+    public string? FacialHairColorKey { get; set; }
+    public string? BatColorKey { get; set; }
+    public string? GloveColorKey { get; set; }
+    public string? EyewearTypeKey { get; set; }
+    public string? EyewearFrameColorKey { get; set; }
+    public string? EyewearLensColorKey { get; set; }
+    public string? EarringSideKey { get; set; }
+    public string? EarringColorKey { get; set; }
+    public string? RightWristbandColorKey { get; set; }
+    public string? LeftWristbandColorKey { get; set; }
+
+    public PlayerAppearanceParameters GetParameters()
+    {
+      var faceType = FaceTypeHelpers.GetFaceType(FaceId!.Value);
+
+      return new PlayerAppearanceParameters
+      {
+        FaceId = FaceId!.Value,
+        EyebrowThickness = EyebrowThicknessKey != null && FaceTypeHelpers.CanChooseEyebrows(faceType)
+            ? Enum.Parse<EyebrowThickness>(EyebrowThicknessKey)
+            : null,
+        SkinColor = SkinColorKey != null && FaceTypeHelpers.CanChooseSkinColor(faceType)
+          ? Enum.Parse<SkinColor>(SkinColorKey)
+          : null,
+        EyeColor = EyeColorKey != null && FaceTypeHelpers.CanChooseEyes(faceType)
+            ? Enum.Parse<EyeColor>(EyeColorKey)
+            : null,
+        HairStyle = HairStyleKey != null
+          ? Enum.Parse<HairStyle>(HairStyleKey)
+          : null,
+        HairColor = HairStyleKey != null && HairColorKey != null
+          ? Enum.Parse<HairColor>(HairColorKey)
+          : null,
+        FacialHairStyle = FacialHairStyleKey != null
+          ? Enum.Parse<FacialHairStyle>(FacialHairStyleKey)
+          : null,
+        FacialHairColor = FacialHairStyleKey != null && FacialHairColorKey != null
+          ? Enum.Parse<HairColor>(FacialHairColorKey)
+          : null,
+        BatColor = Enum.Parse<BatColor>(BatColorKey!),
+        GloveColor = Enum.Parse<GloveColor>(GloveColorKey!),
+        EyewearType = EyewearTypeKey != null
+          ? Enum.Parse<EyewearType>(EyewearTypeKey)
+          : null,
+        EyewearFrameColor = EyewearTypeKey != null && EyewearFrameColorKey != null
+          ? Enum.Parse<EyewearFrameColor>(EyewearFrameColorKey)
+          : null,
+        EyewearLensColor = EyewearTypeKey != null && EyewearLensColorKey != null
+          ? Enum.Parse<EyewearLensColor>(EyewearLensColorKey)
+          : null,
+        EarringSide = EarringSideKey != null
+          ? Enum.Parse<EarringSide>(EarringSideKey)
+          : null,
+        EarringColor = EarringSideKey != null && EarringColorKey != null
+          ? Enum.Parse<AccessoryColor>(EarringColorKey)
+          : null,
+        RightWristbandColor = RightWristbandColorKey != null
+          ? Enum.Parse<AccessoryColor>(RightWristbandColorKey)
+          : null,
+        LeftWristbandColor = LeftWristbandColorKey != null
+          ? Enum.Parse<AccessoryColor>(LeftWristbandColorKey)
+          : null,
       };
     }
   }

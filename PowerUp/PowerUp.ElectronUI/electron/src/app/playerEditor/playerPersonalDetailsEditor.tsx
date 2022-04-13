@@ -4,10 +4,9 @@ import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { SelectField } from "../../components/SelectField/selectField";
-import { toKeyedCode, toOptions, toSimpleCode } from "../../components/SelectField/selectFieldHelpers";
+import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { FONT_SIZES } from "../../style/constants";
-import { PositionCode } from "../shared/positionCode";
 import { PersonalDetailsOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
 
@@ -82,7 +81,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
           value={details.position?.key} 
-          onChange={position => update({ type: 'updatePosition', position: toKeyedCode(options.positions, position) as PositionCode })} 
+          onChange={position => update({ type: 'updatePosition', position: fromOptions(options.positions, position) })} 
         >
           {toOptions(options.positions)}
         </SelectField>
@@ -92,7 +91,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <SelectField 
           value={details.pitcherType?.key} 
           disabled={details.position.key !== 'Pitcher'}
-          onChange={pitcherType => update({ type: 'updatePitcherType', pitcherType: toKeyedCode(options.pitcherTypes, pitcherType)})} 
+          onChange={pitcherType => update({ type: 'updatePitcherType', pitcherType: fromOptions(options.pitcherTypes, pitcherType)})} 
         >
           {toOptions(options.pitcherTypes)}
         </SelectField>
@@ -101,7 +100,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Voice</FieldLabel>
         <SelectField 
           value={details.voice?.id} 
-          onChange={voice => update({ type: 'updateVoice', voice: toSimpleCode(options.voiceOptions, voice)})}
+          onChange={voice => update({ type: 'updateVoice', voice: fromOptions(options.voiceOptions, voice)})}
         >
           {toOptions(options.voiceOptions)}
         </SelectField>
@@ -117,7 +116,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Bats</FieldLabel>
         <SelectField 
           value={details?.battingSide.key} 
-          onChange={key => update({ type: 'updateBattingSide', battingSide: toKeyedCode(options.battingSideOptions, key)})} 
+          onChange={key => update({ type: 'updateBattingSide', battingSide: fromOptions(options.battingSideOptions, key)})} 
         >
           {toOptions(options.battingSideOptions)}
         </SelectField>
@@ -126,7 +125,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Batting Stance</FieldLabel>
         <SelectField 
           value={details.battingStance?.id} 
-          onChange={id => update({ type: 'updateBattingStance', battingStance: toSimpleCode(options.battingStanceOptions, id)})} 
+          onChange={id => update({ type: 'updateBattingStance', battingStance: fromOptions(options.battingStanceOptions, id)})} 
         >
           {toOptions(options.battingStanceOptions)}
         </SelectField>
@@ -135,7 +134,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Throws</FieldLabel>
         <SelectField 
           value={details.throwingArm?.key}
-          onChange={throwingArm => update({ type: 'updateThrowingArm', throwingArm: toKeyedCode(options.throwingArmOptions, throwingArm)})}
+          onChange={throwingArm => update({ type: 'updateThrowingArm', throwingArm: fromOptions(options.throwingArmOptions, throwingArm)})}
         >
           {toOptions(options.throwingArmOptions)}
         </SelectField>
@@ -144,7 +143,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Pitching Mechanics</FieldLabel>
         <SelectField 
           value={details.pitchingMechanics?.id} 
-          onChange={id => update({ type: 'updatePitchingMechanics', mechanics: toSimpleCode(options.pitchingMechanicsOptions, id)})} 
+          onChange={id => update({ type: 'updatePitchingMechanics', mechanics: fromOptions(options.pitchingMechanicsOptions, id)})} 
         >
           {toOptions(options.pitchingMechanicsOptions)}
         </SelectField>

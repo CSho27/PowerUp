@@ -1,5 +1,7 @@
 import { KeyedCode } from "../../app/shared/keyedCode";
 import { SimpleCode } from "../../app/shared/simpleCode";
+import { ListboxOption, ListboxOptionProps } from "@reach/listbox";
+import { ReactElement } from "react";
 
 export type OptionCode = KeyedCode | SimpleCode;
 
@@ -13,9 +15,9 @@ function isSimpleCode(code: OptionCode): code is SimpleCode {
 
 export function toOption(code: OptionCode) {
   if(isKeyedCode(code))
-    return <option key={code.key} value={code.key}>{code.name}</option>
+    return <ListboxOption key={code.key} value={code.key}>{code.name}</ListboxOption>
   if(isSimpleCode(code))
-    return <option key={code.id} value={code.id.toString()}>{code.name}</option>
+    return <ListboxOption key={code.id} value={code.id.toString()}>{code.name}</ListboxOption>
 
   throw 'Invalid OptionCode type';
 }
@@ -23,30 +25,28 @@ export function toOption(code: OptionCode) {
 export function toOptions(codes: KeyedCode[] | SimpleCode[], icludeEmptyOption?: boolean) {
   const options = codes.map(toOption);
   return icludeEmptyOption
-    ? [<option key='' value=''></option>, ...options]
+    ? withEmptyOption(options)
     : options;
 }
 
-export function toKeyedCode(options: KeyedCode[], value: string): KeyedCode {
-  const keyedCode = tryToKeyedCode(options, value);
-  if(!keyedCode)
+export function withEmptyOption(options: ReactElement<ListboxOptionProps>[]): ReactElement<ListboxOptionProps>[] {
+  return [<ListboxOption key='' value='None' style={{ color: 'transparent' }}>None</ListboxOption>, ...options]
+}
+
+export function fromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode {
+  const code = tryFromOptions(options, value);
+  if(!code)
     throw `'${value}' not found in options`;
+
+  return code;
+}
+
+export function tryFromOptions<TOptionCode extends OptionCode>(options: TOptionCode[], value: string): TOptionCode | undefined {
+  if(options.length === 0)
+    return undefined;
   
-  return keyedCode;
-}
-
-export function tryToKeyedCode(options: KeyedCode[], value: string): KeyedCode | undefined {
-  return options.find(o => o.key === value);
-}
-
-export function toSimpleCode(options: SimpleCode[], value: string): SimpleCode {
-  const simpleCode = tryToSimpleCode(options, value);
-  if(!simpleCode)
-    throw `'${value}' not found in options`;
-  
-  return simpleCode;
-}
-
-export function tryToSimpleCode(options: SimpleCode[], value: string): SimpleCode | undefined {
-  return options.find(o => o.id.toString() === value);
+  if(options.every(isKeyedCode))
+    return options.find(o => (o as KeyedCode).key === value);
+  if(options.every(isSimpleCode))
+    return options.find(o => (o as SimpleCode).id.toString() === value);
 }

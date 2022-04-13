@@ -11,6 +11,7 @@ export interface LoadPlayerEditorRequest {
 export interface PlayerEditorResponse {
   options: PlayerEditorOptions; 
   personalDetails: PlayerPersonalDetailsDto;
+  appearanceDetails: PlayerAppearanceDetailsDto;
   positionCapabilityDetails: PositionCapabilityDetailsDto;
   hitterAbilityDetails: HitterAbilityDetailsDto;
   pitcherAbilityDetails: PitcherAbilityDetailsDto;
@@ -19,6 +20,7 @@ export interface PlayerEditorResponse {
 
 export interface PlayerEditorOptions {
   personalDetailsOptions: PersonalDetailsOptions;  
+  appearanceOptions: AppearanceOptions;
   positionCapabilityOptions: KeyedCode[];
   pitcherAbilitiesOptions: PitcherAbilitiesOptions;
   specialAbilitiesOptions: SpecialAbilitiesOptions;
@@ -32,6 +34,29 @@ export interface PersonalDetailsOptions {
   battingStanceOptions: SimpleCode[];
   throwingArmOptions: KeyedCode[];
   pitchingMechanicsOptions: SimpleCode[];
+}
+
+export interface AppearanceOptions {
+  faceOptions: FaceCode[];
+  eyebrowThicknessOptions: KeyedCode[];
+  skinColorOptions: KeyedCode[];
+  eyeColorOptions: KeyedCode[];
+  hairStyleOptions: KeyedCode[];
+  facialHairStyleOptions: KeyedCode[];
+  hairColorOptions: KeyedCode[];
+  batColorOptions: KeyedCode[];
+  gloveColorOptions: KeyedCode[];
+  eyewearTypeOptions: KeyedCode[];
+  eyewearFrameColorOptions: KeyedCode[];
+  eyewearLensColorOptions: KeyedCode[];
+  earringSideOptions: KeyedCode[];
+  accessoryColorOptions: KeyedCode[];
+}
+
+export interface FaceCode extends SimpleCode {
+  canChooseSkin: boolean;
+  canChooseEyebrows: boolean;
+  canChooseEyes: boolean;
 }
 
 export interface PitcherAbilitiesOptions {
@@ -72,6 +97,26 @@ export interface PlayerPersonalDetailsDto {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+}
+
+export interface PlayerAppearanceDetailsDto {
+  face: FaceCode;
+  eyebrows: KeyedCode | null;
+  skinColor: KeyedCode | null;
+  eyeColor: KeyedCode | null;
+  hairStyle: KeyedCode | null;
+  hairColor: KeyedCode | null;
+  facialHairStyle: KeyedCode | null;
+  facialHairColor: KeyedCode | null;
+  batColor: KeyedCode;
+  gloveColor: KeyedCode;
+  eyewearType: KeyedCode  | null;
+  eyewearFrameColor: KeyedCode | null;
+  eyewearLensColor: KeyedCode | null;
+  earringSide: KeyedCode | null;
+  earringColor: KeyedCode | null;
+  rightWristbandColor: KeyedCode | null;
+  leftWristbandColor: KeyedCode | null;
 }
 
 export interface PositionCapabilityDetailsDto {

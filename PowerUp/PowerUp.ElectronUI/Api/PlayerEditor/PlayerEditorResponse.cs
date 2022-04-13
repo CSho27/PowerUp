@@ -10,6 +10,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     public PlayerEditorOptions Options { get; }
     public PlayerPersonalDetailsDto PersonalDetails { get; }
+    public AppearanceDetailsDto AppearanceDetails { get; }
     public PositionCapabilityDetailsDto PositionCapabilityDetails { get; }
     public HitterAbilityDetailsDto HitterAbilityDetails { get; }
     public PitcherAbilityDetailsDto PitcherAbilityDetails { get; }
@@ -19,11 +20,13 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
       IPitchingMechanicsLibrary pitchingMechanicsLibrary,
+      IFaceLibrary faceLibrary,
       Player player
     )
     {
-      Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
+      Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, faceLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
+      AppearanceDetails = new AppearanceDetailsDto(faceLibrary, player.Appearance);
       PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
       HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
       PitcherAbilityDetails = new PitcherAbilityDetailsDto(player.PitcherAbilities);
@@ -33,18 +36,21 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PlayerEditorOptions
   {
-    public PlayerPersonalDetailsOptions PersonalDetailsOptions { get; set; }
+    public PlayerPersonalDetailsOptions PersonalDetailsOptions { get; }
     public IEnumerable<KeyedCode> PositionCapabilityOptions => new GradeOptions();
+    public PlayerAppearanceOptions AppearanceOptions { get; }
     public PitcherAbilitiesOptions PitcherAbilitiesOptions => new PitcherAbilitiesOptions();
     public SpecialAbilitiesOptions SpecialAbilitiesOptions => new SpecialAbilitiesOptions();
 
     public PlayerEditorOptions(
       IVoiceLibrary voiceLibrary,
       IBattingStanceLibrary battingStanceLibrary,
-      IPitchingMechanicsLibrary pitchingMechanicsLibrary
+      IPitchingMechanicsLibrary pitchingMechanicsLibrary,
+      IFaceLibrary faceLibrary
     )
     {
       PersonalDetailsOptions = new PlayerPersonalDetailsOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary);
+      AppearanceOptions = new PlayerAppearanceOptions(faceLibrary);
     }
   }
 
@@ -67,6 +73,45 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       VoiceOptions = voiceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
       BattingStanceOptions = battingStanceLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
       PitchingMechanicsOptions = pitchingMechanicsLibrary.GetAll().Select(v => new SimpleCode(id: v.Key, name: v.Value));
+    }
+  }
+
+  public class PlayerAppearanceOptions
+  {
+    public IEnumerable<FaceCode> FaceOptions { get; }
+    public IEnumerable<KeyedCode> EyebrowThicknessOptions => EnumExtensions.GetKeyedCodeList<EyebrowThickness>();
+    public IEnumerable<KeyedCode> SkinColorOptions => EnumExtensions.GetKeyedCodeList<SkinColor>();
+    public IEnumerable<KeyedCode> EyeColorOptions => EnumExtensions.GetKeyedCodeList<EyeColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> HairStyleOptions => EnumExtensions.GetKeyedCodeList<HairStyle>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> FacialHairStyleOptions => EnumExtensions.GetKeyedCodeList<FacialHairStyle>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> HairColorOptions => EnumExtensions.GetKeyedCodeList<HairColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> BatColorOptions => EnumExtensions.GetKeyedCodeList<BatColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> GloveColorOptions => EnumExtensions.GetKeyedCodeList<GloveColor>(c => c.ToNumberedKeyedCode(addOne: true));
+    public IEnumerable<KeyedCode> EyewearTypeOptions => EnumExtensions.GetKeyedCodeList<EyewearType>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> EyewearFrameColorOptions => EnumExtensions.GetKeyedCodeList<EyewearFrameColor>();
+    public IEnumerable<KeyedCode> EyewearLensColorOptions => EnumExtensions.GetKeyedCodeList<EyewearLensColor>();
+    public IEnumerable<KeyedCode> EarringSideOptions => EnumExtensions.GetKeyedCodeList<EarringSide>(c => c.ToNumberedKeyedCode());
+    public IEnumerable<KeyedCode> AccessoryColorOptions => EnumExtensions.GetKeyedCodeList<AccessoryColor>(c => c.ToNumberedKeyedCode(addOne: true));
+
+    public PlayerAppearanceOptions(IFaceLibrary faceLibrary)
+    {
+      FaceOptions = faceLibrary.GetAll().Select(v => new FaceCode(id: v.Key, name: v.Value));
+    }
+  }
+
+  public class FaceCode : SimpleCode
+  {
+    public bool CanChooseSkin { get; }
+    public bool CanChooseEyebrows { get; }
+    public bool CanChooseEyes { get; }
+
+    public FaceCode(int id, string name)
+      : base(id, name)
+    {
+      var faceType = FaceTypeHelpers.GetFaceType(id);
+      CanChooseSkin = FaceTypeHelpers.CanChooseSkinColor(faceType);
+      CanChooseEyebrows = FaceTypeHelpers.CanChooseEyebrows(faceType);
+      CanChooseEyes = FaceTypeHelpers.CanChooseEyes(faceType);
     }
   }
 
@@ -138,6 +183,48 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       BattingStance = new SimpleCode(id: player.BattingStanceId, name: battingStanceLibrary[player.BattingStanceId]);
       ThrowingArm = player.ThrowingArm.ToKeyedCode();
       PitchingMechanics = new SimpleCode(id: player.PitchingMechanicsId, name: pitchingMechanicsLibrary[player.PitchingMechanicsId]);
+    }
+  }
+
+  public class AppearanceDetailsDto
+  {
+    public FaceCode Face { get; set; }
+    public KeyedCode? Eyebrows { get; set; }
+    public KeyedCode? SkinColor { get; set; }
+    public KeyedCode? EyeColor { get; set; }
+    public KeyedCode? HairStyle { get; set; }
+    public KeyedCode? HairColor { get; set; }
+    public KeyedCode? FacialHairStyle { get; set; }
+    public KeyedCode? FacialHairColor { get; set; }
+    public KeyedCode BatColor { get; set; }
+    public KeyedCode GloveColor { get; set; }
+    public KeyedCode? EyewearType { get; set; }
+    public KeyedCode? EyewearFrameColor { get; set; }
+    public KeyedCode? EyewearLensColor { get; set; }
+    public KeyedCode? EarringSide { get; set; }
+    public KeyedCode? EarringColor { get; set; }
+    public KeyedCode? RightWristbandColor { get; set; }
+    public KeyedCode? LeftWristbandColor { get; set; }
+
+    public AppearanceDetailsDto(IFaceLibrary faceLibrary, Appearance appearance)
+    {
+      Face = new FaceCode(id: appearance.FaceId, name: faceLibrary[appearance.FaceId]);
+      Eyebrows = appearance.EyebrowThickness?.ToKeyedCode();
+      SkinColor = appearance.SkinColor?.ToKeyedCode();
+      EyeColor = appearance.EyeColor?.ToNumberedKeyedCode(addOne: true);
+      HairStyle = appearance.HairStyle?.ToNumberedKeyedCode();
+      HairColor = appearance.HairColor?.ToNumberedKeyedCode(addOne: true);
+      FacialHairStyle = appearance.FacialHairStyle?.ToNumberedKeyedCode();
+      FacialHairColor = appearance.FacialHairColor?.ToNumberedKeyedCode(addOne: true);
+      BatColor = appearance.BatColor.ToKeyedCode();
+      GloveColor = appearance.GloveColor.ToKeyedCode();
+      EyewearType = appearance.EyewearType?.ToNumberedKeyedCode();
+      EyewearFrameColor = appearance.EyewearFrameColor?.ToKeyedCode();
+      EyewearLensColor = appearance.EyewearLensColor?.ToKeyedCode();
+      EarringSide = appearance.EarringSide?.ToNumberedKeyedCode();
+      EarringColor = appearance.EarringColor?.ToNumberedKeyedCode(addOne: true);
+      RightWristbandColor = appearance.RightWristbandColor?.ToNumberedKeyedCode(addOne: true);
+      LeftWristbandColor = appearance.LeftWristbandColor?.ToNumberedKeyedCode(addOne: true);
     }
   }
 

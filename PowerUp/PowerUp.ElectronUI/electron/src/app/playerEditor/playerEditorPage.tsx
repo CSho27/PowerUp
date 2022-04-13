@@ -14,11 +14,12 @@ import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { AppearanceEditor } from "./appearanceEditor";
 import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
 import { BattingSide } from "./hotZoneGrid";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PitcherAbilitiesEditor } from "./pitcherAbilitiesEditor";
-import { buildSavePlayerRequestFromState, getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, getSepcialAbilitiesReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { buildSavePlayerRequestFromState, getAppearanceReducer, getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, getSepcialAbilitiesReducer, PlayerEditorStateReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
@@ -42,6 +43,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
   }
   const [state, update] = useReducerWithContext(PlayerEditorStateReducer, getInitialStateFromResponse(editorResponse), reducerContext);
   const [personalDetails, updatePersonalDetails] = getPersonalDetailsReducer(state, update);
+  const [apperance, updateAppearance] = getAppearanceReducer(state, update);
   const [positionCapabilityDetails, updatePositionCapabilities] = getPositionCapabilityDetailsReducer(state, update);
   const [hitterAbilities, updateHitterAbilities] = getHitterAbilitiesReducer(state, update);
   const [pitcherAbilities, updatePitcherAbilities] = getPitcherAbilitiesReducer(state, update);
@@ -94,6 +96,12 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={personalDetails}
           update={updatePersonalDetails}      
+        />}
+        {state.selectedTab === 'Appearance' &&
+        <AppearanceEditor 
+          options={options.appearanceOptions}
+          details={apperance}
+          update={updateAppearance}
         />}
         {state.selectedTab === 'Positions' &&
         <PositionCapabilitiesEditor 

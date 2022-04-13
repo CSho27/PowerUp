@@ -17,7 +17,9 @@ export function FlexRow(props:  PropsWithChildren<FlexRowProps>) {
   const childCount = React.Children.count(props.children);
   const gap = Number.parseInt(props.gap.replace('px', ''));
   const totalGapWidth = (childCount - 1) * gap;
-  const gapAdjustment = totalGapWidth / childCount;
+  const gapAdjustment = childCount > 0
+    ? totalGapWidth / childCount
+    : 0;
   
   return <FlexRowWrapper {...props}>
     {React.Children.map(props.children, mapWithGap)}
