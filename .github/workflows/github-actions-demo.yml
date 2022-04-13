@@ -3,7 +3,21 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+      
     steps:
-      - run: cd ./PowerUp/PowerUp.ElectronUI
-      - run: dotnet tool update ElectronNET.CLI -g
-      - run: electronize build /target win
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Install ElectronNET CLI
+      run: dotnet tool install --global ElectronNET.CLI --version 13.5.1
+        
+    - name: Publish Electron Application    
+      run: cd ./PowerUp/PowerUp.ElectronUI; electronize build /target win;
