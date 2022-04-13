@@ -24,16 +24,16 @@ jobs:
       run: dotnet tool install --global ElectronNET.CLI --version 13.5.1
         
     - name: Publish Electron Application    
-      run: cd /home/runner/work/PowerUp/PowerUp/PowerUp.ElectronUI; electronize build /target win;
+      run: cd ./PowerUp/PowerUp.ElectronUI; electronize build /target win;
         
     - name: Install Zip
       run: sudo apt install zip;
         
     - name: Zip Unpacked Application
-      run: ls; zip -r release.zip /home/runner/work/PowerUp/PowerUp/PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
+      run: ls; zip -r release.zip ./bin/Desktop/win-unpacked
       
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
       with:
         name: Release
-        path: /home/runner/work/PowerUp//PowerUp/PowerUp.ElectronUI/release.zip
+        path: ./release.zip
