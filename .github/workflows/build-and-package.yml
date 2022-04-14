@@ -11,6 +11,7 @@ jobs:
       
     steps:
     - name: Get Current Timestamp
+      id: time
       uses: nanzm/get-time-action@v1.1
       with:
         timeZone: 4
@@ -44,8 +45,6 @@ jobs:
       
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
-      env:
-        TIME: "${{ steps.time.outputs.time }}"
       with:
-        name: ${{ $TIME }}-win
+        name: ${{ steps.time.outputs.time }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
