@@ -10,6 +10,16 @@ jobs:
     runs-on: ubuntu-latest
       
     steps:
+    name: Get Current Timestamp
+    uses: nanzm/get-time-action@v1.1
+    with:
+      timeZone: 4
+      format: 'YYYY-MM-DD-HH-mm-ss'
+    - name: Usage
+      env:
+        TIME: "${{ steps.time.outputs.time }}"
+
+
     - name: Checkout
       uses: actions/checkout@v3
       with:
@@ -38,5 +48,5 @@ jobs:
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ date +%s }}-win
+        name: ${{ $TIME }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
