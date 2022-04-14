@@ -14,7 +14,7 @@ jobs:
       id: time
       uses: nanzm/get-time-action@v1.1
       with:
-        timeZone: 4
+        timeZone: -4
         format: 'YYYY-MM-DD-HH-mm-ss'
 
 
