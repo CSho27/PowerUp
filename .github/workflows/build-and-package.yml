@@ -32,7 +32,8 @@ jobs:
       run: dotnet tool install --global PowerShell
 
     - name: Publish Electron Application    
-      run: cd ./PowerUp/PowerUp.ElectronUI; pwsh ./winPack.ps1;
+      run: cd ./PowerUp/PowerUp.ElectronUI; 
+           pwsh ./winPack.ps1;
       
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
