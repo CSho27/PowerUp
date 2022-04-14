@@ -10,12 +10,11 @@ jobs:
     runs-on: ubuntu-latest
       
     steps:
-    name: Get Current Timestamp
-    uses: nanzm/get-time-action@v1.1
-    with:
-      timeZone: 4
-      format: 'YYYY-MM-DD-HH-mm-ss'
-    - name: Usage
+    - name: Get Current Timestamp
+      uses: nanzm/get-time-action@v1.1
+      with:
+        timeZone: 4
+        format: 'YYYY-MM-DD-HH-mm-ss'
       env:
         TIME: "${{ steps.time.outputs.time }}"
 
