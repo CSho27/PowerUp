@@ -15,8 +15,6 @@ jobs:
       with:
         timeZone: 4
         format: 'YYYY-MM-DD-HH-mm-ss'
-      env:
-        TIME: "${{ steps.time.outputs.time }}"
 
 
     - name: Checkout
@@ -46,6 +44,8 @@ jobs:
       
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
+      env:
+        TIME: "${{ steps.time.outputs.time }}"
       with:
         name: ${{ $TIME }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
