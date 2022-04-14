@@ -17,7 +17,6 @@ jobs:
         timeZone: -4
         format: 'YYYY-MM-DD-HH-mm-ss'
 
-
     - name: Checkout
       uses: actions/checkout@v3
       with:
