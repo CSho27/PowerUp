@@ -38,5 +38,5 @@ jobs:
     - name: Publish Atrifact
       uses: actions/upload-artifact@v3
       with:
-        name: Release
+        name: ${{ date +%s }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
