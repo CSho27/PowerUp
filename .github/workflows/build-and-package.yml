@@ -38,12 +38,22 @@ jobs:
     - name: Install Powershell
       run: dotnet tool install --global PowerShell
 
-    - name: Publish Electron Application    
+    - name: Build For Windows    
       run: cd ./PowerUp/PowerUp.ElectronUI; 
            pwsh ./winPack.ps1;
+           
+    - name: Build For Mac    
+      run: cd ./PowerUp/PowerUp.ElectronUI; 
+           pwsh ./macPack.ps1;
       
-    - name: Publish Atrifact
+    - name: Publish For Windows
       uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.time.outputs.time }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
+        
+    - name: Publish For Mac
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ steps.time.outputs.time }}-osx
+        path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/osx-unpacked
