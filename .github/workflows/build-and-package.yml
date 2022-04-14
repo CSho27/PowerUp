@@ -52,13 +52,8 @@ jobs:
         name: ${{ steps.time.outputs.time }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
     
-    - name: Print Folder Contents Mac
-      run: cd ./PowerUp/PowerUp.ElectronUI/bin/Desktop; ls;
-           cd ./osx; ls;
-           cd ./bin; ls;
-    
     - name: Publish For Mac
       uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.time.outputs.time }}-osx
-        path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/osx
+        path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop
