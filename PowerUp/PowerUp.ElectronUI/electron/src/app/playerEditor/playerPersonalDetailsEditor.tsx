@@ -106,9 +106,11 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4' style={{ display: 'flex', alignItems: 'flex-end' }}>
+        {false && <>
         <Button variant='Fill' size='Small' onClick={() =>  console.log('Find Closest Clicked')}>
           Find Closest
         </Button>
+        </>}
       </FlexFracItem>
     </FlexRow>
     <FlexRow gap='16px' withBottomPadding>
