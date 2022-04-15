@@ -46,4 +46,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.time.outputs.time }}-osx
-        path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop
+        path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/mac

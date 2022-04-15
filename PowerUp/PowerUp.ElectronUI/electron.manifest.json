@@ -11,7 +11,7 @@
     "appId": "com.PowerUp.app",
     "productName": "PowerUp",
     "copyright": "Copyright © 2022",
-    "buildVersion": "1.0.0",
+    "buildVersion": "0.0.2",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop",
