@@ -3,6 +3,6 @@ npm install;
 npm run build;
 Set-Location ..;
 electronize build /target osx;
-Copy-Item "./Data/data" "./bin/Desktop/osx/bin/Data/data" -recurse;
-Remove-Item "./bin/Desktop/osx/bin/appsettings.json";
-Rename-Item -Path "./bin/Desktop/osx/bin/appsettings.Release.json" -NewName "appsettings.json"
+Copy-Item "./Data/data" "./bin/Desktop/mac/PowerUp.app/Contents/Resources/bin/Data/data" -recurse;
+Remove-Item "./bin/Desktop/mac/PowerUp.app/Contents/Resources/bin/appsettings.json";
+Rename-Item -Path "./bin/Desktop/mac/PowerUp.app/Contents/Resources/bin/appsettings.Release.json" -NewName "appsettings.json"
