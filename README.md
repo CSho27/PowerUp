@@ -27,10 +27,8 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - In order for the game to load the new data, you will have to restart the game if it is already running
 
 Alpha Notes:
- - While the app is still in development, you will notice appearances, special abilities, and a few other properties will not export correctly
- - Until those features are implemented, the app will be overwriting random players, and your exports will take on the properties of the original player
- - Once all the features of the app have been completed, this problem will correct itself
- - There is no guaruntee your alpha database will work when used with newer versions of the app. App data will not be backwards compatible until v1.0.0
+ - There is no guaruntee your alpha database will work when used with newer versions of the app. App data will not be backwards compatible until v1.0.0.
+ - You *will* be able to import exported game saves from alpha versions.
 
 ## FAQ:
 1. Will the rosters work in season mode? <br/>
@@ -46,4 +44,4 @@ Alpha Notes:
 *No, the game saves will be in a different format. I will look into the possibility of supporting 2008 game saves in the future, but it may not be possible.*
 
 5. When will the full version be done? <br/>
-*Probably not for another few months. I'm currently working on this alone and there's a lot of work left to do.*
+*Probably not until June or July 2022. I'm currently working on this alone and there's a lot of work left to do.*
