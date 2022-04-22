@@ -118,6 +118,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         <HitterAbilitiesEditor
           battingSide={state.personalDetails.battingSide.key as BattingSide}
           details={hitterAbilities}
+          disabled={!canEdit}
           update={updateHitterAbilities}
         />}
         {state.selectedTab === 'Pitcher' &&
