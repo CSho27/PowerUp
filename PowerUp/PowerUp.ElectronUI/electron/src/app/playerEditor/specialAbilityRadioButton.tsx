@@ -11,14 +11,15 @@ export interface SpecialAbilityRadioButtonProps {
   checked: boolean;
   onSelect: () => void;
   id?: string;
+  disabled?: boolean;
 }
 
 export type SpecialAbilityEffect = 'Neutral' | 'Positive' | 'Negative';
 
 export function SpecialAbilityRadioButton(props: SpecialAbilityRadioButtonProps) {
-  const { name, label, effect, numericValue, checked, onSelect, id } = props;
+  const { name, label, effect, numericValue, checked, disabled, onSelect, id } = props;
   
-  return <OuterWrapper title={label} effect={effect} checked={checked} onClick={onSelect}>
+  return <OuterWrapper title={label} effect={effect} checked={checked} disabled={disabled} onClick={disabled ? () => {} : onSelect}>
     <InnerWrapper>
       <RadioButtonContainer>
         <RadioButton 
@@ -26,8 +27,9 @@ export function SpecialAbilityRadioButton(props: SpecialAbilityRadioButtonProps)
           groupName={name}
           value={label}
           checked={checked}
+          disabled={disabled}
           onSelect={() => {}}
-          />
+        />
       </RadioButtonContainer>
       <LabelContainer>
         <OutlineHeader
@@ -61,7 +63,7 @@ const colors: { [key in SpecialAbilityEffect]: string } = {
   `,
 }
 
-const OuterWrapper = styled.div<{ effect: SpecialAbilityEffect, checked: boolean }>`
+const OuterWrapper = styled.div<{ effect: SpecialAbilityEffect, checked: boolean, disabled?: boolean }>`
   ${p => colors[p.effect]}
   background-color: var(--outer-color);
   border-radius: 6px;
@@ -73,11 +75,13 @@ const OuterWrapper = styled.div<{ effect: SpecialAbilityEffect, checked: boolean
   overflow-x: hidden;
   line-height: 1;
   opacity: ${p => p.checked ? '1' : '.4'};
-  cursor: pointer;
+  cursor: ${p => p.disabled ? 'undefined' : 'pointer' };
   user-select: none;
 
   :hover {
-    opacity: ${p => p.checked ? '1' : '.5'};
+    opacity: ${p => p.disabled 
+      ? 'undefined'
+      : p.checked ? '1' : '.5'};
   }
 `
 
@@ -92,7 +96,7 @@ const InnerWrapper = styled.div`
 `
 
 const RadioButtonContainer = styled.div`
-  flex: 0 0 auto
+  flex: 0 0 auto;
 `
 
 const LabelContainer = styled.div`
