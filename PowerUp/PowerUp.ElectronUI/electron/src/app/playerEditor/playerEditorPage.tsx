@@ -60,6 +60,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
     <PlayerHeaderContainer>
       <div style={{ flex: '0 0 250px'}}>
         <PlayerNameBubble 
+          sourceType={editorResponse.personalDetails.sourceType}
           positionType={positionType}
           size='Large'
           fullWidth

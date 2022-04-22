@@ -1,0 +1,1 @@
+export type EntitySourceType = 'Base' | 'Imported' | 'Generated' | 'Custom';

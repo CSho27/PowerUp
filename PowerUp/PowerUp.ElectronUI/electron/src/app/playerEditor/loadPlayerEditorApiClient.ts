@@ -1,4 +1,5 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
+import { EntitySourceType } from "../shared/entitySourceType";
 import { KeyedCode } from "../shared/keyedCode";
 import { PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode";
@@ -85,6 +86,7 @@ export interface SpecialAbilitiesOptions {
 }
 
 export interface PlayerPersonalDetailsDto {
+  sourceType: EntitySourceType;
   firstName: string;
   lastName: string;
   isSpecialSavedName: boolean;

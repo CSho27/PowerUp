@@ -36,7 +36,14 @@ const colors: { [key in PositionType]: string } = {
   `
 }
 
-export const TextBubble = styled.div<{ positionType: PositionType, size: Size, squarePadding?: boolean, fullWidth?: boolean,  }>`
+export interface TextBubbleProps { 
+  positionType: PositionType;
+  size: Size;
+  squarePadding?: boolean;
+  fullWidth?: boolean;
+}
+
+export const TextBubble = styled.div<TextBubbleProps>`
   ${p => colors[p.positionType]}
   ${p => sizingStyles[p.size]}
   background-color: var(--bubble-color);

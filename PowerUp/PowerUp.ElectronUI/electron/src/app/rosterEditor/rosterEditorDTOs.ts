@@ -1,3 +1,4 @@
+import { EntitySourceType } from "../shared/entitySourceType";
 import { KeyedCode } from "../shared/keyedCode";
 import { Position } from "../shared/positionCode";
 
@@ -29,6 +30,8 @@ export interface PlayerDetails {
   positionAbbreviation: string;
   overall: string;
   batsAndThrows: string;
+  sourceType: EntitySourceType;
+  canEdit: boolean;
 }
 
 export interface HitterDetails extends PlayerDetails {

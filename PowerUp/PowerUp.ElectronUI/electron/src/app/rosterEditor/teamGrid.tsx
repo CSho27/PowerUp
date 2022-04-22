@@ -142,6 +142,7 @@ export function TeamGrid(props: TeamGridProps) {
       <td>
         <CenteringWrapper>
           <PlayerNameBubble 
+            sourceType={details.sourceType}
             positionType={positionType} 
             size='Medium'
             fullWidth
