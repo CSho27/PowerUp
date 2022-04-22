@@ -47,16 +47,22 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
       onBlur={() => setValueAndCallOnChange(value)}
       autoFocus={autoFocus}
     />
-    <NumberInputStepperWrapper>
+    <NumberInputStepperWrapper disabled={disabled}>
       <NumberInputStepper 
-        tabIndex={0} 
-        onMouseDown={() => startIncrementing(value ?? 0, stepSize)}
+        tabIndex={disabled ? undefined : 0} 
+        disabled={disabled}
+        onMouseDown={disabled
+          ? () => {}
+          : () => startIncrementing(value ?? 0, stepSize)}
       >
         <Icon icon='chevron-up'/>
       </NumberInputStepper>
       <NumberInputStepper  
-        tabIndex={0} 
-        onMouseDown={() => startIncrementing(value ?? 0, -1 * stepSize)}
+        tabIndex={disabled ? undefined : 0} 
+        disabled={disabled}
+        onMouseDown={disabled
+          ? () => {}
+          : () => startIncrementing(value ?? 0, -1 * stepSize)}
       >
         <Icon icon='chevron-down' />
       </NumberInputStepper>
@@ -141,7 +147,7 @@ const NumberInput = styled.input`
   }
 `
 
-const NumberInputStepperWrapper = styled.div`
+const NumberInputStepperWrapper = styled.div<{ disabled?: boolean }>`
   position: absolute;
   right: 0;
   top: 0;
@@ -151,16 +157,17 @@ const NumberInputStepperWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  background-color: ${COLORS.white.regular_100};
+  background-color: ${p => p.disabled ? COLORS.jet.superlight_85 : COLORS.white.regular_100};
+  color: ${p => p.disabled ? COLORS.richBlack.regular_5 : 'undefined'};
 `
 
-const NumberInputStepper = styled.a`
+const NumberInputStepper = styled.a<{ disabled?: boolean }>`
   display: block;
   line-height: 0;
   font-size: .8rem;
-  cursor: pointer;
+  cursor: ${p => p.disabled ? 'default' : 'pointer'};
 
   &:hover {
-    color: ${COLORS.primaryBlue.regular_45};
+    color: ${p => p.disabled ? 'undefined' : COLORS.primaryBlue.regular_45};
   }
 `
