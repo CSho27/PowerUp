@@ -111,6 +111,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           primaryPosition={state.personalDetails.position}
           options={options.positionCapabilityOptions}
           details={positionCapabilityDetails}
+          disabled={!canEdit}
           update={updatePositionCapabilities}
         />}
         {state.selectedTab === 'Hitter' &&
