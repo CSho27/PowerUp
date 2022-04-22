@@ -11,6 +11,7 @@ export interface ButtonProps {
   textAlign?: ButtonTextAlignment;
   squarePadding?: boolean;
   disabled?: boolean;
+  title?: string;
   children?: React.ReactNode;
   onClick: () => void;
 }
@@ -20,7 +21,7 @@ export type ButtonSize = 'Small' | 'Medium' | 'Large';
 export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, id, icon, textAlign, squarePadding, disabled, children, onClick } = props;
+  const { variant, size, id, icon, textAlign, squarePadding, disabled, title, children, onClick } = props;
 
   const buttonContent = !icon 
     ? children
@@ -38,6 +39,7 @@ export function Button(props: ButtonProps) {
       return <FillButton 
         id={id}
         disabled={disabled}
+        title={title}
         onClick={handleClick}
         size={size} 
         textAlign={textAlign}
@@ -47,6 +49,7 @@ export function Button(props: ButtonProps) {
       return <OutlineButton 
         id={id}
         disabled={disabled}
+        title={title}
         onClick={handleClick} 
         size={size} 
         textAlign={textAlign}
@@ -56,6 +59,7 @@ export function Button(props: ButtonProps) {
       return <GhostButton 
         id={id}
         disabled={disabled}
+        title={title}
         onClick={handleClick} 
         size={size} 
         textAlign={textAlign}

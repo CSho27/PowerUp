@@ -38,6 +38,8 @@ const SourceTypeStamp = styled.div`
   line-height: 1;
   color: ${COLORS.white.regular_100};
   border: solid 2px ${COLORS.white.regular_100};
+  border-radius: 2px;
+  cursor: default;
 `
 
 function getSourceTypeTooltip(sourceType: EntitySourceType): string {

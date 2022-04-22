@@ -118,7 +118,12 @@ export function TeamGrid(props: TeamGridProps) {
         <Button
           size='Small'
           variant='Outline'
-          icon='user-pen'
+          title={details.canEdit
+            ? 'Edit'
+            : 'View'}
+          icon={details.canEdit
+            ? 'user-pen'
+            : 'eye'}
           squarePadding
           onClick={() => editPlayer(details.playerId)}
         />
