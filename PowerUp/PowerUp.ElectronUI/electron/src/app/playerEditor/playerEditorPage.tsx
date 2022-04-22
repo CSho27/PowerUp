@@ -78,7 +78,16 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         {personalDetails.uniformNumber}
       </OutlineHeader>
       <div style={{ flex: 'auto', display: 'flex', justifyContent: 'flex-end' }}>
-        <Button variant='Fill' size='Medium' onClick={savePlayer} icon='floppy-disk'>Save</Button>
+        <Button 
+          variant='Fill' 
+          size='Medium' 
+          onClick={savePlayer} 
+          icon='floppy-disk' 
+          disabled={!canEdit} 
+          title={canEdit 
+            ? undefined 
+            : 'Player cannot be edited'}
+        >Save</Button>
       </div>
     </PlayerHeaderContainer>
     <TabButtonNav 
