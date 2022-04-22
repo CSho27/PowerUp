@@ -8,6 +8,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 {
   public class PlayerEditorResponse
   {
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; }
+    public bool CanEdit => SourceType.CanEdit();
     public PlayerEditorOptions Options { get; }
     public PlayerPersonalDetailsDto PersonalDetails { get; }
     public AppearanceDetailsDto AppearanceDetails { get; }
@@ -24,6 +28,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Player player
     )
     {
+      SourceType = player.SourceType;
       Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, faceLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
       AppearanceDetails = new AppearanceDetailsDto(faceLibrary, player.Appearance);
@@ -144,8 +149,6 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PlayerPersonalDetailsDto
   {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public EntitySourceType SourceType { get; }
     public int? Year { get; }
     public string? ImportSource { get; }
     public string FirstName { get; }
@@ -168,7 +171,6 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Player player
     )
     {
-      SourceType = player.SourceType;
       Year = player.Year;
       ImportSource = player.ImportSource;
       FirstName = player.FirstName;

@@ -33,7 +33,7 @@ export interface PlayerEditorPageProps {
 
 export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, playerId, editorResponse } = props;
-  const { options } = editorResponse;
+  const { sourceType, canEdit, options } = editorResponse;
 
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
 
@@ -60,7 +60,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
     <PlayerHeaderContainer>
       <div style={{ flex: '0 0 250px'}}>
         <PlayerNameBubble 
-          sourceType={editorResponse.personalDetails.sourceType}
+          sourceType={sourceType}
           positionType={positionType}
           size='Large'
           fullWidth
@@ -96,6 +96,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           options={options.personalDetailsOptions}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={personalDetails}
+          disabled={!canEdit}
           update={updatePersonalDetails}      
         />}
         {state.selectedTab === 'Appearance' &&

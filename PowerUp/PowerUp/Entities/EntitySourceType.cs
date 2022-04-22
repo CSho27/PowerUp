@@ -20,4 +20,10 @@
     /// </summary>
     Custom
   }
+
+  public static class EntitySourceTypeExtensions
+  {
+    public static bool CanEdit(this EntitySourceType sourceType) 
+      => sourceType == EntitySourceType.Custom || sourceType == EntitySourceType.Generated;
+  }
 }

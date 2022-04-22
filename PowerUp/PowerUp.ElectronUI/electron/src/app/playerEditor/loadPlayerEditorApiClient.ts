@@ -10,6 +10,8 @@ export interface LoadPlayerEditorRequest {
 }
 
 export interface PlayerEditorResponse {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   options: PlayerEditorOptions; 
   personalDetails: PlayerPersonalDetailsDto;
   appearanceDetails: PlayerAppearanceDetailsDto;
@@ -86,7 +88,6 @@ export interface SpecialAbilitiesOptions {
 }
 
 export interface PlayerPersonalDetailsDto {
-  sourceType: EntitySourceType;
   firstName: string;
   lastName: string;
   isSpecialSavedName: boolean;
