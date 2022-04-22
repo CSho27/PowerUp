@@ -13,11 +13,12 @@ import { Appearance, AppearanceAction } from "./playerEditorState";
 export interface AppearanceEditorProps {
   options: AppearanceOptions;
   details: Appearance;
+  disabled?: boolean;
   update: Dispatch<AppearanceAction>;
 }
 
 export function AppearanceEditor(props: AppearanceEditorProps) {
-  const { options, details, update } = props;
+  const { options, details, disabled: editorDisabled, update } = props;
   
   return <FlexRow gap='16px'>
     <FlexFracItem frac='1/2'>
@@ -27,6 +28,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='Face'
             value={details.face?.id}
+            disabled={editorDisabled}
             onChange={faceId => update({ type: 'updateFace', face: fromOptions(options.faceOptions, faceId) })}
           >{toOptions(options.faceOptions)}</SelectField>
         </FlexFracItem>
@@ -36,6 +38,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='eyebrows'
             value={details.eyebrows.key}
+            disabled={editorDisabled}
             onChange={eyebrows => update({ type: 'updateEyebrows', eyebrows: fromOptions(options.eyebrowThicknessOptions, eyebrows) })}
           >{toOptions(options.eyebrowThicknessOptions)}</SelectField> 
           </>}
@@ -49,6 +52,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='skin'
             value={details.skinColor.key}
+            disabled={editorDisabled}
             onChange={skin => update({ type: 'updateSkinColor', skinColor: fromOptions(options.skinColorOptions, skin) })}
           >{options.skinColorOptions.map(c => toColorOption(c, getSkinColor))}</SelectField> 
           </>}
@@ -59,6 +63,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='eyes'
             value={details.eyeColor.key}
+            disabled={editorDisabled}
             onChange={eyes => update({ type: 'updateEyeColor', eyeColor: fromOptions(options.eyeColorOptions, eyes) })}
           >{options.eyeColorOptions.map(c => toColorOption(c, getEyeColor))}</SelectField> 
           </>}
@@ -70,6 +75,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='hair'
             value={details.hairStyle?.key}
+            disabled={editorDisabled}
             onChange={hairStyle => update({ type: 'updateHairStyle', hairStyle: tryFromOptions(options.hairStyleOptions, hairStyle) })}
           >{toOptions(options.hairStyleOptions, true)}</SelectField> 
         </FlexFracItem> 
@@ -79,6 +85,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='hairColor'
             value={details.hairColor.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateHairColor', hairColor: fromOptions(options.hairColorOptions, color) })}
           >{options.hairColorOptions.map(c => toColorOption(c, getHairColor))}</SelectField> 
           </>}
@@ -90,6 +97,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='facialHair'
             value={details.facialHairStyle?.key}
+            disabled={editorDisabled}
             onChange={hairStyle => update({ type: 'updateFacialHairStyle', facialHairStyle: tryFromOptions(options.facialHairStyleOptions, hairStyle) })}
           >{toOptions(options.facialHairStyleOptions, true)}</SelectField> 
         </FlexFracItem> 
@@ -99,6 +107,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='facialHairColor'
             value={details.facialHairColor.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateFacialHairColor', facialHairColor: fromOptions(options.hairColorOptions, color) })}
           >{options.hairColorOptions.map(c => toColorOption(c, getHairColor))}</SelectField> 
           </>}
@@ -111,6 +120,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='bat'
             value={details.batColor.key}
+            disabled={editorDisabled}
             onChange={bat => update({ type: 'updateBatColor', batColor: fromOptions(options.batColorOptions, bat) })}
           >{options.batColorOptions.map(toBatColorOption)}</SelectField> 
         </FlexFracItem> 
@@ -119,6 +129,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='glove'
             value={details.gloveColor.key}
+            disabled={editorDisabled}
             onChange={glove => update({ type: 'updateGloveColor', gloveColor: fromOptions(options.gloveColorOptions, glove) })}
           >{options.gloveColorOptions.map(c => toColorOption(c, getGloveColor))}</SelectField> 
         </FlexFracItem> 
@@ -129,6 +140,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='eyewearType'
             value={details.eyewearType?.key}
+            disabled={editorDisabled}
             onChange={eyewear => update({ type: 'updateEyewearType', eyewearType: tryFromOptions(options.eyewearTypeOptions, eyewear) })}
           >{toOptions(options.eyewearTypeOptions, true)}</SelectField> 
         </FlexFracItem> 
@@ -138,6 +150,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='eyewearFrameColor'
             value={details.eyewearFrameColor.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateEyewearFrameColor', frameColor: fromOptions(options.eyewearFrameColorOptions, color) })}
           >{options.eyewearFrameColorOptions.map(c => toColorOption(c, getFrameColor))}</SelectField> 
         </FlexFracItem>}
@@ -147,6 +160,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='eyewearLensColor'
             value={details.eyewearLensColor.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateEyewearLensColor', lensColor: fromOptions(options.eyewearLensColorOptions, color) })}
           >{options.eyewearLensColorOptions.map(c => toColorOption(c, getLensColor))}</SelectField> 
         </FlexFracItem>}
@@ -157,6 +171,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='earrings'
             value={details.earringSide?.key}
+            disabled={editorDisabled}
             onChange={earringSide => update({ type: 'updateEarringSide', earringSide: tryFromOptions(options.earringSideOptions, earringSide) })}
           >{toOptions(options.earringSideOptions, true)}</SelectField> 
         </FlexFracItem> 
@@ -166,6 +181,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='earringColor'
             value={details.earringColor.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateEarringColor', earringColor: fromOptions(options.accessoryColorOptions, color) })}
           >{options.accessoryColorOptions.map(c => toColorOption(c, getAccessoryColor))}</SelectField> 
           </>}
@@ -177,6 +193,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='rightWristband'
             value={details.rightWristbandColor?.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateRightWristbandColor', color: tryFromOptions(options.accessoryColorOptions, color) })}
           >{withEmptyOption(options.accessoryColorOptions.map(c => toColorOption(c, getAccessoryColor)))}</SelectField> 
         </FlexFracItem> 
@@ -185,6 +202,7 @@ export function AppearanceEditor(props: AppearanceEditorProps) {
           <SelectField 
             id='leftWristband'
             value={details.leftWristbandColor?.key}
+            disabled={editorDisabled}
             onChange={color => update({ type: 'updateLeftWristbandColor', color: tryFromOptions(options.accessoryColorOptions, color) })}
           >{withEmptyOption(options.accessoryColorOptions.map(c => toColorOption(c, getAccessoryColor)))}</SelectField> 
         </FlexFracItem> 

@@ -21,8 +21,8 @@ export interface PlayerEditorState {
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
 export const playerEditorTabOptions = [
   'Personal',
-  'Positions',
   'Appearance',
+  'Positions',
   'Hitter',
   'Pitcher',
   'Special'

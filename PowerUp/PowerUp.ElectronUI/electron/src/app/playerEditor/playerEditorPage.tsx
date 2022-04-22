@@ -103,6 +103,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         <AppearanceEditor 
           options={options.appearanceOptions}
           details={apperance}
+          disabled={!canEdit}
           update={updateAppearance}
         />}
         {state.selectedTab === 'Positions' &&
