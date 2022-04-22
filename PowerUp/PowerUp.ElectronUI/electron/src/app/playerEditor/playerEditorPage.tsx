@@ -125,6 +125,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         <PitcherAbilitiesEditor
           options={options.pitcherAbilitiesOptions}
           details={pitcherAbilities}
+          disabled={!canEdit}
           update={updatePitcherAbilities}
         />}
         {state.selectedTab === 'Special' &&
