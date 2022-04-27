@@ -1,10 +1,9 @@
 ﻿using PowerUp.Databases;
 using System;
-using System.Collections.Generic;
 
 namespace PowerUp.Entities.Players
 {
-  public class Player : Entity
+  public class Player : Entity<Player>
   {
     public EntitySourceType SourceType { get; set; }
     public string LastName { get; set; } = string.Empty;

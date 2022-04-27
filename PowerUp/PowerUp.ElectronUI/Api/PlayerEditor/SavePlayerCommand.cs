@@ -19,9 +19,9 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       if (!request.PlayerId.HasValue)
         throw new ArgumentNullException(nameof(request.PlayerId));
 
-      var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
+      var player = DatabaseConfig.Database.Load<Player>(request.PlayerId!.Value);
       _playerApi.UpdatePlayer(player!, request.GetParameters());
-      DatabaseConfig.PlayerDatabase.Save(player!);
+      DatabaseConfig.Database.Save(player!);
 
       return ResultResponse.Succeeded();
     }

@@ -1,5 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities;
+using PowerUp.Entities.Rosters;
 using PowerUp.GameSave.Api;
 using PowerUp.Libraries;
 
@@ -21,8 +22,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
     public LoadBaseResponse Execute(LoadBaseRequest request)
     {
-      var baseRoster = DatabaseConfig.RosterDatabase
-        .LoadAll()
+      var baseRoster = DatabaseConfig.Database
+        .LoadAll<Roster>()
         .SingleOrDefault(r => r.SourceType == EntitySourceType.Base);
 
       if(baseRoster == null)

@@ -1,5 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.ElectronUI.Api.Shared;
+using PowerUp.Entities.Rosters;
 using PowerUp.GameSave.Api;
 
 namespace PowerUp.ElectronUI.Api.Rosters
@@ -18,7 +19,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       if(request.DirectoryPath == null)
         throw new ArgumentNullException(nameof(request.DirectoryPath));
 
-      var roster = DatabaseConfig.RosterDatabase.Load(request.RosterId);
+      var roster = DatabaseConfig.Database.Load<Roster>(request.RosterId);
 
       var parameters = new RosterExportParameters 
       {
