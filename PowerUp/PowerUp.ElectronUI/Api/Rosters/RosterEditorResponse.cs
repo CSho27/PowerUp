@@ -83,8 +83,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
-    public bool CanEdit => SourceType == EntitySourceType.Custom 
-      || SourceType == EntitySourceType.Generated;
+    public bool CanEdit => SourceType.CanEdit();
 
     public PlayerDetails(
       int id,
