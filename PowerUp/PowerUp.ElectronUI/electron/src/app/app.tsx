@@ -7,6 +7,7 @@ import { GenerateId } from '../utils/generateId';
 import { AppState, AppStateReducer, BreadcrumbDefinition, ModalDefinition } from './appState';
 import { GlobalStyles } from './globalStyles';
 import { PageLoadDefinition, pageRegistry } from './pages';
+import { InitializeBaseRosterApiClient } from './rosterEditor/importBaseRosterApiClient';
 
 export interface ApplicationStartupData {
   commandUrl: string;
@@ -53,6 +54,9 @@ export function App(props: ApplicationStartupData) {
     { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
     { keys: ['Control', 'Alt', 'Shift', 'O'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) }
   )
+
+  // Initializes Base Roster
+  useEffect(() => { new InitializeBaseRosterApiClient(appContext.commandFetcher).execute() }, []);
 
   return <>
     {state.currentPage.renderPage(appContext)}
