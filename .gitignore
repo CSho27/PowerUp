@@ -7,7 +7,7 @@
 SaveFileAnalysis/*.dat
 PowerUp/PowerUp.ElectronUI/wwwroot/*
 !PowerUp/PowerUp.ElectronUI/wwwroot/assets
-PowerUp/PowerUp.ElectronUI/Data/Data.db
+*db
 
 #NCrunch
 *.ncrunch*

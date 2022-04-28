@@ -1,4 +1,6 @@
-﻿namespace PowerUp.Databases
+﻿using System;
+
+namespace PowerUp.Databases
 {
   public static class DatabaseConfig
   {
@@ -7,6 +9,9 @@
     public static void Initialize(string dataDirectory)
     {
       Database = new EntityDatabase(dataDirectory);
+      AppDomain.CurrentDomain.ProcessExit += new EventHandler(DisposeDatabase);
     }
+
+    private static void DisposeDatabase(object? sender, EventArgs? e) => Database.Dispose();
   }
 }
