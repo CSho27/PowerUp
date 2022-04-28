@@ -11,7 +11,7 @@ export interface ToggleSwitchProps {
 export function ToggleSwitch(props: ToggleSwitchProps) {
   const { isOn, onToggle, id, disabled } = props;
   
-  return <ToggleBackground isOn={isOn} disabled={disabled}>
+  return <ToggleBackground isOn={isOn} disabled={!!disabled}>
     <ToggleSwitchNode />
     <ToggleInput
       id={id} 
@@ -23,7 +23,7 @@ export function ToggleSwitch(props: ToggleSwitchProps) {
   </ToggleBackground>
 }
 
-const ToggleBackground = styled.div<{ isOn: boolean, disabled?: boolean }>`
+const ToggleBackground = styled.div<{ isOn: boolean, disabled: boolean }>`
   border: inset 1px ${COLORS.richBlack.regular_5};
   border-radius: 10px;
   position: relative;
@@ -45,7 +45,7 @@ const ToggleSwitchNode = styled.div`
   border-radius: 50%;
 `
 
-const ToggleInput = styled.input<{ disabled?: boolean }>`
+const ToggleInput = styled.input`
   position: absolute;
   top: 0;
   left: 0;
