@@ -6,6 +6,7 @@ import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { SelectField } from "../../components/SelectField/selectField";
 import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
+import { ToggleSwitch } from "../../components/toggleSwitch/toggleSwitch";
 import { FONT_SIZES } from "../../style/constants";
 import { PersonalDetailsOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
@@ -28,6 +29,15 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
   } = props;
   
   return <>
+    <FlexRow gap='16px' vAlignCenter withBottomPadding>
+      <FieldLabel htmlFor='personal-is-custom-player'>Custom Player</FieldLabel>
+      <ToggleSwitch 
+        id='personal-is-custom-player'
+        isOn={details.isCustomPlayer}
+        onToggle={() => update({ type: 'toggleIsCustomPlayer' })}
+        disabled={editorDisabled}
+      />
+    </FlexRow>
     <FlexRow gap='16px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>First Name</FieldLabel>

@@ -14,6 +14,7 @@ namespace PowerUp.Entities.Players.Api
 
   public class PlayerPersonalDetailsParameters
   {
+    public bool IsCustomPlayer { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool KeepSpecialSavedName { get; set; }

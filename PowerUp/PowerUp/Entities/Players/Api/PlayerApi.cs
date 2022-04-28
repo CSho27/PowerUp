@@ -21,6 +21,7 @@
 
     private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)
     {
+      player.IsCustomPlayer = parameters.IsCustomPlayer;
       player.FirstName = parameters.FirstName!;
       player.LastName = parameters.LastName!;
 

@@ -53,6 +53,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PersonalDetailsRequest
   {
+    public bool IsCustomPlayer { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool UseSpecialSavedName { get; set; }
@@ -70,6 +71,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     {
       return new PlayerPersonalDetailsParameters
       {
+        IsCustomPlayer = IsCustomPlayer,
         FirstName = FirstName,
         LastName = LastName,
         KeepSpecialSavedName = UseSpecialSavedName,

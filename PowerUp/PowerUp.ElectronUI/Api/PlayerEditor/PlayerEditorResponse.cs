@@ -149,6 +149,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PlayerPersonalDetailsDto
   {
+    public bool IsCustomPlayer { get; }
     public int? Year { get; }
     public string? ImportSource { get; }
     public string FirstName { get; }
@@ -171,6 +172,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Player player
     )
     {
+      IsCustomPlayer = player.IsCustomPlayer;
       Year = player.Year;
       ImportSource = player.ImportSource;
       FirstName = player.FirstName;

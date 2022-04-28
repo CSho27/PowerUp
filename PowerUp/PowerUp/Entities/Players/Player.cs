@@ -6,10 +6,10 @@ namespace PowerUp.Entities.Players
   public class Player : Entity<Player>
   {
     public EntitySourceType SourceType { get; set; }
+    public bool IsCustomPlayer { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public int? Year { get; set; }
-    public DateOnly? BirthDate { get; set; }
     public string? ImportSource { get; set; }
     public int? SourcePowerProsId { get; set; }
 

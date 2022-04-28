@@ -88,6 +88,9 @@ export interface SpecialAbilitiesOptions {
 }
 
 export interface PlayerPersonalDetailsDto {
+  isCustomPlayer: boolean;
+  year: number | null;
+  importSource: string | null;
   firstName: string;
   lastName: string;
   isSpecialSavedName: boolean;
