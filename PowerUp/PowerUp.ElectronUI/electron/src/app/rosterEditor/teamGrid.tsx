@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components"
-import { Button } from "../../components/button/button";
+import { Button, ButtonContent } from "../../components/button/button";
+import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
@@ -126,6 +127,32 @@ export function TeamGrid(props: TeamGridProps) {
             : 'eye'}
           squarePadding
           onClick={() => editPlayer(details.playerId)}
+        />
+      </td>
+      <td>
+        <ContextMenuButton
+          size='Small'
+          variant='Outline'
+          title='Replace'
+          icon='right-left'
+          squarePadding
+          menuItems={<>
+            <ContextMenuItem 
+              icon='copy'
+              onClick={() => console.log('Replace with copy')}>
+                Replace with copy
+            </ContextMenuItem>
+            <ContextMenuItem 
+              icon='box-archive'
+              onClick={() => console.log('Replace with existing')}>
+                Replace with existing
+            </ContextMenuItem>
+            <ContextMenuItem 
+              icon='user-plus'
+              onClick={() => console.log('Replace with new')}>
+                Replace with new
+            </ContextMenuItem>
+          </>}
         />
       </td>
       <td>

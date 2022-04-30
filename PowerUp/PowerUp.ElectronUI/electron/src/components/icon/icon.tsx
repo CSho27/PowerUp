@@ -9,6 +9,7 @@ export type IconType =
 | 'chevron-down'
 | 'chevron-up'
 | 'circle-notch'
+| 'copy'
 | 'download'
 | 'eye'
 | 'file'
@@ -16,9 +17,11 @@ export type IconType =
 | 'folder'
 | 'folder-open'
 | 'pen-to-square'
+| 'right-left'
 | 'square'
-| 'user-pen'
 | 'upload'
+| 'user-pen'
+| 'user-plus'
 | 'wand-magic-sparkles'
 
 export interface IconProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {
