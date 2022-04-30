@@ -488,6 +488,8 @@ export function getDefaultCapabilitiesForPosition(position: Position) : Position
         centerField: e,
         rightField: a
       }
+    case 'DesignatedHitter':
+      return baseCapabilities
     default:
       throw 'Cannot update abaility for this position';
   }
