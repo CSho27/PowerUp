@@ -103,6 +103,7 @@ export function TeamGrid(props: TeamGridProps) {
   function getPlayerDetailsHeaders() {
     return <>
       <StatHeader columnWidth='1px' />
+      <StatHeader columnWidth='1px' />
       <StatHeader>Num</StatHeader>
       <StatHeader>Pos</StatHeader>
       <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
@@ -255,8 +256,4 @@ const CenteringWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
-
-const TeamGridPlayerName = styled(PlayerNameBubble)`
-  padding: 2px 4px;
 `
