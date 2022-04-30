@@ -4,10 +4,10 @@ import { TextBubble } from "./textBubble";
 
 const sizingStyles = {
   Medium: `
-    --width: 38px;
+    --width: 42px;
   `,
   Large: `
-    --width: 52px;
+    --width: 56px;
   `
 }
 

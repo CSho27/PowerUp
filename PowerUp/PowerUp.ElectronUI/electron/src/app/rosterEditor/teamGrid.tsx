@@ -1,16 +1,14 @@
 import { useRef } from "react";
 import styled from "styled-components"
-import { Button, ButtonContent } from "../../components/button/button";
+import { Button } from "../../components/button/button";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
-import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
-import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
-import { PlayerEditorPage } from "../playerEditor/playerEditorPage";
 import { getPositionType } from "../shared/positionCode";
+import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
@@ -22,7 +20,7 @@ export function TeamGrid(props: TeamGridProps) {
   const { appContext, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
 
-  const apiClientRef = useRef(new LoadPlayerEditorApiClient(appContext.commandFetcher));
+  const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
   const teamDisplayName = name === powerProsName
       ? name
@@ -114,6 +112,7 @@ export function TeamGrid(props: TeamGridProps) {
 
   function getPlayerDetailsColumns(details: PlayerDetails) {
     const positionType = getPositionType(details.position)
+    const { playerId } = details;
 
     return <>
       <td>
@@ -127,7 +126,7 @@ export function TeamGrid(props: TeamGridProps) {
             ? 'user-pen'
             : 'eye'}
           squarePadding
-          onClick={() => editPlayer(details.playerId)}
+          onClick={() => editPlayer(playerId)}
         />
       </td>
       <td>
@@ -150,7 +149,7 @@ export function TeamGrid(props: TeamGridProps) {
             </ContextMenuItem>
             <ContextMenuItem 
               icon='user-plus'
-              onClick={() => console.log('Replace with new')}>
+              onClick={() => replaceWithNewPlayer(playerId)}>
                 Replace with new
             </ContextMenuItem>
           </>}
@@ -191,6 +190,12 @@ export function TeamGrid(props: TeamGridProps) {
 
   function editPlayer(playerId: number) {
     appContext.setPage({ page: 'PlayerEditorPage', playerId: playerId });
+  }
+
+  async function replaceWithNewPlayer(playerId: number) {
+    const response = await replaceWithNewApiClientRef.current.execute({ teamId: team.teamId, playerToReplaceId: playerId });
+    if(response.success)
+      appContext.reloadCurrentPage();
   }
 }
 

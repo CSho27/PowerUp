@@ -155,7 +155,7 @@ namespace PowerUp.Entities.Players.Api
         ThrowIfLongerThanMaxLength(parameters.SavedName, 10);
       }
 
-      ThrowIfNull(parameters.UniformNumber);
+      ThrowIfNullOrEmpty(parameters.UniformNumber);
       ThrowIfLongerThanMaxLength(parameters.UniformNumber, 3);
 
       ThrowIfNull(parameters.VoiceId);

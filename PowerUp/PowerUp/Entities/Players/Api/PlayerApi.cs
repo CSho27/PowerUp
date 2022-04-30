@@ -2,11 +2,35 @@
 {
   public interface IPlayerApi
   {
+    Player CreateDefaultPlayer(bool isPitcher);
+    Player CreatePlayer(PlayerParameters parameters);
     void UpdatePlayer(Player player, PlayerParameters parameters);
   }
 
   public class PlayerApi : IPlayerApi
   {
+    public Player CreateDefaultPlayer(bool isPitcher) => isPitcher
+      ? PlayerFactory.BuildDefaultPitcher(EntitySourceType.Custom)
+      : PlayerFactory.BuildDefaultHitter(EntitySourceType.Custom);
+
+    public Player CreatePlayer(PlayerParameters parameters)
+    {
+      new PlayerParametersValidator().Validate(parameters);
+
+      var player = parameters.PersonalDetails!.Position == Position.Pitcher
+        ? PlayerFactory.BuildDefaultPitcher(EntitySourceType.Custom)
+        : PlayerFactory.BuildDefaultHitter(EntitySourceType.Custom);
+
+      UpdatePersonalDetails(player, parameters.PersonalDetails!);
+      UpdateAppearance(player.Appearance, parameters.Appearance!);
+      UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
+      UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
+      UpdatePitcherAbilities(player.PitcherAbilities, parameters.PitcherAbilities!);
+      UpdateSpecialAbilities(player.SpecialAbilities, parameters.SpecialAbilities!);
+
+      return player;
+    }
+
     public void UpdatePlayer(Player player, PlayerParameters parameters)
     {
       new PlayerParametersValidator().Validate(parameters);

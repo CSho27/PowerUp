@@ -15,6 +15,9 @@ namespace PowerUp.Databases
       DBConnection = new LiteDatabase(Path.Combine(dataDirectory, "Data.db"));
     }
 
+    public void BeginTransaction() => DBConnection.BeginTrans();
+    public void Commit() => DBConnection.Commit();
+
     public void Save<TEntity>(TEntity entity) where TEntity : Entity<TEntity>
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);

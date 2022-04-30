@@ -103,7 +103,9 @@ namespace PowerUp.Mappers.Players
         IsEdited = player.SourceType == EntitySourceType.Custom,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
-        PrimaryPosition = (ushort)player.PrimaryPosition,
+        PrimaryPosition = player.PrimaryPosition == Position.DesignatedHitter
+           ? (ushort)Position.FirstBase
+           : (ushort)player.PrimaryPosition,
         IsStarter = gsPitcherType.isStarter,
         IsReliever = gsPitcherType.isReliever,
         IsCloser = gsPitcherType.isCloser,

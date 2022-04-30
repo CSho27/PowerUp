@@ -8,7 +8,6 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     public IEnumerator<KeyedCode> GetEnumerator()
       => Enum.GetValues<Position>()
-        .Where(p => p != Position.DesignatedHitter)
         .Select(e => e.ToKeyedCode(true))
         .GetEnumerator();
 

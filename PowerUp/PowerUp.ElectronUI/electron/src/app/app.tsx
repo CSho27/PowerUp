@@ -17,6 +17,7 @@ export interface AppContext {
   commandFetcher: CommandFetcher;
   breadcrumbs: BreadcrumbDefinition[];
   setPage: (pageDef: PageLoadDefinition) => void;
+  reloadCurrentPage: () => void;
   popBreadcrumb: (breadcrumbId: number) => void;
   openModal: (renderModal: RenderModalCallback) => void;
   performWithSpinner: PerformWithSpinnerCallback;
@@ -41,6 +42,7 @@ export function App(props: ApplicationStartupData) {
     commandFetcher: new CommandFetcher(commandUrl, performWithSpinner),
     breadcrumbs: state.breadcrumbs,
     setPage: setPage,
+    reloadCurrentPage: reloadCurrentPage,
     popBreadcrumb: popBreadcrumb,
     openModal: openModal,
     performWithSpinner: performWithSpinner
@@ -72,12 +74,17 @@ export function App(props: ApplicationStartupData) {
     update({ type: 'updatePage', pageLoadDef: pageDef, pageDef: loadedPage });
   }
 
+  async function reloadCurrentPage() {
+    popBreadcrumb(state.breadcrumbs[state.breadcrumbs.length-1].id);
+  }
+
   async function popBreadcrumb(breadcrumbId: number) {
     const pageLoadDef = state.breadcrumbs.find(c => c.id === breadcrumbId)!.pageLoadDef;
     const pageLoader = pageRegistry[pageLoadDef.page];
     const newPage = await pageLoader(appContext, pageLoadDef);
     update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageDef: newPage });
   }
+
 
   function openModal(renderModal: RenderModalCallback) {
     var key = GenerateId().toString();

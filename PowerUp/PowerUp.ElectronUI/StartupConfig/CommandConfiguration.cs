@@ -1,5 +1,6 @@
 ﻿using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
+using PowerUp.ElectronUI.Api.Teams;
 
 namespace PowerUp.ElectronUI.StartupConfig
 {
@@ -15,6 +16,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<LoadExistingRosterOptionsCommand>();
       services.AddSingleton<LoadPlayerEditorCommand>();
       services.AddSingleton<SavePlayerCommand>();
+      services.AddSingleton<ReplaceWithNewPlayerCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -27,6 +29,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(LoadExistingRosterOptionsCommand), "LoadExistingRosterOptions");
       commandRegistry.RegisterCommand(typeof(LoadPlayerEditorCommand), "LoadPlayerEditor");
       commandRegistry.RegisterCommand(typeof(SavePlayerCommand), "SavePlayer");
+      commandRegistry.RegisterCommand(typeof(ReplaceWithNewPlayerCommand), "ReplaceWithNewPlayer");
     }
   }
 }
