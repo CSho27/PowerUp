@@ -10,6 +10,7 @@ import { AppContext } from "../app"
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { getPositionType } from "../shared/positionCode";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
+import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
 import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
@@ -22,8 +23,9 @@ export function TeamGrid(props: TeamGridProps) {
   const { appContext, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
 
-  const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
   const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
+  const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
+  const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
   const teamDisplayName = name === powerProsName
       ? name
@@ -58,13 +60,13 @@ export function TeamGrid(props: TeamGridProps) {
     {hitters.map(h => 
       <PlayerRow key={h.playerId}>
         {getPlayerDetailsColumns(h)}
-        <td>{h.trajectory}</td>
-        <td>{h.contact}</td>
-        <td>{h.power}</td>
-        <td>{h.runSpeed}</td>
-        <td>{h.armStrength}</td>
-        <td>{h.fielding}</td>
-        <td>{h.errorResistance}</td>
+        <PlayerCell>{h.trajectory}</PlayerCell>
+        <PlayerCell>{h.contact}</PlayerCell>
+        <PlayerCell>{h.power}</PlayerCell>
+        <PlayerCell>{h.runSpeed}</PlayerCell>
+        <PlayerCell>{h.armStrength}</PlayerCell>
+        <PlayerCell>{h.fielding}</PlayerCell>
+        <PlayerCell>{h.errorResistance}</PlayerCell>
       </PlayerRow>)}
     </PlayerTableBody>
     <thead>
@@ -90,13 +92,13 @@ export function TeamGrid(props: TeamGridProps) {
     {pitchers.map(p => 
       <PlayerRow key={p.playerId}>
         {getPlayerDetailsColumns(p)}
-        <td>{p.pitcherType}</td>
-        <td>{p.topSpeed} mph</td>
-        <td>{p.control}</td>
-        <td>{p.stamina}</td>
-        <td>{p.breakingBall1}</td>
-        <td>{p.breakingBall2}</td>
-        <td>{p.breakingBall3}</td>
+        <PlayerCell>{p.pitcherType}</PlayerCell>
+        <PlayerCell>{p.topSpeed} mph</PlayerCell>
+        <PlayerCell>{p.control}</PlayerCell>
+        <PlayerCell>{p.stamina}</PlayerCell>
+        <PlayerCell>{p.breakingBall1}</PlayerCell>
+        <PlayerCell>{p.breakingBall2}</PlayerCell>
+        <PlayerCell>{p.breakingBall3}</PlayerCell>
       </PlayerRow>)}
     </PlayerTableBody>
   </TeamGridTable>;
@@ -118,7 +120,7 @@ export function TeamGrid(props: TeamGridProps) {
     const { playerId } = details;
 
     return <>
-      <td>
+      <PlayerCell>
         <Button
           size='Small'
           variant='Outline'
@@ -131,8 +133,8 @@ export function TeamGrid(props: TeamGridProps) {
           squarePadding
           onClick={() => editPlayer(playerId)}
         />
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
         <ContextMenuButton
           size='Small'
           variant='Outline'
@@ -157,13 +159,13 @@ export function TeamGrid(props: TeamGridProps) {
             </ContextMenuItem>
           </>}
         />
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
         <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
           {details.uniformNumber}
         </OutlineHeader>
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
         <CenteringWrapper>
           <PositionBubble 
             positionType={positionType} 
@@ -173,8 +175,8 @@ export function TeamGrid(props: TeamGridProps) {
             {details.positionAbbreviation}
           </PositionBubble>
         </CenteringWrapper>
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
         <CenteringWrapper>
           <PlayerNameBubble 
             sourceType={details.sourceType}
@@ -185,9 +187,9 @@ export function TeamGrid(props: TeamGridProps) {
             {details.savedName}
           </PlayerNameBubble>
         </CenteringWrapper>
-      </td>
-      <td>{details.overall}</td>
-      <td>{details.batsAndThrows}</td>
+      </PlayerCell>
+      <PlayerCell>{details.overall}</PlayerCell>
+      <PlayerCell>{details.batsAndThrows}</PlayerCell>
     </>
   }
 
@@ -201,11 +203,25 @@ export function TeamGrid(props: TeamGridProps) {
       appContext.reloadCurrentPage();
   }
 
-  function replacePlayerWithExisting(playerId: number) {
+  function replacePlayerWithExisting(playerToReplaceId: number) {
     appContext.openModal(closeDialog => <PlayerSelectionModal 
       appContext={appContext} 
-      closeDialog={closeDialog} 
+      closeDialog={playerToInsertId => { 
+        closeDialog(); 
+        if(!!playerToInsertId)
+          executeReplace(playerToReplaceId, playerToInsertId); 
+      }} 
     />)
+  }
+
+  async function executeReplace(playerToReplaceId: number, playerToInsertId: number) {
+    const response = await replacePlayerWithExistingApiClientRef.current.execute({ 
+      teamId: team.teamId, 
+      playerToReplaceId: playerToReplaceId,
+      playerToInsertId: playerToInsertId
+    });
+    if(response.success)
+      appContext.reloadCurrentPage();
   }
 
   async function replaceWithNewPlayer(playerId: number) {
@@ -271,6 +287,10 @@ const PlayerRow = styled.tr`
   &:nth-child(even) {
     background-color: ${COLORS.jet.superlight_85};
   } 
+`
+
+const PlayerCell = styled.td`
+  white-space: nowrap;
 `
 
 const CenteringWrapper = styled.div`

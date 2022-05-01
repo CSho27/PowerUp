@@ -19,6 +19,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<SavePlayerCommand>();
       services.AddSingleton<ReplaceWithNewPlayerCommand>();
       services.AddSingleton<ReplacePlayerWithCopyCommand>();
+      services.AddSingleton<ReplaceWithExistingPlayerCommand>();
       services.AddSingleton<PlayerSearchCommand>();
     }
      
@@ -34,6 +35,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(SavePlayerCommand), "SavePlayer");
       commandRegistry.RegisterCommand(typeof(ReplaceWithNewPlayerCommand), "ReplaceWithNewPlayer");
       commandRegistry.RegisterCommand(typeof(ReplacePlayerWithCopyCommand), "ReplacePlayerWithCopy");
+      commandRegistry.RegisterCommand(typeof(ReplaceWithExistingPlayerCommand), "ReplaceWithExistingPlayer");
       commandRegistry.RegisterCommand(typeof(PlayerSearchCommand), "PlayerSearch");
     }
   }
