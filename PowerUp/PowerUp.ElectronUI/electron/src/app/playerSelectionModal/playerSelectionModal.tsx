@@ -5,6 +5,7 @@ import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
 import { EntitySourceType } from "../shared/entitySourceType";
+import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { PlayerSearchApiClient, PlayerSearchResultDto } from "./playerSearchApiClient";
 import { PlayerSelectionGrid } from "./playerSelectionGrid";
 
@@ -32,6 +33,8 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
 
   const isSearching = state.searchText && state.searchText.length > 0;
 
+  useDebounceEffect(() => { search() }, 500, [state.searchText])
+
   return <Modal ariaLabel='Select Player' fullHeight>
     <Wrapper>
       <SelectionHeader>
@@ -43,21 +46,16 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
           />
         </SearchBoxWrapper>
       </SelectionHeader>
-      <Button 
-        variant='Fill'
-        size='Medium'
-        onClick={search}
-        disabled={!isSearching}>
-        Search
-      </Button>
       <PlayerSelectionGrid 
-        players={state.results}
+        players={isSearching ? state.results : []}
         noDataMessage={isSearching ? 'No players found' : 'Search for player'}
       />
     </Wrapper>
   </Modal>
 
   async function search() {
+    if(!isSearching)
+      return;
     const response = await apiClientRef.current.execute({ searchText: state.searchText! });
     setState(p => ({...p, results: response.results}));
   } 
@@ -65,7 +63,7 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-rows: min-content min-content auto;
+  grid-template-rows: min-content auto;
   gap: 8px;
   height: 100%;
 `
