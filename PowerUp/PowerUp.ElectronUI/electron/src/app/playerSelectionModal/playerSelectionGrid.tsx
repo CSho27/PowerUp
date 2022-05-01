@@ -1,25 +1,29 @@
 import styled from "styled-components"
 import { COLORS } from "../../style/constants";
 import { EntitySourceType } from "../shared/entitySourceType";
+import { SimpleCode } from "../shared/simpleCode";
 
 export interface PlayerSelectionGridProps {
+  selectedPlayer: SimpleCode | undefined;
   players: PlayerSelectionGridPlayer[];
   noDataMessage: string;
   height?: string;
+  onPlayerSelected: (player: SimpleCode) => void;
 }
 
 export interface PlayerSelectionGridPlayer {
   playerId: number;
   sourceType: EntitySourceType;
   uniformNumber: string;
-  name: string;
+  formalDisplayName: string;
+  informalDisplayName: string;
   position: string;
   batsAndThrows: string;
   overall: number;
 }
 
 export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
-  const { players, noDataMessage, height } = props;
+  const { selectedPlayer, players, noDataMessage, height, onPlayerSelected } = props;
   
   return <GridWrapper height={height}>
     <PlayerGrid >
@@ -43,10 +47,13 @@ export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
   </GridWrapper>
 
   function toPlayerRow(player: PlayerSelectionGridPlayer) {
-    return <PlayerRow key={player.playerId}>
+    return <PlayerRow 
+      key={player.playerId} 
+      selected={player.playerId === selectedPlayer?.id}
+      onClick={() => onPlayerSelected({ id: player.playerId, name: player.informalDisplayName })}>
       <PlayerData>{player.uniformNumber}</PlayerData>
       <PlayerData>{player.position}</PlayerData>
-      <PlayerData>{player.name}</PlayerData>
+      <PlayerData>{player.formalDisplayName}</PlayerData>
       <PlayerData>{player.overall}</PlayerData>
       <PlayerData>{player.batsAndThrows}</PlayerData>
     </PlayerRow>
@@ -82,12 +89,18 @@ const NoDataMessage = styled.div`
   justify-content: center;
 `
 
-const PlayerRow = styled.tr`
+const PlayerRow = styled.tr<{ selected: boolean }>`
   padding: 2px 8px;
+  cursor: pointer;
+  background-color: ${p => p.selected ? COLORS.white.offwhite_85 : undefined};
 
   &:nth-child(even) {
     background-color: ${COLORS.white.offwhite_97};
   } 
+
+  &:hover {
+    background-color: ${p => !p.selected ? COLORS.white.offwhite_92 : undefined};
+  }
 `
 const PlayerData = styled.td`
   padding: 2px 8px;

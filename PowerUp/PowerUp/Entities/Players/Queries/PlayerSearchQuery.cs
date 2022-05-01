@@ -30,6 +30,7 @@ namespace PowerUp.Entities.Players.Queries
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? FormalDisplayName { get; set; }
+    public string? InformalDisplayName { get; set; }
     public Position PrimaryPosition { get; set; }
     public BattingSide BattingSide { get; set; }
     public ThrowingArm ThrowingArm { get; set; }

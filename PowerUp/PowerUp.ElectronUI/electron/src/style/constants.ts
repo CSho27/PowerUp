@@ -34,7 +34,9 @@ export const COLORS = {
     regular_100: 'hsl(0deg 100% 100%)',
     regular_100_t40: 'hsl(0deg 100% 100% / .4)',
     grayed_80_t40: 'hsl(0deg 0% 80% / .4)',
-    offwhite_97: 'hsl(235deg 85% 97%)'
+    offwhite_97: 'hsl(235deg 85% 97%)',
+    offwhite_92: 'hsl(235deg 85% 92%)',
+    offwhite_85: 'hsl(235deg 85% 85%)'
   },
 
   // PowerPros Colors

@@ -13,7 +13,8 @@ export interface PlayerSearchResultDto {
   playerId: number;
   sourceType: EntitySourceType;
   uniformNumber: string;
-  name: string;
+  formalDisplayName: string;
+  informalDisplayName: string;
   position: string;
   batsAndThrows: string;
   overall: number;

@@ -37,7 +37,8 @@ namespace PowerUp.ElectronUI.Api.Searching
     public int PlayerId { get; set; }
     public EntitySourceType SourceType { get; set; }
     public string UniformNumber { get; set; }
-    public string Name { get; set; }
+    public string FormalDisplayName { get; set; }
+    public string InformalDisplayName { get; set; }
     public string Position { get; set; }
     public string BatsAndThrows { get; set; }
     public int Overall { get; set; }
@@ -47,7 +48,8 @@ namespace PowerUp.ElectronUI.Api.Searching
       PlayerId = result.Id;
       SourceType = result.SourceType;
       UniformNumber = result.UniformNumber!;
-      Name = result.FormalDisplayName!;
+      FormalDisplayName = result.FormalDisplayName!;
+      InformalDisplayName = result.InformalDisplayName!;
       Position = result.PrimaryPosition.GetAbbrev();
       BatsAndThrows = $"{result.BattingSide.GetAbbrev()}/{result.ThrowingArm.GetAbbrev()}";
       Overall = result.Overall.RoundDown();
