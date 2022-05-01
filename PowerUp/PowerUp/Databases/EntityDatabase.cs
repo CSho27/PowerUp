@@ -9,14 +9,21 @@ namespace PowerUp.Databases
   public class EntityDatabase : IDisposable
   {
     public LiteDatabase DBConnection { get; }
+    public ITransaction? CurrentTransaction { get; }
 
     public EntityDatabase(string dataDirectory)
     {
       DBConnection = new LiteDatabase(Path.Combine(dataDirectory, "Data.db"));
     }
 
-    public void BeginTransaction() => DBConnection.BeginTrans();
-    public void Commit() => DBConnection.Commit();
+    public ITransaction BeginTransaction()
+    {
+      if (CurrentTransaction != null)
+        return CurrentTransaction;
+
+      DBConnection.BeginTrans();
+      return new Transaction(() => DBConnection.Commit(), () => DBConnection.Rollback());
+    }
 
     public void Save<TEntity>(TEntity entity) where TEntity : Entity<TEntity>
     {
@@ -49,5 +56,40 @@ namespace PowerUp.Databases
     }
 
     public void Dispose() => DBConnection.Dispose();
+  }
+
+  public interface ITransaction : IDisposable 
+  {
+    void Commit();
+  }
+
+  public class Transaction : ITransaction
+  {
+    private readonly Action _commit;
+    private readonly Action _rollback;
+
+    public bool WasCommitted { get; private set; }
+
+    public Transaction(Action commit, Action rollback)
+    {
+      _commit = commit;
+      _rollback = rollback;
+    }
+    public void Commit()
+    {
+      if (WasCommitted)
+        return;
+
+      _commit();
+      WasCommitted = true;
+    }
+
+    public void Dispose()
+    {
+      if (WasCommitted)
+        return;
+
+      _rollback();
+    }
   }
 }

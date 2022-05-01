@@ -8,6 +8,7 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
 import { getPositionType } from "../shared/positionCode";
+import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
@@ -21,6 +22,7 @@ export function TeamGrid(props: TeamGridProps) {
   const { name, powerProsName, hitters, pitchers } = team;
 
   const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
+  const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
 
   const teamDisplayName = name === powerProsName
       ? name
@@ -139,7 +141,7 @@ export function TeamGrid(props: TeamGridProps) {
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
-              onClick={() => console.log('Replace with copy')}>
+              onClick={() => replacePlayerWithCopy(playerId)}>
                 Replace with copy
             </ContextMenuItem>
             <ContextMenuItem 
@@ -190,6 +192,12 @@ export function TeamGrid(props: TeamGridProps) {
 
   function editPlayer(playerId: number) {
     appContext.setPage({ page: 'PlayerEditorPage', playerId: playerId });
+  }
+
+  async function replacePlayerWithCopy(playerId: number) {
+    const response = await replacePlayerWithCopyApiClientRef.current.execute({ teamId: team.teamId, playerId: playerId });
+    if(response.success)
+      appContext.reloadCurrentPage();
   }
 
   async function replaceWithNewPlayer(playerId: number) {
