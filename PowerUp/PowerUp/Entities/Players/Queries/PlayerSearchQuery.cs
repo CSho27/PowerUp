@@ -17,6 +17,7 @@ namespace PowerUp.Entities.Players.Queries
       return DatabaseConfig.Database.Query<PlayerSearchResult, Player>()
         .Where(r => r.FirstName!.StartsWith(_searchText)
           || r.LastName!.StartsWith(_searchText))
+        .OrderBy(r => r.FormalDisplayName)
         .ToEnumerable();
     }
   }
@@ -28,7 +29,8 @@ namespace PowerUp.Entities.Players.Queries
     public string? UniformNumber { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public Position Position { get; set; }
+    public string? FormalDisplayName { get; set; }
+    public Position PrimaryPosition { get; set; }
     public BattingSide BattingSide { get; set; }
     public ThrowingArm ThrowingArm { get; set; }
     public double Overall { get; set; }

@@ -15,7 +15,7 @@ export interface PlayerSearchResultDto {
   uniformNumber: string;
   name: string;
   position: string;
-  batAndThrows: string;
+  batsAndThrows: string;
   overall: number;
 }
 

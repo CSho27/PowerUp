@@ -47,8 +47,8 @@ namespace PowerUp.ElectronUI.Api.Searching
       PlayerId = result.Id;
       SourceType = result.SourceType;
       UniformNumber = result.UniformNumber!;
-      Name = $"{result.LastName}, {result.FirstName}";
-      Position = result.Position.GetAbbrev();
+      Name = result.FormalDisplayName!;
+      Position = result.PrimaryPosition.GetAbbrev();
       BatsAndThrows = $"{result.BattingSide.GetAbbrev()}/{result.ThrowingArm.GetAbbrev()}";
       Overall = result.Overall.RoundDown();
     }

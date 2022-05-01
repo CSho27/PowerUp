@@ -6,14 +6,23 @@ import './modal.css';
 export interface ModalProps {
   ariaLabel: string;
   children: React.ReactNode;
+  distanceFromTop?: string;
+  fullHeight?: boolean;
 }
 
 export function Modal(props: ModalProps) {
+  const distanceFromTop = props.distanceFromTop ?? '104px';
+
   return <ReachDialog 
     aria-label={props.ariaLabel}
-    style={{ backgroundColor: COLORS.jet.superlight_90, boxShadow: '0px 3px 16px -8px' }}
-  >
-    {props.children}
+    style={{ 
+      backgroundColor: COLORS.jet.superlight_90, 
+      boxShadow: '0px 3px 16px -8px',
+      marginBottom: 0,
+      marginTop: distanceFromTop,
+      height: `calc(100% - ${distanceFromTop})`
+    }}>
+      {props.children}
   </ReachDialog>
 }
 

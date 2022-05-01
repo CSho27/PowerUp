@@ -9,6 +9,8 @@ namespace PowerUp.Entities.Players
     public bool IsCustomPlayer { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
+    public string FormalDisplayName => $"{LastName}, {FirstName}";
+    public string InformalDisplayName => $"{FirstName} {LastName}";
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
     public int? SourcePowerProsId { get; set; }
