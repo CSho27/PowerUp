@@ -55,6 +55,15 @@ namespace PowerUp.Databases
       return entityCollection.FindAll().ToList();
     }
 
+    public ILiteQueryable<TResult> Query<TResult>(string collectionName)
+    {
+      var entityCollection = DBConnection.GetCollection<TResult>(collectionName);
+      return entityCollection.Query();
+    }
+
+    public ILiteQueryable<TResult> Query<TResult, TEntity>() where TEntity : Entity<TEntity>
+      => Query<TResult>(typeof(TEntity).Name);
+
     public void Dispose() => DBConnection.Dispose();
   }
 

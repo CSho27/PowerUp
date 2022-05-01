@@ -114,7 +114,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         uniformNumber: player.UniformNumber,
         position: player.PrimaryPosition,
         positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
-        overall: player.GetOverallRating().RoundDown(),
+        overall: player.Overall.RoundDown(),
         batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}",
         sourceType: player.SourceType
       );

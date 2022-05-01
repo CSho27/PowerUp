@@ -7,6 +7,7 @@ import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
+import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { getPositionType } from "../shared/positionCode";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
@@ -146,7 +147,7 @@ export function TeamGrid(props: TeamGridProps) {
             </ContextMenuItem>
             <ContextMenuItem 
               icon='box-archive'
-              onClick={() => console.log('Replace with existing')}>
+              onClick={() => replacePlayerWithExisting(playerId)}>
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
@@ -198,6 +199,13 @@ export function TeamGrid(props: TeamGridProps) {
     const response = await replacePlayerWithCopyApiClientRef.current.execute({ teamId: team.teamId, playerId: playerId });
     if(response.success)
       appContext.reloadCurrentPage();
+  }
+
+  function replacePlayerWithExisting(playerId: number) {
+    appContext.openModal(closeDialog => <PlayerSelectionModal 
+      appContext={appContext} 
+      closeDialog={closeDialog} 
+    />)
   }
 
   async function replaceWithNewPlayer(playerId: number) {
