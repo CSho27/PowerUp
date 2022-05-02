@@ -13,6 +13,7 @@ export interface SavePlayerRequest {
 }
 
 export interface PersonalDetailsRequest {
+  isCustomPlayer: boolean;
   firstName: string;
   lastName: string;
   useSpecialSavedName: boolean;

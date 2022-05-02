@@ -949,6 +949,7 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorState, player
   return {
     playerId: playerId,
     personalDetails: {
+      isCustomPlayer: personalDetails.isCustomPlayer,
       firstName: personalDetails.firstName,
       lastName: personalDetails.lastName,
       useSpecialSavedName: personalDetails.useSpecialSavedName,

@@ -34,11 +34,10 @@ namespace PowerUp.Mappers.Players
     {
       return new Player
       {
-        SourceType = gsPlayer.IsEdited!.Value
-          ? EntitySourceType.Custom
-          : parameters.IsBase
-            ? EntitySourceType.Base
-            : EntitySourceType.Imported,
+        SourceType = parameters.IsBase
+          ? EntitySourceType.Base
+          : EntitySourceType.Imported,
+        IsCustomPlayer = gsPlayer.IsEdited!.Value,
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
         SavedName = gsPlayer.SavedName!.Contains('*')
@@ -100,7 +99,7 @@ namespace PowerUp.Mappers.Players
           ? null
           : player.SavedName,
         SpecialSavedNameId = (ushort?)player.SpecialSavedNameId,
-        IsEdited = player.SourceType == EntitySourceType.Custom,
+        IsEdited = player.IsCustomPlayer,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
         PrimaryPosition = player.PrimaryPosition == Position.DesignatedHitter

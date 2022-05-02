@@ -235,14 +235,11 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase(false)]
-    [TestCase(true)]
-    public void MapToPlayer_EditedPlayersShouldBeCustomType(bool isBase)
+    public void MapToPlayer_EditedPlayersShouldGetIsCustomBit()
     {
       gsPlayer.IsEdited = true;
-      mappingParameters.IsBase = isBase;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.SourceType.ShouldBe(EntitySourceType.Custom);
+      result.IsCustomPlayer.ShouldBeTrue();
     }
 
     [Test]
