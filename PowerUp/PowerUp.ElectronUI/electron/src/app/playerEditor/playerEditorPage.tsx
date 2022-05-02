@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import deepEquals from 'fast-deep-equal/react';
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -13,6 +12,7 @@ import { useReducerWithContext } from "../../utils/reducerWithContext";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
+import { deepEquals } from "../shared/deepEquals";
 import { KeyedCode } from "../shared/keyedCode";
 import { getPositionType, Position } from "../shared/positionCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
@@ -21,10 +21,10 @@ import { HitterAbilitiesEditor } from "./hitterAbilitiesEditor";
 import { BattingSide } from "./hotZoneGrid";
 import { LoadPlayerEditorApiClient, PlayerEditorResponse } from "./loadPlayerEditorApiClient";
 import { PitcherAbilitiesEditor } from "./pitcherAbilitiesEditor";
-import { buildSavePlayerRequestFromState, getAppearanceReducer, getDetailsReducer, getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, getSepcialAbilitiesReducer, PlayerEditorDetailsReducer, PlayerEditorReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
+import { buildSavePlayerRequestFromState, getAppearanceReducer, getDetailsReducer, getHitterAbilitiesReducer, getInitialStateFromResponse, getPersonalDetailsReducer, getPitcherAbilitiesReducer, getPositionCapabilityDetailsReducer, getSepcialAbilitiesReducer, PlayerEditorReducer, PlayerEditorTab, playerEditorTabOptions, PlayerPersonalDetailsContext } from "./playerEditorState";
 import { PlayerPersonalDetailsEditor } from "./playerPersonalDetailsEditor";
 import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
-import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
+import { SavePlayerApiClient } from "./savePlayerApiClient";
 import { SpecialAbilitiesEditor } from "./specialAbilitiesEditor";
 
 interface PlayerEditorPageProps {
