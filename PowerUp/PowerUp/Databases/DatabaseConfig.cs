@@ -1,35 +1,17 @@
-﻿using PowerUp.Entities.Players;
-using PowerUp.Entities.Rosters;
-using PowerUp.Entities.Teams;
+﻿using System;
 
 namespace PowerUp.Databases
 {
   public static class DatabaseConfig
   {
-    public static PlayerDatabase PlayerDatabase { get; private set; } = new PlayerDatabase("");
-    public static TeamDatabase TeamDatabase { get; private set; } = new TeamDatabase("");
-    public static RosterDatabase RosterDatabase { get; private set; } = new RosterDatabase("");
+    public static EntityDatabase Database { get; private set; } = new EntityDatabase("");
 
     public static void Initialize(string dataDirectory)
     {
-      PlayerDatabase = new PlayerDatabase(dataDirectory);
-      TeamDatabase = new TeamDatabase(dataDirectory);
-      RosterDatabase = new RosterDatabase(dataDirectory);
+      Database = new EntityDatabase(dataDirectory);
+      AppDomain.CurrentDomain.ProcessExit += new EventHandler(DisposeDatabase);
     }
-  }
 
-  public class PlayerDatabase : JsonDatabase<Player>
-  {
-    public PlayerDatabase(string dataDirectory): base(dataDirectory) { }
-  }
-
-  public class TeamDatabase : JsonDatabase<Team>
-  {
-    public TeamDatabase(string dataDirectory) : base(dataDirectory) { }
-  }
-
-  public class RosterDatabase : JsonDatabase<Roster>
-  {
-    public RosterDatabase(string dataDirectory) : base(dataDirectory) { }
+    private static void DisposeDatabase(object? sender, EventArgs? e) => Database.Dispose();
   }
 }

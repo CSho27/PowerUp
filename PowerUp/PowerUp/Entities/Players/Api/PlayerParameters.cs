@@ -14,6 +14,7 @@ namespace PowerUp.Entities.Players.Api
 
   public class PlayerPersonalDetailsParameters
   {
+    public bool IsCustomPlayer { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool KeepSpecialSavedName { get; set; }
@@ -154,7 +155,7 @@ namespace PowerUp.Entities.Players.Api
         ThrowIfLongerThanMaxLength(parameters.SavedName, 10);
       }
 
-      ThrowIfNull(parameters.UniformNumber);
+      ThrowIfNullOrEmpty(parameters.UniformNumber);
       ThrowIfLongerThanMaxLength(parameters.UniformNumber, 3);
 
       ThrowIfNull(parameters.VoiceId);

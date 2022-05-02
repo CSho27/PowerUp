@@ -81,6 +81,10 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public int Overall { get; set; }
     public string BatsAndThrows { get; set; }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
+
     public PlayerDetails(
       int id,
       string savedName,
@@ -88,7 +92,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       Position position,
       string positionAbbreviation,
       int overall,
-      string batsAndThrows
+      string batsAndThrows,
+      EntitySourceType sourceType
     )
     {
       PlayerId = id;
@@ -98,6 +103,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       PositionAbbreviation = positionAbbreviation;
       Overall = overall;
       BatsAndThrows = batsAndThrows;
+      SourceType = sourceType;
     }
 
     public static PlayerDetails FromPlayer(Player player)
@@ -108,8 +114,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
         uniformNumber: player.UniformNumber,
         position: player.PrimaryPosition,
         positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
-        overall: player.GetOverallRating().RoundDown(),
-        batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}"
+        overall: player.Overall.RoundDown(),
+        batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}",
+        sourceType: player.SourceType
       );
     }
   }
@@ -132,6 +139,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string positionAbbreviation,
       int overall,
       string batsAndThrows,
+      EntitySourceType sourceType,
       int trajectory,
       int contact,
       int power,
@@ -139,7 +147,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int armStrength,
       int fielding,
       int errorResistance
-    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -163,6 +171,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         positionAbbreviation: playerDetails.PositionAbbreviation,
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
+        sourceType: playerDetails.SourceType,
         trajectory: hitterAbilities.Trajectory,
         contact: hitterAbilities.Contact,
         power: hitterAbilities.Power,
@@ -192,6 +201,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string positionAbbreviation,
       int overall,
       string batsAndThrows,
+      EntitySourceType sourceType,
       string pitcherType,
       int topSpeed,
       int control,
@@ -199,7 +209,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string? breakingBall1,
       string? breakingBall2,
       string? breakingBall3
-    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType)
     {
       PitcherType = pitcherType;
       TopSpeed = topSpeed;
@@ -208,6 +218,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       BreakingBall1 = breakingBall1;
       BreakingBall2 = breakingBall2;
       BreakingBall3 = breakingBall3;
+      SourceType = sourceType;
     }
 
     public static new PitcherDetails FromPlayer(Player player)
@@ -244,6 +255,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         positionAbbreviation: playerDetails.PositionAbbreviation,
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
+        sourceType: playerDetails.SourceType,
         pitcherType: player.PitcherType.GetAbbrev(),
         topSpeed: abilities.TopSpeedMph.RoundDown(),
         control: abilities.Control,

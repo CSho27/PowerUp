@@ -19,9 +19,9 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       if (!request.PlayerId.HasValue)
         throw new ArgumentNullException(nameof(request.PlayerId));
 
-      var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
+      var player = DatabaseConfig.Database.Load<Player>(request.PlayerId!.Value);
       _playerApi.UpdatePlayer(player!, request.GetParameters());
-      DatabaseConfig.PlayerDatabase.Save(player!);
+      DatabaseConfig.Database.Save(player!);
 
       return ResultResponse.Succeeded();
     }
@@ -53,6 +53,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
   public class PersonalDetailsRequest
   {
+    public bool IsCustomPlayer { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool UseSpecialSavedName { get; set; }
@@ -70,6 +71,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     {
       return new PlayerPersonalDetailsParameters
       {
+        IsCustomPlayer = IsCustomPlayer,
         FirstName = FirstName,
         LastName = LastName,
         KeepSpecialSavedName = UseSpecialSavedName,

@@ -6,6 +6,7 @@ import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { SelectField } from "../../components/SelectField/selectField";
 import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
+import { ToggleSwitch } from "../../components/toggleSwitch/toggleSwitch";
 import { FONT_SIZES } from "../../style/constants";
 import { PersonalDetailsOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
@@ -14,6 +15,7 @@ export interface PlayerPersonalDetailsEditorProps {
   options: PersonalDetailsOptions;
   initiallyHadSpecialSavedName: boolean;
   details: PlayerPersonalDetails;
+  disabled?: boolean;
   update: Dispatch<PlayerPersonalDetailsAction>;
 }
 
@@ -22,10 +24,20 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
     options,
     initiallyHadSpecialSavedName,
     details,
+    disabled: editorDisabled,
     update
   } = props;
   
   return <>
+    <FlexRow gap='16px' vAlignCenter withBottomPadding>
+      <FieldLabel htmlFor='personal-is-custom-player'>Custom Player</FieldLabel>
+      <ToggleSwitch 
+        id='personal-is-custom-player'
+        isOn={details.isCustomPlayer}
+        onToggle={() => update({ type: 'toggleIsCustomPlayer' })}
+        disabled={editorDisabled}
+      />
+    </FlexRow>
     <FlexRow gap='16px' withBottomPadding>
       <FlexFracItem frac='1/4'>
         <FieldLabel>First Name</FieldLabel>
@@ -33,6 +45,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           value={details.firstName}
           maxLength={14}
           allowedCharacters={powerProsCharacters}
+          disabled={editorDisabled}
           onChange={firstName => update({ type: 'updateFirstName', firstName: firstName })}
         />
       </FlexFracItem>
@@ -42,6 +55,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           value={details.lastName}
           maxLength={14}
           allowedCharacters={powerProsCharacters}
+          disabled={editorDisabled}
           onChange={lastName => update({ type: 'updateLastName', lastName: lastName })}
         />
       </FlexFracItem>
@@ -53,25 +67,27 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
             <CheckboxField 
               checked={details.useSpecialSavedName}
               size='Small'
+              disabled={editorDisabled}
               onToggle={() => update({ type: 'toggleUseSpecialSavedName' })}
             />
-            <span style={{ fontSize: FONT_SIZES._14 }}>Use Special Saved Name</span>
+            <span style={{ fontSize: FONT_SIZES._14 }}>Use Special</span>
           </FlexRow>}
         </FlexRow>
         <TextField 
           value={details.savedName}
           maxLength={10}
           allowedCharacters={powerProsCharacters}
-          disabled={details.useSpecialSavedName}
+          disabled={editorDisabled || details.useSpecialSavedName}
           onChange={savedName => update({ type: 'updateSavedName', savedName: savedName })}
         />
       </FlexFracItem>
       <FlexFracItem frac='1/4'>
-        <FieldLabel>Uniorm Number</FieldLabel>
+        <FieldLabel>Uniform Number</FieldLabel>
         <TextField 
           value={details.uniformNumber}
           maxLength={3}
           allowedCharacters={digits}
+          disabled={editorDisabled}
           onChange={uniformNumber => update({ type: 'updateUniformNumber', uniformNumber: uniformNumber })}
         />
       </FlexFracItem>
@@ -81,6 +97,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Primary Position</FieldLabel>
         <SelectField 
           value={details.position?.key} 
+          disabled={editorDisabled}
           onChange={position => update({ type: 'updatePosition', position: fromOptions(options.positions, position) })} 
         >
           {toOptions(options.positions)}
@@ -90,7 +107,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Pitcher Type</FieldLabel>
         <SelectField 
           value={details.pitcherType?.key} 
-          disabled={details.position.key !== 'Pitcher'}
+          disabled={editorDisabled || details.position.key !== 'Pitcher'}
           onChange={pitcherType => update({ type: 'updatePitcherType', pitcherType: fromOptions(options.pitcherTypes, pitcherType)})} 
         >
           {toOptions(options.pitcherTypes)}
@@ -100,6 +117,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Voice</FieldLabel>
         <SelectField 
           value={details.voice?.id} 
+          disabled={editorDisabled}
           onChange={voice => update({ type: 'updateVoice', voice: fromOptions(options.voiceOptions, voice)})}
         >
           {toOptions(options.voiceOptions)}
@@ -118,6 +136,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Bats</FieldLabel>
         <SelectField 
           value={details?.battingSide.key} 
+          disabled={editorDisabled}
           onChange={key => update({ type: 'updateBattingSide', battingSide: fromOptions(options.battingSideOptions, key)})} 
         >
           {toOptions(options.battingSideOptions)}
@@ -126,7 +145,8 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
       <FlexFracItem frac='1/4'>
         <FieldLabel>Batting Stance</FieldLabel>
         <SelectField 
-          value={details.battingStance?.id} 
+          value={details.battingStance?.id}
+          disabled={editorDisabled} 
           onChange={id => update({ type: 'updateBattingStance', battingStance: fromOptions(options.battingStanceOptions, id)})} 
         >
           {toOptions(options.battingStanceOptions)}
@@ -136,6 +156,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Throws</FieldLabel>
         <SelectField 
           value={details.throwingArm?.key}
+          disabled={editorDisabled}
           onChange={throwingArm => update({ type: 'updateThrowingArm', throwingArm: fromOptions(options.throwingArmOptions, throwingArm)})}
         >
           {toOptions(options.throwingArmOptions)}
@@ -145,6 +166,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <FieldLabel>Pitching Mechanics</FieldLabel>
         <SelectField 
           value={details.pitchingMechanics?.id} 
+          disabled={editorDisabled}
           onChange={id => update({ type: 'updatePitchingMechanics', mechanics: fromOptions(options.pitchingMechanicsOptions, id)})} 
         >
           {toOptions(options.pitchingMechanicsOptions)}

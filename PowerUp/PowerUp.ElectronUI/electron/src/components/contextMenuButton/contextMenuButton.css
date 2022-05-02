@@ -1,0 +1,7 @@
+[data-reach-menu-item]:not(:disabled) {
+  cursor: pointer;
+}
+
+[data-reach-menu-item]:hover:not(:disabled) {
+  background-color: hsl(235deg 85% 97%);
+}

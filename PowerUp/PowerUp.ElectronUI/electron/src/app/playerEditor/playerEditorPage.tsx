@@ -33,7 +33,7 @@ export interface PlayerEditorPageProps {
 
 export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, playerId, editorResponse } = props;
-  const { options } = editorResponse;
+  const { sourceType, canEdit, options } = editorResponse;
 
   const apiClientRef = React.useRef(new SavePlayerApiClient(appContext.commandFetcher));
 
@@ -60,6 +60,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
     <PlayerHeaderContainer>
       <div style={{ flex: '0 0 250px'}}>
         <PlayerNameBubble 
+          sourceType={sourceType}
           positionType={positionType}
           size='Large'
           fullWidth
@@ -77,7 +78,16 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
         {personalDetails.uniformNumber}
       </OutlineHeader>
       <div style={{ flex: 'auto', display: 'flex', justifyContent: 'flex-end' }}>
-        <Button variant='Fill' size='Medium' onClick={savePlayer} icon='floppy-disk'>Save</Button>
+        <Button 
+          variant='Fill' 
+          size='Medium' 
+          onClick={savePlayer} 
+          icon='floppy-disk' 
+          disabled={!canEdit} 
+          title={canEdit 
+            ? undefined 
+            : 'Player cannot be edited'}
+        >Save</Button>
       </div>
     </PlayerHeaderContainer>
     <TabButtonNav 
@@ -95,12 +105,14 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           options={options.personalDetailsOptions}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={personalDetails}
+          disabled={!canEdit}
           update={updatePersonalDetails}      
         />}
         {state.selectedTab === 'Appearance' &&
         <AppearanceEditor 
           options={options.appearanceOptions}
           details={apperance}
+          disabled={!canEdit}
           update={updateAppearance}
         />}
         {state.selectedTab === 'Positions' &&
@@ -108,18 +120,21 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           primaryPosition={state.personalDetails.position}
           options={options.positionCapabilityOptions}
           details={positionCapabilityDetails}
+          disabled={!canEdit}
           update={updatePositionCapabilities}
         />}
         {state.selectedTab === 'Hitter' &&
         <HitterAbilitiesEditor
           battingSide={state.personalDetails.battingSide.key as BattingSide}
           details={hitterAbilities}
+          disabled={!canEdit}
           update={updateHitterAbilities}
         />}
         {state.selectedTab === 'Pitcher' &&
         <PitcherAbilitiesEditor
           options={options.pitcherAbilitiesOptions}
           details={pitcherAbilities}
+          disabled={!canEdit}
           update={updatePitcherAbilities}
         />}
         {state.selectedTab === 'Special' &&
@@ -127,6 +142,7 @@ export function PlayerEditorPage(props: PlayerEditorPageProps) {
           options={options.specialAbilitiesOptions}
           details={specialAbilities}
           isPitcher={positionType === 'Pitcher'}
+          disabled={!canEdit}
           update={updateSpecialAbilities}
         />}
       </EditorContainer>

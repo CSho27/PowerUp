@@ -3,15 +3,7 @@ import styled from "styled-components";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { Icon, IconType } from "../icon/icon";
 
-export interface ButtonProps {
-  variant: ButtonVariant;
-  size: ButtonSize;
-  id?: string;
-  icon?: IconType;
-  textAlign?: ButtonTextAlignment;
-  squarePadding?: boolean;
-  disabled?: boolean;
-  children?: React.ReactNode;
+export interface ButtonProps extends ButtonContentProps {
   onClick: () => void;
 }
 
@@ -20,7 +12,37 @@ export type ButtonSize = 'Small' | 'Medium' | 'Large';
 export type ButtonTextAlignment = 'left' | 'center' | 'right';
 
 export function Button(props: ButtonProps) {
-  const { variant, size, id, icon, textAlign, squarePadding, disabled, children, onClick } = props;
+  const { disabled, onClick } = props;
+  
+  const handleClick = disabled
+    ? undefined
+    : onClick;
+
+  return <ButtonWrapper disabled={disabled} onClick={handleClick}>
+    <ButtonContent {...props} />
+  </ButtonWrapper>
+};
+
+const ButtonWrapper = styled.button`
+  padding: 0;
+  border: none;
+  background-color: inherit;
+`
+
+export interface ButtonContentProps {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  id?: string;
+  icon?: IconType;
+  textAlign?: ButtonTextAlignment;
+  squarePadding?: boolean;
+  disabled?: boolean;
+  title?: string;
+  children?: React.ReactNode;
+}
+
+export function ButtonContent(props: ButtonContentProps) {
+  const { variant, size, id, icon, textAlign, squarePadding, disabled, title, children } = props;
 
   const buttonContent = !icon 
     ? children
@@ -29,16 +51,12 @@ export function Button(props: ButtonProps) {
         {children && <span>{children}</span>}
       </IconAndTextContainer>
 
-  const handleClick = disabled
-    ? undefined
-    : onClick;
-
   switch (variant) {
     case "Fill":
       return <FillButton 
         id={id}
-        disabled={disabled}
-        onClick={handleClick}
+        disabled={!!disabled}
+        title={title}
         size={size} 
         textAlign={textAlign}
         squarePadding={squarePadding}
@@ -46,8 +64,8 @@ export function Button(props: ButtonProps) {
     case "Outline":
       return <OutlineButton 
         id={id}
-        disabled={disabled}
-        onClick={handleClick} 
+        disabled={!!disabled}
+        title={title}
         size={size} 
         textAlign={textAlign}
         squarePadding={squarePadding}
@@ -55,14 +73,14 @@ export function Button(props: ButtonProps) {
     case "Ghost":
       return <GhostButton 
         id={id}
-        disabled={disabled}
-        onClick={handleClick} 
+        disabled={!!disabled}
+        title={title}
         size={size} 
         textAlign={textAlign}
         squarePadding={squarePadding}
       >{buttonContent}</GhostButton>;
   }
-};
+}
 
 const sizingStyles = {
   Small: `
@@ -86,8 +104,16 @@ const sizingStyles = {
 }
 
 
+
 // Default is fill button
-const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefined, squarePadding: boolean | undefined }>`
+interface BaseButtonContentProps {
+  size: ButtonSize;
+  textAlign: string | undefined;
+  squarePadding: boolean | undefined;
+  disabled: boolean;
+}
+
+const BaseButtonContent = styled.div<BaseButtonContentProps>`
   ${p => sizingStyles[p.size]}
   padding: var(--vertical-padding) ${p => p.squarePadding ? '' : 'var(--horizontal-padding)'};
   border: solid 1px var(--background-color);
@@ -98,31 +124,27 @@ const BaseButton = styled.button<{ size: ButtonSize, textAlign: string | undefin
   letter-spacing: -0.02em;
   color: var(--text-color);
   background-color: var(--background-color);
-  cursor: pointer;
+  opacity: ${p => p.disabled ? '.7' : undefined};
+  cursor: ${p => p.disabled ? 'default' : 'pointer' };
 
-  &:hover&:not(:disabled) {
-    background-color: var(--hover-color);
-  }
-
-  &:disabled {
-    opacity: .7;
-    cursor: default;
+  &:hover {
+    background-color: ${p => p.disabled ? undefined : 'var(--hover-color)'};
   }
 `;
 
-const FillButton = styled(BaseButton)`
+const FillButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.white.regular_100};
   --background-color: ${COLORS.jet.regular_18};
   --hover-color: ${COLORS.jet.regular_25};
 `;
 
-const OutlineButton = styled(BaseButton)`
+const OutlineButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.primaryBlue.regular_45};
   --background-color: ${COLORS.white};
   --hover-color: ${COLORS.white.offwhite_97};
   border: solid 2px ${COLORS.primaryBlue.regular_45};
 `;
-const GhostButton = styled(BaseButton)`
+const GhostButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.jet.light_39};
   --hover-color: ${COLORS.jet.light_39};
   &:hover {

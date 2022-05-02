@@ -1,15 +1,17 @@
 import { useRef } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
+import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
-import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
-import { LoadPlayerEditorApiClient } from "../playerEditor/loadPlayerEditorApiClient";
-import { PlayerEditorPage } from "../playerEditor/playerEditorPage";
+import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { getPositionType } from "../shared/positionCode";
+import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
+import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
+import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
@@ -21,7 +23,9 @@ export function TeamGrid(props: TeamGridProps) {
   const { appContext, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
 
-  const apiClientRef = useRef(new LoadPlayerEditorApiClient(appContext.commandFetcher));
+  const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
+  const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
+  const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
   const teamDisplayName = name === powerProsName
       ? name
@@ -56,13 +60,13 @@ export function TeamGrid(props: TeamGridProps) {
     {hitters.map(h => 
       <PlayerRow key={h.playerId}>
         {getPlayerDetailsColumns(h)}
-        <td>{h.trajectory}</td>
-        <td>{h.contact}</td>
-        <td>{h.power}</td>
-        <td>{h.runSpeed}</td>
-        <td>{h.armStrength}</td>
-        <td>{h.fielding}</td>
-        <td>{h.errorResistance}</td>
+        <PlayerCell>{h.trajectory}</PlayerCell>
+        <PlayerCell>{h.contact}</PlayerCell>
+        <PlayerCell>{h.power}</PlayerCell>
+        <PlayerCell>{h.runSpeed}</PlayerCell>
+        <PlayerCell>{h.armStrength}</PlayerCell>
+        <PlayerCell>{h.fielding}</PlayerCell>
+        <PlayerCell>{h.errorResistance}</PlayerCell>
       </PlayerRow>)}
     </PlayerTableBody>
     <thead>
@@ -88,19 +92,20 @@ export function TeamGrid(props: TeamGridProps) {
     {pitchers.map(p => 
       <PlayerRow key={p.playerId}>
         {getPlayerDetailsColumns(p)}
-        <td>{p.pitcherType}</td>
-        <td>{p.topSpeed} mph</td>
-        <td>{p.control}</td>
-        <td>{p.stamina}</td>
-        <td>{p.breakingBall1}</td>
-        <td>{p.breakingBall2}</td>
-        <td>{p.breakingBall3}</td>
+        <PlayerCell>{p.pitcherType}</PlayerCell>
+        <PlayerCell>{p.topSpeed} mph</PlayerCell>
+        <PlayerCell>{p.control}</PlayerCell>
+        <PlayerCell>{p.stamina}</PlayerCell>
+        <PlayerCell>{p.breakingBall1}</PlayerCell>
+        <PlayerCell>{p.breakingBall2}</PlayerCell>
+        <PlayerCell>{p.breakingBall3}</PlayerCell>
       </PlayerRow>)}
     </PlayerTableBody>
   </TeamGridTable>;
 
   function getPlayerDetailsHeaders() {
     return <>
+      <StatHeader columnWidth='1px' />
       <StatHeader columnWidth='1px' />
       <StatHeader>Num</StatHeader>
       <StatHeader>Pos</StatHeader>
@@ -112,23 +117,55 @@ export function TeamGrid(props: TeamGridProps) {
 
   function getPlayerDetailsColumns(details: PlayerDetails) {
     const positionType = getPositionType(details.position)
+    const { playerId } = details;
 
     return <>
-      <td>
+      <PlayerCell>
         <Button
           size='Small'
           variant='Outline'
-          icon='user-pen'
+          title={details.canEdit
+            ? 'Edit'
+            : 'View'}
+          icon={details.canEdit
+            ? 'user-pen'
+            : 'eye'}
           squarePadding
-          onClick={() => editPlayer(details.playerId)}
+          onClick={() => editPlayer(playerId)}
         />
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
+        <ContextMenuButton
+          size='Small'
+          variant='Outline'
+          title='Replace'
+          icon='right-left'
+          squarePadding
+          menuItems={<>
+            <ContextMenuItem 
+              icon='copy'
+              onClick={() => replacePlayerWithCopy(playerId)}>
+                Replace with copy
+            </ContextMenuItem>
+            <ContextMenuItem 
+              icon='box-archive'
+              onClick={() => replacePlayerWithExisting(playerId)}>
+                Replace with existing
+            </ContextMenuItem>
+            <ContextMenuItem 
+              icon='user-plus'
+              onClick={() => replaceWithNewPlayer(playerId)}>
+                Replace with new
+            </ContextMenuItem>
+          </>}
+        />
+      </PlayerCell>
+      <PlayerCell>
         <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
           {details.uniformNumber}
         </OutlineHeader>
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
         <CenteringWrapper>
           <PositionBubble 
             positionType={positionType} 
@@ -138,10 +175,11 @@ export function TeamGrid(props: TeamGridProps) {
             {details.positionAbbreviation}
           </PositionBubble>
         </CenteringWrapper>
-      </td>
-      <td>
+      </PlayerCell>
+      <PlayerCell>
         <CenteringWrapper>
           <PlayerNameBubble 
+            sourceType={details.sourceType}
             positionType={positionType} 
             size='Medium'
             fullWidth
@@ -149,14 +187,47 @@ export function TeamGrid(props: TeamGridProps) {
             {details.savedName}
           </PlayerNameBubble>
         </CenteringWrapper>
-      </td>
-      <td>{details.overall}</td>
-      <td>{details.batsAndThrows}</td>
+      </PlayerCell>
+      <PlayerCell>{details.overall}</PlayerCell>
+      <PlayerCell>{details.batsAndThrows}</PlayerCell>
     </>
   }
 
   function editPlayer(playerId: number) {
     appContext.setPage({ page: 'PlayerEditorPage', playerId: playerId });
+  }
+
+  async function replacePlayerWithCopy(playerId: number) {
+    const response = await replacePlayerWithCopyApiClientRef.current.execute({ teamId: team.teamId, playerId: playerId });
+    if(response.success)
+      appContext.reloadCurrentPage();
+  }
+
+  function replacePlayerWithExisting(playerToReplaceId: number) {
+    appContext.openModal(closeDialog => <PlayerSelectionModal 
+      appContext={appContext} 
+      closeDialog={playerToInsertId => { 
+        closeDialog(); 
+        if(!!playerToInsertId)
+          executeReplace(playerToReplaceId, playerToInsertId); 
+      }} 
+    />)
+  }
+
+  async function executeReplace(playerToReplaceId: number, playerToInsertId: number) {
+    const response = await replacePlayerWithExistingApiClientRef.current.execute({ 
+      teamId: team.teamId, 
+      playerToReplaceId: playerToReplaceId,
+      playerToInsertId: playerToInsertId
+    });
+    if(response.success)
+      appContext.reloadCurrentPage();
+  }
+
+  async function replaceWithNewPlayer(playerId: number) {
+    const response = await replaceWithNewApiClientRef.current.execute({ teamId: team.teamId, playerToReplaceId: playerId });
+    if(response.success)
+      appContext.reloadCurrentPage();
   }
 }
 
@@ -218,12 +289,12 @@ const PlayerRow = styled.tr`
   } 
 `
 
+const PlayerCell = styled.td`
+  white-space: nowrap;
+`
+
 const CenteringWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
-
-const TeamGridPlayerName = styled(PlayerNameBubble)`
-  padding: 2px 4px;
 `

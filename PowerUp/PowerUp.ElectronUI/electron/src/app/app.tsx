@@ -7,6 +7,7 @@ import { GenerateId } from '../utils/generateId';
 import { AppState, AppStateReducer, BreadcrumbDefinition, ModalDefinition } from './appState';
 import { GlobalStyles } from './globalStyles';
 import { PageLoadDefinition, pageRegistry } from './pages';
+import { InitializeBaseRosterApiClient } from './rosterEditor/importBaseRosterApiClient';
 
 export interface ApplicationStartupData {
   commandUrl: string;
@@ -16,6 +17,7 @@ export interface AppContext {
   commandFetcher: CommandFetcher;
   breadcrumbs: BreadcrumbDefinition[];
   setPage: (pageDef: PageLoadDefinition) => void;
+  reloadCurrentPage: () => void;
   popBreadcrumb: (breadcrumbId: number) => void;
   openModal: (renderModal: RenderModalCallback) => void;
   performWithSpinner: PerformWithSpinnerCallback;
@@ -40,6 +42,7 @@ export function App(props: ApplicationStartupData) {
     commandFetcher: new CommandFetcher(commandUrl, performWithSpinner),
     breadcrumbs: state.breadcrumbs,
     setPage: setPage,
+    reloadCurrentPage: reloadCurrentPage,
     popBreadcrumb: popBreadcrumb,
     openModal: openModal,
     performWithSpinner: performWithSpinner
@@ -50,9 +53,13 @@ export function App(props: ApplicationStartupData) {
   }, [])
 
   useGlobalBindings(
+    { keys: ['Control', 'Alt', 'Shift', 'B'], callbackFn: () => setPage({ page: 'RosterEditorPage', rosterId: 1 }) },
     { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
     { keys: ['Control', 'Alt', 'Shift', 'O'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) }
   )
+
+  // Initializes Base Roster
+  useEffect(() => { new InitializeBaseRosterApiClient(appContext.commandFetcher).execute() }, []);
 
   return <>
     {state.currentPage.renderPage(appContext)}
@@ -68,12 +75,17 @@ export function App(props: ApplicationStartupData) {
     update({ type: 'updatePage', pageLoadDef: pageDef, pageDef: loadedPage });
   }
 
+  async function reloadCurrentPage() {
+    popBreadcrumb(state.breadcrumbs[state.breadcrumbs.length-1].id);
+  }
+
   async function popBreadcrumb(breadcrumbId: number) {
     const pageLoadDef = state.breadcrumbs.find(c => c.id === breadcrumbId)!.pageLoadDef;
     const pageLoader = pageRegistry[pageLoadDef.page];
     const newPage = await pageLoader(appContext, pageLoadDef);
     update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageDef: newPage });
   }
+
 
   function openModal(renderModal: RenderModalCallback) {
     var key = GenerateId().toString();

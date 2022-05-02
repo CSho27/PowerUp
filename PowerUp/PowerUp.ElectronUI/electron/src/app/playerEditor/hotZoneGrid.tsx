@@ -91,6 +91,7 @@ function nextPreference(preference: HotZonePreference): HotZonePreference {
 export interface HotZoneGridProps {
   battingSide: BattingSide;
   grid: HotZoneGridState;
+  disabled?: boolean;
   update: Dispatch<HotZoneGridAction>
 }
 
@@ -98,24 +99,78 @@ export interface HotZoneGridProps {
 export type BattingSide = 'Right' | 'Left' | 'Switch';
 
 export function HotZoneGrid(props: HotZoneGridProps) {
-  const { battingSide, grid, update } = props;
+  const { battingSide, grid, disabled, update } = props;
 
   const up = [
-    <HotZoneGridTile preference={grid.upAndIn} onClick={() => update({ type: 'toggleUpAndIn' })} />,
-    <HotZoneGridTile preference={grid.up} onClick={() => update({ type: 'toggleUp' })} />,
-    <HotZoneGridTile preference={grid.upAndAway} onClick={() => update({ type: 'toggleUpAndAway' })} />
+    <HotZoneGridTile 
+      preference={grid.upAndIn} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleUpAndIn' })} 
+    />,
+    <HotZoneGridTile 
+      preference={grid.up} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleUp' })} 
+    />,
+    <HotZoneGridTile 
+      preference={grid.upAndAway} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleUpAndAway' })} 
+    />
   ]
 
   const middle = [
-    <HotZoneGridTile preference={grid.middleIn} onClick={() => update({ type: 'toggleMiddleIn' })} />,
-    <HotZoneGridTile preference={grid.middle} onClick={() => update({ type: 'toggleMiddle' })} />,
-    <HotZoneGridTile preference={grid.middleAway} onClick={() => update({ type: 'toggleMiddleAway' })} />
+    <HotZoneGridTile 
+      preference={grid.middleIn} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleMiddleIn' })} 
+    />,
+    <HotZoneGridTile 
+      preference={grid.middle} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleMiddle' })} 
+    />,
+    <HotZoneGridTile 
+      preference={grid.middleAway} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleMiddleAway' })} 
+    />
   ]
 
   const down = [
-    <HotZoneGridTile preference={grid.downAndIn} onClick={() => update({ type: 'toggleDownAndIn' })} />,
-    <HotZoneGridTile preference={grid.down} onClick={() => update({ type: 'toggleDown' })} />,
-    <HotZoneGridTile preference={grid.downAndAway} onClick={() => update({ type: 'toggleDownAndAway' })} />
+    <HotZoneGridTile 
+      preference={grid.downAndIn} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleDownAndIn' })} 
+    />,
+    <HotZoneGridTile 
+      preference={grid.down} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleDown' })} 
+    />,
+    <HotZoneGridTile 
+      preference={grid.downAndAway} 
+      disabled={disabled} 
+      onClick={disabled 
+        ? () => {} 
+        : () => update({ type: 'toggleDownAndAway' })} 
+    />
   ]
 
   return <HotZoneGridWrapper>
@@ -166,15 +221,15 @@ const preferenceColors: { [preference in HotZonePreference]: string } = {
   Cold: COLORS.hotZones.cold_blue_48
 }
 
-const HotZoneGridTile = styled.a<{ preference: HotZonePreference }>`
+const HotZoneGridTile = styled.a<{ preference: HotZonePreference, disabled?: boolean }>`
   display: block;
   width: 64px;
   height: 80px;
   opacity: .7;
   background-color: ${p => preferenceColors[p.preference]};
-  cursor: pointer;
+  cursor: ${p => p.disabled ? 'undefined' : 'pointer' };
 
   &:hover {
-    opacity: .6;
+    opacity: ${p => p.disabled ? 'undefined' : '.6' };
   }
 `

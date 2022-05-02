@@ -1,4 +1,5 @@
 ﻿using PowerUp.Databases;
+using PowerUp.Entities.Players;
 using PowerUp.Libraries;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
@@ -25,7 +26,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 
     public PlayerEditorResponse Execute(LoadPlayerEditorRequest request)
     {
-      var player = DatabaseConfig.PlayerDatabase.Load(request.PlayerId!.Value);
+      var player = DatabaseConfig.Database.Load<Player>(request.PlayerId!.Value);
       return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, _faceLibrary, player!);
     }
   }

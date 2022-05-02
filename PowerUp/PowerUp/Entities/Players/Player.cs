@@ -1,16 +1,17 @@
 ﻿using PowerUp.Databases;
 using System;
-using System.Collections.Generic;
 
 namespace PowerUp.Entities.Players
 {
-  public class Player : Entity
+  public class Player : Entity<Player>
   {
     public EntitySourceType SourceType { get; set; }
+    public bool IsCustomPlayer { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
+    public string FormalDisplayName => $"{LastName}, {FirstName}";
+    public string InformalDisplayName => $"{FirstName} {LastName}";
     public int? Year { get; set; }
-    public DateOnly? BirthDate { get; set; }
     public string? ImportSource { get; set; }
     public int? SourcePowerProsId { get; set; }
 
@@ -30,7 +31,7 @@ namespace PowerUp.Entities.Players
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
     public SpecialAbilities SpecialAbilities { get; set; } = new SpecialAbilities();
 
-    public double GetOverallRating() => PrimaryPosition == Position.Pitcher
+    public double Overall => PrimaryPosition == Position.Pitcher
       ? PitcherAbilities.GetPitcherRating()
       : HitterAbilities.GetHitterRating();
   }

@@ -12,11 +12,12 @@ import { getGradeForControl, getGradeForStamina, PitcherAbilities, PitcherAbilit
 export interface PitcherAbilitiesEditorProps {
   options: PitcherAbilitiesOptions;
   details: PitcherAbilities;
+  disabled?: boolean;
   update: Dispatch<PitcherAbilitiesAction>;
 }
 
 export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
-  const { options, details, update } = props;
+  const { options, details, disabled: editorDisabled, update } = props;
   
   return <>
     <FlexRow gap='16px'>
@@ -32,6 +33,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
               value={details.topSpeed}
               min={49}
               max={105}
+              disabled={editorDisabled}
               onChange={topSpeed => update({ type: 'updateTopSpeed', topSpeed: topSpeed })}
             />
           </FlexFracItem>
@@ -48,6 +50,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
               value={details.control}
               min={1}
               max={255}
+              disabled={editorDisabled}
               onChange={control => update({ type: 'updateControl', control: control })}
             />
           </FlexFracItem>
@@ -66,6 +69,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
               value={details.stamina}
               min={1}
               max={255}
+              disabled={editorDisabled}
               onChange={stamina => update({ type: 'updateStamina', stamina: stamina })}
             />
           </FlexFracItem>
@@ -85,6 +89,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={3}
           movementValue={details.twoSeamMovement}
           onMovementChange={movement => update({ type: 'updateTwoSeamMovement', movement: movement })}
+          disabled={editorDisabled}
         />
         <PitchTypeRow
           id='slider1'
@@ -96,6 +101,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.slider1Movement}
           onMovementChange={movement => update({ type: 'updateSlider1Movement', movement: movement })}
+          disabled={editorDisabled}
         />
         {!!details.slider1Type &&
         <PitchTypeRow
@@ -108,6 +114,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.slider2Movement}
           onMovementChange={movement => update({ type: 'updateSlider2Movement', movement: movement })}
+          disabled={editorDisabled}
         />}
         <PitchTypeRow
           id='curve1'
@@ -119,6 +126,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.curve1Movement}
           onMovementChange={movement => update({ type: 'updateCurve1Movmement', movement: movement })}
+          disabled={editorDisabled}
         />
         {!!details.curve1Type &&
         <PitchTypeRow
@@ -131,6 +139,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.curve2Movement}
           onMovementChange={movement => update({ type: 'updateCurve2Movement', movement: movement })}
+          disabled={editorDisabled}
         />}
         <PitchTypeRow
           id='fork1'
@@ -142,6 +151,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.fork1Movement}
           onMovementChange={movement => update({ type: 'updateFork1Movement', movement: movement })}
+          disabled={editorDisabled}
         />
         {!!details.fork1Type &&
         <PitchTypeRow
@@ -154,6 +164,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.fork2Movement}
           onMovementChange={movement => update({ type: 'updateFork2Movement', movement: movement })}
+          disabled={editorDisabled}
         />}
         <PitchTypeRow
           id='sinker1'
@@ -165,6 +176,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.sinker1Movement}
           onMovementChange={movement => update({ type: 'updateSinker1Movement', movement: movement })}
+          disabled={editorDisabled}
         />
         {!!details.sinker1Type &&
         <PitchTypeRow
@@ -177,6 +189,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.sinker2Movement}
           onMovementChange={movement => update({ type: 'updateSinker2Movement', movement: movement })}
+          disabled={editorDisabled}
         />}
         <PitchTypeRow
           id='sinkingFastball1'
@@ -188,6 +201,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.sinkingFastball1Movement}
           onMovementChange={movement => update({ type: 'updateSinkingFastball1Movement', movement: movement })}
+          disabled={editorDisabled}
         />
         {!!details.sinkingFastball1Type &&
         <PitchTypeRow
@@ -200,6 +214,7 @@ export function PitcherAbilitiesEditor(props: PitcherAbilitiesEditorProps) {
           movementMax={7}
           movementValue={details.sinkingFastball2Movement}
           onMovementChange={movement => update({ type: 'updateSinkingFastball2Movement', movement: movement })}
+          disabled={editorDisabled}
         />}
       </FlexFracItem>
     </FlexRow>
@@ -216,6 +231,7 @@ interface PitchTypeRowProps {
   movementMax: number;
   movementValue: number;
   onMovementChange: (movement: number) => void;
+  disabled?: boolean;
 }
 
 function PitchTypeRow(props: PitchTypeRowProps) {
@@ -228,7 +244,8 @@ function PitchTypeRow(props: PitchTypeRowProps) {
     movementMin,
     movementMax, 
     movementValue, 
-    onMovementChange 
+    onMovementChange,
+    disabled
   } = props;
 
   const typeId = `${id}Type`;
@@ -242,6 +259,7 @@ function PitchTypeRow(props: PitchTypeRowProps) {
       <SelectField 
         id={typeId}
         value={typeValue?.key}
+        disabled={disabled}
         onChange={type => onTypeChange(tryFromOptions(typeOptions, type))}
       >{toOptions(typeOptions, true)}</SelectField>
     </FlexFracItem>
@@ -257,6 +275,7 @@ function PitchTypeRow(props: PitchTypeRowProps) {
           value={movementValue}
           min={movementMin}
           max={movementMax}
+          disabled={disabled}
           onChange={onMovementChange}
         />
       </FlexFracItem>

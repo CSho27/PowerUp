@@ -65,7 +65,8 @@ namespace PowerUp.GameSave.Api
 
         var players = teams
           .SelectMany(t => t.Key.GetPlayers().Select(p => (ppTeam: t.Value, player: p)))
-          .Where(p => p.ppTeam.GetDivision() != MLBPPDivision.AllStars).ToList();
+          .DistinctBy(p => p.player.Id)
+          .ToList();
 
         var gsPlayers = new List<GSPlayer>();
         var ppIdsById = new Dictionary<int, ushort>();

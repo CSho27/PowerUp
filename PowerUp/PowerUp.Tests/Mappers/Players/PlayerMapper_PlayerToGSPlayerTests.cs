@@ -45,15 +45,11 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase(EntitySourceType.Base)]
-    [TestCase(EntitySourceType.Imported)]
-    [TestCase(EntitySourceType.Generated)]
-    [TestCase(EntitySourceType.Custom)]
     public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(EntitySourceType playerType)
     {
-      player.SourceType = playerType;
+      player.IsCustomPlayer = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
-      result.IsEdited.ShouldBe(playerType == EntitySourceType.Custom);
+      result.IsEdited.ShouldBe(true);
     }
 
     [Test]

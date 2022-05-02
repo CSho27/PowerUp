@@ -7,9 +7,7 @@
 SaveFileAnalysis/*.dat
 PowerUp/PowerUp.ElectronUI/wwwroot/*
 !PowerUp/PowerUp.ElectronUI/wwwroot/assets
-PowerUp/PowerUp.ElectronUI/Data/Rosters/*
-PowerUp/PowerUp.ElectronUI/Data/Teams/*
-PowerUp/PowerUp.ElectronUI/Data/Players/*
+*db
 
 #NCrunch
 *.ncrunch*

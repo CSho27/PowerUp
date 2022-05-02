@@ -70,14 +70,14 @@ namespace PowerUp.ElectronUI
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
       JsonConvert.DefaultSettings = () => new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
 
-
       if (HybridSupport.IsElectronActive)
         ElectronBootstrap();
 
-      app.ApplicationServices
+      var serviceProvider = app.ApplicationServices
         .CreateScope()
-        .ServiceProvider
-        .AddCommandsToRegistry();
+        .ServiceProvider;
+
+      serviceProvider.AddCommandsToRegistry();
     }
 
     public async void ElectronBootstrap()

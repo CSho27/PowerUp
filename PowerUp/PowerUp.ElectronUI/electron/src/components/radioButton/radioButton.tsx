@@ -7,10 +7,11 @@ export interface RadioButtonProps {
   checked: boolean;
   onSelect: () => void;
   id?: string;
+  disabled?: boolean;
 }
 
 export function RadioButton(props: RadioButtonProps) {
-  const { groupName, value, checked, onSelect, id } = props;
+  const { groupName, value, checked, onSelect, id, disabled } = props;
   
   return <RadioButtonWrapper>
     <RadioButtonCircle>
@@ -22,6 +23,7 @@ export function RadioButton(props: RadioButtonProps) {
       name={groupName}
       value={value}
       checked={checked}
+      disabled={disabled}
       onChange={onSelect}
     />
   </RadioButtonWrapper> 
@@ -57,4 +59,8 @@ const RadioButtonInput = styled.input`
   width: 100%;
   cursor: pointer;
   opacity: 0;
+
+  &:disabled {
+    cursor: default;
+  }
 `

@@ -9,7 +9,7 @@ export function FullPageSpinner() {
       <SpinnerWrapper>
         <Icon icon='circle-notch' style={{ display: 'block' }}/>
       </SpinnerWrapper>
-    </PageCover>,
+    </PageCover>
   </Portal>
 }
 

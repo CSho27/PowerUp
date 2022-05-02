@@ -34,19 +34,6 @@ namespace PowerUp
       //FindPlayersByLastName();
     }
 
-    static void FindPlayersByLastName()
-    {
-
-      var playerDatabase = new PlayerDatabase(DATA_DIRECTORY);
-
-      var time = TimeAction(() =>
-      {
-        var results = playerDatabase.LoadAll().Where(p => p.LastName == "Pena");
-        Console.WriteLine(results.Count());
-      });
-      Console.WriteLine($"Time: {time}");
-    }
-
     static TimeSpan TimeAction(Action action)
     {
       var startTime = DateTime.Now;

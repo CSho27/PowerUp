@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PowerUp.Entities.Rosters
 {
-  public class Roster : Entity
+  public class Roster : Entity<Roster>
   {
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = "";
@@ -15,7 +15,7 @@ namespace PowerUp.Entities.Rosters
     public IDictionary<MLBPPTeam, int> TeamIdsByPPTeam { get; set; } = new Dictionary<MLBPPTeam, int>();
     public IDictionary<Team, MLBPPTeam> GetTeams() => TeamIdsByPPTeam
       .ToDictionary(
-        kvp => DatabaseConfig.TeamDatabase.Load(kvp.Value)!,
+        kvp => DatabaseConfig.Database.Load<Team>(kvp.Value)!,
         kvp => kvp.Key
       );
   }

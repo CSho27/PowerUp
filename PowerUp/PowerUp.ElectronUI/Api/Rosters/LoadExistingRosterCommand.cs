@@ -1,4 +1,5 @@
 ﻿using PowerUp.Databases;
+using PowerUp.Entities.Rosters;
 
 namespace PowerUp.ElectronUI.Api.Rosters
 {
@@ -6,7 +7,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
   {
     public RosterEditorResponse Execute(LoadExistingRosterRequest request)
     {
-      var roster = DatabaseConfig.RosterDatabase.Load(request.RosterId);
+      var roster = DatabaseConfig.Database.Load<Roster>(request.RosterId);
       var rosterDetails = RosterDetails.FromRoster(roster!);
       return new RosterEditorResponse(rosterDetails);
     }

@@ -9,23 +9,28 @@ export class CommandFetcher {
     this.performWithSpinner = performWithSpinner;
   }
 
-  readonly execute = async (commandName: string, request: any): Promise<any> => {
-    return this.performWithSpinner(async () => {
-      try {
-        const response = await fetch(this.commandUrl, {
-          method: 'POST',
-          mode: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ commandName: commandName, request: request })
-        });
-        const responseJson = await response.json(); 
-        return responseJson;
-      } catch (error) {
-        console.error(error);
-        return new Promise((_, reject) => reject(error));
-      }
-    })
+  readonly execute = async (commandName: string, request: any, useSpinner?: boolean): Promise<any> => {
+    const shouldUseSpinner = useSpinner ?? true; 
+    return shouldUseSpinner
+      ? this.performWithSpinner(() => this.performFetch(commandName, request))
+      : this.performFetch(commandName, request);
+  }
+
+  private readonly performFetch = async (commandName: string, request: any) => {
+    try {
+      const response = await fetch(this.commandUrl, {
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ commandName: commandName, request: request })
+      });
+      const responseJson = await response.json(); 
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+      return new Promise((_, reject) => reject(error));
+    }
   }
 }

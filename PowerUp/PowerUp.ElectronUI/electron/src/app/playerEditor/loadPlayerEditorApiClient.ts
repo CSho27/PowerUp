@@ -1,4 +1,5 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
+import { EntitySourceType } from "../shared/entitySourceType";
 import { KeyedCode } from "../shared/keyedCode";
 import { PositionCode } from "../shared/positionCode";
 import { SimpleCode } from "../shared/simpleCode";
@@ -9,6 +10,8 @@ export interface LoadPlayerEditorRequest {
 }
 
 export interface PlayerEditorResponse {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   options: PlayerEditorOptions; 
   personalDetails: PlayerPersonalDetailsDto;
   appearanceDetails: PlayerAppearanceDetailsDto;
@@ -85,6 +88,9 @@ export interface SpecialAbilitiesOptions {
 }
 
 export interface PlayerPersonalDetailsDto {
+  isCustomPlayer: boolean;
+  year: number | null;
+  importSource: string | null;
   firstName: string;
   lastName: string;
   isSpecialSavedName: boolean;

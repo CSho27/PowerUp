@@ -6,20 +6,22 @@ export interface CheckboxFieldProps {
   onToggle: () => void;
   id?: string;
   size?: CheckboxFieldSize;
+  disabled?: boolean;
 }
 
 export type CheckboxFieldSize = 'Small' | 'Medium'
 
 export function CheckboxField(props: CheckboxFieldProps) {
-  const { checked, onToggle, id, size } = props;
+  const { checked, onToggle, id, size, disabled } = props;
   
-  return <CheckboxWrapper size={size ?? 'Medium'} checked={checked}>
+  return <CheckboxWrapper size={size ?? 'Medium'} checked={checked} disabled={disabled}>
     {checked ? '\u2713': ''}
     <CheckboxInput
       id={id} 
       type='checkbox'
       checked={checked}
       onChange={onToggle}
+      disabled={disabled}
     />
   </CheckboxWrapper>
 }
@@ -37,7 +39,7 @@ const sizingStyles: { [key in CheckboxFieldSize]: string } = {
   `
 }
 
-const CheckboxWrapper = styled.div<{ size: CheckboxFieldSize, checked: boolean }>`
+const CheckboxWrapper = styled.div<{ size: CheckboxFieldSize, checked: boolean, disabled?: boolean }>`
   ${p => sizingStyles[p.size]}
   border: solid 1px ${COLORS.richBlack.regular_5};
   border-radius: var(--border-radius);
@@ -51,10 +53,11 @@ const CheckboxWrapper = styled.div<{ size: CheckboxFieldSize, checked: boolean }
   font-size: var(--font-size);
   width: var(--box-size);
   height: var(--box-size);
-  cursor: pointer;
+  cursor: ${p => p.disabled ? 'default' : 'pointer' };
+  opacity: ${p => p.disabled ? '.5' : '1' };
 `
 
-const CheckboxInput = styled.input`
+const CheckboxInput = styled.input<{ disabled?: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -62,4 +65,8 @@ const CheckboxInput = styled.input`
   height: 100%;
   opacity: 0;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 `

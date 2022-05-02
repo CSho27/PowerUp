@@ -2,11 +2,40 @@
 {
   public interface IPlayerApi
   {
+    Player CreateDefaultPlayer(EntitySourceType sourceType, bool isPitcher);
+    Player CreatePlayer(EntitySourceType sourceType, PlayerParameters parameters);
+    Player CreateCustomCopyOfPlayer(Player player);
     void UpdatePlayer(Player player, PlayerParameters parameters);
   }
 
   public class PlayerApi : IPlayerApi
   {
+    public Player CreateDefaultPlayer(EntitySourceType sourceType, bool isPitcher) => isPitcher
+      ? PlayerFactory.BuildDefaultPitcher(EntitySourceType.Custom)
+      : PlayerFactory.BuildDefaultHitter(EntitySourceType.Custom);
+
+    public Player CreatePlayer(EntitySourceType sourceType, PlayerParameters parameters)
+    {
+      new PlayerParametersValidator().Validate(parameters);
+
+      var player = CreateDefaultPlayer(sourceType, parameters.PersonalDetails!.Position == Position.Pitcher);
+
+      UpdatePersonalDetails(player, parameters.PersonalDetails!);
+      UpdateAppearance(player.Appearance, parameters.Appearance!);
+      UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
+      UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
+      UpdatePitcherAbilities(player.PitcherAbilities, parameters.PitcherAbilities!);
+      UpdateSpecialAbilities(player.SpecialAbilities, parameters.SpecialAbilities!);
+
+      return player;
+    }
+
+    public Player CreateCustomCopyOfPlayer(Player player)
+    {
+      var playerParameters = PlayerCopyParametersBuilder.Build(player);
+      return CreatePlayer(EntitySourceType.Custom, playerParameters);
+    }
+
     public void UpdatePlayer(Player player, PlayerParameters parameters)
     {
       new PlayerParametersValidator().Validate(parameters);
@@ -21,6 +50,7 @@
 
     private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)
     {
+      player.IsCustomPlayer = parameters.IsCustomPlayer;
       player.FirstName = parameters.FirstName!;
       player.LastName = parameters.LastName!;
 

@@ -21,8 +21,8 @@ export interface PlayerEditorState {
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
 export const playerEditorTabOptions = [
   'Personal',
-  'Positions',
   'Appearance',
+  'Positions',
   'Hitter',
   'Pitcher',
   'Special'
@@ -81,6 +81,7 @@ export function PlayerEditorStateReducer(state: PlayerEditorState, action: Playe
 }
 
 export interface PlayerPersonalDetails {
+  isCustomPlayer: boolean;
   firstName: string;
   lastName: string;
   useSpecialSavedName: boolean;
@@ -96,6 +97,7 @@ export interface PlayerPersonalDetails {
 }
 
 export type PlayerPersonalDetailsAction =
+| { type: 'toggleIsCustomPlayer' }
 | { type: 'updateFirstName', firstName: string }
 | { type: 'updateLastName', lastName: string }
 | { type: 'toggleUseSpecialSavedName' }
@@ -116,6 +118,11 @@ export interface PlayerPersonalDetailsContext {
 
 export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action: PlayerPersonalDetailsAction, context: PlayerPersonalDetailsContext): PlayerPersonalDetails {
   switch(action.type) {
+    case 'toggleIsCustomPlayer':
+      return {
+        ...state,
+        isCustomPlayer: !state.isCustomPlayer
+      }
     case 'updateFirstName':
       return {
         ...state,
@@ -481,6 +488,8 @@ export function getDefaultCapabilitiesForPosition(position: Position) : Position
         centerField: e,
         rightField: a
       }
+    case 'DesignatedHitter':
+      return baseCapabilities
     default:
       throw 'Cannot update abaility for this position';
   }
@@ -842,6 +851,7 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       rightField: positionCapabilities.rightField
     },
     personalDetails: {
+      isCustomPlayer: personalDetails.isCustomPlayer,
       firstName: personalDetails.firstName,
       lastName: personalDetails.lastName,
       useSpecialSavedName: personalDetails.isSpecialSavedName,
@@ -939,6 +949,7 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorState, player
   return {
     playerId: playerId,
     personalDetails: {
+      isCustomPlayer: personalDetails.isCustomPlayer,
       firstName: personalDetails.firstName,
       lastName: personalDetails.lastName,
       useSpecialSavedName: personalDetails.useSpecialSavedName,

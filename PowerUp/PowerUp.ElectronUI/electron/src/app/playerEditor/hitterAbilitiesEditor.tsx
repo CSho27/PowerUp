@@ -12,11 +12,12 @@ import { getGradeFor0_15, getGradeForPower, getHotZoneGridReducer, HitterAbiliti
 export interface HitterAbilitiesEditorProps {
   battingSide: BattingSide;
   details: HitterAbilities;
+  disabled?: boolean;
   update: Dispatch<HitterAbilitiesAction>;
 }
 
 export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
-  const { battingSide, details, update } = props;
+  const { battingSide, details, disabled: editorDisabled, update } = props;
 
   const [hotZones, updateHotZones] = getHotZoneGridReducer(details, update);
   
@@ -34,6 +35,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               value={details.trajectory}
               min={1}
               max={4}
+              disabled={editorDisabled}
               onChange={trajectory => update({ type: 'updateTrajectory', trajectory: trajectory })}
             />
           </FlexFracItem>
@@ -50,6 +52,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               value={details.contact}
               min={1}
               max={15}
+              disabled={editorDisabled}
               onChange={contact => update({ type: 'updateContact', contact: contact })}
             />
           </FlexFracItem>
@@ -69,6 +72,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               min={1}
               max={255}
               stepSize={10}
+              disabled={editorDisabled}
               onChange={power => update({ type: 'updatePower', power: power })}
             />
           </FlexFracItem>
@@ -87,6 +91,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               value={details.runSpeed}
               min={1}
               max={15}
+              disabled={editorDisabled}
               onChange={runSpeed => update({ type: 'updateRunSpeed', runSpeed: runSpeed })}
             />
           </FlexFracItem>
@@ -105,6 +110,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               value={details.armStrength}
               min={1}
               max={15}
+              disabled={editorDisabled}
               onChange={armStrength => update({ type: 'updateArmStrength', armStrength: armStrength })}
             />
           </FlexFracItem>
@@ -123,6 +129,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               value={details.fielding}
               min={1}
               max={15}
+              disabled={editorDisabled}
               onChange={fielding => update({ type: 'updateFielding', fielding: fielding })}
             />
           </FlexFracItem>
@@ -141,6 +148,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
               value={details.errorResistance}
               min={1}
               max={15}
+              disabled={editorDisabled}
               onChange={errorResistance => update({ type: 'updateErrorResistance', errorResistance: errorResistance })}
             />
           </FlexFracItem>
@@ -153,6 +161,7 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
         <HotZoneGrid 
           battingSide={battingSide} 
           grid={hotZones}
+          disabled={editorDisabled}
           update={updateHotZones}
         />
       </FlexFracItem>
