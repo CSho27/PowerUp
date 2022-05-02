@@ -18,6 +18,7 @@ export type IconType =
 | 'folder-open'
 | 'pen-to-square'
 | 'right-left'
+| 'rotate-left'
 | 'square'
 | 'upload'
 | 'user-pen'

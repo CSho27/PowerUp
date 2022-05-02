@@ -29,6 +29,7 @@ export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
     <PlayerGrid >
       <thead>
         <tr>
+          <PlayerHeader>Type</PlayerHeader>
           <PlayerHeader>Num</PlayerHeader>
           <PlayerHeader>Pos</PlayerHeader>
           <PlayerHeader>Name</PlayerHeader>
@@ -51,6 +52,7 @@ export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
       key={player.playerId} 
       selected={player.playerId === selectedPlayer?.id}
       onClick={() => onPlayerSelected({ id: player.playerId, name: player.informalDisplayName })}>
+      <PlayerData>{player.sourceType}</PlayerData>
       <PlayerData>{player.uniformNumber}</PlayerData>
       <PlayerData>{player.position}</PlayerData>
       <PlayerData>{player.formalDisplayName}</PlayerData>

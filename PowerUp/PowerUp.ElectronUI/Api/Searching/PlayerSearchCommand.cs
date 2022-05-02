@@ -1,5 +1,6 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players.Queries;
+using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Searching
 {
@@ -35,6 +36,8 @@ namespace PowerUp.ElectronUI.Api.Searching
   public class PlayerSearchResultDto
   {
     public int PlayerId { get; set; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
     public string UniformNumber { get; set; }
     public string FormalDisplayName { get; set; }
