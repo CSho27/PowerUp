@@ -1,5 +1,6 @@
 import React from "react";
-import styled from "styled-components"
+import styled from "styled-components";
+import deepEquals from 'fast-deep-equal/react';
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -58,6 +59,14 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
 
   const positionType = getPositionType(currentDetails.personalDetails.position.key as Position);
 
+  const hasUnsavedChanges = !deepEquals(state.lastSavedDetails, state.currentDetails);
+  const actionsDisabled = !canEdit || !hasUnsavedChanges;
+  const actionsDisabledTooltip = !canEdit
+    ? 'Players of this type cannot be edited'
+    : !hasUnsavedChanges
+      ? 'No changes'
+      : undefined;
+
   const header = <>
     <Breadcrumbs appContext={appContext}/>
     <PlayerHeaderContainer>
@@ -92,7 +101,8 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
               size='Small'
               onClick={() => update({ type: 'undoChanges' })}
               icon='rotate-left'
-              disabled={!canEdit}>
+              disabled={actionsDisabled}
+              title={actionsDisabledTooltip}>
                 Undo Changes
             </Button>
             <Button 
@@ -100,10 +110,8 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
               size='Small' 
               onClick={savePlayer} 
               icon='floppy-disk' 
-              disabled={!canEdit} 
-              title={canEdit 
-                ? undefined 
-                : 'Player cannot be edited'}>
+              disabled={actionsDisabled} 
+              title={actionsDisabledTooltip}>
                   Save
             </Button>
           </PlayerHeaderActionButtons>
