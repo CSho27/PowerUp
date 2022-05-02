@@ -3,11 +3,13 @@ import { AppContext } from "./app";
 import { loadHomePage } from "./home/homePage";
 import { loadPlayerEditorPage } from "./playerEditor/playerEditorPage";
 import { loadRosterEditorPage } from "./rosterEditor/rosterEditorPage";
+import { loadTeamEditorPage } from "./teamEditor/teamEditorPage";
 
 export type PageLoadDefinition =
 | { page: 'HomePage' }
 | { page: 'RosterEditorPage', rosterId: number }
 | { page: 'PlayerEditorPage', playerId: number }
+| { page: 'TeamEditorPage', teamId: number }
 
 export interface PageDefinition {
   title: string;
@@ -21,4 +23,5 @@ export const pageRegistry: { [page in PageLoadDefinition['page']]: PageLoadFunct
   HomePage: loadHomePage,
   RosterEditorPage: loadRosterEditorPage,
   PlayerEditorPage: loadPlayerEditorPage,
+  TeamEditorPage: loadTeamEditorPage
 }

@@ -25,13 +25,13 @@ import { PositionCapabilitiesEditor } from "./positionCapabilitiesEditor";
 import { SavePlayerApiClient, SavePlayerRequest } from "./savePlayerApiClient";
 import { SpecialAbilitiesEditor } from "./specialAbilitiesEditor";
 
-export interface PlayerEditorPageProps {
+interface PlayerEditorPageProps {
   appContext: AppContext;
   playerId: number;
   editorResponse: PlayerEditorResponse 
 }
 
-export function PlayerEditorPage(props: PlayerEditorPageProps) {
+function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, playerId, editorResponse } = props;
   const { sourceType, canEdit, options } = editorResponse;
 
@@ -161,6 +161,11 @@ const PlayerHeaderContainer = styled.div`
   align-items: center;
   padding-bottom: 8px;
 `
+
+const EditorContainer = styled.div`
+padding: 16px;
+`
+
 export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
   if(pageDef.page !== 'PlayerEditorPage') throw '';
   
@@ -172,7 +177,3 @@ export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppCont
     renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />
   }
 }
-
-const EditorContainer = styled.div`
-padding: 16px;
-`
