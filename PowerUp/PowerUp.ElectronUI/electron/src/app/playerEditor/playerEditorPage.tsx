@@ -121,16 +121,16 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
       </PlayerHeaderActions>
     </PlayerHeaderContainer>
     <TabButtonNav 
-      selectedTab={currentDetails.selectedTab}
+      selectedTab={state.selectedTab}
       tabOptions={playerEditorTabOptions.slice()}
-      onChange={t => updateCurrentDetails({ type: 'updateSelectedTab', selectedTab: t as PlayerEditorTab })}
+      onChange={t => update({ type: 'updateSelectedTab', selectedTab: t as PlayerEditorTab })}
     />
   </> 
 
   return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <EditorContainer>
-        {currentDetails.selectedTab === 'Personal' && 
+        {state.selectedTab === 'Personal' && 
         <PlayerPersonalDetailsEditor
           options={options.personalDetailsOptions}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
@@ -138,14 +138,14 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
           disabled={!canEdit}
           update={updatePersonalDetails}      
         />}
-        {currentDetails.selectedTab === 'Appearance' &&
+        {state.selectedTab === 'Appearance' &&
         <AppearanceEditor 
           options={options.appearanceOptions}
           details={apperance}
           disabled={!canEdit}
           update={updateAppearance}
         />}
-        {currentDetails.selectedTab === 'Positions' &&
+        {state.selectedTab === 'Positions' &&
         <PositionCapabilitiesEditor 
           primaryPosition={currentDetails.personalDetails.position}
           options={options.positionCapabilityOptions}
@@ -153,21 +153,21 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
           disabled={!canEdit}
           update={updatePositionCapabilities}
         />}
-        {currentDetails.selectedTab === 'Hitter' &&
+        {state.selectedTab === 'Hitter' &&
         <HitterAbilitiesEditor
           battingSide={currentDetails.personalDetails.battingSide.key as BattingSide}
           details={hitterAbilities}
           disabled={!canEdit}
           update={updateHitterAbilities}
         />}
-        {currentDetails.selectedTab === 'Pitcher' &&
+        {state.selectedTab === 'Pitcher' &&
         <PitcherAbilitiesEditor
           options={options.pitcherAbilitiesOptions}
           details={pitcherAbilities}
           disabled={!canEdit}
           update={updatePitcherAbilities}
         />}
-        {currentDetails.selectedTab === 'Special' &&
+        {state.selectedTab === 'Special' &&
         <SpecialAbilitiesEditor
           options={options.specialAbilitiesOptions}
           details={specialAbilities}

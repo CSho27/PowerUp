@@ -12,12 +12,24 @@ export interface PlayerEditorState {
   lastSavedDetails: PlayerEditorDetails;
   currentDetails: PlayerEditorDetails;
   dateLastSaved: Date | undefined;
+  selectedTab: PlayerEditorTab;
 }
+
+export type PlayerEditorTab = typeof playerEditorTabOptions[number];
+export const playerEditorTabOptions = [
+  'Personal',
+  'Appearance',
+  'Positions',
+  'Hitter',
+  'Pitcher',
+  'Special'
+] as const
 
 export type PlayerEditorAction =
 | { type: 'updateDetails', detailsAction: PlayerEditorDetailsAction }
 | { type: 'undoChanges' }
 | { type: 'updateFromSave' }
+| { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
 
 export function PlayerEditorReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
   switch(action.type) {
@@ -37,6 +49,11 @@ export function PlayerEditorReducer(state: PlayerEditorState, action: PlayerEdit
         lastSavedDetails: state.currentDetails,
         dateLastSaved: new Date()
       }
+    case 'updateSelectedTab':
+      return {
+        ...state,
+        selectedTab: action.selectedTab
+      }
   }
 }
 
@@ -48,7 +65,6 @@ export function getDetailsReducer(state: PlayerEditorState, update: Dispatch<Pla
 }
 
 export interface PlayerEditorDetails {
-  selectedTab: PlayerEditorTab;
   personalDetails: PlayerPersonalDetails;
   appearance: Appearance;
   positionCapabilityDetails: PositionCapabilityDetails;
@@ -57,18 +73,7 @@ export interface PlayerEditorDetails {
   specialAbilities: SpecialAbilities;
 }
 
-export type PlayerEditorTab = typeof playerEditorTabOptions[number];
-export const playerEditorTabOptions = [
-  'Personal',
-  'Appearance',
-  'Positions',
-  'Hitter',
-  'Pitcher',
-  'Special'
-] as const
-
 export type PlayerEditorDetailsAction =
-| { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
 | { type: 'updateAppearance', action: AppearanceAction }
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
@@ -78,11 +83,6 @@ export type PlayerEditorDetailsAction =
 
 export function PlayerEditorDetailsReducer(state: PlayerEditorDetails, action: PlayerEditorDetailsAction, context: PlayerPersonalDetailsContext): PlayerEditorDetails {
   switch(action.type) {
-    case 'updateSelectedTab':
-      return {
-        ...state,
-        selectedTab: action.selectedTab
-      }
     case 'updatePersonalDetails':
       return {
         ...state,
@@ -877,7 +877,6 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
   const { appearanceOptions  } = response.options
 
   const details: PlayerEditorDetails = {
-    selectedTab: 'Personal',
     positionCapabilityDetails: {
       pitcher: positionCapabilities.pitcher,
       catcher: positionCapabilities.catcher,
@@ -977,7 +976,8 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
   return {
     lastSavedDetails: details,
     currentDetails: details,
-    dateLastSaved: undefined
+    dateLastSaved: undefined,
+    selectedTab: 'Personal'
   }
 }
 
