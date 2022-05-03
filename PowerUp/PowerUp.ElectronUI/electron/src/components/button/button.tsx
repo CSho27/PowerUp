@@ -140,7 +140,7 @@ const FillButton = styled(BaseButtonContent)`
 
 const OutlineButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.primaryBlue.regular_45};
-  --background-color: ${COLORS.white};
+  --background-color: ${COLORS.white.regular_100};
   --hover-color: ${COLORS.white.offwhite_97};
   border: solid 2px ${COLORS.primaryBlue.regular_45};
 `;
