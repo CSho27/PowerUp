@@ -16,6 +16,7 @@ export type IconType =
 | 'floppy-disk'
 | 'folder'
 | 'folder-open'
+| 'lock'
 | 'pen-to-square'
 | 'right-left'
 | 'rotate-left'

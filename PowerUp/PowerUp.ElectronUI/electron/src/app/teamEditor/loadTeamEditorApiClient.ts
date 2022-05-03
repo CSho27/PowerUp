@@ -4,8 +4,24 @@ export interface LoadTeamEditorRequest {
   teamId: number;
 }
 
-export interface TeamEditorResponse {
+export interface LoadTeamEditorResponse {
+  name: string;
+  teamRosterDetails: TeamRosterDetails; 
+}
 
+export interface TeamRosterDetails {
+  mlbPlayers: PlayerRoleDefinitionDto[];
+  aaaPlayers: PlayerRoleDefinitionDto[];
+}
+
+export interface PlayerRoleDefinitionDto {
+  playerId: number;
+  fullName: string;
+  savedName: string;
+  isPinchHitter: boolean;
+  isPinchRunner: boolean;
+  isDefensiveReplacement: boolean;
+  isDefensiveLiability: boolean;
 }
 
 export class LoadTeamEditorApiClient {
@@ -16,7 +32,7 @@ export class LoadTeamEditorApiClient {
     this.commandFetcher = commandFetcher;
   } 
 
-  readonly execute = (request: LoadTeamEditorRequest): Promise<TeamEditorResponse> => {
+  readonly execute = (request: LoadTeamEditorRequest): Promise<LoadTeamEditorResponse> => {
     return this.commandFetcher.execute(this.commandName, request);
   }
 }

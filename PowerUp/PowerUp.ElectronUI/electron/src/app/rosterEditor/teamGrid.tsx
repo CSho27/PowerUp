@@ -33,9 +33,18 @@ export function TeamGrid(props: TeamGridProps) {
 
   return <TeamGridTable>
     <TeamGridCaption>
-      <TeamHeader>
-        {teamDisplayName}
-      </TeamHeader>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+        <TeamHeader>
+          {teamDisplayName}
+        </TeamHeader>
+        <Button 
+          size='Small'
+          variant='Outline'
+          onClick={editTeam}
+          icon='pen-to-square'>
+            Edit
+        </Button>
+      </div>
     </TeamGridCaption>
     <thead>
       <tr>
@@ -229,6 +238,10 @@ export function TeamGrid(props: TeamGridProps) {
     if(response.success)
       appContext.reloadCurrentPage();
   }
+
+  async function editTeam() {
+    appContext.setPage({ page: 'TeamEditorPage', teamId: team.teamId });
+  }
 }
 
 const TeamGridTable = styled.table`
@@ -240,18 +253,19 @@ const TeamGridTable = styled.table`
 const TeamGridCaption = styled.caption`
   background-color: ${COLORS.primaryBlue.regular_45};
   color: ${COLORS.white.regular_100};
-  text-align: left;
   position: sticky;
   top: 0;
   height: 64px;
   z-index: 1;
+  padding: 8px 16px;
 `
 
 const TeamHeader = styled.h1`
-  padding: 8px 16px;
+  flex: auto;
   font-size: ${FONT_SIZES._32};
   font-weight: 600;
   font-style: italic;
+  text-align: left;
 `
 
 const PlayerGroupHeader = styled.th`
