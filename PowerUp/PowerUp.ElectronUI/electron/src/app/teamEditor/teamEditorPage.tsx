@@ -9,7 +9,7 @@ import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
-import { getDetailsReducer, getInitialStateFromResponse, TeamEditorReducer, teamEditorTabOptions } from "./teamEditorState";
+import { getDetailsReducer, getInitialStateFromResponse, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -30,14 +30,14 @@ function TeamEditorPage(props: TeamEditorPageProps) {
     <Breadcrumbs appContext={appContext}/>
     <TeamHeaderContainer>
       <div style={{ flex: '0 0 450px', display: 'flex', gap: '16px', alignItems: 'center' }}>
-        {!state.isEditingName && <h1>{currentDetails.teamName}</h1>}
-        {state.isEditingName && 
-        <div>
+        <div style={{ flex: 'auto' }}>
+          {!state.isEditingName && <h1>{currentDetails.teamName}</h1>}
+          {state.isEditingName && 
           <TextField 
             value={currentDetails.teamName} 
             onChange={name => updateCurrentDetails({ type: 'updateTeamName', teamName: name })}        
-          />
-        </div>}
+          />}
+        </div>
         <Button 
           variant='Outline'
           size='Small'
@@ -73,9 +73,9 @@ function TeamEditorPage(props: TeamEditorPageProps) {
       </TeamHeaderActions>
     </TeamHeaderContainer>
     <TabButtonNav 
-      selectedTab={'Rosters'}
+      selectedTab={state.selectedTab}
       tabOptions={teamEditorTabOptions.slice()}
-      onChange={() => {}/*t => updateCurrentDetails({ type: 'updateSelectedTab', selectedTab: t as PlayerEditorTab })*/}
+      onChange={t => update({ type: 'updateSelectedTab', selectedTab: t as TeamEditorTab }) }
     />
   </> 
 

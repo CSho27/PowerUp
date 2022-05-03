@@ -11,7 +11,7 @@ export interface TeamEditorState {
 
 export type TeamEditorTab = typeof teamEditorTabOptions[number];
 export const teamEditorTabOptions = [
-  'Rosters',
+  'Management',
   'No DH Lineup',
   'DH Lineup',
   'Pitcher Roles'
@@ -88,7 +88,7 @@ export function getInitialStateFromResponse(response: LoadTeamEditorResponse): T
     lastSavedDetails: details,
     currentDetails: details,
     dateLastSaved: undefined,
-    selectedTab: 'Rosters',
+    selectedTab: 'Management',
     isEditingName: false
   }
 }
