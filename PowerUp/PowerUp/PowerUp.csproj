@@ -3,8 +3,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.11" />
