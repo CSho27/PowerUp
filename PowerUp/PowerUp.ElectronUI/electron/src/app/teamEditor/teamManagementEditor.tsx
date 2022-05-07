@@ -17,18 +17,24 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
   return <>
     <TeamManagementGrid 
       appContext={appContext}
-      gridTitle='MLB' 
+      isAAA={false}
       players={state.mlbPlayers}
+      startingNumber={1}
       canManageRoster={!disabled}
       canEditRoles={!disabled}
-      updatePlayer={(id, action) => update({ type: 'updateMLBPlayer', playerId: id, roleAction: action }) } />
+      canSendUpOrDown={true}
+      updatePlayer={(id, action) => update({ type: 'updateMLBPlayer', playerId: id, roleAction: action }) } 
+      sendUpOrDown={id => update({ type: 'sendDown', playerId: id }) } />
     <TeamManagementGrid 
       appContext={appContext}
-      gridTitle='AAA' 
+      isAAA={true} 
       players={state.aaaPlayers}
+      startingNumber={state.mlbPlayers.length+1}
       canManageRoster={!disabled}
       canEditRoles={false}
-      updatePlayer={(id, action) => update({ type: 'updateAAAPlayer', playerId: id, roleAction: action }) }/>
+      canSendUpOrDown={state.mlbPlayers.length < 25}
+      updatePlayer={(id, action) => update({ type: 'updateAAAPlayer', playerId: id, roleAction: action }) } 
+      sendUpOrDown={id => update({ type: 'sendUp', playerId: id })} />
   </>
 
   

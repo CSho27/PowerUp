@@ -16,28 +16,36 @@ import { PlayerDetails, PlayerRoleAction, PlayerRoleState, TeamManagementEditorA
 
 export interface TeamManagementGridProps {
   appContext: AppContext;
-  gridTitle: string;
+  isAAA: boolean;
   players: PlayerRoleState[];
+  startingNumber: number;
   canManageRoster: boolean;
   canEditRoles: boolean;
+  canSendUpOrDown: boolean;
   updatePlayer: ListDispatch<number, PlayerRoleAction>;
+  sendUpOrDown: (playerId: number) => void;
 }
 
 export function TeamManagementGrid(props: TeamManagementGridProps) {
   const { 
     appContext, 
-    gridTitle, 
+    isAAA,
     players,
+    startingNumber,
     canManageRoster,
     canEditRoles,
-    updatePlayer
+    canSendUpOrDown,
+    updatePlayer,
+    sendUpOrDown
    } = props;
 
   return <div>
-    <h2>{gridTitle}</h2>
+    <h2>{isAAA ? 'AAA' : 'MLB'}</h2>
     <TeamManagementTable>
       <thead>
         <tr>
+          <StatHeader columnWidth='1px'>Slot</StatHeader>
+          <StatHeader columnWidth='1px' />
           <StatHeader columnWidth='1px' />
           <StatHeader columnWidth='1px' />
           <StatHeader>Pos</StatHeader>
@@ -56,12 +64,15 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     </TeamManagementTable>
   </div>
 
-  function mapToPlayerRow(player: PlayerRoleState) {
+  function mapToPlayerRow(player: PlayerRoleState, index: number) {
     const { playerDetails } = player;
     const { playerId } = playerDetails
     const positionType = getPositionType(playerDetails.position);
 
     return <PlayerRow key={playerId}>
+      <PlayerCell>
+        {startingNumber+index}
+      </PlayerCell>
       <PlayerCell>
         <Button
           size='Small'
@@ -102,6 +113,16 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
                 Replace with new
             </ContextMenuItem>
           </>} />
+      </PlayerCell>
+      <PlayerCell>
+        <Button
+          size='Small'
+          variant='Outline'
+          disabled={!canSendUpOrDown}
+          title={isAAA ? 'Call up' : 'Send down'}
+          icon={isAAA ? 'person-arrow-up-from-line' : 'person-arrow-down-to-line'}
+          squarePadding
+          onClick={() => sendUpOrDown(playerId)} />
       </PlayerCell>
       <PlayerCell>
         <CenteringWrapper>

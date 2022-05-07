@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { replace } from "../../utils/arrayUtils";
+import { remove, replace } from "../../utils/arrayUtils";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { Position } from "../shared/positionCode";
 import { PlayerRoleDefinitionDto, TeamRosterDetails } from "./loadTeamEditorApiClient";
@@ -32,6 +32,8 @@ export interface PlayerDetails {
 export type TeamManagementEditorAction =
 | { type: 'updateMLBPlayer', playerId: number, roleAction: PlayerRoleAction  }
 | { type: 'updateAAAPlayer', playerId: number, roleAction: PlayerRoleAction }
+| { type: 'sendUp', playerId: number }
+| { type: 'sendDown', playerId: number }
 
 export type PlayerRoleAction =
 | { type: 'replacePlayer', playerDetails: PlayerDetails }
@@ -60,6 +62,23 @@ export function TeamManagementEditorReducer(state: TeamManagementEditorState, ac
           p => PlayerRoleStateReducer(p, action.roleAction)
         )
       }
+    case 'sendUp':
+      const player = state.aaaPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+
+      return {
+        ...state,
+        aaaPlayers: remove(state.aaaPlayers, p => p.playerDetails.playerId === action.playerId),
+        mlbPlayers: [...state.mlbPlayers, player]
+      }
+    case 'sendDown': {
+      const player = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+
+      return {
+        ...state,
+        aaaPlayers: [...state.aaaPlayers, player],
+        mlbPlayers: remove(state.mlbPlayers, p => p.playerDetails.playerId === action.playerId)
+      }
+    }
   }
 }
 
