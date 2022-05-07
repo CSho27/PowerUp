@@ -13,8 +13,8 @@ import { toShortDateTimeString } from "../shared/dateUtils";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { DiscardTempTeamApiClient } from "./discardTempTeamApiClient";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
-import { PlayerRoleRequest, SaveTeamApiClient } from "./saveTeamApiClient";
-import { getDetailsReducer, getInitialStateFromResponse, getTeamManagementReducer, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
+import { PlayerRoleRequest, SaveTeamApiClient, SaveTeamRequest } from "./saveTeamApiClient";
+import { getDetailsReducer, getInitialStateFromResponse, getTeamManagementReducer, TeamEditorDetails, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 import { TeamManagementEditor } from "./teamManagementEditor";
 import { PlayerRoleState } from "./teamManagementEditorState";
 
@@ -69,7 +69,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
             <Button
               variant='Outline'
               size='Small'
-              onClick={() => update({ type: 'undoChanges' })}
+              onClick={undoChanges}
               icon='rotate-left'
               disabled={actionsDisabled}
               title={actionsDisabledTooltip}>
@@ -113,14 +113,18 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   </PowerUpLayout>
 
   async function saveTeam(persist: boolean) {
-    apiClientRef.current.execute({
+    apiClientRef.current.execute(buildSaveRequest(currentDetails, persist));
+  }
+
+  function buildSaveRequest(teamDetails: TeamEditorDetails, persist: boolean): SaveTeamRequest {
+    return {
       teamId: teamId,
       tempTeamId: tempTeamId,
       persist: persist,
-      name: currentDetails.teamName,
-      mlbPlayers: currentDetails.teamManagmentState.mlbPlayers.map(toPlayerRoleRequest),
-      aaaPlayers: currentDetails.teamManagmentState.aaaPlayers.map(toPlayerRoleRequest)
-    });
+      name: teamDetails.teamName,
+      mlbPlayers: teamDetails.teamManagmentState.mlbPlayers.map(toPlayerRoleRequest),
+      aaaPlayers: teamDetails.teamManagmentState.aaaPlayers.map(toPlayerRoleRequest)
+    }
   }
 
   function toPlayerRoleRequest(roleState: PlayerRoleState): PlayerRoleRequest {
@@ -131,6 +135,11 @@ function TeamEditorPage(props: TeamEditorPageProps) {
       isDefensiveReplacement: roleState.isDefensiveReplacement,
       isDefensiveLiability: roleState.isDefensiveLiability
     }
+  }
+
+  async function undoChanges() {
+    update({ type: 'undoChanges' });
+    apiClientRef.current.execute(buildSaveRequest(state.lastSavedDetails, false));
   }
 }
 
