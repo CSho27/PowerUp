@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { AppContext } from "../app";
-import { TeamManagementEditorAction, TeamManagementEditorState } from "./teamManagementEditorState"
+import { PlayerDetails, TeamManagementEditorAction, TeamManagementEditorState } from "./teamManagementEditorState"
 import { TeamManagementGrid } from "./teamManagementGrid";
 
 export interface TeamManagementEditorProps {
@@ -24,7 +24,8 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
       canEditRoles={!disabled}
       canSendUpOrDown={true}
       updatePlayer={(id, action) => update({ type: 'updateMLBPlayer', playerId: id, roleAction: action }) } 
-      sendUpOrDown={id => update({ type: 'sendDown', playerId: id }) } />
+      sendUpOrDown={id => update({ type: 'sendDown', playerId: id }) } 
+      addPlayer={player => update({ type: 'addMLBPlayer', playerDetais: player }) }/>
     <TeamManagementGrid 
       appContext={appContext}
       isAAA={true} 
@@ -34,8 +35,7 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
       canEditRoles={false}
       canSendUpOrDown={state.mlbPlayers.length < 25}
       updatePlayer={(id, action) => update({ type: 'updateAAAPlayer', playerId: id, roleAction: action }) } 
-      sendUpOrDown={id => update({ type: 'sendUp', playerId: id })} />
+      sendUpOrDown={id => update({ type: 'sendUp', playerId: id })} 
+      addPlayer={player => update({ type: 'addAAAPlayer', playerDetais: player }) } />
   </>
-
-  
 }

@@ -30,6 +30,8 @@ export interface PlayerDetails {
 }
 
 export type TeamManagementEditorAction =
+| { type: 'addMLBPlayer', playerDetais: PlayerDetails }
+| { type: 'addAAAPlayer', playerDetais: PlayerDetails }
 | { type: 'updateMLBPlayer', playerId: number, roleAction: PlayerRoleAction  }
 | { type: 'updateAAAPlayer', playerId: number, roleAction: PlayerRoleAction }
 | { type: 'sendUp', playerId: number }
@@ -44,6 +46,16 @@ export type PlayerRoleAction =
 
 export function TeamManagementEditorReducer(state: TeamManagementEditorState, action: TeamManagementEditorAction): TeamManagementEditorState {
   switch(action.type) {
+    case 'addMLBPlayer':
+      return {
+        ...state,
+        mlbPlayers: [...state.mlbPlayers, toDefaultRole(action.playerDetais)]
+      }
+    case 'addAAAPlayer':
+      return {
+        ...state,
+        aaaPlayers: [...state.aaaPlayers, toDefaultRole(action.playerDetais)]
+      }
     case 'updateMLBPlayer':
       return {
         ...state,
@@ -136,5 +148,15 @@ function toPlayerRoleState(roleDef: PlayerRoleDefinitionDto): PlayerRoleState {
     isPinchRunner: roleDef.isPinchRunner,
     isDefensiveReplacement: roleDef.isDefensiveReplacement,
     isDefensiveLiability: roleDef.isDefensiveLiability
+  }
+}
+
+function toDefaultRole(playerDetails: PlayerDetails): PlayerRoleState {
+  return {
+    playerDetails: playerDetails,
+    isPinchHitter: false,
+    isPinchRunner: false,
+    isDefensiveReplacement: false,
+    isDefensiveLiability: false
   }
 }

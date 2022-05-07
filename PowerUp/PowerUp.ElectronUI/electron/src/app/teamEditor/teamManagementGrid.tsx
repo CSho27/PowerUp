@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
+import { Icon } from "../../components/icon/icon";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS } from "../../style/constants";
@@ -12,7 +14,9 @@ import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionMod
 import { DisableResult } from "../shared/disableResult";
 import { ListDispatch } from "../shared/listDispatch";
 import { getPositionType } from "../shared/positionCode";
-import { PlayerDetails, PlayerRoleAction, PlayerRoleState, TeamManagementEditorAction } from "./teamManagementEditorState";
+import { CopyPlayerApiClient } from "./copyPlayerApiClient";
+import { toPlayerDetails } from "./playerDetailsResponse";
+import { PlayerDetails, PlayerRoleAction, PlayerRoleState } from "./teamManagementEditorState";
 
 export interface TeamManagementGridProps {
   appContext: AppContext;
@@ -24,6 +28,7 @@ export interface TeamManagementGridProps {
   canSendUpOrDown: boolean;
   updatePlayer: ListDispatch<number, PlayerRoleAction>;
   sendUpOrDown: (playerId: number) => void;
+  addPlayer: (details: PlayerDetails) => void;
 }
 
 export function TeamManagementGrid(props: TeamManagementGridProps) {
@@ -36,11 +41,16 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     canEditRoles,
     canSendUpOrDown,
     updatePlayer,
-    sendUpOrDown
-   } = props;
+    sendUpOrDown,
+    addPlayer
+  } = props;
+
+  const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
 
   return <div>
-    <h2>{isAAA ? 'AAA' : 'MLB'}</h2>
+    <PlayerGroupHeader>
+      <h2>{isAAA ? 'AAA' : 'MLB'}</h2>
+    </PlayerGroupHeader>
     <TeamManagementTable>
       <thead>
         <tr>
@@ -188,6 +198,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   }
 
   async function replacePlayerWithCopy(playerId: number) {
+    const response = await copyingApiClientRef.current.execute({ playerId: playerId });
+    updatePlayer(playerId, { type: 'replacePlayer', playerDetails: toPlayerDetails(response) });
   }
 
   function replacePlayerWithExisting(playerToReplaceId: number) {
@@ -228,6 +240,12 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   async function replaceWithNewPlayer(playerId: number) {
   }
 }
+
+const PlayerGroupHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`
 
 const TeamManagementTable = styled.table`
   width: 100%;

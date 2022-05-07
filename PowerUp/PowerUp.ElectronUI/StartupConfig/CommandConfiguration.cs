@@ -22,6 +22,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ReplaceWithExistingPlayerCommand>();
       services.AddSingleton<PlayerSearchCommand>();
       services.AddSingleton<LoadTeamEditorCommand>();
+      services.AddSingleton<CopyPlayerCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -39,6 +40,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplaceWithExistingPlayerCommand), "ReplaceWithExistingPlayer");
       commandRegistry.RegisterCommand(typeof(PlayerSearchCommand), "PlayerSearch");
       commandRegistry.RegisterCommand(typeof(LoadTeamEditorCommand), "LoadTeamEditor");
+      commandRegistry.RegisterCommand(typeof(CopyPlayerCommand), "CopyPlayer");
     }
   }
 }
