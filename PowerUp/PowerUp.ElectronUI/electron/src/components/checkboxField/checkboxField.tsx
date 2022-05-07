@@ -47,7 +47,11 @@ const CheckboxWrapper = styled.div<{ size: CheckboxFieldSize, checked: boolean, 
   text-align: center;
   vertical-align: middle;
   line-height: 1;
-  background-color: ${p => p.checked ? COLORS.primaryBlue.regular_45 : COLORS.transparent.regular_100 };
+  background-color: ${p => p.checked 
+    ? COLORS.primaryBlue.regular_45 
+    : p.disabled
+      ? COLORS.jet.regular_25_t20
+      : COLORS.transparent.regular_100 };
   color: ${COLORS.white.regular_100};
   font-weight: 700;
   font-size: var(--font-size);

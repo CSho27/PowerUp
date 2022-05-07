@@ -4,6 +4,7 @@ export const COLORS = {
   jet: {
     regular_18: 'hsl(180deg 1% 18%)',
     regular_25: 'hsl(180deg 1% 25%)',
+    regular_25_t20: 'hsl(180deg 1% 25% / .2)',
     light_39: 'hsl(180deg 1% 39%)',
     light_50: 'hsl(180deg 1% 50%)',
     lighter_71: 'hsl(180deg 1% 71%)',
