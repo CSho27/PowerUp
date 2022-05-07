@@ -1,4 +1,5 @@
 ﻿using PowerUp.Entities;
+using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Queries;
 using System.Text.Json.Serialization;
 
@@ -36,13 +37,18 @@ namespace PowerUp.ElectronUI.Api.Searching
   public class PlayerSearchResultDto
   {
     public int PlayerId { get; set; }
-
+    
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
     public string UniformNumber { get; set; }
+    public string SavedName { get; set; }
     public string FormalDisplayName { get; set; }
     public string InformalDisplayName { get; set; }
-    public string Position { get; set; }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Position Position { get; set; }
+    public string PositionAbbreviation => Position.GetAbbrev();
     public string BatsAndThrows { get; set; }
     public int Overall { get; set; }
 
@@ -51,10 +57,11 @@ namespace PowerUp.ElectronUI.Api.Searching
       PlayerId = result.Id;
       SourceType = result.SourceType;
       UniformNumber = result.UniformNumber!;
+      SavedName = result.SavedName!;
       FormalDisplayName = result.FormalDisplayName!;
       InformalDisplayName = result.InformalDisplayName!;
-      Position = result.PrimaryPosition.GetAbbrev();
-      BatsAndThrows = $"{result.BattingSide.GetAbbrev()}/{result.ThrowingArm.GetAbbrev()}";
+      Position = result.PrimaryPosition;
+      BatsAndThrows = result.BatsAndThrows!;
       Overall = result.Overall.RoundDown();
     }
   }

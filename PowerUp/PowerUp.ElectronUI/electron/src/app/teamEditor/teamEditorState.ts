@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import { LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
+import { getInitialStateFromTeamRosterDetails, TeamManagementEditorAction, TeamManagementEditorReducer, TeamManagementEditorState } from "./teamManagementEditorState";
 
 export interface TeamEditorState {
   lastSavedDetails: TeamEditorDetails;
@@ -57,10 +58,12 @@ export function TeamEditorReducer(state: TeamEditorState, action: TeamEditorActi
 
 export interface TeamEditorDetails {
   teamName: string;
+  teamManagmentState: TeamManagementEditorState;
 }
 
 export type TeamEditorDetailsAction =
 | { type: 'updateTeamName', teamName: string }
+| { type: 'updateTeamManagement', managementAction: TeamManagementEditorAction }
 
 export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamEditorDetailsAction): TeamEditorDetails {
   switch(action.type) {
@@ -69,19 +72,32 @@ export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamE
         ...state,
         teamName: action.teamName
       }
+    case 'updateTeamManagement':
+      return {
+        ...state,
+        teamManagmentState: TeamManagementEditorReducer(state.teamManagmentState, action.managementAction)
+      }
   }
 }
 
-export function getDetailsReducer(state: TeamEditorState, update: Dispatch<TeamEditorAction>) : [TeamEditorDetails, Dispatch<TeamEditorDetailsAction>] {
+export function getDetailsReducer(state: TeamEditorState, update: Dispatch<TeamEditorAction>): [TeamEditorDetails, Dispatch<TeamEditorDetailsAction>] {
   return [
     state.currentDetails,
     (action: TeamEditorDetailsAction) => update({ type: 'updateDetails', detailsAction: action })
   ]
 }
 
+export function getTeamManagementReducer(state: TeamEditorDetails, update: Dispatch<TeamEditorDetailsAction>): [TeamManagementEditorState, Dispatch<TeamManagementEditorAction>] {
+  return [
+    state.teamManagmentState,
+    (action: TeamManagementEditorAction) => update({ type: 'updateTeamManagement', managementAction: action })
+  ]
+}
+
 export function getInitialStateFromResponse(response: LoadTeamEditorResponse): TeamEditorState {
   const details: TeamEditorDetails = {
-    teamName: response.name
+    teamName: response.name,
+    teamManagmentState: getInitialStateFromTeamRosterDetails(response.teamRosterDetails)
   }
 
   return {

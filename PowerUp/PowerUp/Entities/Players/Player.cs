@@ -34,5 +34,7 @@ namespace PowerUp.Entities.Players
     public double Overall => PrimaryPosition == Position.Pitcher
       ? PitcherAbilities.GetPitcherRating()
       : HitterAbilities.GetHitterRating();
+
+    public string BatsAndThrows => $"{BattingSide.GetAbbrev()}/{ThrowingArm.GetAbbrev()}";
   }
 }

@@ -7,9 +7,11 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { toShortDateTimeString } from "../shared/dateUtils";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
-import { getDetailsReducer, getInitialStateFromResponse, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
+import { getDetailsReducer, getInitialStateFromResponse, getTeamManagementReducer, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
+import { TeamManagementEditor } from "./teamManagementEditor";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -22,6 +24,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
 
   const [state, update] = useReducer(TeamEditorReducer, getInitialStateFromResponse(editorResponse));
   const [currentDetails, updateCurrentDetails] = getDetailsReducer(state, update);
+  const [managementState, updateManagementState] = getTeamManagementReducer(currentDetails, updateCurrentDetails);
 
   const actionsDisabled = false;
   const actionsDisabledTooltip = '';
@@ -51,7 +54,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
             <Button
               variant='Outline'
               size='Small'
-              onClick={() => {}/*update({ type: 'undoChanges' })*/}
+              onClick={() => update({ type: 'undoChanges' })}
               icon='rotate-left'
               disabled={actionsDisabled}
               title={actionsDisabledTooltip}>
@@ -67,8 +70,8 @@ function TeamEditorPage(props: TeamEditorPageProps) {
                   Save
             </Button>
           </TeamHeaderActionButtons>
-          {/*!!state.dateLastSaved && 
-          <span>Last Save: {toShortDateTimeString(state.dateLastSaved, true)}</span>*/}
+          {!!state.dateLastSaved && 
+          <span>Last Save: {toShortDateTimeString(state.dateLastSaved, true)}</span>}
         </div>
       </TeamHeaderActions>
     </TeamHeaderContainer>
@@ -82,7 +85,12 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   return <PowerUpLayout headerText='Edit Team'>
     <ContentWithHangingHeader header={header} headerHeight='120px'>
       <EditorContainer>
-        Roster Editor
+        {state.selectedTab === 'Management' &&
+        <TeamManagementEditor 
+          appContext={appContext}
+          teamId={teamId}
+          state={managementState} 
+          update={updateManagementState} />}
       </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>

@@ -115,7 +115,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         position: player.PrimaryPosition,
         positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
         overall: player.Overall.RoundDown(),
-        batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}",
+        batsAndThrows: player.BatsAndThrows,
         sourceType: player.SourceType
       );
     }

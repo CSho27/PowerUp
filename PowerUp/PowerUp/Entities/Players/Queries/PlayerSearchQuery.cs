@@ -29,11 +29,11 @@ namespace PowerUp.Entities.Players.Queries
     public string? UniformNumber { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? SavedName { get; set; }
     public string? FormalDisplayName { get; set; }
     public string? InformalDisplayName { get; set; }
     public Position PrimaryPosition { get; set; }
-    public BattingSide BattingSide { get; set; }
-    public ThrowingArm ThrowingArm { get; set; }
+    public string? BatsAndThrows { get; set; }
     public double Overall { get; set; }
   }
 }

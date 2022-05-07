@@ -53,9 +53,10 @@ export function App(props: ApplicationStartupData) {
   }, [])
 
   useGlobalBindings(
-    { keys: ['Control', 'Alt', 'Shift', 'B'], callbackFn: () => setPage({ page: 'RosterEditorPage', rosterId: 1 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'O'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) }
+    { keys: ['Control', 'Alt', 'Shift', 'R'], callbackFn: () => setPage({ page: 'RosterEditorPage', rosterId: 1 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'H'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'T'], callbackFn: () => setPage({ page: 'TeamEditorPage', teamId: 8 }) },
   )
 
   // Initializes Base Roster

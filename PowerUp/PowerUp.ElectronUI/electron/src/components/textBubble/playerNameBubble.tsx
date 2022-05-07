@@ -7,6 +7,7 @@ import { TextBubble, TextBubbleProps } from "./textBubble";
 
 export interface PlayerNameBubbleProps extends TextBubbleProps {
   sourceType: EntitySourceType;
+  title?: string;
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {

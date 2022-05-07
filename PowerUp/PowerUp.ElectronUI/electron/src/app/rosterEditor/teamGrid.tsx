@@ -1,13 +1,16 @@
 import { useRef } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
+import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { AppContext } from "../app"
+import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelectionGrid";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
+import { DisableResult } from "../shared/disableResult";
 import { getPositionType } from "../shared/positionCode";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
@@ -215,10 +218,11 @@ export function TeamGrid(props: TeamGridProps) {
   function replacePlayerWithExisting(playerToReplaceId: number) {
     appContext.openModal(closeDialog => <PlayerSelectionModal 
       appContext={appContext} 
-      closeDialog={playerToInsertId => { 
+      isPlayerDisabled={isPlayerDisabled}
+      closeDialog={playerToInsert => { 
         closeDialog(); 
-        if(!!playerToInsertId)
-          executeReplace(playerToReplaceId, playerToInsertId); 
+        if(!!playerToInsert)
+          executeReplace(playerToReplaceId, playerToInsert.playerId); 
       }} 
     />)
   }
@@ -241,6 +245,19 @@ export function TeamGrid(props: TeamGridProps) {
 
   async function editTeam() {
     appContext.setPage({ page: 'TeamEditorPage', teamId: team.teamId });
+  }
+
+  function isPlayerDisabled(player: PlayerSelectionGridPlayer): DisableResult {
+    const isDisabled = hitters.some(h => h.playerId === player.playerId) 
+      || pitchers.some(p => p.playerId === player.playerId);
+
+    return {
+      disabled: isDisabled,
+      message: isDisabled
+        ? 'Player is already on this team'
+        : undefined
+    }
+
   }
 }
 
@@ -305,10 +322,4 @@ const PlayerRow = styled.tr`
 
 const PlayerCell = styled.td`
   white-space: nowrap;
-`
-
-const CenteringWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
