@@ -2,17 +2,14 @@
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.Libraries;
 using Shouldly;
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Tests.GameSave.Objects.Lineups
 {
   public class LineupReaderTests
   {
-    private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
+    private readonly static string TEST_READ_GAME_SAVE_FILE_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "./pm2maus_TEST.dat");
     private const int INDIANS_ID = 7;
 
     private ICharacterLibrary _characterLibrary;
@@ -20,7 +17,7 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [SetUp]
     public void SetUp()
     {
-      _characterLibrary = TestConfigHelpers.GetCharacterLibrary();
+      _characterLibrary = TestConfig.CharacterLibrary.Value;
     }
 
     [Test]
