@@ -174,6 +174,8 @@ namespace PowerUp.Mappers.Players
         TopThrowingSpeedKMH = pitcherAbilities.TopSpeedMph.ToKMH(),
         Control = (ushort)pitcherAbilities.Control,
         Stamina = (ushort)pitcherAbilities.Stamina,
+        FourSeamType = 1,
+        FourSeamMovement = 1,
         TwoSeamType = pitcherAbilities.HasTwoSeam
           ? PitcherAbilitiesMapper.TwoSeamType
           : (ushort)0,

@@ -467,8 +467,11 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x92, bits: 14, bitOffset: 2)]
     public ushort? VoiceId { get; set; }
 
-    [GSBytes(0x94, numberOfBytes: 1)]
-    public byte[]? UnknownByte_94 { get; set; }
+    [GSUInt(0x94, bits: 5, bitOffset: 0)]
+    public ushort? FourSeamType { get; set; }
+
+    [GSUInt(0x94, bits: 3, bitOffset: 5)]
+    public ushort? FourSeamMovement { get; set; }
 
     [GSUInt(0x95, bits: 5, bitOffset: 0)]
     public ushort? Slider1Type { get; set; }
