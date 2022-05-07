@@ -77,6 +77,7 @@ export const COLORS = {
 
 const defaultFontSize = 16;
 export const FONT_SIZES = {
+  _12: `${12 / defaultFontSize}rem`,
   _14: `${14 / defaultFontSize}rem`,
   default_16: `${16 / defaultFontSize}rem`,
   _18: `${18 / defaultFontSize}rem`,

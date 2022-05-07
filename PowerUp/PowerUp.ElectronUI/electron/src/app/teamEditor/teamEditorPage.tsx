@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStamp";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
+import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
@@ -21,6 +23,7 @@ interface TeamEditorPageProps {
 
 function TeamEditorPage(props: TeamEditorPageProps) {
   const { appContext, teamId, editorResponse } = props;
+  const { sourceType, canEdit } = editorResponse;
 
   const [state, update] = useReducer(TeamEditorReducer, getInitialStateFromResponse(editorResponse));
   const [currentDetails, updateCurrentDetails] = getDetailsReducer(state, update);
@@ -34,7 +37,14 @@ function TeamEditorPage(props: TeamEditorPageProps) {
     <TeamHeaderContainer>
       <div style={{ flex: '0 0 450px', display: 'flex', gap: '16px', alignItems: 'center' }}>
         <div style={{ flex: 'auto' }}>
-          {!state.isEditingName && <h1>{currentDetails.teamName}</h1>}
+          {!state.isEditingName && <TeamHeading>
+            {currentDetails.teamName}
+            <SourceTypeStamp 
+              theme='Dark'
+              size='Medium'
+              sourceType={sourceType}
+            />
+          </TeamHeading>}
           {state.isEditingName && 
           <TextField 
             value={currentDetails.teamName} 
@@ -90,6 +100,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
           appContext={appContext}
           teamId={teamId}
           state={managementState} 
+          disabled={false /*!canEdit*/}
           update={updateManagementState} />}
       </EditorContainer>
     </ContentWithHangingHeader>
@@ -106,6 +117,15 @@ const TeamHeaderContainer = styled.div`
   align-items: stretch;
   padding-bottom: 8px;
   min-height: 48px;
+`
+
+const TeamHeading = styled.h1`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: ${FONT_SIZES._32};
+  font-style: italic;
+  white-space: nowrap;
 `
 
 const TeamHeaderActions = styled.div`

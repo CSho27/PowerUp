@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
+import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
@@ -15,14 +16,22 @@ import { PlayerDetails, PlayerRoleAction, PlayerRoleState, TeamManagementEditorA
 
 export interface TeamManagementGridProps {
   appContext: AppContext;
-  teamId: number;
   gridTitle: string;
   players: PlayerRoleState[];
+  canManageRoster: boolean;
+  canEditRoles: boolean;
   updatePlayer: ListDispatch<number, PlayerRoleAction>;
 }
 
 export function TeamManagementGrid(props: TeamManagementGridProps) {
-  const { appContext, teamId, gridTitle, players, updatePlayer } = props;
+  const { 
+    appContext, 
+    gridTitle, 
+    players,
+    canManageRoster,
+    canEditRoles,
+    updatePlayer
+   } = props;
 
   return <div>
     <h2>{gridTitle}</h2>
@@ -35,6 +44,10 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
           <StatHeader>Ovr</StatHeader>
           <StatHeader>B/T</StatHeader>
+          <StatHeader columnWidth='5px'>Pinch Hitter</StatHeader>
+          <StatHeader columnWidth='5px'>Pinch Runner</StatHeader>
+          <StatHeader columnWidth='5px'>Def Sub In</StatHeader>
+          <StatHeader columnWidth='5px'>Def Sub Out</StatHeader>
         </tr>
       </thead>
       <PlayerTableBody>
@@ -72,16 +85,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
+              disabled={!canManageRoster}
               onClick={() => replacePlayerWithCopy(playerId)}>
                 Replace with copy
             </ContextMenuItem>
             <ContextMenuItem 
               icon='box-archive'
+              disabled={!canManageRoster}
               onClick={() => replacePlayerWithExisting(playerId)}>
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
               icon='user-plus'
+              disabled={!canManageRoster}
               onClick={() => replaceWithNewPlayer(playerId)}>
                 Replace with new
             </ContextMenuItem>
@@ -111,6 +127,38 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
       </PlayerCell>
       <PlayerCell>{playerDetails.overall}</PlayerCell>
       <PlayerCell>{playerDetails.batsAndThrows}</PlayerCell>
+      <PlayerCell>
+        <CenteringWrapper>
+          <CheckboxField 
+            checked={player.isPinchHitter} 
+            disabled={positionType === 'Pitcher' || !canEditRoles}
+            onToggle={() => updatePlayer(playerId, { type: 'toggleIsPinchHitter' })} />
+        </CenteringWrapper>
+      </PlayerCell>
+      <PlayerCell>
+        <CenteringWrapper>
+          <CheckboxField 
+            checked={player.isPinchRunner} 
+            disabled={positionType === 'Pitcher' || !canEditRoles}
+            onToggle={() => updatePlayer(playerId, { type: 'toggleIsPinchRunner' })} />
+        </CenteringWrapper>
+      </PlayerCell>
+      <PlayerCell>
+        <CenteringWrapper>
+          <CheckboxField 
+            checked={player.isDefensiveReplacement} 
+            disabled={positionType === 'Pitcher' || !canEditRoles}
+            onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveReplacement' })} />
+        </CenteringWrapper>
+      </PlayerCell>
+      <PlayerCell>
+        <CenteringWrapper>
+          <CheckboxField 
+            checked={player.isDefensiveLiability} 
+            disabled={positionType === 'Pitcher' || !canEditRoles}
+            onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveLiability' })} />
+        </CenteringWrapper>
+      </PlayerCell>
     </PlayerRow>
   }
 

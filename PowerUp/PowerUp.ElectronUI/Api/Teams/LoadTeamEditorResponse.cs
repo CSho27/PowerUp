@@ -9,11 +9,16 @@ namespace PowerUp.ElectronUI.Api.Teams
   public class LoadTeamEditorResponse
   {
     public string Name { get; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; }
+    public bool CanEdit => SourceType.CanEdit();
     public TeamRosterDetails TeamRosterDetails { get; }
 
     public LoadTeamEditorResponse(Team team)
     {
       Name = team.Name;
+      SourceType = team.SourceType;
       TeamRosterDetails = new TeamRosterDetails(team);
     }
   }
@@ -32,7 +37,6 @@ namespace PowerUp.ElectronUI.Api.Teams
 
   public class PlayerRoleDefinitionDto
   {
-
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
     public bool CanEdit => SourceType.CanEdit();
@@ -65,7 +69,7 @@ namespace PowerUp.ElectronUI.Api.Teams
       IsPinchHitter = playerRoleDefinition.IsPinchHitter;
       IsPinchRunner = playerRoleDefinition.IsPinchRunner;
       IsDefensiveReplacement = playerRoleDefinition.IsDefensiveReplacement;
-      IsDefensiveLiability = playerRoleDefinition.IsDefensiveReplacement;
+      IsDefensiveLiability = playerRoleDefinition.IsDefensiveLiability;
     }
   }
 }

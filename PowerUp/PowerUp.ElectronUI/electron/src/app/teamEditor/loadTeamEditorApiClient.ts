@@ -7,6 +7,8 @@ export interface LoadTeamEditorRequest {
 }
 
 export interface LoadTeamEditorResponse {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   name: string;
   teamRosterDetails: TeamRosterDetails; 
 }
