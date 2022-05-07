@@ -8,10 +8,9 @@ namespace PowerUp.ElectronUI.Api.Teams
 {
   public class LoadTeamEditorResponse
   {
-    public string Name { get; }
-
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
+    public string Name { get; }
     public bool CanEdit => SourceType.CanEdit();
     public TeamRosterDetails TeamRosterDetails { get; }
 
