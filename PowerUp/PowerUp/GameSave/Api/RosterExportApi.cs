@@ -65,24 +65,37 @@ namespace PowerUp.GameSave.Api
 
         var players = teams
           .SelectMany(t => t.Key.GetPlayers().Select(p => (ppTeam: t.Value, player: p)))
-          .DistinctBy(p => p.player.Id)
           .ToList();
 
         var gsPlayers = new List<GSPlayer>();
-        var ppIdsById = new Dictionary<int, ushort>();
+        var ppIdsByTeamAndId = new Dictionary<MLBPPTeam, IDictionary<int, ushort>>();
         for(var i=0; i<players.Count; i++)
         {
           var player = players[i];
           var ppId = (ushort)(i + 1);
-          ppIdsById.Add(player.player.Id!.Value, ppId);
-          gsPlayers.Add(_playerMapper.MapToGSPlayer(player.player, player.ppTeam, ppId));
+          ppIdsByTeamAndId.TryAdd(player.ppTeam, new Dictionary<int, ushort>());
+          ppIdsByTeamAndId[player.ppTeam].Add(player.player.Id!.Value, ppId);
+
+          // If player is on all-star team, look at regular teams to see which teams that player is on
+          // If that player is on exactly one team, give him that team's jersey. Otherwise, give him the FA jersey
+          var jerseyTeam = player.ppTeam;
+          if (player.ppTeam.GetDivision() == MLBPPDivision.AllStars)
+          {
+            var onRegTeams = players.Where(p => p.player.Id == player.player.Id && p.ppTeam.GetDivision() != MLBPPDivision.AllStars);
+            if (onRegTeams.Count() == 1)
+              jerseyTeam = onRegTeams.Single().ppTeam;
+            else
+              jerseyTeam = MLBPPTeam.NationalLeagueAllStars;
+          }
+
+          gsPlayers.Add(_playerMapper.MapToGSPlayer(player.player, jerseyTeam, ppId));
         }
 
         var gameSave = new GSGameSave
         {
           Players = gsPlayers,
-          Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsById)),
-          Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsById))
+          Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
+          Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value]))
         };
 
         writer.Write(gameSave);
