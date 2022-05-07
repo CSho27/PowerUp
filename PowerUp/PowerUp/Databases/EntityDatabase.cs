@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace PowerUp.Databases
 {
@@ -47,6 +48,18 @@ namespace PowerUp.Databases
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
       return entityCollection.FindById(id);
+    }
+
+    public void Delete<TEntity>(TEntity entity) where TEntity : Entity<TEntity>
+    {
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+      entityCollection.Delete(entity.Id);
+    }
+
+    public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : Entity<TEntity>
+    {
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+      entityCollection.DeleteMany(predicate);
     }
 
     public IEnumerable<TEntity> LoadAll<TEntity>() where TEntity : Entity<TEntity>

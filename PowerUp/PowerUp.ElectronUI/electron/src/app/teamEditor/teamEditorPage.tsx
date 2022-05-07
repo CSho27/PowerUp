@@ -8,9 +8,10 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
-import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { PageCleanupFunction, PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { DiscardTempTeamApiClient } from "./discardTempTeamApiClient";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
 import { PlayerRoleRequest, SaveTeamApiClient } from "./saveTeamApiClient";
 import { getDetailsReducer, getInitialStateFromResponse, getTeamManagementReducer, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
@@ -185,4 +186,11 @@ export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContex
       tempTeamId: response.tempTeamId
     }
   }
+}
+
+export const cleanupTeamEditorPage: PageCleanupFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  if(pageDef.page !== 'TeamEditorPage') throw '';
+
+  const apiClient = new DiscardTempTeamApiClient(appContext.commandFetcher);
+  await apiClient.execute({ teamId: pageDef.teamId, tempTeamId: pageDef.tempTeamId! })
 }

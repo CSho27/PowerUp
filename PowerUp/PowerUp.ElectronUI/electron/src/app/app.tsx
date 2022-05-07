@@ -71,8 +71,8 @@ export function App(props: ApplicationStartupData) {
   </>
 
   async function setPage(pageDef: PageLoadDefinition) {
-    const pageLoader = pageRegistry[pageDef.page];
-    const loadedPage = await pageLoader(appContext, pageDef);
+    const pageEntry = pageRegistry[pageDef.page];
+    const loadedPage = await pageEntry.load(appContext, pageDef);
     update({ type: 'updatePage', pageLoadDef: loadedPage.updatedPageLoadDef ?? pageDef, pageDef: loadedPage });
   }
 
@@ -81,9 +81,18 @@ export function App(props: ApplicationStartupData) {
   }
 
   async function popBreadcrumb(breadcrumbId: number) {
-    const pageLoadDef = state.breadcrumbs.find(c => c.id === breadcrumbId)!.pageLoadDef;
-    const pageLoader = pageRegistry[pageLoadDef.page];
-    const newPage = await pageLoader(appContext, pageLoadDef);
+    const pageIndex = state.breadcrumbs.findIndex(c => c.id === breadcrumbId);
+    const pageLoadDef = state.breadcrumbs[pageIndex].pageLoadDef!;
+    const pageEntry = pageRegistry[pageLoadDef.page];
+    const newPage = await pageEntry.load(appContext, pageLoadDef);
+
+    const pagesToCleanUp = state.breadcrumbs.slice(pageIndex+1);
+    pagesToCleanUp.forEach(p => {
+      const entry = pageRegistry[p.pageLoadDef.page];
+      if(!!entry.cleanup)
+        entry.cleanup(appContext, p.pageLoadDef);
+    })
+
     update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageDef: newPage });
   }
 
