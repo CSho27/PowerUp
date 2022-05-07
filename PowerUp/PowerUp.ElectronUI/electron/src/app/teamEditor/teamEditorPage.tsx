@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useRef } from "react";
 import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
@@ -12,8 +12,10 @@ import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
+import { PlayerRoleRequest, SaveTeamApiClient } from "./saveTeamApiClient";
 import { getDetailsReducer, getInitialStateFromResponse, getTeamManagementReducer, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 import { TeamManagementEditor } from "./teamManagementEditor";
+import { PlayerRoleState } from "./teamManagementEditorState";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -23,7 +25,9 @@ interface TeamEditorPageProps {
 
 function TeamEditorPage(props: TeamEditorPageProps) {
   const { appContext, teamId, editorResponse } = props;
-  const { sourceType, canEdit } = editorResponse;
+  const { sourceType, canEdit, tempTeamId } = editorResponse;
+
+  const apiClientRef = useRef(new SaveTeamApiClient(appContext.commandFetcher));
 
   const [state, update] = useReducer(TeamEditorReducer, getInitialStateFromResponse(editorResponse));
   const [currentDetails, updateCurrentDetails] = getDetailsReducer(state, update);
@@ -73,7 +77,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
             <Button 
               variant='Fill' 
               size='Small' 
-              onClick={saveTeam} 
+              onClick={() => saveTeam(true)} 
               icon='floppy-disk' 
               disabled={actionsDisabled} 
               title={actionsDisabledTooltip}>
@@ -101,13 +105,31 @@ function TeamEditorPage(props: TeamEditorPageProps) {
           teamId={teamId}
           state={managementState} 
           disabled={false /*!canEdit*/}
-          update={updateManagementState} />}
+          update={updateManagementState} 
+          saveTemp={() => saveTeam(false)}/>}
       </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
 
-  async function saveTeam() {
+  async function saveTeam(persist: boolean) {
+    apiClientRef.current.execute({
+      teamId: teamId,
+      tempTeamId: tempTeamId,
+      persist: persist,
+      name: currentDetails.teamName,
+      mlbPlayers: currentDetails.teamManagmentState.mlbPlayers.map(toPlayerRoleRequest),
+      aaaPlayers: currentDetails.teamManagmentState.aaaPlayers.map(toPlayerRoleRequest)
+    });
+  }
 
+  function toPlayerRoleRequest(roleState: PlayerRoleState): PlayerRoleRequest {
+    return {
+      playerId: roleState.playerDetails.playerId,
+      isPinchHitter: roleState.isPinchHitter,
+      isPinchRunner: roleState.isPinchRunner,
+      isDefensiveReplacement: roleState.isDefensiveReplacement,
+      isDefensiveLiability: roleState.isDefensiveLiability
+    }
   }
 }
 

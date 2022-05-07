@@ -8,11 +8,12 @@ export interface TeamManagementEditorProps {
   teamId: number;
   state: TeamManagementEditorState;
   disabled: boolean;
-  update: Dispatch<TeamManagementEditorAction>;   
+  update: Dispatch<TeamManagementEditorAction>;
+  saveTemp: () => void;
 }
 
 export function TeamManagementEditor(props: TeamManagementEditorProps) {
-  const { appContext, teamId, state, disabled, update } = props;
+  const { appContext, teamId, state, disabled, update, saveTemp } = props;
   
   return <>
     <TeamManagementGrid 
@@ -25,7 +26,8 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
       canSendUpOrDown={true}
       updatePlayer={(id, action) => update({ type: 'updateMLBPlayer', playerId: id, roleAction: action }) } 
       sendUpOrDown={id => update({ type: 'sendDown', playerId: id }) } 
-      addPlayer={player => update({ type: 'addMLBPlayer', playerDetais: player }) }/>
+      addPlayer={player => update({ type: 'addMLBPlayer', playerDetais: player }) }
+      saveTempTeam={saveTemp} />
     <TeamManagementGrid 
       appContext={appContext}
       isAAA={true} 
@@ -36,6 +38,7 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
       canSendUpOrDown={state.mlbPlayers.length < 25}
       updatePlayer={(id, action) => update({ type: 'updateAAAPlayer', playerId: id, roleAction: action }) } 
       sendUpOrDown={id => update({ type: 'sendUp', playerId: id })} 
-      addPlayer={player => update({ type: 'addAAAPlayer', playerDetais: player }) } />
+      addPlayer={player => update({ type: 'addAAAPlayer', playerDetais: player }) } 
+      saveTempTeam={saveTemp} />
   </>
 }

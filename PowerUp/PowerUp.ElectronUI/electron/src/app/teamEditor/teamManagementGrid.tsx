@@ -29,6 +29,7 @@ export interface TeamManagementGridProps {
   updatePlayer: ListDispatch<number, PlayerRoleAction>;
   sendUpOrDown: (playerId: number) => void;
   addPlayer: (details: PlayerDetails) => void;
+  saveTempTeam: () => void;
 }
 
 export function TeamManagementGrid(props: TeamManagementGridProps) {
@@ -42,7 +43,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     canSendUpOrDown,
     updatePlayer,
     sendUpOrDown,
-    addPlayer
+    addPlayer,
+    saveTempTeam
   } = props;
 
   const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
@@ -194,6 +196,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   }
 
   function editPlayer(playerId: number) {
+    saveTempTeam();
     appContext.setPage({ page: 'PlayerEditorPage', playerId: playerId });
   }
 
