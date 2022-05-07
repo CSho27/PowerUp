@@ -73,7 +73,7 @@ export function App(props: ApplicationStartupData) {
   async function setPage(pageDef: PageLoadDefinition) {
     const pageLoader = pageRegistry[pageDef.page];
     const loadedPage = await pageLoader(appContext, pageDef);
-    update({ type: 'updatePage', pageLoadDef: pageDef, pageDef: loadedPage });
+    update({ type: 'updatePage', pageLoadDef: loadedPage.updatedPageLoadDef ?? pageDef, pageDef: loadedPage });
   }
 
   async function reloadCurrentPage() {

@@ -8,17 +8,19 @@ namespace PowerUp.ElectronUI.Api.Teams
 {
   public class LoadTeamEditorResponse
   {
+    public int TempTeamId { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
     public string Name { get; }
     public bool CanEdit => SourceType.CanEdit();
     public TeamRosterDetails TeamRosterDetails { get; }
 
-    public LoadTeamEditorResponse(Team team)
+    public LoadTeamEditorResponse(TempTeam tempTeam)
     {
-      Name = team.Name;
-      SourceType = team.SourceType;
-      TeamRosterDetails = new TeamRosterDetails(team);
+      TempTeamId = tempTeam.Id!.Value;
+      Name = tempTeam.Team!.Name;
+      SourceType = tempTeam.Team.SourceType;
+      TeamRosterDetails = new TeamRosterDetails(tempTeam.Team);
     }
   }
 

@@ -4,9 +4,11 @@ import { Position } from "../shared/positionCode";
 
 export interface LoadTeamEditorRequest {
   teamId: number;
+  tempTeamId?: number;
 }
 
 export interface LoadTeamEditorResponse {
+  tempTeamId: number;
   sourceType: EntitySourceType;
   canEdit: boolean;
   name: string;

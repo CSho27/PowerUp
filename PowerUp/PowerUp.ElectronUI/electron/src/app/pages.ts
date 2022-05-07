@@ -9,11 +9,12 @@ export type PageLoadDefinition =
 | { page: 'HomePage' }
 | { page: 'RosterEditorPage', rosterId: number }
 | { page: 'PlayerEditorPage', playerId: number }
-| { page: 'TeamEditorPage', teamId: number }
+| { page: 'TeamEditorPage', teamId: number, tempTeamId?: number }
 
 export interface PageDefinition {
   title: string;
   renderPage: PageRenderCallback;
+  updatedPageLoadDef?: PageLoadDefinition;
 }
 
 export type PageLoadFunction = (appContext: AppContext, pageData: PageLoadDefinition) => Promise<PageDefinition>;

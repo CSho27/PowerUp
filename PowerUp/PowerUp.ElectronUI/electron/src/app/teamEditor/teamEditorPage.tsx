@@ -149,14 +149,18 @@ export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContex
   if(pageDef.page !== 'TeamEditorPage') throw '';
   
   const apiClient = new LoadTeamEditorApiClient(appContext.commandFetcher);
-  const response = await apiClient.execute({ teamId: pageDef.teamId });
+  const response = await apiClient.execute({ teamId: pageDef.teamId, tempTeamId: pageDef.tempTeamId });
 
   return {
-    title: `Edit Team`,
+    title: response.name,
     renderPage: appContext => <TeamEditorPage 
       appContext={appContext}
       teamId={pageDef.teamId}
       editorResponse={response}
-    />
+    />,
+    updatedPageLoadDef: {
+      ...pageDef,
+      tempTeamId: response.tempTeamId
+    }
   }
 }
