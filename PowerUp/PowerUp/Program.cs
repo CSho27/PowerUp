@@ -16,7 +16,7 @@ namespace PowerUp
   class Program
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
-    private const string DATA_DIRECTORY = "C:/Users/short/Documents/PowerUp/";
+    private const string DATA_DIRECTORY = "./../../../../../PowerUp.ElectronUI/Data";
     private const int PLAYER_ID = 1;
 
     static void Main(string[] args)
@@ -50,7 +50,7 @@ namespace PowerUp
         var player = loader.Read(PLAYER_ID);
         var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.SavedName}{bitString} {player.TopThrowingSpeedKMH}");
       }
     }
 
