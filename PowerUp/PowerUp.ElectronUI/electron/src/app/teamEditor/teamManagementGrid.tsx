@@ -13,7 +13,7 @@ import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelecti
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
 import { ListDispatch } from "../shared/listDispatch";
-import { getPositionType } from "../shared/positionCode";
+import { getPositionType, positionCompare } from "../shared/positionCode";
 import { CopyPlayerApiClient } from "./copyPlayerApiClient";
 import { CreatePlayerApiClient } from "./createPlayerApiClient";
 import { toPlayerDetails } from "./playerDetailsResponse";
@@ -55,8 +55,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
 
   const allPlayers = [...mlbPlayers, ...aaaPlayers];
   const thisGridPlayers = isAAA 
-    ? aaaPlayers 
-    : mlbPlayers;
+    ? aaaPlayers.sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position))
+    : mlbPlayers.sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position));
 
   const canAddMorePlayers = isAAA 
     ? allPlayers.length < 40
