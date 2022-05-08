@@ -5,6 +5,7 @@ export type IconType =
 | 'arrow-down'
 | 'arrow-left'
 | 'arrow-right'
+| 'bars'
 | 'box-archive'
 | 'chevron-down'
 | 'chevron-up'
