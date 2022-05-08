@@ -34,6 +34,7 @@ export const COLORS = {
   white: {
     regular_100: 'hsl(0deg 100% 100%)',
     regular_100_t40: 'hsl(0deg 100% 100% / .4)',
+    regular_100_t60: 'hsl(0deg 100% 100% / .6)',
     grayed_80_t40: 'hsl(0deg 0% 80% / .4)',
     offwhite_97: 'hsl(235deg 85% 97%)',
     offwhite_92: 'hsl(235deg 85% 92%)',
@@ -73,6 +74,24 @@ export const COLORS = {
     cold_blue_48: 'hsl(234deg 55% 48%)',
     hot_red_51: 'hsl(7deg 59% 51%)'
   },
+  pitcherRoles: {
+    starter_orange_light_87: 'hsl(26deg 88% 87%)',
+    starter_orange_dark_48: 'hsl(29deg 93% 48%)',
+    swingMan_pink_light_94: 'hsl(340deg 75% 94%)',
+    swingMan_pink_dark_51: 'hsl(330deg 45% 51%)',
+    longReliever_purple_light_94: 'hsl(300deg 75% 94%)',
+    longReliever_purple_dark_51: 'hsl(261deg 45% 51%)',
+    middleReliever_indigo_light_94: 'hsl(260deg 75% 94%)',
+    middleReliever_indigo_dark_51: 'hsl(227deg 45% 51%)',
+    situationalLefty_blue_light_94: 'hsl(200deg 75% 94%)',
+    situationalLefty_blue_dark_33: 'hsl(187deg 81% 33%)',
+    mopUpMan_teal_light_94: 'hsl(180deg 75% 94%)',
+    mopUpMan_teal_dark_33: 'hsl(155deg 81% 33%)',
+    setUpMan_green_light_92: 'hsl(135deg 80% 92%)',
+    setUpMan_green_dark_33: 'hsl(140deg 100% 33%)',
+    closer_yellow_light_92: 'hsl(45deg 80% 92%)',
+    closer_yellow_dark_35: 'hsl(52deg 100% 35%)'
+  }
 }
 
 const defaultFontSize = 16;

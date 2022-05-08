@@ -18,6 +18,7 @@ import { PlayerRoleRequest, SaveTeamApiClient, SaveTeamRequest } from "./saveTea
 import { getDetailsReducer, getInitialStateFromResponse, TeamEditorDetails, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 import { TeamManagementEditor } from "./teamManagementEditor";
 import { PlayerRoleState } from "./playerRoleState";
+import { PitcherDetails, PitcherRolesEditor } from "./pitcherRolesEditor";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -33,6 +34,8 @@ function TeamEditorPage(props: TeamEditorPageProps) {
 
   const [state, update] = useReducer(TeamEditorReducer, getInitialStateFromResponse(editorResponse));
   const [currentDetails, updateCurrentDetails] = getDetailsReducer(state, update);
+  const { mlbPlayers, aaaPlayers } = currentDetails
+  const pitchers = mlbPlayers.filter(p => p.playerDetails.position === 'Pitcher');
 
   const hasUnsavedChanges = !deepEquals(state.lastSavedDetails, state.currentDetails);
   const actionsDisabled = /*!canEdit ||*/ !hasUnsavedChanges;
@@ -108,14 +111,43 @@ function TeamEditorPage(props: TeamEditorPageProps) {
         {state.selectedTab === 'Management' &&
         <TeamManagementEditor 
           appContext={appContext}
-          mlbPlayers={currentDetails.mlbPlayers}
-          aaaPlayers={currentDetails.aaaPlayers}
+          mlbPlayers={mlbPlayers}
+          aaaPlayers={aaaPlayers}
           disabled={false /*!canEdit*/}
           update={updateCurrentDetails} 
           saveTemp={() => saveTeam(false)}/>}
+        {state.selectedTab === 'Pitcher Roles' &&
+        <PitcherRolesEditor 
+          appContext={appContext}
+          starters={pitchers.filter(p => p.pitcherRole === 'Starter').map(toPitcherDetails)}
+          swingMen={pitchers.filter(p => p.pitcherRole === 'SwingMan').map(toPitcherDetails)}
+          longRelievers={pitchers.filter(p => p.pitcherRole === 'LongReliever').map(toPitcherDetails)}
+          middleRelievers={pitchers.filter(p => p.pitcherRole === 'MiddleReliever').map(toPitcherDetails)}
+          situationalLefties={pitchers.filter(p => p.pitcherRole === 'SituationalLefty').map(toPitcherDetails)}
+          mopUpMen={pitchers.filter(p => p.pitcherRole === 'MopUpMan').map(toPitcherDetails)}
+          setupMen={pitchers.filter(p => p.pitcherRole === 'SetupMan').map(toPitcherDetails)}
+          closer={pitchers.filter(p => p.pitcherRole === 'Closer').map(toPitcherDetails)[0]}
+        />}
       </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
+
+  function toPitcherDetails(player: PlayerRoleState): PitcherDetails {
+    const { playerDetails } = player;
+
+    return {
+      sourceType: playerDetails.sourceType,
+      playerId: playerDetails.playerId,
+      savedName: playerDetails.savedName,
+      fullName: playerDetails.fullName,
+      overall: playerDetails.overall,
+      throwingArm: playerDetails.throwingArm,
+      pitcherType: playerDetails.pitcherType,
+      topSpeed: playerDetails.topSpeed,
+      control: playerDetails.control,
+      stamina: playerDetails.stamina
+    }
+  }
 
   async function saveTeam(persist: boolean) {
     const response = await apiClientRef.current.execute(buildSaveRequest(currentDetails, persist));
