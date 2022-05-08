@@ -12,13 +12,15 @@ export interface PlayerNameBubbleProps extends TextBubbleProps {
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {
-  const { sourceType, children } = props;
+  const { size, sourceType, children } = props;
   
   return <NameBubble {...props}>
     <PlayerNameSection>{children}</PlayerNameSection>
     <SourceTypeStamp
       theme='Light'
-      size='Small'
+      size={size === 'Large'
+        ? 'Medium'
+        : 'Small'}
       sourceType={sourceType} />
   </NameBubble>
 }
