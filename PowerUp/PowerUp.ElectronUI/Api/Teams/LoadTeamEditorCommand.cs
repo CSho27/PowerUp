@@ -12,15 +12,16 @@ namespace PowerUp.ElectronUI.Api.Teams
         var tempTeam = DatabaseConfig.Database.Load<TempTeam>(request.TempTeamId.Value)!;
         if (tempTeam.Team!.Id != request.TeamId)
           throw new InvalidOperationException("Mismatching TeamId and TempTeamId");
+        var team = DatabaseConfig.Database.Load<Team>(request.TeamId)!;
 
-        return new LoadTeamEditorResponse(tempTeam);
+        return new LoadTeamEditorResponse(team, tempTeam);
       } 
       else
       {
         var team = DatabaseConfig.Database.Load<Team>(request.TeamId)!;
         var tempTeam = new TempTeam(team);
         DatabaseConfig.Database.Save(tempTeam);
-        return new LoadTeamEditorResponse(tempTeam);
+        return new LoadTeamEditorResponse(team, tempTeam);
       }
     }
   }
