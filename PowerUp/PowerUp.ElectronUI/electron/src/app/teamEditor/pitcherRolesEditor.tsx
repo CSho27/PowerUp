@@ -1,10 +1,11 @@
+import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import styled from "styled-components";
-import autoUpdater from "../../../obj/Host/api/autoUpdater";
 import { Icon } from "../../components/icon/icon";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { COLORS } from "../../style/constants";
 import { AppContext } from "../app";
 import { EntitySourceType } from "../shared/entitySourceType";
+import { PitcherRole } from "./playerRoleState";
 
 export interface PitcherRolesEditorProps {
   appContext: AppContext;
@@ -45,58 +46,73 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
   } = props;
   
   return <Wrapper>
-    <PitcherRoleSection 
-      displayName='Starter'
-      lightColor={COLORS.pitcherRoles.starter_orange_light_87}
-      darkColor={COLORS.pitcherRoles.starter_orange_dark_48}
-      pitchers={starters}
-    />
-    <PitcherRoleSection 
-      displayName='Swing Man'
-      lightColor={COLORS.pitcherRoles.swingMan_pink_light_94}
-      darkColor={COLORS.pitcherRoles.swingMan_pink_dark_51}
-      pitchers={swingMen}
-    />
-    <PitcherRoleSection 
-      displayName='Long Reliever'
-      lightColor={COLORS.pitcherRoles.longReliever_purple_light_94}
-      darkColor={COLORS.pitcherRoles.longReliever_purple_dark_51}
-      pitchers={longRelievers}
-    />
-    <PitcherRoleSection 
-      displayName='Middle Reliever'
-      lightColor={COLORS.pitcherRoles.middleReliever_indigo_light_94}
-      darkColor={COLORS.pitcherRoles.middleReliever_indigo_dark_51}
-      pitchers={middleRelievers}
-    />
-    <PitcherRoleSection 
-      displayName='Situational Lefty'
-      lightColor={COLORS.pitcherRoles.situationalLefty_blue_light_94}
-      darkColor={COLORS.pitcherRoles.situationalLefty_blue_dark_33}
-      pitchers={situationalLefties}
-    />
-    <PitcherRoleSection 
-      displayName='Mop-Up Man'
-      lightColor={COLORS.pitcherRoles.mopUpMan_teal_light_94}
-      darkColor={COLORS.pitcherRoles.mopUpMan_teal_dark_33}
-      pitchers={mopUpMen}
-    />
-    <PitcherRoleSection 
-      displayName='Set-Up Man'
-      lightColor={COLORS.pitcherRoles.setUpMan_green_light_92}
-      darkColor={COLORS.pitcherRoles.setUpMan_green_dark_33}
-      pitchers={setupMen}
-    />
-    <PitcherRoleSection 
-      displayName='Closer'
-      lightColor={COLORS.pitcherRoles.closer_yellow_light_92}
-      darkColor={COLORS.pitcherRoles.closer_yellow_dark_35}
-      pitchers={!!closer ? [closer] : []}
-    />
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <PitcherRoleSection 
+        pitcherRole='Starter'
+        displayName='Starter'
+        lightColor={COLORS.pitcherRoles.starter_orange_light_87}
+        darkColor={COLORS.pitcherRoles.starter_orange_dark_48}
+        pitchers={starters}
+      />
+      <PitcherRoleSection 
+        pitcherRole='SwingMan'
+        displayName='Swing Man'
+        lightColor={COLORS.pitcherRoles.swingMan_pink_light_94}
+        darkColor={COLORS.pitcherRoles.swingMan_pink_dark_51}
+        pitchers={swingMen}
+      />
+      <PitcherRoleSection 
+        pitcherRole='LongReliever'
+        displayName='Long Reliever'
+        lightColor={COLORS.pitcherRoles.longReliever_purple_light_94}
+        darkColor={COLORS.pitcherRoles.longReliever_purple_dark_51}
+        pitchers={longRelievers}
+      />
+      <PitcherRoleSection 
+        pitcherRole='MiddleReliever'
+        displayName='Middle Reliever'
+        lightColor={COLORS.pitcherRoles.middleReliever_indigo_light_94}
+        darkColor={COLORS.pitcherRoles.middleReliever_indigo_dark_51}
+        pitchers={middleRelievers}
+      />
+      <PitcherRoleSection 
+        pitcherRole='SituationalLefty'
+        displayName='Situational Lefty'
+        lightColor={COLORS.pitcherRoles.situationalLefty_blue_light_94}
+        darkColor={COLORS.pitcherRoles.situationalLefty_blue_dark_33}
+        pitchers={situationalLefties}
+      />
+      <PitcherRoleSection 
+        pitcherRole='MopUpMan'
+        displayName='Mop-Up Man'
+        lightColor={COLORS.pitcherRoles.mopUpMan_teal_light_94}
+        darkColor={COLORS.pitcherRoles.mopUpMan_teal_dark_33}
+        pitchers={mopUpMen}
+      />
+      <PitcherRoleSection 
+        pitcherRole='SetupMan'
+        displayName='Set-Up Man'
+        lightColor={COLORS.pitcherRoles.setUpMan_green_light_92}
+        darkColor={COLORS.pitcherRoles.setUpMan_green_dark_33}
+        pitchers={setupMen}
+      />
+      <PitcherRoleSection 
+        pitcherRole='Closer'
+        displayName='Closer'
+        lightColor={COLORS.pitcherRoles.closer_yellow_light_92}
+        darkColor={COLORS.pitcherRoles.closer_yellow_dark_35}
+        pitchers={!!closer ? [closer] : []}
+      />
+    </DragDropContext>
   </Wrapper>
+
+  function handleDragEnd(result: DropResult, provided: ResponderProvided) {
+
+  }
 }
 
 interface PitcherRoleSectionProps {
+  pitcherRole: PitcherRole
   displayName: string;
   lightColor: string;
   darkColor: string;
@@ -104,30 +120,39 @@ interface PitcherRoleSectionProps {
 }
 
 function PitcherRoleSection(props: PitcherRoleSectionProps) {
-  const { displayName, lightColor, darkColor, pitchers } = props;
+  const { pitcherRole, displayName, lightColor, darkColor, pitchers } = props;
   
   return <SectionWrapper>
     <h2>{displayName}</h2>
-    <SectionPitcherContainer lightColor={lightColor} darkColor={darkColor}>
-      {pitchers.length > 0 &&
-      <GridHeaderWrapper>
-        <GridHeader></GridHeader>
-        <GridHeader alignLeft>Name</GridHeader>
-        <GridHeader>Arm</GridHeader>
-        <GridHeader>Type</GridHeader>
-        <GridHeader>Ovr</GridHeader>
-        <GridHeader>Top Spd</GridHeader>
-        <GridHeader>Ctrl</GridHeader>
-        <GridHeader>Stam</GridHeader>
-      </GridHeaderWrapper>}
-      {pitchers.map(toPitcherRow)}
-    </SectionPitcherContainer>
+    <Droppable droppableId={pitcherRole}>
+      {provided => 
+        <SectionPitcherContainer 
+          ref={provided.innerRef}
+          lightColor={lightColor} 
+          darkColor={darkColor}
+          {...provided.droppableProps}>
+            {pitchers.length > 0 &&
+            <GridHeaderWrapper>
+              <GridHeader></GridHeader>
+              <GridHeader alignLeft>Name</GridHeader>
+              <GridHeader>Arm</GridHeader>
+              <GridHeader>Type</GridHeader>
+              <GridHeader>Ovr</GridHeader>
+              <GridHeader>Top Spd</GridHeader>
+              <GridHeader>Ctrl</GridHeader>
+              <GridHeader>Stam</GridHeader>
+            </GridHeaderWrapper>}
+            {pitchers.map(toPitcherRow)}
+            {provided.placeholder}
+      </SectionPitcherContainer>}
+    </Droppable>
+    
   </SectionWrapper>
 
   function toPitcherRow(details: PitcherDetails, index: number) {
     return <RowWrapper key={details.playerId}>
       <span>{index+1}.</span>
-      <PitcherTile details={details} />
+      <PitcherTile index={index} details={details} />
     </RowWrapper>
   }
 }
@@ -181,32 +206,36 @@ const GridHeader = styled.span<{ alignLeft?: boolean }>`
 
 interface PitcherTileProps {
   details: PitcherDetails;
+  index: number;
 }
 
 function PitcherTile(props: PitcherTileProps) {
-  const { details } = props;
+  const { details, index } = props;
   
-  return <PitcherTileWrapper>
-    <NameContainer>
-      <Icon icon='bars' />
-      <NameContentContainer>
-        <PlayerNameBubble 
-          positionType='Pitcher'
-          size='Medium'      
-          title={details.fullName}
-          fullWidth
-          sourceType={details.sourceType}> 
-            {details.savedName}
-        </PlayerNameBubble>
-      </NameContentContainer>
-    </NameContainer>
-    <span>{details.throwingArm}</span>
-    <span>{details.pitcherType}</span>
-    <span>{details.overall}</span>
-    <span>{details.topSpeed}</span>
-    <span>{details.control}</span>
-    <span>{details.stamina}</span>
-  </PitcherTileWrapper>
+  return <Draggable draggableId={details.playerId.toString()} index={index}>
+      {provided => <PitcherTileWrapper ref={provided.innerRef} {...provided.draggableProps}>
+        <NameContainer {...provided.dragHandleProps}>
+          <Icon icon='bars' />
+          <NameContentContainer>
+            <PlayerNameBubble 
+              positionType='Pitcher'
+              size='Medium'      
+              title={details.fullName}
+              fullWidth
+              sourceType={details.sourceType}> 
+                {details.savedName}
+            </PlayerNameBubble>
+          </NameContentContainer>
+        </NameContainer>
+        <span>{details.throwingArm}</span>
+        <span>{details.pitcherType}</span>
+        <span>{details.overall}</span>
+        <span>{details.topSpeed}</span>
+        <span>{details.control}</span>
+        <span>{details.stamina}</span>
+      </PitcherTileWrapper>}
+    </Draggable>
+    
 }
 
 const PitcherTileWrapper = styled.div`
