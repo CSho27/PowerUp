@@ -5,14 +5,13 @@ import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
 import { DisableResult } from "../shared/disableResult";
-import { SimpleCode } from "../shared/simpleCode";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { PlayerSearchApiClient, PlayerSearchResultDto } from "./playerSearchApiClient";
 import { PlayerSelectionGrid, PlayerSelectionGridPlayer } from "./playerSelectionGrid";
 
 export interface PlayerSelectionModalProps {
   appContext: AppContext;
-  closeDialog: (selectedPlayerId: PlayerSelectionGridPlayer | undefined) => void;
+  closeDialog: (selectedPlayerId: number | undefined) => void;
   isPlayerDisabled?: (player: PlayerSelectionGridPlayer) => DisableResult;
 }
 
@@ -76,7 +75,7 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
             size='Small'
             variant='Fill'
             disabled={!state.selectedPlayer}
-            onClick={() => closeDialog(state.selectedPlayer)}>
+            onClick={() => closeDialog(state.selectedPlayer?.playerId)}>
               Select Player
           </Button>
         </div>

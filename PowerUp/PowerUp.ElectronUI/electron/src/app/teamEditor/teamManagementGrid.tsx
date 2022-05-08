@@ -12,12 +12,13 @@ import { AppContext } from "../app";
 import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelectionGrid";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
+import { GetPlayerDetailsApiClient } from "../shared/getPlayerDetailsApiClient";
 import { ListDispatch } from "../shared/listDispatch";
 import { getPositionType, positionCompare } from "../shared/positionCode";
 import { CopyPlayerApiClient } from "./copyPlayerApiClient";
 import { CreatePlayerApiClient } from "./createPlayerApiClient";
 import { toPlayerDetails } from "./playerDetailsResponse";
-import { PlayerDetails, PlayerRoleAction, PlayerRoleState } from "./teamManagementEditorState";
+import { PlayerDetails, PlayerRoleAction, PlayerRoleState } from "./playerRoleState";
 
 export interface TeamManagementGridProps {
   appContext: AppContext;
@@ -52,6 +53,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
 
   const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
   const creationApiClientRef = useRef(new CreatePlayerApiClient(appContext.commandFetcher));
+  const detailsApiClientRef = useRef(new GetPlayerDetailsApiClient(appContext.commandFetcher));
 
   const allPlayers = [...mlbPlayers, ...aaaPlayers];
   const thisGridPlayers = isAAA 
@@ -253,20 +255,10 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     appContext.openModal(closeDialog => <PlayerSelectionModal 
       appContext={appContext} 
       isPlayerDisabled={isPlayerDisabled}
-      closeDialog={playerToInsert => { 
+      closeDialog={async playerToInsertId => { 
         closeDialog(); 
-        if(!!playerToInsert) {
-          const details: PlayerDetails = {
-            sourceType: playerToInsert.sourceType,
-            canEdit: playerToInsert.canEdit,
-            playerId: playerToInsert.playerId,
-            savedName: playerToInsert.savedName,
-            fullName: playerToInsert.informalDisplayName,
-            position: playerToInsert.position,
-            positionAbbreviation: playerToInsert.positionAbbreviation,
-            batsAndThrows: playerToInsert.batsAndThrows,
-            overall: playerToInsert.overall
-          }
+        if(!!playerToInsertId) {
+          const details = await detailsApiClientRef.current.execute({ playerId: playerToInsertId })
           updatePlayer(playerToReplaceId, { type: 'replacePlayer', playerDetails: details })
         }
       }} 
@@ -292,20 +284,10 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     appContext.openModal(closeDialog => <PlayerSelectionModal 
       appContext={appContext} 
       isPlayerDisabled={isPlayerDisabled}
-      closeDialog={playerToInsert => { 
+      closeDialog={async playerToInsertId => { 
         closeDialog(); 
-        if(!!playerToInsert) {
-          const details: PlayerDetails = {
-            sourceType: playerToInsert.sourceType,
-            canEdit: playerToInsert.canEdit,
-            playerId: playerToInsert.playerId,
-            savedName: playerToInsert.savedName,
-            fullName: playerToInsert.informalDisplayName,
-            position: playerToInsert.position,
-            positionAbbreviation: playerToInsert.positionAbbreviation,
-            batsAndThrows: playerToInsert.batsAndThrows,
-            overall: playerToInsert.overall
-          }
+        if(!!playerToInsertId) {
+          const details = await detailsApiClientRef.current.execute({ playerId: playerToInsertId })
           addPlayer(details);
         }
       }} 

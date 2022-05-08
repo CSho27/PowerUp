@@ -1,26 +1,27 @@
 import { Dispatch } from "react";
 import { AppContext } from "../app";
-import { PlayerDetails, TeamManagementEditorAction, TeamManagementEditorState } from "./teamManagementEditorState"
+import { TeamEditorDetailsAction } from "./teamEditorState";
+import { PlayerRoleState } from "./playerRoleState";
 import { TeamManagementGrid } from "./teamManagementGrid";
 
 export interface TeamManagementEditorProps {
   appContext: AppContext;
-  teamId: number;
-  state: TeamManagementEditorState;
+  mlbPlayers: PlayerRoleState[];
+  aaaPlayers: PlayerRoleState[];
   disabled: boolean;
-  update: Dispatch<TeamManagementEditorAction>;
+  update: Dispatch<TeamEditorDetailsAction>;
   saveTemp: () => void;
 }
 
 export function TeamManagementEditor(props: TeamManagementEditorProps) {
-  const { appContext, teamId, state, disabled, update, saveTemp } = props;
+  const { appContext, mlbPlayers, aaaPlayers, disabled, update, saveTemp } = props;
   
   return <>
     <TeamManagementGrid 
       appContext={appContext}
       isAAA={false}
-      mlbPlayers={state.mlbPlayers}
-      aaaPlayers={state.aaaPlayers}
+      mlbPlayers={mlbPlayers}
+      aaaPlayers={aaaPlayers}
       startingNumber={1}
       canManageRoster={!disabled}
       canEditRoles={!disabled}
@@ -32,12 +33,12 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
     <TeamManagementGrid 
       appContext={appContext}
       isAAA={true} 
-      mlbPlayers={state.mlbPlayers}
-      aaaPlayers={state.aaaPlayers}
-      startingNumber={state.mlbPlayers.length+1}
+      mlbPlayers={mlbPlayers}
+      aaaPlayers={aaaPlayers}
+      startingNumber={mlbPlayers.length+1}
       canManageRoster={!disabled}
       canEditRoles={false}
-      canSendUpOrDown={state.mlbPlayers.length < 25}
+      canSendUpOrDown={mlbPlayers.length < 25}
       updatePlayer={(id, action) => update({ type: 'updateAAAPlayer', playerId: id, roleAction: action }) } 
       sendUpOrDown={id => update({ type: 'sendUp', playerId: id })} 
       addPlayer={player => update({ type: 'addAAAPlayer', playerDetais: player }) } 

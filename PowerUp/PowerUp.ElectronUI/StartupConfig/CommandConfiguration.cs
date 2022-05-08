@@ -26,6 +26,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<SaveTeamCommand>();
       services.AddSingleton<DiscardTempTeamCommand>();
       services.AddSingleton<CreatePlayerCommand>();
+      services.AddSingleton<GetPlayerDetailsCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -47,6 +48,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(SaveTeamCommand), "SaveTeam");
       commandRegistry.RegisterCommand(typeof(DiscardTempTeamCommand), "DiscardTempTeam");
       commandRegistry.RegisterCommand(typeof(CreatePlayerCommand), "CreatePlayer");
+      commandRegistry.RegisterCommand(typeof(GetPlayerDetailsCommand), "GetPlayerDetails");
     }
   }
 }

@@ -15,9 +15,9 @@ import { PowerUpLayout } from "../shared/powerUpLayout";
 import { DiscardTempTeamApiClient } from "./discardTempTeamApiClient";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
 import { PlayerRoleRequest, SaveTeamApiClient, SaveTeamRequest } from "./saveTeamApiClient";
-import { getDetailsReducer, getInitialStateFromResponse, getTeamManagementReducer, TeamEditorDetails, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
+import { getDetailsReducer, getInitialStateFromResponse, TeamEditorDetails, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 import { TeamManagementEditor } from "./teamManagementEditor";
-import { PlayerRoleState } from "./teamManagementEditorState";
+import { PlayerRoleState } from "./playerRoleState";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -33,7 +33,6 @@ function TeamEditorPage(props: TeamEditorPageProps) {
 
   const [state, update] = useReducer(TeamEditorReducer, getInitialStateFromResponse(editorResponse));
   const [currentDetails, updateCurrentDetails] = getDetailsReducer(state, update);
-  const [managementState, updateManagementState] = getTeamManagementReducer(currentDetails, updateCurrentDetails);
 
   const hasUnsavedChanges = !deepEquals(state.lastSavedDetails, state.currentDetails);
   const actionsDisabled = /*!canEdit ||*/ !hasUnsavedChanges;
@@ -109,10 +108,10 @@ function TeamEditorPage(props: TeamEditorPageProps) {
         {state.selectedTab === 'Management' &&
         <TeamManagementEditor 
           appContext={appContext}
-          teamId={teamId}
-          state={managementState} 
+          mlbPlayers={currentDetails.mlbPlayers}
+          aaaPlayers={currentDetails.aaaPlayers}
           disabled={false /*!canEdit*/}
-          update={updateManagementState} 
+          update={updateCurrentDetails} 
           saveTemp={() => saveTeam(false)}/>}
       </EditorContainer>
     </ContentWithHangingHeader>
@@ -130,8 +129,8 @@ function TeamEditorPage(props: TeamEditorPageProps) {
       tempTeamId: tempTeamId,
       persist: persist,
       name: teamDetails.teamName,
-      mlbPlayers: teamDetails.teamManagmentState.mlbPlayers.map(toPlayerRoleRequest),
-      aaaPlayers: teamDetails.teamManagmentState.aaaPlayers.map(toPlayerRoleRequest)
+      mlbPlayers: teamDetails.mlbPlayers.map(toPlayerRoleRequest),
+      aaaPlayers: teamDetails.aaaPlayers.map(toPlayerRoleRequest)
     }
   }
 

@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
-import { LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
-import { getInitialStateFromTeamRosterDetails, TeamManagementEditorAction, TeamManagementEditorReducer, TeamManagementEditorState } from "./teamManagementEditorState";
+import { remove, replace } from "../../utils/arrayUtils";
+import { LoadTeamEditorResponse, PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
+import { PlayerDetails, PlayerRoleAction, PlayerRoleState, PlayerRoleStateReducer, toDefaultRole, toPlayerRoleState } from "./playerRoleState";
 
 export interface TeamEditorState {
   lastSavedDetails: TeamEditorDetails;
@@ -58,12 +59,18 @@ export function TeamEditorReducer(state: TeamEditorState, action: TeamEditorActi
 
 export interface TeamEditorDetails {
   teamName: string;
-  teamManagmentState: TeamManagementEditorState;
+  mlbPlayers: PlayerRoleState[];
+  aaaPlayers: PlayerRoleState[];  
 }
 
 export type TeamEditorDetailsAction =
 | { type: 'updateTeamName', teamName: string }
-| { type: 'updateTeamManagement', managementAction: TeamManagementEditorAction }
+| { type: 'addMLBPlayer', playerDetais: PlayerDetails }
+| { type: 'addAAAPlayer', playerDetais: PlayerDetails }
+| { type: 'updateMLBPlayer', playerId: number, roleAction: PlayerRoleAction  }
+| { type: 'updateAAAPlayer', playerId: number, roleAction: PlayerRoleAction }
+| { type: 'sendUp', playerId: number }
+| { type: 'sendDown', playerId: number }
 
 export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamEditorDetailsAction): TeamEditorDetails {
   switch(action.type) {
@@ -72,10 +79,50 @@ export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamE
         ...state,
         teamName: action.teamName
       }
-    case 'updateTeamManagement':
-      return {
-        ...state,
-        teamManagmentState: TeamManagementEditorReducer(state.teamManagmentState, action.managementAction)
+      case 'addMLBPlayer':
+        return {
+          ...state,
+          mlbPlayers: [...state.mlbPlayers, toDefaultRole(action.playerDetais)]
+        }
+      case 'addAAAPlayer':
+        return {
+          ...state,
+          aaaPlayers: [...state.aaaPlayers, toDefaultRole(action.playerDetais)]
+        }
+      case 'updateMLBPlayer':
+        return {
+          ...state,
+          mlbPlayers: replace(
+            state.mlbPlayers, 
+            p => p.playerDetails.playerId === action.playerId,
+            p => PlayerRoleStateReducer(p, action.roleAction)
+          )
+        }
+      case 'updateAAAPlayer':
+        return {
+          ...state,
+          aaaPlayers: replace(
+            state.aaaPlayers,
+            p => p.playerDetails.playerId === action.playerId,
+            p => PlayerRoleStateReducer(p, action.roleAction)
+          )
+        }
+      case 'sendUp':
+        const player = state.aaaPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+  
+        return {
+          ...state,
+          aaaPlayers: remove(state.aaaPlayers, p => p.playerDetails.playerId === action.playerId),
+          mlbPlayers: [...state.mlbPlayers, player]
+        }
+      case 'sendDown': {
+        const player = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+  
+        return {
+          ...state,
+          aaaPlayers: [...state.aaaPlayers, player],
+          mlbPlayers: remove(state.mlbPlayers, p => p.playerDetails.playerId === action.playerId)
+        }
       }
   }
 }
@@ -87,22 +134,18 @@ export function getDetailsReducer(state: TeamEditorState, update: Dispatch<TeamE
   ]
 }
 
-export function getTeamManagementReducer(state: TeamEditorDetails, update: Dispatch<TeamEditorDetailsAction>): [TeamManagementEditorState, Dispatch<TeamManagementEditorAction>] {
-  return [
-    state.teamManagmentState,
-    (action: TeamManagementEditorAction) => update({ type: 'updateTeamManagement', managementAction: action })
-  ]
-}
 
 export function getInitialStateFromResponse(response: LoadTeamEditorResponse): TeamEditorState {
   const currentDetails: TeamEditorDetails = {
     teamName: response.currentDetails.name,
-    teamManagmentState: getInitialStateFromTeamRosterDetails(response.currentDetails)
+    mlbPlayers: response.currentDetails.mlbPlayers.map(toPlayerRoleState),
+    aaaPlayers: response.currentDetails.aaaPlayers.map(toPlayerRoleState)
   }
 
   const lastSavedDetails: TeamEditorDetails = {
     teamName: response.lastSavedDetails.name,
-    teamManagmentState: getInitialStateFromTeamRosterDetails(response.lastSavedDetails)
+    mlbPlayers: response.lastSavedDetails.mlbPlayers.map(toPlayerRoleState),
+    aaaPlayers: response.lastSavedDetails.aaaPlayers.map(toPlayerRoleState)
   }
 
   return {

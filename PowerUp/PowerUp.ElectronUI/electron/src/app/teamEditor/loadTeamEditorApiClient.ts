@@ -1,6 +1,8 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { Position } from "../shared/positionCode";
+import { PlayerDetailsResponse } from "./playerDetailsResponse";
+import { PitcherRole } from "./playerRoleState";
 
 export interface LoadTeamEditorRequest {
   teamId: number;
@@ -26,16 +28,12 @@ export interface PlayerRoleDefinitionDto {
   sourceType: EntitySourceType;
   canEdit: boolean;
   playerId: number;
-  fullName: string;
-  savedName: string;
-  position: Position;
-  positionAbbreviation: string;
-  overall: number;
-  batsAndThrows: string;
   isPinchHitter: boolean;
   isPinchRunner: boolean;
   isDefensiveReplacement: boolean;
   isDefensiveLiability: boolean;
+  pitcherRole: PitcherRole;
+  details: PlayerDetailsResponse;
 }
 
 export class LoadTeamEditorApiClient {

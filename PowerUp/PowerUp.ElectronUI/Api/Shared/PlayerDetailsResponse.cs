@@ -2,7 +2,7 @@
 using PowerUp.Entities.Players;
 using System.Text.Json.Serialization;
 
-namespace PowerUp.ElectronUI.Api.Teams
+namespace PowerUp.ElectronUI.Api.Shared
 {
   public class PlayerDetailsResponse
   {
@@ -18,6 +18,10 @@ namespace PowerUp.ElectronUI.Api.Teams
     public string PositionAbbreviation => Position.GetAbbrev();
     public int Overall { get; }
     public string BatsAndThrows { get; }
+    public string ThrowingArm { get; }
+    public string TopSpeed { get; }
+    public string Control { get; }
+    public string Stamina { get; }
 
     public PlayerDetailsResponse(Player player)
     {
@@ -28,6 +32,10 @@ namespace PowerUp.ElectronUI.Api.Teams
       Position = player.PrimaryPosition;
       Overall = player.Overall.RoundDown();
       BatsAndThrows = player.BatsAndThrows;
+      ThrowingArm = player.ThrowingArm.GetAbbrev();
+      TopSpeed = $"{player.PitcherAbilities.TopSpeedMph.RoundDown()}mph";
+      Control = player.PitcherAbilities.Control.ToString();
+      Stamina = player.PitcherAbilities.Stamina.ToString();
     }
   }
 }
