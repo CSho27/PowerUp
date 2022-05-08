@@ -11,11 +11,13 @@ export interface LoadTeamEditorResponse {
   tempTeamId: number;
   sourceType: EntitySourceType;
   canEdit: boolean;
-  name: string;
-  teamRosterDetails: TeamRosterDetails; 
+  lastSavedDetails: TeamDetails; 
+  currentDetails: TeamDetails;
+  lastSaved: string | null;
 }
 
-export interface TeamRosterDetails {
+export interface TeamDetails {
+  name: string;
   mlbPlayers: PlayerRoleDefinitionDto[];
   aaaPlayers: PlayerRoleDefinitionDto[];
 }

@@ -11,26 +11,30 @@ namespace PowerUp.ElectronUI.Api.Teams
     public int TempTeamId { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
-    public string Name { get; }
     public bool CanEdit => SourceType.CanEdit();
-    public TeamRosterDetails TeamRosterDetails { get; }
+    public TeamDetails LastSavedDetails { get; }
+    public TeamDetails CurrentDetails { get; }
+    public DateTime? LastSaved { get; }
 
-    public LoadTeamEditorResponse(TempTeam tempTeam)
+    public LoadTeamEditorResponse(Team team, TempTeam tempTeam)
     {
       TempTeamId = tempTeam.Id!.Value;
-      Name = tempTeam.Team!.Name;
-      SourceType = tempTeam.Team.SourceType;
-      TeamRosterDetails = new TeamRosterDetails(tempTeam.Team);
+      SourceType = team.SourceType;
+      LastSavedDetails = new TeamDetails(team);
+      CurrentDetails = new TeamDetails(tempTeam.Team!);
+      LastSaved = tempTeam.LastSaved;
     }
   }
 
-  public class TeamRosterDetails
+  public class TeamDetails
   {
+    public string Name { get; }
     public IEnumerable<PlayerRoleDefinitionDto> MLBPlayers { get; }
     public IEnumerable<PlayerRoleDefinitionDto> AAAPlayers { get; }
 
-    public TeamRosterDetails(Team team)
+    public TeamDetails(Team team)
     {
+      Name = team!.Name;
       MLBPlayers = team.PlayerDefinitions.Where(d => !d.IsAAA).Select(p => new PlayerRoleDefinitionDto(p));
       AAAPlayers = team.PlayerDefinitions.Where(d => d.IsAAA).Select(p => new PlayerRoleDefinitionDto(p));
     }

@@ -46,7 +46,7 @@ namespace PowerUp.Entities.Teams.Api
           IsDefensiveLiability = playerToAdd.IsDefensiveLiability,
           //PitcherRole = playerToAdd.PitcherRole,
         };
-        team.PlayerDefinitions.Append(newRoleDefinition);
+        team.PlayerDefinitions = team.PlayerDefinitions.Append(newRoleDefinition);
       }
 
       foreach(var (updatedParams, currentDef) in diffResult.Matches) {

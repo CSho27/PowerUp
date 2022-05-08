@@ -10,6 +10,7 @@ import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageCleanupFunction, PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
+import { deepEquals } from "../shared/deepEquals";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { DiscardTempTeamApiClient } from "./discardTempTeamApiClient";
 import { LoadTeamEditorApiClient, LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
@@ -34,8 +35,13 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   const [currentDetails, updateCurrentDetails] = getDetailsReducer(state, update);
   const [managementState, updateManagementState] = getTeamManagementReducer(currentDetails, updateCurrentDetails);
 
-  const actionsDisabled = false;
-  const actionsDisabledTooltip = '';
+  const hasUnsavedChanges = !deepEquals(state.lastSavedDetails, state.currentDetails);
+  const actionsDisabled = /*!canEdit ||*/ !hasUnsavedChanges;
+  const actionsDisabledTooltip = /*!canEdit
+    ? 'Teams of this type cannot be edited'
+    : */!hasUnsavedChanges
+      ? 'No changes'
+      : undefined;
 
   const header = <>
     <Breadcrumbs appContext={appContext}/>
@@ -98,7 +104,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   </> 
 
   return <PowerUpLayout headerText='Edit Team'>
-    <ContentWithHangingHeader header={header} headerHeight='120px'>
+    <ContentWithHangingHeader header={header} headerHeight='130px'>
       <EditorContainer>
         {state.selectedTab === 'Management' &&
         <TeamManagementEditor 
@@ -113,7 +119,9 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   </PowerUpLayout>
 
   async function saveTeam(persist: boolean) {
-    apiClientRef.current.execute(buildSaveRequest(currentDetails, persist));
+    const response = await apiClientRef.current.execute(buildSaveRequest(currentDetails, persist));
+    if(persist && response.success)
+      update({ type: 'updateFromSave' });
   }
 
   function buildSaveRequest(teamDetails: TeamEditorDetails, persist: boolean): SaveTeamRequest {
@@ -184,7 +192,7 @@ export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContex
   const response = await apiClient.execute({ teamId: pageDef.teamId, tempTeamId: pageDef.tempTeamId });
 
   return {
-    title: response.name,
+    title: response.lastSavedDetails.name,
     renderPage: appContext => <TeamEditorPage 
       appContext={appContext}
       teamId={pageDef.teamId}

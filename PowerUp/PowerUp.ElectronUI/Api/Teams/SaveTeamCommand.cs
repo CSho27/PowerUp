@@ -23,8 +23,10 @@ namespace PowerUp.ElectronUI.Api.Teams
         throw new InvalidOperationException("Mismatching TeamId and TempTeamId");
 
       _teamApi.EditTeam(tempTeam.Team!, request.GetParameters());
-      DatabaseConfig.Database.Save(tempTeam);
+      if (request.Persist)
+        tempTeam.LastSaved = DateTime.Now;
 
+      DatabaseConfig.Database.Save(tempTeam);
 
       if (request.Persist)
         DatabaseConfig.Database.Save(tempTeam.Team);

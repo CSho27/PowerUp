@@ -7,6 +7,7 @@ namespace PowerUp.Entities.Teams
   {
     public Team? Team { get; set; }
     public DateTime CreatedOn { get; set; }
+    public DateTime? LastSaved { get; set; }
 
     public TempTeam() { }
 
@@ -14,11 +15,6 @@ namespace PowerUp.Entities.Teams
     {
       Team = team;
       CreatedOn = DateTime.Now;
-    }
-
-    public void UpdateTeam(Team team)
-    {
-      Team = team;
     }
   }
 }

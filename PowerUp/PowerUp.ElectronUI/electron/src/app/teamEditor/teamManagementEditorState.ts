@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { remove, replace } from "../../utils/arrayUtils";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { Position } from "../shared/positionCode";
-import { PlayerRoleDefinitionDto, TeamRosterDetails } from "./loadTeamEditorApiClient";
+import { PlayerRoleDefinitionDto, TeamDetails } from "./loadTeamEditorApiClient";
 
 export interface TeamManagementEditorState {
   mlbPlayers: PlayerRoleState[];
@@ -124,7 +124,7 @@ export function PlayerRoleStateReducer(state: PlayerRoleState, action: PlayerRol
   }
 }
 
-export function getInitialStateFromTeamRosterDetails(rosterDetails: TeamRosterDetails): TeamManagementEditorState {
+export function getInitialStateFromTeamRosterDetails(rosterDetails: TeamDetails): TeamManagementEditorState {
   return {
     mlbPlayers: rosterDetails.mlbPlayers.map(toPlayerRoleState),
     aaaPlayers: rosterDetails.aaaPlayers.map(toPlayerRoleState)

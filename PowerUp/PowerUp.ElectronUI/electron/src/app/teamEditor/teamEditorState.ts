@@ -95,15 +95,22 @@ export function getTeamManagementReducer(state: TeamEditorDetails, update: Dispa
 }
 
 export function getInitialStateFromResponse(response: LoadTeamEditorResponse): TeamEditorState {
-  const details: TeamEditorDetails = {
-    teamName: response.name,
-    teamManagmentState: getInitialStateFromTeamRosterDetails(response.teamRosterDetails)
+  const currentDetails: TeamEditorDetails = {
+    teamName: response.currentDetails.name,
+    teamManagmentState: getInitialStateFromTeamRosterDetails(response.currentDetails)
+  }
+
+  const lastSavedDetails: TeamEditorDetails = {
+    teamName: response.lastSavedDetails.name,
+    teamManagmentState: getInitialStateFromTeamRosterDetails(response.lastSavedDetails)
   }
 
   return {
-    lastSavedDetails: details,
-    currentDetails: details,
-    dateLastSaved: undefined,
+    lastSavedDetails: lastSavedDetails,
+    currentDetails: currentDetails,
+    dateLastSaved: response.lastSaved 
+      ? new Date(response.lastSaved)
+      : undefined,
     selectedTab: 'Management',
     isEditingName: false
   }

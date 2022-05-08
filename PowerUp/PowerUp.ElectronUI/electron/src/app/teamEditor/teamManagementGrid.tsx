@@ -15,6 +15,7 @@ import { DisableResult } from "../shared/disableResult";
 import { ListDispatch } from "../shared/listDispatch";
 import { getPositionType } from "../shared/positionCode";
 import { CopyPlayerApiClient } from "./copyPlayerApiClient";
+import { CreatePlayerApiClient } from "./createPlayerApiClient";
 import { toPlayerDetails } from "./playerDetailsResponse";
 import { PlayerDetails, PlayerRoleAction, PlayerRoleState } from "./teamManagementEditorState";
 
@@ -48,6 +49,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   } = props;
 
   const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
+  const creationApiClientRef = useRef(new CreatePlayerApiClient(appContext.commandFetcher));
 
   return <div>
     <PlayerGroupHeader>
@@ -121,7 +123,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
             <ContextMenuItem 
               icon='user-plus'
               disabled={!canManageRoster}
-              onClick={() => replaceWithNewPlayer(playerId)}>
+              onClick={() => replaceWithNewPlayer(playerId, playerDetails.position === 'Pitcher')}>
                 Replace with new
             </ContextMenuItem>
           </>} />
@@ -225,7 +227,6 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           }
           updatePlayer(playerToReplaceId, { type: 'replacePlayer', playerDetails: details })
         }
-          
       }} 
     />)
   }
@@ -240,7 +241,9 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     }
   }
 
-  async function replaceWithNewPlayer(playerId: number) {
+  async function replaceWithNewPlayer(playerId: number, isPitcher: boolean) {
+    const response = await creationApiClientRef.current.execute({ isPitcher: isPitcher });
+    updatePlayer(playerId, { type: 'replacePlayer', playerDetails: toPlayerDetails(response) });
   }
 }
 
