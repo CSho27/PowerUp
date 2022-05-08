@@ -219,10 +219,10 @@ export function TeamGrid(props: TeamGridProps) {
     appContext.openModal(closeDialog => <PlayerSelectionModal 
       appContext={appContext} 
       isPlayerDisabled={isPlayerDisabled}
-      closeDialog={playerToInsert => { 
+      closeDialog={playerToInsertId => { 
         closeDialog(); 
-        if(!!playerToInsert)
-          executeReplace(playerToReplaceId, playerToInsert.playerId); 
+        if(!!playerToInsertId)
+          executeReplace(playerToReplaceId, playerToInsertId); 
       }} 
     />)
   }

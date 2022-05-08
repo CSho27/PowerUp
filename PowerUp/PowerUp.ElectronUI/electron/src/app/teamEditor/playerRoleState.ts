@@ -32,6 +32,7 @@ export interface PlayerDetails {
   positionAbbreviation: string;
   overall: number;
   batsAndThrows: string;
+  pitcherType: string;
   throwingArm: string;
   topSpeed: string;
   control: string;

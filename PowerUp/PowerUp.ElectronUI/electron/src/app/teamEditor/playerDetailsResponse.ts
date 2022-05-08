@@ -11,6 +11,7 @@ export interface PlayerDetailsResponse {
   position: Position;
   positionAbbreviation: string;
   overall: number;
+  pitcherType: string;
   batsAndThrows: string;
   throwingArm: string;
   topSpeed: string;
@@ -29,6 +30,7 @@ export function toPlayerDetails(detailsResponse: PlayerDetailsResponse): PlayerD
     positionAbbreviation: detailsResponse.positionAbbreviation,
     overall: detailsResponse.overall,
     batsAndThrows: detailsResponse.batsAndThrows,
+    pitcherType: detailsResponse.pitcherType,
     throwingArm: detailsResponse.throwingArm,
     topSpeed: detailsResponse.topSpeed,
     control: detailsResponse.control,

@@ -18,6 +18,7 @@ namespace PowerUp.ElectronUI.Api.Shared
     public string PositionAbbreviation => Position.GetAbbrev();
     public int Overall { get; }
     public string BatsAndThrows { get; }
+    public string PitcherType { get; }
     public string ThrowingArm { get; }
     public string TopSpeed { get; }
     public string Control { get; }
@@ -32,6 +33,7 @@ namespace PowerUp.ElectronUI.Api.Shared
       Position = player.PrimaryPosition;
       Overall = player.Overall.RoundDown();
       BatsAndThrows = player.BatsAndThrows;
+      PitcherType = player.PitcherType.GetAbbrev();
       ThrowingArm = player.ThrowingArm.GetAbbrev();
       TopSpeed = $"{player.PitcherAbilities.TopSpeedMph.RoundDown()}mph";
       Control = player.PitcherAbilities.Control.ToString();
