@@ -22,7 +22,8 @@ import { PlayerDetails, PlayerRoleAction, PlayerRoleState } from "./teamManageme
 export interface TeamManagementGridProps {
   appContext: AppContext;
   isAAA: boolean;
-  players: PlayerRoleState[];
+  mlbPlayers: PlayerRoleState[];
+  aaaPlayers: PlayerRoleState[];
   startingNumber: number;
   canManageRoster: boolean;
   canEditRoles: boolean;
@@ -37,7 +38,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   const { 
     appContext, 
     isAAA,
-    players,
+    mlbPlayers,
+    aaaPlayers,
     startingNumber,
     canManageRoster,
     canEditRoles,
@@ -51,9 +53,49 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
   const creationApiClientRef = useRef(new CreatePlayerApiClient(appContext.commandFetcher));
 
-  return <div>
+  const allPlayers = [...mlbPlayers, ...aaaPlayers];
+  const thisGridPlayers = isAAA 
+    ? aaaPlayers 
+    : mlbPlayers;
+
+  const canAddMorePlayers = isAAA 
+    ? allPlayers.length < 40
+    : mlbPlayers.length < 25;
+  const cannotAddMorePlayersMessage = !canAddMorePlayers
+    ? isAAA
+      ? 'Cannot add player. Roster already has 40 people on it'
+      : 'Cannot add player. Roster already has 25 people on it'
+    : undefined
+
+  return <Wrapper>
     <PlayerGroupHeader>
       <h2>{isAAA ? 'AAA' : 'MLB'}</h2>
+      <ContextMenuButton
+        size='Small'
+        variant='Outline'
+        title={cannotAddMorePlayersMessage ?? 'Add Player'}
+        icon='plus'
+        squarePadding
+        disabled={!canAddMorePlayers}
+        menuItems={<>
+          <ContextMenuItem 
+              icon='box-archive'
+              disabled={!canManageRoster}
+              onClick={addExistingPlayer}>
+                Add existing
+          </ContextMenuItem>
+          <ContextMenuItem 
+            icon='user-plus'
+            onClick={() => addNewPlayer(false)}>
+              Add new hitter
+          </ContextMenuItem>
+          <ContextMenuItem 
+            icon='user-plus'
+            onClick={() => addNewPlayer(true)}>
+              Add new pitcher
+          </ContextMenuItem>
+        </>}
+      />
     </PlayerGroupHeader>
     <TeamManagementTable>
       <thead>
@@ -73,10 +115,10 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         </tr>
       </thead>
       <PlayerTableBody>
-        {players.map(mapToPlayerRow)}
+        {thisGridPlayers.map(mapToPlayerRow)}
       </PlayerTableBody>
     </TeamManagementTable>
-  </div>
+  </Wrapper>
 
   function mapToPlayerRow(player: PlayerRoleState, index: number) {
     const { playerDetails } = player;
@@ -232,7 +274,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
   }
 
   function isPlayerDisabled(player: PlayerSelectionGridPlayer): DisableResult {
-    const isDisabled = players.some(p => p.playerDetails.playerId === player.playerId);
+    const isDisabled = allPlayers.some(p => p.playerDetails.playerId === player.playerId);
     return {
       disabled: isDisabled,
       message: isDisabled 
@@ -245,7 +287,40 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     const response = await creationApiClientRef.current.execute({ isPitcher: isPitcher });
     updatePlayer(playerId, { type: 'replacePlayer', playerDetails: toPlayerDetails(response) });
   }
+
+  async function addExistingPlayer() {
+    appContext.openModal(closeDialog => <PlayerSelectionModal 
+      appContext={appContext} 
+      isPlayerDisabled={isPlayerDisabled}
+      closeDialog={playerToInsert => { 
+        closeDialog(); 
+        if(!!playerToInsert) {
+          const details: PlayerDetails = {
+            sourceType: playerToInsert.sourceType,
+            canEdit: playerToInsert.canEdit,
+            playerId: playerToInsert.playerId,
+            savedName: playerToInsert.savedName,
+            fullName: playerToInsert.informalDisplayName,
+            position: playerToInsert.position,
+            positionAbbreviation: playerToInsert.positionAbbreviation,
+            batsAndThrows: playerToInsert.batsAndThrows,
+            overall: playerToInsert.overall
+          }
+          addPlayer(details);
+        }
+      }} 
+    />)
+  }
+
+  async function addNewPlayer(isPitcher: boolean) {
+    const response = await creationApiClientRef.current.execute({ isPitcher: isPitcher });
+    addPlayer(toPlayerDetails(response));
+  }
 }
+
+const Wrapper = styled.div`
+  padding-bottom: 16px;
+`
 
 const PlayerGroupHeader = styled.div`
   display: flex;

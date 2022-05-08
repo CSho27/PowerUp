@@ -19,7 +19,8 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
     <TeamManagementGrid 
       appContext={appContext}
       isAAA={false}
-      players={state.mlbPlayers}
+      mlbPlayers={state.mlbPlayers}
+      aaaPlayers={state.aaaPlayers}
       startingNumber={1}
       canManageRoster={!disabled}
       canEditRoles={!disabled}
@@ -31,7 +32,8 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
     <TeamManagementGrid 
       appContext={appContext}
       isAAA={true} 
-      players={state.aaaPlayers}
+      mlbPlayers={state.mlbPlayers}
+      aaaPlayers={state.aaaPlayers}
       startingNumber={state.mlbPlayers.length+1}
       canManageRoster={!disabled}
       canEditRoles={false}
