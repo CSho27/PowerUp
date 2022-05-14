@@ -1,5 +1,6 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
 import { ResultResponse } from "../shared/resultResponse";
+import { PitcherRole } from "./playerRoleState";
 
 export interface SaveTeamRequest {
   teamId: number;
@@ -17,6 +18,8 @@ export interface PlayerRoleRequest {
   isPinchRunner: boolean;
   isDefensiveReplacement: boolean;
   isDefensiveLiability: boolean;
+  pitcherRole: PitcherRole;
+  orderInPitcherRole: number;
 }
 
 export class SaveTeamApiClient {

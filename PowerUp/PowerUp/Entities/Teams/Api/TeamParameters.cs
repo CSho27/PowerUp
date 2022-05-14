@@ -19,7 +19,8 @@ namespace PowerUp.Entities.Teams.Api
     public bool IsPinchRunner { get; set; }
     public bool IsDefensiveReplacement { get; set; }
     public bool IsDefensiveLiability { get; set; }
-    //public PitcherRole PitcherRole { get; set; }
+    public PitcherRole PitcherRole { get; set; }
+    public int OrderInPitcherRole { get; set; }
   }
 
   public class TeamParamtersValidator : Validator<TeamParameters>

@@ -64,6 +64,8 @@ namespace PowerUp.ElectronUI.Api.Teams
     public bool IsPinchRunner { get; set; }
     public bool IsDefensiveReplacement { get; set; }
     public bool IsDefensiveLiability { get; set; }
+    public PitcherRole PitcherRole { get; set; }
+    public int OrderInPitcherRole { get; set; }
 
     public PlayerRoleParameters GetParameters()
     {
@@ -73,7 +75,9 @@ namespace PowerUp.ElectronUI.Api.Teams
         IsPinchHitter = IsPinchHiiter,
         IsPinchRunner = IsPinchRunner,
         IsDefensiveReplacement = IsDefensiveReplacement,
-        IsDefensiveLiability = IsDefensiveLiability
+        IsDefensiveLiability = IsDefensiveLiability,
+        PitcherRole = PitcherRole,
+        OrderInPitcherRole = OrderInPitcherRole
       };
     }
   }

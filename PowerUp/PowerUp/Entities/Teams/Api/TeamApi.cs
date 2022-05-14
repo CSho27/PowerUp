@@ -44,7 +44,7 @@ namespace PowerUp.Entities.Teams.Api
           IsPinchRunner = playerToAdd.IsPinchRunner,
           IsDefensiveReplacement = playerToAdd.IsDefensiveReplacement,
           IsDefensiveLiability = playerToAdd.IsDefensiveLiability,
-          //PitcherRole = playerToAdd.PitcherRole,
+          PitcherRole = playerToAdd.PitcherRole,
         };
         team.PlayerDefinitions = team.PlayerDefinitions.Append(newRoleDefinition);
       }
@@ -55,11 +55,16 @@ namespace PowerUp.Entities.Teams.Api
         currentDef.IsPinchRunner = updatedParams.IsPinchRunner;
         currentDef.IsDefensiveReplacement = updatedParams.IsDefensiveReplacement;
         currentDef.IsDefensiveLiability = updatedParams.IsDefensiveLiability;
-        //currentDef.PitcherRole = updatedParams.PitcherRole;
+        currentDef.PitcherRole = updatedParams.PitcherRole;
       }
 
       foreach(var playerToRemove in diffResult.BNotInA)
         team.PlayerDefinitions = team.PlayerDefinitions.Where(d => d.PlayerId != playerToRemove.PlayerId);
+
+      team.PlayerDefinitions = team.PlayerDefinitions
+        .OrderBy(p => p.IsAAA)
+        .OrderBy(p => p.PitcherRole)
+        .ThenBy(p => allPlayers.Single(m => m.PlayerId == p.PlayerId).OrderInPitcherRole);
     }
   }
 }

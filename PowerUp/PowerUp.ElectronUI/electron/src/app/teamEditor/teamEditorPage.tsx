@@ -169,7 +169,9 @@ function TeamEditorPage(props: TeamEditorPageProps) {
       isPinchHitter: roleState.isPinchHitter,
       isPinchRunner: roleState.isPinchRunner,
       isDefensiveReplacement: roleState.isDefensiveReplacement,
-      isDefensiveLiability: roleState.isDefensiveLiability
+      isDefensiveLiability: roleState.isDefensiveLiability,
+      pitcherRole: roleState.pitcherRole,
+      orderInPitcherRole: roleState.orderInPitcherRole
     }
   }
 
