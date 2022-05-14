@@ -26,6 +26,11 @@ export class CommandFetcher {
         },
         body: JSON.stringify({ commandName: commandName, request: request })
       });
+      
+      const responseType = response.headers.get('Content-Type');
+      if(!responseType || !responseType.includes('application/json'))
+        throw await response.text();
+
       const responseJson = await response.json(); 
       return responseJson;
     } catch (error) {
