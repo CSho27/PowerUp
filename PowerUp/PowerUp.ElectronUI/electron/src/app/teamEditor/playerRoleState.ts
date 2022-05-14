@@ -10,6 +10,7 @@ export interface PlayerRoleState {
   isDefensiveReplacement: boolean;
   isDefensiveLiability: boolean;
   pitcherRole: PitcherRole;
+  orderInPitcherRole: number;
 }
 
 export type PitcherRole = 
@@ -76,24 +77,39 @@ export function PlayerRoleStateReducer(state: PlayerRoleState, action: PlayerRol
   }
 }
 
-export function toPlayerRoleState(roleDef: PlayerRoleDefinitionDto): PlayerRoleState {
+export function toPlayerRoleState(roleDef: PlayerRoleDefinitionDto, allPlayers: PitcherRoleCode[]): PlayerRoleState {
   return {
     playerDetails: toPlayerDetails(roleDef.details),
     isPinchHitter: roleDef.isPinchHitter,
     isPinchRunner: roleDef.isPinchRunner,
     isDefensiveReplacement: roleDef.isDefensiveReplacement,
     isDefensiveLiability: roleDef.isDefensiveLiability,
-    pitcherRole: roleDef.pitcherRole
+    pitcherRole: roleDef.pitcherRole,
+    orderInPitcherRole: getOrderInPitcherRole(roleDef.playerId, roleDef.pitcherRole, allPlayers)
   }
 }
 
-export function toDefaultRole(playerDetails: PlayerDetails): PlayerRoleState {
+export function toDefaultRole(playerDetails: PlayerDetails, allPlayers: PitcherRoleCode[]): PlayerRoleState {
   return {
     playerDetails: playerDetails,
     isPinchHitter: false,
     isPinchRunner: false,
     isDefensiveReplacement: false,
     isDefensiveLiability: false,
-    pitcherRole: 'MopUpMan'
+    pitcherRole: 'MopUpMan',
+    orderInPitcherRole: getOrderInPitcherRole(playerDetails.playerId, 'MopUpMan', allPlayers)
   }
+}
+
+interface PitcherRoleCode {
+  playerId: number;
+  role: PitcherRole;
+}
+
+function getOrderInPitcherRole(playerId: number, role: PitcherRole, allPlayers: PitcherRoleCode[]): number {
+  const pitchersInRole = allPlayers.filter(p => p.role === role);
+  const playerIndex = pitchersInRole.findIndex(p => p.playerId === playerId)
+  return playerIndex === -1
+    ? pitchersInRole.length + 1
+    : playerIndex + 1
 }

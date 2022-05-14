@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { remove, replace } from "../../utils/arrayUtils";
+import { insert, remove, replace } from "../../utils/arrayUtils";
 import { LoadTeamEditorResponse, PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
-import { PlayerDetails, PlayerRoleAction, PlayerRoleState, PlayerRoleStateReducer, toDefaultRole, toPlayerRoleState } from "./playerRoleState";
+import { PitcherRole, PlayerDetails, PlayerRoleAction, PlayerRoleState, PlayerRoleStateReducer, toDefaultRole, toPlayerRoleState } from "./playerRoleState";
 
 export interface TeamEditorState {
   lastSavedDetails: TeamEditorDetails;
@@ -71,6 +71,7 @@ export type TeamEditorDetailsAction =
 | { type: 'updateAAAPlayer', playerId: number, roleAction: PlayerRoleAction }
 | { type: 'sendUp', playerId: number }
 | { type: 'sendDown', playerId: number }
+| { type: 'updatePitcherRole', playerId: number, role: PitcherRole, orderInRole: number }
 
 export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamEditorDetailsAction): TeamEditorDetails {
   switch(action.type) {
@@ -79,52 +80,103 @@ export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamE
         ...state,
         teamName: action.teamName
       }
-      case 'addMLBPlayer':
-        return {
-          ...state,
-          mlbPlayers: [...state.mlbPlayers, toDefaultRole(action.playerDetais)]
-        }
-      case 'addAAAPlayer':
-        return {
-          ...state,
-          aaaPlayers: [...state.aaaPlayers, toDefaultRole(action.playerDetais)]
-        }
-      case 'updateMLBPlayer':
-        return {
-          ...state,
-          mlbPlayers: replace(
-            state.mlbPlayers, 
-            p => p.playerDetails.playerId === action.playerId,
-            p => PlayerRoleStateReducer(p, action.roleAction)
-          )
-        }
-      case 'updateAAAPlayer':
-        return {
-          ...state,
-          aaaPlayers: replace(
-            state.aaaPlayers,
-            p => p.playerDetails.playerId === action.playerId,
-            p => PlayerRoleStateReducer(p, action.roleAction)
-          )
-        }
-      case 'sendUp':
-        const player = state.aaaPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
-  
-        return {
-          ...state,
-          aaaPlayers: remove(state.aaaPlayers, p => p.playerDetails.playerId === action.playerId),
-          mlbPlayers: [...state.mlbPlayers, player]
-        }
-      case 'sendDown': {
-        const player = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
-  
-        return {
-          ...state,
-          aaaPlayers: [...state.aaaPlayers, player],
-          mlbPlayers: remove(state.mlbPlayers, p => p.playerDetails.playerId === action.playerId)
-        }
+    case 'addMLBPlayer': {
+      const pitcherRoleList = state.mlbPlayers.map(r => ({ playerId: r.playerDetails.playerId, role: r.pitcherRole }));
+      return {
+        ...state,
+        mlbPlayers: [...state.mlbPlayers, toDefaultRole(action.playerDetais, pitcherRoleList)]
       }
+    }
+    case 'addAAAPlayer': {
+      const pitcherRoleList = state.aaaPlayers.map(r => ({ playerId: r.playerDetails.playerId, role: r.pitcherRole }));
+      return {
+        ...state,
+        aaaPlayers: [...state.aaaPlayers, toDefaultRole(action.playerDetais, pitcherRoleList)]
+      }
+    }
+    case 'updateMLBPlayer':
+      return {
+        ...state,
+        mlbPlayers: replace(
+          state.mlbPlayers, 
+          p => p.playerDetails.playerId === action.playerId,
+          p => PlayerRoleStateReducer(p, action.roleAction)
+        )
+      }
+    case 'updateAAAPlayer':
+      return {
+        ...state,
+        aaaPlayers: replace(
+          state.aaaPlayers,
+          p => p.playerDetails.playerId === action.playerId,
+          p => PlayerRoleStateReducer(p, action.roleAction)
+        )
+      }
+    case 'sendUp': {
+      const player = state.aaaPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+
+      return {
+        ...state,
+        aaaPlayers: remove(state.aaaPlayers, p => p.playerDetails.playerId === action.playerId),
+        mlbPlayers: [...state.mlbPlayers, player]
+      }
+    }
+    case 'sendDown': {
+      const player = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+
+      return {
+        ...state,
+        aaaPlayers: [...state.aaaPlayers, player],
+        mlbPlayers: remove(state.mlbPlayers, p => p.playerDetails.playerId === action.playerId)
+      }
+    }
+    case 'updatePitcherRole': {
+      const player = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId)!;
+      return {
+        ...state,
+        mlbPlayers: state.mlbPlayers.map(p => updateRoleAndOrder(p, player, action.role, action.orderInRole))
+      }
+    }
+
   }
+}
+
+function updateRoleAndOrder(player: PlayerRoleState, movingPlayer: PlayerRoleState, movingPlayerNewRole: PitcherRole, movingPlayerNewOrder: number): PlayerRoleState {
+  if(player.playerDetails.playerId === movingPlayer.playerDetails.playerId)
+    return { ...player, pitcherRole: movingPlayerNewRole, orderInPitcherRole: movingPlayerNewOrder };
+
+  if(player.pitcherRole !== movingPlayer.pitcherRole && player.pitcherRole !== movingPlayerNewRole)
+    return player;
+
+  const movingPlayerCurrentOrder = movingPlayer.orderInPitcherRole;
+  const isBeingAddedToRole = player.pitcherRole !== movingPlayer.pitcherRole
+    && player.pitcherRole === movingPlayerNewRole;
+  const isBeingRemovedFromRole = player.pitcherRole === movingPlayer.pitcherRole
+    && player.pitcherRole !== movingPlayerNewRole;
+
+  if(isBeingAddedToRole) {
+    return movingPlayerNewOrder <= player.orderInPitcherRole
+      ? incrementOrderInRole(player)
+      : player;
+  } else if(isBeingRemovedFromRole) {
+    return movingPlayerCurrentOrder < player.orderInPitcherRole
+      ? decrementOrderInRole(player)
+      : player;
+  } else if(movingPlayerCurrentOrder > player.orderInPitcherRole && movingPlayerNewOrder <= player.orderInPitcherRole) {
+    return incrementOrderInRole(player);
+  } else if(movingPlayerCurrentOrder < player.orderInPitcherRole && movingPlayerNewOrder >= player.orderInPitcherRole) {
+    return decrementOrderInRole(player);
+  } else {
+    return player;
+  }
+}
+
+function incrementOrderInRole(player: PlayerRoleState): PlayerRoleState {
+  return { ...player, orderInPitcherRole: player.orderInPitcherRole + 1 };
+}
+
+function decrementOrderInRole(player: PlayerRoleState): PlayerRoleState {
+  return { ...player, orderInPitcherRole: player.orderInPitcherRole - 1 };
 }
 
 export function getDetailsReducer(state: TeamEditorState, update: Dispatch<TeamEditorAction>): [TeamEditorDetails, Dispatch<TeamEditorDetailsAction>] {
@@ -136,16 +188,20 @@ export function getDetailsReducer(state: TeamEditorState, update: Dispatch<TeamE
 
 
 export function getInitialStateFromResponse(response: LoadTeamEditorResponse): TeamEditorState {
+  const currentMLBPitcherRoleList = response.currentDetails.mlbPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
+  const currentAAAPitcherRoleList = response.currentDetails.aaaPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
   const currentDetails: TeamEditorDetails = {
     teamName: response.currentDetails.name,
-    mlbPlayers: response.currentDetails.mlbPlayers.map(toPlayerRoleState),
-    aaaPlayers: response.currentDetails.aaaPlayers.map(toPlayerRoleState)
+    mlbPlayers: response.currentDetails.mlbPlayers.map(p => toPlayerRoleState(p, currentMLBPitcherRoleList)),
+    aaaPlayers: response.currentDetails.aaaPlayers.map(p => toPlayerRoleState(p, currentAAAPitcherRoleList))
   }
 
+  const lastSavedMLBPitcherRoleList = response.currentDetails.mlbPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
+  const lastSavedAAAPitcherRoleList = response.currentDetails.aaaPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
   const lastSavedDetails: TeamEditorDetails = {
     teamName: response.lastSavedDetails.name,
-    mlbPlayers: response.lastSavedDetails.mlbPlayers.map(toPlayerRoleState),
-    aaaPlayers: response.lastSavedDetails.aaaPlayers.map(toPlayerRoleState)
+    mlbPlayers: response.lastSavedDetails.mlbPlayers.map(p => toPlayerRoleState(p, lastSavedMLBPitcherRoleList)),
+    aaaPlayers: response.lastSavedDetails.aaaPlayers.map(p => toPlayerRoleState(p, lastSavedAAAPitcherRoleList))
   }
 
   return {

@@ -8,15 +8,14 @@ import { EntitySourceType } from "../shared/entitySourceType";
 import { PitcherRole } from "./playerRoleState";
 
 export interface PitcherRolesEditorProps {
-  appContext: AppContext;
-  starters: PitcherDetails[];
-  swingMen: PitcherDetails[];
-  longRelievers: PitcherDetails[];
-  middleRelievers: PitcherDetails[];
-  situationalLefties: PitcherDetails[];
-  mopUpMen: PitcherDetails[];
-  setupMen: PitcherDetails[];
-  closer: PitcherDetails | undefined;
+  pitchers: PitcherRoleDefinition[];
+  updateRole: (playerId: number, role: PitcherRole, orderInRole: number) => void;
+}
+
+export interface PitcherRoleDefinition {
+  role: PitcherRole;
+  orderInRole: number;
+  details: PitcherDetails;
 }
 
 export interface PitcherDetails {
@@ -34,15 +33,8 @@ export interface PitcherDetails {
 
 export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
   const { 
-    appContext,
-    starters,  
-    swingMen,
-    longRelievers,
-    middleRelievers,
-    situationalLefties,
-    mopUpMen,
-    setupMen,
-    closer
+    pitchers,
+    updateRole
   } = props;
   
   return <Wrapper>
@@ -52,62 +44,71 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         displayName='Starter'
         lightColor={COLORS.pitcherRoles.starter_orange_light_87}
         darkColor={COLORS.pitcherRoles.starter_orange_dark_48}
-        pitchers={starters}
+        pitchers={pitchers.filter(p => p.role === 'Starter').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='SwingMan'
         displayName='Swing Man'
         lightColor={COLORS.pitcherRoles.swingMan_pink_light_94}
         darkColor={COLORS.pitcherRoles.swingMan_pink_dark_51}
-        pitchers={swingMen}
+        pitchers={pitchers.filter(p => p.role === 'SwingMan').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='LongReliever'
         displayName='Long Reliever'
         lightColor={COLORS.pitcherRoles.longReliever_purple_light_94}
         darkColor={COLORS.pitcherRoles.longReliever_purple_dark_51}
-        pitchers={longRelievers}
+        pitchers={pitchers.filter(p => p.role === 'LongReliever').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='MiddleReliever'
         displayName='Middle Reliever'
         lightColor={COLORS.pitcherRoles.middleReliever_indigo_light_94}
         darkColor={COLORS.pitcherRoles.middleReliever_indigo_dark_51}
-        pitchers={middleRelievers}
+        pitchers={pitchers.filter(p => p.role === 'MiddleReliever').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='SituationalLefty'
         displayName='Situational Lefty'
         lightColor={COLORS.pitcherRoles.situationalLefty_blue_light_94}
         darkColor={COLORS.pitcherRoles.situationalLefty_blue_dark_33}
-        pitchers={situationalLefties}
+        pitchers={pitchers.filter(p => p.role === 'SituationalLefty').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='MopUpMan'
         displayName='Mop-Up Man'
         lightColor={COLORS.pitcherRoles.mopUpMan_teal_light_94}
         darkColor={COLORS.pitcherRoles.mopUpMan_teal_dark_33}
-        pitchers={mopUpMen}
+        pitchers={pitchers.filter(p => p.role === 'MopUpMan').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='SetupMan'
         displayName='Set-Up Man'
         lightColor={COLORS.pitcherRoles.setUpMan_green_light_92}
         darkColor={COLORS.pitcherRoles.setUpMan_green_dark_33}
-        pitchers={setupMen}
+        pitchers={pitchers.filter(p => p.role === 'SetupMan').sort(byOrderInRole).sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='Closer'
         displayName='Closer'
         lightColor={COLORS.pitcherRoles.closer_yellow_light_92}
         darkColor={COLORS.pitcherRoles.closer_yellow_dark_35}
-        pitchers={!!closer ? [closer] : []}
+        pitchers={pitchers.filter(p => p.role === 'Closer').sort(byOrderInRole).map(p => p.details)}
       />
     </DragDropContext>
   </Wrapper>
 
   function handleDragEnd(result: DropResult, provided: ResponderProvided) {
+    if(!result.destination)
+      return;
 
+    var pitcherId = Number.parseInt(result.draggableId);
+    var pitcherRole = result.destination.droppableId as PitcherRole;
+    updateRole(pitcherId, pitcherRole, result.destination.index+1);
+  }
+
+  function byOrderInRole(pitcherA: PitcherRoleDefinition, pitcherB: PitcherRoleDefinition): number {
+    return pitcherA.orderInRole - pitcherB.orderInRole;
   }
 }
 

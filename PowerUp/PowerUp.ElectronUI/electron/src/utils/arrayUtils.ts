@@ -24,6 +24,23 @@ export function replace<T>(items: T[], callback: (item: T) => boolean, getReplac
   ];
 }
 
+export function insert<T>(items: T[], item: T, index: number, insertAfter?: boolean): T[] {
+  const itemPreviouslyAtIndex = items[index];
+  return [
+    ...getItemsBeforeIndex(items, index),
+    ...insertIf(item, !insertAfter),
+    ...insertIf(itemPreviouslyAtIndex, !!itemPreviouslyAtIndex),
+    ...insertIf(item, !!insertAfter),
+    ...getItemsAfterIndex(items, index)
+  ]  
+}
+
+export function insertIf<T>(item: T, condition: boolean) {
+  return condition
+    ? [item]
+    : [];
+}
+
 function getItemsBeforeIndex<T>(items: T[], index: number): T[] {
   return items.slice(0, index);
 }

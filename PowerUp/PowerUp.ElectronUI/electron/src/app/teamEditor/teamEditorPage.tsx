@@ -18,7 +18,7 @@ import { PlayerRoleRequest, SaveTeamApiClient, SaveTeamRequest } from "./saveTea
 import { getDetailsReducer, getInitialStateFromResponse, TeamEditorDetails, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 import { TeamManagementEditor } from "./teamManagementEditor";
 import { PlayerRoleState } from "./playerRoleState";
-import { PitcherDetails, PitcherRolesEditor } from "./pitcherRolesEditor";
+import { PitcherDetails, PitcherRoleDefinition, PitcherRolesEditor } from "./pitcherRolesEditor";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -118,34 +118,31 @@ function TeamEditorPage(props: TeamEditorPageProps) {
           saveTemp={() => saveTeam(false)}/>}
         {state.selectedTab === 'Pitcher Roles' &&
         <PitcherRolesEditor 
-          appContext={appContext}
-          starters={pitchers.filter(p => p.pitcherRole === 'Starter').map(toPitcherDetails)}
-          swingMen={pitchers.filter(p => p.pitcherRole === 'SwingMan').map(toPitcherDetails)}
-          longRelievers={pitchers.filter(p => p.pitcherRole === 'LongReliever').map(toPitcherDetails)}
-          middleRelievers={pitchers.filter(p => p.pitcherRole === 'MiddleReliever').map(toPitcherDetails)}
-          situationalLefties={pitchers.filter(p => p.pitcherRole === 'SituationalLefty').map(toPitcherDetails)}
-          mopUpMen={pitchers.filter(p => p.pitcherRole === 'MopUpMan').map(toPitcherDetails)}
-          setupMen={pitchers.filter(p => p.pitcherRole === 'SetupMan').map(toPitcherDetails)}
-          closer={pitchers.filter(p => p.pitcherRole === 'Closer').map(toPitcherDetails)[0]}
+          pitchers={pitchers.map(toPitcherDetails)}
+          updateRole={(id, role, index) => updateCurrentDetails({ type: 'updatePitcherRole', playerId: id, role: role, orderInRole: index })}
         />}
       </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
 
-  function toPitcherDetails(player: PlayerRoleState): PitcherDetails {
-    const { playerDetails } = player;
+  function toPitcherDetails(player: PlayerRoleState): PitcherRoleDefinition {
+    const { playerDetails, pitcherRole, orderInPitcherRole } = player;
 
     return {
-      sourceType: playerDetails.sourceType,
-      playerId: playerDetails.playerId,
-      savedName: playerDetails.savedName,
-      fullName: playerDetails.fullName,
-      overall: playerDetails.overall,
-      throwingArm: playerDetails.throwingArm,
-      pitcherType: playerDetails.pitcherType,
-      topSpeed: playerDetails.topSpeed,
-      control: playerDetails.control,
-      stamina: playerDetails.stamina
+      role: pitcherRole,
+      orderInRole: orderInPitcherRole,
+      details: {
+        sourceType: playerDetails.sourceType,
+        playerId: playerDetails.playerId,
+        savedName: playerDetails.savedName,
+        fullName: playerDetails.fullName,
+        overall: playerDetails.overall,
+        throwingArm: playerDetails.throwingArm,
+        pitcherType: playerDetails.pitcherType,
+        topSpeed: playerDetails.topSpeed,
+        control: playerDetails.control,
+        stamina: playerDetails.stamina
+      }
     }
   }
 
