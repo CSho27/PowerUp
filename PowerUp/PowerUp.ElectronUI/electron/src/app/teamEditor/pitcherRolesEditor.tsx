@@ -45,6 +45,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.starter_orange_light_87}
         darkColor={COLORS.pitcherRoles.starter_orange_dark_48}
         pitchers={pitchers.filter(p => p.role === 'Starter').sort(byOrderInRole).map(p => p.details)}
+        minPitchers={1}
       />
       <PitcherRoleSection 
         pitcherRole='SwingMan'
@@ -94,6 +95,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.closer_yellow_light_92}
         darkColor={COLORS.pitcherRoles.closer_yellow_dark_35}
         pitchers={pitchers.filter(p => p.role === 'Closer').sort(byOrderInRole).map(p => p.details)}
+        maxPitchers={1}
       />
     </DragDropContext>
   </Wrapper>
@@ -118,15 +120,17 @@ interface PitcherRoleSectionProps {
   lightColor: string;
   darkColor: string;
   pitchers: PitcherDetails[];
+  minPitchers?: number;
+  maxPitchers?: number;
 }
 
 function PitcherRoleSection(props: PitcherRoleSectionProps) {
-  const { pitcherRole, displayName, lightColor, darkColor, pitchers } = props;
+  const { pitcherRole, displayName, lightColor, darkColor, pitchers, minPitchers, maxPitchers } = props;
   
   return <SectionWrapper>
     <h2>{displayName}</h2>
-    <Droppable droppableId={pitcherRole}>
-      {provided => 
+    <Droppable droppableId={pitcherRole} isDropDisabled={!!maxPitchers && pitchers.length >= maxPitchers}>
+      {(provided) => 
         <SectionPitcherContainer 
           ref={provided.innerRef}
           lightColor={lightColor} 
@@ -153,7 +157,7 @@ function PitcherRoleSection(props: PitcherRoleSectionProps) {
   function toPitcherRow(details: PitcherDetails, index: number) {
     return <RowWrapper key={details.playerId}>
       <span>{index+1}.</span>
-      <PitcherTile index={index} details={details} />
+      <PitcherTile index={index} details={details} moveDisabled={!!minPitchers && pitchers.length <= minPitchers} />
     </RowWrapper>
   }
 }
@@ -208,12 +212,13 @@ const GridHeader = styled.span<{ alignLeft?: boolean }>`
 interface PitcherTileProps {
   details: PitcherDetails;
   index: number;
+  moveDisabled?: boolean;
 }
 
 function PitcherTile(props: PitcherTileProps) {
-  const { details, index } = props;
+  const { details, index, moveDisabled } = props;
   
-  return <Draggable draggableId={details.playerId.toString()} index={index}>
+  return <Draggable draggableId={details.playerId.toString()} index={index} isDragDisabled={moveDisabled}>
       {provided => <PitcherTileWrapper ref={provided.innerRef} {...provided.draggableProps}>
         <NameContainer {...provided.dragHandleProps}>
           <Icon icon='bars' />
