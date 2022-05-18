@@ -192,16 +192,16 @@ export function getInitialStateFromResponse(response: LoadTeamEditorResponse): T
   const currentAAAPitcherRoleList = response.currentDetails.aaaPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
   const currentDetails: TeamEditorDetails = {
     teamName: response.currentDetails.name,
-    mlbPlayers: response.currentDetails.mlbPlayers.map(p => toPlayerRoleState(p, currentMLBPitcherRoleList)),
-    aaaPlayers: response.currentDetails.aaaPlayers.map(p => toPlayerRoleState(p, currentAAAPitcherRoleList))
+    mlbPlayers: response.currentDetails.mlbPlayers.map(p => toPlayerRoleState(p, currentMLBPitcherRoleList, response.currentDetails.noDHLineup, response.currentDetails.dhLineup)),
+    aaaPlayers: response.currentDetails.aaaPlayers.map(p => toPlayerRoleState(p, currentAAAPitcherRoleList, response.currentDetails.noDHLineup, response.currentDetails.dhLineup))
   }
 
   const lastSavedMLBPitcherRoleList = response.currentDetails.mlbPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
   const lastSavedAAAPitcherRoleList = response.currentDetails.aaaPlayers.map(r => ({ playerId: r.playerId, role: r.pitcherRole }));
   const lastSavedDetails: TeamEditorDetails = {
     teamName: response.lastSavedDetails.name,
-    mlbPlayers: response.lastSavedDetails.mlbPlayers.map(p => toPlayerRoleState(p, lastSavedMLBPitcherRoleList)),
-    aaaPlayers: response.lastSavedDetails.aaaPlayers.map(p => toPlayerRoleState(p, lastSavedAAAPitcherRoleList))
+    mlbPlayers: response.lastSavedDetails.mlbPlayers.map(p => toPlayerRoleState(p, lastSavedMLBPitcherRoleList, response.lastSavedDetails.noDHLineup, response.lastSavedDetails.dhLineup)),
+    aaaPlayers: response.lastSavedDetails.aaaPlayers.map(p => toPlayerRoleState(p, lastSavedAAAPitcherRoleList, response.lastSavedDetails.noDHLineup, response.lastSavedDetails.dhLineup))
   }
 
   return {

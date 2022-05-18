@@ -32,12 +32,16 @@ namespace PowerUp.ElectronUI.Api.Teams
     public string Name { get; }
     public IEnumerable<PlayerRoleDefinitionDto> MLBPlayers { get; }
     public IEnumerable<PlayerRoleDefinitionDto> AAAPlayers { get; }
+    public IEnumerable<LineupSlotDto> NoDHLineup { get; }
+    public IEnumerable<LineupSlotDto> DHLineup { get; }
 
     public TeamDetails(Team team)
     {
       Name = team!.Name;
       MLBPlayers = team.PlayerDefinitions.Where(d => !d.IsAAA).Select(p => new PlayerRoleDefinitionDto(p));
       AAAPlayers = team.PlayerDefinitions.Where(d => d.IsAAA).Select(p => new PlayerRoleDefinitionDto(p));
+      NoDHLineup = team.NoDHLineup.Select(l => new LineupSlotDto(l));
+      DHLineup = team.DHLineup.Select(l => new LineupSlotDto(l));
     }
   }
 
@@ -70,6 +74,19 @@ namespace PowerUp.ElectronUI.Api.Teams
       IsDefensiveLiability = playerRoleDefinition.IsDefensiveLiability;
       PitcherRole = playerRoleDefinition.PitcherRole;
       Details = new PlayerDetailsResponse(player);
+    }
+  }
+
+  public class LineupSlotDto
+  {
+    public int? PlayerId { get; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Position Position { get; }
+
+    public LineupSlotDto(LineupSlot lineupSlot)
+    {
+      PlayerId = lineupSlot.PlayerId;
+      Position = lineupSlot.Position;
     }
   }
 }

@@ -19,6 +19,7 @@ import { getDetailsReducer, getInitialStateFromResponse, TeamEditorDetails, Team
 import { TeamManagementEditor } from "./teamManagementEditor";
 import { PlayerRoleState } from "./playerRoleState";
 import { PitcherDetails, PitcherRoleDefinition, PitcherRolesEditor } from "./pitcherRolesEditor";
+import { LineupEditor, LineupSlotDefinition } from "./lineupEditor";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -121,6 +122,16 @@ function TeamEditorPage(props: TeamEditorPageProps) {
           pitchers={pitchers.map(toPitcherDetails)}
           updateRole={(id, role, index) => updateCurrentDetails({ type: 'updatePitcherRole', playerId: id, role: role, orderInRole: index })}
         />}
+        {state.selectedTab === 'No DH Lineup' &&
+        <LineupEditor 
+          players={mlbPlayers.map(p => toHitterDetails(p, false))}
+          useDh={false}
+        />}
+        {state.selectedTab === 'DH Lineup' &&
+        <LineupEditor 
+          players={mlbPlayers.map(p => toHitterDetails(p, true))}
+          useDh={true}
+        />}
       </EditorContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
@@ -142,6 +153,29 @@ function TeamEditorPage(props: TeamEditorPageProps) {
         topSpeed: playerDetails.topSpeed,
         control: playerDetails.control,
         stamina: playerDetails.stamina
+      }
+    }
+  }
+
+  function toHitterDetails(player: PlayerRoleState, useDh: boolean): LineupSlotDefinition {
+    const { playerDetails } = player;
+    
+    return {
+      orderInLineup: useDh
+        ? player.orderInDHLineup
+        : player.orderInNoDHLineup,
+      position: useDh 
+        ? player.positionInDHLineup 
+        : player.positionInNoDHLineup,
+      details: {
+        sourceType: playerDetails.sourceType,
+        playerId: playerDetails.playerId,
+        savedName: playerDetails.savedName,
+        fullName: playerDetails.fullName,
+        batsAndThrows: playerDetails.batsAndThrows,
+        overall: playerDetails.overall,
+        position: playerDetails.position,
+        positionAbbreviation: playerDetails.positionAbbreviation
       }
     }
   }

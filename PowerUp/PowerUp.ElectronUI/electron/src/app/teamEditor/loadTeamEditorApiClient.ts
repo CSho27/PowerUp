@@ -22,6 +22,8 @@ export interface TeamDetails {
   name: string;
   mlbPlayers: PlayerRoleDefinitionDto[];
   aaaPlayers: PlayerRoleDefinitionDto[];
+  noDHLineup: LineupSlotDto[];
+  dhLineup: LineupSlotDto[];
 }
 
 export interface PlayerRoleDefinitionDto {
@@ -34,6 +36,11 @@ export interface PlayerRoleDefinitionDto {
   isDefensiveLiability: boolean;
   pitcherRole: PitcherRole;
   details: PlayerDetailsResponse;
+}
+
+export interface LineupSlotDto {
+  playerId: number;
+  position: Position;
 }
 
 export class LoadTeamEditorApiClient {

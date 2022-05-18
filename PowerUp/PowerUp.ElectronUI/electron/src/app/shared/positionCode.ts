@@ -22,6 +22,21 @@ export interface PositionCode {
   name: string;
 }
 
+export function getPositionAbbreviation(position: Position): string {
+  switch(position) {
+    case 'Pitcher':           return 'P';
+    case 'Catcher':           return 'C';
+    case 'FirstBase':         return '1B';
+    case 'SecondBase':        return '2B';
+    case 'ThirdBase':         return '3B';
+    case 'Shortstop':         return 'SS';
+    case 'LeftField':         return 'LF';
+    case 'CenterField':       return 'CF';
+    case 'RightField':        return 'RF';
+    case 'DesignatedHitter':  return 'DH';
+  }
+}
+
 export function getPositionType(position: Position): PositionType {
   switch(position) {
     case 'Catcher': 

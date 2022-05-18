@@ -1,6 +1,6 @@
 import { EntitySourceType } from "../shared/entitySourceType";
 import { Position } from "../shared/positionCode";
-import { PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
+import { LineupSlotDto, PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
 import { toPlayerDetails } from "./playerDetailsResponse";
 
 export interface PlayerRoleState {
@@ -11,6 +11,10 @@ export interface PlayerRoleState {
   isDefensiveLiability: boolean;
   pitcherRole: PitcherRole;
   orderInPitcherRole: number;
+  orderInNoDHLineup: number | undefined;
+  positionInNoDHLineup: Position | undefined;
+  orderInDHLineup: number | undefined;
+  positionInDHLineup: Position | undefined;
 }
 
 export type PitcherRole = 
@@ -77,7 +81,18 @@ export function PlayerRoleStateReducer(state: PlayerRoleState, action: PlayerRol
   }
 }
 
-export function toPlayerRoleState(roleDef: PlayerRoleDefinitionDto, allPlayers: PitcherRoleCode[]): PlayerRoleState {
+export function toPlayerRoleState(
+  roleDef: PlayerRoleDefinitionDto, 
+  allPlayers: PitcherRoleCode[], 
+  noDHLineup: LineupSlotDto[],
+  dhLineup: LineupSlotDto[]
+): PlayerRoleState {
+  const noDhIndex = noDHLineup.findIndex(l => l.playerId === roleDef.playerId);
+  const noDhPosition = noDHLineup[noDhIndex]?.position;
+
+  const dhIndex = dhLineup.findIndex(l => l.playerId === roleDef.playerId);
+  const dhPosition = dhLineup[dhIndex]?.position;
+
   return {
     playerDetails: toPlayerDetails(roleDef.details),
     isPinchHitter: roleDef.isPinchHitter,
@@ -85,7 +100,15 @@ export function toPlayerRoleState(roleDef: PlayerRoleDefinitionDto, allPlayers: 
     isDefensiveReplacement: roleDef.isDefensiveReplacement,
     isDefensiveLiability: roleDef.isDefensiveLiability,
     pitcherRole: roleDef.pitcherRole,
-    orderInPitcherRole: getOrderInPitcherRole(roleDef.playerId, roleDef.pitcherRole, allPlayers)
+    orderInPitcherRole: getOrderInPitcherRole(roleDef.playerId, roleDef.pitcherRole, allPlayers),
+    orderInNoDHLineup: noDhIndex !== -1
+      ? noDhIndex + 1
+      : undefined,
+    positionInNoDHLineup: noDhPosition,
+    orderInDHLineup: dhIndex !== -1
+      ? dhIndex + 1
+      : undefined,
+    positionInDHLineup: dhPosition
   }
 }
 
@@ -97,7 +120,11 @@ export function toDefaultRole(playerDetails: PlayerDetails, allPlayers: PitcherR
     isDefensiveReplacement: false,
     isDefensiveLiability: false,
     pitcherRole: 'MopUpMan',
-    orderInPitcherRole: getOrderInPitcherRole(playerDetails.playerId, 'MopUpMan', allPlayers)
+    orderInPitcherRole: getOrderInPitcherRole(playerDetails.playerId, 'MopUpMan', allPlayers),
+    orderInNoDHLineup: undefined,
+    positionInNoDHLineup: undefined,
+    orderInDHLineup: undefined,
+    positionInDHLineup: undefined
   }
 }
 
