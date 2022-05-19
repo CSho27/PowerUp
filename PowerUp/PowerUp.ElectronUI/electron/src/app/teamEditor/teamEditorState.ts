@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import { insert, remove, replace } from "../../utils/arrayUtils";
+import { Position } from "../shared/positionCode";
 import { LoadTeamEditorResponse, PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
 import { PitcherRole, PlayerDetails, PlayerRoleAction, PlayerRoleState, PlayerRoleStateReducer, toDefaultRole, toPlayerRoleState } from "./playerRoleState";
 
@@ -72,6 +73,8 @@ export type TeamEditorDetailsAction =
 | { type: 'sendUp', playerId: number }
 | { type: 'sendDown', playerId: number }
 | { type: 'updatePitcherRole', playerId: number, role: PitcherRole, orderInRole: number }
+| { type: 'reorderNoDHLineup', playerIdentifier: number | 'Pitcher', currentOrderInLineup: number, newOrderInLineup: number }
+| { type: 'reorderDHLineup', playerIdentifier: number | 'Pitcher', currentOrderInLineup: number, newOrderInLineup: number }
 
 export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamEditorDetailsAction): TeamEditorDetails {
   switch(action.type) {
@@ -137,7 +140,26 @@ export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamE
         mlbPlayers: state.mlbPlayers.map(p => updateRoleAndOrder(p, player, action.role, action.orderInRole))
       }
     }
+    case 'reorderNoDHLineup': {
+      const playerId = action.playerIdentifier === 'Pitcher'
+        ? undefined
+        : action.playerIdentifier
 
+      return {
+        ...state,
+        mlbPlayers: state.mlbPlayers.map(p => updateLineupOrder(p, playerId, action.currentOrderInLineup, action.newOrderInLineup, false))
+      };
+    }
+    case 'reorderDHLineup': {
+      const playerId = action.playerIdentifier === 'Pitcher'
+        ? undefined
+        : action.playerIdentifier
+
+      return {
+        ...state,
+        mlbPlayers: state.mlbPlayers.map(p => updateLineupOrder(p, playerId, action.currentOrderInLineup, action.newOrderInLineup, true))
+      };
+    }
   }
 }
 
@@ -177,6 +199,38 @@ function incrementOrderInRole(player: PlayerRoleState): PlayerRoleState {
 
 function decrementOrderInRole(player: PlayerRoleState): PlayerRoleState {
   return { ...player, orderInPitcherRole: player.orderInPitcherRole - 1 };
+}
+
+function updateLineupOrder(player: PlayerRoleState, movingPlayerId: number | undefined, movingPlayerCurrentOrder: number, movingPlayerNewOrder: number, useDh: boolean): PlayerRoleState {
+  if(player.playerDetails.playerId === movingPlayerId) {
+    return useDh
+    ? {...player, orderInDHLineup: movingPlayerNewOrder }
+    : {...player, orderInNoDHLineup: movingPlayerNewOrder }
+  }
+
+  const thisPlayerCurrentOrder = useDh
+    ? player.orderInDHLineup!
+    : player.orderInNoDHLineup!;
+
+  if(movingPlayerCurrentOrder > thisPlayerCurrentOrder && movingPlayerNewOrder <= thisPlayerCurrentOrder) {
+    return incrementOrderInLineup(player, useDh);
+  } else if(movingPlayerCurrentOrder < thisPlayerCurrentOrder && movingPlayerNewOrder >= thisPlayerCurrentOrder) {
+    return decrementOrderInLineup(player, useDh);
+  } else {
+    return player;
+  }
+}
+
+function incrementOrderInLineup(player: PlayerRoleState, useDh: boolean): PlayerRoleState {
+  return useDh
+    ? { ...player, orderInDHLineup: player.orderInDHLineup! + 1 }
+    : { ...player, orderInNoDHLineup: player.orderInNoDHLineup! + 1 };
+}
+
+function decrementOrderInLineup(player: PlayerRoleState, useDh: boolean): PlayerRoleState {
+  return useDh
+    ? { ...player, orderInDHLineup: player.orderInDHLineup! - 1 }
+    : { ...player, orderInNoDHLineup: player.orderInNoDHLineup! - 1 };
 }
 
 export function getDetailsReducer(state: TeamEditorState, update: Dispatch<TeamEditorAction>): [TeamEditorDetails, Dispatch<TeamEditorDetailsAction>] {

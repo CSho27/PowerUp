@@ -126,11 +126,13 @@ function TeamEditorPage(props: TeamEditorPageProps) {
         <LineupEditor 
           players={mlbPlayers.map(p => toHitterDetails(p, false))}
           useDh={false}
+          updateLineupOrder={(id, currentOrder, newOrder) => updateCurrentDetails({ type: 'reorderNoDHLineup', playerIdentifier: id, currentOrderInLineup: currentOrder, newOrderInLineup: newOrder })}
         />}
         {state.selectedTab === 'DH Lineup' &&
         <LineupEditor 
           players={mlbPlayers.map(p => toHitterDetails(p, true))}
           useDh={true}
+          updateLineupOrder={(id, currentOrder, newOrder) => updateCurrentDetails({ type: 'reorderDHLineup', playerIdentifier: id, currentOrderInLineup: currentOrder, newOrderInLineup: newOrder })}
         />}
       </EditorContainer>
     </ContentWithHangingHeader>
@@ -172,10 +174,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
         playerId: playerDetails.playerId,
         savedName: playerDetails.savedName,
         fullName: playerDetails.fullName,
-        batsAndThrows: playerDetails.batsAndThrows,
-        overall: playerDetails.overall,
         position: playerDetails.position,
-        positionAbbreviation: playerDetails.positionAbbreviation
       }
     }
   }
