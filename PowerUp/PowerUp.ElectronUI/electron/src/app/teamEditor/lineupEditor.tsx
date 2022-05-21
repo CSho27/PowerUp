@@ -1,3 +1,4 @@
+import React, { PropsWithChildren, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { Icon } from "../../components/icon/icon";
@@ -8,12 +9,13 @@ import { COLORS } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { insert } from "../../utils/arrayUtils";
 import { EntitySourceType } from "../shared/entitySourceType";
-import { getPositionAbbreviation, getPositionType, Position } from "../shared/positionCode";
+import { getPositionAbbreviation, getPositionType, isPosition, Position } from "../shared/positionCode";
 
 export interface LineupEditorProps {
   players: LineupSlotDefinition[];
   useDh: boolean;
   updateLineupOrder: (playerId: number | 'Pitcher', currentOrderInLineup: number, newOrderInLineup: number) => void;
+  swapPositions: (position1: Position, position2: Position) => void;
 }
 
 export interface LineupSlotDefinition {
@@ -37,7 +39,7 @@ export interface HitterDetails {
 }
 
 export function LineupEditor(props: LineupEditorProps) {
-  const { players, useDh, updateLineupOrder } = props;
+  const { players, useDh, updateLineupOrder, swapPositions } = props;
 
   const sortedPlayers = players.sort(byOrder);
   const playersInLineup = sortedPlayers.filter(p => !!p.orderInLineup);
@@ -46,21 +48,24 @@ export function LineupEditor(props: LineupEditorProps) {
     ? playersInLineup
     : lineupWithPitcherSlot(playersInLineup);   
   
+  // I'm using two separate drag and drop libraries in this editor. 
+  // One to handle lineup reordering and another to handle player and position swapping.
+
   return <EditorWrapper>
-    <DragDropContext onDragEnd={handleLineupReorderDragEnd}>
-      <Droppable droppableId='starting-lineup'>
-        {provided => 
-        <PlayerGroupWrapper ref={provided.innerRef} {...provided.droppableProps}>
-          <PlayerGroupHeading>Starting Lineup</PlayerGroupHeading>
-            {lineup.map(toLineupSlot)}
-            {provided.placeholder}
-        </PlayerGroupWrapper>}
-      </Droppable>
-      <PlayerGroupWrapper>
-        <PlayerGroupHeading>Bench</PlayerGroupHeading>
-        {playersOnBench.map(toPlayerTile)}
-      </PlayerGroupWrapper>
-    </DragDropContext>
+      <DragDropContext onDragEnd={handleLineupReorderDragEnd}>
+        <Droppable droppableId='starting-lineup'>
+          {provided => 
+          <PlayerGroupWrapper ref={provided.innerRef} {...provided.droppableProps}>
+            <PlayerGroupHeading>Starting Lineup</PlayerGroupHeading>
+              {lineup.map(toLineupSlot)}
+              {provided.placeholder}
+          </PlayerGroupWrapper>}
+        </Droppable>
+        <PlayerGroupWrapper>
+          <PlayerGroupHeading>Bench</PlayerGroupHeading>
+          {playersOnBench.map(toPlayerTile)}
+        </PlayerGroupWrapper>
+      </DragDropContext>
   </EditorWrapper>
 
   function toLineupSlot(slot: InternalLineupSlotDefinition, index: number) {
@@ -69,7 +74,8 @@ export function LineupEditor(props: LineupEditorProps) {
       <SlotTile 
         index={index}
         details={slot.details} 
-        position={slot.position!} />
+        position={slot.position!}
+        swapPositions={swapPositions} />
     </PlayerRowWrapper>
   }
 
@@ -139,10 +145,11 @@ interface SlotTileProps {
   index: number;
   details: HitterDetails | undefined;
   position: Position;
+  swapPositions: (position1: Position, position2: Position) => void;
 }
 
 function SlotTile(props: SlotTileProps) {
-  const { index, details, position } = props;
+  const { index, details, position, swapPositions } = props;
   
   return <Draggable index={index} draggableId={details?.playerId?.toString() ?? 'Pitcher'}>
     {provided => 
@@ -155,7 +162,7 @@ function SlotTile(props: SlotTileProps) {
           positionType={getPositionType(position)}>
             {getPositionAbbreviation(position)}
         </PositionBubble>}
-        {position !== 'Pitcher' && <PositionTile position={position} />}
+        {position !== 'Pitcher' && <PositionTile position={position} swapWithPosition={other => swapPositions(position, other)} />}
         <NameContentContainer>
           {position === 'Pitcher' && <PitcherTile />}
           {position !== 'Pitcher' && <PlayerTile details={details!} />}
@@ -166,7 +173,7 @@ function SlotTile(props: SlotTileProps) {
 }
 
 const PlayerTileWrapper = styled.div`
-  width: 18rem;
+  width: 20rem;
   padding: 2px 4px;
   border: 2px solid ${COLORS.richBlack.regular_5};
   border-radius: 8px;
@@ -183,22 +190,30 @@ const NameContentContainer = styled.div`
   flex: 1 1 auto;
 `
 
+const DraggableTypes = {
+  POSITION: 'Position',
+  PLAYER: 'Player'
+}
+
 interface PositionTileProps {
   position: Position;
+  swapWithPosition: (position: Position) => void;
 }
 
 function PositionTile(props: PositionTileProps) {
-  const { position } = props;
+  const { position, swapWithPosition } = props;
 
-  return <DraggableTile>
-    <PositionBubble
+  return <DragSwapTile
+    swapId={position}
+    isSwappable={swapId => isPosition(swapId)}
+    onSwap={swapId => swapWithPosition(swapId as Position)}>
+      <PositionBubble
         size='Medium'
         positionType={getPositionType(position)}>
           {getPositionAbbreviation(position)}
       </PositionBubble>
-  </DraggableTile>
+  </DragSwapTile>
 }
-
 
 interface PlayerTileProps {
   details: HitterDetails;
@@ -207,7 +222,7 @@ interface PlayerTileProps {
 function PlayerTile(props: PlayerTileProps) {
   const { details } = props;
   
-  return <DraggableTile>
+  return <DragSwapTileWrapper>
     <PlayerNameBubble 
       positionType={getPositionType(details.position)}
       size='Medium'      
@@ -216,7 +231,7 @@ function PlayerTile(props: PlayerTileProps) {
       sourceType={details.sourceType}> 
         {details.savedName}
     </PlayerNameBubble>
-  </DraggableTile>
+  </DragSwapTileWrapper>
 }
 
 function PitcherTile() {
@@ -233,11 +248,64 @@ const PitcherTitle = styled.div`
   text-overflow: ellipsis;
 `
 
-const DraggableTile = styled.div`
+interface DragSwapTileProps {
+  swapId: string;
+  isSwappable: (swapId: string) => boolean;
+  onSwap: (swapId: string) => void;
+}
+
+function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
+  const { swapId, isSwappable, onSwap, children } = props;
+  
+  const [isDropping, setIsDropping] = useState(false);
+
+  return <DragSwapTileWrapper
+    id={swapId}
+    draggable
+    onDragStart={e => dragStart(e, swapId)}
+    onDragOver={dragOver}
+    onDragLeave={dragLeave}
+    onDrop={drop}
+    onDragEnd={dragEnd}>
+      {children}
+      <DroppingIndicator isDropping={isDropping} />
+  </DragSwapTileWrapper>
+
+  function dragStart(event: React.DragEvent<HTMLDivElement>, swapId: string) {
+    const draggingElement = event.target as HTMLDivElement;
+    event.dataTransfer.setData('text', draggingElement.id as Position)
+  }
+
+  function dragOver(event: React.DragEvent<HTMLDivElement>) {
+    if(isSwappable((event.currentTarget as HTMLElement).id)) {
+      event.preventDefault();
+      setIsDropping(true);
+    }
+  }
+
+  function dragLeave() {
+    if(isDropping)
+      setIsDropping(false);
+  }
+
+  function drop(event: React.DragEvent<HTMLDivElement>) {
+    const position = event.dataTransfer.getData('text') as Position;
+    onSwap(position);
+    setIsDropping(false);
+  }
+
+  function dragEnd() {
+    if(isDropping)
+      setIsDropping(false);
+  }
+}
+
+const DragSwapTileWrapper = styled.div`
   border: 2px solid ${COLORS.primaryBlue.regular_45_t40};
   border-radius: 10px;
   user-select: none;
   cursor: grab;
+  position: relative;
 
   &:hover {
     border-color: ${COLORS.primaryBlue.regular_45};
@@ -246,4 +314,19 @@ const DraggableTile = styled.div`
   &:active {
     cursor: grabbing;
   }
+`
+
+const DroppingIndicator = styled.div<{ isDropping: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  ${p => p.isDropping 
+    ? `
+      background-color: ${COLORS.primaryBlue.lighter_69_t80};
+      border: 2px solid ${COLORS.primaryBlue.regular_45_t80};
+      border-radius: 10px;
+      `
+    : undefined}
 `

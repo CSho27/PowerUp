@@ -127,12 +127,14 @@ function TeamEditorPage(props: TeamEditorPageProps) {
           players={mlbPlayers.map(p => toHitterDetails(p, false))}
           useDh={false}
           updateLineupOrder={(id, currentOrder, newOrder) => updateCurrentDetails({ type: 'reorderNoDHLineup', playerIdentifier: id, currentOrderInLineup: currentOrder, newOrderInLineup: newOrder })}
+          swapPositions={(p1, p2) => updateCurrentDetails({ type: 'swapPositionInNoDHLineup', position1: p1, position2: p2 })}
         />}
         {state.selectedTab === 'DH Lineup' &&
         <LineupEditor 
           players={mlbPlayers.map(p => toHitterDetails(p, true))}
           useDh={true}
           updateLineupOrder={(id, currentOrder, newOrder) => updateCurrentDetails({ type: 'reorderDHLineup', playerIdentifier: id, currentOrderInLineup: currentOrder, newOrderInLineup: newOrder })}
+          swapPositions={(p1, p2) => updateCurrentDetails({ type: 'swapPositionInDHLineup', position1: p1, position2: p2 })}
         />}
       </EditorContainer>
     </ContentWithHangingHeader>

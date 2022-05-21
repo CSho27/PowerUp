@@ -1,15 +1,21 @@
 
-export type Position = 
-| 'Pitcher'
-| 'Catcher'
-| 'FirstBase'
-| 'SecondBase'
-| 'ThirdBase'
-| 'Shortstop'
-| 'LeftField'
-| 'CenterField'
-| 'RightField'
-| 'DesignatedHitter'
+
+const positions = [
+  'Pitcher',
+  'Catcher',
+  'FirstBase',
+  'SecondBase',
+  'ThirdBase',
+  'Shortstop',
+  'LeftField',
+  'CenterField',
+  'RightField',
+  'DesignatedHitter'
+] as const
+export type Position = typeof positions[number];
+export function isPosition(val: string): val is Position {
+  return positions.some(p => p === val);
+}
 
 export type PositionType = 
 | 'Catcher' 
