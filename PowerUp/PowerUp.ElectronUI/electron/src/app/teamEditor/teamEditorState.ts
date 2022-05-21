@@ -77,6 +77,8 @@ export type TeamEditorDetailsAction =
 | { type: 'reorderDHLineup', playerIdentifier: number | 'Pitcher', currentOrderInLineup: number, newOrderInLineup: number }
 | { type: 'swapPositionInNoDHLineup', position1: Position, position2: Position }
 | { type: 'swapPositionInDHLineup', position1: Position, position2: Position }
+| { type: 'swapPlayersInNoDHLineup', playerId1: number, playerId2: number }
+| { type: 'swapPlayersInDHLineup', playerId1: number, playerId2: number }
 
 export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamEditorDetailsAction): TeamEditorDetails {
   switch(action.type) {
@@ -197,6 +199,54 @@ export function TeamEditorDetailsReducer(state: TeamEditorDetails, action: TeamE
         with1stReplaced,
         p => p.playerDetails.playerId === player2.playerDetails.playerId,
         p => ({...p, positionInDHLineup: action.position1  })
+      )
+
+      return {
+        ...state,
+        mlbPlayers: with2ndReplaced
+      }
+    }
+    case 'swapPlayersInNoDHLineup': {
+      const player1 = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId1)!;
+      const player2 = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId2)!;
+
+      const player1Position = player1.positionInNoDHLineup;
+      const player1Order = player1.orderInNoDHLineup;
+
+      const with1stReplaced = replace(
+        state.mlbPlayers,
+        p => p.playerDetails.playerId === player1.playerDetails.playerId,
+        p => ({...p, positionInNoDHLineup: player2.positionInNoDHLineup, orderInNoDHLineup: player2.orderInNoDHLineup  })
+      )
+
+      const with2ndReplaced =  replace(
+        with1stReplaced,
+        p => p.playerDetails.playerId === player2.playerDetails.playerId,
+        p => ({...p, positionInNoDHLineup: player1Position, orderInNoDHLineup: player1Order  })
+      )
+
+      return {
+        ...state,
+        mlbPlayers: with2ndReplaced
+      }
+    }
+    case 'swapPlayersInDHLineup': {
+      const player1 = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId1)!;
+      const player2 = state.mlbPlayers.find(p => p.playerDetails.playerId === action.playerId2)!;
+
+      const player1Position = player1.positionInDHLineup;
+      const player1Order = player1.orderInDHLineup;
+
+      const with1stReplaced = replace(
+        state.mlbPlayers,
+        p => p.playerDetails.playerId === player1.playerDetails.playerId,
+        p => ({...p, positionInDHLineup: player2.positionInDHLineup, orderInDHLineup: player2.orderInDHLineup  })
+      )
+
+      const with2ndReplaced =  replace(
+        with1stReplaced,
+        p => p.playerDetails.playerId === player2.playerDetails.playerId,
+        p => ({...p, positionInDHLineup: player1Position, orderInDHLineup: player1Order  })
       )
 
       return {

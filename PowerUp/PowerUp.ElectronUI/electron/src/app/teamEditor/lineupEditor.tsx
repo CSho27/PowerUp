@@ -16,6 +16,7 @@ export interface LineupEditorProps {
   useDh: boolean;
   updateLineupOrder: (playerId: number | 'Pitcher', currentOrderInLineup: number, newOrderInLineup: number) => void;
   swapPositions: (position1: Position, position2: Position) => void;
+  swapPlayers: (playerId1: number, playerId2: number) => void;
 }
 
 export interface LineupSlotDefinition {
@@ -39,7 +40,7 @@ export interface HitterDetails {
 }
 
 export function LineupEditor(props: LineupEditorProps) {
-  const { players, useDh, updateLineupOrder, swapPositions } = props;
+  const { players, useDh, updateLineupOrder, swapPositions, swapPlayers } = props;
 
   const sortedPlayers = players.sort(byOrder);
   const playersInLineup = sortedPlayers.filter(p => !!p.orderInLineup);
@@ -75,12 +76,17 @@ export function LineupEditor(props: LineupEditorProps) {
         index={index}
         details={slot.details} 
         position={slot.position!}
-        swapPositions={swapPositions} />
+        swapPositions={swapPositions}
+        swapPlayers={swapPlayers} />
     </PlayerRowWrapper>
   }
 
   function toPlayerTile(slot: LineupSlotDefinition) {
-    return <PlayerTile key={slot.details!.playerId} details={slot.details!} />
+    return <PlayerTile 
+      key={slot.details!.playerId} 
+      details={slot.details!} 
+      swapWithPlayer={other => swapPlayers(slot.details.playerId, other)}
+    />
   }
 
   function byOrder(playerA: LineupSlotDefinition, playerB: LineupSlotDefinition): number {
@@ -117,6 +123,7 @@ const EditorWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  max-width: 800px;
 `
 
 const PlayerGroupWrapper = styled.div`
@@ -146,10 +153,11 @@ interface SlotTileProps {
   details: HitterDetails | undefined;
   position: Position;
   swapPositions: (position1: Position, position2: Position) => void;
+  swapPlayers: (playerId1: number, playerId2: number) => void;
 }
 
 function SlotTile(props: SlotTileProps) {
-  const { index, details, position, swapPositions } = props;
+  const { index, details, position, swapPositions, swapPlayers } = props;
   
   return <Draggable index={index} draggableId={details?.playerId?.toString() ?? 'Pitcher'}>
     {provided => 
@@ -165,7 +173,7 @@ function SlotTile(props: SlotTileProps) {
         {position !== 'Pitcher' && <PositionTile position={position} swapWithPosition={other => swapPositions(position, other)} />}
         <NameContentContainer>
           {position === 'Pitcher' && <PitcherTile />}
-          {position !== 'Pitcher' && <PlayerTile details={details!} />}
+          {position !== 'Pitcher' && <PlayerTile details={details!} swapWithPlayer={other => swapPlayers(details!.playerId, other)} />}
         </NameContentContainer>
       </NameContainer>
     </PlayerTileWrapper>}
@@ -217,21 +225,25 @@ function PositionTile(props: PositionTileProps) {
 
 interface PlayerTileProps {
   details: HitterDetails;
+  swapWithPlayer: (playerId: number) => void;
 }
 
 function PlayerTile(props: PlayerTileProps) {
-  const { details } = props;
+  const { details, swapWithPlayer } = props;
   
-  return <DragSwapTileWrapper>
-    <PlayerNameBubble 
-      positionType={getPositionType(details.position)}
-      size='Medium'      
-      title={details.fullName}
-      fullWidth
-      sourceType={details.sourceType}> 
-        {details.savedName}
-    </PlayerNameBubble>
-  </DragSwapTileWrapper>
+  return <DragSwapTile
+    swapId={details.playerId.toString()}
+    isSwappable={swapId => !isPosition(swapId)}
+    onSwap={swapId => swapWithPlayer(Number.parseInt(swapId))}>
+      <PlayerNameBubble 
+        positionType={getPositionType(details.position)}
+        size='Medium'      
+        title={details.fullName}
+        fullWidth
+        sourceType={details.sourceType}> 
+          {details.savedName}
+      </PlayerNameBubble>
+  </DragSwapTile>
 }
 
 function PitcherTile() {
@@ -277,7 +289,7 @@ function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
   }
 
   function dragOver(event: React.DragEvent<HTMLDivElement>) {
-    if(isSwappable((event.currentTarget as HTMLElement).id)) {
+    if(isSwappable((event.target as HTMLElement).id)) {
       event.preventDefault();
       setIsDropping(true);
     }
@@ -289,9 +301,11 @@ function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
   }
 
   function drop(event: React.DragEvent<HTMLDivElement>) {
-    const position = event.dataTransfer.getData('text') as Position;
-    onSwap(position);
     setIsDropping(false);
+    const swapId = event.dataTransfer.getData('text');
+    
+    if(isSwappable(swapId))
+      onSwap(swapId);
   }
 
   function dragEnd() {
