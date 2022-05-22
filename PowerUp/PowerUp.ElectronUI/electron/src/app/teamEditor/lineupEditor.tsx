@@ -39,6 +39,11 @@ export interface HitterDetails {
   position: Position;
 }
 
+interface DndContext {
+  draggingElementId: string | null;
+  setDraggingElementId: (elementId: string | null) => void;
+}
+
 export function LineupEditor(props: LineupEditorProps) {
   const { players, useDh, updateLineupOrder, swapPositions, swapPlayers } = props;
 
@@ -48,9 +53,12 @@ export function LineupEditor(props: LineupEditorProps) {
   const lineup = useDh
     ? playersInLineup
     : lineupWithPitcherSlot(playersInLineup);   
-  
-  // I'm using two separate drag and drop libraries in this editor. 
-  // One to handle lineup reordering and another to handle player and position swapping.
+
+  const [draggingElementId, setDraggingElementId] = useState<string|null>(null);
+  const dndContext: DndContext = {
+    draggingElementId: draggingElementId,
+    setDraggingElementId: setDraggingElementId
+  }
 
   return <EditorWrapper>
       <DragDropContext onDragEnd={handleLineupReorderDragEnd}>
@@ -76,8 +84,10 @@ export function LineupEditor(props: LineupEditorProps) {
         index={index}
         details={slot.details} 
         position={slot.position!}
+        dndContext={dndContext}
         swapPositions={swapPositions}
-        swapPlayers={swapPlayers} />
+        swapPlayers={swapPlayers}
+        canSwapPlayers={canSwapPlayers} />
     </PlayerRowWrapper>
   }
 
@@ -85,7 +95,9 @@ export function LineupEditor(props: LineupEditorProps) {
     return <PlayerTile 
       key={slot.details!.playerId} 
       details={slot.details!} 
+      dndContext={dndContext}
       swapWithPlayer={other => swapPlayers(slot.details.playerId, other)}
+      canSwap={other => canSwapPlayers(slot.details.playerId, other)}
     />
   }
 
@@ -116,6 +128,13 @@ export function LineupEditor(props: LineupEditorProps) {
     
     const draggedPlayer: LineupSlotDefinition | undefined = players.find(p => p.details.playerId.toString() === result.draggableId);
     updateLineupOrder(draggedPlayer?.details?.playerId ?? 'Pitcher', result.source.index+1, result.destination.index+1);
+  }
+
+  function canSwapPlayers(playerId1: number, playerId2: number): boolean {
+    const player1IsStarter = lineup.some(l => l.details?.playerId === playerId1);
+    const player2IsStarter = lineup.some(l => l.details?.playerId === playerId2);
+
+    return player1IsStarter || player2IsStarter;
   }
 }
 
@@ -152,12 +171,14 @@ interface SlotTileProps {
   index: number;
   details: HitterDetails | undefined;
   position: Position;
+  dndContext: DndContext;
   swapPositions: (position1: Position, position2: Position) => void;
   swapPlayers: (playerId1: number, playerId2: number) => void;
+  canSwapPlayers: (playerId1: number, playerId2: number) => boolean;
 }
 
 function SlotTile(props: SlotTileProps) {
-  const { index, details, position, swapPositions, swapPlayers } = props;
+  const { index, details, position, dndContext, swapPositions, swapPlayers, canSwapPlayers } = props;
   
   return <Draggable index={index} draggableId={details?.playerId?.toString() ?? 'Pitcher'}>
     {provided => 
@@ -170,10 +191,21 @@ function SlotTile(props: SlotTileProps) {
           positionType={getPositionType(position)}>
             {getPositionAbbreviation(position)}
         </PositionBubble>}
-        {position !== 'Pitcher' && <PositionTile position={position} swapWithPosition={other => swapPositions(position, other)} />}
+        {position !== 'Pitcher' && 
+        <PositionTile 
+          position={position} 
+          dndContext={dndContext}
+          swapWithPosition={other => swapPositions(position, other)} 
+        />}
         <NameContentContainer>
           {position === 'Pitcher' && <PitcherTile />}
-          {position !== 'Pitcher' && <PlayerTile details={details!} swapWithPlayer={other => swapPlayers(details!.playerId, other)} />}
+          {position !== 'Pitcher' && 
+          <PlayerTile 
+            details={details!} 
+            dndContext={dndContext}
+            swapWithPlayer={other => swapPlayers(details!.playerId, other)} 
+            canSwap={other => canSwapPlayers(details!.playerId, other)}
+          />}
         </NameContentContainer>
       </NameContainer>
     </PlayerTileWrapper>}
@@ -205,14 +237,16 @@ const DraggableTypes = {
 
 interface PositionTileProps {
   position: Position;
+  dndContext: DndContext;
   swapWithPosition: (position: Position) => void;
 }
 
 function PositionTile(props: PositionTileProps) {
-  const { position, swapWithPosition } = props;
+  const { position, dndContext, swapWithPosition } = props;
 
   return <DragSwapTile
     swapId={position}
+    dndContext={dndContext}
     isSwappable={swapId => isPosition(swapId)}
     onSwap={swapId => swapWithPosition(swapId as Position)}>
       <PositionBubble
@@ -225,15 +259,18 @@ function PositionTile(props: PositionTileProps) {
 
 interface PlayerTileProps {
   details: HitterDetails;
+  dndContext: DndContext;
   swapWithPlayer: (playerId: number) => void;
+  canSwap: (playerId: number) => boolean;
 }
 
 function PlayerTile(props: PlayerTileProps) {
-  const { details, swapWithPlayer } = props;
+  const { details, dndContext, swapWithPlayer, canSwap } = props;
   
   return <DragSwapTile
     swapId={details.playerId.toString()}
-    isSwappable={swapId => !isPosition(swapId)}
+    dndContext={dndContext}
+    isSwappable={canSwapCallback}
     onSwap={swapId => swapWithPlayer(Number.parseInt(swapId))}>
       <PlayerNameBubble 
         positionType={getPositionType(details.position)}
@@ -244,6 +281,14 @@ function PlayerTile(props: PlayerTileProps) {
           {details.savedName}
       </PlayerNameBubble>
   </DragSwapTile>
+
+  function canSwapCallback(swapId: string) {
+    const parseResult = Number.parseInt(swapId);
+    if(Number.isNaN(parseResult))
+      return false;
+
+    return canSwap(parseResult);
+  } 
 }
 
 function PitcherTile() {
@@ -262,46 +307,53 @@ const PitcherTitle = styled.div`
 
 interface DragSwapTileProps {
   swapId: string;
+  dndContext: DndContext;
   isSwappable: (swapId: string) => boolean;
   onSwap: (swapId: string) => void;
 }
 
 function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
-  const { swapId, isSwappable, onSwap, children } = props;
+  const { swapId, dndContext, isSwappable, onSwap, children } = props;
+  const { draggingElementId: currentDraggingElementId, setDraggingElementId } = dndContext;
   
-  const [isDropping, setIsDropping] = useState(false);
+  const [dragEnterCount, setDragEnterCount] = useState(0);
 
   return <DragSwapTileWrapper
     id={swapId}
     draggable
-    onDragStart={e => dragStart(e, swapId)}
+    onDragStart={dragStart}
     onDragOver={dragOver}
+    onDragEnter={dragEnter}
     onDragLeave={dragLeave}
     onDrop={drop}
     onDragEnd={dragEnd}>
       {children}
-      <DroppingIndicator isDropping={isDropping} />
+      <DroppingIndicator isDropping={dragEnterCount > 0} />
   </DragSwapTileWrapper>
 
-  function dragStart(event: React.DragEvent<HTMLDivElement>, swapId: string) {
-    const draggingElement = event.target as HTMLDivElement;
-    event.dataTransfer.setData('text', draggingElement.id as Position)
+  function dragStart(event: React.DragEvent<HTMLDivElement>) {
+    event.dataTransfer.setData('text', swapId);
+    setDraggingElementId(swapId);
+  }
+
+  function dragEnter() {
+    if(isSwappable(currentDraggingElementId!))
+      setDragEnterCount(dragEnterCount + 1);
   }
 
   function dragOver(event: React.DragEvent<HTMLDivElement>) {
-    if(isSwappable((event.target as HTMLElement).id)) {
+    if(isSwappable(currentDraggingElementId!))
       event.preventDefault();
-      setIsDropping(true);
-    }
   }
 
   function dragLeave() {
-    if(isDropping)
-      setIsDropping(false);
+    if(dragEnterCount > 0)
+      setDragEnterCount(dragEnterCount - 1);
   }
 
   function drop(event: React.DragEvent<HTMLDivElement>) {
-    setIsDropping(false);
+    setDragEnterCount(0);
+    setDraggingElementId(null);
     const swapId = event.dataTransfer.getData('text');
     
     if(isSwappable(swapId))
@@ -309,8 +361,9 @@ function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
   }
 
   function dragEnd() {
-    if(isDropping)
-      setIsDropping(false);
+    setDraggingElementId(null);
+    if(dragEnterCount > 0)
+      setDragEnterCount(0);
   }
 }
 
