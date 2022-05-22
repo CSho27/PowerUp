@@ -1,4 +1,5 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
+import { Position } from "../shared/positionCode";
 import { ResultResponse } from "../shared/resultResponse";
 import { PitcherRole } from "./playerRoleState";
 
@@ -20,6 +21,10 @@ export interface PlayerRoleRequest {
   isDefensiveLiability: boolean;
   pitcherRole: PitcherRole;
   orderInPitcherRole: number;
+  orderInNoDHLineup: number | null;
+  positionInNoDHLineup: Position | null;
+  orderInDHLineup: number | null;
+  positionInDHLineup: Position | null;
 }
 
 export class SaveTeamApiClient {

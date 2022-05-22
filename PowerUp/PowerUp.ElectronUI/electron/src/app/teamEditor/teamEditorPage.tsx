@@ -208,7 +208,11 @@ function TeamEditorPage(props: TeamEditorPageProps) {
       isDefensiveReplacement: roleState.isDefensiveReplacement,
       isDefensiveLiability: roleState.isDefensiveLiability,
       pitcherRole: roleState.pitcherRole,
-      orderInPitcherRole: roleState.orderInPitcherRole
+      orderInPitcherRole: roleState.orderInPitcherRole,
+      orderInNoDHLineup: roleState.orderInNoDHLineup ?? null,
+      positionInNoDHLineup: roleState.positionInNoDHLineup ?? null,
+      orderInDHLineup: roleState.orderInDHLineup ?? null,
+      positionInDHLineup: roleState.positionInDHLineup ?? null
     }
   }
 

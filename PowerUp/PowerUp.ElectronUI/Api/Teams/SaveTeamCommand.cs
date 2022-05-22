@@ -1,5 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.ElectronUI.Api.Shared;
+using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
 using PowerUp.Entities.Teams.Api;
 
@@ -66,6 +67,10 @@ namespace PowerUp.ElectronUI.Api.Teams
     public bool IsDefensiveLiability { get; set; }
     public PitcherRole PitcherRole { get; set; }
     public int OrderInPitcherRole { get; set; }
+    public int? OrderInNoDHLineup { get; set; }
+    public Position? PositionInNoDHLineup { get; set; }
+    public int? OrderInDHLineup { get; set; }
+    public Position? PositionInDHLineup { get; set; }
 
     public PlayerRoleParameters GetParameters()
     {
@@ -77,7 +82,11 @@ namespace PowerUp.ElectronUI.Api.Teams
         IsDefensiveReplacement = IsDefensiveReplacement,
         IsDefensiveLiability = IsDefensiveLiability,
         PitcherRole = PitcherRole,
-        OrderInPitcherRole = OrderInPitcherRole
+        OrderInPitcherRole = OrderInPitcherRole,
+        OrderInNoDHLineup = OrderInNoDHLineup,
+        PositionInNoDHLineup = PositionInNoDHLineup,
+        OrderInDHLineup = OrderInDHLineup,
+        PositionInDHLineup = PositionInDHLineup
       };
     }
   }

@@ -65,6 +65,28 @@ namespace PowerUp.Entities.Teams.Api
         .OrderBy(p => p.IsAAA)
         .OrderBy(p => p.PitcherRole)
         .ThenBy(p => allPlayers.Single(m => m.PlayerId == p.PlayerId).OrderInPitcherRole);
+
+      var lineupWithoutPitcher = parameters.MLBPlayers
+        .Where(p => p.OrderInNoDHLineup.HasValue)
+        .OrderBy(p => p.OrderInNoDHLineup)
+        .ToArray();
+
+      var noDhLineup = new LineupSlot[9];
+      for(var i = 0; i < 9; i++)
+      {
+        var player = parameters.MLBPlayers.SingleOrDefault(p => p.OrderInNoDHLineup == i + 1);
+        if (player != null)
+          noDhLineup[i] = new LineupSlot { PlayerId = player.PlayerId, Position = player.PositionInNoDHLineup!.Value };
+        else
+          noDhLineup[i] = new LineupSlot { Position = Position.Pitcher };
+      }
+
+      team.NoDHLineup = noDhLineup;
+
+      team.DHLineup = parameters.MLBPlayers
+        .Where(p => p.OrderInDHLineup.HasValue)
+        .OrderBy(p => p.OrderInDHLineup)
+        .Select(p => new LineupSlot { PlayerId = p.PlayerId, Position = p.PositionInDHLineup!.Value });
     }
   }
 }

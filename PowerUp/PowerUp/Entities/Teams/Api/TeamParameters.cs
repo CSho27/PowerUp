@@ -1,4 +1,5 @@
-﻿using PowerUp.Validation;
+﻿using PowerUp.Entities.Players;
+using PowerUp.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace PowerUp.Entities.Teams.Api
     public bool IsDefensiveLiability { get; set; }
     public PitcherRole PitcherRole { get; set; }
     public int OrderInPitcherRole { get; set; }
+    public int? OrderInNoDHLineup { get; set; }
+    public Position? PositionInNoDHLineup { get; set; }
+    public int? OrderInDHLineup { get; set; }
+    public Position? PositionInDHLineup { get; set; }
   }
 
   public class TeamParamtersValidator : Validator<TeamParameters>
