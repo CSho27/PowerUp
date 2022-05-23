@@ -60,7 +60,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
         <Button 
           variant='Outline'
           size='Small'
-          {...toDisabledProps('Edit roster name', ...[] /*disableRosterEdit*/)}
+          {...toDisabledProps('Edit roster name', ...disableRosterEdit)}
           icon={isEditingRosterName ? 'lock' : 'pen-to-square'}
           onClick={handleRosterNameToggle}
         />
