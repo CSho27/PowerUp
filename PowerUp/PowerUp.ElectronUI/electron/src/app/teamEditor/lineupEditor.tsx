@@ -8,12 +8,14 @@ import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { insert } from "../../utils/arrayUtils";
+import { DisabledCriteria, DisabledCriterion, toDisabledProps } from "../../utils/disabledProps";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { getPositionAbbreviation, getPositionType, isPosition, Position } from "../shared/positionCode";
 
 export interface LineupEditorProps {
   players: LineupSlotDefinition[];
   useDh: boolean;
+  disabled: DisabledCriteria;
   updateLineupOrder: (playerId: number | 'Pitcher', currentOrderInLineup: number, newOrderInLineup: number) => void;
   swapPositions: (position1: Position, position2: Position) => void;
   swapPlayers: (playerId1: number, playerId2: number) => void;
@@ -45,7 +47,7 @@ interface DndContext {
 }
 
 export function LineupEditor(props: LineupEditorProps) {
-  const { players, useDh, updateLineupOrder, swapPositions, swapPlayers } = props;
+  const { players, useDh, disabled, updateLineupOrder, swapPositions, swapPlayers } = props;
 
   const sortedPlayers = players.sort(byOrder);
   const playersInLineup = sortedPlayers.filter(p => !!p.orderInLineup);
@@ -85,6 +87,7 @@ export function LineupEditor(props: LineupEditorProps) {
         details={slot.details} 
         position={slot.position!}
         dndContext={dndContext}
+        disabled={disabled}
         swapPositions={swapPositions}
         swapPlayers={swapPlayers}
         canSwapPlayers={canSwapPlayers} />
@@ -96,6 +99,7 @@ export function LineupEditor(props: LineupEditorProps) {
       key={slot.details!.playerId} 
       details={slot.details!} 
       dndContext={dndContext}
+      disabled={disabled}
       swapWithPlayer={other => swapPlayers(slot.details.playerId, other)}
       canSwap={other => canSwapPlayers(slot.details.playerId, other)}
     />
@@ -172,43 +176,52 @@ interface SlotTileProps {
   details: HitterDetails | undefined;
   position: Position;
   dndContext: DndContext;
+  disabled: DisabledCriteria;
   swapPositions: (position1: Position, position2: Position) => void;
   swapPlayers: (playerId1: number, playerId2: number) => void;
   canSwapPlayers: (playerId1: number, playerId2: number) => boolean;
 }
 
 function SlotTile(props: SlotTileProps) {
-  const { index, details, position, dndContext, swapPositions, swapPlayers, canSwapPlayers } = props;
+  const { index, details, position, dndContext, disabled, swapPositions, swapPlayers, canSwapPlayers } = props;
   
-  return <Draggable index={index} draggableId={details?.playerId?.toString() ?? 'Pitcher'}>
-    {provided => 
-    <PlayerTileWrapper ref={provided.innerRef} {...provided.draggableProps}>
-      <NameContainer>
-        <Icon icon='bars' {...provided.dragHandleProps} />
-        {position === 'Pitcher' && 
-        <PositionBubble
-          size='Medium'
-          positionType={getPositionType(position)}>
-            {getPositionAbbreviation(position)}
-        </PositionBubble>}
-        {position !== 'Pitcher' && 
-        <PositionTile 
-          position={position} 
-          dndContext={dndContext}
-          swapWithPosition={other => swapPositions(position, other)} 
-        />}
-        <NameContentContainer>
-          {position === 'Pitcher' && <PitcherTile />}
+  const disabledProps = toDisabledProps('Drag to reorder lineup', ...disabled);
+
+
+  return <Draggable 
+    index={index} 
+    draggableId={details?.playerId?.toString() ?? 'Pitcher'} 
+    isDragDisabled={disabledProps.disabled}>
+      {provided => 
+      <PlayerTileWrapper ref={provided.innerRef} {...provided.draggableProps} title={disabledProps.title}>
+        <NameContainer>
+          <Icon icon='bars' {...provided.dragHandleProps} />
+          {position === 'Pitcher' && 
+          <PositionBubble
+            size='Medium'
+            positionType={getPositionType(position)}>
+              {getPositionAbbreviation(position)}
+          </PositionBubble>}
           {position !== 'Pitcher' && 
-          <PlayerTile 
-            details={details!} 
+          <PositionTile 
+            position={position} 
             dndContext={dndContext}
-            swapWithPlayer={other => swapPlayers(details!.playerId, other)} 
-            canSwap={other => canSwapPlayers(details!.playerId, other)}
+            disabled={disabled}
+            swapWithPosition={other => swapPositions(position, other)} 
           />}
-        </NameContentContainer>
-      </NameContainer>
-    </PlayerTileWrapper>}
+          <NameContentContainer>
+            {position === 'Pitcher' && <PitcherTile />}
+            {position !== 'Pitcher' && 
+            <PlayerTile 
+              details={details!} 
+              dndContext={dndContext}
+              disabled={disabled}
+              swapWithPlayer={other => swapPlayers(details!.playerId, other)} 
+              canSwap={other => canSwapPlayers(details!.playerId, other)}
+            />}
+          </NameContentContainer>
+        </NameContainer>
+      </PlayerTileWrapper>}
   </Draggable>
 }
 
@@ -238,15 +251,17 @@ const DraggableTypes = {
 interface PositionTileProps {
   position: Position;
   dndContext: DndContext;
+  disabled: DisabledCriteria;
   swapWithPosition: (position: Position) => void;
 }
 
 function PositionTile(props: PositionTileProps) {
-  const { position, dndContext, swapWithPosition } = props;
+  const { position, dndContext, disabled, swapWithPosition } = props;
 
   return <DragSwapTile
     swapId={position}
     dndContext={dndContext}
+    disabled={disabled}
     isSwappable={swapId => isPosition(swapId)}
     onSwap={swapId => swapWithPosition(swapId as Position)}>
       <PositionBubble
@@ -260,16 +275,18 @@ function PositionTile(props: PositionTileProps) {
 interface PlayerTileProps {
   details: HitterDetails;
   dndContext: DndContext;
+  disabled: DisabledCriteria;
   swapWithPlayer: (playerId: number) => void;
   canSwap: (playerId: number) => boolean;
 }
 
 function PlayerTile(props: PlayerTileProps) {
-  const { details, dndContext, swapWithPlayer, canSwap } = props;
+  const { details, dndContext, disabled, swapWithPlayer, canSwap } = props;
   
   return <DragSwapTile
     swapId={details.playerId.toString()}
     dndContext={dndContext}
+    disabled={disabled}
     isSwappable={canSwapCallback}
     onSwap={swapId => swapWithPlayer(Number.parseInt(swapId))}>
       <PlayerNameBubble 
@@ -308,19 +325,22 @@ const PitcherTitle = styled.div`
 interface DragSwapTileProps {
   swapId: string;
   dndContext: DndContext;
+  disabled: DisabledCriteria;
   isSwappable: (swapId: string) => boolean;
   onSwap: (swapId: string) => void;
 }
 
 function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
-  const { swapId, dndContext, isSwappable, onSwap, children } = props;
+  const { swapId, dndContext, disabled, isSwappable, onSwap, children } = props;
   const { draggingElementId: currentDraggingElementId, setDraggingElementId } = dndContext;
   
   const [dragEnterCount, setDragEnterCount] = useState(0);
+  const disabledProps = toDisabledProps('Drag tile to swap', ...disabled);
 
   return <DragSwapTileWrapper
     id={swapId}
-    draggable
+    draggable={!disabledProps.disabled}
+    {...disabledProps}
     onDragStart={dragStart}
     onDragOver={dragOver}
     onDragEnter={dragEnter}
@@ -367,19 +387,15 @@ function DragSwapTile(props: PropsWithChildren<DragSwapTileProps>) {
   }
 }
 
-const DragSwapTileWrapper = styled.div`
+const DragSwapTileWrapper = styled.div<{ disabled?: boolean }>`
   border: 2px solid ${COLORS.primaryBlue.regular_45_t40};
   border-radius: 10px;
   user-select: none;
-  cursor: grab;
+  cursor: ${p => p.disabled ? undefined : 'grab'};
   position: relative;
 
   &:hover {
-    border-color: ${COLORS.primaryBlue.regular_45};
-  }
-
-  &:active {
-    cursor: grabbing;
+    border-color: ${p => p.disabled ? undefined : COLORS.primaryBlue.regular_45};
   }
 `
 

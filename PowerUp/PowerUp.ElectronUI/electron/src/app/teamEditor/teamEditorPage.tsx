@@ -123,6 +123,7 @@ const header = <>
         <LineupEditor 
           players={mlbPlayers.map(p => toHitterDetails(p, false))}
           useDh={false}
+          disabled={[editorDisabled]}
           updateLineupOrder={(id, currentOrder, newOrder) => updateCurrentDetails({ type: 'reorderNoDHLineup', playerIdentifier: id, currentOrderInLineup: currentOrder, newOrderInLineup: newOrder })}
           swapPositions={(p1, p2) => updateCurrentDetails({ type: 'swapPositionInNoDHLineup', position1: p1, position2: p2 })}
           swapPlayers={(p1, p2) => updateCurrentDetails({ type: 'swapPlayersInNoDHLineup', playerId1: p1, playerId2: p2 })}
@@ -131,6 +132,7 @@ const header = <>
         <LineupEditor 
           players={mlbPlayers.map(p => toHitterDetails(p, true))}
           useDh={true}
+          disabled={[editorDisabled]}
           updateLineupOrder={(id, currentOrder, newOrder) => updateCurrentDetails({ type: 'reorderDHLineup', playerIdentifier: id, currentOrderInLineup: currentOrder, newOrderInLineup: newOrder })}
           swapPositions={(p1, p2) => updateCurrentDetails({ type: 'swapPositionInDHLineup', position1: p1, position2: p2 })}
           swapPlayers={(p1, p2) => updateCurrentDetails({ type: 'swapPlayersInDHLineup', playerId1: p1, playerId2: p2 })}
