@@ -28,6 +28,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<CreatePlayerCommand>();
       services.AddSingleton<GetPlayerDetailsCommand>();
       services.AddSingleton<ReplaceTeamWithCopyCommand>();
+      services.AddSingleton<EditRosterNameCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -51,6 +52,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(CreatePlayerCommand), "CreatePlayer");
       commandRegistry.RegisterCommand(typeof(GetPlayerDetailsCommand), "GetPlayerDetails");
       commandRegistry.RegisterCommand(typeof(ReplaceTeamWithCopyCommand), "ReplaceTeamWithCopy");
+      commandRegistry.RegisterCommand(typeof(EditRosterNameCommand), "EditRosterName");
     }
   }
 }
