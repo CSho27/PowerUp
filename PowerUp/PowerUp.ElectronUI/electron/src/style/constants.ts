@@ -3,9 +3,11 @@ export const COLORS = {
   // Standard Colors
   jet: {
     regular_18: 'hsl(180deg 1% 18%)',
+    regular_18_t70: 'hsl(180deg 1% 18% / .7)',
     regular_25: 'hsl(180deg 1% 25%)',
     regular_25_t20: 'hsl(180deg 1% 25% / .2)',
     light_39: 'hsl(180deg 1% 39%)',
+    light_39_t70: 'hsl(180deg 1% 39% / .7)',
     light_50: 'hsl(180deg 1% 50%)',
     lighter_71: 'hsl(180deg 1% 71%)',
     evenLighter_80: 'hsl(180deg 1% 80%)',
@@ -17,6 +19,7 @@ export const COLORS = {
     dark_23_t40: 'hsl(203deg 93% 23% / .4)',
     regular_45: 'hsl(203deg 93% 45%)',
     regular_45_t40: 'hsl(203deg 93% 45% / .4)',
+    regular_45_t70: 'hsl(203deg 93% 45% / .7)',
     regular_45_t80: 'hsl(203deg 93% 45% / .8)',
     light_50: 'hsl(203deg 93% 50%)',
     lighter_69: 'hsl(203deg 93% 69%)',
@@ -37,6 +40,7 @@ export const COLORS = {
     regular_100: 'hsl(0deg 100% 100%)',
     regular_100_t40: 'hsl(0deg 100% 100% / .4)',
     regular_100_t60: 'hsl(0deg 100% 100% / .6)',
+    regular_100_t70: 'hsl(0deg 100% 100% / .7)',
     grayed_80_t40: 'hsl(0deg 0% 80% / .4)',
     offwhite_97: 'hsl(235deg 85% 97%)',
     offwhite_92: 'hsl(235deg 85% 92%)',

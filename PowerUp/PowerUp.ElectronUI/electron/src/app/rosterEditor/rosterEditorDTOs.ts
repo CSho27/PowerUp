@@ -14,6 +14,8 @@ export interface RosterDetails {
 }
 
 export interface TeamDetails {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   teamId: number;
   name: string;
   powerProsName: string;

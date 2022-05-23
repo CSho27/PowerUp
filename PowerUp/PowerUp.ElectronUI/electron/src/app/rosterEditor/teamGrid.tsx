@@ -4,9 +4,11 @@ import { Button } from "../../components/button/button";
 import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
+import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStamp";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
+import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app"
 import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelectionGrid";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
@@ -34,10 +36,13 @@ export function TeamGrid(props: TeamGridProps) {
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
   const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
-
   const teamDisplayName = name === powerProsName
       ? name
       : `${name} (${powerProsName})` 
+
+  const disableManageTeam: DisabledCriteria = [
+    { isDisabled: !team.canEdit, tooltipIfDisabled: 'Teams of this type cannot be edited' }
+  ]
 
   return <TeamGridTable>
     <TeamGridCaption>
@@ -45,18 +50,30 @@ export function TeamGrid(props: TeamGridProps) {
         <TeamHeader>
           {teamDisplayName}
         </TeamHeader>
+        <div style={{ padding: '0 8px'}}>
+          <SourceTypeStamp 
+            theme='Light'
+            size='Medium'
+            sourceType={team.sourceType}
+          />
+        </div>
         <Button 
-          size='Small'
+          size='Medium'
           variant='Outline'
+          squarePadding
           onClick={editTeam}
-          icon='pen-to-square'>
-            Edit
-        </Button>
+          title={team.canEdit
+            ? 'Edit team'
+            : 'View team'}
+          icon={team.canEdit
+            ? 'pen-to-square'
+            : 'eye'}/>
         <ContextMenuButton
-          size='Small'
+          size='Medium'
           variant='Outline'
-          title='Replace'
+          squarePadding
           icon='right-left'
+          title='Replace team'
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
@@ -73,9 +90,7 @@ export function TeamGrid(props: TeamGridProps) {
               onClick={() => replaceWithNewTeam(team.teamId)}>
                 Replace with new
             </ContextMenuItem>
-          </>}>
-            Replace
-        </ContextMenuButton>
+          </>}/>
       </div>
     </TeamGridCaption>
     <thead>
@@ -166,8 +181,8 @@ export function TeamGrid(props: TeamGridProps) {
           size='Small'
           variant='Outline'
           title={details.canEdit
-            ? 'Edit'
-            : 'View'}
+            ? 'Edit player'
+            : 'View player'}
           icon={details.canEdit
             ? 'user-pen'
             : 'eye'}
@@ -179,8 +194,8 @@ export function TeamGrid(props: TeamGridProps) {
         <ContextMenuButton
           size='Small'
           variant='Outline'
-          title='Replace'
           icon='right-left'
+          {...toDisabledProps('Replace player', ...disableManageTeam)}
           squarePadding
           menuItems={<>
             <ContextMenuItem 

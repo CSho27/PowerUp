@@ -40,6 +40,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
   public class TeamDetails
   {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
     public int TeamId { get; set; }
     public string Name { get; set; }
     public string PowerProsName { get; set; }
@@ -52,8 +55,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public IEnumerable<PitcherDetails> Pitchers { get; set; }
     public int Overall { get; set; }
 
-    public TeamDetails(int id, string name, MLBPPTeam ppTeam, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
+    public TeamDetails(EntitySourceType sourceType, int id, string name, MLBPPTeam ppTeam, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
     {
+      SourceType = sourceType;
       TeamId = id;
       Name = name;
       PowerProsName = ppTeam.GetFullDisplayName();
@@ -70,7 +74,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.Id!.Value, team.Name, ppTeam, hitters, pitchers, 0);
+      return new TeamDetails(team.SourceType, team.Id!.Value, team.Name, ppTeam, hitters, pitchers, 0);
     }
   }
 
