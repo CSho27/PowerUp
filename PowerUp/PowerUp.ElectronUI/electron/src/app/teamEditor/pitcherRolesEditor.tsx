@@ -239,7 +239,8 @@ function PitcherTile(props: PitcherTileProps) {
   return <Draggable draggableId={details.playerId.toString()} index={index} isDragDisabled={disabledProps.disabled}>
       {provided => <PitcherTileWrapper ref={provided.innerRef} {...provided.draggableProps} title={disabledProps.title}>
         <NameContainer {...provided.dragHandleProps}>
-          <Icon icon='bars' />
+          {!disabledProps.disabled && <Icon icon='bars' />}
+          {disabledProps.disabled && <div/>}
           <NameContentContainer>
             <PlayerNameBubble 
               positionType='Pitcher'

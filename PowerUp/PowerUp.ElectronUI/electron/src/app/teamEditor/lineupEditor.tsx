@@ -195,7 +195,8 @@ function SlotTile(props: SlotTileProps) {
       {provided => 
       <PlayerTileWrapper ref={provided.innerRef} {...provided.draggableProps} title={disabledProps.title}>
         <NameContainer>
-          <Icon icon='bars' {...provided.dragHandleProps} />
+          {!disabledProps.disabled && <Icon icon='bars' {...provided.dragHandleProps} />}
+          {disabledProps.disabled && <div/>}
           {position === 'Pitcher' && 
           <PositionBubble
             size='Medium'
