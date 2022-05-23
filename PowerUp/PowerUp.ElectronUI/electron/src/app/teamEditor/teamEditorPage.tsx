@@ -117,6 +117,7 @@ const header = <>
         {state.selectedTab === 'Pitcher Roles' &&
         <PitcherRolesEditor 
           pitchers={pitchers.map(toPitcherDetails)}
+          disabled={[editorDisabled]}
           updateRole={(id, role, index) => updateCurrentDetails({ type: 'updatePitcherRole', playerId: id, role: role, orderInRole: index })}
         />}
         {state.selectedTab === 'No DH Lineup' &&
