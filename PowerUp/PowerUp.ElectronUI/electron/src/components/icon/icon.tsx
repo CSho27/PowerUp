@@ -11,6 +11,7 @@ export type IconType =
 | 'chevron-up'
 | 'circle-minus'
 | 'circle-notch'
+| 'circle-plus'
 | 'copy'
 | 'download'
 | 'eye'

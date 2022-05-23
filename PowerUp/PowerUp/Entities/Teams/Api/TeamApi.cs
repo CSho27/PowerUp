@@ -5,12 +5,25 @@ namespace PowerUp.Entities.Teams.Api
 {
   public interface ITeamApi
   {
+    Team CreateCustomCopyOfTeam(Team team);
     void ReplacePlayer(Team team, Player playerToRemove, Player playerToInsert);
     void EditTeam(Team team, TeamParameters parameters);
   }
 
   public class TeamApi : ITeamApi
   {
+    public Team CreateCustomCopyOfTeam(Team team)
+    {
+      return new Team
+      {
+        SourceType = EntitySourceType.Custom,
+        Name = team.Name,
+        PlayerDefinitions = team.PlayerDefinitions,
+        NoDHLineup = team.NoDHLineup,
+        DHLineup = team.DHLineup,
+      };
+    }
+
     public void ReplacePlayer(Team team, Player playerToRemove, Player playerToInsert)
     {
       var playerDefinition = team.PlayerDefinitions.Single(d => d.PlayerId == playerToRemove.Id);

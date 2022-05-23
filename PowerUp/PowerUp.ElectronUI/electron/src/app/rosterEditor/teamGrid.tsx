@@ -13,22 +13,27 @@ import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionMod
 import { DisableResult } from "../shared/disableResult";
 import { getPositionType } from "../shared/positionCode";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
+import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
 import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
   appContext: AppContext;
+  rosterId: number;
   team: TeamDetails
 }
 
 export function TeamGrid(props: TeamGridProps) {
-  const { appContext, team } = props;
+  const { appContext, rosterId, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
+
+  const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
 
   const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
   const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
+
 
   const teamDisplayName = name === powerProsName
       ? name
@@ -47,6 +52,30 @@ export function TeamGrid(props: TeamGridProps) {
           icon='pen-to-square'>
             Edit
         </Button>
+        <ContextMenuButton
+          size='Small'
+          variant='Outline'
+          title='Replace'
+          icon='right-left'
+          menuItems={<>
+            <ContextMenuItem 
+              icon='copy'
+              onClick={() => replaceTeamWithCopy(team.powerProsTeam)}>
+                Replace with copy
+            </ContextMenuItem>
+            <ContextMenuItem 
+              icon='box-archive'
+              onClick={() => replaceTeamWithExisting(team.teamId)}>
+                Replace with existing
+            </ContextMenuItem>
+            <ContextMenuItem 
+              icon='circle-plus'
+              onClick={() => replaceWithNewTeam(team.teamId)}>
+                Replace with new
+            </ContextMenuItem>
+          </>}>
+            Replace
+        </ContextMenuButton>
       </div>
     </TeamGridCaption>
     <thead>
@@ -246,6 +275,21 @@ export function TeamGrid(props: TeamGridProps) {
   async function editTeam() {
     appContext.setPage({ page: 'TeamEditorPage', teamId: team.teamId });
   }
+
+  async function replaceTeamWithCopy(powerProsTeam: string) {
+    const response = await replaceTeamWithCopyApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: powerProsTeam });
+    if(response.success)
+      appContext.reloadCurrentPage();
+  }
+
+  function replaceWithNewTeam(teamId: number): void {
+    console.log('replace team with copy');
+  }
+
+  function replaceTeamWithExisting(teamId: number): void {
+    console.log('replace team with copy');
+  }
+
 
   function isPlayerDisabled(player: PlayerSelectionGridPlayer): DisableResult {
     const isDisabled = hitters.some(h => h.playerId === player.playerId) 

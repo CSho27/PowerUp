@@ -43,18 +43,22 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public int TeamId { get; set; }
     public string Name { get; set; }
     public string PowerProsName { get; set; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public MLBPPTeam PowerProsTeam { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public MLBPPDivision Division { get; set; }
     public IEnumerable<HitterDetails> Hitters { get; set; }
     public IEnumerable<PitcherDetails> Pitchers { get; set; }
     public int Overall { get; set; }
 
-    public TeamDetails(int id, string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
+    public TeamDetails(int id, string name, MLBPPTeam ppTeam, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
     {
       TeamId = id;
       Name = name;
-      PowerProsName = powerProsName;
-      Division = division;
+      PowerProsName = ppTeam.GetFullDisplayName();
+      PowerProsTeam = ppTeam;
+      Division = ppTeam.GetDivision();
       Hitters = hitters;
       Pitchers = pitchers;
       Overall = overall;
@@ -66,7 +70,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.Id!.Value, team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
+      return new TeamDetails(team.Id!.Value, team.Name, ppTeam, hitters, pitchers, 0);
     }
   }
 

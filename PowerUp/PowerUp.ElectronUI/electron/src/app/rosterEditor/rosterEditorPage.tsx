@@ -57,7 +57,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   function toTeamGrid(team: TeamDetails) {
     return <TeamWrapper key={team.teamId}>
-      <TeamGrid appContext={appContext} team={team} />
+      <TeamGrid appContext={appContext} rosterId={rosterId} team={team} />
     </TeamWrapper>
   }
 

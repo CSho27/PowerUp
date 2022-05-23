@@ -17,6 +17,7 @@ export interface TeamDetails {
   teamId: number;
   name: string;
   powerProsName: string;
+  powerProsTeam: string;
   division: string;
   hitters: HitterDetails[];
   pitchers: PitcherDetails[];
