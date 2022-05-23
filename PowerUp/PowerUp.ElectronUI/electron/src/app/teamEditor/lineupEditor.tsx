@@ -49,7 +49,7 @@ interface DndContext {
 export function LineupEditor(props: LineupEditorProps) {
   const { players, useDh, disabled, updateLineupOrder, swapPositions, swapPlayers } = props;
 
-  const sortedPlayers = players.sort(byOrder);
+  const sortedPlayers = players.slice().sort(byOrder);
   const playersInLineup = sortedPlayers.filter(p => !!p.orderInLineup);
   const playersOnBench = sortedPlayers.filter(p => !p.orderInLineup);
   const lineup = useDh

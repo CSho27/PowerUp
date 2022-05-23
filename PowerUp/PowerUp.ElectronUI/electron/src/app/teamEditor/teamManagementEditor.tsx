@@ -24,7 +24,7 @@ export function TeamManagementEditor(props: TeamManagementEditorProps) {
 
   const aaaDisableCallUp: DisabledCriteria = [
     ...disabled,
-    { isDisabled: mlbPlayers.length < 25, tooltipIfDisabled: 'Cannot be called up because there are already 25 players on the MLB roster.'}
+    { isDisabled: mlbPlayers.length >= 25, tooltipIfDisabled: 'Cannot be called up because there are already 25 players on the MLB roster.'}
   ]
 
   return <>

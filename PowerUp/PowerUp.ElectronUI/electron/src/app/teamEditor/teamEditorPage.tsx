@@ -40,6 +40,8 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   const pitchers = mlbPlayers.filter(p => p.playerDetails.position === 'Pitcher');
 
   const hasUnsavedChanges = !deepEquals(state.lastSavedDetails, state.currentDetails);
+  console.table(state.lastSavedDetails);
+  console.table(state.currentDetails);
   const editorDisabled: DisabledCriterion = { isDisabled: !canEdit, tooltipIfDisabled: 'Teams of this type cannot be edited' };
   const noUnsavedChangesDisabled: DisabledCriterion = { isDisabled: !hasUnsavedChanges, tooltipIfDisabled: 'No changes' };
   const actionsDisabled: DisabledCriterion[] = [editorDisabled, noUnsavedChangesDisabled]

@@ -39,6 +39,9 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
     disabled,
     updateRole
   } = props;
+
+  // Keep original array from being sorted in place
+  const copyOfPitchers = pitchers.slice();
   
   return <Wrapper>
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -48,7 +51,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.starter_orange_light_87}
         darkColor={COLORS.pitcherRoles.starter_orange_dark_48}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'Starter').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'Starter').sort(byOrderInRole).map(p => p.details)}
         minPitchers={1}
       />
       <PitcherRoleSection 
@@ -57,7 +60,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.swingMan_pink_light_94}
         darkColor={COLORS.pitcherRoles.swingMan_pink_dark_51}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'SwingMan').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'SwingMan').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='LongReliever'
@@ -65,7 +68,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.longReliever_purple_light_94}
         darkColor={COLORS.pitcherRoles.longReliever_purple_dark_51}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'LongReliever').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'LongReliever').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='MiddleReliever'
@@ -73,7 +76,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.middleReliever_indigo_light_94}
         darkColor={COLORS.pitcherRoles.middleReliever_indigo_dark_51}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'MiddleReliever').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'MiddleReliever').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='SituationalLefty'
@@ -81,7 +84,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.situationalLefty_blue_light_94}
         darkColor={COLORS.pitcherRoles.situationalLefty_blue_dark_33}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'SituationalLefty').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'SituationalLefty').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='MopUpMan'
@@ -89,7 +92,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.mopUpMan_teal_light_94}
         darkColor={COLORS.pitcherRoles.mopUpMan_teal_dark_33}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'MopUpMan').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'MopUpMan').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='SetupMan'
@@ -97,7 +100,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.setUpMan_green_light_92}
         darkColor={COLORS.pitcherRoles.setUpMan_green_dark_33}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'SetupMan').sort(byOrderInRole).sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'SetupMan').sort(byOrderInRole).sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
         pitcherRole='Closer'
@@ -105,7 +108,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         lightColor={COLORS.pitcherRoles.closer_yellow_light_92}
         darkColor={COLORS.pitcherRoles.closer_yellow_dark_35}
         disabled={disabled}
-        pitchers={pitchers.filter(p => p.role === 'Closer').sort(byOrderInRole).map(p => p.details)}
+        pitchers={copyOfPitchers.filter(p => p.role === 'Closer').sort(byOrderInRole).map(p => p.details)}
         maxPitchers={1}
       />
     </DragDropContext>
@@ -169,7 +172,7 @@ function PitcherRoleSection(props: PitcherRoleSectionProps) {
   function toPitcherRow(details: PitcherDetails, index: number) {
     const movePitcherDisabled: DisabledCriteria = [
       ...disabled,
-      { isDisabled: !!minPitchers && pitchers.length <= minPitchers, tooltipIfDisabled: 'Cannot move pitcher. Role already has minimum pitchers'}
+      { isDisabled: !!minPitchers && pitchers.length <= minPitchers, tooltipIfDisabled: `Cannot move pitcher. Role must have at least ${minPitchers} ${minPitchers === 1 ? 'Pitcher' : 'Pitchers'}`}
     ]
 
     return <RowWrapper key={details.playerId}>

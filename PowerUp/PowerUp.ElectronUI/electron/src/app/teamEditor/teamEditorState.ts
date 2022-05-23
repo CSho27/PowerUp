@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { insert, remove, replace } from "../../utils/arrayUtils";
+import { remove, replace } from "../../utils/arrayUtils";
 import { Position } from "../shared/positionCode";
-import { LoadTeamEditorResponse, PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
+import { LoadTeamEditorResponse } from "./loadTeamEditorApiClient";
 import { PitcherRole, PlayerDetails, PlayerRoleAction, PlayerRoleState, PlayerRoleStateReducer, toDefaultRole, toPlayerRoleState } from "./playerRoleState";
 
 export interface TeamEditorState {

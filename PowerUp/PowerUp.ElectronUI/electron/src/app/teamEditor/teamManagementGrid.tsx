@@ -58,13 +58,13 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
 
   const allPlayers = [...mlbPlayers, ...aaaPlayers];
   const thisGridPlayers = isAAA 
-    ? aaaPlayers.sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position))
-    : mlbPlayers.sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position));
+    ? aaaPlayers.slice().sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position))
+    : mlbPlayers.slice().sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position));
 
   const addDisabled: DisabledCriteria = [
     ...disableManageRoster,
-    { isDisabled: isAAA && allPlayers.length < 40, tooltipIfDisabled: 'Cannot add player. Roster already has 40 people on it' },
-    { isDisabled: !isAAA && mlbPlayers.length < 25, tooltipIfDisabled: 'Cannot add player. Roster already has 25 people on it' }
+    { isDisabled: isAAA && allPlayers.length >= 40, tooltipIfDisabled: 'Cannot add player. Roster already has 40 people on it' },
+    { isDisabled: !isAAA && mlbPlayers.length >= 25, tooltipIfDisabled: 'Cannot add player. Roster already has 25 people on it' }
   ]
 
   return <Wrapper>
