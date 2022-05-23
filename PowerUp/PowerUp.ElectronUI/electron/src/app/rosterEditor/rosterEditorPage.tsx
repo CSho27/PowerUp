@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStamp";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { FONT_SIZES } from "../../style/constants";
+import { DisabledCriteria } from "../../utils/disabledProps";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
@@ -29,7 +31,14 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   const header = <>
     <Breadcrumbs appContext={appContext}/>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <RosterHeader>{rosterName}</RosterHeader>
+      <div style={{ flex: 'auto', display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <RosterHeader>{rosterName}</RosterHeader>
+        <SourceTypeStamp 
+          theme='Dark'
+          size='Medium'
+          sourceType={rosterDetails.sourceType}
+        /> 
+      </div>
       <Button 
         size='Medium' 
         variant='Fill' 
@@ -47,6 +56,10 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   const teamsRef = useRef<HTMLElement | null>(null);
 
+  const disableManageRoster: DisabledCriteria = [
+    { isDisabled: !rosterDetails.canEdit, tooltipIfDisabled: 'Roster of this type cannot be edited' }
+  ]
+
   return <PowerUpLayout headerText='Edit Roster'>
     <ContentWithHangingHeader header={header} headerHeight='128px' contentRef={teamsRef}>
       <TeamsContainer>
@@ -57,7 +70,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   function toTeamGrid(team: TeamDetails) {
     return <TeamWrapper key={team.teamId}>
-      <TeamGrid appContext={appContext} rosterId={rosterId} team={team} />
+      <TeamGrid appContext={appContext} rosterId={rosterId} disableRosterEdit={disableManageRoster} team={team} />
     </TeamWrapper>
   }
 

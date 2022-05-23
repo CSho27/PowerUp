@@ -20,12 +20,16 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
   public class RosterDetails
   {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
     public int RosterId { get; set; }
     public string Name { get; set; }
     public IEnumerable<TeamDetails> Teams { get; set; }
 
-    public RosterDetails(int rosterId, string name, IEnumerable<TeamDetails> teams)
+    public RosterDetails(EntitySourceType sourceType, int rosterId, string name, IEnumerable<TeamDetails> teams)
     {
+      SourceType = sourceType;
       RosterId = rosterId;
       Name = name;
       Teams = teams;
@@ -34,7 +38,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static RosterDetails FromRoster(Roster roster)
     {
       var teams = roster.GetTeams().Select(kvp => TeamDetails.FromTeam(kvp.Key, kvp.Value));
-      return new RosterDetails(roster.Id!.Value, roster.Name, teams);
+      return new RosterDetails(roster.SourceType, roster.Id!.Value, roster.Name, teams);
     }
   }
 

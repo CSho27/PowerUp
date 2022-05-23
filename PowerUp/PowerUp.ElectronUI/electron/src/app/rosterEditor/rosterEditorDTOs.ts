@@ -8,6 +8,8 @@ export interface RosterEditorResponse {
 }
 
 export interface RosterDetails {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   rosterId: number;
   name: string
   teams: TeamDetails[];

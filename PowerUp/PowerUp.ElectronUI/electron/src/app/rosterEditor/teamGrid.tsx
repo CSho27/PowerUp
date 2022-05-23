@@ -23,11 +23,12 @@ import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
 interface TeamGridProps {
   appContext: AppContext;
   rosterId: number;
+  disableRosterEdit: DisabledCriteria;
   team: TeamDetails
 }
 
 export function TeamGrid(props: TeamGridProps) {
-  const { appContext, rosterId, team } = props;
+  const { appContext, rosterId, disableRosterEdit, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
 
   const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
@@ -47,10 +48,10 @@ export function TeamGrid(props: TeamGridProps) {
   return <TeamGridTable>
     <TeamGridCaption>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-        <TeamHeader>
-          {teamDisplayName}
-        </TeamHeader>
-        <div style={{ padding: '0 8px'}}>
+        <div style={{ flex: 'auto', display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <TeamHeader>
+            {teamDisplayName}
+          </TeamHeader>
           <SourceTypeStamp 
             theme='Light'
             size='Medium'
@@ -73,7 +74,7 @@ export function TeamGrid(props: TeamGridProps) {
           variant='Outline'
           squarePadding
           icon='right-left'
-          title='Replace team'
+          {...toDisabledProps('Replace team', ...disableRosterEdit)}
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
@@ -337,7 +338,6 @@ const TeamGridCaption = styled.caption`
 `
 
 const TeamHeader = styled.h1`
-  flex: auto;
   font-size: ${FONT_SIZES._32};
   font-weight: 600;
   font-style: italic;
