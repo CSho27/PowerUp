@@ -11,12 +11,13 @@ export interface ContextMenuProps extends ButtonContentProps {
 }
 
 export function ContextMenuButton(props: ContextMenuProps) {
-  const { menuItems, children, disabled } = props;
+  const { menuItems, children, disabled, title } = props;
 
   return <Menu>
     {({ isExpanded }) => <>
     <MenuButton 
       disabled={disabled}
+      title={title}
       style={{
         padding: 0,
         border: 'none',

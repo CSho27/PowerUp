@@ -20,6 +20,7 @@ import { TeamManagementEditor } from "./teamManagementEditor";
 import { PlayerRoleState } from "./playerRoleState";
 import { PitcherDetails, PitcherRoleDefinition, PitcherRolesEditor } from "./pitcherRolesEditor";
 import { LineupEditor, LineupSlotDefinition } from "./lineupEditor";
+import { DisabledCriterion, toDisabledProps } from "../../utils/disabledProps";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -39,14 +40,11 @@ function TeamEditorPage(props: TeamEditorPageProps) {
   const pitchers = mlbPlayers.filter(p => p.playerDetails.position === 'Pitcher');
 
   const hasUnsavedChanges = !deepEquals(state.lastSavedDetails, state.currentDetails);
-  const actionsDisabled = /*!canEdit ||*/ !hasUnsavedChanges;
-  const actionsDisabledTooltip = /*!canEdit
-    ? 'Teams of this type cannot be edited'
-    : */!hasUnsavedChanges
-      ? 'No changes'
-      : undefined;
+  const editorDisabled: DisabledCriterion = { isDisabled: !canEdit, tooltipIfDisabled: 'Teams of this type cannot be edited' };
+  const noUnsavedChangesDisabled: DisabledCriterion = { isDisabled: !hasUnsavedChanges, tooltipIfDisabled: 'No changes' };
+  const actionsDisabled: DisabledCriterion[] = [editorDisabled, noUnsavedChangesDisabled]
 
-  const header = <>
+const header = <>
     <Breadcrumbs appContext={appContext}/>
     <TeamHeaderContainer>
       <div style={{ flex: '0 0 450px', display: 'flex', gap: '16px', alignItems: 'center' }}>
@@ -68,6 +66,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
         <Button 
           variant='Outline'
           size='Small'
+          {...toDisabledProps('Edit team name', editorDisabled)}
           icon={state.isEditingName ? 'lock' : 'pen-to-square'}
           onClick={() => update({ type: 'toggleIsEditingName' })}
         />
@@ -80,17 +79,15 @@ function TeamEditorPage(props: TeamEditorPageProps) {
               size='Small'
               onClick={undoChanges}
               icon='rotate-left'
-              disabled={actionsDisabled}
-              title={actionsDisabledTooltip}>
+              {...toDisabledProps('Undo changes', ...actionsDisabled)}>
                 Undo Changes
             </Button>
             <Button 
               variant='Fill' 
               size='Small' 
               onClick={() => saveTeam(true)} 
-              icon='floppy-disk' 
-              disabled={actionsDisabled} 
-              title={actionsDisabledTooltip}>
+              icon='floppy-disk'
+              {...toDisabledProps('Save chages', ...actionsDisabled)}>
                   Save
             </Button>
           </TeamHeaderActionButtons>
@@ -114,7 +111,7 @@ function TeamEditorPage(props: TeamEditorPageProps) {
           appContext={appContext}
           mlbPlayers={mlbPlayers}
           aaaPlayers={aaaPlayers}
-          disabled={false /*!canEdit*/}
+          disabled={[editorDisabled]}
           update={updateCurrentDetails} 
           saveTemp={() => saveTeam(false)}/>}
         {state.selectedTab === 'Pitcher Roles' &&

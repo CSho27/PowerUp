@@ -8,6 +8,7 @@ import { Icon } from "../../components/icon/icon";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS } from "../../style/constants";
+import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app";
 import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelectionGrid";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
@@ -26,9 +27,9 @@ export interface TeamManagementGridProps {
   mlbPlayers: PlayerRoleState[];
   aaaPlayers: PlayerRoleState[];
   startingNumber: number;
-  canManageRoster: boolean;
-  canEditRoles: boolean;
-  canSendUpOrDown: boolean;
+  disableManageRoster: DisabledCriteria;
+  disableEditRoles: DisabledCriteria;
+  disableSendUpOrDown: DisabledCriteria;
   updatePlayer: ListDispatch<number, PlayerRoleAction>;
   sendUpOrDown: (playerId: number) => void;
   addPlayer: (details: PlayerDetails) => void;
@@ -42,9 +43,9 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     mlbPlayers,
     aaaPlayers,
     startingNumber,
-    canManageRoster,
-    canEditRoles,
-    canSendUpOrDown,
+    disableManageRoster,
+    disableEditRoles,
+    disableSendUpOrDown,
     updatePlayer,
     sendUpOrDown,
     addPlayer,
@@ -60,14 +61,11 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     ? aaaPlayers.sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position))
     : mlbPlayers.sort((p1, p2) => positionCompare(p1.playerDetails.position, p2.playerDetails.position));
 
-  const canAddMorePlayers = isAAA 
-    ? allPlayers.length < 40
-    : mlbPlayers.length < 25;
-  const cannotAddMorePlayersMessage = !canAddMorePlayers
-    ? isAAA
-      ? 'Cannot add player. Roster already has 40 people on it'
-      : 'Cannot add player. Roster already has 25 people on it'
-    : undefined
+  const addDisabled: DisabledCriteria = [
+    ...disableManageRoster,
+    { isDisabled: isAAA && allPlayers.length < 40, tooltipIfDisabled: 'Cannot add player. Roster already has 40 people on it' },
+    { isDisabled: !isAAA && mlbPlayers.length < 25, tooltipIfDisabled: 'Cannot add player. Roster already has 25 people on it' }
+  ]
 
   return <Wrapper>
     <PlayerGroupHeader>
@@ -75,16 +73,14 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
       <ContextMenuButton
         size='Small'
         variant='Outline'
-        title={cannotAddMorePlayersMessage ?? 'Add Player'}
+        {...toDisabledProps('Add Player', ...addDisabled)}
         icon='plus'
         squarePadding
-        disabled={!canAddMorePlayers}
         menuItems={<>
           <ContextMenuItem 
-              icon='box-archive'
-              disabled={!canManageRoster}
-              onClick={addExistingPlayer}>
-                Add existing
+            icon='box-archive'
+            onClick={addExistingPlayer}>
+              Add existing
           </ContextMenuItem>
           <ContextMenuItem 
             icon='user-plus'
@@ -127,6 +123,11 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     const { playerId } = playerDetails
     const positionType = getPositionType(playerDetails.position);
 
+    const pitcherRolesDisabled: DisabledCriteria = [
+      ...disableEditRoles,
+      { isDisabled: positionType === 'Pitcher', tooltipIfDisabled: "Pitcher's team roles cannot be edited" }
+    ]
+
     return <PlayerRow key={playerId}>
       <PlayerCell>
         {startingNumber+index}
@@ -148,25 +149,25 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <ContextMenuButton
           size='Small'
           variant='Outline'
-          title='Replace'
           icon='right-left'
+          {...toDisabledProps('Replace player', ...disableManageRoster)}
           squarePadding
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
-              disabled={!canManageRoster}
+              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
               onClick={() => replacePlayerWithCopy(playerId)}>
                 Replace with copy
             </ContextMenuItem>
             <ContextMenuItem 
               icon='box-archive'
-              disabled={!canManageRoster}
+              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
               onClick={() => replacePlayerWithExisting(playerId)}>
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
               icon='user-plus'
-              disabled={!canManageRoster}
+              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
               onClick={() => replaceWithNewPlayer(playerId, playerDetails.position === 'Pitcher')}>
                 Replace with new
             </ContextMenuItem>
@@ -176,8 +177,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <Button
           size='Small'
           variant='Outline'
-          disabled={!canSendUpOrDown}
-          title={isAAA ? 'Call up' : 'Send down'}
+          {...toDisabledProps(isAAA ? 'Call up' : 'Send down', ...disableSendUpOrDown)}
           icon={isAAA ? 'person-arrow-up-from-line' : 'person-arrow-down-to-line'}
           squarePadding
           onClick={() => sendUpOrDown(playerId)} />
@@ -210,7 +210,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isPinchHitter} 
-            disabled={positionType === 'Pitcher' || !canEditRoles}
+            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsPinchHitter' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -218,7 +218,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isPinchRunner} 
-            disabled={positionType === 'Pitcher' || !canEditRoles}
+            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsPinchRunner' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -226,7 +226,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isDefensiveReplacement} 
-            disabled={positionType === 'Pitcher' || !canEditRoles}
+            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveReplacement' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -234,7 +234,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isDefensiveLiability} 
-            disabled={positionType === 'Pitcher' || !canEditRoles}
+            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveLiability' })} />
         </CenteringWrapper>
       </PlayerCell>

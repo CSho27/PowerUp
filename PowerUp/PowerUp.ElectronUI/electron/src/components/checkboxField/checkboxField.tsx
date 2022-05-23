@@ -7,12 +7,13 @@ export interface CheckboxFieldProps {
   id?: string;
   size?: CheckboxFieldSize;
   disabled?: boolean;
+  title?: string;
 }
 
 export type CheckboxFieldSize = 'Small' | 'Medium'
 
 export function CheckboxField(props: CheckboxFieldProps) {
-  const { checked, onToggle, id, size, disabled } = props;
+  const { checked, onToggle, id, size, disabled, title } = props;
   
   return <CheckboxWrapper size={size ?? 'Medium'} checked={checked} disabled={disabled}>
     {checked ? '\u2713': ''}
@@ -22,6 +23,7 @@ export function CheckboxField(props: CheckboxFieldProps) {
       checked={checked}
       onChange={onToggle}
       disabled={disabled}
+      title={title}
     />
   </CheckboxWrapper>
 }
