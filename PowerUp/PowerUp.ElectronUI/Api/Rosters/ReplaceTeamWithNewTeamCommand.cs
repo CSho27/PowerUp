@@ -5,6 +5,7 @@ using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams;
 using PowerUp.Entities.Teams.Api;
+using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Rosters
 {
@@ -43,6 +44,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
   public class ReplaceTeamWithNewTeamRequest
   {
     public int RosterId { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public MLBPPTeam MLBPPTeam { get; set; }
   }
 }

@@ -17,7 +17,8 @@ import { getPositionType } from "../shared/positionCode";
 import { TeamSelectionModal } from "../teamSelectionModal/teamSelectionModal";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
-import { ReplaceTeamWithNewTeamApiClient } from "./replaceTeamWithNewTeaApiClient";
+import { ReplaceTeamWithExistingApiClient } from "./replaceTeamWithExistingApiClient";
+import { ReplaceTeamWithNewTeamApiClient } from "./replaceTeamWithNewTeamApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
 import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
@@ -34,6 +35,7 @@ export function TeamGrid(props: TeamGridProps) {
   const { name, powerProsName, hitters, pitchers } = team;
 
   const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
+  const replaceTeamWithExistingApiClientRef = useRef(new ReplaceTeamWithExistingApiClient(appContext.commandFetcher));
   const replaceTeamWithNewApiClientRef = useRef(new ReplaceTeamWithNewTeamApiClient(appContext.commandFetcher));
 
   const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
@@ -81,17 +83,17 @@ export function TeamGrid(props: TeamGridProps) {
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
-              onClick={() => replaceTeamWithCopy(team.powerProsTeam)}>
+              onClick={replaceTeamWithCopy}>
                 Replace with copy
             </ContextMenuItem>
             <ContextMenuItem 
               icon='box-archive'
-              onClick={() => replaceTeamWithExisting(team.teamId)}>
+              onClick={replaceTeamWithExisting}>
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
               icon='circle-plus'
-              onClick={() => replaceWithNewTeam(team.powerProsTeam)}>
+              onClick={replaceWithNewTeam}>
                 Replace with new
             </ContextMenuItem>
           </>}/>
@@ -270,12 +272,12 @@ export function TeamGrid(props: TeamGridProps) {
       closeDialog={playerToInsertId => { 
         closeDialog(); 
         if(!!playerToInsertId)
-          executeReplace(playerToReplaceId, playerToInsertId); 
+          executeReplacePlayer(playerToReplaceId, playerToInsertId); 
       }} 
     />)
   }
 
-  async function executeReplace(playerToReplaceId: number, playerToInsertId: number) {
+  async function executeReplacePlayer(playerToReplaceId: number, playerToInsertId: number) {
     const response = await replacePlayerWithExistingApiClientRef.current.execute({ 
       teamId: team.teamId, 
       playerToReplaceId: playerToReplaceId,
@@ -295,27 +297,37 @@ export function TeamGrid(props: TeamGridProps) {
     appContext.setPage({ page: 'TeamEditorPage', teamId: team.teamId });
   }
 
-  async function replaceTeamWithCopy(powerProsTeam: string) {
-    const response = await replaceTeamWithCopyApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: powerProsTeam });
+  async function replaceTeamWithCopy() {
+    const response = await replaceTeamWithCopyApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: team.powerProsTeam });
     if(response.success)
       appContext.reloadCurrentPage();
   }
 
-  async function replaceWithNewTeam(powerProsTeam: string) {
-    const response = await replaceTeamWithNewApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: powerProsTeam });
+  async function replaceWithNewTeam() {
+    const response = await replaceTeamWithNewApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: team.powerProsTeam });
     if(response.success)
       appContext.reloadCurrentPage();
   }
 
-  function replaceTeamWithExisting(teamId: number): void {
+  function replaceTeamWithExisting(): void {
     appContext.openModal(closeDialog => <TeamSelectionModal 
       appContext={appContext} 
       closeDialog={teamToInsertId => { 
         closeDialog(); 
         if(!!teamToInsertId)
-          console.log(`Insert team: ${teamToInsertId}`);
+          executeReplaceTeam(teamToInsertId);
       }} 
     />)
+  }
+
+  async function executeReplaceTeam(teamToInsertId: number) {
+    const response = await replaceTeamWithExistingApiClientRef.current.execute({ 
+      rosterId: rosterId,
+      mlbPPTeamToReplace: team.powerProsTeam,
+      teamToInsertId: teamToInsertId
+    });
+    if(response.success)
+      appContext.reloadCurrentPage();
   }
 
 

@@ -1,7 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.ElectronUI.Api.Shared;
 using PowerUp.Entities.Players;
-using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
 using PowerUp.Entities.Teams.Api;
 
@@ -9,12 +8,10 @@ namespace PowerUp.ElectronUI.Api.Teams
 {
   public class ReplaceWithExistingPlayerCommand : ICommand<ReplaceWithExistingPlayerRequest, ResultResponse>
   {
-    private readonly IPlayerApi _playerApi;
     private readonly ITeamApi _teamApi;
 
-    public ReplaceWithExistingPlayerCommand(IPlayerApi playerApi, ITeamApi teamApi)
+    public ReplaceWithExistingPlayerCommand(ITeamApi teamApi)
     {
-      _playerApi = playerApi;
       _teamApi = teamApi;
     }
 

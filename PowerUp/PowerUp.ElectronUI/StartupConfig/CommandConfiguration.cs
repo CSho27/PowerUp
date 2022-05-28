@@ -31,6 +31,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ReplaceTeamWithNewTeamCommand>();
       services.AddSingleton<EditRosterNameCommand>();
       services.AddSingleton<TeamSearchCommand>();
+      services.AddSingleton<ReplaceTeamWithExistingCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -57,6 +58,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplaceTeamWithNewTeamCommand), "ReplaceTeamWithNewTeam");
       commandRegistry.RegisterCommand(typeof(EditRosterNameCommand), "EditRosterName");
       commandRegistry.RegisterCommand(typeof(TeamSearchCommand), "TeamSearch");
+      commandRegistry.RegisterCommand(typeof(ReplaceTeamWithExistingCommand), "ReplaceTeamWithExisting");
     }
   }
 }
