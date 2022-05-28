@@ -1,5 +1,7 @@
 ﻿using PowerUp.Databases;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.Entities.Teams.Queries
 {
@@ -15,7 +17,7 @@ namespace PowerUp.Entities.Teams.Queries
     public IEnumerable<TeamSearchResult> Execute()
     {
       return DatabaseConfig.Database.Query<TeamSearchResult, Team>()
-        .Where(r => r.Name!.StartsWith(_searchText))
+        .Where(r => r.Name!.Contains(_searchText))
         .OrderBy(r => r.Name)
         .ToEnumerable();
     }
