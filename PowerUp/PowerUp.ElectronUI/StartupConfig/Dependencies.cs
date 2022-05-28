@@ -15,7 +15,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IRosterExportApi>(provider => new RosterExportApi(provider.GetRequiredService<IBaseGameSavePathProvider>(), provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>()));
       services.AddTransient<IPlayerMapper>(provider => new PlayerMapper(provider.GetRequiredService<ISpecialSavedNameLibrary>()));
       services.AddTransient<IPlayerApi>(provider => new PlayerApi());
-      services.AddTransient<ITeamApi>(provider => new TeamApi());
+      services.AddTransient<ITeamApi>(provider => new TeamApi(provider.GetRequiredService<IPlayerApi>()));
       services.AddTransient<IBaseRosterInitializer>(provider => new BaseRosterInitalizer(provider.GetRequiredService<IBaseGameSavePathProvider>(), provider.GetRequiredService<IRosterImportApi>()));
       services.AddTransient<IRosterApi>(provider => new RosterApi());
     }

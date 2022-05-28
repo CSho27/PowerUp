@@ -1,10 +1,14 @@
 ﻿using PowerUp.Entities.Players;
+using PowerUp.Entities.Players.Api;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PowerUp.Entities.Teams.Api
 {
   public interface ITeamApi
   {
+    Team CreateDefaultTeam(EntitySourceType sourceType, Action<Player> savePlayer);
     Team CreateCustomCopyOfTeam(Team team);
     void ReplacePlayer(Team team, Player playerToRemove, Player playerToInsert);
     void EditTeam(Team team, TeamParameters parameters);
@@ -12,6 +16,76 @@ namespace PowerUp.Entities.Teams.Api
 
   public class TeamApi : ITeamApi
   {
+    private readonly IPlayerApi _playerApi;
+
+    public TeamApi(IPlayerApi playerApi)
+    {
+      _playerApi = playerApi;
+    }
+
+    public Team CreateDefaultTeam(EntitySourceType sourceType, Action<Player> savePlayer)
+    {
+      var players = new List<Player>();
+      for(int i=0; i<25; i++)
+      {
+        var player = _playerApi.CreateDefaultPlayer(sourceType, isPitcher: i < 13);
+        savePlayer(player);
+        players.Add(player);
+      }
+
+      return new Team
+      {
+        SourceType = sourceType,
+        Name = "(New!)",
+        PlayerDefinitions = players.Select((p, i) => new PlayerRoleDefinition(p.Id!.Value) { PitcherRole = GetPitcherRoleForIndex(i) }),
+        NoDHLineup = players
+          .Where(p => p.PrimaryPosition != Position.Pitcher)
+          .Take(8)
+          .Select((p, i) => new LineupSlot 
+            { 
+              PlayerId = p.Id!.Value, 
+              Position = (Position)(i+2)
+            })
+          .Append(new LineupSlot { Position = Position.Pitcher }),
+        DHLineup = players
+          .Where(p => p.PrimaryPosition != Position.Pitcher)
+          .Take(9)
+          .Select((p, i) => new LineupSlot
+            {
+              PlayerId = p.Id!.Value,
+              Position = (Position)(i + 2)
+            })
+      };
+    }
+
+    private PitcherRole GetPitcherRoleForIndex(int index)
+    {
+      switch(index)
+      {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+          return PitcherRole.Starter;
+        case 6:
+          return PitcherRole.SwingMan;
+        case 7:
+          return PitcherRole.LongReliever;
+        case 8:
+        case 9:
+        case 10:
+          return PitcherRole.MiddleReliever;
+        case 11:
+          return PitcherRole.SetupMan;
+        case 12:
+          return PitcherRole.Closer;
+        default: 
+          return PitcherRole.MopUpMan;
+      }
+    }
+
     public Team CreateCustomCopyOfTeam(Team team)
     {
       return new Team

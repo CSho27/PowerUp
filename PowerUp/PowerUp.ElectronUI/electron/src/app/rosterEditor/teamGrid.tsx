@@ -16,6 +16,7 @@ import { DisableResult } from "../shared/disableResult";
 import { getPositionType } from "../shared/positionCode";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
+import { ReplaceTeamWithNewTeamApiClient } from "./replaceTeamWithNewTeaApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
 import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
@@ -32,6 +33,7 @@ export function TeamGrid(props: TeamGridProps) {
   const { name, powerProsName, hitters, pitchers } = team;
 
   const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
+  const replaceTeamWithNewApiClientRef = useRef(new ReplaceTeamWithNewTeamApiClient(appContext.commandFetcher));
 
   const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
@@ -74,7 +76,7 @@ export function TeamGrid(props: TeamGridProps) {
           variant='Outline'
           squarePadding
           icon='right-left'
-          {...toDisabledProps('Replace team', ...disableRosterEdit)}
+          {...toDisabledProps('Replace team', ...[] /*disableRosterEdit*/)}
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
@@ -88,7 +90,7 @@ export function TeamGrid(props: TeamGridProps) {
             </ContextMenuItem>
             <ContextMenuItem 
               icon='circle-plus'
-              onClick={() => replaceWithNewTeam(team.teamId)}>
+              onClick={() => replaceWithNewTeam(team.powerProsTeam)}>
                 Replace with new
             </ContextMenuItem>
           </>}/>
@@ -298,8 +300,10 @@ export function TeamGrid(props: TeamGridProps) {
       appContext.reloadCurrentPage();
   }
 
-  function replaceWithNewTeam(teamId: number): void {
-    console.log('replace team with copy');
+  async function replaceWithNewTeam(powerProsTeam: string) {
+    const response = await replaceTeamWithNewApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: powerProsTeam });
+    if(response.success)
+      appContext.reloadCurrentPage();
   }
 
   function replaceTeamWithExisting(teamId: number): void {
