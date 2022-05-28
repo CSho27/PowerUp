@@ -1,38 +1,22 @@
 import styled from "styled-components"
 import { COLORS } from "../../style/constants";
 import { DisableResult } from "../shared/disableResult";
-import { EntitySourceType } from "../shared/entitySourceType";
-import { Position } from "../shared/positionCode";
-import { SimpleCode } from "../shared/simpleCode";
+import { PlayerSearchResultDto } from "./playerSearchApiClient";
 
 export interface PlayerSelectionGridProps {
-  selectedPlayer: PlayerSelectionGridPlayer | undefined;
-  players: PlayerSelectionGridPlayer[];
+  selectedPlayer: PlayerSearchResultDto | undefined;
+  players: PlayerSearchResultDto[];
   noDataMessage: string;
   height?: string;
-  onPlayerSelected: (player: PlayerSelectionGridPlayer) => void;
-  isPlayerDisabled?: (player: PlayerSelectionGridPlayer) => DisableResult;
-}
-
-export interface PlayerSelectionGridPlayer {
-  playerId: number;
-  sourceType: EntitySourceType;
-  canEdit: boolean;
-  uniformNumber: string;
-  savedName: string;
-  formalDisplayName: string;
-  informalDisplayName: string;
-  position: Position;
-  positionAbbreviation: string;
-  batsAndThrows: string;
-  overall: number;
+  onPlayerSelected: (player: PlayerSearchResultDto) => void;
+  isPlayerDisabled?: (player: PlayerSearchResultDto) => DisableResult;
 }
 
 export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
   const { selectedPlayer, players, isPlayerDisabled, noDataMessage, height, onPlayerSelected } = props;
   
   return <GridWrapper height={height}>
-    <PlayerGrid >
+    <PlayerGrid>
       <thead>
         <tr>
           <PlayerHeader>Type</PlayerHeader>
@@ -53,7 +37,7 @@ export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
     </NoDataMessage>}
   </GridWrapper>
 
-  function toPlayerRow(player: PlayerSelectionGridPlayer) {
+  function toPlayerRow(player: PlayerSearchResultDto) {
     const disabledResult = !!isPlayerDisabled
       ? isPlayerDisabled(player)
       : undefined;

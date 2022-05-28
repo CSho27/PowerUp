@@ -9,7 +9,7 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app";
-import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelectionGrid";
+import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
 import { GetPlayerDetailsApiClient } from "../shared/getPlayerDetailsApiClient";
@@ -264,7 +264,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     />)
   }
 
-  function isPlayerDisabled(player: PlayerSelectionGridPlayer): DisableResult {
+  function isPlayerDisabled(player: PlayerSearchResultDto): DisableResult {
     const isDisabled = allPlayers.some(p => p.playerDetails.playerId === player.playerId);
     return {
       disabled: isDisabled,

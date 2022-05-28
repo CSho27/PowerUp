@@ -10,10 +10,11 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app"
-import { PlayerSelectionGridPlayer } from "../playerSelectionModal/playerSelectionGrid";
+import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
 import { getPositionType } from "../shared/positionCode";
+import { TeamSelectionModal } from "../teamSelectionModal/teamSelectionModal";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
 import { ReplaceTeamWithNewTeamApiClient } from "./replaceTeamWithNewTeaApiClient";
@@ -307,11 +308,18 @@ export function TeamGrid(props: TeamGridProps) {
   }
 
   function replaceTeamWithExisting(teamId: number): void {
-    console.log('replace team with copy');
+    appContext.openModal(closeDialog => <TeamSelectionModal 
+      appContext={appContext} 
+      closeDialog={teamToInsertId => { 
+        closeDialog(); 
+        if(!!teamToInsertId)
+          console.log(`Insert team: ${teamToInsertId}`);
+      }} 
+    />)
   }
 
 
-  function isPlayerDisabled(player: PlayerSelectionGridPlayer): DisableResult {
+  function isPlayerDisabled(player: PlayerSearchResultDto): DisableResult {
     const isDisabled = hitters.some(h => h.playerId === player.playerId) 
       || pitchers.some(p => p.playerId === player.playerId);
 

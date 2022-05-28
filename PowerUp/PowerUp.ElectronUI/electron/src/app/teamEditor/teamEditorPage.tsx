@@ -18,7 +18,7 @@ import { PlayerRoleRequest, SaveTeamApiClient, SaveTeamRequest } from "./saveTea
 import { getDetailsReducer, getInitialStateFromResponse, TeamEditorDetails, TeamEditorReducer, TeamEditorTab, teamEditorTabOptions } from "./teamEditorState";
 import { TeamManagementEditor } from "./teamManagementEditor";
 import { PlayerRoleState } from "./playerRoleState";
-import { PitcherDetails, PitcherRoleDefinition, PitcherRolesEditor } from "./pitcherRolesEditor";
+import { PitcherRoleDefinition, PitcherRolesEditor } from "./pitcherRolesEditor";
 import { LineupEditor, LineupSlotDefinition } from "./lineupEditor";
 import { DisabledCriterion, toDisabledProps } from "../../utils/disabledProps";
 

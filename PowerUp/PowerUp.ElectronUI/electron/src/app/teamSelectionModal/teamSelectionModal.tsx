@@ -4,42 +4,37 @@ import { Button } from "../../components/button/button";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
-import { DisableResult } from "../shared/disableResult";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
-import { PlayerSearchApiClient, PlayerSearchResultDto } from "./playerSearchApiClient";
-import { PlayerSelectionGrid } from "./playerSelectionGrid";
+import { TeamSearchApiClient, TeamSearchResultDto } from "./teamSearchApiClient";
+import { TeamSelectionGrid } from "./teamSelectionGrid";
 
-export interface PlayerSelectionModalProps {
+export interface TeamSelectionModalProps {
   appContext: AppContext;
-  closeDialog: (selectedPlayerId: number | undefined) => void;
-  isPlayerDisabled?: (player: PlayerSearchResultDto) => DisableResult;
+  closeDialog: (selectedTeamId: number | undefined) => void;
 }
 
-interface PlayerSelectionModalState {
-  results: PlayerSearchResultDto[];
+interface TeamSelectionModalState {
+  results: TeamSearchResultDto[];
   searchText: string | undefined;
-  selectedPlayer: PlayerSearchResultDto | undefined;
+  selectedTeam: TeamSearchResultDto | undefined;
 }
 
-export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
-  const { appContext, isPlayerDisabled, closeDialog } = props;
-
-  const apiClientRef = useRef(new PlayerSearchApiClient(appContext.commandFetcher))
-
-  const [state, setState] = useState<PlayerSelectionModalState>({
+export function TeamSelectionModal(props: TeamSelectionModalProps) {
+  const { appContext, closeDialog } = props;
+  const apiClientRef = useRef(new TeamSearchApiClient(appContext.commandFetcher));
+  const [state, setState] = useState<TeamSelectionModalState>({
     results: [],
     searchText: undefined,
-    selectedPlayer: undefined
+    selectedTeam: undefined
   });
 
   const isSearching = state.searchText && state.searchText.length > 0;
+  useDebounceEffect(() => { search() }, 500, [state.searchText]);
 
-  useDebounceEffect(() => { search() }, 500, [state.searchText])
-
-  return <Modal ariaLabel='Select Player' fullHeight>
+  return <Modal ariaLabel='Select Team' fullHeight>
     <Wrapper>
       <SelectionHeader>
-        <SelectionHeading>Select Player</SelectionHeading>
+        <SelectionHeading>Select Team</SelectionHeading>
         <SearchBoxWrapper>
           <TextField 
             value={state.searchText}
@@ -47,21 +42,20 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
           />
         </SearchBoxWrapper>
       </SelectionHeader>
-      <PlayerSelectionGrid 
-        selectedPlayer={state.selectedPlayer}
-        players={isSearching ? state.results : []}
-        noDataMessage={isSearching ? 'No players found' : 'Search for player'}
-        onPlayerSelected={player => setState(p => ({...p, selectedPlayer: player}))}
-        isPlayerDisabled={isPlayerDisabled}
+      <TeamSelectionGrid
+        selectedTeam={state.selectedTeam}
+        teams={state.results}
+        noDataMessage={isSearching ? 'No teams found' : 'Search for team'}
+        onTeamSelected={team => setState(p => ({...p, selectedTeam: team}))}
       />
       <SelectionButtons>
         <div>
           <span style={{ fontWeight: '600' }}>
-            Current Selected Player:
+            Current Selected Team:
           </span>
           &nbsp;
           <span>
-            {state.selectedPlayer ? state.selectedPlayer.informalDisplayName : 'none'}
+            {state.selectedTeam ? state.selectedTeam.name : 'none'}
           </span>  
         </div>
         <div style={{ display: 'flex', gap: '4px' }}>
@@ -74,9 +68,9 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
           <Button
             size='Small'
             variant='Fill'
-            disabled={!state.selectedPlayer}
-            onClick={() => closeDialog(state.selectedPlayer?.playerId)}>
-              Select Player
+            disabled={!state.selectedTeam}
+            onClick={() => closeDialog(state.selectedTeam?.teamId)}>
+              Select Team
           </Button>
         </div>
       </SelectionButtons>
@@ -86,9 +80,10 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
   async function search() {
     if(!isSearching)
       return;
+      
     const response = await apiClientRef.current.execute({ searchText: state.searchText! });
     setState(p => ({...p, results: response.results}));
-  } 
+  }
 }
 
 const Wrapper = styled.div`
