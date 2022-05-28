@@ -1,11 +1,13 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
+using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
+using PowerUp.Mappers.Players;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,9 +24,10 @@ namespace PowerUp
     static void Main(string[] args)
     {
       var characterLibrary = new CharacterLibrary(Path.Combine(DATA_DIRECTORY, "./data/Character_Library.csv"));
+      var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary);
+      //AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -32,6 +35,7 @@ namespace PowerUp
       //BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
       //FindPlayersByLastName();
+      CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -164,6 +168,37 @@ namespace PowerUp
 
       var csvLines = keyValuePairs.GroupBy(p => p.Value).OrderBy(g => int.Parse(g.Key)).Select(g => $"{g.Key}, {string.Join(", ", g)}");
       File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/duplicates.csv"), csvLines);
+    }
+
+    static void CreateTeamRatingCSV(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary savedNameLibrary)
+    {
+      var rosterImportApi = new RosterImportApi(characterLibrary, new PlayerMapper(savedNameLibrary));
+      var result = rosterImportApi.ImportRoster(new RosterImportParameters
+      {
+        IsBase = true,
+        Stream = new FileStream(Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), FileMode.Open, FileAccess.Read)
+      });
+
+      var teamRatings = result.Teams.Select(t => {
+        var hitterRatings = t.GetPlayers()
+          .Where(p => p.PrimaryPosition != Position.Pitcher)
+          .Select(p => p.Overall);
+
+        var pitcherRatings = t.GetPlayers()
+          .Where(p => p.PrimaryPosition == Position.Pitcher)
+          .Select(p => p.Overall);
+
+        return new
+        {
+          name = t.Name,
+          hitting = TeamRatingCalculator.CalculateHittingRating(hitterRatings),
+          pitching = TeamRatingCalculator.CalculatePitchingRating(pitcherRatings),
+          overall = TeamRatingCalculator.CalculateOverallRating(new TeamRatingParameters { HitterRatings = hitterRatings, PitcherRatings = pitcherRatings }) 
+        };
+      });
+
+      var csvLines = teamRatings.Select(r => $"{r.name}, {r.hitting}, {r.pitching}, {r.overall}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/teams.csv"), csvLines);
     }
   }
 }
