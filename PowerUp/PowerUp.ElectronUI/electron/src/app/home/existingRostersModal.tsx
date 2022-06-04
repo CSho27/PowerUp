@@ -10,11 +10,13 @@ import { SimpleCode } from "../shared/simpleCode";
 export interface ExistingRostersModalProps {
   appContext: AppContext;
   options: SimpleCode[];
+  okLabel: string;
   closeDialog: () => void;
+  onRosterSelected: (rosterId: number) => void;
 }
 
 export function ExistingRostersModal(props: ExistingRostersModalProps) {
-  const { appContext, options, closeDialog } = props;
+  const { appContext, options, okLabel, closeDialog, onRosterSelected } = props;
   const [selectedRoster, setSelectedRoster] = useState<SimpleCode | undefined>(undefined)
 
   return <Modal ariaLabel='Load Roster'>
@@ -26,11 +28,7 @@ export function ExistingRostersModal(props: ExistingRostersModalProps) {
     </div>
     <div style={{ display: 'flex', gap: '4px' }}>
       <Button variant='Outline' size='Small' onClick={closeDialog}>Cancel</Button>
-      <Button variant='Fill' size='Small' disabled={!selectedRoster} onClick={loadExisting}>Open</Button>
+      <Button variant='Fill' size='Small' disabled={!selectedRoster} onClick={() => onRosterSelected(selectedRoster!.id)}>{okLabel}</Button>
     </div>
   </Modal>
-
-  async function loadExisting() {
-    appContext.setPage({ page: 'RosterEditorPage', rosterId: selectedRoster!.id }); 
-  }
 }
