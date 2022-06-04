@@ -25,6 +25,9 @@ export interface TeamDetails {
   division: string;
   hitters: HitterDetails[];
   pitchers: PitcherDetails[];
+  hittingRating: number;
+  pitchingRating: number;
+  overallRating: number;
 }
 
 export interface PlayerDetails {

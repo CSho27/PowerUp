@@ -62,6 +62,20 @@ export function TeamGrid(props: TeamGridProps) {
             size='Medium'
             sourceType={team.sourceType}
           />
+          <TeamStatGrid>
+            <TeamStatRow>
+              <TeamStatLabel>Hitting</TeamStatLabel>
+              <TeamStatValue>{team.hittingRating}</TeamStatValue>
+            </TeamStatRow>
+            <TeamStatRow>
+              <TeamStatLabel>Pitching</TeamStatLabel>
+              <TeamStatValue>{team.pitchingRating}</TeamStatValue>
+            </TeamStatRow>
+            <TeamStatRow>
+              <TeamStatLabel>Overall</TeamStatLabel>
+              <TeamStatValue>{team.overallRating}</TeamStatValue>
+            </TeamStatRow>            
+          </TeamStatGrid>
         </div>
         <Button 
           size='Medium'
@@ -364,6 +378,29 @@ const TeamGridCaption = styled.caption`
 const TeamHeader = styled.h1`
   font-size: ${FONT_SIZES._32};
   font-weight: 600;
+  font-style: italic;
+  text-align: left;
+`
+
+const TeamStatGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0px 16px;
+`
+
+const TeamStatRow = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+`
+
+const TeamStatLabel = styled.div`
+  font-weight: 600;
+  font-style: italic;
+  text-align: left;
+`
+
+const TeamStatValue = styled.div`
   font-style: italic;
   text-align: left;
 `

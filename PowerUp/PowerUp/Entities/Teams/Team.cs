@@ -17,7 +17,24 @@ namespace PowerUp.Entities.Teams
     public IEnumerable<LineupSlot> NoDHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
     public IEnumerable<LineupSlot> DHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
 
-    public IEnumerable<Player> GetPlayers() => PlayerDefinitions
-      .Select(pd => DatabaseConfig.Database.Load<Player>(pd.PlayerId)!);
+    private IEnumerable<Player>? players = null;
+    public IEnumerable<Player> GetPlayers()
+    {
+      if(players == null)
+        players = PlayerDefinitions.Select(pd => DatabaseConfig.Database.Load<Player>(pd.PlayerId)!);
+
+      return players;
+    }
+
+    private IEnumerable<Player> GetHitters() => GetPlayers().Where(p => p.PrimaryPosition != Position.Pitcher);
+    private IEnumerable<Player> GetPitchers() => GetPlayers().Where(p => p.PrimaryPosition == Position.Pitcher);
+
+    public double GetHittingRating() => TeamRatingCalculator.CalculateHittingRating(GetHitters().Select(h => h.Overall));
+    public double GetPitchingRating() => TeamRatingCalculator.CalculatePitchingRating(GetPitchers().Select(p => p.Overall));
+    public double GetOverallRating() => TeamRatingCalculator.CalculateOverallRating(new TeamRatingParameters
+    {
+      HitterRatings = GetHitters().Select(h => h.Overall),
+      PitcherRatings = GetPitchers().Select(p => p.Overall) 
+    });
   }
 }
