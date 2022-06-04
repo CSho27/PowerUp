@@ -1,14 +1,12 @@
 import Portal from "@reach/portal"
-import styled, { keyframes } from "styled-components"
+import styled from "styled-components"
 import { COLORS } from "../../style/constants"
-import { Icon } from "../icon/icon"
+import { Spinner } from "../spinner/spinner"
 
 export function FullPageSpinner() {
   return <Portal>
     <PageCover>
-      <SpinnerWrapper>
-        <Icon icon='circle-notch' style={{ display: 'block' }}/>
-      </SpinnerWrapper>
+      <Spinner size='Large' />
     </PageCover>
   </Portal>
 }
@@ -23,19 +21,4 @@ const PageCover = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
-
-
-const spinAnimation = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-`
-
-const SpinnerWrapper = styled.div`
-  font-size: 80px;
-  color: ${COLORS.primaryBlue.regular_45};
-  animation-name: ${spinAnimation};
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
 `

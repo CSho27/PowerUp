@@ -4,6 +4,7 @@ import { EntitySourceType } from "../../app/shared/entitySourceType";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { toIdentifier } from "../../utils/getIdentifier";
+import { FlyoutAnchor, useFlyoutState } from "../flyout/flyout";
 import { Icon } from "../icon/icon";
 import { SourceTypeStamp } from "../sourceTypeStamp/sourceTypeStamp";
 import { TextBubble, TextBubbleProps } from "./textBubble";
@@ -11,11 +12,12 @@ import { TextBubble, TextBubbleProps } from "./textBubble";
 export interface PlayerNameBubbleProps extends TextBubbleProps {
   playerId: number;
   sourceType: EntitySourceType;
+  removeInfoFlyout?: boolean;
   title?: string;
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {
-  const { size, sourceType, playerId, children } = props;
+  const { size, sourceType, playerId, removeInfoFlyout, children } = props;
   const isLarge = size === 'Large'
 
   return <NameBubble {...props}>
@@ -27,11 +29,17 @@ export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>
         ? 'Medium'
         : 'Small'}
       sourceType={sourceType} />
-    {/*
-    <PlayerInfoSection>
-    <Icon icon='circle-info' />
-    </PlayerInfoSection>
-    */}
+    {!removeInfoFlyout && 
+    <PlayerInfoSection isLarge={isLarge}>
+      <FlyoutAnchor 
+        {...useFlyoutState()}
+        trigger='click'
+        flyout={<div style={{ padding: '16px', width: '200px', height: '200px' }}>
+          This is a flyout!
+        </div>}>
+          <Icon icon='circle-info' />  
+      </FlyoutAnchor>
+    </PlayerInfoSection>}
   </NameBubble>
 }
 
