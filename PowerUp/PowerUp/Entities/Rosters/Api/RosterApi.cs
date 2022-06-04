@@ -6,6 +6,7 @@ namespace PowerUp.Entities.Rosters.Api
   {
     void EditRosterName(Roster roster, string name);
     void ReplaceTeam(Roster roster, MLBPPTeam teamSlotToUse, Team teamToInsert);
+    Roster CreateCustomCopyOfRoster(Roster roster);
   }
 
   public class RosterApi : IRosterApi
@@ -19,6 +20,17 @@ namespace PowerUp.Entities.Rosters.Api
     {
       roster.TeamIdsByPPTeam.Remove(teamSlotToUse);
       roster.TeamIdsByPPTeam.Add(teamSlotToUse, teamToInsert.Id!.Value);
+    }
+
+    public Roster CreateCustomCopyOfRoster(Roster roster)
+    {
+      return new Roster
+      {
+        SourceType = EntitySourceType.Custom,
+        Name = roster.Name,
+        TeamIdsByPPTeam = roster.TeamIdsByPPTeam,
+        Year = roster.Year,
+      };
     }
   }
 }

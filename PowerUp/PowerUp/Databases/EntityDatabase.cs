@@ -37,7 +37,7 @@ namespace PowerUp.Databases
       else
       {
         entity.Id = 0;
-        entityCollection.Insert(entity);
+        entity.Id = entityCollection.Insert(entity);
       }
 
       foreach(var propertyGetter in entity.Indexes)
