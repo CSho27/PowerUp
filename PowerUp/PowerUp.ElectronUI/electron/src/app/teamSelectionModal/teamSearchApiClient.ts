@@ -13,6 +13,8 @@ export interface TeamSearchResultDto {
   teamId: number;
   sourceType: EntitySourceType;
   name: string;
+  hitting: number;
+  pitching: number;
   overall: number;
 }
 

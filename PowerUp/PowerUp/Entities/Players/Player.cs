@@ -5,6 +5,7 @@ namespace PowerUp.Entities.Players
 {
   public class Player : Entity<Player>
   {
+    public string Identifier => $"P{Id}";
     public EntitySourceType SourceType { get; set; }
     public bool IsCustomPlayer { get; set; }
     public string LastName { get; set; } = string.Empty;

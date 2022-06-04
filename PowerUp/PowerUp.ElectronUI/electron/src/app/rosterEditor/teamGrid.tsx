@@ -9,6 +9,7 @@ import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
+import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../app"
 import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
@@ -42,9 +43,10 @@ export function TeamGrid(props: TeamGridProps) {
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
   const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
+  const teamIdentifier = toIdentifier('Team', team.teamId);
   const teamDisplayName = name === powerProsName
-      ? name
-      : `${name} (${powerProsName})` 
+      ? `${name} - ${teamIdentifier}`
+      : `${name} - ${teamIdentifier} (${powerProsName})` 
 
   const disableManageTeam: DisabledCriteria = [
     { isDisabled: !team.canEdit, tooltipIfDisabled: 'Teams of this type cannot be edited' }
@@ -256,6 +258,7 @@ export function TeamGrid(props: TeamGridProps) {
         <CenteringWrapper>
           <PlayerNameBubble 
             sourceType={details.sourceType}
+            playerId={details.playerId}
             positionType={positionType} 
             size='Medium'
             fullWidth
@@ -402,7 +405,7 @@ const TeamStatLabel = styled.div`
 
 const TeamStatValue = styled.div`
   font-style: italic;
-  text-align: left;
+  text-align: right;
 `
 
 const PlayerGroupHeader = styled.th`

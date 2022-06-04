@@ -8,6 +8,7 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
+import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
@@ -43,7 +44,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div style={{ flex: 'auto', display: 'flex', gap: '16px', alignItems: 'center' }}>
         {!isEditingRosterName && <>
-        <RosterHeader>{rosterName}</RosterHeader>
+        <RosterHeader>{rosterName} - {toIdentifier('Roster', rosterId)}</RosterHeader>
         <SourceTypeStamp 
         theme='Dark'
         size='Medium'

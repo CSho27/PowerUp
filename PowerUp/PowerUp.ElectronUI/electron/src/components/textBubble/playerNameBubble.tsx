@@ -1,34 +1,48 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { EntitySourceType } from "../../app/shared/entitySourceType";
-import { COLORS } from "../../style/constants";
+import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
+import { toIdentifier } from "../../utils/getIdentifier";
+import { Icon } from "../icon/icon";
 import { SourceTypeStamp } from "../sourceTypeStamp/sourceTypeStamp";
 import { TextBubble, TextBubbleProps } from "./textBubble";
 
 export interface PlayerNameBubbleProps extends TextBubbleProps {
+  playerId: number;
   sourceType: EntitySourceType;
   title?: string;
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {
-  const { size, sourceType, children } = props;
-  
+  const { size, sourceType, playerId, children } = props;
+  const isLarge = size === 'Large'
+
   return <NameBubble {...props}>
     <PlayerNameSection>{children}</PlayerNameSection>
+    <PlayerInfoSection isLarge={isLarge}>{toIdentifier('Player', playerId)}</PlayerInfoSection>
     <SourceTypeStamp
       theme='Light'
-      size={size === 'Large'
+      size={isLarge
         ? 'Medium'
         : 'Small'}
       sourceType={sourceType} />
+    {/*
+    <PlayerInfoSection>
+    <Icon icon='circle-info' />
+    </PlayerInfoSection>
+    */}
   </NameBubble>
 }
 
 const NameBubble = styled(TextBubble)`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+`
+
+const PlayerInfoSection = styled.div<{ isLarge: boolean }>`
+  font-size: ${p => p.isLarge ? FONT_SIZES._24 : FONT_SIZES.default_16};
 `
 
 const PlayerNameSection = styled.div`

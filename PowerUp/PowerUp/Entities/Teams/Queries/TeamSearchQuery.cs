@@ -14,19 +14,12 @@ namespace PowerUp.Entities.Teams.Queries
       _searchText = searchText;
     }
 
-    public IEnumerable<TeamSearchResult> Execute()
+    public IEnumerable<Team> Execute()
     {
-      return DatabaseConfig.Database.Query<TeamSearchResult, Team>()
+      return DatabaseConfig.Database.Query<Team>()
         .Where(r => r.Name!.Contains(_searchText))
         .OrderBy(r => r.Name)
         .ToEnumerable();
     }
-  }
-
-  public class TeamSearchResult
-  {
-    public int Id { get; set; }
-    public EntitySourceType SourceType { get; set; }
-    public string? Name { get; set; }
   }
 }

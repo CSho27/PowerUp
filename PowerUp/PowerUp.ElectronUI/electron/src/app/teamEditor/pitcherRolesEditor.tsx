@@ -246,11 +246,12 @@ function PitcherTile(props: PitcherTileProps) {
           {disabledProps.disabled && <div/>}
           <NameContentContainer>
             <PlayerNameBubble 
+              sourceType={details.sourceType}
+              playerId={details.playerId}
               positionType='Pitcher'
               size='Medium'      
               title={details.fullName}
-              fullWidth
-              sourceType={details.sourceType}> 
+              fullWidth> 
                 {details.savedName}
             </PlayerNameBubble>
           </NameContentContainer>

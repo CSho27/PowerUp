@@ -291,11 +291,12 @@ function PlayerTile(props: PlayerTileProps) {
     isSwappable={canSwapCallback}
     onSwap={swapId => swapWithPlayer(Number.parseInt(swapId))}>
       <PlayerNameBubble 
+        sourceType={details.sourceType}
+        playerId={details.playerId}
         positionType={getPositionType(details.position)}
         size='Medium'      
         title={details.fullName}
-        fullWidth
-        sourceType={details.sourceType}> 
+        fullWidth> 
           {details.savedName}
       </PlayerNameBubble>
   </DragSwapTile>

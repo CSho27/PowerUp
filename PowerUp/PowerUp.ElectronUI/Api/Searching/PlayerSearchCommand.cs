@@ -26,12 +26,12 @@ namespace PowerUp.ElectronUI.Api.Searching
   {
     public IEnumerable<PlayerSearchResultDto> Results { get; set; } = Enumerable.Empty<PlayerSearchResultDto>();
 
-    public PlayerSearchResponse(IEnumerable<PlayerSearchResult> results)
+    public PlayerSearchResponse(IEnumerable<Player> results)
     {
       Results = results.Select(r => new PlayerSearchResultDto(r));
     }
 
-    public static PlayerSearchResponse Empty() => new PlayerSearchResponse(Enumerable.Empty<PlayerSearchResult>());
+    public static PlayerSearchResponse Empty() => new PlayerSearchResponse(Enumerable.Empty<Player>());
   }
 
   public class PlayerSearchResultDto
@@ -52,9 +52,9 @@ namespace PowerUp.ElectronUI.Api.Searching
     public string BatsAndThrows { get; set; }
     public int Overall { get; set; }
 
-    public PlayerSearchResultDto(PlayerSearchResult result)
+    public PlayerSearchResultDto(Player result)
     {
-      PlayerId = result.Id;
+      PlayerId = result.Id!.Value;
       SourceType = result.SourceType;
       UniformNumber = result.UniformNumber!;
       SavedName = result.SavedName!;

@@ -8,6 +8,7 @@ namespace PowerUp.Entities.Teams
 {
   public class Team : Entity<Team>
   {
+    public string Identifier => $"T{Id}";
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? ImportSource { get; set; }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 export type IconType = 
 | 'arrow-up'
@@ -9,6 +10,7 @@ export type IconType =
 | 'box-archive'
 | 'chevron-down'
 | 'chevron-up'
+| 'circle-info'
 | 'circle-minus'
 | 'circle-notch'
 | 'circle-plus'

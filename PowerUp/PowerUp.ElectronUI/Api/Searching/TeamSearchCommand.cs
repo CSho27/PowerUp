@@ -1,4 +1,5 @@
 ﻿using PowerUp.Entities;
+using PowerUp.Entities.Teams;
 using PowerUp.Entities.Teams.Queries;
 using System.Text.Json.Serialization;
 
@@ -25,12 +26,12 @@ namespace PowerUp.ElectronUI.Api.Searching
   {
     public IEnumerable<TeamSearchResultDto> Results { get; set; }
 
-    public TeamSearchResponse(IEnumerable<TeamSearchResult> results)
+    public TeamSearchResponse(IEnumerable<Team> results)
     {
       Results = results.Select(r => new TeamSearchResultDto(r));
     }
 
-    public static TeamSearchResponse Empty() => new TeamSearchResponse(Enumerable.Empty<TeamSearchResult>());
+    public static TeamSearchResponse Empty() => new TeamSearchResponse(Enumerable.Empty<Team>());
   }
 
   public class TeamSearchResultDto
@@ -39,14 +40,18 @@ namespace PowerUp.ElectronUI.Api.Searching
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; }
+    public int Hitting { get; set; }
+    public int Pitching { get; set; }
     public int Overall { get; set; }
 
-    public TeamSearchResultDto(TeamSearchResult result)
+    public TeamSearchResultDto(Team result)
     {
-      TeamId = result.Id;
+      TeamId = result.Id!.Value;
       SourceType = result.SourceType;
       Name = result.Name!;
-      Overall = 0;
+      Hitting = result.GetHittingRating().RoundDown();
+      Pitching = result.GetPitchingRating().RoundDown();
+      Overall = result.GetOverallRating().RoundDown();
     }
 
   }

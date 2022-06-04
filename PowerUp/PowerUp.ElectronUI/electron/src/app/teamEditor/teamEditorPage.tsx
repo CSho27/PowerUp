@@ -21,6 +21,7 @@ import { PlayerRoleState } from "./playerRoleState";
 import { PitcherRoleDefinition, PitcherRolesEditor } from "./pitcherRolesEditor";
 import { LineupEditor, LineupSlotDefinition } from "./lineupEditor";
 import { DisabledCriterion, toDisabledProps } from "../../utils/disabledProps";
+import { toIdentifier } from "../../utils/getIdentifier";
 
 interface TeamEditorPageProps {
   appContext: AppContext;
@@ -50,7 +51,7 @@ const header = <>
       <div style={{ flex: '0 0 450px', display: 'flex', gap: '16px', alignItems: 'center' }}>
         <div style={{ flex: 'auto' }}>
           {!state.isEditingName && <TeamHeading>
-            {currentDetails.teamName}
+            {currentDetails.teamName} - {toIdentifier('Team', teamId)}
             <SourceTypeStamp 
               theme='Dark'
               size='Medium'

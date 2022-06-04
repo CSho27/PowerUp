@@ -7,6 +7,7 @@ namespace PowerUp.Entities.Rosters
 {
   public class Roster : Entity<Roster>
   {
+    public string Identifier => $"R{Id}";
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = "";
     public int? Year { get; set; }

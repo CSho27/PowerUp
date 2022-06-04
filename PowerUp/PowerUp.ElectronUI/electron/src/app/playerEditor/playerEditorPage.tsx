@@ -70,14 +70,14 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
   const header = <>
     <Breadcrumbs appContext={appContext}/>
     <PlayerHeaderContainer>
-      <div style={{ flex: '0 0 250px'}}>
+      <div style={{ flex: '0 0 375px'}}>
         <PlayerNameBubble 
           sourceType={sourceType}
+          playerId={playerId}
           positionType={positionType}
           size='Large'
-          fullWidth
-        >
-          {savedName}
+          fullWidth>
+            {savedName}
         </PlayerNameBubble>
       </div>
       <div>

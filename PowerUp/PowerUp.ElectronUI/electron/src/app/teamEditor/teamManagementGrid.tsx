@@ -195,6 +195,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <PlayerNameBubble 
             sourceType={playerDetails.sourceType}
+            playerId={playerDetails.playerId}
             positionType={positionType} 
             size='Medium'
             fullWidth

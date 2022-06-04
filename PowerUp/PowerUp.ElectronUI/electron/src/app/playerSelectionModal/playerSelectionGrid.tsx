@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { COLORS } from "../../style/constants";
+import { toIdentifier } from "../../utils/getIdentifier";
 import { DisableResult } from "../shared/disableResult";
 import { PlayerSearchResultDto } from "./playerSearchApiClient";
 
@@ -19,6 +20,7 @@ export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
     <PlayerGrid>
       <thead>
         <tr>
+          <PlayerHeader>Id</PlayerHeader>
           <PlayerHeader>Type</PlayerHeader>
           <PlayerHeader>Num</PlayerHeader>
           <PlayerHeader>Pos</PlayerHeader>
@@ -50,6 +52,7 @@ export function PlayerSelectionGrid(props: PlayerSelectionGridProps) {
       onClick={disabledResult?.disabled 
         ? () => {}
         : () => onPlayerSelected(player)}>
+      <PlayerData>{toIdentifier('Player', player.playerId)}</PlayerData>
       <PlayerData>{player.sourceType}</PlayerData>
       <PlayerData>{player.uniformNumber}</PlayerData>
       <PlayerData>{player.positionAbbreviation}</PlayerData>

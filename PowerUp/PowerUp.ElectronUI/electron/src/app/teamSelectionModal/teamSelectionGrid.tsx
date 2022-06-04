@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { COLORS } from "../../style/constants";
+import { toIdentifier } from "../../utils/getIdentifier";
 import { TeamSearchResultDto } from "./teamSearchApiClient";
 
 export interface TeamSelectionGridProps {
@@ -17,9 +18,12 @@ export function TeamSelectionGrid(props: TeamSelectionGridProps) {
     <TeamGrid>
       <thead>
         <tr>
+          <TeamHeader>Id</TeamHeader>
           <TeamHeader>Type</TeamHeader>
           <TeamHeader>Name</TeamHeader>
-          <TeamHeader>Ovr</TeamHeader>
+          <TeamHeader>Hitting</TeamHeader>
+          <TeamHeader>Pitching</TeamHeader>
+          <TeamHeader>Overall</TeamHeader>
         </tr>
       </thead>
       <tbody>
@@ -37,8 +41,11 @@ export function TeamSelectionGrid(props: TeamSelectionGridProps) {
       key={team.teamId} 
       selected={team.teamId === selectedTeam?.teamId}
       onClick={() => onTeamSelected(team)}>
+        <TeamData>{toIdentifier('Team', team.teamId)}</TeamData>
         <TeamData>{team.sourceType}</TeamData>
         <TeamData>{team.name}</TeamData>
+        <TeamData>{team.hitting}</TeamData>
+        <TeamData>{team.pitching}</TeamData>
         <TeamData>{team.overall}</TeamData>
     </TeamRow>
   }
