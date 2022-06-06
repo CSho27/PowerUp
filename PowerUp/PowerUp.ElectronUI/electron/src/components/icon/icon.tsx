@@ -9,6 +9,7 @@ export type IconType =
 | 'arrow-left'
 | 'arrow-right'
 | 'bars'
+| 'baseball'
 | 'box-archive'
 | 'chevron-down'
 | 'chevron-up'

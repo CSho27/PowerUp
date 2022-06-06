@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { getGradeFor0_15, getGradeForPower, GradeLetter } from "../../components/gradeLetter/gradeLetter";
+import { getGradeFor0_15, getGradeForControl, getGradeForPower, getGradeForStamina, GradeLetter } from "../../components/gradeLetter/gradeLetter";
 import { IconButton } from "../../components/icon/iconButton";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
@@ -57,11 +57,12 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
           <PlayerDetailLabel>Ovr</PlayerDetailLabel>
           <Value>{overall}</Value>
         </DetailWrapper>
-        <ContactDetailWrapper>
+        {((primaryPosition !== 'Pitcher' && pageNumber === 1) || (primaryPosition === 'Pitcher' && pageNumber === 3)) && <>
+        <NewRowDetailWrapper>
           <PlayerDetailLabel>Con</PlayerDetailLabel>
           <Value>{hitterDetails.contact}</Value>
           <GradeLetter grade={getGradeFor0_15(hitterDetails.contact)} size='Small' />
-        </ContactDetailWrapper>
+        </NewRowDetailWrapper>
         <DetailWrapper>
           <PlayerDetailLabel>Trj</PlayerDetailLabel>
           <Value>{hitterDetails.trajectory}</Value>
@@ -91,15 +92,43 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
           <Value>{hitterDetails.armStrength}</Value>
           <GradeLetter grade={getGradeFor0_15(hitterDetails.armStrength)} size='Small' />
         </DetailWrapper>
-        <DetailWrapper>
+        <PositionsWrapper>
           <PlayerDetailLabel>Pos</PlayerDetailLabel>
           <Value>{hitterDetails.positions}</Value>
-        </DetailWrapper>
+        </PositionsWrapper>
         <DetailWrapper>
           <PlayerDetailLabel>Fld</PlayerDetailLabel>
           <Value>{hitterDetails.fielding}</Value>
           <GradeLetter grade={getGradeFor0_15(hitterDetails.fielding)} size='Small' />
         </DetailWrapper>
+        </>}
+        {((primaryPosition !== 'Pitcher' && pageNumber === 3) || (primaryPosition === 'Pitcher' && pageNumber === 1)) && <>
+          <DetailWrapper>
+            <PlayerDetailLabel>Top Spd</PlayerDetailLabel>
+            <Value>{pitcherDetails.topSpeed}</Value>
+          </DetailWrapper>
+          <DetailWrapper>
+            <PlayerDetailLabel>Throws</PlayerDetailLabel>
+            <Value>{pitcherDetails.throwingArm}</Value>
+          </DetailWrapper>
+          <PitcherTypeWrapper>
+            <PlayerDetailLabel>Type</PlayerDetailLabel>
+            <Value>{pitcherDetails.pitcherType}</Value>
+          </PitcherTypeWrapper>
+          <DetailWrapper>
+          <PlayerDetailLabel>Ctrl</PlayerDetailLabel>
+          <Value>{pitcherDetails.control}</Value>
+          <GradeLetter grade={getGradeForControl(pitcherDetails.control)} size='Small' />
+        </DetailWrapper>
+        <DetailWrapper>
+          <PlayerDetailLabel>Stam</PlayerDetailLabel>
+          <Value>{pitcherDetails.stamina}</Value>
+          <GradeLetter grade={getGradeForStamina(pitcherDetails.stamina)} size='Small' />
+        </DetailWrapper>
+        </>}
+        {pageNumber == 2 && <>
+          position capabilities
+        </>}
         <Pager>
           <IconButton icon='angle-left' onClick={() => setPageNumber(p => p - 1)} disabled={pageNumber <= 1} />
           <div>{pageNumber}</div>
@@ -159,8 +188,21 @@ const DetailWrapper = styled.div`
   gap: 8px;
 `
 
-const ContactDetailWrapper = styled(DetailWrapper)`
+const PositionsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+`
+
+const NewRowDetailWrapper = styled(DetailWrapper)`
   grid-column: 1;
+`
+
+const PitcherTypeWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 8px;
 `
 
 const PlayerDetailLabel = styled.div`
