@@ -1,4 +1,5 @@
-﻿using PowerUp.ElectronUI.Api.PlayerEditor;
+﻿using PowerUp.ElectronUI.Api.PlayerDetails;
+using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
 using PowerUp.ElectronUI.Api.Searching;
 using PowerUp.ElectronUI.Api.Teams;
@@ -33,6 +34,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<TeamSearchCommand>();
       services.AddSingleton<ReplaceTeamWithExistingCommand>();
       services.AddSingleton<CopyExistingRosterCommand>();
+      services.AddSingleton<GetPlayerFlyoutDetailsCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -61,6 +63,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(TeamSearchCommand), "TeamSearch");
       commandRegistry.RegisterCommand(typeof(ReplaceTeamWithExistingCommand), "ReplaceTeamWithExisting");
       commandRegistry.RegisterCommand(typeof(CopyExistingRosterCommand), "CopyExistingRoster");
+      commandRegistry.RegisterCommand(typeof(GetPlayerFlyoutDetailsCommand), "GetPlayerFlyoutDetails");
     }
   }
 }

@@ -9,6 +9,7 @@ import { EntitySourceType } from "../shared/entitySourceType";
 import { PitcherRole } from "./playerRoleState";
 
 export interface PitcherRolesEditorProps {
+  appContext: AppContext;
   pitchers: PitcherRoleDefinition[];
   disabled: DisabledCriteria;
   updateRole: (playerId: number, role: PitcherRole, orderInRole: number) => void;
@@ -35,6 +36,7 @@ export interface PitcherDetails {
 
 export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
   const { 
+    appContext,
     pitchers,
     disabled,
     updateRole
@@ -46,6 +48,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
   return <Wrapper>
     <DragDropContext onDragEnd={handleDragEnd}>
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='Starter'
         displayName='Starter'
         lightColor={COLORS.pitcherRoles.starter_orange_light_87}
@@ -55,6 +58,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         minPitchers={1}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='SwingMan'
         displayName='Swing Man'
         lightColor={COLORS.pitcherRoles.swingMan_pink_light_94}
@@ -63,6 +67,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         pitchers={copyOfPitchers.filter(p => p.role === 'SwingMan').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='LongReliever'
         displayName='Long Reliever'
         lightColor={COLORS.pitcherRoles.longReliever_purple_light_94}
@@ -71,6 +76,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         pitchers={copyOfPitchers.filter(p => p.role === 'LongReliever').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='MiddleReliever'
         displayName='Middle Reliever'
         lightColor={COLORS.pitcherRoles.middleReliever_indigo_light_94}
@@ -79,6 +85,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         pitchers={copyOfPitchers.filter(p => p.role === 'MiddleReliever').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='SituationalLefty'
         displayName='Situational Lefty'
         lightColor={COLORS.pitcherRoles.situationalLefty_blue_light_94}
@@ -87,6 +94,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         pitchers={copyOfPitchers.filter(p => p.role === 'SituationalLefty').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='MopUpMan'
         displayName='Mop-Up Man'
         lightColor={COLORS.pitcherRoles.mopUpMan_teal_light_94}
@@ -95,6 +103,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         pitchers={copyOfPitchers.filter(p => p.role === 'MopUpMan').sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='SetupMan'
         displayName='Set-Up Man'
         lightColor={COLORS.pitcherRoles.setUpMan_green_light_92}
@@ -103,6 +112,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
         pitchers={copyOfPitchers.filter(p => p.role === 'SetupMan').sort(byOrderInRole).sort(byOrderInRole).map(p => p.details)}
       />
       <PitcherRoleSection 
+        appContext={appContext}
         pitcherRole='Closer'
         displayName='Closer'
         lightColor={COLORS.pitcherRoles.closer_yellow_light_92}
@@ -129,6 +139,7 @@ export function PitcherRolesEditor(props: PitcherRolesEditorProps) {
 }
 
 interface PitcherRoleSectionProps {
+  appContext: AppContext;
   pitcherRole: PitcherRole
   displayName: string;
   lightColor: string;
@@ -140,7 +151,7 @@ interface PitcherRoleSectionProps {
 }
 
 function PitcherRoleSection(props: PitcherRoleSectionProps) {
-  const { pitcherRole, displayName, lightColor, darkColor, pitchers, disabled, minPitchers, maxPitchers } = props;
+  const { appContext, pitcherRole, displayName, lightColor, darkColor, pitchers, disabled, minPitchers, maxPitchers } = props;
   
   return <SectionWrapper>
     <h2>{displayName}</h2>
@@ -177,7 +188,7 @@ function PitcherRoleSection(props: PitcherRoleSectionProps) {
 
     return <RowWrapper key={details.playerId}>
       <span>{index+1}.</span>
-      <PitcherTile index={index} details={details} moveDisabled={movePitcherDisabled} />
+      <PitcherTile appContext={appContext} index={index} details={details} moveDisabled={movePitcherDisabled} />
     </RowWrapper>
   }
 }
@@ -230,13 +241,14 @@ const GridHeader = styled.span<{ alignLeft?: boolean }>`
 `
 
 interface PitcherTileProps {
+  appContext: AppContext;
   details: PitcherDetails;
   index: number;
   moveDisabled: DisabledCriteria;
 } 
 
 function PitcherTile(props: PitcherTileProps) {
-  const { details, index, moveDisabled } = props;
+  const { appContext, details, index, moveDisabled } = props;
   const disabledProps = toDisabledProps('Drag to edit pitcher role', ...moveDisabled)
 
   return <Draggable draggableId={details.playerId.toString()} index={index} isDragDisabled={disabledProps.disabled}>
@@ -246,6 +258,7 @@ function PitcherTile(props: PitcherTileProps) {
           {disabledProps.disabled && <div/>}
           <NameContentContainer>
             <PlayerNameBubble 
+              appContext={appContext}
               sourceType={details.sourceType}
               playerId={details.playerId}
               positionType='Pitcher'

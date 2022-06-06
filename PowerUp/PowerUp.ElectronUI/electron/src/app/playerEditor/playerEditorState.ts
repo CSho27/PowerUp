@@ -824,47 +824,6 @@ export function getSepcialAbilitiesReducer(state: PlayerEditorDetails, update: D
   ]
 }
 
-export function getGradeFor0_15(value: number): Grade {
-  if(value >= 14) return 'A';
-  if(value >= 12) return 'B';
-  if(value >= 10) return 'C';
-  if(value >= 8)  return 'D';
-  if(value >= 6)  return 'E';
-  if(value >= 4)  return 'F';
-  else            return 'G'; 
-}
-
-export function getGradeForPower(value: number): Grade {
-  if(value >= 180) return 'A';
-  if(value >= 140) return 'B';
-  if(value >= 120) return 'C';
-  if(value >= 100) return 'D';
-  if(value >= 85)  return 'E';
-  if(value >= 25)  return 'F';
-  else             return 'G'; 
-}
-
-export function getGradeForControl(value: number): Grade {
-  if(value >= 180) return 'A';
-  if(value >= 155) return 'B';
-  if(value >= 135) return 'C';
-  if(value >= 120) return 'D';
-  if(value >= 110) return 'E';
-  if(value >= 100) return 'F';
-  else             return 'G'; 
-}
-
-export function getGradeForStamina(value: number): Grade {
-  if(value >= 150) return 'A';
-  if(value >= 110) return 'B';
-  if(value >= 80)  return 'C';
-  if(value >= 60)  return 'D';
-  if(value >= 30)  return 'E';
-  if(value >= 15)  return 'F';
-  else             return 'G'; 
-}
-
-
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
   const { 
     personalDetails, 

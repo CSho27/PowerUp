@@ -8,11 +8,13 @@ import { TextBubble } from "../../components/textBubble/textBubble";
 import { COLORS } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { insert } from "../../utils/arrayUtils";
-import { DisabledCriteria, DisabledCriterion, toDisabledProps } from "../../utils/disabledProps";
+import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
+import { AppContext } from "../app";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { getPositionAbbreviation, getPositionType, isPosition, Position } from "../shared/positionCode";
 
 export interface LineupEditorProps {
+  appContext: AppContext;
   players: LineupSlotDefinition[];
   useDh: boolean;
   disabled: DisabledCriteria;
@@ -47,7 +49,7 @@ interface DndContext {
 }
 
 export function LineupEditor(props: LineupEditorProps) {
-  const { players, useDh, disabled, updateLineupOrder, swapPositions, swapPlayers } = props;
+  const { appContext, players, useDh, disabled, updateLineupOrder, swapPositions, swapPlayers } = props;
 
   const sortedPlayers = players.slice().sort(byOrder);
   const playersInLineup = sortedPlayers.filter(p => !!p.orderInLineup);
@@ -83,6 +85,7 @@ export function LineupEditor(props: LineupEditorProps) {
     return <PlayerRowWrapper key={slot.position === 'Pitcher' ? 'Pitcher' : slot.details!.playerId}>
       {slot.orderInLineup && <div>{slot.orderInLineup}.</div>}
       <SlotTile 
+        appContext={appContext}
         index={index}
         details={slot.details} 
         position={slot.position!}
@@ -96,6 +99,7 @@ export function LineupEditor(props: LineupEditorProps) {
 
   function toPlayerTile(slot: LineupSlotDefinition) {
     return <PlayerTile 
+      appContext={appContext}
       key={slot.details!.playerId} 
       details={slot.details!} 
       dndContext={dndContext}
@@ -172,6 +176,7 @@ const PlayerRowWrapper = styled.div`
 `
 
 interface SlotTileProps {
+  appContext: AppContext;
   index: number;
   details: HitterDetails | undefined;
   position: Position;
@@ -183,7 +188,7 @@ interface SlotTileProps {
 }
 
 function SlotTile(props: SlotTileProps) {
-  const { index, details, position, dndContext, disabled, swapPositions, swapPlayers, canSwapPlayers } = props;
+  const { appContext, index, details, position, dndContext, disabled, swapPositions, swapPlayers, canSwapPlayers } = props;
   
   const disabledProps = toDisabledProps('Drag to reorder lineup', ...disabled);
 
@@ -214,6 +219,7 @@ function SlotTile(props: SlotTileProps) {
             {position === 'Pitcher' && <PitcherTile />}
             {position !== 'Pitcher' && 
             <PlayerTile 
+              appContext={appContext}
               details={details!} 
               dndContext={dndContext}
               disabled={disabled}
@@ -274,6 +280,7 @@ function PositionTile(props: PositionTileProps) {
 }
 
 interface PlayerTileProps {
+  appContext: AppContext;
   details: HitterDetails;
   dndContext: DndContext;
   disabled: DisabledCriteria;
@@ -282,7 +289,7 @@ interface PlayerTileProps {
 }
 
 function PlayerTile(props: PlayerTileProps) {
-  const { details, dndContext, disabled, swapWithPlayer, canSwap } = props;
+  const { appContext, details, dndContext, disabled, swapWithPlayer, canSwap } = props;
   
   return <DragSwapTile
     swapId={details.playerId.toString()}
@@ -291,6 +298,7 @@ function PlayerTile(props: PlayerTileProps) {
     isSwappable={canSwapCallback}
     onSwap={swapId => swapWithPlayer(Number.parseInt(swapId))}>
       <PlayerNameBubble 
+        appContext={appContext}
         sourceType={details.sourceType}
         playerId={details.playerId}
         positionType={getPositionType(details.position)}

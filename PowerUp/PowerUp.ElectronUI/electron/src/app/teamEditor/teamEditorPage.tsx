@@ -117,12 +117,14 @@ const header = <>
           saveTemp={() => saveTeam(false)}/>}
         {state.selectedTab === 'Pitcher Roles' &&
         <PitcherRolesEditor 
+          appContext={appContext}
           pitchers={pitchers.map(toPitcherDetails)}
           disabled={[editorDisabled]}
           updateRole={(id, role, index) => updateCurrentDetails({ type: 'updatePitcherRole', playerId: id, role: role, orderInRole: index })}
         />}
         {state.selectedTab === 'No DH Lineup' &&
         <LineupEditor 
+          appContext={appContext}
           players={mlbPlayers.map(p => toHitterDetails(p, false))}
           useDh={false}
           disabled={[editorDisabled]}
@@ -132,6 +134,7 @@ const header = <>
         />}
         {state.selectedTab === 'DH Lineup' &&
         <LineupEditor 
+          appContext={appContext}
           players={mlbPlayers.map(p => toHitterDetails(p, true))}
           useDh={true}
           disabled={[editorDisabled]}

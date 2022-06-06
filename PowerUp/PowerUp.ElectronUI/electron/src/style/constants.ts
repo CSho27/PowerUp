@@ -24,7 +24,8 @@ export const COLORS = {
     light_50: 'hsl(203deg 93% 50%)',
     lighter_69: 'hsl(203deg 93% 69%)',
     lighter_69_t40: 'hsl(203deg 93% 69% / .4)',
-    lighter_69_t80: 'hsl(203deg 93% 69% / .8)'
+    lighter_69_t80: 'hsl(203deg 93% 69% / .8)',
+    lighter_69_s70: 'hsl(203deg 70% 69%)'
   },
   richBlack: {
     regular_5: 'hsl(196deg 60% 5%)'

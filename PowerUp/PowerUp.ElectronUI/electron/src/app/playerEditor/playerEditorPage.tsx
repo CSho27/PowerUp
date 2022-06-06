@@ -72,11 +72,13 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
     <PlayerHeaderContainer>
       <div style={{ flex: '0 0 375px'}}>
         <PlayerNameBubble 
+          appContext={appContext}
           sourceType={sourceType}
           playerId={playerId}
           positionType={positionType}
           size='Large'
-          fullWidth>
+          fullWidth
+          withoutInfoFlyout>
             {savedName}
         </PlayerNameBubble>
       </div>

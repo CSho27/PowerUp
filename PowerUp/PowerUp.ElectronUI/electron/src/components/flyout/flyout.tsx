@@ -16,6 +16,8 @@ export interface FlyoutProps extends FlyoutStateManagementProps {
   flyout: FlyoutContent;
   positioning?: FlyoutPositioning;
   trigger?: FlyoutTrigger;
+  withoutBackground?: boolean;
+  borderRadius?: string;
 }
 
 export type FlyoutContent = 
@@ -43,7 +45,15 @@ interface FlyoutPosition {
 }
 
 export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
-  const { isOpen, children, flyout, onOpenTrigger: triggerOpen, onCloseTrigger: triggerClose } = props;
+  const { 
+    isOpen, 
+    children, 
+    flyout, 
+    withoutBackground, 
+    borderRadius,
+    onOpenTrigger: triggerOpen, 
+    onCloseTrigger: triggerClose 
+  } = props;
   const positioning = props.positioning ?? 'TopRight';
   const isClickTrigger = props.trigger === 'click';
 
@@ -65,7 +75,8 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
     }
   }, [anchorElement, flyoutElement, isOpen, flyoutContent])
 
-  return <div 
+  return <FlyoutAnchorWrapper
+    isClickTrigger={isClickTrigger} 
     ref={setAnchorElement} 
     onMouseUp={isClickTrigger
       ? handleAnchorClick
@@ -78,12 +89,12 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
       : undefined}>
       {children}
       {isOpen && <Portal>
-        <Flyout id={flyoutIdRef.current} ref={setFlyoutElement} style={flyoutPosition}>
-          {!flyoutContent && <Spinner />}
+        <Flyout id={flyoutIdRef.current} ref={setFlyoutElement} style={flyoutPosition} withoutBackground borderRadius={borderRadius}>
+          {/*!flyoutContent && <Spinner />*/}
           {!!flyoutContent && flyoutContent}
         </Flyout>
       </Portal>}
-  </div>
+  </FlyoutAnchorWrapper>
 
   function handleAnchorClick() {
     if(!isOpen)
@@ -160,11 +171,16 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
   }
 }
 
-const Flyout = styled.div`
+const FlyoutAnchorWrapper = styled.div<{ isClickTrigger: boolean }>`
+  cursor: ${p => p.isClickTrigger ? 'pointer' : undefined};
+`
+
+const Flyout = styled.div<{ withoutBackground: boolean, borderRadius?: string }>`
   position: fixed;
-  background-color: ${COLORS.white.regular_100};
+  background-color: ${p => p.withoutBackground ? '' : COLORS.white.regular_100};
   color: initial;
   box-shadow: 0px 3px 16px -8px;
+  border-radius: ${p => p.borderRadius ? p.borderRadius :  '4px'};
 `
 
 export function useFlyoutState(): FlyoutStateManagementProps {

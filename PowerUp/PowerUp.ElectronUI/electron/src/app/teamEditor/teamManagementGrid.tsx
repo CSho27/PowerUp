@@ -194,6 +194,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
       <PlayerCell>
         <CenteringWrapper>
           <PlayerNameBubble 
+            appContext={appContext}
             sourceType={playerDetails.sourceType}
             playerId={playerDetails.playerId}
             positionType={positionType} 

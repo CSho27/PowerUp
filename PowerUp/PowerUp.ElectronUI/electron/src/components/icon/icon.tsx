@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 export type IconType = 
+| 'angle-right'
+| 'angle-left'
 | 'arrow-up'
 | 'arrow-down'
 | 'arrow-left'

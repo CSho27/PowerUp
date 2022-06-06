@@ -248,15 +248,15 @@ export function TeamGrid(props: TeamGridProps) {
           <PositionBubble 
             positionType={positionType} 
             size='Medium' 
-            squarePadding
-          >
-            {details.positionAbbreviation}
+            squarePadding>
+              {details.positionAbbreviation}
           </PositionBubble>
         </CenteringWrapper>
       </PlayerCell>
       <PlayerCell>
         <CenteringWrapper>
           <PlayerNameBubble 
+            appContext={appContext}
             sourceType={details.sourceType}
             playerId={details.playerId}
             positionType={positionType} 

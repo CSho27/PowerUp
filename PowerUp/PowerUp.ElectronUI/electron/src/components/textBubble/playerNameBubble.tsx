@@ -1,5 +1,8 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../app/app";
+import { GetPlayerFlyoutDetailsApiClient } from "../../app/playerDetailsFlyout/getPlayerFlyoutDetailsApiClient";
+import { PlayerDetailsFlyout } from "../../app/playerDetailsFlyout/playerDetailsFlyout";
 import { EntitySourceType } from "../../app/shared/entitySourceType";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
@@ -10,15 +13,18 @@ import { SourceTypeStamp } from "../sourceTypeStamp/sourceTypeStamp";
 import { TextBubble, TextBubbleProps } from "./textBubble";
 
 export interface PlayerNameBubbleProps extends TextBubbleProps {
+  appContext: AppContext;
   playerId: number;
   sourceType: EntitySourceType;
-  removeInfoFlyout?: boolean;
+  withoutInfoFlyout?: boolean;
   title?: string;
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {
-  const { size, sourceType, playerId, removeInfoFlyout, children } = props;
+  const { appContext, size, sourceType, playerId, withoutInfoFlyout, positionType, children } = props;
   const isLarge = size === 'Large'
+
+  const apiClientRef = useRef(new GetPlayerFlyoutDetailsApiClient(appContext.commandFetcher))
 
   return <NameBubble {...props}>
     <PlayerNameSection>{children}</PlayerNameSection>
@@ -29,18 +35,23 @@ export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>
         ? 'Medium'
         : 'Small'}
       sourceType={sourceType} />
-    {!removeInfoFlyout && 
+    {!withoutInfoFlyout && 
     <PlayerInfoSection isLarge={isLarge}>
       <FlyoutAnchor 
         {...useFlyoutState()}
         trigger='click'
-        flyout={<div style={{ padding: '16px', width: '200px', height: '200px' }}>
-          This is a flyout!
-        </div>}>
+        withoutBackground
+        borderRadius={'16px'}
+        flyout={getPlayerDetailsFlyout}>
           <Icon icon='circle-info' />  
       </FlyoutAnchor>
     </PlayerInfoSection>}
   </NameBubble>
+
+  async function getPlayerDetailsFlyout() {
+    const response = await apiClientRef.current.execute({ playerId: playerId });
+    return <PlayerDetailsFlyout appContext={appContext} response={response} />
+  }
 }
 
 const NameBubble = styled(TextBubble)`
