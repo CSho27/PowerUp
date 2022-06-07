@@ -8,7 +8,9 @@ import { TrajectoryArrow, TrajectoryValue } from "../../components/trajcetoryArr
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { getPositionType } from "../shared/positionCode";
-import { PlayerFlyoutDetailsResponse } from "./getPlayerFlyoutDetailsApiClient";
+import { HitterDetailsDto, PitcherDetailsDto, PlayerFlyoutDetailsResponse } from "./getPlayerFlyoutDetailsApiClient";
+import { PitchArsenalDisplay } from "./pitchArsenalDisplay";
+import { PitchBreakMeter } from "./pitchBreakMeter";
 
 export interface PlayerDetailsFlyoutProps {
   appContext: AppContext;
@@ -57,86 +59,101 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
           <PlayerDetailLabel>Ovr</PlayerDetailLabel>
           <Value>{overall}</Value>
         </DetailWrapper>
-        {((primaryPosition !== 'Pitcher' && pageNumber === 1) || (primaryPosition === 'Pitcher' && pageNumber === 3)) && <>
-        <NewRowDetailWrapper>
-          <PlayerDetailLabel>Con</PlayerDetailLabel>
-          <Value>{hitterDetails.contact}</Value>
-          <GradeLetter grade={getGradeFor0_15(hitterDetails.contact)} size='Small' />
-        </NewRowDetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>Trj</PlayerDetailLabel>
-          <Value>{hitterDetails.trajectory}</Value>
-          <TrajectoryArrow value={hitterDetails.trajectory as TrajectoryValue} size='Small' />
-        </DetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>Pow</PlayerDetailLabel>
-          <Value>{hitterDetails.power}</Value>
-          <GradeLetter grade={getGradeForPower(hitterDetails.power)} size='Small' />
-        </DetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>E Res</PlayerDetailLabel>
-          <Value>{hitterDetails.errorResistance}</Value>
-          <GradeLetter grade={getGradeFor0_15(hitterDetails.errorResistance)} size='Small' />
-        </DetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>Run Spd</PlayerDetailLabel>
-          <Value>{hitterDetails.runSpeed}</Value>
-          <GradeLetter grade={getGradeFor0_15(hitterDetails.runSpeed)} size='Small' />
-        </DetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>B/T</PlayerDetailLabel>
-          <Value>{hitterDetails.batsAndThrows}</Value>
-        </DetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>Arm Str</PlayerDetailLabel>
-          <Value>{hitterDetails.armStrength}</Value>
-          <GradeLetter grade={getGradeFor0_15(hitterDetails.armStrength)} size='Small' />
-        </DetailWrapper>
-        <PositionsWrapper>
-          <PlayerDetailLabel>Pos</PlayerDetailLabel>
-          <Value>{hitterDetails.positions}</Value>
-        </PositionsWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>Fld</PlayerDetailLabel>
-          <Value>{hitterDetails.fielding}</Value>
-          <GradeLetter grade={getGradeFor0_15(hitterDetails.fielding)} size='Small' />
-        </DetailWrapper>
-        </>}
-        {((primaryPosition !== 'Pitcher' && pageNumber === 3) || (primaryPosition === 'Pitcher' && pageNumber === 1)) && <>
-          <DetailWrapper>
-            <PlayerDetailLabel>Top Spd</PlayerDetailLabel>
-            <Value>{pitcherDetails.topSpeed}</Value>
-          </DetailWrapper>
-          <DetailWrapper>
-            <PlayerDetailLabel>Throws</PlayerDetailLabel>
-            <Value>{pitcherDetails.throwingArm}</Value>
-          </DetailWrapper>
-          <PitcherTypeWrapper>
-            <PlayerDetailLabel>Type</PlayerDetailLabel>
-            <Value>{pitcherDetails.pitcherType}</Value>
-          </PitcherTypeWrapper>
-          <DetailWrapper>
-          <PlayerDetailLabel>Ctrl</PlayerDetailLabel>
-          <Value>{pitcherDetails.control}</Value>
-          <GradeLetter grade={getGradeForControl(pitcherDetails.control)} size='Small' />
-        </DetailWrapper>
-        <DetailWrapper>
-          <PlayerDetailLabel>Stam</PlayerDetailLabel>
-          <Value>{pitcherDetails.stamina}</Value>
-          <GradeLetter grade={getGradeForStamina(pitcherDetails.stamina)} size='Small' />
-        </DetailWrapper>
-        </>}
+        {((primaryPosition !== 'Pitcher' && pageNumber === 1) || (primaryPosition === 'Pitcher' && pageNumber === 3)) && 
+        <HitterFlyoutContent {...hitterDetails} />}
+        {((primaryPosition !== 'Pitcher' && pageNumber === 3) || (primaryPosition === 'Pitcher' && pageNumber === 1)) && 
+        <PitcherFlyoutContent {...pitcherDetails} />}
         {pageNumber == 2 && <>
           position capabilities
         </>}
-        <Pager>
+      </PlayerDetailsContentContainer>
+      <Pager>
           <IconButton icon='angle-left' onClick={() => setPageNumber(p => p - 1)} disabled={pageNumber <= 1} />
           <div>{pageNumber}</div>
           <IconButton icon='angle-right' onClick={() => setPageNumber(p => p + 1)} disabled={pageNumber >= 3}/>
         </Pager>
-      </PlayerDetailsContentContainer>
     </PlayerDetailsContainer>
   </PlayerDetailsBackground>
+}
+
+function HitterFlyoutContent(props: HitterDetailsDto) {
+  return <>
+    <NewRowDetailWrapper>
+      <PlayerDetailLabel>Con</PlayerDetailLabel>
+      <Value>{props.contact}</Value>
+      <GradeLetter grade={getGradeFor0_15(props.contact)} size='Small' />
+    </NewRowDetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Trj</PlayerDetailLabel>
+      <Value>{props.trajectory}</Value>
+      <TrajectoryArrow value={props.trajectory as TrajectoryValue} size='Small' />
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Pow</PlayerDetailLabel>
+      <Value>{props.power}</Value>
+      <GradeLetter grade={getGradeForPower(props.power)} size='Small' />
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>E Res</PlayerDetailLabel>
+      <Value>{props.errorResistance}</Value>
+      <GradeLetter grade={getGradeFor0_15(props.errorResistance)} size='Small' />
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Run Spd</PlayerDetailLabel>
+      <Value>{props.runSpeed}</Value>
+      <GradeLetter grade={getGradeFor0_15(props.runSpeed)} size='Small' />
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>B/T</PlayerDetailLabel>
+      <Value>{props.batsAndThrows}</Value>
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Arm Str</PlayerDetailLabel>
+      <Value>{props.armStrength}</Value>
+      <GradeLetter grade={getGradeFor0_15(props.armStrength)} size='Small' />
+    </DetailWrapper>
+    <PositionsWrapper>
+      <PlayerDetailLabel>Pos</PlayerDetailLabel>
+      <Value>{props.positions}</Value>
+    </PositionsWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Fld</PlayerDetailLabel>
+      <Value>{props.fielding}</Value>
+      <GradeLetter grade={getGradeFor0_15(props.fielding)} size='Small' />
+    </DetailWrapper>
+  </>
+}
+
+function PitcherFlyoutContent(props: PitcherDetailsDto) {
+  const { topSpeed, throwingArm, pitcherType, control, stamina, ...pitchArsenal } = props;
+
+  return <>
+    <DetailWrapper>
+      <PlayerDetailLabel>Top Spd</PlayerDetailLabel>
+      <Value>{props.topSpeed}</Value>
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Throws</PlayerDetailLabel>
+      <Value>{props.throwingArm}</Value>
+    </DetailWrapper>
+    <PitcherTypeWrapper>
+      <PlayerDetailLabel>Type</PlayerDetailLabel>
+      <Value>{props.pitcherType}</Value>
+    </PitcherTypeWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Ctrl</PlayerDetailLabel>
+      <Value>{props.control}</Value>
+      <GradeLetter grade={getGradeForControl(props.control)} size='Small' />
+    </DetailWrapper>
+    <DetailWrapper>
+      <PlayerDetailLabel>Stam</PlayerDetailLabel>
+      <Value>{props.stamina}</Value>
+      <GradeLetter grade={getGradeForStamina(props.stamina)} size='Small' />
+    </DetailWrapper>
+    <PitchBreakSection>
+      <PitchArsenalDisplay isLefty={props.throwingArm === 'Left'} {...pitchArsenal} />
+    </PitchBreakSection>
+  </>
 }
 
 const PlayerDetailsBackground = styled.div`
@@ -144,11 +161,14 @@ const PlayerDetailsBackground = styled.div`
   padding: 16px;
   padding-top: 32px;
   border-radius: 16px;
+  height: 338px;
 `
 
 const PlayerDetailsContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-rows: auto auto;
   background-color: ${COLORS.white.regular_100};
   border-radius: 16px;
   position: relative;
@@ -216,12 +236,16 @@ const Value = styled.div`
 `
 
 const Pager = styled.div`
-  grid-column: span 2;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   gap: 8px;
+  padding: 0px 16px;
   font-size: ${FONT_SIZES._18};
+`
+
+const PitchBreakSection = styled.div`
+  grid-column: span 2;
 `
 
 
