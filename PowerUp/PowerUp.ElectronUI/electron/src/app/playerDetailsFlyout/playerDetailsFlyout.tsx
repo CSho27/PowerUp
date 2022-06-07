@@ -128,18 +128,18 @@ function PitcherFlyoutContent(props: PitcherDetailsDto) {
   const { topSpeed, throwingArm, pitcherType, control, stamina, ...pitchArsenal } = props;
 
   return <>
-    <DetailWrapper>
+    <TwoColDetailWrapper>
       <PlayerDetailLabel>Top Spd</PlayerDetailLabel>
-      <Value>{props.topSpeed}</Value>
-    </DetailWrapper>
+      <Value>{props.topSpeed} mph</Value>
+    </TwoColDetailWrapper>
     <DetailWrapper>
       <PlayerDetailLabel>Throws</PlayerDetailLabel>
       <Value>{props.throwingArm}</Value>
     </DetailWrapper>
-    <PitcherTypeWrapper>
+    <TwoColDetailWrapper>
       <PlayerDetailLabel>Type</PlayerDetailLabel>
       <Value>{props.pitcherType}</Value>
-    </PitcherTypeWrapper>
+    </TwoColDetailWrapper>
     <DetailWrapper>
       <PlayerDetailLabel>Ctrl</PlayerDetailLabel>
       <Value>{props.control}</Value>
@@ -168,7 +168,7 @@ const PlayerDetailsContainer = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto 1fr;
   background-color: ${COLORS.white.regular_100};
   border-radius: 16px;
   position: relative;
@@ -219,7 +219,7 @@ const NewRowDetailWrapper = styled(DetailWrapper)`
   grid-column: 1;
 `
 
-const PitcherTypeWrapper = styled.div`
+const TwoColDetailWrapper = styled.div`
   display: grid;
   grid-template-columns: 70px 1fr;
   gap: 8px;
