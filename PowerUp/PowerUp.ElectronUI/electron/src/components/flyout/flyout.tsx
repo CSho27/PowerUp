@@ -25,23 +25,23 @@ export type FlyoutContent =
 | (() => ReactNode)
 | (() => Promise<ReactNode>)
 
-export type FlyoutPositioning =
-| 'RightBottom' 
-| 'RightTop' 
-| 'BottomRight' 
-| 'BottomLeft' 
-| 'LeftTop' 
-| 'LeftBottom'
-| 'TopRight'
-| 'TopLeft'
+const positioningTypes = [
+  'RightBottom', 
+  'RightTop', 
+  'BottomRight', 
+  'BottomLeft', 
+  'LeftTop', 
+  'LeftBottom',
+  'TopRight',
+  'TopLeft'
+] as const;
+export type FlyoutPositioning = typeof positioningTypes[number]
 
 export type FlyoutTrigger = 'hover' | 'click';
 
 interface FlyoutPosition {
-  top?: number
-  bottom?: number;
-  left?: number;
-  right?: number;
+  top: number | undefined;
+  left: number | undefined;
 }
 
 export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
@@ -61,7 +61,7 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
   const [flyoutContent, setFlyoutContent] = useState<ReactNode|null>(flyout instanceof Function ? null : flyout)
   const [anchorElement, setAnchorElement] = useState<HTMLDivElement|null>(null);
   const [flyoutElement, setFlyoutElement] = useState<HTMLDivElement|null>(null);
-  const [flyoutPosition, setFlyoutPosition] = useState<FlyoutPosition>({});
+  const [flyoutPosition, setFlyoutPosition] = useState<FlyoutPosition>({ top: undefined, left: undefined });
 
   useEffect(() => {
     updateFlyoutPosition();
@@ -150,6 +150,27 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
   }
 
   function getFlyoutPosition(anchorRect: DOMRect, flyoutRect: DOMRect): FlyoutPosition {
+    const defaultPosition = getPositionFor(anchorRect, flyoutRect, positioning);
+    if(isFullyOnScreen(defaultPosition, flyoutRect))
+      return defaultPosition;
+    
+    for(let i=0; i<positioningTypes.length; i++) {
+      const position = getPositionFor(anchorRect, flyoutRect, positioningTypes[i]);
+      if(isFullyOnScreen(position, flyoutRect))
+      return position;
+    }
+
+    return defaultPosition;
+  }
+
+  function isFullyOnScreen(flyoutPosition: FlyoutPosition, flyoutRect: DOMRect): boolean {
+    return flyoutPosition.left! >= 0 &&
+    flyoutPosition.left! + flyoutRect.width <= document.body.clientWidth &&
+    flyoutPosition.top! >= 0 &&
+    flyoutPosition.top! + flyoutRect.height <= document.body.clientHeight;
+  }
+
+  function getPositionFor(anchorRect: DOMRect, flyoutRect: DOMRect, positioning: FlyoutPositioning): FlyoutPosition {
     switch(positioning) {
       case 'RightBottom':
         return { top: anchorRect.top, left: anchorRect.right };
