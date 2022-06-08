@@ -40,7 +40,9 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 
 ### Edit Roster
 ![image](https://user-images.githubusercontent.com/30477054/172524911-8df2b924-9ce2-4001-adf0-16336d94b10c.png)
-
+- The Edit Roster page lists all the teams on a roster and the players that comprise them.
+- All edits made to rosters are saved immediately. There is no saving necessary and there is no way to undo changes.
+- To edit the name of the roster, click the edit icon near the top of the screen by the roster name. (This name will not show up anywhere in the game, but the exported GameSave file will use this name
 
 - Select one of the 3 options on the home page to open a roster to edit
 - To edit a player, click the edit icon next to the player on the left
