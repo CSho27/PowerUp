@@ -13,6 +13,35 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 ![Player Editor - Hitter](https://user-images.githubusercontent.com/30477054/172521472-1f7290cd-7e4f-49d9-8b31-ae8a0ada6913.png)
 
 ## Use Guide
+### Key Concepts
+#### Entity Type
+![image](https://user-images.githubusercontent.com/30477054/172523201-4bbf6d04-55c9-4c56-af42-bd93b4922c84.png)
+- In order to preserve certain data in the system, there are 3 different types of players, teams, and roster:
+  - Base: Included in original game. Cannot be edited.
+  - Imported: Imported from another Game Save file. Cannot be edited.
+  - Custom: Created by the app. Properties can be edited.
+- If you wish to edit a player, team, or roster that is not editable, you can **make a copy**, which will give you an editable version of that entity.
+
+#### Referential Data
+![image](https://user-images.githubusercontent.com/30477054/172523937-01285df2-61c4-424e-9300-a35d2b92c428.png)
+- Each player, team, and roster in the game has a unique id associated with it
+- Rosters and Teams store *references* to their Teams and Players, which means that:
+  - You can use a player you create on more than one team
+  - You can use a team you create on more than one roster
+  - Any time you edit a player on a team, that player will also be edited on every other team he is on
+  - Any time you edit a team on a roster, that team wll also be edited on every other roster it is on
+ 
+### Choosing a Roster to Edit
+![image](https://user-images.githubusercontent.com/30477054/172524588-e6c5b3dd-0a0c-4a8b-8aec-e4f3f2a409a7.png)
+- When you open the app, you will have three different options for how to open a roster to edit:
+  - Open Existing Roster: This lets you choose a roster from the list of rosters saved in your system and opens whichever one you select.
+  - Copy Existing Roster: This makes an editable copy of any roster that previously existed in your system, and opens it.   
+  - Import Roster: This allows you to choose a GameSave file from your filesystem to import into the app, and opens it when the import is complete.
+
+### Edit Roster
+![image](https://user-images.githubusercontent.com/30477054/172524911-8df2b924-9ce2-4001-adf0-16336d94b10c.png)
+
+
 - Select one of the 3 options on the home page to open a roster to edit
 - To edit a player, click the edit icon next to the player on the left
 - When done editing player properties, click save in the upper right
