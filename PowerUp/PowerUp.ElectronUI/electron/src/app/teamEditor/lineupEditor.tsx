@@ -11,7 +11,7 @@ import { insert } from "../../utils/arrayUtils";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app";
 import { EntitySourceType } from "../shared/entitySourceType";
-import { getPositionAbbreviation, getPositionType, isPosition, Position } from "../shared/positionCode";
+import { getPositionAbbreviation, getPositionType, isPosition, Position, positionCompare } from "../shared/positionCode";
 
 export interface LineupEditorProps {
   appContext: AppContext;
@@ -53,7 +53,7 @@ export function LineupEditor(props: LineupEditorProps) {
 
   const sortedPlayers = players.slice().sort(byOrder);
   const playersInLineup = sortedPlayers.filter(p => !!p.orderInLineup);
-  const playersOnBench = sortedPlayers.filter(p => !p.orderInLineup);
+  const playersOnBench = sortedPlayers.filter(p => !p.orderInLineup).slice().sort((p1, p2) => positionCompare(p1.details.position, p2.details.position));
   const lineup = useDh
     ? playersInLineup
     : lineupWithPitcherSlot(playersInLineup);   
