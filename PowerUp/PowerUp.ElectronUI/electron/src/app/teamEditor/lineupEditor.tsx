@@ -415,6 +415,7 @@ const DroppingIndicator = styled.div<{ isDropping: boolean }>`
   left: 0;
   height: 100%;
   width: 100%;
+  pointer-events: none;
   ${p => p.isDropping 
     ? `
       background-color: ${COLORS.primaryBlue.lighter_69_t80};
