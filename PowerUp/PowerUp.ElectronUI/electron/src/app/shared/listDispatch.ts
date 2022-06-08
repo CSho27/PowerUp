@@ -1,0 +1,1 @@
+export type ListDispatch<TKey, TAction> =  (key: TKey, action: TAction) => void;

@@ -9,13 +9,10 @@ import { SavePlayerRequest } from "./savePlayerApiClient";
 import { buildSpecialAbilitiesRequestFromState, getInitialSpecialAbilitiesFromResponse, SpecialAbilities, SpecialAbilitiesAction, SpecialAbilitiesReducer } from "./specialAbilitiesState";
 
 export interface PlayerEditorState {
+  lastSavedDetails: PlayerEditorDetails;
+  currentDetails: PlayerEditorDetails;
+  dateLastSaved: Date | undefined;
   selectedTab: PlayerEditorTab;
-  personalDetails: PlayerPersonalDetails;
-  appearance: Appearance;
-  positionCapabilityDetails: PositionCapabilityDetails;
-  hitterAbilities: HitterAbilities;
-  pitcherAbilities: PitcherAbilities;
-  specialAbilities: SpecialAbilities;
 }
 
 export type PlayerEditorTab = typeof playerEditorTabOptions[number];
@@ -29,7 +26,54 @@ export const playerEditorTabOptions = [
 ] as const
 
 export type PlayerEditorAction =
+| { type: 'updateDetails', detailsAction: PlayerEditorDetailsAction }
+| { type: 'undoChanges' }
+| { type: 'updateFromSave' }
 | { type: 'updateSelectedTab', selectedTab: PlayerEditorTab }
+
+export function PlayerEditorReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
+  switch(action.type) {
+    case 'updateDetails':
+      return {
+        ...state,
+        currentDetails: PlayerEditorDetailsReducer(state.currentDetails, action.detailsAction, context)
+      }
+    case 'undoChanges':
+      return {
+        ...state,
+        currentDetails: state.lastSavedDetails
+      }
+    case 'updateFromSave':
+      return {
+        ...state,
+        lastSavedDetails: state.currentDetails,
+        dateLastSaved: new Date()
+      }
+    case 'updateSelectedTab':
+      return {
+        ...state,
+        selectedTab: action.selectedTab
+      }
+  }
+}
+
+export function getDetailsReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [PlayerEditorDetails, Dispatch<PlayerEditorDetailsAction>] {
+  return [
+    state.currentDetails,
+    (action: PlayerEditorDetailsAction) => update({ type: 'updateDetails', detailsAction: action })
+  ]
+}
+
+export interface PlayerEditorDetails {
+  personalDetails: PlayerPersonalDetails;
+  appearance: Appearance;
+  positionCapabilityDetails: PositionCapabilityDetails;
+  hitterAbilities: HitterAbilities;
+  pitcherAbilities: PitcherAbilities;
+  specialAbilities: SpecialAbilities;
+}
+
+export type PlayerEditorDetailsAction =
 | { type: 'updatePersonalDetails', action: PlayerPersonalDetailsAction }
 | { type: 'updateAppearance', action: AppearanceAction }
 | { type: 'updatePositionCapabilityDetails', action: PositionCapabilityDetailsAction }
@@ -37,13 +81,8 @@ export type PlayerEditorAction =
 | { type: 'updatePitcherAbilities', action: PitcherAbilitiesAction }
 | { type: 'updateSpecialAbilities', action: SpecialAbilitiesAction }
 
-export function PlayerEditorStateReducer(state: PlayerEditorState, action: PlayerEditorAction, context: PlayerPersonalDetailsContext): PlayerEditorState {
+export function PlayerEditorDetailsReducer(state: PlayerEditorDetails, action: PlayerEditorDetailsAction, context: PlayerPersonalDetailsContext): PlayerEditorDetails {
   switch(action.type) {
-    case 'updateSelectedTab':
-      return {
-        ...state,
-        selectedTab: action.selectedTab
-      }
     case 'updatePersonalDetails':
       return {
         ...state,
@@ -190,7 +229,7 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
   }
 }
 
-export function getPersonalDetailsReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [PlayerPersonalDetails, Dispatch<PlayerPersonalDetailsAction>] {
+export function getPersonalDetailsReducer(state: PlayerEditorDetails, update: Dispatch<PlayerEditorDetailsAction>) : [PlayerPersonalDetails, Dispatch<PlayerPersonalDetailsAction>] {
   return [
     state.personalDetails,
     (action: PlayerPersonalDetailsAction) => update({ type: 'updatePersonalDetails', action: action })
@@ -326,7 +365,7 @@ export function AppearanceReducer(state: Appearance, action: AppearanceAction): 
   }
 }
 
-export function getAppearanceReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [Appearance, Dispatch<AppearanceAction>] {
+export function getAppearanceReducer(state: PlayerEditorDetails, update: Dispatch<PlayerEditorDetailsAction>) : [Appearance, Dispatch<AppearanceAction>] {
   return [
     state.appearance,
     (action: AppearanceAction) => update({ type: 'updateAppearance', action: action })
@@ -400,7 +439,7 @@ export function PositionCapabilityDetailsReducer(state: PositionCapabilityDetail
   }
 }
 
-export function getPositionCapabilityDetailsReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [PositionCapabilityDetails, Dispatch<PositionCapabilityDetailsAction>] {
+export function getPositionCapabilityDetailsReducer(state: PlayerEditorDetails, update: Dispatch<PlayerEditorDetailsAction>) : [PositionCapabilityDetails, Dispatch<PositionCapabilityDetailsAction>] {
   return [
     state.positionCapabilityDetails,
     (action: PositionCapabilityDetailsAction) => update({ type: 'updatePositionCapabilityDetails', action: action })
@@ -561,7 +600,7 @@ export function HitterAbilitiesReducer(state: HitterAbilities, action: HitterAbi
   }
 }
 
-export function getHitterAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [HitterAbilities, Dispatch<HitterAbilitiesAction>] {
+export function getHitterAbilitiesReducer(state: PlayerEditorDetails, update: Dispatch<PlayerEditorDetailsAction>) : [HitterAbilities, Dispatch<HitterAbilitiesAction>] {
   return [
     state.hitterAbilities,
     (action: HitterAbilitiesAction) => update({ type: 'updateHitterAbilities', action: action })
@@ -771,60 +810,19 @@ export function PitcherAbilitiesReducer(state: PitcherAbilities, action: Pitcher
   }
 }
 
-export function getPitcherAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [PitcherAbilities, Dispatch<PitcherAbilitiesAction>] {
+export function getPitcherAbilitiesReducer(state: PlayerEditorDetails, update: Dispatch<PlayerEditorDetailsAction>) : [PitcherAbilities, Dispatch<PitcherAbilitiesAction>] {
   return [
     state.pitcherAbilities,
     (action: PitcherAbilitiesAction) => update({ type: 'updatePitcherAbilities', action: action })
   ]
 }
 
-export function getSepcialAbilitiesReducer(state: PlayerEditorState, update: Dispatch<PlayerEditorAction>) : [SpecialAbilities, Dispatch<SpecialAbilitiesAction>] {
+export function getSepcialAbilitiesReducer(state: PlayerEditorDetails, update: Dispatch<PlayerEditorDetailsAction>) : [SpecialAbilities, Dispatch<SpecialAbilitiesAction>] {
   return [
     state.specialAbilities,
     (action: SpecialAbilitiesAction) => update({ type: 'updateSpecialAbilities', action: action })
   ]
 }
-
-export function getGradeFor0_15(value: number): Grade {
-  if(value >= 14) return 'A';
-  if(value >= 12) return 'B';
-  if(value >= 10) return 'C';
-  if(value >= 8)  return 'D';
-  if(value >= 6)  return 'E';
-  if(value >= 4)  return 'F';
-  else            return 'G'; 
-}
-
-export function getGradeForPower(value: number): Grade {
-  if(value >= 180) return 'A';
-  if(value >= 140) return 'B';
-  if(value >= 120) return 'C';
-  if(value >= 100) return 'D';
-  if(value >= 85)  return 'E';
-  if(value >= 25)  return 'F';
-  else             return 'G'; 
-}
-
-export function getGradeForControl(value: number): Grade {
-  if(value >= 180) return 'A';
-  if(value >= 155) return 'B';
-  if(value >= 135) return 'C';
-  if(value >= 120) return 'D';
-  if(value >= 110) return 'E';
-  if(value >= 100) return 'F';
-  else             return 'G'; 
-}
-
-export function getGradeForStamina(value: number): Grade {
-  if(value >= 150) return 'A';
-  if(value >= 110) return 'B';
-  if(value >= 80)  return 'C';
-  if(value >= 60)  return 'D';
-  if(value >= 30)  return 'E';
-  if(value >= 15)  return 'F';
-  else             return 'G'; 
-}
-
 
 export function getInitialStateFromResponse(response: PlayerEditorResponse): PlayerEditorState {
   const { 
@@ -836,9 +834,8 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
   } = response
 
   const { appearanceOptions  } = response.options
-  
-  return {
-    selectedTab: 'Personal',
+
+  const details: PlayerEditorDetails = {
     positionCapabilityDetails: {
       pitcher: positionCapabilities.pitcher,
       catcher: positionCapabilities.catcher,
@@ -933,10 +930,17 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       sinkingFastball2Movement: pitcherAbilities.sinkingFastball2Movement ?? 1
     },
     specialAbilities: getInitialSpecialAbilitiesFromResponse(response.specialAbilityDetails)
+  };
+
+  return {
+    lastSavedDetails: details,
+    currentDetails: details,
+    dateLastSaved: undefined,
+    selectedTab: 'Personal'
   }
 }
 
-export function buildSavePlayerRequestFromState(state: PlayerEditorState, playerId: number): SavePlayerRequest {
+export function buildSavePlayerRequestFromState(state: PlayerEditorDetails, playerId: number): SavePlayerRequest {
   const { 
     personalDetails, 
     appearance,

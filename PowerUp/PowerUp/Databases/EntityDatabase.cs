@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace PowerUp.Databases
 {
@@ -36,7 +37,7 @@ namespace PowerUp.Databases
       else
       {
         entity.Id = 0;
-        entityCollection.Insert(entity);
+        entity.Id = entityCollection.Insert(entity);
       }
 
       foreach(var propertyGetter in entity.Indexes)
@@ -49,20 +50,29 @@ namespace PowerUp.Databases
       return entityCollection.FindById(id);
     }
 
+    public void Delete<TEntity>(TEntity entity) where TEntity : Entity<TEntity>
+    {
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+      entityCollection.Delete(entity.Id);
+    }
+
+    public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : Entity<TEntity>
+    {
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+      entityCollection.DeleteMany(predicate);
+    }
+
     public IEnumerable<TEntity> LoadAll<TEntity>() where TEntity : Entity<TEntity>
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
       return entityCollection.FindAll().ToList();
     }
 
-    public ILiteQueryable<TResult> Query<TResult>(string collectionName)
+    public ILiteQueryable<TEntity> Query<TEntity>()
     {
-      var entityCollection = DBConnection.GetCollection<TResult>(collectionName);
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
       return entityCollection.Query();
     }
-
-    public ILiteQueryable<TResult> Query<TResult, TEntity>() where TEntity : Entity<TEntity>
-      => Query<TResult>(typeof(TEntity).Name);
 
     public void Dispose() => DBConnection.Dispose();
   }

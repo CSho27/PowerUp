@@ -45,11 +45,12 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers(EntitySourceType playerType)
+    public void MapToGSPlayer_ShouldBeMarkedAsEditedForCustomPlayers()
     {
       player.IsCustomPlayer = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsEdited.ShouldBe(true);
+      result.Unedited.ShouldBe(false);
     }
 
     [Test]

@@ -10,8 +10,8 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
 {
   internal class LineupWriterTests
   {
-    private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
-    private const string TEST_WRITE_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TESTWRITE.dat";
+    private readonly static string TEST_READ_GAME_SAVE_FILE_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "./pm2maus_TEST.dat");
+    private readonly static string TEST_WRITE_GAME_SAVE_FILE_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "./pm2maus_TESTWRITE.dat");
     private const int INDIANS_ID = 7;
 
     private ICharacterLibrary _characterLibrary;
@@ -33,7 +33,7 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
         catch (IOException _) { }
       }
 
-      _characterLibrary = TestConfigHelpers.GetCharacterLibrary();
+      _characterLibrary = TestConfig.CharacterLibrary.Value;
 
       testNoDH = new[]
       {

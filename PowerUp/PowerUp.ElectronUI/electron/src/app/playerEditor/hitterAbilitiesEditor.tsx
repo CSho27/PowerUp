@@ -2,12 +2,13 @@ import { Dispatch } from "react";
 import styled from "styled-components";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
-import { GradeLetter } from "../../components/gradeLetter/gradeLetter";
+import { getGradeFor0_15, getGradeForPower, GradeLetter } from "../../components/gradeLetter/gradeLetter";
 import { Icon } from "../../components/icon/icon";
 import { NumberField } from "../../components/numberField/numberField";
+import { TrajectoryArrow, TrajectoryValue } from "../../components/trajcetoryArrow/trajectoryArrow";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { BattingSide, HotZoneGrid } from "./hotZoneGrid";
-import { getGradeFor0_15, getGradeForPower, getHotZoneGridReducer, HitterAbilities, HitterAbilitiesAction } from "./playerEditorState";
+import { getHotZoneGridReducer, HitterAbilities, HitterAbilitiesAction } from "./playerEditorState";
 
 export interface HitterAbilitiesEditorProps {
   battingSide: BattingSide;
@@ -168,43 +169,3 @@ export function HitterAbilitiesEditor(props: HitterAbilitiesEditorProps) {
     </FlexRow>
   </>
 }
-
-type TrajectoryValue = 1 | 2 | 3 | 4;
-
-interface TrajectoryArrowProps {
-  value: TrajectoryValue;
-}
-
-function TrajectoryArrow(props: TrajectoryArrowProps) {
-  return <ArrowWrapper value={props.value}>
-    <Icon icon='arrow-right'/>
-  </ArrowWrapper>
-}
-
-const arrowStyles: { [value in TrajectoryValue]: string } = {
-  '1': `
-    --arrow-angle: 0deg;
-    --arrow-color: ${COLORS.grades.D_yellow_49};
-  `,
-  '2': `
-  --arrow-angle: -25deg;
-  --arrow-color: ${COLORS.grades.C_orange_59};
-  `,
-  '3': `
-    --arrow-angle: -50deg;
-    --arrow-color: ${COLORS.grades.B_red_46};
-  `,
-  '4': `
-    --arrow-angle: -75deg;
-    --arrow-color: ${COLORS.grades.A_pink_51};
-  `
-}
-
-const ArrowWrapper = styled.div<{ value: TrajectoryValue }>`
-  ${p => arrowStyles[p.value]}
-  line-height: 1;
-  width: fit-content;
-  transform: rotate(var(--arrow-angle));
-  color: var(--arrow-color);
-  font-size: ${FONT_SIZES._32};
-`

@@ -35,6 +35,4 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
   {
     public int? PlayerId { get; set; }
   }
-
-  
 }

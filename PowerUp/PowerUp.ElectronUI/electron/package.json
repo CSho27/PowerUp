@@ -20,6 +20,7 @@
   "homepage": "https://github.com/CSho27/PowerUp#readme",
   "devDependencies": {
     "@types/react": "^17.0.39",
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-dom": "^17.0.11",
     "@types/regenerator-runtime": "^0.13.1",
     "@types/styled-components": "^5.1.22",
@@ -38,7 +39,9 @@
     "@reach/menu-button": "^0.17.0",
     "@reach/portal": "^0.16.2",
     "core-js": "^3.21.0",
+    "fast-deep-equal": "^3.1.3",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "regenerator-runtime": "^0.13.9",
     "styled-components": "^5.3.3"

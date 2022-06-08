@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
-import { EntitySourceType } from "../shared/entitySourceType";
-import { SimpleCode } from "../shared/simpleCode";
+import { DisableResult } from "../shared/disableResult";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { PlayerSearchApiClient, PlayerSearchResultDto } from "./playerSearchApiClient";
 import { PlayerSelectionGrid } from "./playerSelectionGrid";
@@ -13,16 +12,17 @@ import { PlayerSelectionGrid } from "./playerSelectionGrid";
 export interface PlayerSelectionModalProps {
   appContext: AppContext;
   closeDialog: (selectedPlayerId: number | undefined) => void;
+  isPlayerDisabled?: (player: PlayerSearchResultDto) => DisableResult;
 }
 
 interface PlayerSelectionModalState {
   results: PlayerSearchResultDto[];
   searchText: string | undefined;
-  selectedPlayer: SimpleCode | undefined;
+  selectedPlayer: PlayerSearchResultDto | undefined;
 }
 
 export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
-  const { appContext, closeDialog } = props;
+  const { appContext, isPlayerDisabled, closeDialog } = props;
 
   const apiClientRef = useRef(new PlayerSearchApiClient(appContext.commandFetcher))
 
@@ -52,6 +52,7 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
         players={isSearching ? state.results : []}
         noDataMessage={isSearching ? 'No players found' : 'Search for player'}
         onPlayerSelected={player => setState(p => ({...p, selectedPlayer: player}))}
+        isPlayerDisabled={isPlayerDisabled}
       />
       <SelectionButtons>
         <div>
@@ -60,7 +61,7 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
           </span>
           &nbsp;
           <span>
-            {state.selectedPlayer ? state.selectedPlayer.name : 'none'}
+            {state.selectedPlayer ? state.selectedPlayer.informalDisplayName : 'none'}
           </span>  
         </div>
         <div style={{ display: 'flex', gap: '4px' }}>
@@ -74,7 +75,7 @@ export function PlayerSelectionModal(props: PlayerSelectionModalProps) {
             size='Small'
             variant='Fill'
             disabled={!state.selectedPlayer}
-            onClick={() => closeDialog(state.selectedPlayer!.id)}>
+            onClick={() => closeDialog(state.selectedPlayer?.playerId)}>
               Select Player
           </Button>
         </div>

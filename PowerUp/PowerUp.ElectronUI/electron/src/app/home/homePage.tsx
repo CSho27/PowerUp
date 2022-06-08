@@ -6,6 +6,7 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { CopyExistingRosterApiClient } from "../rosterEditor/copyExistingRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ExistingRostersModal } from "./existingRostersModal";
@@ -18,6 +19,7 @@ export interface HomePageProps {
 export function HomePage(props: HomePageProps) {
   const { appContext } = props;
   const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
+  const copyExistingRosterApiClientRef = useRef(new CopyExistingRosterApiClient(appContext.commandFetcher));
 
   return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
@@ -32,6 +34,15 @@ export function HomePage(props: HomePageProps) {
         >
           Open Existing Roster
         </Button>
+        <Button 
+          variant='Fill' 
+          size='Large'
+          icon='copy'
+          textAlign='left'
+          onClick={openCopyExistingRosterModal}
+        >
+          Copy Existing Roster
+        </Button> 
         {/*
           <Button 
             variant='Fill' 
@@ -51,16 +62,7 @@ export function HomePage(props: HomePageProps) {
           onClick={openImportModal}
         >
           Import Roster
-        </Button>
-        <Button 
-          variant='Fill' 
-          size='Large'
-          icon='box-archive'
-          textAlign='left'
-          onClick={loadBaseRoster}
-        >
-          Start From Base Roster
-        </Button>  
+        </Button> 
       </ButtonSectionWrapper>
     </ContentWrapper>
   </PowerUpLayout>
@@ -70,8 +72,30 @@ export function HomePage(props: HomePageProps) {
     appContext.openModal(closeDialog => <ExistingRostersModal 
       appContext={appContext} 
       options={response} 
+      okLabel='Open'
       closeDialog={closeDialog}
+      onRosterSelected={loadExisting}
     />)
+  }
+
+  function loadExisting(rosterId: number) {
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: rosterId }); 
+  }
+
+  async function openCopyExistingRosterModal() {
+    const response = await existingOptionsApiClientRef.current.execute();
+    appContext.openModal(closeDialog => <ExistingRostersModal 
+      appContext={appContext} 
+      options={response} 
+      okLabel='Create Copy'
+      closeDialog={closeDialog}
+      onRosterSelected={copyAndLoadRoster}
+    />)
+  }
+
+  async function copyAndLoadRoster(rosterId: number) {
+    const response = await copyExistingRosterApiClientRef.current.execute({ rosterId: rosterId });
+    appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 
   function openImportModal() {
@@ -79,10 +103,6 @@ export function HomePage(props: HomePageProps) {
       appContext={appContext}
       closeDialog={closeDialog}
     />);
-  }
-
-  async function loadBaseRoster() {
-    console.log('Load Base clicked');
   }
 }
 

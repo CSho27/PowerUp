@@ -8,18 +8,26 @@ export interface RosterEditorResponse {
 }
 
 export interface RosterDetails {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   rosterId: number;
   name: string
   teams: TeamDetails[];
 }
 
 export interface TeamDetails {
+  sourceType: EntitySourceType;
+  canEdit: boolean;
   teamId: number;
   name: string;
   powerProsName: string;
+  powerProsTeam: string;
   division: string;
   hitters: HitterDetails[];
   pitchers: PitcherDetails[];
+  hittingRating: number;
+  pitchingRating: number;
+  overallRating: number;
 }
 
 export interface PlayerDetails {

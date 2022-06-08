@@ -53,9 +53,10 @@ export function App(props: ApplicationStartupData) {
   }, [])
 
   useGlobalBindings(
-    { keys: ['Control', 'Alt', 'Shift', 'B'], callbackFn: () => setPage({ page: 'RosterEditorPage', rosterId: 1 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'O'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) }
+    { keys: ['Control', 'Alt', 'Shift', 'R'], callbackFn: () => setPage({ page: 'RosterEditorPage', rosterId: 1 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'H'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'T'], callbackFn: () => setPage({ page: 'TeamEditorPage', teamId: 8 }) },
   )
 
   // Initializes Base Roster
@@ -70,9 +71,9 @@ export function App(props: ApplicationStartupData) {
   </>
 
   async function setPage(pageDef: PageLoadDefinition) {
-    const pageLoader = pageRegistry[pageDef.page];
-    const loadedPage = await pageLoader(appContext, pageDef);
-    update({ type: 'updatePage', pageLoadDef: pageDef, pageDef: loadedPage });
+    const pageEntry = pageRegistry[pageDef.page];
+    const loadedPage = await pageEntry.load(appContext, pageDef);
+    update({ type: 'updatePage', pageLoadDef: loadedPage.updatedPageLoadDef ?? pageDef, pageDef: loadedPage });
   }
 
   async function reloadCurrentPage() {
@@ -80,9 +81,18 @@ export function App(props: ApplicationStartupData) {
   }
 
   async function popBreadcrumb(breadcrumbId: number) {
-    const pageLoadDef = state.breadcrumbs.find(c => c.id === breadcrumbId)!.pageLoadDef;
-    const pageLoader = pageRegistry[pageLoadDef.page];
-    const newPage = await pageLoader(appContext, pageLoadDef);
+    const pageIndex = state.breadcrumbs.findIndex(c => c.id === breadcrumbId);
+    const pageLoadDef = state.breadcrumbs[pageIndex].pageLoadDef!;
+    const pageEntry = pageRegistry[pageLoadDef.page];
+    const newPage = await pageEntry.load(appContext, pageLoadDef);
+
+    const pagesToCleanUp = state.breadcrumbs.slice(pageIndex+1);
+    pagesToCleanUp.forEach(p => {
+      const entry = pageRegistry[p.pageLoadDef.page];
+      if(!!entry.cleanup)
+        entry.cleanup(appContext, p.pageLoadDef);
+    })
+
     update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageDef: newPage });
   }
 

@@ -2,12 +2,13 @@
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
+using System.IO;
 
 namespace PowerUp.Tests.GameSave.Objects.Players
 {
   public class PlayerReaderTests
   {
-    private const string TEST_READ_GAME_SAVE_FILE_PATH = "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/pm2maus_TEST.dat";
+    private readonly static string TEST_READ_GAME_SAVE_FILE_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "./pm2maus_TEST.dat");
     private const int JASON_GIAMBI_ID = 55;
     private const int SAMMY_SPEEDSTER_ID = 20;
     private const int PAUL_PITCHER_ID = 32;
@@ -17,7 +18,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [SetUp]
     public void SetUp()
     {
-      _characterLibrary = TestConfigHelpers.GetCharacterLibrary();
+      _characterLibrary = TestConfig.CharacterLibrary.Value;
     }
 
     [Test]

@@ -11,18 +11,21 @@ export interface ContextMenuProps extends ButtonContentProps {
 }
 
 export function ContextMenuButton(props: ContextMenuProps) {
-  const { menuItems, children } = props;
+  const { menuItems, children, disabled, title } = props;
 
   return <Menu>
     {({ isExpanded }) => <>
-    <MenuButton style={{
-      padding: 0,
-      border: 'none',
-      backgroundColor: 'inherit'
-    }}>
-      <ButtonContent {...props}>
-        {children}
-      </ButtonContent>
+    <MenuButton 
+      disabled={disabled}
+      title={title}
+      style={{
+        padding: 0,
+        border: 'none',
+        backgroundColor: 'inherit'
+      }}>
+        <ButtonContent {...props}>
+          {children}
+        </ButtonContent>
     </MenuButton>
     {isExpanded &&
     <MenuList style={{ 

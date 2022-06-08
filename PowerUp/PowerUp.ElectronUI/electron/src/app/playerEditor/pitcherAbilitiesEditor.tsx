@@ -1,13 +1,13 @@
 import { Dispatch } from "react";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
-import { GradeLetter } from "../../components/gradeLetter/gradeLetter";
+import { getGradeForControl, getGradeForStamina, GradeLetter } from "../../components/gradeLetter/gradeLetter";
 import { NumberField } from "../../components/numberField/numberField";
 import { SelectField } from "../../components/SelectField/selectField";
 import { toOptions, tryFromOptions } from "../../components/SelectField/selectFieldHelpers";
 import { KeyedCode } from "../shared/keyedCode";
 import { PitcherAbilitiesOptions } from "./loadPlayerEditorApiClient";
-import { getGradeForControl, getGradeForStamina, PitcherAbilities, PitcherAbilitiesAction } from "./playerEditorState";
+import { PitcherAbilities, PitcherAbilitiesAction } from "./playerEditorState";
 
 export interface PitcherAbilitiesEditorProps {
   options: PitcherAbilitiesOptions;

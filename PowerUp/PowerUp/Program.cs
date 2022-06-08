@@ -1,11 +1,13 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
+using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
+using PowerUp.Mappers.Players;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,15 +18,16 @@ namespace PowerUp
   class Program
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
-    private const string DATA_DIRECTORY = "C:/Users/short/Documents/PowerUp/";
+    private const string DATA_DIRECTORY = "./../../../../../PowerUp.ElectronUI/Data";
     private const int PLAYER_ID = 1;
 
     static void Main(string[] args)
     {
       var characterLibrary = new CharacterLibrary(Path.Combine(DATA_DIRECTORY, "./data/Character_Library.csv"));
+      var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary);
+      //AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -32,6 +35,7 @@ namespace PowerUp
       //BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
       //FindPlayersByLastName();
+      CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -50,7 +54,7 @@ namespace PowerUp
         var player = loader.Read(PLAYER_ID);
         var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString} - {player.SkinAndEyes}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.SavedName}{bitString} {player.TopThrowingSpeedKMH}");
       }
     }
 
@@ -164,6 +168,37 @@ namespace PowerUp
 
       var csvLines = keyValuePairs.GroupBy(p => p.Value).OrderBy(g => int.Parse(g.Key)).Select(g => $"{g.Key}, {string.Join(", ", g)}");
       File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/duplicates.csv"), csvLines);
+    }
+
+    static void CreateTeamRatingCSV(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary savedNameLibrary)
+    {
+      var rosterImportApi = new RosterImportApi(characterLibrary, new PlayerMapper(savedNameLibrary));
+      var result = rosterImportApi.ImportRoster(new RosterImportParameters
+      {
+        IsBase = true,
+        Stream = new FileStream(Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), FileMode.Open, FileAccess.Read)
+      });
+
+      var teamRatings = result.Teams.Select(t => {
+        var hitterRatings = t.GetPlayers()
+          .Where(p => p.PrimaryPosition != Position.Pitcher)
+          .Select(p => p.Overall);
+
+        var pitcherRatings = t.GetPlayers()
+          .Where(p => p.PrimaryPosition == Position.Pitcher)
+          .Select(p => p.Overall);
+
+        return new
+        {
+          name = t.Name,
+          hitting = TeamRatingCalculator.CalculateHittingRating(hitterRatings),
+          pitching = TeamRatingCalculator.CalculatePitchingRating(pitcherRatings),
+          overall = TeamRatingCalculator.CalculateOverallRating(new TeamRatingParameters { HitterRatings = hitterRatings, PitcherRatings = pitcherRatings }) 
+        };
+      });
+
+      var csvLines = teamRatings.Select(r => $"{r.name}, {r.hitting}, {r.pitching}, {r.overall}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/teams.csv"), csvLines);
     }
   }
 }

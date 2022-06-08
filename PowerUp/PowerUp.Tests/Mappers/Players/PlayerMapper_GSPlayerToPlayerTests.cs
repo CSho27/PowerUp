@@ -31,6 +31,7 @@ namespace PowerUp.Tests.Mappers.Players
       {
         PowerProsId = 1,
         IsEdited = false,
+        Unedited = true,
         SavedName = "Charlie",
         PrimaryPosition = 8,
         IsStarter = false,
@@ -238,6 +239,7 @@ namespace PowerUp.Tests.Mappers.Players
     public void MapToPlayer_EditedPlayersShouldGetIsCustomBit()
     {
       gsPlayer.IsEdited = true;
+      gsPlayer.Unedited = false;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.IsCustomPlayer.ShouldBeTrue();
     }

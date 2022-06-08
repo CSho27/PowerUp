@@ -20,7 +20,7 @@ namespace PowerUp.Entities.Players
     private const double H_AVERAGE_RATING = 51.70664926; // By this weighted average, the average player has a rating of ~51.7
     private const double H_DESIRED_HIGHEST_RATING = 95; // In all of baseball history, I'll give Pujols '06 season a 95
     private const double H_DESIRED_AVERAGE_RATING = 80; // C average
-    private static readonly Func<double, double> HittingLinearGradient = GetLinearGradientFunction(
+    private static readonly Func<double, double> HittingLinearGradient = MathUtils.BuildLinearGradientFunction(
       max: H_HIGHEST_RATING,
       desiredMax: H_DESIRED_HIGHEST_RATING,
       avg: H_AVERAGE_RATING,
@@ -38,7 +38,7 @@ namespace PowerUp.Entities.Players
     private const double SNK_WEIGHT = 0.005;
     private const double SNKFB_WEIGHT = 0.03;
 
-    private static readonly Func<double, double> TopSpeedLinearGradient = GetLinearGradientFunction(
+    private static readonly Func<double, double> TopSpeedLinearGradient = MathUtils.BuildLinearGradientFunction(
       max: 105,
       desiredMax: 255,
       avg: 93.67451994,
@@ -49,7 +49,7 @@ namespace PowerUp.Entities.Players
     private const double P_AVERAGE_RATING = 67.36310524; // By this weighted average, the average player has a rating of ~51.7
     private const double P_DESIRED_HIGHEST_RATING = 93; // The best pitchers from 06 earn about a 93 in history in my mind
     private const double P_DESIRED_AVERAGE_RATING = 80; // C average
-    private static readonly Func<double, double> PitchingLinearGradient = GetLinearGradientFunction(
+    private static readonly Func<double, double> PitchingLinearGradient = MathUtils.BuildLinearGradientFunction(
       max: P_HIGHEST_RATING,
       desiredMax: P_DESIRED_HIGHEST_RATING,
       avg: P_AVERAGE_RATING,
@@ -93,11 +93,6 @@ namespace PowerUp.Entities.Players
       var gradientRating = PitchingLinearGradient(weightedAverage_100); 
 
       return gradientRating.CapAt(RATING_CAP);
-    }
-
-    private static Func<double, double> GetLinearGradientFunction(double max, double avg, double desiredMax, double desiredAverage)
-    {
-      return (double x) => desiredMax + ((desiredAverage - desiredMax) / (avg - max)) * (x - max);
     }
   }
 

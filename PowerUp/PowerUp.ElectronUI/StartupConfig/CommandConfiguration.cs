@@ -1,4 +1,5 @@
-﻿using PowerUp.ElectronUI.Api.PlayerEditor;
+﻿using PowerUp.ElectronUI.Api.PlayerDetails;
+using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
 using PowerUp.ElectronUI.Api.Searching;
 using PowerUp.ElectronUI.Api.Teams;
@@ -21,6 +22,19 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ReplacePlayerWithCopyCommand>();
       services.AddSingleton<ReplaceWithExistingPlayerCommand>();
       services.AddSingleton<PlayerSearchCommand>();
+      services.AddSingleton<LoadTeamEditorCommand>();
+      services.AddSingleton<CopyPlayerCommand>();
+      services.AddSingleton<SaveTeamCommand>();
+      services.AddSingleton<DiscardTempTeamCommand>();
+      services.AddSingleton<CreatePlayerCommand>();
+      services.AddSingleton<GetPlayerDetailsCommand>();
+      services.AddSingleton<ReplaceTeamWithCopyCommand>();
+      services.AddSingleton<ReplaceTeamWithNewTeamCommand>();
+      services.AddSingleton<EditRosterNameCommand>();
+      services.AddSingleton<TeamSearchCommand>();
+      services.AddSingleton<ReplaceTeamWithExistingCommand>();
+      services.AddSingleton<CopyExistingRosterCommand>();
+      services.AddSingleton<GetPlayerFlyoutDetailsCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -37,6 +51,19 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplacePlayerWithCopyCommand), "ReplacePlayerWithCopy");
       commandRegistry.RegisterCommand(typeof(ReplaceWithExistingPlayerCommand), "ReplaceWithExistingPlayer");
       commandRegistry.RegisterCommand(typeof(PlayerSearchCommand), "PlayerSearch");
+      commandRegistry.RegisterCommand(typeof(LoadTeamEditorCommand), "LoadTeamEditor");
+      commandRegistry.RegisterCommand(typeof(CopyPlayerCommand), "CopyPlayer");
+      commandRegistry.RegisterCommand(typeof(SaveTeamCommand), "SaveTeam");
+      commandRegistry.RegisterCommand(typeof(DiscardTempTeamCommand), "DiscardTempTeam");
+      commandRegistry.RegisterCommand(typeof(CreatePlayerCommand), "CreatePlayer");
+      commandRegistry.RegisterCommand(typeof(GetPlayerDetailsCommand), "GetPlayerDetails");
+      commandRegistry.RegisterCommand(typeof(ReplaceTeamWithCopyCommand), "ReplaceTeamWithCopy");
+      commandRegistry.RegisterCommand(typeof(ReplaceTeamWithNewTeamCommand), "ReplaceTeamWithNewTeam");
+      commandRegistry.RegisterCommand(typeof(EditRosterNameCommand), "EditRosterName");
+      commandRegistry.RegisterCommand(typeof(TeamSearchCommand), "TeamSearch");
+      commandRegistry.RegisterCommand(typeof(ReplaceTeamWithExistingCommand), "ReplaceTeamWithExisting");
+      commandRegistry.RegisterCommand(typeof(CopyExistingRosterCommand), "CopyExistingRoster");
+      commandRegistry.RegisterCommand(typeof(GetPlayerFlyoutDetailsCommand), "GetPlayerFlyoutDetails");
     }
   }
 }

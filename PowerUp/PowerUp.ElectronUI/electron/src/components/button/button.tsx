@@ -122,9 +122,8 @@ const BaseButtonContent = styled.div<BaseButtonContentProps>`
   font-size: var(--font-size);
   text-align: ${p => p.textAlign ?? 'undefined'};
   letter-spacing: -0.02em;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  opacity: ${p => p.disabled ? '.7' : undefined};
+  color: ${p => p.disabled ? 'var(--disabled-text-color)' : 'var(--text-color)'} ;
+  background-color: ${p => p.disabled ? 'var(--disabled-background-color)' : 'var(--background-color)'} ;
   cursor: ${p => p.disabled ? 'default' : 'pointer' };
 
   &:hover {
@@ -135,18 +134,23 @@ const BaseButtonContent = styled.div<BaseButtonContentProps>`
 const FillButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.white.regular_100};
   --background-color: ${COLORS.jet.regular_18};
+  --disabled-text-color: ${COLORS.white.regular_100_t70};
+  --disabled-background-color: ${COLORS.jet.regular_18_t70};
   --hover-color: ${COLORS.jet.regular_25};
 `;
 
 const OutlineButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.primaryBlue.regular_45};
-  --background-color: ${COLORS.white};
+  --background-color: ${COLORS.white.regular_100};
+  --disabled-text-color: ${COLORS.primaryBlue.regular_45_t70};
+  --disabled-background-color: ${COLORS.white.regular_100_t70};
   --hover-color: ${COLORS.white.offwhite_97};
   border: solid 2px ${COLORS.primaryBlue.regular_45};
 `;
 const GhostButton = styled(BaseButtonContent)`
   --text-color: ${COLORS.jet.light_39};
   --hover-color: ${COLORS.jet.light_39};
+  --disabled-text-color: ${COLORS.jet.light_39_t70};
   &:hover {
     --text-color: ${COLORS.richBlack};
   }

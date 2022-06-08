@@ -1,27 +1,67 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../app/app";
+import { GetPlayerFlyoutDetailsApiClient } from "../../app/playerDetailsFlyout/getPlayerFlyoutDetailsApiClient";
+import { PlayerDetailsFlyout } from "../../app/playerDetailsFlyout/playerDetailsFlyout";
 import { EntitySourceType } from "../../app/shared/entitySourceType";
-import { COLORS } from "../../style/constants";
+import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
+import { toIdentifier } from "../../utils/getIdentifier";
+import { FlyoutAnchor, useFlyoutState } from "../flyout/flyout";
+import { Icon } from "../icon/icon";
+import { SourceTypeStamp } from "../sourceTypeStamp/sourceTypeStamp";
 import { TextBubble, TextBubbleProps } from "./textBubble";
 
 export interface PlayerNameBubbleProps extends TextBubbleProps {
+  appContext: AppContext;
+  playerId: number;
   sourceType: EntitySourceType;
+  withoutInfoFlyout?: boolean;
+  title?: string;
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {
-  const { sourceType, children } = props;
-  
+  const { appContext, size, sourceType, playerId, withoutInfoFlyout, positionType, children } = props;
+  const isLarge = size === 'Large'
+
+  const apiClientRef = useRef(new GetPlayerFlyoutDetailsApiClient(appContext.commandFetcher))
+
   return <NameBubble {...props}>
     <PlayerNameSection>{children}</PlayerNameSection>
-    <SourceTypeStamp title={getSourceTypeTooltip(sourceType)}>{sourceType}</SourceTypeStamp>
+    <PlayerInfoSection isLarge={isLarge}>{toIdentifier('Player', playerId)}</PlayerInfoSection>
+    <SourceTypeStamp
+      theme='Light'
+      size={isLarge
+        ? 'Medium'
+        : 'Small'}
+      sourceType={sourceType} />
+    {!withoutInfoFlyout && 
+    <PlayerInfoSection isLarge={isLarge}>
+      <FlyoutAnchor 
+        {...useFlyoutState()}
+        trigger='click'
+        withoutBackground
+        borderRadius={'16px'}
+        flyout={getPlayerDetailsFlyout}>
+          <Icon icon='circle-info' />  
+      </FlyoutAnchor>
+    </PlayerInfoSection>}
   </NameBubble>
+
+  async function getPlayerDetailsFlyout() {
+    const response = await apiClientRef.current.execute({ playerId: playerId });
+    return <PlayerDetailsFlyout appContext={appContext} response={response} />
+  }
 }
 
 const NameBubble = styled(TextBubble)`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+`
+
+const PlayerInfoSection = styled.div<{ isLarge: boolean }>`
+  font-size: ${p => p.isLarge ? FONT_SIZES._24 : FONT_SIZES.default_16};
 `
 
 const PlayerNameSection = styled.div`
@@ -31,26 +71,3 @@ const PlayerNameSection = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
 `
-
-const SourceTypeStamp = styled.div`
-  flex: 0 0 auto;
-  font-size: .8em;
-  line-height: 1;
-  color: ${COLORS.white.regular_100};
-  border: solid 2px ${COLORS.white.regular_100};
-  border-radius: 2px;
-  cursor: default;
-`
-
-function getSourceTypeTooltip(sourceType: EntitySourceType): string {
-  switch(sourceType) {
-    case 'Base':
-      return 'Included in the original version of the game. Cannot be edited.';
-    case 'Imported':
-      return 'Imported from a Game Same file. Cannot be edited.';
-    case 'Custom':
-      return 'Created through the app. Fully editable.';
-    case 'Generated':
-      return 'Created using Autogeneration. Fully editable.';
-  }
-}

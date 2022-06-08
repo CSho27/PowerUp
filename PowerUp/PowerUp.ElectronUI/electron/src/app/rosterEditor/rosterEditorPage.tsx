@@ -3,12 +3,17 @@ import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStamp";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
+import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
+import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
+import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
+import { EditRosterNameApiClient } from "./editRosterNameApiClient";
 import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { RosterExportModal } from "./rosterExportModal";
@@ -22,14 +27,45 @@ export interface RosterEditorPageProps {
 
 export function RosterEditorPage(props: RosterEditorPageProps) {
   const { appContext, divisionOptions, rosterDetails } = props;
-  const { rosterId, name: rosterName, teams } = rosterDetails;
+  const { rosterId, name, teams } = rosterDetails;
+
+  const rosterNameApiClientRef = useRef(new EditRosterNameApiClient(appContext.commandFetcher));
 
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
+  const [isEditingRosterName, setIsEditingRosterName] = useState(false);
+  const [rosterName, setRosterName] = useState(name);
+
+  const disableRosterEdit: DisabledCriteria = [
+    { isDisabled: !rosterDetails.canEdit, tooltipIfDisabled: 'Roster of this type cannot be edited' }
+  ]
 
   const header = <>
     <Breadcrumbs appContext={appContext}/>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <RosterHeader>{rosterName}</RosterHeader>
+      <div style={{ flex: 'auto', display: 'flex', gap: '16px', alignItems: 'center' }}>
+        {!isEditingRosterName && <>
+        <RosterHeader>{rosterName} - {toIdentifier('Roster', rosterId)}</RosterHeader>
+        <SourceTypeStamp 
+        theme='Dark'
+        size='Medium'
+        sourceType={rosterDetails.sourceType}
+        /> 
+        </>}
+        {isEditingRosterName && 
+        <div style={{ width: '25rem' }}>
+          <TextField 
+            value={rosterName} 
+            onChange={name => setRosterName(name)}        
+          />
+        </div>}
+        <Button 
+          variant='Outline'
+          size='Small'
+          {...toDisabledProps('Edit roster name', ...disableRosterEdit)}
+          icon={isEditingRosterName ? 'lock' : 'pen-to-square'}
+          onClick={handleRosterNameToggle}
+        />
+      </div>
       <Button 
         size='Medium' 
         variant='Fill' 
@@ -57,9 +93,20 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   function toTeamGrid(team: TeamDetails) {
     return <TeamWrapper key={team.teamId}>
-      <TeamGrid appContext={appContext} team={team} />
+      <TeamGrid appContext={appContext} rosterId={rosterId} disableRosterEdit={disableRosterEdit} team={team} />
     </TeamWrapper>
   }
+
+  async function handleRosterNameToggle() {
+    if(!isEditingRosterName) {
+      setIsEditingRosterName(true);
+      return;
+    }
+
+    const response = await rosterNameApiClientRef.current.execute({ rosterId: rosterId, rosterName: rosterName });
+    if(response.success)
+       setIsEditingRosterName(false);
+  } 
 
   function handleDivisionChange(division: KeyedCode) {
     setSelectedDivision(division);

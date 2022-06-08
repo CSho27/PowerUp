@@ -20,12 +20,16 @@ namespace PowerUp.ElectronUI.Api.Rosters
 
   public class RosterDetails
   {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
     public int RosterId { get; set; }
     public string Name { get; set; }
     public IEnumerable<TeamDetails> Teams { get; set; }
 
-    public RosterDetails(int rosterId, string name, IEnumerable<TeamDetails> teams)
+    public RosterDetails(EntitySourceType sourceType, int rosterId, string name, IEnumerable<TeamDetails> teams)
     {
+      SourceType = sourceType;
       RosterId = rosterId;
       Name = name;
       Teams = teams;
@@ -34,30 +38,52 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static RosterDetails FromRoster(Roster roster)
     {
       var teams = roster.GetTeams().Select(kvp => TeamDetails.FromTeam(kvp.Key, kvp.Value));
-      return new RosterDetails(roster.Id!.Value, roster.Name, teams);
+      return new RosterDetails(roster.SourceType, roster.Id!.Value, roster.Name, teams);
     }
   }
 
   public class TeamDetails
   {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
     public int TeamId { get; set; }
     public string Name { get; set; }
     public string PowerProsName { get; set; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public MLBPPTeam PowerProsTeam { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public MLBPPDivision Division { get; set; }
     public IEnumerable<HitterDetails> Hitters { get; set; }
     public IEnumerable<PitcherDetails> Pitchers { get; set; }
-    public int Overall { get; set; }
+    public int HittingRating { get; set; }
+    public int PitchingRating { get; set; }
+    public int OverallRating { get; set; }
 
-    public TeamDetails(int id, string name, string powerProsName, MLBPPDivision division, IEnumerable<HitterDetails> hitters, IEnumerable<PitcherDetails> pitchers, int overall)
+    public TeamDetails(
+      EntitySourceType sourceType, 
+      int id, 
+      string name, 
+      MLBPPTeam ppTeam, 
+      IEnumerable<HitterDetails> hitters,
+      IEnumerable<PitcherDetails> pitchers, 
+      int hittingRating,
+      int pitchingRating,
+      int overallRating
+    )
     {
+      SourceType = sourceType;
       TeamId = id;
       Name = name;
-      PowerProsName = powerProsName;
-      Division = division;
+      PowerProsName = ppTeam.GetFullDisplayName();
+      PowerProsTeam = ppTeam;
+      Division = ppTeam.GetDivision();
       Hitters = hitters;
       Pitchers = pitchers;
-      Overall = overall;
+      HittingRating = hittingRating;
+      PitchingRating = pitchingRating;
+      OverallRating = overallRating;
     }
 
     public static TeamDetails FromTeam(Team team, MLBPPTeam ppTeam)
@@ -66,7 +92,17 @@ namespace PowerUp.ElectronUI.Api.Rosters
       var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
       var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
 
-      return new TeamDetails(team.Id!.Value, team.Name, ppTeam.GetFullDisplayName(), ppTeam.GetDivision(), hitters, pitchers, 0);
+      return new TeamDetails(
+        team.SourceType, 
+        team.Id!.Value, 
+        team.Name, 
+        ppTeam, 
+        hitters, 
+        pitchers, 
+        team.GetHittingRating().RoundDown(),
+        team.GetPitchingRating().RoundDown(),
+        team.GetOverallRating().RoundDown()
+      );
     }
   }
 
@@ -115,7 +151,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         position: player.PrimaryPosition,
         positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
         overall: player.Overall.RoundDown(),
-        batsAndThrows: $"{player.BattingSide.GetAbbrev()}/{player.ThrowingArm.GetAbbrev()}",
+        batsAndThrows: player.BatsAndThrows,
         sourceType: player.SourceType
       );
     }

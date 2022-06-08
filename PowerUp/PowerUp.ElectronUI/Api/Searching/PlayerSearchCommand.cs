@@ -1,5 +1,7 @@
 ﻿using PowerUp.Entities;
+using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Queries;
+using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Searching
 {
@@ -24,34 +26,42 @@ namespace PowerUp.ElectronUI.Api.Searching
   {
     public IEnumerable<PlayerSearchResultDto> Results { get; set; } = Enumerable.Empty<PlayerSearchResultDto>();
 
-    public PlayerSearchResponse(IEnumerable<PlayerSearchResult> results)
+    public PlayerSearchResponse(IEnumerable<Player> results)
     {
       Results = results.Select(r => new PlayerSearchResultDto(r));
     }
 
-    public static PlayerSearchResponse Empty() => new PlayerSearchResponse(Enumerable.Empty<PlayerSearchResult>());
+    public static PlayerSearchResponse Empty() => new PlayerSearchResponse(Enumerable.Empty<Player>());
   }
 
   public class PlayerSearchResultDto
   {
     public int PlayerId { get; set; }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
+    public bool CanEdit => SourceType.CanEdit();
     public string UniformNumber { get; set; }
+    public string SavedName { get; set; }
     public string FormalDisplayName { get; set; }
     public string InformalDisplayName { get; set; }
-    public string Position { get; set; }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Position Position { get; set; }
+    public string PositionAbbreviation => Position.GetAbbrev();
     public string BatsAndThrows { get; set; }
     public int Overall { get; set; }
 
-    public PlayerSearchResultDto(PlayerSearchResult result)
+    public PlayerSearchResultDto(Player result)
     {
-      PlayerId = result.Id;
+      PlayerId = result.Id!.Value;
       SourceType = result.SourceType;
       UniformNumber = result.UniformNumber!;
+      SavedName = result.SavedName!;
       FormalDisplayName = result.FormalDisplayName!;
       InformalDisplayName = result.InformalDisplayName!;
-      Position = result.PrimaryPosition.GetAbbrev();
-      BatsAndThrows = $"{result.BattingSide.GetAbbrev()}/{result.ThrowingArm.GetAbbrev()}";
+      Position = result.PrimaryPosition;
+      BatsAndThrows = result.BatsAndThrows!;
       Overall = result.Overall.RoundDown();
     }
   }
