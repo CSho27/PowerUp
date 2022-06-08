@@ -11,6 +11,7 @@ import { getPositionType } from "../shared/positionCode";
 import { HitterDetailsDto, PitcherDetailsDto, PlayerFlyoutDetailsResponse } from "./getPlayerFlyoutDetailsApiClient";
 import { PitchArsenalDisplay } from "./pitchArsenalDisplay";
 import { PitchBreakMeter } from "./pitchBreakMeter";
+import { PositionCapabilityDisplay } from "./positionCapabilityDisplay";
 
 export interface PlayerDetailsFlyoutProps {
   appContext: AppContext;
@@ -63,9 +64,9 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
         <HitterFlyoutContent {...hitterDetails} />}
         {((primaryPosition !== 'Pitcher' && pageNumber === 3) || (primaryPosition === 'Pitcher' && pageNumber === 1)) && 
         <PitcherFlyoutContent {...pitcherDetails} />}
-        {pageNumber == 2 && <>
-          position capabilities
-        </>}
+        {pageNumber == 2 && <PositionCapabilitySection>
+          <PositionCapabilityDisplay {...positionCapabilities} />
+        </PositionCapabilitySection>}
       </PlayerDetailsContentContainer>
       <Pager>
           <IconButton icon='angle-left' onClick={() => setPageNumber(p => p - 1)} disabled={pageNumber <= 1} />
@@ -248,4 +249,7 @@ const PitchBreakSection = styled.div`
   grid-column: span 2;
 `
 
+const PositionCapabilitySection = styled.div`
+  grid-column: span 2;
+`
 

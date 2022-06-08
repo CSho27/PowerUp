@@ -1,3 +1,4 @@
+import { Grade } from "../../components/gradeLetter/gradeLetter";
 import { CommandFetcher } from "../../utils/commandFetcher";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { Position } from "../shared/positionCode";
@@ -64,15 +65,15 @@ export interface PitcherDetailsDto {
 }
 
 export interface PositionCapabilitiesDto {
-  pitcher: string;
-  catcher: string;
-  firstBase: string;
-  secondBase: string;
-  thirdBase: string;
-  shortstop: string;
-  leftField: string;
-  centerField: string;
-  rightField: string;
+  pitcher: Grade;
+  catcher: Grade;
+  firstBase: Grade;
+  secondBase: Grade;
+  thirdBase: Grade;
+  shortstop: Grade;
+  leftField: Grade;
+  centerField: Grade;
+  rightField: Grade;
 }
 
 export class GetPlayerFlyoutDetailsApiClient {
