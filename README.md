@@ -2,13 +2,15 @@
 ![PowerUp_Splashscreen](https://user-images.githubusercontent.com/30477054/160299027-774f51e4-43ff-45c5-af74-cf7471e844d0.png)
 
 ## Overview
-PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ultimate purpose is to make it as easy as possible to create and generate accurate rosters for the game. The app stores off a database of editable players that can be placed onto teams in a roster, then exports the data into a game save file for use in the game. It is currently still in development, so many of its core features have not been implemented yet.
+PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ultimate purpose is to make it as easy as possible to create and generate accurate rosters for the game. The app stores off a database of editable players that can be placed onto teams in a roster, then exports the data into a game save file for use in the game. It is still actively being developed, so some of its core features are still in the works.
 
-**NOTE**: PowerUp currently only works with Wii and Dolphin ROM game save files. There are plans to port this to PS2 in the future.
+**NOTE**: PowerUp currently only works with Wii and Dolphin ROM game save files. There are plans to port this to PS2 in the near future.
 
 ## Screenshots:
-![Roster Page](https://user-images.githubusercontent.com/30477054/160299040-aea0c0b6-6dc4-43bc-90f2-72db55137a19.png)
-![Player Editor - Hitter](https://user-images.githubusercontent.com/30477054/160299044-046b1ee8-11cf-4062-9927-dc95070d85cf.png)
+![Roster Editor with Flyout Open](https://user-images.githubusercontent.com/30477054/172521405-810a2728-d1bb-40fe-a2d5-a177ffe03687.png)
+![Lineup Editor](https://user-images.githubusercontent.com/30477054/172521485-76b55bd3-8135-4371-9404-ccb71d8625d6.png)
+![Pitcher Roles Editor](https://user-images.githubusercontent.com/30477054/172521498-b6b86bc9-303c-472a-988a-e3212bc35285.png)
+![Player Editor - Hitter](https://user-images.githubusercontent.com/30477054/172521472-1f7290cd-7e4f-49d9-8b31-ae8a0ada6913.png)
 
 ## Use Guide
 - Select one of the 3 options on the home page to open a roster to edit
@@ -44,4 +46,4 @@ Alpha Notes:
 *No, the game saves will be in a different format. I will look into the possibility of supporting 2008 game saves in the future, but it may not be possible.*
 
 5. When will the full version be done? <br/>
-*Probably not until June or July 2022. I'm currently working on this alone and there's a lot of work left to do.*
+*Probably not until August or September 2022. I'm currently working on this alone and there's a lot of work left to do.*
