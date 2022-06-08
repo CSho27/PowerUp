@@ -233,7 +233,7 @@ function SlotTile(props: SlotTileProps) {
 }
 
 const PlayerTileWrapper = styled.div`
-  width: 20rem;
+  width: 24rem;
   padding: 2px 4px;
   border: 2px solid ${COLORS.richBlack.regular_5};
   border-radius: 8px;
