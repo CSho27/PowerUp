@@ -127,6 +127,12 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
       { isDisabled: positionType === 'Pitcher', tooltipIfDisabled: "Pitcher's team roles cannot be edited" }
     ]
 
+    const disableSendUpOrDownWithLineup: DisabledCriteria = [
+      ...disableSendUpOrDown,
+      { isDisabled: !!player.orderInNoDHLineup, tooltipIfDisabled: "Player may not be sent down because they are currently in the No DH Lineup" },
+      { isDisabled: !!player.orderInDHLineup, tooltipIfDisabled: "Player may not be sent down because they are currently in the DH Lineup" }
+    ]
+
     return <PlayerRow key={playerId}>
       <PlayerCell>
         {startingNumber+index}
@@ -176,7 +182,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <Button
           size='Small'
           variant='Outline'
-          {...toDisabledProps(isAAA ? 'Call up' : 'Send down', ...disableSendUpOrDown)}
+          {...toDisabledProps(isAAA ? 'Call up' : 'Send down', ...disableSendUpOrDownWithLineup)}
           icon={isAAA ? 'person-arrow-up-from-line' : 'person-arrow-down-to-line'}
           squarePadding
           onClick={() => sendUpOrDown(playerId)} />
