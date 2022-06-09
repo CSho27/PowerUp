@@ -1,20 +1,21 @@
-# PowerUp
 ![PowerUp_Splashscreen](https://user-images.githubusercontent.com/30477054/160299027-774f51e4-43ff-45c5-af74-cf7471e844d0.png)
 
-## Overview
+# Overview
 PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ultimate purpose is to make it as easy as possible to create and generate accurate rosters for the game. The app stores off a database of editable players that can be placed onto teams in a roster, then exports the data into a game save file for use in the game. It is still actively being developed, so some of its core features are still in the works.
 
 **NOTE**: PowerUp currently only works with Wii and Dolphin ROM game save files. There are plans to port this to PS2 in the near future.
 
-## Screenshots:
 ![Roster Editor with Flyout Open](https://user-images.githubusercontent.com/30477054/172521405-810a2728-d1bb-40fe-a2d5-a177ffe03687.png)
-![Lineup Editor](https://user-images.githubusercontent.com/30477054/172521485-76b55bd3-8135-4371-9404-ccb71d8625d6.png)
 ![Pitcher Roles Editor](https://user-images.githubusercontent.com/30477054/172521498-b6b86bc9-303c-472a-988a-e3212bc35285.png)
 ![Player Editor - Hitter](https://user-images.githubusercontent.com/30477054/172521472-1f7290cd-7e4f-49d9-8b31-ae8a0ada6913.png)
 
-## Use Guide
-### Key Concepts
-#### Entity Type
+<br>
+
+# Use Guide
+
+## Key Concepts
+
+### Entity Type
 ![image](https://user-images.githubusercontent.com/30477054/172523201-4bbf6d04-55c9-4c56-af42-bd93b4922c84.png)
 - In order to preserve certain data in the system, there are 3 different types of players, teams, and roster:
   - Base: Included in original game. Cannot be edited.
@@ -22,7 +23,7 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
   - Custom: Created by the app. Properties can be edited.
 - If you wish to edit a player, team, or roster that is not editable, you can **make a copy**, which will give you an editable version of that entity.
 
-#### Referential Data
+### Referential Data
 ![image](https://user-images.githubusercontent.com/30477054/172523937-01285df2-61c4-424e-9300-a35d2b92c428.png)
 - Each player, team, and roster in the game has a unique id associated with it
 - Rosters and Teams store *references* to their Teams and Players, which means that:
@@ -30,6 +31,8 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
   - You can use a team you create on more than one roster
   - Any time you edit a player on a team, that player will also be edited on every other team he is on
   - Any time you edit a team on a roster, that team wll also be edited on every other roster it is on
+
+## Editing Rosters and Players
  
 ### Choosing a Roster to Edit
 ![image](https://user-images.githubusercontent.com/30477054/172524588-e6c5b3dd-0a0c-4a8b-8aec-e4f3f2a409a7.png)
@@ -67,14 +70,65 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
   - Replace with new: Creates a new team full of default players
 - To edit/view a team, click the edit/view icon on the team grid header. If the icon is an eye, you are only allowed to view this team and cannot edit it.
 ![image](https://user-images.githubusercontent.com/30477054/172719091-839f775b-979a-448b-b926-efebf3c94770.png)
- 
 
-- Select one of the 3 options on the home page to open a roster to edit
-- To edit a player, click the edit icon next to the player on the left
-- When done editing player properties, click save in the upper right
-- To navigate back to the roster/home pages, use the links in the upper left
+- The team grid header shows the name of the team in the PowerUp system first, then inparentheses, shows which MLB that team will be written to when it is exported into the game
+![image](https://user-images.githubusercontent.com/30477054/172815587-dc0c150a-b751-4d73-bfc3-2b32d1b673dc.png)
+
+ 
+### Edit Team
+- The Team Editor has 4 pages:
+  - Management
+  - No DH Lineup
+  - DH Lineup
+  - Pitcher Roles
+- On the team editor, **all changes must be saved** by clicking the save button in the upper right
+- To undo any work you've done since the last save, click the "Undo Changes" button
+- To edit the name of the team, click the edit button by the name. This name will not be displayed anywhere in the game. It is just used to refer to the team in the system
+
+#### Management
+![image](https://user-images.githubusercontent.com/30477054/172814008-6aac3dc5-6ae4-4885-bd7b-5702f9fce95d.png)
+- Just like on the Edit Roster page, each player has an edit button and a replace button next to them to edit and replace players
+- The third action next to each player is the Call up/Send down button. This allows you to send players down to AAA or call them up
+- Players can either be added to either the MLB or AAA rosters using the add buttons at the top
+![image](https://user-images.githubusercontent.com/30477054/172817808-2151f8e2-c4cf-4412-a3d9-4a1d7062bdf0.png)
+- Your options to add a player are:
+  - Add existing: search for any player in the system
+  - Add new hitter: adds a new hitter with default attributes
+  - Add new pitcher: adds a new pitcher with default attributes 
+- There is a maximum of 25 players on the MLB roster and 40 players on the AAA roster
+- To edit a player's roles, use the checkboxes on the right side of the screen
+
+#### Drag n' Drop Lineup Editors
+![image](https://user-images.githubusercontent.com/30477054/172820387-78ddde41-156d-4408-8254-53dfa0ca4aad.png)
+- To move a player up or down in the order, drag their slot using the three bars on the left
+- To swap positions with another player in the lineup, drag the position bubble next to their name and drop it over the position you'd like to swap it with
+- To swap two players, but leave the lineup slots as they are, drag the player's name bubble and drop it over the player you'd like to swap it with
+- To swap a player into the lineup, drag the player name bubble of a player that's on the bench and drop it over the player you'd like to remove from the lineup
+
+#### Pitcher Roles Editor
+![image](https://user-images.githubusercontent.com/30477054/172821240-40e0d09b-23b5-4bf6-a674-cecb368b443e.png)
+- To reorder the rotation or their order in a relief role drag that player's spot to a different slot
+- To switch a player's role, drag that player from one role section to another
+- A team must have at least 1 starter and no more than 1 closer
+
+### Edit Player
+![image](https://user-images.githubusercontent.com/30477054/172821777-7c67b78d-7a1e-41e8-9690-24aaec8d55c6.png)
+- The Player Editor has 6 pages:
+  - Personal
+  - Appearance
+  - Positions
+  - Hitter
+  - Special
+- On the player editor, **all changes must be saved** by clicking the save button in the upper right
+- To undo any work you've done since the last save, click the "Undo Changes" button
+- The "Is Custom" switch controls whether or not the player will *appear* as having been edited in the game (the little blue bar in the bottom of the player name bubble)
+
+### Exporting a Roster
 - To export an edited roster file, click the export icon in the upper right
-- From here, you can select to either use a blank file or copy from an existing one. If you copy from an existing one, this will allow you to still have your settings and purchases from your original game save file. This will **not** save over your orginal game save file, instead, it will just write to a copy of that file.
+![image](https://user-images.githubusercontent.com/30477054/172822670-caad3786-146b-4e45-aeb9-3497c4b92618.png)
+![image](https://user-images.githubusercontent.com/30477054/172822944-9e9a8a41-fa8a-43ee-9766-29be47e7ecbe.png)
+- From here, you can select to either use a blank file or copy from an existing one
+- If you copy from an existing one, this will allow you to still have your settings and purchases from your original game save file. This will **not** save over your orginal game save file, instead, it will just write to a copy of that file.
 - Select a directory to output your game save file
 - The outputted file will have a name in the format {RosterName}.ps2maus.dat
 - In order to use this roster in the game, you will need to:
