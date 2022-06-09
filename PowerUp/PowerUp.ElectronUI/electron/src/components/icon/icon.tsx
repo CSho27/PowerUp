@@ -17,6 +17,7 @@ export type IconType =
 | 'circle-minus'
 | 'circle-notch'
 | 'circle-plus'
+| 'circle-question'
 | 'copy'
 | 'download'
 | 'eye'
