@@ -95,7 +95,7 @@ export function TeamGrid(props: TeamGridProps) {
           variant='Outline'
           squarePadding
           icon='right-left'
-          {...toDisabledProps('Replace team', ...[] /*disableRosterEdit*/)}
+          {...toDisabledProps('Replace team', ...disableRosterEdit)}
           menuItems={<>
             <ContextMenuItem 
               icon='copy'
