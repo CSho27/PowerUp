@@ -43,6 +43,31 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - The Edit Roster page lists all the teams on a roster and the players that comprise them.
 - All edits made to rosters are saved immediately. There is no saving necessary and there is no way to undo changes.
 - To edit the name of the roster, click the edit icon near the top of the screen by the roster name. (This name will not show up anywhere in the game, but the exported GameSave file will use this name
+![image](https://user-images.githubusercontent.com/30477054/172718183-a9ae94f7-fe5d-4566-b198-133053f43c3c.png)
+
+- To view/edit a player, click the view/edit icon in that player's row. If the icon is an eye, you are only allowed to view this player, and cannot edit him.
+![image](https://user-images.githubusercontent.com/30477054/172719424-34b5e466-71aa-4a56-9242-5721807c9c6c.png)
+
+- To replace a player on a team, click the replace icon in that player's row, this icon may be disabled if the team is not editable
+![image](https://user-images.githubusercontent.com/30477054/172719594-3153afe2-29cf-4b68-9602-4e54b8f40ece.png)
+
+- Your options to replace a player are:
+  - Replace with copy: replaces player with an editable copy of that player
+  - Replace with existing: opens dialog that lets you choose another player from the PowerUp database to insert in this player's place
+  - Replace with new: Creates a new player with default attributes
+- To view further detail about a given player without leaving the page, click the i icon on the right side of any player
+![image](https://user-images.githubusercontent.com/30477054/172719983-494a17df-84f7-49c1-86c2-f2f1ff64a93a.png)
+- You can use the pager in the bottom right to switch between pages of the info flyout
+
+- To replace an entire team with another entire team, click the replace icon on the team grid header
+![image](https://user-images.githubusercontent.com/30477054/172718499-a4e2f43c-fc3a-40c0-9f7d-06bcb46a4ed7.png)
+- Your options to replace a team are:
+  - Replace with copy: replaces team with an editable copy of the current team
+  - Replace with existing: opens dialog that lets you choose another team from the PowerUp database to insert in this team's place
+  - Replace with new: Creates a new team full of default players
+- To edit/view a team, click the edit/view icon on the team grid header. If the icon is an eye, you are only allowed to view this team and cannot edit it.
+![image](https://user-images.githubusercontent.com/30477054/172719091-839f775b-979a-448b-b926-efebf3c94770.png)
+ 
 
 - Select one of the 3 options on the home page to open a roster to edit
 - To edit a player, click the edit icon next to the player on the left
