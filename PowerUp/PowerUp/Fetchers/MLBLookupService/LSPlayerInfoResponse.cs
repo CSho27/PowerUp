@@ -15,7 +15,7 @@ namespace PowerUp.Fetchers.MLBLookupService
   public class LSPlayerInfo
   {
     public string? copyRight { get; set; }
-    public LSPlayerSearchQueryResults? queryResults { get; set; }
+    public LSPlayerInfoQueryResults? queryResults { get; set; }
   }
 
   public class LSPlayerInfoQueryResults

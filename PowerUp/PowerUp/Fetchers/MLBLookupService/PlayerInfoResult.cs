@@ -41,83 +41,37 @@ namespace PowerUp.Fetchers.MLBLookupService
     public PlayerInfoResult(LSPlayerInfoResult result)
     {
       LSPlayerId = long.Parse(result.player_id!);
-      NamePrefix = string.IsNullOrEmpty(result.name_prefix)
-        ? null
-        : result.name_prefix;
+      NamePrefix = result.name_prefix.StringIfNotEmpty();
       FirstName = result.name_first!;
       FirstNameUsed = result.name_use!;
-      MiddleName = string.IsNullOrEmpty(result.name_middle)
-        ? null
-        : result.name_middle;
+      MiddleName = result.name_middle.StringIfNotEmpty();
       LastName = result.name_last!;
       FormalDisplayName = result.name_display_last_first!;
       InformalDisplayName = result.name_display_first_last!;
-      NickName = string.IsNullOrEmpty(result.name_nick)
-        ? null
-        : result.name_nick;
-      UniformNumber = string.IsNullOrEmpty(result.jersey_number)
-        ? null
-        : result.jersey_number;
+      NickName = result.name_nick.StringIfNotEmpty();
+      UniformNumber = result.jersey_number.StringIfNotEmpty();
       Position = LookupServiceValueMapper.MapPosition(result.primary_position!);
       BattingSide = LookupServiceValueMapper.MapBatingSide(result.bats!);
       ThrowingArm = LookupServiceValueMapper.MapThrowingArm(result.throws!);
-      Weight = string.IsNullOrEmpty(result.weight)
-        ? null
-        : int.Parse(result.weight);
-      HeightFeet = string.IsNullOrEmpty(result.height_feet)
-        ? null
-        : int.Parse(result.height_feet);
-      HeightInches = string.IsNullOrEmpty(result.height_inches)
-        ? null
-        : int.Parse(result.height_inches);
-      BirthDate = string.IsNullOrEmpty(result.birth_date)
-        ? null
-        : DateTime.Parse(result.birth_date);
-      BirthCountry = string.IsNullOrEmpty(result.birth_country)
-        ? null
-        : result.birth_country;
-      BirthState = string.IsNullOrEmpty(result.birth_state)
-        ? null
-        : result.birth_state;
-      BirthCity = string.IsNullOrEmpty(result.birth_city)
-        ? null
-        : result.birth_city;
-      DeathDate = string.IsNullOrEmpty(result.death_date)
-        ? null
-        : DateTime.Parse(result.death_date);
-      DeathCountry = string.IsNullOrEmpty(result.death_country)
-        ? null
-        : result.death_country;
-      DeathState = string.IsNullOrEmpty(result.death_state)
-        ? null
-        : result.death_state;
-      DeathCity = string.IsNullOrEmpty(result.death_city)
-        ? null
-        : result.death_city;
-      Age = string.IsNullOrEmpty(result.age)
-        ? null
-        : int.Parse(result.age);
-      HighSchool = string.IsNullOrEmpty(result.high_school)
-        ? null
-        : result.high_school;
-      College = string.IsNullOrEmpty(result.college)
-        ? null
-        : result.college;
-      ProDebutDate = string.IsNullOrEmpty(result.pro_debut_date)
-        ? null
-        : DateTime.Parse(result.pro_debut_date);
-      StartDate = string.IsNullOrEmpty(result.start_date)
-        ? null
-        : DateTime.Parse(result.start_date);
-      EndDate = string.IsNullOrEmpty(result.end_date)
-        ? null
-        : DateTime.Parse(result.end_date);
-      ServiceYears = string.IsNullOrEmpty(result.service_years)
-        ? null
-        : int.Parse(result.service_years);
-      TeamName = string.IsNullOrEmpty(result.team_name)
-        ? null
-        : result.team_name;
+      Weight = result.weight.ParseIntIfNotEmpty();
+      HeightFeet = result.height_feet.ParseIntIfNotEmpty();
+      HeightInches = result.height_inches.ParseIntIfNotEmpty();
+      BirthDate = result.birth_date.ParseDateTimeIfNotEmpty();
+      BirthCountry = result.birth_country.StringIfNotEmpty();
+      BirthState = result.birth_state.StringIfNotEmpty();
+      BirthCity = result.birth_city.StringIfNotEmpty();
+      DeathDate = result.death_date.ParseDateTimeIfNotEmpty();
+      DeathCountry = result.death_country.StringIfNotEmpty();
+      DeathState = result.death_state.StringIfNotEmpty();
+      DeathCity = result.death_city.StringIfNotEmpty();
+      Age = result.age.ParseIntIfNotEmpty();
+      HighSchool = result.high_school.StringIfNotEmpty();
+      College = result.college.StringIfNotEmpty();
+      ProDebutDate = result.pro_debut_date.ParseDateTimeIfNotEmpty();
+      StartDate = result.start_date.ParseDateTimeIfNotEmpty();
+      EndDate = result.end_date.ParseDateTimeIfNotEmpty();
+      ServiceYears = result.service_years.ParseIntIfNotEmpty();
+      TeamName = result.team_name.StringIfNotEmpty();
     }
   }
 }

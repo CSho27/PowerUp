@@ -53,43 +53,19 @@ namespace PowerUp.Fetchers.MLBLookupService
       Position = LookupServiceValueMapper.MapPosition(searchResult.position_id!);
       BattingSide = LookupServiceValueMapper.MapBatingSide(searchResult.bats!);
       ThrowingArm = LookupServiceValueMapper.MapThrowingArm(searchResult.throws!);
-      Weight = string.IsNullOrEmpty(searchResult.weight)
-        ? null
-        : int.Parse(searchResult.weight);
-      HeightFeet = string.IsNullOrEmpty(searchResult.height_feet)
-        ? null
-        : int.Parse(searchResult.height_feet);
-      HeightInches = string.IsNullOrEmpty(searchResult.height_inches) 
-        ? null
-        : int.Parse(searchResult.height_inches);
-      BirthDate = string.IsNullOrEmpty(searchResult.birth_date)
-        ? null
-        : DateTime.Parse(searchResult.birth_date);
-      BirthCountry = string.IsNullOrEmpty(searchResult.birth_country)
-        ? null
-        : searchResult.birth_country;
-      BirthState = string.IsNullOrEmpty(searchResult.birth_state)
-        ? null
-        : searchResult.birth_state;
-      BirthCity = string.IsNullOrEmpty(searchResult.birth_city)
-        ? null
-        : searchResult.birth_city;
-      HighSchool = string.IsNullOrEmpty(searchResult.high_school)
-        ? null
-        : searchResult.high_school;
-      College = string.IsNullOrEmpty(searchResult.college)
-        ? null
-        : searchResult.college;
-      ProDebutDate = string.IsNullOrEmpty(searchResult.pro_debut_date)
-        ? null
-        : DateTime.Parse(searchResult.pro_debut_date);
-      ServiceYears = string.IsNullOrEmpty(searchResult.service_years)
-        ? null
-        : int.Parse(searchResult.service_years);
+      Weight = searchResult.weight.ParseIntIfNotEmpty();
+      HeightFeet = searchResult.height_feet.ParseIntIfNotEmpty();
+      HeightInches = searchResult.height_inches.ParseIntIfNotEmpty();
+      BirthDate = searchResult.birth_date.ParseDateTimeIfNotEmpty();
+      BirthCountry = searchResult.birth_country.StringIfNotEmpty();
+      BirthState = searchResult.birth_state.StringIfNotEmpty();
+      BirthCity = searchResult.birth_city.StringIfNotEmpty();
+      HighSchool = searchResult.high_school.StringIfNotEmpty();
+      College = searchResult.college.StringIfNotEmpty();
+      ProDebutDate = searchResult.pro_debut_date.ParseDateTimeIfNotEmpty();
+      ServiceYears = searchResult.service_years.ParseIntIfNotEmpty();
       IsActive = searchResult.active_sw == "Y";
-      TeamName = string.IsNullOrEmpty(searchResult.team_full)
-        ? null
-        : searchResult.team_full;
+      TeamName = searchResult.team_full.StringIfNotEmpty();
     }
   }
 }

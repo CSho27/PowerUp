@@ -26,5 +26,21 @@ namespace PowerUp.Fetchers.MLBLookupService
       => element.HasValue
         ? JsonSerializer.Deserialize<T?>(element.Value)
         : null;
+
+    public static string? StringIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
+      ? null
+      : value;
+
+    public static DateTime? ParseDateTimeIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
+      ? null 
+      : DateTime.Parse(value);
+
+    public static int? ParseIntIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
+      ? null
+      : int.Parse(value);
+
+    public static double? ParseDoubleIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
+      ? null
+      : double.Parse(value);
   }
 }

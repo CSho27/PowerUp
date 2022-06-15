@@ -176,5 +176,139 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.TeamName.ShouldBe("Los Angeles Angels");
       }).GetAwaiter().GetResult();
     }
+
+    [Test]
+    public void GetHittingStats_GetsHittingStats_ForHistoricPlayer()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetHittingStats(115096, 1935);
+        results.TotalResults.ShouldBe(1);
+        var result = results.Results.Single();
+        result.LSPlayerId.ShouldBe(115096);
+        result.Year.ShouldBe(1935);
+        result.TeamSeq.ShouldBe(1.0);
+        result.GamesPlayed.ShouldBe(152);
+        result.AtBats.ShouldBe(619);
+        result.PlateAppearances.ShouldBe(710);
+        result.Hits.ShouldBe(203);
+        result.Doubles.ShouldBe(46);
+        result.Triples.ShouldBe(16);
+        result.HomeRuns.ShouldBe(36);
+        result.ExtraBaseHits.ShouldBe(98);
+        result.TotalBases.ShouldBe(389);
+        result.Walks.ShouldBe(87);
+        result.IntentionalWalks.ShouldBeNull();
+        result.HitByPitches.ShouldBe(0);
+        result.RunsBattedIn.ShouldBe(170);
+        result.RunnersLeftOnBase.ShouldBeNull();
+        result.Runs.ShouldBe(121);
+        result.Strikeouts.ShouldBe(91);
+        result.GroundOuts.ShouldBeNull();
+        result.AirOuts.ShouldBe(0);
+        result.HardGrounders.ShouldBeNull();
+        result.HardFlyBalls.ShouldBeNull();
+        result.HardPopUps.ShouldBeNull();
+        result.GroundedIntoDoublePlay.ShouldBeNull();
+        result.SacrificeFlies.ShouldBeNull();
+        result.SacrificeBunts.ShouldBe(4);
+        result.ReachedOnErrors.ShouldBeNull();
+        result.BattingAverage.ShouldBe(.328);
+        result.SluggingPercentage.ShouldBe(.628);
+        result.OnBasePercentage.ShouldBe(.411);
+        result.OnBasePlusSluggingPercentage.ShouldBe(1.039);
+        result.BattingAverageOnBallsInPlay.ShouldBe(.339);
+        result.PitchesPerPlateAppearance.ShouldBe(0);
+        result.StolenBases.ShouldBe(4);
+        result.CaughtStealing.ShouldBe(3);
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetHittingStats_GetsHittingStats_ForCurrentPlayer()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetHittingStats(592518, 2018);
+        results.TotalResults.ShouldBe(2);
+        var withOrioles = results.Results.First();
+        withOrioles.LSPlayerId.ShouldBe(592518);
+        withOrioles.Year.ShouldBe(2018);
+        withOrioles.TeamSeq.ShouldBe(1.0);
+        withOrioles.GamesPlayed.ShouldBe(96);
+        withOrioles.AtBats.ShouldBe(365);
+        withOrioles.PlateAppearances.ShouldBe(413);
+        withOrioles.Hits.ShouldBe(115);
+        withOrioles.Doubles.ShouldBe(21);
+        withOrioles.Triples.ShouldBe(1);
+        withOrioles.HomeRuns.ShouldBe(24);
+        withOrioles.ExtraBaseHits.ShouldBe(46);
+        withOrioles.TotalBases.ShouldBe(210);
+        withOrioles.Walks.ShouldBe(45);
+        withOrioles.IntentionalWalks.ShouldBe(12);
+        withOrioles.HitByPitches.ShouldBe(0);
+        withOrioles.RunsBattedIn.ShouldBe(65);
+        withOrioles.RunnersLeftOnBase.ShouldBe(134);
+        withOrioles.Runs.ShouldBe(48);
+        withOrioles.Strikeouts.ShouldBe(51);
+        withOrioles.GroundOuts.ShouldBe(96);
+        withOrioles.AirOuts.ShouldBe(120);
+        withOrioles.HardGrounders.ShouldBe(39);
+        withOrioles.HardLineDrives.ShouldBe(49);
+        withOrioles.HardFlyBalls.ShouldBe(27);
+        withOrioles.HardPopUps.ShouldBe(0);
+        withOrioles.GroundedIntoDoublePlay.ShouldBe(14);
+        withOrioles.SacrificeFlies.ShouldBe(3);
+        withOrioles.SacrificeBunts.ShouldBe(0);
+        withOrioles.ReachedOnErrors.ShouldBe(1);
+        withOrioles.BattingAverage.ShouldBe(.315);
+        withOrioles.SluggingPercentage.ShouldBe(.575);
+        withOrioles.OnBasePercentage.ShouldBe(.387);
+        withOrioles.OnBasePlusSluggingPercentage.ShouldBe(.963);
+        withOrioles.BattingAverageOnBallsInPlay.ShouldBe(.311);
+        withOrioles.PitchesPerPlateAppearance.ShouldBe(3.58);
+        withOrioles.StolenBases.ShouldBe(8);
+        withOrioles.CaughtStealing.ShouldBe(1);
+
+        var withDodgers = results.Results.ElementAt(1);
+        withDodgers.LSPlayerId.ShouldBe(592518);
+        withDodgers.Year.ShouldBe(2018);
+        withDodgers.TeamSeq.ShouldBe(2.0);
+        withDodgers.GamesPlayed.ShouldBe(66);
+        withDodgers.AtBats.ShouldBe(267);
+        withDodgers.PlateAppearances.ShouldBe(296);
+        withDodgers.Hits.ShouldBe(73);
+        withDodgers.Doubles.ShouldBe(14);
+        withDodgers.Triples.ShouldBe(2);
+        withDodgers.HomeRuns.ShouldBe(13);
+        withDodgers.ExtraBaseHits.ShouldBe(29);
+        withDodgers.TotalBases.ShouldBe(130);
+        withDodgers.Walks.ShouldBe(25);
+        withDodgers.IntentionalWalks.ShouldBe(6);
+        withDodgers.HitByPitches.ShouldBe(2);
+        withDodgers.RunsBattedIn.ShouldBe(42);
+        withDodgers.RunnersLeftOnBase.ShouldBe(125);
+        withDodgers.Runs.ShouldBe(36);
+        withDodgers.Strikeouts.ShouldBe(53);
+        withDodgers.GroundOuts.ShouldBe(83);
+        withDodgers.AirOuts.ShouldBe(72);
+        withDodgers.HardGrounders.ShouldBe(21);
+        withDodgers.HardLineDrives.ShouldBe(38);
+        withDodgers.HardFlyBalls.ShouldBe(14);
+        withDodgers.HardPopUps.ShouldBe(0);
+        withDodgers.GroundedIntoDoublePlay.ShouldBe(12);
+        withDodgers.SacrificeFlies.ShouldBe(2);
+        withDodgers.SacrificeBunts.ShouldBe(0);
+        withDodgers.ReachedOnErrors.ShouldBe(1);
+        withDodgers.BattingAverage.ShouldBe(.273);
+        withDodgers.SluggingPercentage.ShouldBe(.487);
+        withDodgers.OnBasePercentage.ShouldBe(.338);
+        withDodgers.OnBasePlusSluggingPercentage.ShouldBe(.825);
+        withDodgers.BattingAverageOnBallsInPlay.ShouldBe(.296);
+        withDodgers.PitchesPerPlateAppearance.ShouldBe(3.55);
+        withDodgers.StolenBases.ShouldBe(6);
+        withDodgers.CaughtStealing.ShouldBe(1);
+      }).GetAwaiter().GetResult();
+    }
   }
 }
