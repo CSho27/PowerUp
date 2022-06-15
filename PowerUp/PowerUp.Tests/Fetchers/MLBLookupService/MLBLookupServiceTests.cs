@@ -10,19 +10,21 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
 {
   public class MLBLookupServiceTests
   {
-    private readonly IMLBLookupServiceClient _fetcher = new MLBLookupServiceClient();
+    private readonly IMLBLookupServiceClient _client = new MLBLookupServiceClient();
 
     [Test]
-    public void SearchPlayer_SearchesSingleCurrentPlayer()
+    public void SearchPlayer_SearchesSingle_CurrentPlayer()
     {
       Task.Run(async () =>
       {
-        var result = await _fetcher.SearchPlayer("Giancarlo Stanton");
+        var result = await _client.SearchPlayer("Giancarlo Stanton");
         result.TotalResults.ShouldBe(1);
         var stanton = result.Results.Single();
-        stanton.PlayerId.ShouldBe(519317);
+        stanton.LSPlayerId.ShouldBe(519317);
         stanton.FirstName.ShouldBe("Giancarlo");
         stanton.LastName.ShouldBe("Stanton");
+        stanton.FormalDisplayName.ShouldBe("Stanton, Giancarlo");
+        stanton.InformalDisplayName.ShouldBe("Giancarlo Stanton");
         stanton.Position.ShouldBe(Position.DesignatedHitter);
         stanton.BattingSide.ShouldBe(BattingSide.Right);
         stanton.ThrowingArm.ShouldBe(ThrowingArm.Right);
@@ -42,14 +44,14 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
     }
 
     [Test]
-    public void SearchPlayer_SearchesSingleHistoricPlayer()
+    public void SearchPlayer_SearchesSingle_HistoricPlayer()
     {
       Task.Run(async () =>
       {
-        var result = await _fetcher.SearchPlayer("Sandy Koufax");
+        var result = await _client.SearchPlayer("Sandy Koufax");
         result.TotalResults.ShouldBe(1);
         var stanton = result.Results.Single();
-        stanton.PlayerId.ShouldBe(117277);
+        stanton.LSPlayerId.ShouldBe(117277);
         stanton.FirstName.ShouldBe("Sandy");
         stanton.LastName.ShouldBe("Koufax");
         stanton.Position.ShouldBe(Position.Pitcher);
@@ -75,7 +77,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
     {
       Task.Run(async () =>
       {
-        var result = await _fetcher.SearchPlayer("John");
+        var result = await _client.SearchPlayer("John");
         result.TotalResults.ShouldBeGreaterThanOrEqualTo(651);
         var results = result.Results;
         results.ShouldContain(r => r.InformalDisplayName == "Tommy John");
@@ -89,8 +91,89 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
     {
       Task.Run(async () =>
       {
-        var results = await _fetcher.SearchPlayer("dslk;gfksd;lgj");
+        var results = await _client.SearchPlayer("dslk;gfksd;lgj");
         results.TotalResults.ShouldBe(0);
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetPlayerInfo_GetsPlayerInfo_ForHistoricPlayer()
+    {
+      Task.Run(async () =>
+      {
+        var result = await _client.GetPlayerInfo(122566);
+        result.LSPlayerId.ShouldBe(122566);
+        result.Position.ShouldBe(Position.CenterField);
+        result.NamePrefix.ShouldBeNull();
+        result.FirstName.ShouldBe("Tristram");
+        result.MiddleName.ShouldBe("Edgar");
+        result.LastName.ShouldBe("Speaker");
+        result.FormalDisplayName.ShouldBe("Speaker, Tristram");
+        result.InformalDisplayName.ShouldBe("Tristram Speaker");
+        result.NickName.ShouldBe("The Grey Eagle");
+        result.UniformNumber.ShouldBeNull();
+        result.BattingSide.ShouldBe(BattingSide.Left);
+        result.ThrowingArm.ShouldBe(ThrowingArm.Left);
+        result.Weight.ShouldBe(193);
+        result.HeightFeet.ShouldBe(6);
+        result.HeightInches.ShouldBe(0);
+        result.BirthDate.ShouldBe(DateTime.Parse("1888-04-04T00:00:00"));
+        result.BirthCountry.ShouldBe("USA");
+        result.BirthState.ShouldBe("TX");
+        result.BirthCity.ShouldBe("Hubbard");
+        result.DeathDate.ShouldBe(DateTime.Parse("1958-12-08T00:00:00"));
+        result.DeathCountry.ShouldBe("USA");
+        result.DeathState.ShouldBe("TX");
+        result.DeathCity.ShouldBe("Lake Whitney");
+        result.Age.Value.ShouldBeGreaterThanOrEqualTo(134);
+        result.HighSchool.ShouldBe("Hubbard, TX");
+        result.College.ShouldBe("Texas Wesleyan");
+        result.ProDebutDate.ShouldBe(DateTime.Parse("1907-09-12T00:00:00"));
+        result.StartDate.ShouldBe(DateTime.Parse("1928-01-01T00:00:00"));
+        result.EndDate.ShouldBe(DateTime.Parse("1929-01-01T00:00:00"));
+        result.ServiceYears.ShouldBeNull();
+        result.TeamName.ShouldBe("Oakland Athletics");
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetPlayerInfo_GetsPlayerInfo_ForCurrentPlayer()
+    {
+      Task.Run(async () =>
+      {
+        var result = await _client.GetPlayerInfo(545361);
+        result.LSPlayerId.ShouldBe(545361);
+        result.Position.ShouldBe(Position.CenterField);
+        result.NamePrefix.ShouldBeNull();
+        result.FirstName.ShouldBe("Michael");
+        result.FirstNameUsed.ShouldBe("Mike");
+        result.MiddleName.ShouldBe("Nelson");
+        result.LastName.ShouldBe("Trout");
+        result.FormalDisplayName.ShouldBe("Trout, Mike");
+        result.InformalDisplayName.ShouldBe("Mike Trout");
+        result.NickName.ShouldBe("Kiiiiid");
+        result.UniformNumber.ShouldBe("27");
+        result.BattingSide.ShouldBe(BattingSide.Right);
+        result.ThrowingArm.ShouldBe(ThrowingArm.Right);
+        result.Weight.ShouldBe(235);
+        result.HeightFeet.ShouldBe(6);
+        result.HeightInches.ShouldBe(2);
+        result.BirthDate.ShouldBe(DateTime.Parse("1991-08-07T00:00:00"));
+        result.BirthCountry.ShouldBe("USA");
+        result.BirthState.ShouldBe("NJ");
+        result.BirthCity.ShouldBe("Vineland");
+        result.DeathDate.ShouldBeNull();
+        result.DeathCountry.ShouldBeNull();
+        result.DeathState.ShouldBeNull();
+        result.DeathCity.ShouldBeNull();
+        result.Age.Value.ShouldBeGreaterThanOrEqualTo(30);
+        result.HighSchool.ShouldBe("Millville, NJ");
+        result.College.ShouldBeNull();
+        result.ProDebutDate.ShouldBe(DateTime.Parse("2011-07-08T00:00:00"));
+        result.StartDate.ShouldBe(DateTime.Parse("2011-07-08T00:00:00"));
+        result.EndDate.ShouldBeNull();
+        result.ServiceYears.ShouldBeNull();
+        result.TeamName.ShouldBe("Los Angeles Angels");
       }).GetAwaiter().GetResult();
     }
   }

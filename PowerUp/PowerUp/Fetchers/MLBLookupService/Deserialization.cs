@@ -21,5 +21,10 @@ namespace PowerUp.Fetchers.MLBLookupService
         return new[] { JsonSerializer.Deserialize<T>(element.Value)! };
       }
     }
+
+    public static T? SingleOrNullToSingle<T>(JsonElement? element) where T : class
+      => element.HasValue
+        ? JsonSerializer.Deserialize<T?>(element.Value)
+        : null;
   }
 }

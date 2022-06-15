@@ -19,9 +19,10 @@ namespace PowerUp.Fetchers.MLBLookupService
 
   public class PlayerSearchResult
   {
-    public long PlayerId { get; }
+    public long LSPlayerId { get; }
     public Position Position { get; }
     public string FirstName { get; }
+    public string FirstNameUsed { get; }
     public string LastName { get; }
     public string FormalDisplayName { get; }
     public string InformalDisplayName { get; }
@@ -39,13 +40,15 @@ namespace PowerUp.Fetchers.MLBLookupService
     public DateTime? ProDebutDate { get; }
     public int? ServiceYears { get; }
     public bool IsActive { get; }
+    public string? TeamName { get; }
 
     public PlayerSearchResult(LSPlayerSearchResult searchResult)
     {
-      PlayerId = long.Parse(searchResult.player_id!);
+      LSPlayerId = long.Parse(searchResult.player_id!);
       FirstName = searchResult.name_first!;
+      FirstNameUsed = searchResult.name_use!;
       LastName = searchResult.name_last!;
-      FormalDisplayName = searchResult.name_dislpay_last_first!;
+      FormalDisplayName = searchResult.name_display_last_first!;
       InformalDisplayName = searchResult.name_display_first_last!;
       Position = LookupServiceValueMapper.MapPosition(searchResult.position_id!);
       BattingSide = LookupServiceValueMapper.MapBatingSide(searchResult.bats!);
@@ -84,6 +87,9 @@ namespace PowerUp.Fetchers.MLBLookupService
         ? null
         : int.Parse(searchResult.service_years);
       IsActive = searchResult.active_sw == "Y";
+      TeamName = string.IsNullOrEmpty(searchResult.team_full)
+        ? null
+        : searchResult.team_full;
     }
   }
 }
