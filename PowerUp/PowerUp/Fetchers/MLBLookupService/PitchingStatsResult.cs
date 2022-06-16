@@ -19,7 +19,7 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     public int LSPlayerId { get; }
     public int Year { get; }
-    public double TeamSeq { get; }
+    public int TeamSeq { get; }
 
     public int? GamesPlayed { get; }
     public int? GamesStarted { get; }
@@ -72,7 +72,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       LSPlayerId = int.Parse(result.player_id!);
       Year = int.Parse(result.season!);
-      TeamSeq = double.Parse(result.team_seq!);
+      TeamSeq = (int)double.Parse(result.team_seq!);
       GamesPlayed = int.Parse(result.g!);
       GamesStarted = result.gs.TryParseInt();
       GamesFinished = result.gf.TryParseInt();

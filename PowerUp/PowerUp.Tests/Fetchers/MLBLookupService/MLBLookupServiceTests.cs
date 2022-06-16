@@ -187,7 +187,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var result = results.Results.Single();
         result.LSPlayerId.ShouldBe(115096);
         result.Year.ShouldBe(1935);
-        result.TeamSeq.ShouldBe(1.0);
+        result.TeamSeq.ShouldBe(1);
         result.GamesPlayed.ShouldBe(152);
         result.AtBats.ShouldBe(619);
         result.PlateAppearances.ShouldBe(710);
@@ -234,7 +234,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var withOrioles = results.Results.First();
         withOrioles.LSPlayerId.ShouldBe(592518);
         withOrioles.Year.ShouldBe(2018);
-        withOrioles.TeamSeq.ShouldBe(1.0);
+        withOrioles.TeamSeq.ShouldBe(1);
         withOrioles.GamesPlayed.ShouldBe(96);
         withOrioles.AtBats.ShouldBe(365);
         withOrioles.PlateAppearances.ShouldBe(413);
@@ -273,7 +273,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var withDodgers = results.Results.ElementAt(1);
         withDodgers.LSPlayerId.ShouldBe(592518);
         withDodgers.Year.ShouldBe(2018);
-        withDodgers.TeamSeq.ShouldBe(2.0);
+        withDodgers.TeamSeq.ShouldBe(2);
         withDodgers.GamesPlayed.ShouldBe(66);
         withDodgers.AtBats.ShouldBe(267);
         withDodgers.PlateAppearances.ShouldBe(296);
@@ -312,6 +312,125 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
     }
 
     [Test]
+    public void GetFieldingStats_GetsFieldingStats_ForHistoricPlayer()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetFieldingStats(122439, 1992);
+        results.TotalResults.ShouldBe(1);
+        var result = results.Results.Single();
+        result.LSPlayerId.ShouldBe(122439);
+        result.Year.ShouldBe(1992);
+        result.TeamSeq.ShouldBe(1);
+        result.Position.ShouldBe(Position.Shortstop);
+        result.GamesPlayed.ShouldBe(132);
+        result.GamesStarted.ShouldBeNull();
+        result.Innings.ShouldBeNull();
+        result.TotalChances.ShouldBe(662);
+        result.Errors.ShouldBe(10);
+        result.Assists.ShouldBe(420);
+        result.PutOuts.ShouldBe(232);
+        result.DoublePlays.ShouldBe(82);
+        result.RangeFactor.ShouldBe(4.94);
+        result.FieldingPercentage.ShouldBe(.985);
+        result.Catcher_RunnersThrownOut.ShouldBeNull();
+        result.Catcher_StolenBasesAllowed.ShouldBeNull();
+        result.Catcher_PastBalls.ShouldBeNull();
+        result.Catcher_WildPitches.ShouldBeNull();
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetFieldingStats_GetsFieldingStats_ForCurrentPlayer()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetFieldingStats(621035, 2016);
+        results.TotalResults.ShouldBe(4);
+
+        var asMarinersShortstop = results.Results.First();
+        asMarinersShortstop.LSPlayerId.ShouldBe(621035);
+        asMarinersShortstop.Year.ShouldBe(2016);
+        asMarinersShortstop.TeamSeq.ShouldBe(1);
+        asMarinersShortstop.Position.ShouldBe(Position.Shortstop);
+        asMarinersShortstop.GamesPlayed.ShouldBe(1);
+        asMarinersShortstop.GamesStarted.ShouldBe(1);
+        asMarinersShortstop.Innings.ShouldBe(9);
+        asMarinersShortstop.TotalChances.ShouldBe(4);
+        asMarinersShortstop.Errors.ShouldBe(2);
+        asMarinersShortstop.Assists.ShouldBe(1);
+        asMarinersShortstop.PutOuts.ShouldBe(1);
+        asMarinersShortstop.DoublePlays.ShouldBe(0);
+        asMarinersShortstop.RangeFactor.ShouldBe(2);
+        asMarinersShortstop.FieldingPercentage.ShouldBe(.500);
+        asMarinersShortstop.Catcher_RunnersThrownOut.ShouldBeNull();
+        asMarinersShortstop.Catcher_StolenBasesAllowed.ShouldBeNull();
+        asMarinersShortstop.Catcher_PastBalls.ShouldBeNull();
+        asMarinersShortstop.Catcher_WildPitches.ShouldBeNull();
+
+        var asDodgersSecondBaseman = results.Results.ElementAt(1);
+        asDodgersSecondBaseman.LSPlayerId.ShouldBe(621035);
+        asDodgersSecondBaseman.Year.ShouldBe(2016);
+        asDodgersSecondBaseman.TeamSeq.ShouldBe(2);
+        asDodgersSecondBaseman.Position.ShouldBe(Position.SecondBase);
+        asDodgersSecondBaseman.GamesPlayed.ShouldBe(7);
+        asDodgersSecondBaseman.GamesStarted.ShouldBe(5);
+        asDodgersSecondBaseman.Innings.ShouldBe(39.1);
+        asDodgersSecondBaseman.TotalChances.ShouldBe(22);
+        asDodgersSecondBaseman.Errors.ShouldBe(1);
+        asDodgersSecondBaseman.Assists.ShouldBe(12);
+        asDodgersSecondBaseman.PutOuts.ShouldBe(9);
+        asDodgersSecondBaseman.DoublePlays.ShouldBe(3);
+        asDodgersSecondBaseman.RangeFactor.ShouldBe(3);
+        asDodgersSecondBaseman.FieldingPercentage.ShouldBe(.955);
+        asDodgersSecondBaseman.Catcher_RunnersThrownOut.ShouldBeNull();
+        asDodgersSecondBaseman.Catcher_StolenBasesAllowed.ShouldBeNull();
+        asDodgersSecondBaseman.Catcher_PastBalls.ShouldBeNull();
+        asDodgersSecondBaseman.Catcher_WildPitches.ShouldBeNull();
+
+        var asDodgersThirdBaseman = results.Results.ElementAt(2);
+        asDodgersThirdBaseman.LSPlayerId.ShouldBe(621035);
+        asDodgersThirdBaseman.Year.ShouldBe(2016);
+        asDodgersThirdBaseman.TeamSeq.ShouldBe(2);
+        asDodgersThirdBaseman.Position.ShouldBe(Position.ThirdBase);
+        asDodgersThirdBaseman.GamesPlayed.ShouldBe(10);
+        asDodgersThirdBaseman.GamesStarted.ShouldBe(2);
+        asDodgersThirdBaseman.Innings.ShouldBe(28);
+        asDodgersThirdBaseman.TotalChances.ShouldBe(7);
+        asDodgersThirdBaseman.Errors.ShouldBe(0);
+        asDodgersThirdBaseman.Assists.ShouldBe(5);
+        asDodgersThirdBaseman.PutOuts.ShouldBe(2);
+        asDodgersThirdBaseman.DoublePlays.ShouldBe(0);
+        asDodgersThirdBaseman.RangeFactor.ShouldBe(.7);
+        asDodgersThirdBaseman.FieldingPercentage.ShouldBe(1);
+        asDodgersThirdBaseman.Catcher_RunnersThrownOut.ShouldBeNull();
+        asDodgersThirdBaseman.Catcher_StolenBasesAllowed.ShouldBeNull();
+        asDodgersThirdBaseman.Catcher_PastBalls.ShouldBeNull();
+        asDodgersThirdBaseman.Catcher_WildPitches.ShouldBeNull();
+
+        var asDodgersShortstop = results.Results.ElementAt(3);
+        asDodgersShortstop.LSPlayerId.ShouldBe(621035);
+        asDodgersShortstop.Year.ShouldBe(2016);
+        asDodgersShortstop.TeamSeq.ShouldBe(2);
+        asDodgersShortstop.Position.ShouldBe(Position.Shortstop);
+        asDodgersShortstop.GamesPlayed.ShouldBe(5);
+        asDodgersShortstop.GamesStarted.ShouldBe(4);
+        asDodgersShortstop.Innings.ShouldBe(37);
+        asDodgersShortstop.TotalChances.ShouldBe(17);
+        asDodgersShortstop.Errors.ShouldBe(0);
+        asDodgersShortstop.Assists.ShouldBe(9);
+        asDodgersShortstop.PutOuts.ShouldBe(8);
+        asDodgersShortstop.DoublePlays.ShouldBe(0);
+        asDodgersShortstop.RangeFactor.ShouldBe(3.4);
+        asDodgersShortstop.FieldingPercentage.ShouldBe(1);
+        asDodgersShortstop.Catcher_RunnersThrownOut.ShouldBeNull();
+        asDodgersShortstop.Catcher_StolenBasesAllowed.ShouldBeNull();
+        asDodgersShortstop.Catcher_PastBalls.ShouldBeNull();
+        asDodgersShortstop.Catcher_WildPitches.ShouldBeNull();
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
     public void GetPitchingStats_GetsPitchingStats_ForHistoricPlayer()
     {
       Task.Run(async () =>
@@ -321,7 +440,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var result = results.Results.Single();
         result.LSPlayerId.ShouldBe(120181);
         result.Year.ShouldBe(1952);
-        result.TeamSeq.ShouldBe(1.0);
+        result.TeamSeq.ShouldBe(1);
         result.GamesPlayed.ShouldBe(46);
         result.GamesStarted.ShouldBe(6);
         result.GamesFinished.ShouldBe(35);
@@ -381,7 +500,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var withNationals = results.Results.First();
         withNationals.LSPlayerId.ShouldBe(453286);
         withNationals.Year.ShouldBe(2021);
-        withNationals.TeamSeq.ShouldBe(1.0);
+        withNationals.TeamSeq.ShouldBe(1);
         withNationals.GamesPlayed.ShouldBe(19);
         withNationals.GamesStarted.ShouldBe(19);
         withNationals.GamesFinished.ShouldBe(0);
@@ -432,7 +551,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var withDodgers = results.Results.ElementAt(1);
         withDodgers.LSPlayerId.ShouldBe(453286);
         withDodgers.Year.ShouldBe(2021);
-        withDodgers.TeamSeq.ShouldBe(2.0);
+        withDodgers.TeamSeq.ShouldBe(2);
         withDodgers.GamesPlayed.ShouldBe(11);
         withDodgers.GamesStarted.ShouldBe(11);
         withDodgers.GamesFinished.ShouldBe(0);
