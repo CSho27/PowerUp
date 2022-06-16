@@ -53,17 +53,17 @@ namespace PowerUp.Fetchers.MLBLookupService
       Position = LookupServiceValueMapper.MapPosition(searchResult.position_id!);
       BattingSide = LookupServiceValueMapper.MapBatingSide(searchResult.bats!);
       ThrowingArm = LookupServiceValueMapper.MapThrowingArm(searchResult.throws!);
-      Weight = searchResult.weight.ParseIntIfNotEmpty();
-      HeightFeet = searchResult.height_feet.ParseIntIfNotEmpty();
-      HeightInches = searchResult.height_inches.ParseIntIfNotEmpty();
-      BirthDate = searchResult.birth_date.ParseDateTimeIfNotEmpty();
+      Weight = searchResult.weight.TryParseInt();
+      HeightFeet = searchResult.height_feet.TryParseInt();
+      HeightInches = searchResult.height_inches.TryParseInt();
+      BirthDate = searchResult.birth_date.TryParseDateTime();
       BirthCountry = searchResult.birth_country.StringIfNotEmpty();
       BirthState = searchResult.birth_state.StringIfNotEmpty();
       BirthCity = searchResult.birth_city.StringIfNotEmpty();
       HighSchool = searchResult.high_school.StringIfNotEmpty();
       College = searchResult.college.StringIfNotEmpty();
-      ProDebutDate = searchResult.pro_debut_date.ParseDateTimeIfNotEmpty();
-      ServiceYears = searchResult.service_years.ParseIntIfNotEmpty();
+      ProDebutDate = searchResult.pro_debut_date.TryParseDateTime();
+      ServiceYears = searchResult.service_years.TryParseInt();
       IsActive = searchResult.active_sw == "Y";
       TeamName = searchResult.team_full.StringIfNotEmpty();
     }

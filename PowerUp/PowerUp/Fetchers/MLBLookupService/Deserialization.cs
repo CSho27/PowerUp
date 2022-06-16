@@ -31,16 +31,35 @@ namespace PowerUp.Fetchers.MLBLookupService
       ? null
       : value;
 
-    public static DateTime? ParseDateTimeIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
-      ? null 
-      : DateTime.Parse(value);
+    public static DateTime? TryParseDateTime(this string? value) {
+      if (string.IsNullOrEmpty(value))
+        return null;
 
-    public static int? ParseIntIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
-      ? null
-      : int.Parse(value);
+      var success = DateTime.TryParse(value, out var datetime);
+      return success
+        ? datetime
+        : null;
+    }
 
-    public static double? ParseDoubleIfNotEmpty(this string? value) => string.IsNullOrEmpty(value)
-      ? null
-      : double.Parse(value);
+    public static int? TryParseInt(this string? value)
+    {
+      if (string.IsNullOrEmpty(value))
+        return null;
+      var success = int.TryParse(value, out var integer);
+      return success
+        ? integer
+        : null;
+    }
+
+    public static double? TryParseDouble(this string? value)
+    {
+      if (string.IsNullOrEmpty(value))
+        return null;
+
+      var success = double.TryParse(value, out var dub);
+      return success
+        ? dub
+        : null;
+    }
   }
 }

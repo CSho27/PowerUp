@@ -9,14 +9,15 @@ namespace PowerUp.Fetchers.MLBLookupService
     Task<PlayerSearchResults> SearchPlayer(string name);
     Task<PlayerInfoResult> GetPlayerInfo(int lsPlayerId);
     Task<HittingStatsResults> GetHittingStats(int lsPlayerId, int year);
+    Task<PitchingStatsResults> GetPitchingStats(int lsPlayerId, int year);
   }
 
-  public class MLBLookupServiceClient : IMLBLookupServiceClient
+  public partial class MLBLookupServiceClient : IMLBLookupServiceClient
   {
     private const string BASE_URL = "http://lookup-service-prod.mlb.com/json";
 
     public static String FIELDING_ENDPOINT = "/named.sport_fielding_tm.bam?";
-    public static String PITCHING_ENDPOINT = "/named.sport_pitching_tm.bam?";
+    public static String PITCHING_ENDPOINT = "/?";
 
     private readonly ApiClient _apiClient = new ApiClient();
 
@@ -60,8 +61,22 @@ namespace PowerUp.Fetchers.MLBLookupService
       var response = await _apiClient.Get<LSHittingStatsResponse>(url);
       var results = response!.sport_hitting_tm!.queryResults!;
       var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSHittingStatsResult>(results.row!.Value)!;
+      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSHittingStatsResult>(results.row)!;
       return new HittingStatsResults(totalResults, deserializedResults);
+    }
+
+    public async Task<PitchingStatsResults> GetPitchingStats(int lsPlayerId, int year)
+    {
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "named.sport_pitching_tm.bam" },
+        new { league_list_id = "\'mlb\'", game_type = "\'R\'", player_id = $"\'{lsPlayerId}\'", season = $"\'{year}\'" }
+      );
+
+      var response = await _apiClient.Get<LSPitchingStatsResponse>(url);
+      var results = response!.sport_pitching_tm!.queryResults!;
+      var totalResults = int.Parse(results.totalSize!);
+      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSPitchingStatsResult>(results.row)!;
+      return new PitchingStatsResults(totalResults, deserializedResults);
     }
   }
 }

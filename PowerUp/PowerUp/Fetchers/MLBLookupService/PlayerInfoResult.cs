@@ -53,24 +53,24 @@ namespace PowerUp.Fetchers.MLBLookupService
       Position = LookupServiceValueMapper.MapPosition(result.primary_position!);
       BattingSide = LookupServiceValueMapper.MapBatingSide(result.bats!);
       ThrowingArm = LookupServiceValueMapper.MapThrowingArm(result.throws!);
-      Weight = result.weight.ParseIntIfNotEmpty();
-      HeightFeet = result.height_feet.ParseIntIfNotEmpty();
-      HeightInches = result.height_inches.ParseIntIfNotEmpty();
-      BirthDate = result.birth_date.ParseDateTimeIfNotEmpty();
+      Weight = result.weight.TryParseInt();
+      HeightFeet = result.height_feet.TryParseInt();
+      HeightInches = result.height_inches.TryParseInt();
+      BirthDate = result.birth_date.TryParseDateTime();
       BirthCountry = result.birth_country.StringIfNotEmpty();
       BirthState = result.birth_state.StringIfNotEmpty();
       BirthCity = result.birth_city.StringIfNotEmpty();
-      DeathDate = result.death_date.ParseDateTimeIfNotEmpty();
+      DeathDate = result.death_date.TryParseDateTime();
       DeathCountry = result.death_country.StringIfNotEmpty();
       DeathState = result.death_state.StringIfNotEmpty();
       DeathCity = result.death_city.StringIfNotEmpty();
-      Age = result.age.ParseIntIfNotEmpty();
+      Age = result.age.TryParseInt();
       HighSchool = result.high_school.StringIfNotEmpty();
       College = result.college.StringIfNotEmpty();
-      ProDebutDate = result.pro_debut_date.ParseDateTimeIfNotEmpty();
-      StartDate = result.start_date.ParseDateTimeIfNotEmpty();
-      EndDate = result.end_date.ParseDateTimeIfNotEmpty();
-      ServiceYears = result.service_years.ParseIntIfNotEmpty();
+      ProDebutDate = result.pro_debut_date.TryParseDateTime();
+      StartDate = result.start_date.TryParseDateTime();
+      EndDate = result.end_date.TryParseDateTime();
+      ServiceYears = result.service_years.TryParseInt();
       TeamName = result.team_name.StringIfNotEmpty();
     }
   }
