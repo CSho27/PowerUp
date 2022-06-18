@@ -1,7 +1,6 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.Fetchers.MLBLookupService;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PowerUp.Generators
 {
@@ -16,6 +15,8 @@ namespace PowerUp.Generators
   public class PlayerGenerationData 
   {
     public LSPlayerInfoDataset? PlayerInfo { get; set; }
+    public LSHittingStatsDataset? HittingStats { get; set; }
+    public LSFieldingStatsDataset? FieldingStats { get; set; }
     public LSPitchingStatsDataset? PitchingStats { get; set; }
   }
 
@@ -25,6 +26,8 @@ namespace PowerUp.Generators
     public string LastName { get; }
     public string? UniformNumber { get; }
     public Position PrimaryPosition { get; }
+    public BattingSide BattingSide { get; }
+    public ThrowingArm ThrowingArm { get; }
 
     public LSPlayerInfoDataset(PlayerInfoResult result)
     {
@@ -32,6 +35,26 @@ namespace PowerUp.Generators
       LastName = result.LastName;
       UniformNumber = result.UniformNumber;
       PrimaryPosition = result.Position;
+      BattingSide = result.BattingSide;
+    }
+  }
+
+  public class LSHittingStatsDataset
+  {
+
+
+    public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results)
+    {
+
+    }
+  }
+
+  public class LSFieldingStatsDataset
+  {
+
+    public LSFieldingStatsDataset(IEnumerable<FieldingStatsResult> results)
+    {
+
     }
   }
 
@@ -41,11 +64,11 @@ namespace PowerUp.Generators
     public int? GamesFinished { get; }
     public int? SaveOpportunities { get; }
 
-    public LSPitchingStatsDataset(PitchingStatsResults results)
+    public LSPitchingStatsDataset(IEnumerable<PitchingStatsResult> results)
     {
-      GamesStarted = results.Results.SumOrNull(r => r.GamesStarted);
-      GamesFinished = results.Results.SumOrNull(r => r.SaveOpportunities);
-      SaveOpportunities = results.Results.SumOrNull(r => r.GamesFinished);
+      GamesStarted = results.SumOrNull(r => r.GamesStarted);
+      GamesFinished = results.SumOrNull(r => r.SaveOpportunities);
+      SaveOpportunities = results.SumOrNull(r => r.GamesFinished);
     }
   }
 }

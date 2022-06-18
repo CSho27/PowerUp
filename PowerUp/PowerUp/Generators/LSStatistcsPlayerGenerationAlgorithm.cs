@@ -22,6 +22,14 @@ namespace PowerUp.Generators
       SetProperty(new UniformNumber());
       SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PlayerInfo!.PrimaryPosition);
       SetProperty(new PitcherTypeSetter());
+      // TODO: Set VoiceId
+      SetProperty("BattingSide", (player, data) => player.BattingSide = data.PlayerInfo!.BattingSide);
+      SetProperty("ThrowingArm", (player, data) => player.ThrowingArm = data.PlayerInfo!.ThrowingArm);
+      // TODO: Do Appearance
+      // TODO: Do Position Capabilities
+      // TODO: Do Hitter Abilities
+      // TODO: Do Pitcher Abilities
+      // TODO: Do Special Abilities
     }
 
     public class SavedName : PlayerPropertySetter
