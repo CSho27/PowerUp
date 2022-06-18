@@ -22,8 +22,12 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void PlayerGenerator_GeneratesPlayer()
     {
-      var result = _playerGenerator.GeneratePlayer(110849, new TestAlgorithm());
+      var result = _playerGenerator.GeneratePlayer(110849, 1980, new TestAlgorithm());
       result.FirstName.ShouldBe("Johnny");
+
+      var nums = new int?[] { null, 1, 2 };
+      var sum = nums.SumOrNull(n => n);
+      sum.ShouldBe(null);
     }
 
     public class TestAlgorithm : PlayerGenerationAlgorithm

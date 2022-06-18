@@ -5,7 +5,7 @@ namespace PowerUp.Generators
 {
   public abstract class GenerationAlgorithm<TOutput, TDatasetEnum, TDatasetCollection> 
   {
-    private IList<PropertySetter<TOutput, TDatasetCollection>> propertySetters = new List<PropertySetter<TOutput, TDatasetCollection>>();
+    protected IList<PropertySetter<TOutput, TDatasetCollection>> propertySetters = new List<PropertySetter<TOutput, TDatasetCollection>>();
     public IEnumerable<PropertySetter<TOutput, TDatasetCollection>> PropertySetters => propertySetters;
 
     public abstract HashSet<TDatasetEnum> DatasetDependencies { get; }
@@ -38,6 +38,5 @@ namespace PowerUp.Generators
       PropertyKey = propertyKey;
       _setProperty = setProperty;
     }
-
   }
 }

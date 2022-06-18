@@ -11,8 +11,8 @@
   public class PlayerApi : IPlayerApi
   {
     public Player CreateDefaultPlayer(EntitySourceType sourceType, bool isPitcher) => isPitcher
-      ? PlayerFactory.BuildDefaultPitcher(EntitySourceType.Custom)
-      : PlayerFactory.BuildDefaultHitter(EntitySourceType.Custom);
+      ? PlayerFactory.BuildDefaultPitcher(sourceType)
+      : PlayerFactory.BuildDefaultHitter(sourceType);
 
     public Player CreatePlayer(EntitySourceType sourceType, PlayerParameters parameters)
     {

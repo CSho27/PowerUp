@@ -4,13 +4,14 @@ using PowerUp.Entities.Players.Api;
 using PowerUp.Fetchers.MLBLookupService;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PowerUp.Generators
 {
   public interface IPlayerGenerator
   {
-    Player GeneratePlayer(int lsPlayerId, PlayerGenerationAlgorithm generationAlgorithm);
+    Player GeneratePlayer(int lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
   }
 
   public class PlayerGenerator : IPlayerGenerator
@@ -27,7 +28,7 @@ namespace PowerUp.Generators
       _mlbLookupServiceClient = mlbLookupServiceClient;
     }
 
-    public Player GeneratePlayer(int lsPlayerId, PlayerGenerationAlgorithm generationAlgorithm)
+    public Player GeneratePlayer(int lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
     {
       var data = new PlayerGenerationData();
       var fetchTasks = new List<Task>();
@@ -41,12 +42,25 @@ namespace PowerUp.Generators
         });
         fetchTasks.Add(fetchPlayerInfo);
       }
+
+      if (generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats))
+      {
+        var fetchPitchingStats = Task.Run(async () =>
+        {
+          var response = await _mlbLookupServiceClient.GetPitchingStats(lsPlayerId, year);
+          if(response.Results.Any())
+            data.PitchingStats = new LSPitchingStatsDataset(response);
+        });
+        fetchTasks.Add(fetchPitchingStats);
+      }
+
       Task.WaitAll(fetchTasks.ToArray());
 
       if (data.PlayerInfo == null)
         throw new InvalidOperationException("No Player Info Found for Id");
 
       var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data.PlayerInfo.PrimaryPosition == Position.Pitcher);
+      player.Year = year;
 
       var propertiesThatHaveBeenSet = new HashSet<string>();
       foreach(var setter in generationAlgorithm.PropertySetters)

@@ -18,6 +18,10 @@ namespace PowerUp.Generators
     {
       SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed);
       SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName);
+      SetProperty(new SavedName());
+      SetProperty(new UniformNumber());
+      SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PlayerInfo!.PrimaryPosition);
+      SetProperty(new PitcherTypeSetter());
     }
 
     public class SavedName : PlayerPropertySetter
@@ -26,7 +30,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        var firstLetterOfFirstName = datasetCollection.PlayerInfo!.FirstNameUsed.ToCharArray().First();
+        var firstLetterOfFirstName = datasetCollection.PlayerInfo!.FirstNameUsed.FirstCharacter();
         var lastName = datasetCollection.PlayerInfo!.LastName;
 
         var firstDotLast = $"{firstLetterOfFirstName}.{lastName}";
@@ -42,9 +46,53 @@ namespace PowerUp.Generators
           return true;
         }
 
-        var lastName
+        var lastNameWithoutVowels = new string(lastName.Where((c, i) => i == 0 || !c.IsVowel()).ToArray());
+        if(lastNameWithoutVowels.Length <= 10)
+        {
+          player.SavedName = lastNameWithoutVowels;
+          return true;
+        }
+
+        player.SavedName = new string(lastName.Take(10).ToArray());
+        return true;
       }
     }
 
+    public class UniformNumber : PlayerPropertySetter
+    {
+      public override string PropertyKey => "UniformNumber";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        var uniformNumber = datasetCollection.PlayerInfo!.UniformNumber;
+        if(uniformNumber == null)
+          return false;
+
+        player.UniformNumber = uniformNumber;
+        return true;
+      }
+    }
+
+    public class PitcherTypeSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "PitcherRole";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.PitchingStats == null)
+          return false;
+
+        if (datasetCollection.PitchingStats.GamesStarted > 10)
+          player.PitcherType = PitcherType.Starter;
+        else if (datasetCollection.PitchingStats.SaveOpportunities > 20)
+          player.PitcherType = PitcherType.Closer;
+        else if(datasetCollection.PitchingStats.SaveOpportunities == null && datasetCollection.PitchingStats.GamesFinished > 30)
+          player.PitcherType = PitcherType.Closer;
+        else
+          player.PitcherType = PitcherType.Reliever;
+
+        return true;
+      }
+    }
   }
 }
