@@ -64,7 +64,7 @@ namespace PowerUp.Generators
         {
           var response = await _mlbLookupServiceClient.GetFieldingStats(lsPlayerId, year);
           if (response.Results.Any())
-            data.FieldingStats = new LSFieldingStatsDataset(response.Results);
+            data.FieldingStats = new LSFieldingStatDataset(response.Results);
         });
         fetchTasks.Add(fetchFieldingStats);
       }
@@ -82,7 +82,7 @@ namespace PowerUp.Generators
 
       Task.WaitAll(fetchTasks.ToArray());
 
-      var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data.PlayerInfo.PrimaryPosition == Position.Pitcher);
+      var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data.PlayerInfo!.PrimaryPosition == Position.Pitcher);
       player.Year = year;
 
       var propertiesThatHaveBeenSet = new HashSet<string>();

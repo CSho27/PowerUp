@@ -1,6 +1,7 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.Fetchers.MLBLookupService;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.Generators
 {
@@ -16,7 +17,7 @@ namespace PowerUp.Generators
   {
     public LSPlayerInfoDataset? PlayerInfo { get; set; }
     public LSHittingStatsDataset? HittingStats { get; set; }
-    public LSFieldingStatsDataset? FieldingStats { get; set; }
+    public LSFieldingStatDataset? FieldingStats { get; set; }
     public LSPitchingStatsDataset? PitchingStats { get; set; }
   }
 
@@ -49,12 +50,25 @@ namespace PowerUp.Generators
     }
   }
 
-  public class LSFieldingStatsDataset
+  public class LSFieldingStatDataset
   {
+    public IDictionary<Position, LSFieldingStats> FieldingByPosition { get; }
+    public LSFieldingStats OverallFielding { get; }
 
-    public LSFieldingStatsDataset(IEnumerable<FieldingStatsResult> results)
+    public LSFieldingStatDataset(IEnumerable<FieldingStatsResult> results)
     {
+      FieldingByPosition = results.GroupBy(r => r.Position).ToDictionary(g => g.Key, g => new LSFieldingStats(g));
+      OverallFielding = new LSFieldingStats(results);
+    }
+  }
 
+  public class LSFieldingStats
+  {
+    public int? TotalChances { get; }
+
+    public LSFieldingStats(IEnumerable<FieldingStatsResult> results)
+    {
+      TotalChances = results.SumOrNull(r => r.TotalChances);
     }
   }
 

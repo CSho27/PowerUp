@@ -45,7 +45,9 @@ namespace PowerUp.Fetchers.MLBLookupService
       FirstName = result.name_first!;
       FirstNameUsed = result.name_use!;
       MiddleName = result.name_middle.StringIfNotEmpty();
-      LastName = result.name_last!;
+      LastName = result.name_display_roster!.Contains(",")
+        ? result.name_last!
+        : result.name_display_roster!;
       FormalDisplayName = result.name_display_last_first!;
       InformalDisplayName = result.name_display_first_last!;
       NickName = result.name_nick.StringIfNotEmpty();

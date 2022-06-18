@@ -25,6 +25,15 @@ namespace PowerUp.Generators
       // TODO: Set VoiceId
       SetProperty("BattingSide", (player, data) => player.BattingSide = data.PlayerInfo!.BattingSide);
       SetProperty("ThrowingArm", (player, data) => player.ThrowingArm = data.PlayerInfo!.ThrowingArm);
+      SetProperty(new PitcherCapabilitySetter());
+      SetProperty(new CatcherCapabilitySetter());
+      SetProperty(new FirstBaseCapabilitySetter());
+      SetProperty(new SecondBaseCapabilitySetter());
+      SetProperty(new ThirdBaseCapabilitySetter());
+      SetProperty(new ShortstopCapabilitySetter());
+      SetProperty(new LeftFieldCapabilitySetter());
+      SetProperty(new CenterFieldCapabilitySetter());
+      SetProperty(new RightFieldCapabilitySetter());
       // TODO: Do Appearance
       // TODO: Do Position Capabilities
       // TODO: Do Hitter Abilities
@@ -99,6 +108,169 @@ namespace PowerUp.Generators
         else
           player.PitcherType = PitcherType.Reliever;
 
+        return true;
+      }
+    }
+
+    public abstract class PositionCapabilitySetter : PlayerPropertySetter
+    {
+      protected Grade GetGradeForPosition(Position position, PlayerGenerationData datasetCollection)
+      {
+        var primaryPosition = datasetCollection.PlayerInfo!.PrimaryPosition;
+        if (position == primaryPosition)
+          return Grade.A;
+
+        LSFieldingStats? stats = null;
+        datasetCollection.FieldingStats?.FieldingByPosition.TryGetValue(position, out stats);
+        if (stats != null && stats.TotalChances > 75)
+          return Grade.B;
+        if (stats != null && stats.TotalChances > 50)
+          return Grade.C;
+        if (stats != null && stats.TotalChances > 25)
+          return Grade.D;
+
+        switch (position)
+        {
+          case Position.Pitcher:
+            return Grade.G;
+          case Position.Catcher:
+            return Grade.G;
+          case Position.FirstBase:
+            return primaryPosition == Position.SecondBase || primaryPosition == Position.ThirdBase || primaryPosition == Position.Shortstop
+              ? Grade.F
+              : Grade.G;
+          case Position.SecondBase:
+            return primaryPosition == Position.ThirdBase || primaryPosition == Position.Shortstop
+              ? Grade.E
+              : primaryPosition == Position.FirstBase
+                ? Grade.F
+                : Grade.G;
+          case Position.ThirdBase:
+            return primaryPosition == Position.SecondBase || primaryPosition == Position.Shortstop
+              ? Grade.E
+              : primaryPosition == Position.FirstBase
+                ? Grade.F
+                : Grade.G;
+          case Position.Shortstop:
+            return primaryPosition == Position.SecondBase || primaryPosition == Position.ThirdBase
+              ? Grade.E
+              : primaryPosition == Position.FirstBase
+                ? Grade.F
+                : Grade.G;
+          case Position.LeftField:
+            return primaryPosition == Position.CenterField || primaryPosition == Position.RightField
+              ? Grade.E
+              : Grade.G;
+          case Position.CenterField:
+            return primaryPosition == Position.LeftField || primaryPosition == Position.RightField
+              ? Grade.E
+              : Grade.G;
+          case Position.RightField:
+            return primaryPosition == Position.LeftField || primaryPosition == Position.CenterField
+              ? Grade.E
+              : Grade.G;
+          default:
+            return Grade.G;
+        }
+      }
+    }
+
+    public class PitcherCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_Pitcher";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.Pitcher = GetGradeForPosition(Position.Pitcher, datasetCollection);
+        return true;
+      }
+    }
+
+    public class CatcherCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_Catcher";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.Catcher = GetGradeForPosition(Position.Catcher, datasetCollection);
+        return true;
+      }
+    }
+
+    public class FirstBaseCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_FirstBase";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.FirstBase = GetGradeForPosition(Position.FirstBase, datasetCollection);
+        return true;
+      }
+    }
+
+    public class SecondBaseCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_SecondBase";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.SecondBase = GetGradeForPosition(Position.SecondBase, datasetCollection);
+        return true;
+      }
+    }
+
+
+    public class ThirdBaseCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_ThirdBase";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.ThirdBase = GetGradeForPosition(Position.ThirdBase, datasetCollection);
+        return true;
+      }
+    }
+
+    public class ShortstopCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_Shortstop";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.Shortstop = GetGradeForPosition(Position.Shortstop, datasetCollection);
+        return true;
+      }
+    }
+
+    public class LeftFieldCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_LeftField";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.LeftField = GetGradeForPosition(Position.LeftField, datasetCollection);
+        return true;
+      }
+    }
+
+    public class CenterFieldCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_CenterField";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.CenterField = GetGradeForPosition(Position.CenterField, datasetCollection);
+        return true;
+      }
+    }
+
+    public class RightFieldCapabilitySetter : PositionCapabilitySetter
+    {
+      public override string PropertyKey => "PositionCapabilities_RightField";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PositonCapabilities.RightField = GetGradeForPosition(Position.RightField, datasetCollection);
         return true;
       }
     }

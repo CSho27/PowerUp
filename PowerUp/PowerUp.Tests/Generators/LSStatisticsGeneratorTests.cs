@@ -19,7 +19,7 @@ namespace PowerUp.Tests.Generators
     }
 
     [Test]
-    public void LSStatisticsAlgorithm_GeneratesHitter()
+    public void LSStatisticsAlgorithm_GeneratesCatcher()
     {
       var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm());
       result.SourceType.ShouldBe(EntitySourceType.Generated);
@@ -31,6 +31,43 @@ namespace PowerUp.Tests.Generators
       result.UniformNumber.ShouldBe("000");
       result.PrimaryPosition.ShouldBe(Position.Catcher);
       result.PitcherType.ShouldBe(PitcherType.SwingMan);
+
+      var positionCapabilities = result.PositonCapabilities;
+      positionCapabilities.Pitcher.ShouldBe(Grade.G);
+      positionCapabilities.Catcher.ShouldBe(Grade.A);
+      positionCapabilities.FirstBase.ShouldBe(Grade.G);
+      positionCapabilities.SecondBase.ShouldBe(Grade.G);
+      positionCapabilities.ThirdBase.ShouldBe(Grade.G);
+      positionCapabilities.Shortstop.ShouldBe(Grade.G);
+      positionCapabilities.LeftField.ShouldBe(Grade.G);
+      positionCapabilities.CenterField.ShouldBe(Grade.G);
+      positionCapabilities.RightField.ShouldBe(Grade.G);
+    }
+
+    [Test]
+    public void LSStatisticsAlgorithm_GeneratesShortstop()
+    {
+      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm());
+      result.SourceType.ShouldBe(EntitySourceType.Generated);
+      result.Year.ShouldBe(1990);
+      result.FirstName.ShouldBe("Cal");
+      result.LastName.ShouldBe("Ripken Jr.");
+      result.SavedName.ShouldBe("Ripken Jr.");
+      // They don't have his number listed
+      result.UniformNumber.ShouldBe("8");
+      result.PrimaryPosition.ShouldBe(Position.Shortstop);
+      result.PitcherType.ShouldBe(PitcherType.SwingMan);
+
+      var positionCapabilities = result.PositonCapabilities;
+      positionCapabilities.Pitcher.ShouldBe(Grade.G);
+      positionCapabilities.Catcher.ShouldBe(Grade.G);
+      positionCapabilities.FirstBase.ShouldBe(Grade.F);
+      positionCapabilities.SecondBase.ShouldBe(Grade.E);
+      positionCapabilities.ThirdBase.ShouldBe(Grade.E);
+      positionCapabilities.Shortstop.ShouldBe(Grade.A);
+      positionCapabilities.LeftField.ShouldBe(Grade.G);
+      positionCapabilities.CenterField.ShouldBe(Grade.G);
+      positionCapabilities.RightField.ShouldBe(Grade.G);
     }
 
     [Test]
@@ -46,6 +83,17 @@ namespace PowerUp.Tests.Generators
       result.UniformNumber.ShouldBe("000");
       result.PrimaryPosition.ShouldBe(Position.Pitcher);
       result.PitcherType.ShouldBe(PitcherType.Starter);
+
+      var positionCapabilities = result.PositonCapabilities;
+      positionCapabilities.Pitcher.ShouldBe(Grade.A);
+      positionCapabilities.Catcher.ShouldBe(Grade.G);
+      positionCapabilities.FirstBase.ShouldBe(Grade.G);
+      positionCapabilities.SecondBase.ShouldBe(Grade.G);
+      positionCapabilities.ThirdBase.ShouldBe(Grade.G);
+      positionCapabilities.Shortstop.ShouldBe(Grade.G);
+      positionCapabilities.LeftField.ShouldBe(Grade.G);
+      positionCapabilities.CenterField.ShouldBe(Grade.G);
+      positionCapabilities.RightField.ShouldBe(Grade.G);
     }
   }
 }
