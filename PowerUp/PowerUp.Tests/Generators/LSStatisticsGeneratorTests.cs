@@ -53,7 +53,6 @@ namespace PowerUp.Tests.Generators
       result.FirstName.ShouldBe("Cal");
       result.LastName.ShouldBe("Ripken Jr.");
       result.SavedName.ShouldBe("Ripken Jr.");
-      // They don't have his number listed
       result.UniformNumber.ShouldBe("8");
       result.PrimaryPosition.ShouldBe(Position.Shortstop);
       result.PitcherType.ShouldBe(PitcherType.SwingMan);
