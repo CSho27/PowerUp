@@ -8,6 +8,7 @@ namespace PowerUp.Libraries
     int this[string key] { get; }
     string this[int key] { get; }
     public IEnumerable<KeyValuePair<int, string>> GetAll();
+    KeyValuePair<string, int> FindClosestTo(string name);
   }
 
   public class VoiceLibrary : CsvKeyValueLibrary<string, int>, IVoiceLibrary
@@ -21,6 +22,11 @@ namespace PowerUp.Libraries
 
     protected override string ParseKey(string keyString) => keyString;
     protected override int ParseValue(string valueString) =>  int.Parse(valueString);
+
+    public KeyValuePair<string, int> FindClosestTo(string name)
+    {
+      return GetAll().MinBy(kvp => kvp.Key.SoundexDifference(name));
+    }
 
   }
 }

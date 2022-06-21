@@ -28,5 +28,15 @@ namespace PowerUp.Tests.Utils
       Soundex.Of("de LaRosa").ShouldBe("D000 L620");
       Soundex.Of("Isiah Kiner-Falefa").ShouldBe("I200 K560 F410");
     }
+
+    [Test]
+    public void Difference_ShouldFindDiff()
+    {
+      Soundex.Difference("Robert", "Ruport").ShouldBe(0);
+      Soundex.Difference("Robert", "Report").ShouldBe(0);
+      Soundex.Difference("John", "Johnson").ShouldBe(2);
+      Soundex.Difference("Gibbons", "Gibson").ShouldBe(2);
+      Soundex.Difference("Ripken", "Ridden").ShouldBe(3);
+    }
   }
 }

@@ -5,11 +5,25 @@ namespace PowerUp
 {
   public static class Soundex
   {
+    public static string GetSoundex(this string @string) => Of(@string);
     public static string Of(string @string)
     {
       var words = @string.Split(' ', '-', '.', '~');
       var soundexes = words.Select(w => SoundexForWord(w));
       return string.Join(" ", soundexes);
+    }
+
+
+    public static int SoundexDifference(this string string1, string string2) => Difference(string1, string2);
+    public static int Difference(string string1, string string2)
+    {
+      var str1Soundex = string1.GetSoundex();
+      var str2Soundex = string2.GetSoundex();
+      var longerSoundexLength = str1Soundex.Length > str2Soundex.Length 
+        ? str1Soundex.Length
+        : str2Soundex.Length;
+
+      return longerSoundexLength - str1Soundex.CharsInCommon(str2Soundex);
     }
 
     private static string SoundexForWord(string word)
