@@ -23,7 +23,7 @@ namespace PowerUp
         ? str1Soundex.Length
         : str2Soundex.Length;
 
-      return longerSoundexLength - str1Soundex.CharsInCommon(str2Soundex);
+      return longerSoundexLength - str1Soundex.BeginningCharsInCommon(str2Soundex);
     }
 
     private static string SoundexForWord(string word)

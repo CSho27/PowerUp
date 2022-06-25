@@ -95,16 +95,16 @@ namespace PowerUp.Libraries
         var testLastSoundex1 = _lastNameSoundexes[kvp1.Key];
         var testLastSoundex2 = _lastNameSoundexes[kvp2.Key];
 
-        var lastSoundexCharsInCommon1 = _lastNameSoundex.CharsInCommon(testLastSoundex1);
-        var lastSoundexCharsInCommon2 = _lastNameSoundex.CharsInCommon(testLastSoundex2);
+        var lastSoundexCharsInCommon1 = _lastNameSoundex.BeginningCharsInCommon(testLastSoundex1);
+        var lastSoundexCharsInCommon2 = _lastNameSoundex.BeginningCharsInCommon(testLastSoundex2);
 
         if (lastSoundexCharsInCommon1 > lastSoundexCharsInCommon2)
           return 1;
         else if (lastSoundexCharsInCommon1 < lastSoundexCharsInCommon2)
           return -1;
 
-        var firstSoundexCharsInCommon1 = _firstNameSoundex.CharsInCommon(testFirstSoundex1);
-        var firstSoundexCharsInCommon2 = _firstNameSoundex.CharsInCommon(testFirstSoundex2);
+        var firstSoundexCharsInCommon1 = _firstNameSoundex.BeginningCharsInCommon(testFirstSoundex1);
+        var firstSoundexCharsInCommon2 = _firstNameSoundex.BeginningCharsInCommon(testFirstSoundex2);
 
         if (firstSoundexCharsInCommon1 > firstSoundexCharsInCommon2)
           return 1;
@@ -112,16 +112,16 @@ namespace PowerUp.Libraries
           return -1;
 
 
-        var lastCharsInCommon1 = _lastName.CharsInCommon(testLast1);
-        var lastCharsInCommon2 = _lastName.CharsInCommon(testLast2);
+        var lastCharsInCommon1 = _lastName.BeginningCharsInCommon(testLast1);
+        var lastCharsInCommon2 = _lastName.BeginningCharsInCommon(testLast2);
 
         if (lastCharsInCommon1 > lastCharsInCommon2)
           return 1;
         else if (lastCharsInCommon1 < lastCharsInCommon2)
           return -1;
 
-        var firstCharsInCommon1 = _firstName.CharsInCommon(testFirst1);
-        var firstCharsInCommon2 = _firstName.CharsInCommon(testFirst2);
+        var firstCharsInCommon1 = _firstName.BeginningCharsInCommon(testFirst1);
+        var firstCharsInCommon2 = _firstName.BeginningCharsInCommon(testFirst2);
 
         if (firstCharsInCommon1 > firstCharsInCommon2)
           return 1;

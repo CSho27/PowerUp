@@ -1,4 +1,5 @@
 ﻿using PowerUp.Entities.Players;
+using PowerUp.Libraries;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,7 @@ namespace PowerUp.Generators
       PlayerGenerationDataset.LSPitchingStats
     };
 
-    public LSStatistcsPlayerGenerationAlgorithm()
+    public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary)
     {
       SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed);
       SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName);
@@ -22,7 +23,7 @@ namespace PowerUp.Generators
       SetProperty(new UniformNumber());
       SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PlayerInfo!.PrimaryPosition);
       SetProperty(new PitcherTypeSetter());
-      // TODO: Set VoiceId
+      SetProperty("VoiceId", (player, data) => player.VoiceId = voiceLibrary.FindClosestTo(data.PlayerInfo!.FirstNameUsed, data.PlayerInfo!.LastName).Key);
       SetProperty("BattingSide", (player, data) => player.BattingSide = data.PlayerInfo!.BattingSide);
       SetProperty("ThrowingArm", (player, data) => player.ThrowingArm = data.PlayerInfo!.ThrowingArm);
       SetProperty(new PitcherCapabilitySetter());
