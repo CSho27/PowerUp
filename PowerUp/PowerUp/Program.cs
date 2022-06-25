@@ -33,9 +33,9 @@ namespace PowerUp
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
       //BuildPlayerValueLibrary(characterLibrary);
-      //FindDuplicatesInLibrary();
+      FindDuplicatesInLibrary();
       //FindPlayersByLastName();
-      CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
+      //CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -150,17 +150,17 @@ namespace PowerUp
         var player = playerReader.Read(id);
         if(player.PowerProsId != 0 )
         {
-          playersAndValues.TryAdd($"{player.FirstName}_{player.LastName}", player.Face!.Value);
+          playersAndValues.TryAdd($"{player.FirstName}_{player.LastName}", player.VoiceId!.Value);
         }
       };
 
-      var csvLines = playersAndValues.OrderBy(kvp => kvp.Value).Select(p => $"{p.Value+20} - {p.Key.Replace('_', ' ')},{p.Value}");
-      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/ddddFace_Library.csv"), csvLines);
+      var csvLines = playersAndValues.OrderBy(kvp => kvp.Value).Select(p => $"{p.Key}, {p.Value}");
+      File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/newVoice_Library.csv"), csvLines);
     }
 
     static void FindDuplicatesInLibrary()
     {
-      var filePathToCheck = Path.Combine(DATA_DIRECTORY, "./data/Face_Library.csv");
+      var filePathToCheck = Path.Combine(DATA_DIRECTORY, "./data/newVoice_Library.csv");
 
       var keyValuePairs = File.ReadAllLines(filePathToCheck)
         .Select(l => l.Split(','))
