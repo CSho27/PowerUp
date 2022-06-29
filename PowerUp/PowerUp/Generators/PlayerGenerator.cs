@@ -33,6 +33,8 @@ namespace PowerUp.Generators
       var data = new PlayerGenerationData();
       var fetchTasks = new List<Task>();
 
+      data.Year = year;
+
       if (generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo)) 
       {
         var fetchPlayerInfo = Task.Run(async () =>

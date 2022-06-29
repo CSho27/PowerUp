@@ -15,6 +15,7 @@ namespace PowerUp.Generators
 
   public class PlayerGenerationData 
   {
+    public int Year { get; set; }
     public LSPlayerInfoDataset? PlayerInfo { get; set; }
     public LSHittingStatsDataset? HittingStats { get; set; }
     public LSFieldingStatDataset? FieldingStats { get; set; }
@@ -29,6 +30,7 @@ namespace PowerUp.Generators
     public Position PrimaryPosition { get; }
     public BattingSide BattingSide { get; }
     public ThrowingArm ThrowingArm { get; }
+    public string? BirthCountry { get; }
 
     public LSPlayerInfoDataset(PlayerInfoResult result)
     {
@@ -37,6 +39,8 @@ namespace PowerUp.Generators
       UniformNumber = result.UniformNumber;
       PrimaryPosition = result.Position;
       BattingSide = result.BattingSide;
+      ThrowingArm = result.ThrowingArm;
+      BirthCountry = result.BirthCountry;
     }
   }
 

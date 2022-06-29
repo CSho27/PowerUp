@@ -13,18 +13,21 @@ namespace PowerUp.Tests.Generators
   {
     IPlayerGenerator _playerGenerator;
     IVoiceLibrary _voiceLibrary; 
+    ISkinColorGuesser _skinColorGuesser;
 
     [SetUp]
     public void SetUp()
     {
       _playerGenerator = new PlayerGenerator(new PlayerApi(), new MLBLookupServiceClient());
       _voiceLibrary = TestConfig.VoiceLibrary.Value;
+      _skinColorGuesser = new SkinColorGuesser(TestConfig.CountryAndSkinColorLibrary.Value);
+
     }
 
     [Test]
     public void LSStatisticsAlgorithm_GeneratesCatcher()
     {
-      var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary));
+      var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
       result.SourceType.ShouldBe(EntitySourceType.Generated);
       result.Year.ShouldBe(1980);
       result.FirstName.ShouldBe("Johnny");
@@ -35,6 +38,10 @@ namespace PowerUp.Tests.Generators
       result.PrimaryPosition.ShouldBe(Position.Catcher);
       result.PitcherType.ShouldBe(PitcherType.SwingMan);
       result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Johnny", "Bench").Key);
+
+      var appearance = result.Appearance;
+      // Skin Color is non-deterministic
+      // appearance.SkinColor.ShouldBe(SkinColor.One);
 
       var positionCapabilities = result.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
@@ -51,7 +58,7 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesShortstop()
     {
-      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary));
+      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
       result.SourceType.ShouldBe(EntitySourceType.Generated);
       result.Year.ShouldBe(1990);
       result.FirstName.ShouldBe("Cal");
@@ -61,6 +68,10 @@ namespace PowerUp.Tests.Generators
       result.PrimaryPosition.ShouldBe(Position.Shortstop);
       result.PitcherType.ShouldBe(PitcherType.SwingMan);
       result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Cal", "Ripken Jr.").Key);
+
+      var appearance = result.Appearance;
+      // Skin Color is non-deterministic
+      //appearance.SkinColor.ShouldBe(SkinColor.One);
 
       var positionCapabilities = result.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
@@ -77,7 +88,7 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesPitcher()
     {
-      var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary));
+      var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
       result.SourceType.ShouldBe(EntitySourceType.Generated);
       result.Year.ShouldBe(1963);
       result.FirstName.ShouldBe("Bob");
@@ -88,6 +99,10 @@ namespace PowerUp.Tests.Generators
       result.PrimaryPosition.ShouldBe(Position.Pitcher);
       result.PitcherType.ShouldBe(PitcherType.Starter);
       result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Bob", "Gibson").Key);
+
+      var appearance = result.Appearance;
+      // Skin Color is non-deterministic
+      // appearance.SkinColor.ShouldBe(SkinColor.Five);
 
       var positionCapabilities = result.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.A);

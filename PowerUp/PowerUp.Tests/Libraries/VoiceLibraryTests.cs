@@ -22,8 +22,8 @@ namespace PowerUp.Tests.Libraries
     [Test]
     public void FindClosest_FindsReasonablyCloseName()
     {
-      var ripken = voiceLibrary.FindClosestTo("Richie", "Palacios");
-      /*ripken.Value.ShouldBe("Ripken");*/
+      var ripken = voiceLibrary.FindClosestTo("Tino", "Martinez");
+      /* ripken.Value.ShouldBe("Ripken"); */
     }
   }
 }

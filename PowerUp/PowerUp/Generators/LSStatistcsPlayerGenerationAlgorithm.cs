@@ -15,8 +15,9 @@ namespace PowerUp.Generators
       PlayerGenerationDataset.LSPitchingStats
     };
 
-    public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary)
+    public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary, ISkinColorGuesser skinColorGuesser) 
     {
+      // Player Info
       SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed);
       SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName);
       SetProperty(new SavedName());
@@ -26,6 +27,10 @@ namespace PowerUp.Generators
       SetProperty("VoiceId", (player, data) => player.VoiceId = voiceLibrary.FindClosestTo(data.PlayerInfo!.FirstNameUsed, data.PlayerInfo!.LastName).Key);
       SetProperty("BattingSide", (player, data) => player.BattingSide = data.PlayerInfo!.BattingSide);
       SetProperty("ThrowingArm", (player, data) => player.ThrowingArm = data.PlayerInfo!.ThrowingArm);
+
+      // Appearance
+      SetProperty(new SkinColorSetter(skinColorGuesser));
+
       SetProperty(new PitcherCapabilitySetter());
       SetProperty(new CatcherCapabilitySetter());
       SetProperty(new FirstBaseCapabilitySetter());
@@ -35,8 +40,6 @@ namespace PowerUp.Generators
       SetProperty(new LeftFieldCapabilitySetter());
       SetProperty(new CenterFieldCapabilitySetter());
       SetProperty(new RightFieldCapabilitySetter());
-      // TODO: Do Appearance
-      // TODO: Do Position Capabilities
       // TODO: Do Hitter Abilities
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
@@ -109,6 +112,26 @@ namespace PowerUp.Generators
         else
           player.PitcherType = PitcherType.Reliever;
 
+        return true;
+      }
+    }
+
+    public class SkinColorSetter : PlayerPropertySetter
+    {
+      private readonly ISkinColorGuesser _skinColorGuesser;
+
+      public override string PropertyKey => "Appearance_SkinColor";
+
+
+      public SkinColorSetter(ISkinColorGuesser skinColorGuesser)
+      {
+        _skinColorGuesser = skinColorGuesser;
+      }
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        var skinColor = _skinColorGuesser.GuessSkinColor(datasetCollection.Year, datasetCollection.PlayerInfo!.BirthCountry);
+        player.Appearance.SkinColor = skinColor;
         return true;
       }
     }
