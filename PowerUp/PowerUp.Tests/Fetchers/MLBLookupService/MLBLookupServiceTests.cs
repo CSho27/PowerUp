@@ -17,7 +17,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
     {
       Task.Run(async () =>
       {
-        var result = await _client.SearchPlayer("Giancarlo Stanton");
+        var result = await _client.SearchPlayer("Juan Soto");
         result.TotalResults.ShouldBe(1);
         var stanton = result.Results.Single();
         stanton.LSPlayerId.ShouldBe(519317);

@@ -53,6 +53,9 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.LeftField.ShouldBe(Grade.G);
       positionCapabilities.CenterField.ShouldBe(Grade.G);
       positionCapabilities.RightField.ShouldBe(Grade.G);
+
+      var hitterAbilities = result.HitterAbilities;
+      hitterAbilities.Trajectory.ShouldBe(3);
     }
 
     [Test]
@@ -83,6 +86,42 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.LeftField.ShouldBe(Grade.G);
       positionCapabilities.CenterField.ShouldBe(Grade.G);
       positionCapabilities.RightField.ShouldBe(Grade.G);
+
+      var hitterAbilities = result.HitterAbilities;
+      hitterAbilities.Trajectory.ShouldBe(3);
+    }
+
+    [Test]
+    public void LSStatisticsAlgorithm_GeneratesOutfielder()
+    {
+      var result = _playerGenerator.GeneratePlayer(665742, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
+      result.SourceType.ShouldBe(EntitySourceType.Generated);
+      result.Year.ShouldBe(2021);
+      result.FirstName.ShouldBe("Juan");
+      result.LastName.ShouldBe("Soto");
+      result.SavedName.ShouldBe("J.Soto");
+      result.UniformNumber.ShouldBe("22");
+      result.PrimaryPosition.ShouldBe(Position.RightField);
+      result.PitcherType.ShouldBe(PitcherType.SwingMan);
+      result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Juan", "Soto").Key);
+
+      var appearance = result.Appearance;
+      // Skin Color is non-deterministic
+      //appearance.SkinColor.ShouldBe(SkinColor.One);
+
+      var positionCapabilities = result.PositonCapabilities;
+      positionCapabilities.Pitcher.ShouldBe(Grade.G);
+      positionCapabilities.Catcher.ShouldBe(Grade.G);
+      positionCapabilities.FirstBase.ShouldBe(Grade.G);
+      positionCapabilities.SecondBase.ShouldBe(Grade.G);
+      positionCapabilities.ThirdBase.ShouldBe(Grade.G);
+      positionCapabilities.Shortstop.ShouldBe(Grade.G);
+      positionCapabilities.LeftField.ShouldBe(Grade.E);
+      positionCapabilities.CenterField.ShouldBe(Grade.E);
+      positionCapabilities.RightField.ShouldBe(Grade.A);
+
+      var hitterAbilities = result.HitterAbilities;
+      hitterAbilities.Trajectory.ShouldBe(3);
     }
 
     [Test]
@@ -114,6 +153,9 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.LeftField.ShouldBe(Grade.G);
       positionCapabilities.CenterField.ShouldBe(Grade.G);
       positionCapabilities.RightField.ShouldBe(Grade.G);
+
+      var hitterAbilities = result.HitterAbilities;
+      hitterAbilities.Trajectory.ShouldBe(1);
     }
   }
 }

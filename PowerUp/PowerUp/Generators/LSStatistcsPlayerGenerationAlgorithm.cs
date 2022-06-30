@@ -31,6 +31,7 @@ namespace PowerUp.Generators
       // Appearance
       SetProperty(new SkinColorSetter(skinColorGuesser));
 
+      // Position Capabilities
       SetProperty(new PitcherCapabilitySetter());
       SetProperty(new CatcherCapabilitySetter());
       SetProperty(new FirstBaseCapabilitySetter());
@@ -40,7 +41,10 @@ namespace PowerUp.Generators
       SetProperty(new LeftFieldCapabilitySetter());
       SetProperty(new CenterFieldCapabilitySetter());
       SetProperty(new RightFieldCapabilitySetter());
-      // TODO: Do Hitter Abilities
+
+      // Hitter Abilities
+      SetProperty(new TrajectorySetter());
+
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
     }
@@ -297,6 +301,32 @@ namespace PowerUp.Generators
         player.PositonCapabilities.RightField = GetGradeForPosition(Position.RightField, datasetCollection);
         return true;
       }
+    }
+  }
+
+  public class TrajectorySetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "HitterAbilities_Trajcetory";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (datasetCollection.HittingStats == null || !datasetCollection.HittingStats.HomeRuns.HasValue)
+        return false;
+
+      player.HitterAbilities.Trajectory = GetTrajectoryForHomeRuns(datasetCollection.HittingStats.HomeRuns.Value);
+      return true;
+    }
+
+    private int GetTrajectoryForHomeRuns(int homeRuns)
+    {
+      if (homeRuns < 5)
+        return 1;
+      else if (homeRuns < 20)
+        return 2;
+      else if (homeRuns < 30)
+        return 3;
+      else
+        return 4;
     }
   }
 }

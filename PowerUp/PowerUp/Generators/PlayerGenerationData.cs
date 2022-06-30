@@ -46,11 +46,12 @@ namespace PowerUp.Generators
 
   public class LSHittingStatsDataset
   {
-
+    public int? AtBats { get; }
+    public int? HomeRuns { get; }
 
     public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results)
     {
-
+      HomeRuns = results.SumOrNull(r => r.HomeRuns);
     }
   }
 
