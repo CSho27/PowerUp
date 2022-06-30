@@ -44,6 +44,7 @@ namespace PowerUp.Generators
 
       // Hitter Abilities
       SetProperty(new TrajectorySetter());
+      SetProperty(new ContactSetter());
 
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
@@ -327,6 +328,54 @@ namespace PowerUp.Generators
         return 3;
       else
         return 4;
+    }
+  }
+
+  public class ContactSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "HitterAbilities_Contact";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (datasetCollection.HittingStats == null || datasetCollection.HittingStats.AtBats < 100 || !datasetCollection.HittingStats.BattingAverage.HasValue)
+        return false;
+
+      player.HitterAbilities.Contact = GetContactForBattingAverage(datasetCollection.HittingStats.BattingAverage.Value);
+      return true;
+    }
+
+    private int GetContactForBattingAverage(double battingAverage)
+    {
+      if (battingAverage < 0.15)
+        return 1;
+      else if (battingAverage < 0.175)
+        return 2;
+      else if (battingAverage < .2)
+        return 3;
+      else if (battingAverage < .23)
+        return 4;
+      else if (battingAverage < .24)
+        return 5;
+      else if (battingAverage < .25)
+        return 6;
+      else if (battingAverage < .263)
+        return 7;
+      else if (battingAverage < .282)
+        return 8;
+      else if (battingAverage < .295)
+        return 9;
+      else if (battingAverage < .31)
+        return 10;
+      else if (battingAverage < .32)
+        return 11;
+      else if (battingAverage < .335)
+        return 12;
+      else if (battingAverage < .345)
+        return 13;
+      else if (battingAverage < .35)
+        return 14;
+      else
+        return 15;
     }
   }
 }

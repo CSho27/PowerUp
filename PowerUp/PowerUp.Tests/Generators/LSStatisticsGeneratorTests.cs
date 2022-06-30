@@ -56,6 +56,7 @@ namespace PowerUp.Tests.Generators
 
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
+      hitterAbilities.Contact.ShouldBe(7);
     }
 
     [Test]
@@ -89,6 +90,7 @@ namespace PowerUp.Tests.Generators
 
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
+      hitterAbilities.Contact.ShouldBe(7);
     }
 
     [Test]
@@ -122,6 +124,7 @@ namespace PowerUp.Tests.Generators
 
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
+      hitterAbilities.Contact.ShouldBe(11);
     }
 
     [Test]
@@ -156,6 +159,7 @@ namespace PowerUp.Tests.Generators
 
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(1);
+      hitterAbilities.Contact.ShouldBe(4);
     }
   }
 }
