@@ -1,5 +1,6 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.Libraries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,6 +46,7 @@ namespace PowerUp.Generators
       // Hitter Abilities
       SetProperty(new TrajectorySetter());
       SetProperty(new ContactSetter());
+      SetProperty(new PowerSetter());
 
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
@@ -376,6 +378,59 @@ namespace PowerUp.Generators
         return 14;
       else
         return 15;
+    }
+  }
+
+  public class PowerSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "HitterAbilities_Power";
+    private static readonly IEnumerable<(double atBatsPerHomerun, double power)> powerFunctionCoordinates = new (double x, double y)[]
+    {
+      (10.5, 250),
+      (11, 240),
+      (11.5, 230),
+      (12, 220),
+      (13, 210),
+      (14, 200),
+      (15, 190),
+      (16, 180),
+      (18, 170),
+      (19, 162),
+      (20.5, 154),
+      (22, 148),
+      (23, 143),
+      (24, 139),
+      (26, 135),
+      (28, 131),
+      (30, 127),
+      (32, 123),
+      (35, 120),
+      (40, 117),
+      (45, 114),
+      (60, 105),
+      (75, 95),
+      (110, 85),
+      (150, 75),
+      (200, 70)
+    };
+    private static readonly Func<double, double> calculatePower = MathUtils.PiecewiseFunctionFor(powerFunctionCoordinates);
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.HittingStats == null ||
+        !datasetCollection.HittingStats.AtBats.HasValue ||
+        datasetCollection.HittingStats.AtBats < 100 ||
+        !datasetCollection.HittingStats.HomeRuns.HasValue
+      )
+      {
+        return false;
+      }
+
+      var atBatsPerHomeRun = (double) datasetCollection.HittingStats.AtBats.Value / datasetCollection.HittingStats.HomeRuns.Value;
+      var power = calculatePower(atBatsPerHomeRun);
+      player.HitterAbilities.Power = (int)Math.Round(power).CapAt(255);
+      return true;
     }
   }
 }

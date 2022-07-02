@@ -52,6 +52,7 @@ namespace PowerUp.Generators
 
     public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results)
     {
+      AtBats = results.SumOrNull(r => r.AtBats);
       HomeRuns = results.SumOrNull(r => r.HomeRuns);
       BattingAverage = results.CombineAverages(r => r.BattingAverage, r => r.AtBats);
     }
