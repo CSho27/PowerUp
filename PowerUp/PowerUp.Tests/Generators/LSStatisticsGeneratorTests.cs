@@ -6,6 +6,8 @@ using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.Generators;
 using PowerUp.Libraries;
 using Shouldly;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PowerUp.Tests.Generators
 {
@@ -14,6 +16,7 @@ namespace PowerUp.Tests.Generators
     IPlayerGenerator _playerGenerator;
     IVoiceLibrary _voiceLibrary; 
     ISkinColorGuesser _skinColorGuesser;
+    IMLBLookupServiceClient _mlbLookupApiClient;
 
     [SetUp]
     public void SetUp()
@@ -21,7 +24,7 @@ namespace PowerUp.Tests.Generators
       _playerGenerator = new PlayerGenerator(new PlayerApi(), new MLBLookupServiceClient());
       _voiceLibrary = TestConfig.VoiceLibrary.Value;
       _skinColorGuesser = new SkinColorGuesser(TestConfig.CountryAndSkinColorLibrary.Value);
-
+      _mlbLookupApiClient = new MLBLookupServiceClient();
     }
 
     [Test]
@@ -58,6 +61,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(7);
       hitterAbilities.Power.ShouldBe(190);
+      hitterAbilities.RunSpeed.ShouldBe(7);
     }
 
     [Test]
@@ -93,6 +97,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(7);
       hitterAbilities.Power.ShouldBe(130);
+      hitterAbilities.RunSpeed.ShouldBe(11);
     }
 
     [Test]
@@ -128,6 +133,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(11);
       hitterAbilities.Power.ShouldBe(173);
+      hitterAbilities.RunSpeed.ShouldBe(11);
     }
 
     [Test]
@@ -164,6 +170,20 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Trajectory.ShouldBe(1);
       hitterAbilities.Contact.ShouldBe(1);
       hitterAbilities.Power.ShouldBe(16);
+      hitterAbilities.RunSpeed.ShouldBe(4);
     }
+    /*
+    [Test]
+    public void LSStatisticsAlgorithm_Test()
+    {
+      Task.Run(async () =>
+      {
+        var searchResult = await _mlbLookupApiClient.SearchPlayer("Giancarlo Stanton");
+        var player = searchResult.Results.Single(p => p.IsActive);
+        var result = _playerGenerator.GeneratePlayer(player.LSPlayerId, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
+        result.HitterAbilities.RunSpeed.ShouldBe(13);
+      }).GetAwaiter().GetResult();
+    }
+    */
   }
 }

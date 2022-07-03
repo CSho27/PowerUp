@@ -11,7 +11,7 @@ namespace PowerUp.Generators
 {
   public interface IPlayerGenerator
   {
-    Player GeneratePlayer(int lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
+    Player GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
   }
 
   public class PlayerGenerator : IPlayerGenerator
@@ -28,7 +28,7 @@ namespace PowerUp.Generators
       _mlbLookupServiceClient = mlbLookupServiceClient;
     }
 
-    public Player GeneratePlayer(int lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
+    public Player GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
     {
       var data = new PlayerGenerationData();
       var fetchTasks = new List<Task>();

@@ -49,12 +49,16 @@ namespace PowerUp.Generators
     public int? AtBats { get; }
     public int? HomeRuns { get; }
     public double? BattingAverage { get; }
+    public int? StolenBases { get; }
+    public int? Runs { get; }
 
     public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results)
     {
       AtBats = results.SumOrNull(r => r.AtBats);
       HomeRuns = results.SumOrNull(r => r.HomeRuns);
       BattingAverage = results.CombineAverages(r => r.BattingAverage, r => r.AtBats);
+      StolenBases = results.SumOrNull(r => r.StolenBases);
+      Runs = results.SumOrNull(r => r.Runs);
     }
   }
 

@@ -7,10 +7,10 @@ namespace PowerUp.Fetchers.MLBLookupService
   public interface IMLBLookupServiceClient
   {
     Task<PlayerSearchResults> SearchPlayer(string name);
-    Task<PlayerInfoResult> GetPlayerInfo(int lsPlayerId);
-    Task<HittingStatsResults> GetHittingStats(int lsPlayerId, int year);
-    Task<FieldingStatsResults> GetFieldingStats(int lsPlayerId, int year);
-    Task<PitchingStatsResults> GetPitchingStats(int lsPlayerId, int year);
+    Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId);
+    Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year);
+    Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year);
+    Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year);
   }
 
   public partial class MLBLookupServiceClient : IMLBLookupServiceClient
@@ -32,7 +32,7 @@ namespace PowerUp.Fetchers.MLBLookupService
       return new PlayerSearchResults(totalResults, deserializedResults);
     }
 
-    public async Task<PlayerInfoResult> GetPlayerInfo(int lsPlayerId)
+    public async Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId)
     {
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "named.player_info.bam" },
@@ -48,7 +48,7 @@ namespace PowerUp.Fetchers.MLBLookupService
       return new PlayerInfoResult(deserializedResult);
     }
 
-    public async Task<HittingStatsResults> GetHittingStats(int lsPlayerId, int year)
+    public async Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year)
     {
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "named.sport_hitting_tm.bam" },
@@ -62,7 +62,7 @@ namespace PowerUp.Fetchers.MLBLookupService
       return new HittingStatsResults(totalResults, deserializedResults);
     }
 
-    public async Task<FieldingStatsResults> GetFieldingStats(int lsPlayerId, int year)
+    public async Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year)
     {
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "named.sport_fielding_tm.bam" },
@@ -76,7 +76,7 @@ namespace PowerUp.Fetchers.MLBLookupService
       return new FieldingStatsResults(totalResults, deserializedResults);
     }
 
-    public async Task<PitchingStatsResults> GetPitchingStats(int lsPlayerId, int year)
+    public async Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year)
     {
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "named.sport_pitching_tm.bam" },

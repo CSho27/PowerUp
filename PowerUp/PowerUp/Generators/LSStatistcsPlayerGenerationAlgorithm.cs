@@ -47,6 +47,7 @@ namespace PowerUp.Generators
       SetProperty(new TrajectorySetter());
       SetProperty(new ContactSetter());
       SetProperty(new PowerSetter());
+      SetProperty(new RunSpeedSetter());
 
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
@@ -429,8 +430,50 @@ namespace PowerUp.Generators
 
       var atBatsPerHomeRun = (double) datasetCollection.HittingStats.AtBats.Value / datasetCollection.HittingStats.HomeRuns.Value;
       var power = calculatePower(atBatsPerHomeRun);
-      player.HitterAbilities.Power = (int)Math.Round(power).CapAt(255);
+      player.HitterAbilities.Power = power.Round().CapAt(255);
       return true;
+    }
+  }
+
+  public class RunSpeedSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "HitterAbilities_RunSpeed";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      var baseRunSpeed = GetBaseRunSpeedForPosition(datasetCollection.PlayerInfo!.PrimaryPosition);
+      var stolenBaseBonus = .08 * (datasetCollection.HittingStats?.StolenBases ?? 0);
+      var runsPerAtBatBonus = 5 * GetRunsPerAtBat(datasetCollection);
+      var runSpeed = baseRunSpeed + stolenBaseBonus + runsPerAtBatBonus;
+      player.HitterAbilities.RunSpeed = runSpeed.Round().CapAt(15);
+      return true;
+    }
+
+    private double GetBaseRunSpeedForPosition(Position position) => position switch
+    {
+      Position.Pitcher => 3.8,
+      Position.Catcher => 6,
+      Position.FirstBase => 6.75,
+      Position.SecondBase => 9.5,
+      Position.ThirdBase => 8.4,
+      Position.Shortstop => 9.8,
+      Position.LeftField => 9,
+      Position.CenterField => 10.4,
+      Position.RightField => 9,
+      Position.DesignatedHitter => 6.740740741,
+      _ => 4
+    };
+
+    private double GetRunsPerAtBat(PlayerGenerationData datasetCollection)
+    {
+      if (
+       datasetCollection.HittingStats == null ||
+       !datasetCollection.HittingStats.Runs.HasValue ||
+       !datasetCollection.HittingStats.AtBats.HasValue ||
+       datasetCollection.HittingStats.AtBats < 100
+      ) return 0;
+
+      return ((double)datasetCollection.HittingStats.Runs) / datasetCollection.HittingStats.AtBats!.Value;
     }
   }
 }
