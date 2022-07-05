@@ -23,7 +23,7 @@ namespace PowerUp.Generators
       SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName);
       SetProperty(new SavedName());
       SetProperty(new UniformNumber());
-      SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PlayerInfo!.PrimaryPosition);
+      SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PrimaryPosition);
       SetProperty(new PitcherTypeSetter());
       SetProperty("VoiceId", (player, data) => player.VoiceId = voiceLibrary.FindClosestTo(data.PlayerInfo!.FirstNameUsed, data.PlayerInfo!.LastName).Key);
       SetProperty("BattingSide", (player, data) => player.BattingSide = data.PlayerInfo!.BattingSide);
@@ -48,6 +48,7 @@ namespace PowerUp.Generators
       SetProperty(new ContactSetter());
       SetProperty(new PowerSetter());
       SetProperty(new RunSpeedSetter());
+      SetProperty(new ArmStrengthSetter());
 
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
@@ -148,7 +149,7 @@ namespace PowerUp.Generators
     {
       protected Grade GetGradeForPosition(Position position, PlayerGenerationData datasetCollection)
       {
-        var primaryPosition = datasetCollection.PlayerInfo!.PrimaryPosition;
+        var primaryPosition = datasetCollection.PrimaryPosition;
         if (position == primaryPosition)
           return Grade.A;
 
@@ -441,7 +442,7 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      var baseRunSpeed = GetBaseRunSpeedForPosition(datasetCollection.PlayerInfo!.PrimaryPosition);
+      var baseRunSpeed = GetBaseRunSpeedForPosition(datasetCollection.PrimaryPosition);
       var stolenBaseBonus = .08 * (datasetCollection.HittingStats?.StolenBases ?? 0);
       var runsPerAtBatBonus = 5 * GetRunsPerAtBat(datasetCollection);
       var runSpeed = baseRunSpeed + stolenBaseBonus + runsPerAtBatBonus;
@@ -474,6 +475,100 @@ namespace PowerUp.Generators
       ) return 0;
 
       return ((double)datasetCollection.HittingStats.Runs) / datasetCollection.HittingStats.AtBats!.Value;
+    }
+  }
+
+  public class ArmStrengthSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "HitterAbilities_ArmStrength";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      var armStrength = GetArmStrength(datasetCollection);
+      player.HitterAbilities.ArmStrength = armStrength.Round().CapAt(15);
+      return true;
+    }
+
+    private double GetArmStrength(PlayerGenerationData datasetCollection)
+    {
+      switch (datasetCollection.PrimaryPosition)
+      {
+        case Position.Pitcher:
+          return 10;
+        case Position.Catcher:
+          return 9 + GetCatcherCaughtStealingPercentageBonus(datasetCollection);
+        case Position.FirstBase:
+          return 7 + GetFirstBaseUtilityBonus(datasetCollection);
+        case Position.SecondBase:
+          return 9 + GetInfielderAssistsPerInningBonus(datasetCollection);
+        case Position.ThirdBase:
+          return 10 + GetInfielderAssistsPerInningBonus(datasetCollection);
+        case Position.Shortstop:
+          return 10 + GetInfielderAssistsPerInningBonus(datasetCollection);
+        case Position.LeftField:
+          return 9 + GetOutfieldAssistsPerInningBonus(datasetCollection);
+        case Position.CenterField:
+          return 11 + GetOutfieldAssistsPerInningBonus(datasetCollection);
+        case Position.RightField:
+          return 10 + GetOutfieldAssistsPerInningBonus(datasetCollection);
+        case Position.DesignatedHitter:
+          return 8;
+        default:
+          throw new InvalidOperationException("Invalid value for Position");
+      }
+    }
+
+    private double GetCatcherCaughtStealingPercentageBonus(PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.FieldingStats == null || 
+        !datasetCollection.FieldingStats.OverallFielding.Catcher_StolenBasesAllowed.HasValue ||
+        !datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut.HasValue
+      ) return 0;
+
+      var attempts = datasetCollection.FieldingStats.OverallFielding.Catcher_StolenBasesAllowed + datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut;
+      if(attempts <  10)
+        return 0;
+
+      var caughtStealingPercentage = datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut.Value / ((double)attempts);
+      var linearGradient = MathUtils.BuildLinearGradientFunction(.45, .2, 5, 1);
+      return linearGradient(caughtStealingPercentage);
+    }
+
+    private double GetFirstBaseUtilityBonus(PlayerGenerationData datasetCollection)
+    {
+      var otherPositionsPlayed = datasetCollection.FieldingStats?.FieldingByPosition.Count(s => s.Key != Position.FirstBase) ?? 0;
+      return otherPositionsPlayed * .5;
+    }
+
+    private double GetInfielderAssistsPerInningBonus(PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.FieldingStats == null ||
+        !datasetCollection.FieldingStats.OverallFielding.Assists.HasValue
+      ) return 0;
+
+
+      var positionGradient = GetLinearGradientForPosition(datasetCollection.PrimaryPosition);
+      return positionGradient(datasetCollection.FieldingStats.OverallFielding.Assists.Value);
+    }
+
+    public Func<double, double> GetLinearGradientForPosition(Position position) => position switch
+    {
+      Position.SecondBase => MathUtils.BuildLinearGradientFunction(400, 190, 4, .5),
+      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(300, 175, 4, .5),
+      Position.Shortstop => MathUtils.BuildLinearGradientFunction(450, 200, 4, .5),
+      _ => throw new InvalidOperationException("Non infield position used")
+    };
+
+    private double GetOutfieldAssistsPerInningBonus(PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.FieldingStats == null ||
+        !datasetCollection.FieldingStats.OverallFielding.Assists.HasValue
+      ) return 0;
+
+      return (datasetCollection.FieldingStats.OverallFielding.Assists.Value) * .25;
     }
   }
 }

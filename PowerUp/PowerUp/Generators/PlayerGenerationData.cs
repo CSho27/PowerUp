@@ -16,6 +16,7 @@ namespace PowerUp.Generators
   public class PlayerGenerationData 
   {
     public int Year { get; set; }
+    public Position PrimaryPosition => FieldingStats?.PrimaryPosition ?? PlayerInfo!.PrimaryPosition;
     public LSPlayerInfoDataset? PlayerInfo { get; set; }
     public LSHittingStatsDataset? HittingStats { get; set; }
     public LSFieldingStatDataset? FieldingStats { get; set; }
@@ -66,6 +67,9 @@ namespace PowerUp.Generators
   {
     public IDictionary<Position, LSFieldingStats> FieldingByPosition { get; }
     public LSFieldingStats OverallFielding { get; }
+    public Position? PrimaryPosition => FieldingByPosition.Any()
+      ? FieldingByPosition.MaxBy(p => p.Value.Innings).Key
+      : null;
 
     public LSFieldingStatDataset(IEnumerable<FieldingStatsResult> results)
     {
@@ -76,11 +80,23 @@ namespace PowerUp.Generators
 
   public class LSFieldingStats
   {
+    public double? Innings { get; }
     public int? TotalChances { get; }
+    public int? Assists { get; }
+    public double? FieldingPercentage { get; }
+    public double? RangeFactor { get; }
+    public int? Catcher_StolenBasesAllowed { get; }
+    public int? Catcher_RunnersThrownOut { get; }
 
     public LSFieldingStats(IEnumerable<FieldingStatsResult> results)
     {
+      Innings = results.SumOrNull(r => r.Innings);
       TotalChances = results.SumOrNull(r => r.TotalChances);
+      Assists = results.SumOrNull(r => r.Assists);
+      FieldingPercentage = results.CombineAverages(r => r.FieldingPercentage, r => r.TotalChances);
+      RangeFactor = results.CombineAverages(r => r.RangeFactor, r => r.Innings ?? r.GamesPlayed);
+      Catcher_StolenBasesAllowed = results.SumOrNull(r => r.Catcher_StolenBasesAllowed);
+      Catcher_RunnersThrownOut = results.SumOrNull(r => r.Catcher_RunnersThrownOut);
     }
   }
 

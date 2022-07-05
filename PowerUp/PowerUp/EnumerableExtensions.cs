@@ -8,13 +8,21 @@ namespace PowerUp
   {
     public static int? SumOrNull<TSource>(this IEnumerable<TSource> source, Func<TSource, int?> selector)
     {
-      if (source.Select(selector).Any(v => !v.HasValue))
+      if (source.Select(selector).All(v => !v.HasValue))
         return null;
       else
         return source.Sum(selector);
     }
 
-    public static double? CombineAverages<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> averageSelector, Func<TSource, int?> weightSelector)
+    public static double? SumOrNull<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> selector)
+    {
+      if (source.Select(selector).All(v => !v.HasValue))
+        return null;
+      else
+        return source.Sum(selector);
+    }
+
+    public static double? CombineAverages<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> averageSelector, Func<TSource, double?> weightSelector)
     {
       if (source.Select(averageSelector).Any(v => !v.HasValue))
         return null;
@@ -25,7 +33,7 @@ namespace PowerUp
       return average / sum;
     }
 
-    private static double AggregateAverage<TSource>(double average, TSource source, Func<TSource, double?> averageSelector, Func<TSource, int?> weightSelector)
+    private static double AggregateAverage<TSource>(double average, TSource source, Func<TSource, double?> averageSelector, Func<TSource, double?> weightSelector)
     {
       var weight = weightSelector(source)!.Value;
       var averageToAdd = weight * averageSelector(source)!.Value;
