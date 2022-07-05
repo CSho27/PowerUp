@@ -49,6 +49,7 @@ namespace PowerUp.Generators
       SetProperty(new PowerSetter());
       SetProperty(new RunSpeedSetter());
       SetProperty(new ArmStrengthSetter());
+      SetProperty(new FieldingSetter());
 
       // TODO: Do Pitcher Abilities
       // TODO: Do Special Abilities
@@ -570,5 +571,38 @@ namespace PowerUp.Generators
 
       return (datasetCollection.FieldingStats.OverallFielding.Assists.Value) * .25;
     }
+  }
+
+  public class FieldingSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "HitterAbilities_Fielding";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if(
+        datasetCollection.FieldingStats == null ||
+        !datasetCollection.FieldingStats.OverallFielding.RangeFactor.HasValue ||
+        datasetCollection.FieldingStats.OverallFielding.Innings < 30
+      ) return false;
+
+      var linearGradient = GetRangeFactorGradientForPosition(datasetCollection.PrimaryPosition);
+      var fielding = linearGradient(datasetCollection.FieldingStats.OverallFielding.RangeFactor!.Value);
+      player.HitterAbilities.Fielding = fielding.Round().CapAt(15);
+      return true;
+    }
+
+    private Func<double, double> GetRangeFactorGradientForPosition(Position position) => position switch
+    {
+      Position.Catcher => MathUtils.BuildLinearGradientFunction(11, 8, 15, 9),
+      Position.FirstBase => MathUtils.BuildLinearGradientFunction(9, 8, 15, 9),
+      Position.SecondBase => MathUtils.BuildLinearGradientFunction(4.3, 2.25, 15, 9),
+      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(3, 1.5, 15, 9),
+      Position.Shortstop => MathUtils.BuildLinearGradientFunction(4.7, 2.5, 15, 9),
+      Position.LeftField => MathUtils.BuildLinearGradientFunction(3, 1, 15, 9),
+      Position.CenterField => MathUtils.BuildLinearGradientFunction(4, 2, 15, 9),
+      Position.RightField => MathUtils.BuildLinearGradientFunction(2.5, 1, 15, 9),
+      Position.DesignatedHitter => value => 6,
+      _ => value => 6
+    };
   }
 }

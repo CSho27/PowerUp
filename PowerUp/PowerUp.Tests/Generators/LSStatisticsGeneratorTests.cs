@@ -63,6 +63,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Power.ShouldBe(190);
       hitterAbilities.RunSpeed.ShouldBe(7);
       hitterAbilities.ArmStrength.ShouldBe(9);
+      hitterAbilities.Fielding.ShouldBe(3);
     }
 
     [Test]
@@ -100,6 +101,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Power.ShouldBe(130);
       hitterAbilities.RunSpeed.ShouldBe(11);
       hitterAbilities.ArmStrength.ShouldBe(14);
+      hitterAbilities.Fielding.ShouldBe(14);
     }
 
     [Test]
@@ -137,6 +139,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Power.ShouldBe(173);
       hitterAbilities.RunSpeed.ShouldBe(11);
       hitterAbilities.ArmStrength.ShouldBe(11);
+      hitterAbilities.Fielding.ShouldBe(13);
     }
 
     [Test]
@@ -175,20 +178,19 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Power.ShouldBe(16);
       hitterAbilities.RunSpeed.ShouldBe(4);
       hitterAbilities.ArmStrength.ShouldBe(10);
+      hitterAbilities.Fielding.ShouldBe(6);
     }
     
-    /*
     [Test]
     public void LSStatisticsAlgorithm_Test()
     {
       Task.Run(async () =>
       {
-        var searchResult = await _mlbLookupApiClient.SearchPlayer("Buster Posey");
+        var searchResult = await _mlbLookupApiClient.SearchPlayer("Sergio Alcantara");
         var player = searchResult.Results.Single(p => p.IsActive);
         var result = _playerGenerator.GeneratePlayer(player.LSPlayerId, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
-        result.HitterAbilities.ArmStrength.ShouldBe(12);
+        result.HitterAbilities.Fielding.ShouldBe(12);
       }).GetAwaiter().GetResult();
     }
-    */
   }
 }
