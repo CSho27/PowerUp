@@ -181,16 +181,19 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Fielding.ShouldBe(6);
     }
     
+    /*
     [Test]
     public void LSStatisticsAlgorithm_Test()
     {
       Task.Run(async () =>
       {
-        var searchResult = await _mlbLookupApiClient.SearchPlayer("Sergio Alcantara");
+        var searchResult = await _mlbLookupApiClient.SearchPlayer("Myles Straw");
         var player = searchResult.Results.Single(p => p.IsActive);
         var result = _playerGenerator.GeneratePlayer(player.LSPlayerId, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
-        result.HitterAbilities.Fielding.ShouldBe(12);
+        result.HitterAbilities.ErrorResistance.ShouldBe(12);
       }).GetAwaiter().GetResult();
     }
+
+    */
   }
 }
