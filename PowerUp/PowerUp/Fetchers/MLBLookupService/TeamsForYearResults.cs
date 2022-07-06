@@ -24,7 +24,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     public string City { get; set; }
     public string Venue { get; set; }
     public string League { get; set; }
-    public string Division { get; set; }
+    public string? Division { get; set; }
 
     public TeamResult(LSTeamResult result)
     {
@@ -35,7 +35,7 @@ namespace PowerUp.Fetchers.MLBLookupService
       City = result.city!;
       Venue = result.venue_name!;
       League = result.league!;
-      Division = result.division!;
+      Division = result.division.StringIfNotEmpty();
     }
   }
 }

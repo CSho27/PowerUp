@@ -635,7 +635,45 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         orioles.City.ShouldBe("Boston");
         orioles.Venue.ShouldBe("Fenway Park");
         orioles.League.ShouldBe("AL");
-        orioles.Division.ShouldBe("");
+        orioles.Division.ShouldBe(null);
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetAllStarTeamsForYear_GetsTeams_For2021()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetAllStarTeamsForYear(2021);
+        results.TotalResults.ShouldBe(2);
+        var orioles = results.Results.First();
+        orioles.LSTeamId.ShouldBe(159);
+        orioles.Year.ShouldBe(2021);
+        orioles.Name.ShouldBe("American League All-Stars");
+        orioles.State.ShouldBe("DC");
+        orioles.City.ShouldBe("Washington");
+        orioles.Venue.ShouldBe("Nationals Park");
+        orioles.League.ShouldBe("AL");
+        orioles.Division.ShouldBe(null);
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetAllStarTeamsForYear_GetsTeams_For1951()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetAllStarTeamsForYear(1951);
+        results.TotalResults.ShouldBe(2);
+        var orioles = results.Results.First();
+        orioles.LSTeamId.ShouldBe(159);
+        orioles.Year.ShouldBe(1951);
+        orioles.Name.ShouldBe("American League All-Stars");
+        orioles.State.ShouldBe("MI");
+        orioles.City.ShouldBe("Detroit");
+        orioles.Venue.ShouldBe("Briggs Stadium");
+        orioles.League.ShouldBe("AL");
+        orioles.Division.ShouldBe(null);
       }).GetAwaiter().GetResult();
     }
   }
