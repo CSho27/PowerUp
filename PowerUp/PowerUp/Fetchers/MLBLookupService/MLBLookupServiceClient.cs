@@ -11,6 +11,8 @@ namespace PowerUp.Fetchers.MLBLookupService
     Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year);
     Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year);
     Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year);
+    Task<TeamsForYearResults> GetTeamsForYear(int year);
+    Task<TeamsForYearResults> GetAllStarTeamsForYear(int year);
   }
 
   public partial class MLBLookupServiceClient : IMLBLookupServiceClient
@@ -88,6 +90,34 @@ namespace PowerUp.Fetchers.MLBLookupService
       var totalResults = int.Parse(results.totalSize!);
       var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSPitchingStatsResult>(results.row)!;
       return new PitchingStatsResults(totalResults, deserializedResults);
+    }
+
+    public async Task<TeamsForYearResults> GetTeamsForYear(int year)
+    {
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "named.team_all_season.bam" },
+        new { sport_code = "\'mlb\'", all_star_sw = "\'N\'", season = $"\'{year}\'" }
+      );
+
+      var response = await _apiClient.Get<LSTeamsResponse>(url);
+      var results = response!.team_all_season!.queryResults!;
+      var totalResults = int.Parse(results.totalSize!);
+      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamResult>(results.row)!;
+      return new TeamsForYearResults(totalResults, deserializedResults);
+    }
+
+    public async Task<TeamsForYearResults> GetAllStarTeamsForYear(int year)
+    {
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "named.team_all_season.bam" },
+        new { sport_code = "\'mlb\'", all_star_sw = "\'Y\'", season = $"\'{year}\'" }
+      );
+
+      var response = await _apiClient.Get<LSTeamsResponse>(url);
+      var results = response!.team_all_season!.queryResults!;
+      var totalResults = int.Parse(results.totalSize!);
+      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamResult>(results.row)!;
+      return new TeamsForYearResults(totalResults, deserializedResults);
     }
   }
 }

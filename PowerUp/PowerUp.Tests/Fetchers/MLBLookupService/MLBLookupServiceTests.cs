@@ -600,5 +600,43 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withDodgers.StrikePercentage.ShouldBe(68.2);
       }).GetAwaiter().GetResult();
     }
+
+    [Test]
+    public void GetTeamsForYear_GetsTeams_For2021()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetTeamsForYear(2021);
+        results.TotalResults.ShouldBe(30);
+        var orioles = results.Results.First();
+        orioles.LSTeamId.ShouldBe(110);
+        orioles.Year.ShouldBe(2021);
+        orioles.Name.ShouldBe("Baltimore Orioles");
+        orioles.State.ShouldBe("MD");
+        orioles.City.ShouldBe("Baltimore");
+        orioles.Venue.ShouldBe("Oriole Park at Camden Yards");
+        orioles.League.ShouldBe("AL");
+        orioles.Division.ShouldBe("E");
+      }).GetAwaiter().GetResult();
+    }
+
+    [Test]
+    public void GetTeamsForYear_GetsTeams_For1915()
+    {
+      Task.Run(async () =>
+      {
+        var results = await _client.GetTeamsForYear(1915);
+        results.TotalResults.ShouldBe(24);
+        var orioles = results.Results.First();
+        orioles.LSTeamId.ShouldBe(111);
+        orioles.Year.ShouldBe(1915);
+        orioles.Name.ShouldBe("Boston Red Sox");
+        orioles.State.ShouldBe("MA");
+        orioles.City.ShouldBe("Boston");
+        orioles.Venue.ShouldBe("Fenway Park");
+        orioles.League.ShouldBe("AL");
+        orioles.Division.ShouldBe("");
+      }).GetAwaiter().GetResult();
+    }
   }
 }
