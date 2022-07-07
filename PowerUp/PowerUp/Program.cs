@@ -1,17 +1,21 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities.Players;
+using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
+using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
+using PowerUp.Generators;
 using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PowerUp
 {
@@ -24,7 +28,15 @@ namespace PowerUp
     static void Main(string[] args)
     {
       var characterLibrary = new CharacterLibrary(Path.Combine(DATA_DIRECTORY, "./data/Character_Library.csv"));
+      var voiceLibrary = new VoiceLibrary(Path.Combine(DATA_DIRECTORY, "./data/Voice_Library.csv"));
       var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
+      var mlbLookupServiceClient = new MLBLookupServiceClient();
+      var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
+      var playerApi = new PlayerApi();
+      var playerGenerator = new PlayerGenerator(playerApi, statsFetcher);
+      var countryAndSkinLibrary = new CountryAndSkinColorLibrary(Path.Combine(DATA_DIRECTORY, "./data/CountryAndSkinColor_Library.csv"));
+      var skinColorGuesser = new SkinColorGuesser(countryAndSkinLibrary);
+      var lsStatsAlgorithm = new LSStatistcsPlayerGenerationAlgorithm(voiceLibrary, skinColorGuesser);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary);
@@ -33,9 +45,11 @@ namespace PowerUp
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
       //BuildPlayerValueLibrary(characterLibrary);
-      FindDuplicatesInLibrary();
+      //FindDuplicatesInLibrary();
       //FindPlayersByLastName();
       //CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
+      //CreateStatusesList(mlbLookupServiceClient);
+      CreatePlayerOutputCsv(mlbLookupServiceClient, playerGenerator, lsStatsAlgorithm, voiceLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -200,5 +214,146 @@ namespace PowerUp
       var csvLines = teamRatings.Select(r => $"{r.name}, {r.hitting}, {r.pitching}, {r.overall}");
       File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/teams.csv"), csvLines);
     }
+
+    static void CreateStatusesList(MLBLookupServiceClient client)
+    {
+      Task.Run(async () =>
+      {
+        for (int year = 2018; year < 2022; year++)
+        {
+          var hashset = new HashSet<PlayerRosterStatus>();
+          Console.WriteLine($"{year}:");
+          var teams = await client.GetTeamsForYear(year);
+          foreach (var team in teams.Results)
+          {
+            var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
+            var statuses = players.Results.Select(r => r.Status);
+
+            foreach (var status in statuses)
+              hashset.Add(status);
+          }
+
+          foreach(var status in hashset)
+            Console.WriteLine(status);
+
+          Console.WriteLine();
+        }
+
+      }).GetAwaiter().GetResult();
+    }
+
+    static void CreatePlayerOutputCsv(IMLBLookupServiceClient client, IPlayerGenerator playerGenerator, PlayerGenerationAlgorithm algorithm, IVoiceLibrary voiceLibrary)
+    {
+      var csvLines = new CSVList(
+        "LSPlayerId",
+        "LSName",
+        "LSStatus",
+        "FirstName",
+        "LastName",
+        "SavedName",
+        "UniformNumber",
+        "PrimaryPosition",
+        "PitcherType",
+        "VoiceId",
+        "VoiceName",
+        "BattingSide",
+        "ThrowingArm",
+        "SkinColor",
+        "Pos_P",
+        "Pos_C",
+        "Pos_1B",
+        "Pos_2B",
+        "Pos_3B",
+        "Pos_SS",
+        "Pos_LF",
+        "Pos_CF",
+        "Pos_RF",
+        "Htr_Trajectory",
+        "Htr_Contact",
+        "Htr_Power",
+        "Htr_RunSpeed",
+        "Htr_ArmStregnth",
+        "Htr_Fielding",
+        "Htr_ErrorResistance"
+      );
+
+      Task.Run(async () =>
+      {
+        var year = 2006;
+        var teams = await client.GetTeamsForYear(year);
+        foreach (var team in teams.Results)
+        {
+          Console.WriteLine($"Generating {team.Name}");
+          var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
+          foreach(var player in players.Results)
+          {
+            Console.WriteLine($"Generating {player.FormalDisplayName}");
+            var generatedPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
+            var genPlayerPosCapabilities = generatedPlayer.PositonCapabilities;
+            var genPlayerHitterAbilities = generatedPlayer.HitterAbilities;
+
+            csvLines.AddLine(
+              player.LSPlayerId,
+              player.FormalDisplayName,
+              player.Status,
+              generatedPlayer.FirstName,
+              generatedPlayer.LastName,
+              generatedPlayer.SavedName,
+              generatedPlayer.UniformNumber,
+              generatedPlayer.PrimaryPosition,
+              generatedPlayer.PitcherType,
+              generatedPlayer.VoiceId,
+              voiceLibrary[generatedPlayer.VoiceId],
+              generatedPlayer.BattingSide,
+              generatedPlayer.ThrowingArm,
+              generatedPlayer.Appearance.SkinColor?.ToString() ?? "None",
+              genPlayerPosCapabilities.Pitcher,
+              genPlayerPosCapabilities.Catcher,
+              genPlayerPosCapabilities.FirstBase,
+              genPlayerPosCapabilities.SecondBase,
+              genPlayerPosCapabilities.ThirdBase,
+              genPlayerPosCapabilities.Shortstop,
+              genPlayerPosCapabilities.LeftField,
+              genPlayerPosCapabilities.CenterField,
+              genPlayerPosCapabilities.RightField,
+              genPlayerHitterAbilities.Trajectory,
+              genPlayerHitterAbilities.Contact,
+              genPlayerHitterAbilities.Power,
+              genPlayerHitterAbilities.RunSpeed,
+              genPlayerHitterAbilities.ArmStrength,
+              genPlayerHitterAbilities.Fielding,
+              genPlayerHitterAbilities.ErrorResistance
+            );
+          }
+          Console.WriteLine($"");
+        }
+      }).GetAwaiter().GetResult();
+
+      csvLines.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerOutput.csv"));
+    }
+  }
+
+  public class CSVList
+  {
+    private readonly List<string> lines;
+    private readonly int headerCount;
+
+    public CSVList(params string[] headers)
+    {
+      var line = string.Join(",", headers);
+      lines = new List<string>() { line };
+      headerCount = headers.Length;
+    }
+
+    public void AddLine(params object[] values) 
+    {
+      if (values.Length != headerCount)
+        throw new InvalidOperationException($"Number of values must be equal to header count of {headerCount}");
+
+      var line = string.Join(",", values);
+      lines.Add(line);
+    }
+
+    public void WriteToFile(string path) => File.WriteAllLines(path, lines);
   }
 }

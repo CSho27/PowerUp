@@ -17,72 +17,42 @@ namespace PowerUp.Generators
   public class PlayerGenerator : IPlayerGenerator
   {
     private readonly IPlayerApi _playerApi;
-    private readonly IMLBLookupServiceClient _mlbLookupServiceClient;
+    private readonly IPLayerStatisticsFetcher _playerStatsFetcher;
 
     public PlayerGenerator(
       IPlayerApi playerApi,
-      IMLBLookupServiceClient mlbLookupServiceClient
+      IPLayerStatisticsFetcher playerStatsFetcher
     )
     {
       _playerApi = playerApi;
-      _mlbLookupServiceClient = mlbLookupServiceClient;
+      _playerStatsFetcher = playerStatsFetcher;
     }
 
     public Player GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
     {
-      var data = new PlayerGenerationData();
-      var fetchTasks = new List<Task>();
-
-      data.Year = year;
-
-      if (generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo)) 
+      var playerStats = _playerStatsFetcher.GetStatistics(
+        lsPlayerId, 
+        year,
+        excludePlayerInfo: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo),
+        excludeHittingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats),
+        excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
+        excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
+      );
+      var data = new PlayerGenerationData
       {
-        var fetchPlayerInfo = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetPlayerInfo(lsPlayerId);
-
-          if (response == null)
-            throw new InvalidOperationException("No Player Info Found for Id");
-
-          data.PlayerInfo = new LSPlayerInfoDataset(response);
-        });
-        fetchTasks.Add(fetchPlayerInfo);
-      }
-
-      if (generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats))
-      {
-        var fetchHittingStats = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetHittingStats(lsPlayerId, year);
-          if (response.Results.Any())
-            data.HittingStats = new LSHittingStatsDataset(response.Results);
-        });
-        fetchTasks.Add(fetchHittingStats);
-      }
-
-      if (generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats))
-      {
-        var fetchFieldingStats = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetFieldingStats(lsPlayerId, year);
-          if (response.Results.Any())
-            data.FieldingStats = new LSFieldingStatDataset(response.Results);
-        });
-        fetchTasks.Add(fetchFieldingStats);
-      }
-
-      if (generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats))
-      {
-        var fetchPitchingStats = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetPitchingStats(lsPlayerId, year);
-          if(response.Results.Any())
-            data.PitchingStats = new LSPitchingStatsDataset(response.Results);
-        });
-        fetchTasks.Add(fetchPitchingStats);
-      }
-
-      Task.WaitAll(fetchTasks.ToArray());
+        PlayerInfo = playerStats.PlayerInfo != null
+          ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
+          : null,
+        HittingStats = playerStats.HittingStats != null
+          ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
+          : null,
+        FieldingStats = playerStats.FieldingStats != null
+          ? new LSFieldingStatDataset(playerStats.FieldingStats.Results) 
+          : null,
+        PitchingStats = playerStats.PitchingStats != null
+          ? new LSPitchingStatsDataset(playerStats.PitchingStats.Results)
+          : null
+      };
 
       var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data.PlayerInfo!.PrimaryPosition == Position.Pitcher);
       player.Year = year;

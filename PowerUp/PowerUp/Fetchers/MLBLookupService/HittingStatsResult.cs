@@ -50,10 +50,10 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int? SacrificeFlies { get; }
     public int? SacrificeBunts { get; }
     public int? ReachedOnErrors { get; }
-    public double BattingAverage { get; }
-    public double SluggingPercentage { get; }
-    public double OnBasePercentage { get; }
-    public double OnBasePlusSluggingPercentage { get; }
+    public double? BattingAverage { get; }
+    public double? SluggingPercentage { get; }
+    public double? OnBasePercentage { get; }
+    public double? OnBasePlusSluggingPercentage { get; }
     public double? BattingAverageOnBallsInPlay { get; }
     public double? PitchesPerPlateAppearance { get; }
     public int StolenBases { get; }
@@ -61,43 +61,50 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public HittingStatsResult(LSHittingStatsResult result)
     {
-      LSPlayerId = int.Parse(result.player_id!);
-      Year = int.Parse(result.season!);
-      TeamSeq = (int)double.Parse(result.team_seq!);
-      GamesPlayed = int.Parse(result.g!);
-      AtBats = int.Parse(result.ab!);
-      PlateAppearances = int.Parse(result.tpa!);
-      Hits = int.Parse(result.h!);
-      Doubles = int.Parse(result.d!);
-      Triples = int.Parse(result.t!);
-      HomeRuns = int.Parse(result.hr!);
-      ExtraBaseHits = int.Parse(result.xbh!);
-      TotalBases = int.Parse(result.tb!);
-      Walks = int.Parse(result.bb!);
-      IntentionalWalks = result.ibb.TryParseInt();
-      HitByPitches = int.Parse(result.hbp!);
-      RunsBattedIn = int.Parse(result.rbi!);
-      RunnersLeftOnBase = result.lob.TryParseInt();
-      Runs = int.Parse(result.r!);
-      Strikeouts = int.Parse(result.so!);
-      GroundOuts = result.go.TryParseInt();
-      AirOuts = result.ao.TryParseInt();
-      HardGrounders = result.hgnd.TryParseInt();
-      HardLineDrives = result.hldr.TryParseInt();
-      HardFlyBalls = result.hfly.TryParseInt();
-      HardPopUps = result.hpop.TryParseInt();
-      GroundedIntoDoublePlay = result.gidp.TryParseInt();
-      SacrificeFlies = result.sf.TryParseInt();
-      SacrificeBunts = result.sac.TryParseInt();
-      ReachedOnErrors = result.roe.TryParseInt();
-      BattingAverage = double.Parse(result.avg!);
-      SluggingPercentage = double.Parse(result.slg!);
-      OnBasePercentage = double.Parse(result.obp!);
-      OnBasePlusSluggingPercentage = double.Parse(result.ops!);
-      BattingAverageOnBallsInPlay = result.babip.TryParseDouble();
-      PitchesPerPlateAppearance = result.ppa.TryParseDouble();
-      StolenBases = int.Parse(result.sb!);
-      CaughtStealing = int.Parse(result.cs!);
+      try
+      {
+        LSPlayerId = int.Parse(result.player_id!);
+        Year = int.Parse(result.season!);
+        TeamSeq = (int)double.Parse(result.team_seq!);
+        GamesPlayed = int.Parse(result.g!);
+        AtBats = int.Parse(result.ab!);
+        PlateAppearances = int.Parse(result.tpa!);
+        Hits = int.Parse(result.h!);
+        Doubles = int.Parse(result.d!);
+        Triples = int.Parse(result.t!);
+        HomeRuns = int.Parse(result.hr!);
+        ExtraBaseHits = int.Parse(result.xbh!);
+        TotalBases = int.Parse(result.tb!);
+        Walks = int.Parse(result.bb!);
+        IntentionalWalks = result.ibb.TryParseInt();
+        HitByPitches = int.Parse(result.hbp!);
+        RunsBattedIn = int.Parse(result.rbi!);
+        RunnersLeftOnBase = result.lob.TryParseInt();
+        Runs = int.Parse(result.r!);
+        Strikeouts = int.Parse(result.so!);
+        GroundOuts = result.go.TryParseInt();
+        AirOuts = result.ao.TryParseInt();
+        HardGrounders = result.hgnd.TryParseInt();
+        HardLineDrives = result.hldr.TryParseInt();
+        HardFlyBalls = result.hfly.TryParseInt();
+        HardPopUps = result.hpop.TryParseInt();
+        GroundedIntoDoublePlay = result.gidp.TryParseInt();
+        SacrificeFlies = result.sf.TryParseInt();
+        SacrificeBunts = result.sac.TryParseInt();
+        ReachedOnErrors = result.roe.TryParseInt();
+        BattingAverage = result.avg.TryParseDouble();
+        SluggingPercentage = result.slg.TryParseDouble();
+        OnBasePercentage = result.obp.TryParseDouble();
+        OnBasePlusSluggingPercentage = result.ops.TryParseDouble();
+        BattingAverageOnBallsInPlay = result.babip.TryParseDouble();
+        PitchesPerPlateAppearance = result.ppa.TryParseDouble();
+        StolenBases = int.Parse(result.sb!);
+        CaughtStealing = int.Parse(result.cs!);
+      }
+      catch (Exception ex)
+      {
+        throw;
+      }
     }
   }
 }

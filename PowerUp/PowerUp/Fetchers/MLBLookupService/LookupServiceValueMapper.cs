@@ -1,9 +1,5 @@
 ﻿using PowerUp.Entities.Players;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Fetchers.MLBLookupService
 {
@@ -17,12 +13,17 @@ namespace PowerUp.Fetchers.MLBLookupService
         case "H":
         case "O":
           return Position.DesignatedHitter;
+        // Y is the Ohtani value. Since Pitchers can still be put into lineups in the game, we'll make him a pitcher
+        case "Y":
         case "R":
         case "S":
         case "P":
           return Position.Pitcher;
         default:
-          return (Position)int.Parse(positionId);
+          var success = int.TryParse(positionId, out var pos);
+          if (!success)
+            throw new ArgumentException($"{positionId} is not a valid integer");
+          return (Position)pos;
       }
     }
 
@@ -46,13 +47,36 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       switch (throws)
       {
-        case "R":
         case "":
+        case "R":
           return ThrowingArm.Right;
+        // The game doesn't support switch pitchers, so we'll choose to make them lefties
+        case "S":
         case "L":
           return ThrowingArm.Left;
         default:
           throw new ArgumentException(throws);
+      }
+    }
+    
+    public static PlayerRosterStatus MapRosterStatus(string status)
+    {
+      if (string.IsNullOrEmpty(status))
+        throw new ArgumentNullException();
+
+      if (status.Contains("IL"))
+        return PlayerRosterStatus.IL;
+
+      switch (status)
+      {
+        case "Des. for Assignment":
+          return PlayerRosterStatus.DFA;
+        case "Free agent":
+          return PlayerRosterStatus.FreeAgent;
+        case "Temporary Inactive":
+          return PlayerRosterStatus.TemporaryInactive;
+        default:
+          return Enum.Parse<PlayerRosterStatus>(status);
       }
     }
   }

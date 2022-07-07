@@ -13,6 +13,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year);
     Task<TeamsForYearResults> GetTeamsForYear(int year);
     Task<TeamsForYearResults> GetAllStarTeamsForYear(int year);
+    Task<TeamRosterResult> GetTeamRosterForYear(long lsTeamId, int year);
   }
 
   public partial class MLBLookupServiceClient : IMLBLookupServiceClient
@@ -118,6 +119,20 @@ namespace PowerUp.Fetchers.MLBLookupService
       var totalResults = int.Parse(results.totalSize!);
       var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamResult>(results.row)!;
       return new TeamsForYearResults(totalResults, deserializedResults);
+    }
+
+    public async Task<TeamRosterResult> GetTeamRosterForYear(long lsTeamId, int year)
+    {
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "named.roster_team_alltime.bam" },
+        new { start_season = $"\'{year}\'", end_season = $"\'{year}\'", team_id = $"\'{lsTeamId}\'" }
+      );
+
+      var response = await _apiClient.Get<LSTeamRosterResponse>(url);
+      var results = response!.roster_team_alltime!.queryResults!;
+      var totalResults = int.Parse(results.totalSize!);
+      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamRosterPlayerResult>(results.row)!;
+      return new TeamRosterResult(totalResults, deserializedResults);
     }
   }
 }
