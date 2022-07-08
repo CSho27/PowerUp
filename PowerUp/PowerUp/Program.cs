@@ -368,7 +368,12 @@ namespace PowerUp
         var teams = await client.GetTeamsForYear(year);
         foreach (var team in teams.Results)
         {
-          Console.WriteLine($"Generating {team.Name}");
+          /*
+          if (!team.Name.Contains("Marlins"))
+            continue;
+          */
+
+          Console.WriteLine($"Fetching Stats for {team.Name}");
           var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
           foreach (var player in players.Results)
           {
