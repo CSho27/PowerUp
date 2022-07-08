@@ -17,11 +17,11 @@ namespace PowerUp.Generators
   public class PlayerGenerator : IPlayerGenerator
   {
     private readonly IPlayerApi _playerApi;
-    private readonly IPLayerStatisticsFetcher _playerStatsFetcher;
+    private readonly IPlayerStatisticsFetcher _playerStatsFetcher;
 
     public PlayerGenerator(
       IPlayerApi playerApi,
-      IPLayerStatisticsFetcher playerStatsFetcher
+      IPlayerStatisticsFetcher playerStatsFetcher
     )
     {
       _playerApi = playerApi;

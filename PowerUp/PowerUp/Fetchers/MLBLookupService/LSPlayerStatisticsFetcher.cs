@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PowerUp.Fetchers.MLBLookupService
 {
-  public interface IPLayerStatisticsFetcher
+  public interface IPlayerStatisticsFetcher
   {
     public PlayerStatisticsResult GetStatistics(
       long lsPlayerId,
@@ -18,7 +18,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     );
   }
 
-  internal class LSPlayerStatisticsFetcher : IPLayerStatisticsFetcher
+  internal class LSPlayerStatisticsFetcher : IPlayerStatisticsFetcher
   {
     private readonly IMLBLookupServiceClient _mlbLookupServiceClient;
 

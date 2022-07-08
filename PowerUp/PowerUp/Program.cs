@@ -49,7 +49,8 @@ namespace PowerUp
       //FindPlayersByLastName();
       //CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
       //CreateStatusesList(mlbLookupServiceClient);
-      CreatePlayerOutputCsv(mlbLookupServiceClient, playerGenerator, lsStatsAlgorithm, voiceLibrary);
+      //CreatePlayerOutputCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
+      CreatePlayerDataComparisonCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -331,6 +332,109 @@ namespace PowerUp
 
       csvLines.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerOutput.csv"));
     }
+
+    static void CreatePlayerDataComparisonCsv(IMLBLookupServiceClient client, IPlayerStatisticsFetcher statsFetcher, IPlayerGenerator playerGenerator, PlayerGenerationAlgorithm algorithm, IVoiceLibrary voiceLibrary)
+    {
+      var csvLines = new CSVList(
+        "PlayerId",
+        "Name",
+        "PPId",
+        "Trj",
+        "Pow",
+        "Con",
+        "Arm",
+        "Spd",
+        "Fld",
+        "eRes",
+        "Status",
+        "Pos",
+        "AB",
+        "HR",
+        "SB",
+        "R",
+        "Inn",
+        "TC",
+        "A",
+        "RF/9",
+        "Fpct",
+        "C_SB",
+        "C_CS"
+      );
+
+      Task.Run(async () =>
+      {
+        var year = 2006;
+        var teams = await client.GetTeamsForYear(year);
+        foreach (var team in teams.Results)
+        {
+          Console.WriteLine($"Generating {team.Name}");
+          var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
+          foreach (var player in players.Results)
+          {
+            var loadedPlayer = DatabaseConfig.Database.Query<Player>().Where(p => p.FormalDisplayName == player.FormalDisplayName && p.PrimaryPosition == player.Position).SingleOrDefault();
+            if (loadedPlayer == null)
+              continue;
+
+            Console.WriteLine($"Fetching Stats for {player.FormalDisplayName}");
+            var playerStats = statsFetcher.GetStatistics(player.LSPlayerId, year);
+            var data = new PlayerGenerationData
+            {
+              PlayerInfo = playerStats.PlayerInfo != null
+                ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
+                : null,
+              HittingStats = playerStats.HittingStats != null
+                ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
+                : null,
+              FieldingStats = playerStats.FieldingStats != null
+                ? new LSFieldingStatDataset(playerStats.FieldingStats.Results)
+                : null,
+              PitchingStats = playerStats.PitchingStats != null
+                ? new LSPitchingStatsDataset(playerStats.PitchingStats.Results)
+                : null
+            };
+
+            var nameParts = player.FormalDisplayName.Split(",");
+            var informalName = $"{nameParts[1].Trim()} {nameParts[0].Trim()}";
+
+            csvLines.AddLine(
+
+              player.LSPlayerId,
+              informalName,
+              loadedPlayer.SourcePowerProsId,
+              loadedPlayer.HitterAbilities.Trajectory,
+              loadedPlayer.HitterAbilities.Power,
+              loadedPlayer.HitterAbilities.Contact,
+              loadedPlayer.HitterAbilities.ArmStrength,
+              loadedPlayer.HitterAbilities.RunSpeed,
+              loadedPlayer.HitterAbilities.Fielding,
+              loadedPlayer.HitterAbilities.ErrorResistance,
+              player.Status,
+              (int?)data.PlayerInfo?.PrimaryPosition,
+              data.HittingStats?.AtBats,
+              data.HittingStats?.HomeRuns,
+              data.HittingStats?.StolenBases,
+              data.HittingStats?.Runs,
+              data.FieldingStats?.OverallFielding?.Innings,
+              data.FieldingStats?.OverallFielding?.TotalChances,
+              data.FieldingStats?.OverallFielding?.Assists,
+              data.FieldingStats?.OverallFielding?.RangeFactor,
+              data.FieldingStats?.OverallFielding?.FieldingPercentage,
+              data.FieldingStats?.OverallFielding?.Catcher_StolenBasesAllowed,
+              data.FieldingStats?.OverallFielding?.Catcher_RunnersThrownOut
+            );
+          }
+          Console.WriteLine($"");
+        }
+      }).GetAwaiter().GetResult();
+
+      csvLines.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerStatsComparison.csv"));
+    }
+
+    static void TestLoad()
+    {
+      var player = DatabaseConfig.Database.Load<Player>(1);
+      Console.WriteLine($"Name: {player?.FormalDisplayName}");
+    }
   }
 
   public class CSVList
@@ -345,12 +449,12 @@ namespace PowerUp
       headerCount = headers.Length;
     }
 
-    public void AddLine(params object[] values) 
+    public void AddLine(params object?[] values) 
     {
       if (values.Length != headerCount)
         throw new InvalidOperationException($"Number of values must be equal to header count of {headerCount}");
 
-      var line = string.Join(",", values);
+      var line = string.Join(",", values.Select(v => v?.ToString()?.Replace(",", "") ?? ""));
       lines.Add(line);
     }
 
