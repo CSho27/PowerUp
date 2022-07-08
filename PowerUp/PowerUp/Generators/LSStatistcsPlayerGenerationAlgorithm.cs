@@ -540,7 +540,7 @@ namespace PowerUp.Generators
         return 0;
 
       var caughtStealingPercentage = datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut.Value / ((double)attempts);
-      var linearGradient = MathUtils.BuildLinearGradientFunction(.45, .2, 5, 1);
+      var linearGradient = MathUtils.BuildLinearGradientFunction(.5, .3, 6, 0.5);
       return linearGradient(caughtStealingPercentage);
     }
 
