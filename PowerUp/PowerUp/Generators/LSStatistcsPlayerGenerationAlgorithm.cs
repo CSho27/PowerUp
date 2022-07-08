@@ -564,7 +564,7 @@ namespace PowerUp.Generators
 
     public Func<double, double> GetLinearGradientForPosition(Position position) => position switch
     {
-      Position.SecondBase => MathUtils.BuildLinearGradientFunction(400, 190, 4, .5),
+      Position.SecondBase => MathUtils.BuildLinearGradientFunction(510, 273.5, 5, .5),
       Position.ThirdBase => MathUtils.BuildLinearGradientFunction(300, 175, 4, .5),
       Position.Shortstop => MathUtils.BuildLinearGradientFunction(450, 200, 4, .5),
       _ => throw new InvalidOperationException("Non infield position used")
