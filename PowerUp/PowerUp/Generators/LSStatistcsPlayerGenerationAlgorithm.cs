@@ -431,16 +431,11 @@ namespace PowerUp.Generators
         datasetCollection.HittingStats == null ||
         !datasetCollection.HittingStats.AtBats.HasValue ||
         datasetCollection.HittingStats.AtBats < 100 ||
-        !datasetCollection.HittingStats.HomeRuns.HasValue
+        !datasetCollection.HittingStats.HomeRuns.HasValue ||
+        datasetCollection.HittingStats.HomeRuns == 0
       )
       {
         return false;
-      }
-
-      if(datasetCollection.HittingStats.HomeRuns == 0)
-      {
-        player.HitterAbilities.Power = 16;
-        return true;
       }
 
       var atBatsPerHomeRun = (double) datasetCollection.HittingStats.AtBats.Value / datasetCollection.HittingStats.HomeRuns.Value;

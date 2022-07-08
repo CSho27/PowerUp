@@ -58,7 +58,7 @@ namespace PowerUp.Tests.Generators
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(7);
-      hitterAbilities.Power.ShouldBe(190);
+      hitterAbilities.Power.ShouldBe(198);
       hitterAbilities.RunSpeed.ShouldBe(7);
       hitterAbilities.ArmStrength.ShouldBe(9);
       hitterAbilities.Fielding.ShouldBe(3);
@@ -96,7 +96,7 @@ namespace PowerUp.Tests.Generators
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(7);
-      hitterAbilities.Power.ShouldBe(130);
+      hitterAbilities.Power.ShouldBe(145);
       hitterAbilities.RunSpeed.ShouldBe(11);
       hitterAbilities.ArmStrength.ShouldBe(14);
       hitterAbilities.Fielding.ShouldBe(14);
@@ -134,7 +134,7 @@ namespace PowerUp.Tests.Generators
       var hitterAbilities = result.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(11);
-      hitterAbilities.Power.ShouldBe(173);
+      hitterAbilities.Power.ShouldBe(186);
       hitterAbilities.RunSpeed.ShouldBe(11);
       hitterAbilities.ArmStrength.ShouldBe(11);
       hitterAbilities.Fielding.ShouldBe(13);
