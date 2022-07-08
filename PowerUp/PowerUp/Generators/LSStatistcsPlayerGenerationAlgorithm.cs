@@ -511,7 +511,7 @@ namespace PowerUp.Generators
         case Position.SecondBase:
           return 9 + GetInfielderAssistsPerInningBonus(datasetCollection);
         case Position.ThirdBase:
-          return 10 + GetInfielderAssistsPerInningBonus(datasetCollection);
+          return 9 + GetInfielderAssistsPerInningBonus(datasetCollection);
         case Position.Shortstop:
           return 10 + GetInfielderAssistsPerInningBonus(datasetCollection);
         case Position.LeftField:
@@ -564,9 +564,9 @@ namespace PowerUp.Generators
 
     public Func<double, double> GetLinearGradientForPosition(Position position) => position switch
     {
-      Position.SecondBase => MathUtils.BuildLinearGradientFunction(510, 273.5, 5, .5),
-      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(300, 175, 4, .5),
-      Position.Shortstop => MathUtils.BuildLinearGradientFunction(450, 200, 4, .5),
+      Position.SecondBase => MathUtils.BuildLinearGradientFunction(510, 273.5, 5, .25),
+      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(398, 165, 5, .75),
+      Position.Shortstop => MathUtils.BuildLinearGradientFunction(492, 250, 5, .75),
       _ => throw new InvalidOperationException("Non infield position used")
     };
 
