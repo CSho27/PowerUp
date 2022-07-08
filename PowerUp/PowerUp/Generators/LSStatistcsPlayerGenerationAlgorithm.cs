@@ -391,31 +391,37 @@ namespace PowerUp.Generators
     private static readonly IEnumerable<(double atBatsPerHomerun, double power)> powerFunctionCoordinates = new (double x, double y)[]
     {
       (10.5, 250),
+      (10.75, 245),
       (11, 240),
-      (11.5, 230),
-      (12, 220),
-      (13, 210),
-      (14, 200),
-      (15, 190),
-      (16, 180),
-      (18, 170),
-      (19, 162),
-      (20.5, 154),
-      (22, 148),
-      (23, 143),
-      (24, 139),
-      (26, 135),
-      (28, 131),
-      (30, 127),
-      (32, 123),
-      (35, 120),
-      (40, 117),
-      (45, 114),
-      (60, 105),
-      (75, 95),
-      (110, 85),
-      (150, 75),
-      (200, 70)
+      (11.25, 235),
+      (11.6, 230),
+      (11.9, 225),
+      (12.3, 220),
+      (12.8, 215),
+      (13.4, 210),
+      (14, 205),
+      (14.7, 200),
+      (15.5, 195),
+      (16.35, 190),
+      (17.45, 185),
+      (18.45, 180),
+      (19.5, 175),
+      (20.6, 170),
+      (21.75, 165),
+      (23.5, 160),
+      (25, 155),
+      (26.8, 150),
+      (28.6, 145),
+      (31, 140),
+      (35, 135),
+      (41, 130),
+      (50, 125),
+      (65, 120),
+      (90, 115),
+      (145, 110),
+      (250, 105),
+      (460, 100),
+      (900, 95)
     };
     private static readonly Func<double, double> calculatePower = MathUtils.PiecewiseFunctionFor(powerFunctionCoordinates);
 
@@ -429,6 +435,12 @@ namespace PowerUp.Generators
       )
       {
         return false;
+      }
+
+      if(datasetCollection.HittingStats.HomeRuns == 0)
+      {
+        player.HitterAbilities.Power = 16;
+        return true;
       }
 
       var atBatsPerHomeRun = (double) datasetCollection.HittingStats.AtBats.Value / datasetCollection.HittingStats.HomeRuns.Value;
