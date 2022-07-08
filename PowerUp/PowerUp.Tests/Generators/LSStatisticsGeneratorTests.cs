@@ -171,7 +171,7 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.RightField.ShouldBe(Grade.G);
 
       var hitterAbilities = result.HitterAbilities;
-      hitterAbilities.Trajectory.ShouldBe(1);
+      hitterAbilities.Trajectory.ShouldBe(2);
       hitterAbilities.Contact.ShouldBe(1);
       hitterAbilities.Power.ShouldBe(16);
       hitterAbilities.RunSpeed.ShouldBe(4);

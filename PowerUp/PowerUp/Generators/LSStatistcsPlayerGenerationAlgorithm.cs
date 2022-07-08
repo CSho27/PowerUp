@@ -326,11 +326,11 @@ namespace PowerUp.Generators
 
     private int GetTrajectoryForHomeRuns(int homeRuns)
     {
-      if (homeRuns < 5)
+      if (homeRuns < 2)
         return 1;
-      else if (homeRuns < 20)
+      else if (homeRuns < 14)
         return 2;
-      else if (homeRuns < 30)
+      else if (homeRuns < 35)
         return 3;
       else
         return 4;
