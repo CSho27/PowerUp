@@ -54,7 +54,7 @@ namespace PowerUp.Generators
           : null
       };
 
-      var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data.PlayerInfo!.PrimaryPosition == Position.Pitcher);
+      var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data!.PrimaryPosition == Position.Pitcher);
       player.Year = year;
 
       var propertiesThatHaveBeenSet = new HashSet<string>();
