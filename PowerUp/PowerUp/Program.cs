@@ -358,7 +358,8 @@ namespace PowerUp
         "RF/9",
         "Fpct",
         "C_SB",
-        "C_CS"
+        "C_CS",
+        "CalcPow"
       );
 
       Task.Run(async () =>
@@ -393,6 +394,8 @@ namespace PowerUp
                 : null
             };
 
+            var genPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
+
             var nameParts = player.FormalDisplayName.Split(",");
             var informalName = $"{nameParts[1].Trim()} {nameParts[0].Trim()}";
 
@@ -420,7 +423,8 @@ namespace PowerUp
               data.FieldingStats?.OverallFielding?.RangeFactor,
               data.FieldingStats?.OverallFielding?.FieldingPercentage,
               data.FieldingStats?.OverallFielding?.Catcher_StolenBasesAllowed,
-              data.FieldingStats?.OverallFielding?.Catcher_RunnersThrownOut
+              data.FieldingStats?.OverallFielding?.Catcher_RunnersThrownOut,
+              genPlayer.HitterAbilities.Power
             );
           }
           Console.WriteLine($"");
