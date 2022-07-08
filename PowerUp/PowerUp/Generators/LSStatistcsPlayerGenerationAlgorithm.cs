@@ -507,7 +507,7 @@ namespace PowerUp.Generators
         case Position.Catcher:
           return 9 + GetCatcherCaughtStealingPercentageBonus(datasetCollection);
         case Position.FirstBase:
-          return 7 + GetFirstBaseUtilityBonus(datasetCollection);
+          return 7 + GetInfielderAssistsPerInningBonus(datasetCollection);
         case Position.SecondBase:
           return 9 + GetInfielderAssistsPerInningBonus(datasetCollection);
         case Position.ThirdBase:
@@ -544,12 +544,6 @@ namespace PowerUp.Generators
       return linearGradient(caughtStealingPercentage);
     }
 
-    private double GetFirstBaseUtilityBonus(PlayerGenerationData datasetCollection)
-    {
-      var otherPositionsPlayed = datasetCollection.FieldingStats?.FieldingByPosition.Count(s => s.Key != Position.FirstBase) ?? 0;
-      return otherPositionsPlayed * .5;
-    }
-
     private double GetInfielderAssistsPerInningBonus(PlayerGenerationData datasetCollection)
     {
       if (
@@ -564,6 +558,7 @@ namespace PowerUp.Generators
 
     public Func<double, double> GetLinearGradientForPosition(Position position) => position switch
     {
+      Position.FirstBase => MathUtils.BuildLinearGradientFunction(116, 57.075, 4, .5),
       Position.SecondBase => MathUtils.BuildLinearGradientFunction(510, 273.5, 5, .25),
       Position.ThirdBase => MathUtils.BuildLinearGradientFunction(398, 165, 5, .75),
       Position.Shortstop => MathUtils.BuildLinearGradientFunction(492, 250, 5, .75),

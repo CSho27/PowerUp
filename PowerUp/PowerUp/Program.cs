@@ -359,6 +359,7 @@ namespace PowerUp
         "Fpct",
         "C_SB",
         "C_CS",
+        "Non-1B Pos",
         "CalcPow"
       );
 
@@ -429,6 +430,7 @@ namespace PowerUp
               data.FieldingStats?.OverallFielding?.FieldingPercentage,
               data.FieldingStats?.OverallFielding?.Catcher_StolenBasesAllowed,
               data.FieldingStats?.OverallFielding?.Catcher_RunnersThrownOut,
+              data.FieldingStats?.FieldingByPosition.Count(s => s.Key != Position.FirstBase) ?? 0,
               genPlayer.HitterAbilities.Power
             );
           }
