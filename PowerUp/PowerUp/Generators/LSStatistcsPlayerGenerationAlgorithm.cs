@@ -445,8 +445,8 @@ namespace PowerUp.Generators
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
       var baseRunSpeed = GetBaseRunSpeedForPosition(datasetCollection.PrimaryPosition);
-      var stolenBaseBonus = .08 * (datasetCollection.HittingStats?.StolenBases ?? 0);
-      var runsPerAtBatBonus = 5 * GetRunsPerAtBat(datasetCollection);
+      var stolenBaseBonus = .06 * (datasetCollection.HittingStats?.StolenBases ?? 0);
+      var runsPerAtBatBonus = 7 * GetRunsPerAtBat(datasetCollection);
       var runSpeed = baseRunSpeed + stolenBaseBonus + runsPerAtBatBonus;
       player.HitterAbilities.RunSpeed = runSpeed.Round().CapAt(15);
       return true;
