@@ -52,7 +52,9 @@ namespace PowerUp.Generators
       SetProperty(new FieldingSetter());
       SetProperty(new ErrorResistanceSetter());
 
-      // TODO: Do Pitcher Abilities
+      // Pitcher Abilities
+      SetProperty(new ControlSetter());
+
       // TODO: Do Special Abilities
     }
 
@@ -647,5 +649,24 @@ namespace PowerUp.Generators
       Position.DesignatedHitter => value => 6,
       _ => value => 6
     };
+  }
+
+  public class ControlSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "PitcherAbilities_Control";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.PitchingStats == null ||
+        !datasetCollection.PitchingStats.WalksPer9.HasValue ||
+        datasetCollection.PitchingStats.MathematicalInnings < 15
+      ) return false;
+
+      var linearGradient = MathUtils.BuildLinearGradientFunction(0.9, 3.58, 190, 134.3);
+      var control = linearGradient(datasetCollection.PitchingStats.WalksPer9.Value);
+      player.PitcherAbilities.Control = control.Round().MinAt(60).CapAt(255);
+      return true;
+    }
   }
 }
