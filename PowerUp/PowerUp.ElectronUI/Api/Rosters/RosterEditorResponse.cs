@@ -261,28 +261,10 @@ namespace PowerUp.ElectronUI.Api.Rosters
     {
       var playerDetails = PlayerDetails.FromPlayer(player);
       var abilities = player.PitcherAbilities;
-
-      var pitchArsenal = new (string? type, int? movement)[]
-      {
-        (abilities.HasTwoSeam ? "2SFB" : null, abilities.TwoSeamMovement),
-        (abilities.Slider1Type?.GetAbbrev(), abilities.Slider1Movement),
-        (abilities.Slider2Type?.GetAbbrev(), abilities.Slider2Movement),
-        (abilities.Curve1Type?.GetAbbrev(), abilities.Curve1Movement),
-        (abilities.Curve2Type?.GetAbbrev(), abilities.Curve2Movement),
-        (abilities.Fork1Type?.GetAbbrev(), abilities.Fork1Movement),
-        (abilities.Fork2Type?.GetAbbrev(), abilities.Fork2Movement),
-        (abilities.Sinker1Type?.GetAbbrev(), abilities.Sinker1Movement),
-        (abilities.Sinker2Type?.GetAbbrev(), abilities.Sinker2Movement),
-        (abilities.SinkingFastball1Type?.GetAbbrev(), abilities.SinkingFastball1Movement),
-        (abilities.SinkingFastball2Type?.GetAbbrev(), abilities.SinkingFastball2Movement)
-      };
-
-      var sortedArsenal = pitchArsenal
-        .Where(t => t.type != null)
-        .OrderByDescending(t => t.movement)
-        .Select(t => $"{t.type} ({t.movement})")
-        .ToList();
-
+      var sortedArsenal = abilities
+        .GetSortedArsenal()
+        .Select(t => $"{t.type} ({t.movement})");
+      
       return new PitcherDetails(
         id: playerDetails.PlayerId,
         savedName: playerDetails.SavedName,

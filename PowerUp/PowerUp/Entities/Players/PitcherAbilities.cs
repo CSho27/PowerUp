@@ -1,4 +1,7 @@
-﻿namespace PowerUp.Entities.Players
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace PowerUp.Entities.Players
 {
   public class PitcherAbilities
   {
@@ -53,6 +56,29 @@
         SinkerMovement = Sinker1Movement ?? 0,
         SinkingFastballMovement = SinkingFastball1Movement ?? 0
       });
+
+    public IEnumerable<(string type, int movement)> GetSortedArsenal()
+    {
+      var pitchArsenal = new (string? type, int? movement)[]
+      {
+        (HasTwoSeam ? "2SFB" : null, TwoSeamMovement),
+        (Slider1Type?.GetAbbrev(), Slider1Movement),
+        (Slider2Type?.GetAbbrev(), Slider2Movement),
+        (Curve1Type?.GetAbbrev(), Curve1Movement),
+        (Curve2Type?.GetAbbrev(), Curve2Movement),
+        (Fork1Type?.GetAbbrev(), Fork1Movement),
+        (Fork2Type?.GetAbbrev(), Fork2Movement),
+        (Sinker1Type?.GetAbbrev(), Sinker1Movement),
+        (Sinker2Type?.GetAbbrev(), Sinker2Movement),
+        (SinkingFastball1Type?.GetAbbrev(), SinkingFastball1Movement),
+        (SinkingFastball2Type?.GetAbbrev(), SinkingFastball2Movement)
+      };
+
+      return pitchArsenal
+        .Where(t => t.type != null)
+        .Select(p => (type: p.type!, movement: p.movement!.Value))
+        .OrderByDescending(t => t.movement);
+    }
   }
 
   public enum SliderType
