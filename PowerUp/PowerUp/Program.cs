@@ -346,6 +346,15 @@ namespace PowerUp
         "Spd",
         "Fld",
         "eRes",
+        "Ctrl",
+        "Stam",
+        "Top Spd",
+        "1st",
+        "1st Mvt",
+        "2nd",
+        "2nd Mvt",
+        "3rd",
+        "3rd Mvt",
         "Status",
         "Pos",
         "AB",
@@ -359,6 +368,12 @@ namespace PowerUp
         "Fpct",
         "C_SB",
         "C_CS",
+        "Inn P",
+        "BB/9",
+        "K/9",
+        "ERA",
+        "WHIP",
+        "BAA",
         "Non-1B Pos",
         "CalcPow"
       );
@@ -407,6 +422,7 @@ namespace PowerUp
 
             var validPositionStats = data.FieldingStats?.FieldingByPosition.Where(kvp => kvp.Key.GetPositionType() == data.PrimaryPosition.GetPositionType());
             var relevantAssists = validPositionStats?.SumOrNull(r => r.Value.Assists) ?? 0;
+            var sortedArsenal = loadedPlayer.PitcherAbilities.GetSortedArsenal();
 
             csvLines.AddLine(
               player.LSPlayerId,
@@ -419,6 +435,15 @@ namespace PowerUp
               loadedPlayer.HitterAbilities.RunSpeed,
               loadedPlayer.HitterAbilities.Fielding,
               loadedPlayer.HitterAbilities.ErrorResistance,
+              loadedPlayer.PitcherAbilities.Control,
+              loadedPlayer.PitcherAbilities.Stamina,
+              loadedPlayer.PitcherAbilities.TopSpeedMph,
+              sortedArsenal.FirstOrDefault().type,
+              sortedArsenal.FirstOrDefault().movement,
+              sortedArsenal.ElementAtOrDefault(1).type,
+              sortedArsenal.ElementAtOrDefault(1).movement,
+              sortedArsenal.ElementAtOrDefault(2).type,
+              sortedArsenal.ElementAtOrDefault(2).movement,
               player.Status,
               (int)data.PrimaryPosition,
               data.HittingStats?.AtBats,
@@ -432,6 +457,12 @@ namespace PowerUp
               data.FieldingStats?.FieldingByPosition[data.PrimaryPosition]?.FieldingPercentage,
               data.FieldingStats?.OverallFielding?.Catcher_StolenBasesAllowed,
               data.FieldingStats?.OverallFielding?.Catcher_RunnersThrownOut,
+              data.PitchingStats?.MathematicalInnings,
+              data.PitchingStats?.WalksPer9,
+              data.PitchingStats?.StrikeoutsPer9,
+              data.PitchingStats?.EarnedRunAverage,
+              data.PitchingStats?.WHIP,
+              data.PitchingStats?.BattingAverageAgainst,
               data.FieldingStats?.FieldingByPosition.Count(s => s.Key != Position.FirstBase) ?? 0,
               genPlayer.HitterAbilities.Power
             );

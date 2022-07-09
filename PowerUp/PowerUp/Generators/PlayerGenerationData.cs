@@ -1,5 +1,6 @@
 ﻿using PowerUp.Entities.Players;
 using PowerUp.Fetchers.MLBLookupService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -105,12 +106,39 @@ namespace PowerUp.Generators
     public int? GamesStarted { get; }
     public int? GamesFinished { get; }
     public int? SaveOpportunities { get; }
+    public double? WalksPer9 { get; }
+    public double? StrikeoutsPer9 { get; }
+    public double? WHIP { get; }
+    public double? EarnedRunAverage { get; }
+    public double? BattingAverageAgainst { get; }
+    public double? MathematicalInnings { get; }
 
     public LSPitchingStatsDataset(IEnumerable<PitchingStatsResult> results)
     {
       GamesStarted = results.SumOrNull(r => r.GamesStarted);
       GamesFinished = results.SumOrNull(r => r.SaveOpportunities);
       SaveOpportunities = results.SumOrNull(r => r.GamesFinished);
+      MathematicalInnings = results.Select(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0)).Sum(r => r);
+      WalksPer9 = results.CombineAverages(r => r.WalksPer9, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
+      StrikeoutsPer9 = results.CombineAverages(r => r.StrikeoutsPer9, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
+      WHIP = results.CombineAverages(r => r.WHIP, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
+      EarnedRunAverage = results.CombineAverages(r => r.EarnedRunAverage, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
+      BattingAverageAgainst = results.CombineAverages(r => r.BattingAverageAgainst, r => r.AtBats);
     }
   }
+
+  public static class InningConversion
+  {
+    public static double ToMathematicalInnings(double innings)
+    {
+      var fullInnings = innings.RoundDown();
+      var partialInning = innings - fullInnings;
+      if (partialInning > .3)
+        throw new InvalidOperationException("Value cannot have a decimal larger than .3");
+
+      var fractionalInning = partialInning * 10 * (1.0 / 3);
+      return fullInnings + fractionalInning;
+    }
+  }
+
 }
