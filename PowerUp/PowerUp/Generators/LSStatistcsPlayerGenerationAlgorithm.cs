@@ -54,6 +54,7 @@ namespace PowerUp.Generators
 
       // Pitcher Abilities
       SetProperty(new ControlSetter());
+      SetProperty(new TopSpeedSetter());
 
       // TODO: Do Special Abilities
     }
@@ -116,7 +117,12 @@ namespace PowerUp.Generators
         if (datasetCollection.PitchingStats == null)
           return false;
 
-        if (datasetCollection.PitchingStats.GamesStarted > 10)
+        var gamesStarted = datasetCollection.PitchingStats.GamesStarted;
+        var gamesRelieved = datasetCollection.PitchingStats.GamesPitched - datasetCollection.PitchingStats.GamesStarted;
+
+        if (gamesRelieved > 10 && gamesStarted > 10)
+          player.PitcherType = PitcherType.SwingMan;
+        else if (datasetCollection.PitchingStats.GamesStarted > 10)
           player.PitcherType = PitcherType.Starter;
         else if (datasetCollection.PitchingStats.SaveOpportunities > 20)
           player.PitcherType = PitcherType.Closer;
@@ -666,6 +672,25 @@ namespace PowerUp.Generators
       var linearGradient = MathUtils.BuildLinearGradientFunction(0.9, 3.58, 190, 134.3);
       var control = linearGradient(datasetCollection.PitchingStats.WalksPer9.Value);
       player.PitcherAbilities.Control = control.Round().MinAt(60).CapAt(255);
+      return true;
+    }
+  }
+
+  public class TopSpeedSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "PitcherAbilities_TopSpeedMph";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.PitchingStats == null ||
+        !datasetCollection.PitchingStats.StrikeoutsPer9.HasValue ||
+        datasetCollection.PitchingStats.MathematicalInnings < 15
+      ) return false;
+
+      var linearGradient = MathUtils.BuildLinearGradientFunction(12.89, 6.81, 100, 94.1);
+      var topSpeed = linearGradient(datasetCollection.PitchingStats.StrikeoutsPer9.Value);
+      player.PitcherAbilities.TopSpeedMph = topSpeed.MinAt(49).CapAt(105);
       return true;
     }
   }

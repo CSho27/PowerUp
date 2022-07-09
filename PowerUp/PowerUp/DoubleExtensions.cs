@@ -11,5 +11,9 @@ namespace PowerUp
     public static double CapAt(this double value, double cap) => value > cap 
       ? cap 
       : value;
+
+    public static double MinAt(this double value, double min) => value < min
+      ? min
+      : value;
   }
 }

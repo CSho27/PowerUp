@@ -66,6 +66,7 @@ namespace PowerUp.Tests.Generators
 
       var pitcherAbilities = result.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(0);
+      pitcherAbilities.TopSpeedMph.ShouldBe(74);
     }
 
     [Test]
@@ -108,6 +109,7 @@ namespace PowerUp.Tests.Generators
 
       var pitcherAbilities = result.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(0);
+      pitcherAbilities.TopSpeedMph.ShouldBe(74);
     }
 
     [Test]
@@ -150,6 +152,7 @@ namespace PowerUp.Tests.Generators
 
       var pitcherAbilities = result.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(0);
+      pitcherAbilities.TopSpeedMph.ShouldBe(74);
     }
 
     [Test]
@@ -193,6 +196,7 @@ namespace PowerUp.Tests.Generators
 
       var pitcherAbilities = result.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(138);
+      pitcherAbilities.TopSpeedMph.ShouldBeInRange(94, 95);
     }
     
     /*

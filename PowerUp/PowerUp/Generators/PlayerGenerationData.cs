@@ -103,6 +103,7 @@ namespace PowerUp.Generators
 
   public class LSPitchingStatsDataset
   {
+    public int? GamesPitched { get; }
     public int? GamesStarted { get; }
     public int? GamesFinished { get; }
     public int? SaveOpportunities { get; }
@@ -115,6 +116,7 @@ namespace PowerUp.Generators
 
     public LSPitchingStatsDataset(IEnumerable<PitchingStatsResult> results)
     {
+      GamesPitched = results.SumOrNull(r => r.GamesPlayed);
       GamesStarted = results.SumOrNull(r => r.GamesStarted);
       GamesFinished = results.SumOrNull(r => r.SaveOpportunities);
       SaveOpportunities = results.SumOrNull(r => r.GamesFinished);
