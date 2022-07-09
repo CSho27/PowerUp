@@ -62,6 +62,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.RunSpeed.ShouldBe(7);
       hitterAbilities.ArmStrength.ShouldBe(9);
       hitterAbilities.Fielding.ShouldBe(8);
+      hitterAbilities.ErrorResistance.ShouldBe(10);
     }
 
     [Test]
@@ -100,6 +101,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.RunSpeed.ShouldBe(11);
       hitterAbilities.ArmStrength.ShouldBe(14);
       hitterAbilities.Fielding.ShouldBe(12);
+      hitterAbilities.ErrorResistance.ShouldBe(15);
     }
 
     [Test]
@@ -138,6 +140,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.RunSpeed.ShouldBe(11);
       hitterAbilities.ArmStrength.ShouldBe(10);
       hitterAbilities.Fielding.ShouldBe(11);
+      hitterAbilities.ErrorResistance.ShouldBe(10);
     }
 
     [Test]
@@ -177,6 +180,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.RunSpeed.ShouldBe(4);
       hitterAbilities.ArmStrength.ShouldBe(10);
       hitterAbilities.Fielding.ShouldBe(6);
+      hitterAbilities.ErrorResistance.ShouldBe(5);
     }
     
     /*
