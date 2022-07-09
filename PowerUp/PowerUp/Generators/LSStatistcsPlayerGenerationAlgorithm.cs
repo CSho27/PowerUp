@@ -620,7 +620,7 @@ namespace PowerUp.Generators
     {
       if (
         datasetCollection.FieldingStats == null ||
-        datasetCollection.FieldingStats.OverallFielding.Innings < 30
+        datasetCollection.FieldingStats.OverallFielding.TotalChances < 100
       ) return false;
 
       var relevantFpct = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.FieldingPercentage;
@@ -629,20 +629,21 @@ namespace PowerUp.Generators
 
       var linearGradient = GetFieldingPercentageGradientForPosition(datasetCollection.PrimaryPosition);
       var errorResistance = linearGradient(relevantFpct.Value);
-      player.HitterAbilities.ErrorResistance = errorResistance.Round().MinAt(1).CapAt(15);
+      player.HitterAbilities.ErrorResistance = errorResistance.Round().MinAt(4).CapAt(15);
       return true;
     }
 
     private Func<double, double> GetFieldingPercentageGradientForPosition(Position position) => position switch
     {
-      Position.Catcher => MathUtils.BuildLinearGradientFunction(1, .95, 15, 9),
-      Position.FirstBase => MathUtils.BuildLinearGradientFunction(1, .96, 15, 9),
-      Position.SecondBase => MathUtils.BuildLinearGradientFunction(1, .95, 15, 9),
-      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(1, .95, 15, 9),
-      Position.Shortstop => MathUtils.BuildLinearGradientFunction(1, .95, 15, 9),
-      Position.LeftField => MathUtils.BuildLinearGradientFunction(1, .97, 15, 9),
-      Position.CenterField => MathUtils.BuildLinearGradientFunction(1, .97, 15, 9),
-      Position.RightField => MathUtils.BuildLinearGradientFunction(1, .97, 15, 9),
+      Position.Pitcher => ValueTuple => 5,
+      Position.Catcher => MathUtils.BuildLinearGradientFunction(1, .992, 14, 10.75),
+      Position.FirstBase => MathUtils.BuildLinearGradientFunction(1, .994, 14, 11.25),
+      Position.SecondBase => MathUtils.BuildLinearGradientFunction(1, .983, 14, 9.5),
+      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(.987, .954, 14, 10.25),
+      Position.Shortstop => MathUtils.BuildLinearGradientFunction(.993, .972, 14, 9.75),
+      Position.LeftField => MathUtils.BuildLinearGradientFunction(1, .986, 14, 10.25),
+      Position.CenterField => MathUtils.BuildLinearGradientFunction(1, .989, 14, 10.5),
+      Position.RightField => MathUtils.BuildLinearGradientFunction(1, .982, 14, 10.25),
       Position.DesignatedHitter => value => 6,
       _ => value => 6
     };
