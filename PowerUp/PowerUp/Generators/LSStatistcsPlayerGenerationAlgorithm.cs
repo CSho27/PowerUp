@@ -440,7 +440,7 @@ namespace PowerUp.Generators
 
       var atBatsPerHomeRun = (double) datasetCollection.HittingStats.AtBats.Value / datasetCollection.HittingStats.HomeRuns.Value;
       var power = calculatePower(atBatsPerHomeRun);
-      player.HitterAbilities.Power = power.Round().CapAt(255);
+      player.HitterAbilities.Power = power.Round().MinAt(0).CapAt(255);
       return true;
     }
   }
@@ -455,7 +455,7 @@ namespace PowerUp.Generators
       var stolenBaseBonus = .06 * (datasetCollection.HittingStats?.StolenBases ?? 0);
       var runsPerAtBatBonus = 7 * GetRunsPerAtBat(datasetCollection);
       var runSpeed = baseRunSpeed + stolenBaseBonus + runsPerAtBatBonus;
-      player.HitterAbilities.RunSpeed = runSpeed.Round().CapAt(15);
+      player.HitterAbilities.RunSpeed = runSpeed.Round().MinAt(1).CapAt(15);
       return true;
     }
 
@@ -494,7 +494,7 @@ namespace PowerUp.Generators
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
       var armStrength = GetArmStrength(datasetCollection);
-      player.HitterAbilities.ArmStrength = armStrength.Round().CapAt(15);
+      player.HitterAbilities.ArmStrength = armStrength.Round().MinAt(1).CapAt(15);
       return true;
     }
 
@@ -584,26 +584,29 @@ namespace PowerUp.Generators
     {
       if(
         datasetCollection.FieldingStats == null ||
-        !datasetCollection.FieldingStats.OverallFielding.RangeFactor.HasValue ||
         datasetCollection.FieldingStats.OverallFielding.Innings < 30
       ) return false;
 
+      var relevantRF = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.RangeFactor;
+      if (!relevantRF.HasValue)
+        return false;
+
       var linearGradient = GetRangeFactorGradientForPosition(datasetCollection.PrimaryPosition);
-      var fielding = linearGradient(datasetCollection.FieldingStats.OverallFielding.RangeFactor!.Value);
-      player.HitterAbilities.Fielding = fielding.Round().CapAt(15);
+      var fielding = linearGradient(relevantRF.Value);
+      player.HitterAbilities.Fielding = fielding.Round().MinAt(4).CapAt(15);
       return true;
     }
 
     private Func<double, double> GetRangeFactorGradientForPosition(Position position) => position switch
     {
-      Position.Catcher => MathUtils.BuildLinearGradientFunction(11, 8, 15, 9),
-      Position.FirstBase => MathUtils.BuildLinearGradientFunction(9, 8, 15, 9),
-      Position.SecondBase => MathUtils.BuildLinearGradientFunction(4.3, 2.25, 15, 9),
-      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(3, 1.5, 15, 9),
-      Position.Shortstop => MathUtils.BuildLinearGradientFunction(4.7, 2.5, 15, 9),
-      Position.LeftField => MathUtils.BuildLinearGradientFunction(3, 1, 15, 9),
-      Position.CenterField => MathUtils.BuildLinearGradientFunction(4, 2, 15, 9),
-      Position.RightField => MathUtils.BuildLinearGradientFunction(2.5, 1, 15, 9),
+      Position.Catcher => (value) => 8.5 + MathUtils.BuildLinearGradientFunction(8, 6.1, 5, 1)(value),
+      Position.FirstBase => MathUtils.BuildLinearGradientFunction(10.2, 8.05, 14, 8.5),
+      Position.SecondBase => MathUtils.BuildLinearGradientFunction(5.38, 4.3, 14, 9.5),
+      Position.ThirdBase => MathUtils.BuildLinearGradientFunction(3.35, 12.62, 14, 10),
+      Position.Shortstop => MathUtils.BuildLinearGradientFunction(4.88, 4.13, 14, 11.25),
+      Position.LeftField => MathUtils.BuildLinearGradientFunction(2.73, 1.58, 14, 8.5),
+      Position.CenterField => MathUtils.BuildLinearGradientFunction(2.72, 2.25, 14, 10),
+      Position.RightField => MathUtils.BuildLinearGradientFunction(2.44, 1.75, 14, 8.5),
       Position.DesignatedHitter => value => 6,
       _ => value => 6
     };
@@ -617,13 +620,16 @@ namespace PowerUp.Generators
     {
       if (
         datasetCollection.FieldingStats == null ||
-        !datasetCollection.FieldingStats.OverallFielding.FieldingPercentage.HasValue ||
         datasetCollection.FieldingStats.OverallFielding.Innings < 30
       ) return false;
 
+      var relevantFpct = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.FieldingPercentage;
+      if (!relevantFpct.HasValue)
+        return false;
+
       var linearGradient = GetFieldingPercentageGradientForPosition(datasetCollection.PrimaryPosition);
-      var errorResistance = linearGradient(datasetCollection.FieldingStats.OverallFielding.FieldingPercentage!.Value);
-      player.HitterAbilities.ErrorResistance = errorResistance.Round().CapAt(15);
+      var errorResistance = linearGradient(relevantFpct.Value);
+      player.HitterAbilities.ErrorResistance = errorResistance.Round().MinAt(1).CapAt(15);
       return true;
     }
 
