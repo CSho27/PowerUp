@@ -136,7 +136,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Contact.ShouldBe(11);
       hitterAbilities.Power.ShouldBe(186);
       hitterAbilities.RunSpeed.ShouldBe(11);
-      hitterAbilities.ArmStrength.ShouldBe(11);
+      hitterAbilities.ArmStrength.ShouldBe(10);
       hitterAbilities.Fielding.ShouldBe(13);
     }
 

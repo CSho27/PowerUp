@@ -507,19 +507,19 @@ namespace PowerUp.Generators
         case Position.Catcher:
           return 9 + GetCatcherCaughtStealingPercentageBonus(datasetCollection);
         case Position.FirstBase:
-          return 7 + GetInfielderAssistsPerInningBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection);
         case Position.SecondBase:
-          return 9 + GetInfielderAssistsPerInningBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection);
         case Position.ThirdBase:
-          return 9 + GetInfielderAssistsPerInningBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection);
         case Position.Shortstop:
-          return 10 + GetInfielderAssistsPerInningBonus(datasetCollection);
+          return 10 + GetAssistsBonus(datasetCollection);
         case Position.LeftField:
-          return 9 + GetOutfieldAssistsPerInningBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection);
         case Position.CenterField:
-          return 11 + GetOutfieldAssistsPerInningBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection);
         case Position.RightField:
-          return 10 + GetOutfieldAssistsPerInningBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection);
         case Position.DesignatedHitter:
           return 8;
         default:
@@ -544,16 +544,23 @@ namespace PowerUp.Generators
       return linearGradient(caughtStealingPercentage);
     }
 
-    private double GetInfielderAssistsPerInningBonus(PlayerGenerationData datasetCollection)
+    private double GetAssistsBonus(PlayerGenerationData datasetCollection)
     {
-      if (
-        datasetCollection.FieldingStats == null ||
-        !datasetCollection.FieldingStats.OverallFielding.Assists.HasValue
-      ) return 0;
+      if (datasetCollection.FieldingStats == null)
+        return 0;
 
+      var relevantAssists = GetAssistsForPrimaryAndComparable(datasetCollection.PrimaryPosition, datasetCollection.FieldingStats);
+      if (!relevantAssists.HasValue)
+        return 0;
 
       var positionGradient = GetLinearGradientForPosition(datasetCollection.PrimaryPosition);
-      return positionGradient(datasetCollection.FieldingStats.OverallFielding.Assists.Value);
+      return positionGradient(relevantAssists.Value);
+    }
+
+    public int? GetAssistsForPrimaryAndComparable(Position primaryPosition, LSFieldingStatDataset fieldingStats)
+    {
+      var validPositionStats = fieldingStats.FieldingByPosition.Where(kvp => kvp.Key.GetPositionType() == primaryPosition.GetPositionType());
+      return validPositionStats.SumOrNull(r => r.Value.Assists);
     }
 
     public Func<double, double> GetLinearGradientForPosition(Position position) => position switch
@@ -562,18 +569,11 @@ namespace PowerUp.Generators
       Position.SecondBase => MathUtils.BuildLinearGradientFunction(510, 273.5, 5, .25),
       Position.ThirdBase => MathUtils.BuildLinearGradientFunction(398, 165, 5, .75),
       Position.Shortstop => MathUtils.BuildLinearGradientFunction(492, 250, 5, .75),
-      _ => throw new InvalidOperationException("Non infield position used")
+      Position.LeftField => MathUtils.BuildLinearGradientFunction(13, 3.26, 5, .25),
+      Position.CenterField => MathUtils.BuildLinearGradientFunction(13, 4.08, 5, 1),
+      Position.RightField => MathUtils.BuildLinearGradientFunction(16, 4.33, 5, .5),
+      _ => throw new InvalidOperationException("position not valid for this function")
     };
-
-    private double GetOutfieldAssistsPerInningBonus(PlayerGenerationData datasetCollection)
-    {
-      if (
-        datasetCollection.FieldingStats == null ||
-        !datasetCollection.FieldingStats.OverallFielding.Assists.HasValue
-      ) return 0;
-
-      return (datasetCollection.FieldingStats.OverallFielding.Assists.Value) * .25;
-    }
   }
 
   public class FieldingSetter : PlayerPropertySetter

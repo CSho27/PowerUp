@@ -405,8 +405,10 @@ namespace PowerUp
             var nameParts = player.FormalDisplayName.Split(",");
             var informalName = $"{nameParts[1].Trim()} {nameParts[0].Trim()}";
 
-            csvLines.AddLine(
+            var validPositionStats = data.FieldingStats?.FieldingByPosition.Where(kvp => kvp.Key.GetPositionType() == data.PrimaryPosition.GetPositionType());
+            var relevantAssists = validPositionStats?.SumOrNull(r => r.Value.Assists) ?? 0;
 
+            csvLines.AddLine(
               player.LSPlayerId,
               informalName,
               loadedPlayer.SourcePowerProsId,
@@ -418,14 +420,14 @@ namespace PowerUp
               loadedPlayer.HitterAbilities.Fielding,
               loadedPlayer.HitterAbilities.ErrorResistance,
               player.Status,
-              (int?)data.PlayerInfo?.PrimaryPosition,
+              (int)data.PrimaryPosition,
               data.HittingStats?.AtBats,
               data.HittingStats?.HomeRuns,
               data.HittingStats?.StolenBases,
               data.HittingStats?.Runs,
               data.FieldingStats?.OverallFielding?.Innings,
               data.FieldingStats?.OverallFielding?.TotalChances,
-              data.FieldingStats?.OverallFielding?.Assists,
+              relevantAssists,
               data.FieldingStats?.OverallFielding?.RangeFactor,
               data.FieldingStats?.OverallFielding?.FieldingPercentage,
               data.FieldingStats?.OverallFielding?.Catcher_StolenBasesAllowed,
