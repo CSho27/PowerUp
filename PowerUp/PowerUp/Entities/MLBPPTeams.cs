@@ -104,6 +104,8 @@ namespace PowerUp.Entities
         ? $"{teamLocation} {value.GetDisplayName()}"
         : value.GetDisplayName();
     }
+    public static long GetLSTeamId(this MLBPPTeam value)
+      => value.GetEnumAttribute<LSTeamIdAttribute>()!.LSTeamId;
 
   }
 

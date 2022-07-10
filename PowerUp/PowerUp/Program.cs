@@ -1,4 +1,5 @@
 ﻿using PowerUp.Databases;
+using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
@@ -37,6 +38,7 @@ namespace PowerUp
       var countryAndSkinLibrary = new CountryAndSkinColorLibrary(Path.Combine(DATA_DIRECTORY, "./data/CountryAndSkinColor_Library.csv"));
       var skinColorGuesser = new SkinColorGuesser(countryAndSkinLibrary);
       var lsStatsAlgorithm = new LSStatistcsPlayerGenerationAlgorithm(voiceLibrary, skinColorGuesser);
+      var teamGenerator = new TeamGenerator(mlbLookupServiceClient, playerGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary);
@@ -51,8 +53,9 @@ namespace PowerUp
       //CreateStatusesList(mlbLookupServiceClient);
       //CreatePlayerOutputCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
       //CreatePlayerDataComparisonCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
-      GetAllTeamsAndIds(mlbLookupServiceClient);
+      //GetAllTeamsAndIds(mlbLookupServiceClient);
       //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
+      TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -522,6 +525,12 @@ namespace PowerUp
       }).GetAwaiter().GetResult();
 
       csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/TeamList06ASG.csv"));
+    }
+
+    static void TestGenerateTeam(ITeamGenerator teamGenerator, PlayerGenerationAlgorithm algorithm)
+    {
+      var team = MLBPPTeam.Yankees;
+      var result = teamGenerator.GenerateTeam(team.GetLSTeamId(), 2021, "Cleveland Indians", algorithm);
     }
 
     static void TestLoad()
