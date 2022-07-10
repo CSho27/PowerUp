@@ -54,6 +54,7 @@ namespace PowerUp.Generators
 
       // Pitcher Abilities
       SetProperty(new ControlSetter());
+      SetProperty(new StaminaSetter());
       SetProperty(new TopSpeedSetter());
       SetProperty(new PitchArsenalSetter());
 
@@ -668,6 +669,31 @@ namespace PowerUp.Generators
       var linearGradient = MathUtils.BuildLinearGradientFunction(0.9, 3.58, 190, 134.3);
       var control = linearGradient(datasetCollection.PitchingStats.WalksPer9.Value);
       player.PitcherAbilities.Control = control.Round().MinAt(60).CapAt(255);
+      return true;
+    }
+  }
+
+  public class StaminaSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "PitcherAbilities_Stamina";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.PitchingStats == null ||
+        !datasetCollection.PitchingStats.GamesPitched.HasValue ||
+        !datasetCollection.PitchingStats.MathematicalInnings.HasValue ||
+        datasetCollection.PitchingStats.MathematicalInnings < 15 ||
+        player.PitcherType == PitcherType.SwingMan
+      ) return false;
+
+      var inningsPerGamePitched = datasetCollection.PitchingStats.MathematicalInnings.Value / datasetCollection.PitchingStats.GamesPitched.Value;
+      var linearGradient = player.PitcherType == PitcherType.Starter
+        ? MathUtils.BuildLinearGradientFunction(7.12, 5.71, 200, 167)
+        : MathUtils.BuildLinearGradientFunction(6.11, 1.57, 155, 92);
+
+      var stamina = linearGradient(inningsPerGamePitched);
+      player.PitcherAbilities.Stamina = stamina.Round().MinAt(60).CapAt(255);
       return true;
     }
   }
