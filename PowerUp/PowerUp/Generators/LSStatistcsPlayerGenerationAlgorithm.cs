@@ -117,12 +117,7 @@ namespace PowerUp.Generators
         if (datasetCollection.PitchingStats == null)
           return false;
 
-        var gamesStarted = datasetCollection.PitchingStats.GamesStarted;
-        var gamesRelieved = datasetCollection.PitchingStats.GamesPitched - datasetCollection.PitchingStats.GamesStarted;
-
-        if (gamesRelieved > 10 && gamesStarted > 10)
-          player.PitcherType = PitcherType.SwingMan;
-        else if (datasetCollection.PitchingStats.GamesStarted > 10)
+        if (datasetCollection.PitchingStats.GamesStarted > 10)
           player.PitcherType = PitcherType.Starter;
         else if (datasetCollection.PitchingStats.SaveOpportunities > 20)
           player.PitcherType = PitcherType.Closer;
