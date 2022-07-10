@@ -40,6 +40,7 @@ namespace PowerUp.Generators
       );
       var data = new PlayerGenerationData
       {
+        Year = year,
         PlayerInfo = playerStats.PlayerInfo != null
           ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
           : null,

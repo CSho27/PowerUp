@@ -197,6 +197,9 @@ namespace PowerUp.Tests.Generators
       var pitcherAbilities = result.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(138);
       pitcherAbilities.TopSpeedMph.ShouldBeInRange(94, 95);
+      pitcherAbilities.Slider1Movement.ShouldBe(4);
+      pitcherAbilities.Curve1Movement.ShouldBe(3);
+      pitcherAbilities.Fork1Movement.ShouldBe(2);
     }
     
     /*

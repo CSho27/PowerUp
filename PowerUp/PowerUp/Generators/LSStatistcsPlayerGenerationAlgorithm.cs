@@ -55,6 +55,7 @@ namespace PowerUp.Generators
       // Pitcher Abilities
       SetProperty(new ControlSetter());
       SetProperty(new TopSpeedSetter());
+      SetProperty(new PitchArsenalSetter());
 
       // TODO: Do Special Abilities
     }
@@ -687,6 +688,109 @@ namespace PowerUp.Generators
       var topSpeed = linearGradient(datasetCollection.PitchingStats.StrikeoutsPer9.Value);
       player.PitcherAbilities.TopSpeedMph = topSpeed.MinAt(49).CapAt(105);
       return true;
+    }
+  }
+
+  public class PitchArsenalSetter : PlayerPropertySetter
+  {
+    public override string PropertyKey => "PitcherAbilities_PitchArsenal";
+
+    public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+    {
+      if (
+        datasetCollection.PitchingStats == null ||
+        !datasetCollection.PitchingStats.BattingAverageAgainst.HasValue ||
+        datasetCollection.PitchingStats.MathematicalInnings < 15
+      ) return false;
+
+      var breakLinearGradient = MathUtils.BuildLinearGradientFunction(.107, .264, 6, 3);
+      var firstPitchBreakCalc = breakLinearGradient(datasetCollection.PitchingStats.BattingAverageAgainst.Value);
+      var secondPitchBreakCalc = firstPitchBreakCalc * .7;
+      var thirdPitchBreakCalc = secondPitchBreakCalc * .7;
+
+      var firstPitchBreak = firstPitchBreakCalc.Round().MinAt(1).CapAt(7);
+      var secondPitchBreak = secondPitchBreakCalc.Round().MinAt(1).CapAt(7);
+      var thirdPitchBeak = thirdPitchBreakCalc.Round().MinAt(1).CapAt(7);
+
+      var sliderType = GetRandomSliderTypeByYear(datasetCollection.Year);
+      var curveType = GetRandomCurveTypeByYear(datasetCollection.Year);
+      var changeType = GetForkTypeForYear(datasetCollection.Year);
+
+      if(player.PitcherType == PitcherType.Starter)
+      {
+        player.PitcherAbilities.Slider1Type = sliderType;
+        player.PitcherAbilities.Slider1Movement = sliderType.HasValue
+          ? firstPitchBreak
+          : null;
+        
+        player.PitcherAbilities.Curve1Type = curveType;
+        player.PitcherAbilities.Curve1Movement = sliderType.HasValue
+          ? secondPitchBreak
+          : firstPitchBreak;
+
+        player.PitcherAbilities.Fork1Type = changeType;
+        player.PitcherAbilities.Fork1Movement = sliderType.HasValue
+          ? thirdPitchBeak
+          : secondPitchBreak;
+      }
+      else
+      {
+        player.PitcherAbilities.Slider1Type = sliderType;
+        player.PitcherAbilities.Slider1Movement = sliderType.HasValue
+          ? firstPitchBreak
+          : null;
+
+        player.PitcherAbilities.Curve1Type = sliderType.HasValue
+          ? null
+          : curveType;
+        player.PitcherAbilities.Curve1Movement = sliderType.HasValue
+          ? null
+          : firstPitchBreak;
+
+        player.PitcherAbilities.Fork1Type = changeType;
+        player.PitcherAbilities.Fork1Movement = secondPitchBreak;
+      }
+
+      return true;
+    }
+
+    private SliderType? GetRandomSliderTypeByYear(int year)
+    {
+      if (year < 1925)
+        return null;
+
+      if (year < 1955)
+        return SliderType.Slider;
+
+      var rand = Random.Shared.NextDouble();
+      if (rand < .76)
+        return SliderType.Slider;
+      else if (rand < .9)
+        return SliderType.Cutter;
+      else 
+        return SliderType.HardSlider;
+    }
+
+    private CurveType GetRandomCurveTypeByYear(int year)
+    {
+      if (year < 1945)
+        return CurveType.Curve;
+
+      var rand = Random.Shared.NextDouble();
+      if (rand < .78)
+        return CurveType.Curve;
+      else if (rand < .9)
+        return CurveType.DropCurve;
+      else
+        return CurveType.Slurve;
+    }
+
+    private ForkType GetForkTypeForYear(int year)
+    {
+      if (year < 1945)
+        return ForkType.Palmball;
+      else
+        return ForkType.ChangeUp;
     }
   }
 }
