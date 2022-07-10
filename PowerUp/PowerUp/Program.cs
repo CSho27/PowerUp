@@ -289,7 +289,7 @@ namespace PowerUp
           foreach(var player in players.Results)
           {
             Console.WriteLine($"Generating {player.FormalDisplayName}");
-            var generatedPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
+            var generatedPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm).Player;
             var genPlayerPosCapabilities = generatedPlayer.PositonCapabilities;
             var genPlayerHitterAbilities = generatedPlayer.HitterAbilities;
 
@@ -418,7 +418,7 @@ namespace PowerUp
                 : null
             };
 
-            var genPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
+            var genPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm).Player;
 
             var nameParts = player.FormalDisplayName.Split(",");
             var informalName = $"{nameParts[1].Trim()} {nameParts[0].Trim()}";

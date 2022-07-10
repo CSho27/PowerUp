@@ -18,6 +18,9 @@ namespace PowerUp.Generators
   {
     public int Year { get; set; }
     public Position PrimaryPosition => FieldingStats?.PrimaryPosition ?? PlayerInfo!.PrimaryPosition;
+    public long? LastTeamForYear_LSTeamId => PrimaryPosition == Position.Pitcher
+      ? PitchingStats?.LastTeamForYear_LSTeamId
+      : HittingStats?.LastTeamForYear_LSTeamId;
     public LSPlayerInfoDataset? PlayerInfo { get; set; }
     public LSHittingStatsDataset? HittingStats { get; set; }
     public LSFieldingStatDataset? FieldingStats { get; set; }
@@ -53,6 +56,7 @@ namespace PowerUp.Generators
     public double? BattingAverage { get; }
     public int? StolenBases { get; }
     public int? Runs { get; }
+    public long LastTeamForYear_LSTeamId { get; }
 
     public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results)
     {
@@ -61,6 +65,8 @@ namespace PowerUp.Generators
       BattingAverage = results.CombineAverages(r => r.BattingAverage, r => r.AtBats);
       StolenBases = results.SumOrNull(r => r.StolenBases);
       Runs = results.SumOrNull(r => r.Runs);
+      var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
+      LastTeamForYear_LSTeamId = lastResult.LSTeamId;
     }
   }
 
@@ -113,6 +119,7 @@ namespace PowerUp.Generators
     public double? EarnedRunAverage { get; }
     public double? BattingAverageAgainst { get; }
     public double? MathematicalInnings { get; }
+    public long LastTeamForYear_LSTeamId { get; }
 
     public LSPitchingStatsDataset(IEnumerable<PitchingStatsResult> results)
     {
@@ -126,6 +133,8 @@ namespace PowerUp.Generators
       WHIP = results.CombineAverages(r => r.WHIP, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
       EarnedRunAverage = results.CombineAverages(r => r.EarnedRunAverage, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
       BattingAverageAgainst = results.CombineAverages(r => r.BattingAverageAgainst, r => r.AtBats);
+      var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
+      LastTeamForYear_LSTeamId = lastResult.LSTeamId;
     }
   }
 

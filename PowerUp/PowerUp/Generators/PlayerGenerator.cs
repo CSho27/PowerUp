@@ -2,16 +2,28 @@
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Fetchers.MLBLookupService;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PowerUp.Generators
 {
   public interface IPlayerGenerator
   {
-    Player GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
+    PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
+  }
+
+  public class PlayerGenerationResult
+  {
+    public Player Player { get; set; }
+    public IEnumerable<GeneratorWarning> Warnings { get; set; } = Enumerable.Empty<GeneratorWarning>();
+    public long? LastTeamForYear_LSTeamId { get; set; }
+
+    public PlayerGenerationResult(Player player, IEnumerable<GeneratorWarning> warnings, long? lastTeamForYear_lsTeamId)
+    {
+      Player = player;
+      Warnings = warnings;
+      LastTeamForYear_LSTeamId = lastTeamForYear_lsTeamId;
+    }
   }
 
   public class PlayerGenerator : IPlayerGenerator
@@ -28,7 +40,7 @@ namespace PowerUp.Generators
       _playerStatsFetcher = playerStatsFetcher;
     }
 
-    public Player GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
+    public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
     {
       var playerStats = _playerStatsFetcher.GetStatistics(
         lsPlayerId, 
@@ -68,8 +80,8 @@ namespace PowerUp.Generators
         if (wasSet)
           propertiesThatHaveBeenSet.Add(setter.PropertyKey);
       }
-
-      return player;
+      
+      return new PlayerGenerationResult(player, Enumerable.Empty<GeneratorWarning>(), data.LastTeamForYear_LSTeamId);
     }
   }
 

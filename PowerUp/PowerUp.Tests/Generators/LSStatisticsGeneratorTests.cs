@@ -29,22 +29,25 @@ namespace PowerUp.Tests.Generators
     public void LSStatisticsAlgorithm_GeneratesCatcher()
     {
       var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
-      result.SourceType.ShouldBe(EntitySourceType.Generated);
-      result.Year.ShouldBe(1980);
-      result.FirstName.ShouldBe("Johnny");
-      result.LastName.ShouldBe("Bench");
-      result.SavedName.ShouldBe("J.Bench");
-      // They don't have his number listed
-      result.UniformNumber.ShouldBe("000");
-      result.PrimaryPosition.ShouldBe(Position.Catcher);
-      result.PitcherType.ShouldBe(PitcherType.SwingMan);
-      result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Johnny", "Bench").Key);
+      result.LastTeamForYear_LSTeamId.ShouldBe(113);
 
-      var appearance = result.Appearance;
+      var resultPlayer = result.Player;
+      resultPlayer.SourceType.ShouldBe(EntitySourceType.Generated);
+      resultPlayer.Year.ShouldBe(1980);
+      resultPlayer.FirstName.ShouldBe("Johnny");
+      resultPlayer.LastName.ShouldBe("Bench");
+      resultPlayer.SavedName.ShouldBe("J.Bench");
+      // They don't have his number listed
+      resultPlayer.UniformNumber.ShouldBe("000");
+      resultPlayer.PrimaryPosition.ShouldBe(Position.Catcher);
+      resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
+      resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Johnny", "Bench").Key);
+
+      var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
       // appearance.SkinColor.ShouldBe(SkinColor.One);
 
-      var positionCapabilities = result.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
       positionCapabilities.Catcher.ShouldBe(Grade.A);
       positionCapabilities.FirstBase.ShouldBe(Grade.G);
@@ -55,7 +58,7 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.CenterField.ShouldBe(Grade.G);
       positionCapabilities.RightField.ShouldBe(Grade.G);
 
-      var hitterAbilities = result.HitterAbilities;
+      var hitterAbilities = resultPlayer.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(7);
       hitterAbilities.Power.ShouldBe(198);
@@ -64,7 +67,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Fielding.ShouldBe(8);
       hitterAbilities.ErrorResistance.ShouldBe(10);
 
-      var pitcherAbilities = result.PitcherAbilities;
+      var pitcherAbilities = resultPlayer.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(0);
       pitcherAbilities.TopSpeedMph.ShouldBe(74);
     }
@@ -73,21 +76,24 @@ namespace PowerUp.Tests.Generators
     public void LSStatisticsAlgorithm_GeneratesShortstop()
     {
       var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
-      result.SourceType.ShouldBe(EntitySourceType.Generated);
-      result.Year.ShouldBe(1990);
-      result.FirstName.ShouldBe("Cal");
-      result.LastName.ShouldBe("Ripken Jr.");
-      result.SavedName.ShouldBe("Ripken Jr.");
-      result.UniformNumber.ShouldBe("8");
-      result.PrimaryPosition.ShouldBe(Position.Shortstop);
-      result.PitcherType.ShouldBe(PitcherType.SwingMan);
-      result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Cal", "Ripken Jr.").Key);
+      result.LastTeamForYear_LSTeamId.ShouldBe(110);
 
-      var appearance = result.Appearance;
+      var resultPlayer = result.Player;
+      resultPlayer.SourceType.ShouldBe(EntitySourceType.Generated);
+      resultPlayer.Year.ShouldBe(1990);
+      resultPlayer.FirstName.ShouldBe("Cal");
+      resultPlayer.LastName.ShouldBe("Ripken Jr.");
+      resultPlayer.SavedName.ShouldBe("Ripken Jr.");
+      resultPlayer.UniformNumber.ShouldBe("8");
+      resultPlayer.PrimaryPosition.ShouldBe(Position.Shortstop);
+      resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
+      resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Cal", "Ripken Jr.").Key);
+
+      var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
       //appearance.SkinColor.ShouldBe(SkinColor.One);
 
-      var positionCapabilities = result.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
       positionCapabilities.Catcher.ShouldBe(Grade.G);
       positionCapabilities.FirstBase.ShouldBe(Grade.F);
@@ -98,7 +104,7 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.CenterField.ShouldBe(Grade.G);
       positionCapabilities.RightField.ShouldBe(Grade.G);
 
-      var hitterAbilities = result.HitterAbilities;
+      var hitterAbilities = resultPlayer.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(7);
       hitterAbilities.Power.ShouldBe(145);
@@ -107,7 +113,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Fielding.ShouldBe(12);
       hitterAbilities.ErrorResistance.ShouldBe(15);
 
-      var pitcherAbilities = result.PitcherAbilities;
+      var pitcherAbilities = resultPlayer.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(0);
       pitcherAbilities.TopSpeedMph.ShouldBe(74);
     }
@@ -116,21 +122,24 @@ namespace PowerUp.Tests.Generators
     public void LSStatisticsAlgorithm_GeneratesOutfielder()
     {
       var result = _playerGenerator.GeneratePlayer(665742, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
-      result.SourceType.ShouldBe(EntitySourceType.Generated);
-      result.Year.ShouldBe(2021);
-      result.FirstName.ShouldBe("Juan");
-      result.LastName.ShouldBe("Soto");
-      result.SavedName.ShouldBe("J.Soto");
-      result.UniformNumber.ShouldBe("22");
-      result.PrimaryPosition.ShouldBe(Position.RightField);
-      result.PitcherType.ShouldBe(PitcherType.SwingMan);
-      result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Juan", "Soto").Key);
+      result.LastTeamForYear_LSTeamId.ShouldBe(120);
 
-      var appearance = result.Appearance;
+      var resultPlayer = result.Player;
+      resultPlayer.SourceType.ShouldBe(EntitySourceType.Generated);
+      resultPlayer.Year.ShouldBe(2021);
+      resultPlayer.FirstName.ShouldBe("Juan");
+      resultPlayer.LastName.ShouldBe("Soto");
+      resultPlayer.SavedName.ShouldBe("J.Soto");
+      resultPlayer.UniformNumber.ShouldBe("22");
+      resultPlayer.PrimaryPosition.ShouldBe(Position.RightField);
+      resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
+      resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Juan", "Soto").Key);
+
+      var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
       //appearance.SkinColor.ShouldBe(SkinColor.One);
 
-      var positionCapabilities = result.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
       positionCapabilities.Catcher.ShouldBe(Grade.G);
       positionCapabilities.FirstBase.ShouldBe(Grade.G);
@@ -141,7 +150,7 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.CenterField.ShouldBe(Grade.E);
       positionCapabilities.RightField.ShouldBe(Grade.A);
 
-      var hitterAbilities = result.HitterAbilities;
+      var hitterAbilities = resultPlayer.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(3);
       hitterAbilities.Contact.ShouldBe(11);
       hitterAbilities.Power.ShouldBe(186);
@@ -150,7 +159,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Fielding.ShouldBe(11);
       hitterAbilities.ErrorResistance.ShouldBe(10);
 
-      var pitcherAbilities = result.PitcherAbilities;
+      var pitcherAbilities = resultPlayer.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(0);
       pitcherAbilities.TopSpeedMph.ShouldBe(74);
     }
@@ -159,22 +168,25 @@ namespace PowerUp.Tests.Generators
     public void LSStatisticsAlgorithm_GeneratesPitcher()
     {
       var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
-      result.SourceType.ShouldBe(EntitySourceType.Generated);
-      result.Year.ShouldBe(1963);
-      result.FirstName.ShouldBe("Bob");
-      result.LastName.ShouldBe("Gibson");
-      result.SavedName.ShouldBe("B.Gibson");
-      // They don't have his number listed
-      result.UniformNumber.ShouldBe("000");
-      result.PrimaryPosition.ShouldBe(Position.Pitcher);
-      result.PitcherType.ShouldBe(PitcherType.Starter);
-      result.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Bob", "Gibson").Key);
+      result.LastTeamForYear_LSTeamId.ShouldBe(138);
 
-      var appearance = result.Appearance;
+      var resultPlayer = result.Player;
+      resultPlayer.SourceType.ShouldBe(EntitySourceType.Generated);
+      resultPlayer.Year.ShouldBe(1963);
+      resultPlayer.FirstName.ShouldBe("Bob");
+      resultPlayer.LastName.ShouldBe("Gibson");
+      resultPlayer.SavedName.ShouldBe("B.Gibson");
+      // They don't have his number listed
+      resultPlayer.UniformNumber.ShouldBe("000");
+      resultPlayer.PrimaryPosition.ShouldBe(Position.Pitcher);
+      resultPlayer.PitcherType.ShouldBe(PitcherType.Starter);
+      resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Bob", "Gibson").Key);
+
+      var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
       // appearance.SkinColor.ShouldBe(SkinColor.Five);
 
-      var positionCapabilities = result.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositonCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.A);
       positionCapabilities.Catcher.ShouldBe(Grade.G);
       positionCapabilities.FirstBase.ShouldBe(Grade.G);
@@ -185,7 +197,7 @@ namespace PowerUp.Tests.Generators
       positionCapabilities.CenterField.ShouldBe(Grade.G);
       positionCapabilities.RightField.ShouldBe(Grade.G);
 
-      var hitterAbilities = result.HitterAbilities;
+      var hitterAbilities = resultPlayer.HitterAbilities;
       hitterAbilities.Trajectory.ShouldBe(2);
       hitterAbilities.Contact.ShouldBe(1);
       hitterAbilities.Power.ShouldBe(16);
@@ -194,7 +206,7 @@ namespace PowerUp.Tests.Generators
       hitterAbilities.Fielding.ShouldBe(6);
       hitterAbilities.ErrorResistance.ShouldBe(5);
 
-      var pitcherAbilities = result.PitcherAbilities;
+      var pitcherAbilities = resultPlayer.PitcherAbilities;
       pitcherAbilities.Control.ShouldBe(138);
       pitcherAbilities.Stamina.ShouldBe(199);
       pitcherAbilities.TopSpeedMph.ShouldBeInRange(94, 95);
