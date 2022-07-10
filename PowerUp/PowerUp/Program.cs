@@ -50,7 +50,9 @@ namespace PowerUp
       //CreateTeamRatingCSV(characterLibrary, savedNameLibrary);
       //CreateStatusesList(mlbLookupServiceClient);
       //CreatePlayerOutputCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
-      CreatePlayerDataComparisonCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
+      //CreatePlayerDataComparisonCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
+      GetAllTeamsAndIds(mlbLookupServiceClient);
+      //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -478,6 +480,48 @@ namespace PowerUp
       }).GetAwaiter().GetResult();
 
       csvLines.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerStatsComparison.csv"));
+    }
+
+    static void GetAllTeamsAndIds(IMLBLookupServiceClient client)
+    {
+      var teamResults = new List<TeamResult>();
+      Task.Run(async () =>
+      {
+        for (int year = 1876; year <= 2022; year++)
+        {
+          Console.WriteLine($"Getting teams for {year}...");
+          var teams = await client.GetAllStarTeamsForYear(year);
+          foreach(var team in teams.Results)
+          {
+            Console.WriteLine($"Adding {team.Name}");
+            teamResults.Add(team);
+          }
+          Console.WriteLine();
+        }
+      }).GetAwaiter().GetResult();
+
+      var teamEraResults = teamResults
+        .GroupBy(r => r.LSTeamId)
+        .SelectMany(g => g.GroupBy(t => t.Name).Select(e => new { LSTeamId = e.First().LSTeamId, StartYear = e.First().Year, EndYear = e.Last().Year, Name = e.First().Name }));
+
+      var csvList = new CSVList("LSTeamId", "StartYear", "EndYear", "Name");
+      foreach(var teamEra in teamEraResults)
+        csvList.AddLine(teamEra.LSTeamId, teamEra.StartYear, teamEra.EndYear, teamEra.Name);
+
+      csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/TeamListASG.csv"));
+    }
+
+    static void GetTeamsForMappingPPTeams(IMLBLookupServiceClient client)
+    {
+      var csvList = new CSVList("LSTeamId", "Name");
+      Task.Run(async () =>
+      {
+        var teams = await client.GetAllStarTeamsForYear(2006);
+        foreach (var team in teams.Results)
+          csvList.AddLine(team.LSTeamId, team.Name);
+      }).GetAwaiter().GetResult();
+
+      csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/TeamList06ASG.csv"));
     }
 
     static void TestLoad()
