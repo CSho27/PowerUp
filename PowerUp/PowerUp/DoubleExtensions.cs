@@ -15,5 +15,11 @@ namespace PowerUp
     public static double MinAt(this double value, double min) => value < min
       ? min
       : value;
+
+    public static string ToPercentDisplay(this double value)
+    {
+      var percentValue = value * 100;
+      return $"{percentValue.Round()}%";
+    }
   }
 }

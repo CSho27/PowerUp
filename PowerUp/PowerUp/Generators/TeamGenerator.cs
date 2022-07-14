@@ -6,14 +6,13 @@ using PowerUp.Fetchers.MLBLookupService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PowerUp.Generators
 {
   public interface ITeamGenerator
   {
-    TeamGenerationResult GenerateTeam(long lsTeamId, int year, string name, PlayerGenerationAlgorithm playerGenerationAlgorithm);
+    TeamGenerationResult GenerateTeam(long lsTeamId, int year, string name, PlayerGenerationAlgorithm playerGenerationAlgorithm, Action<ProgressUpdate>? onProgressUpdate = null);
   }
 
   public class TeamGenerationResult
@@ -42,13 +41,25 @@ namespace PowerUp.Generators
       _playerGenerator = playerGenerator;
     }
 
-    public TeamGenerationResult GenerateTeam(long lsTeamId, int year, string name, PlayerGenerationAlgorithm algorithm)
+    public TeamGenerationResult GenerateTeam(long lsTeamId, int year, string name, PlayerGenerationAlgorithm algorithm, Action<ProgressUpdate>? onProgressUpdate = null)
     {
       var playerResults = Task.Run(() => _mlbLookupServiceClient.GetTeamRosterForYear(lsTeamId, year)).GetAwaiter().GetResult();
-      var generatedPlayers = playerResults.Results
-        .Select(p => _playerGenerator.GeneratePlayer(p.LSPlayerId, year, algorithm))
-        .Where(p => p.LastTeamForYear_LSTeamId == lsTeamId)
-        .ToList();
+      var teamPlayers = playerResults.Results.ToList();
+
+      var generatedPlayers = new List<PlayerGenerationResult>();
+      for(var i=0; i<teamPlayers.Count; i++)
+      {
+        var player = teamPlayers[i];
+        if (onProgressUpdate != null)
+          onProgressUpdate(new ProgressUpdate($"Generating {player.FormalDisplayName.GetInformalDisplayName()}", i, teamPlayers.Count + 1));
+
+        var generatedPlayer = _playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
+        if(generatedPlayer.LastTeamForYear_LSTeamId == lsTeamId)
+          generatedPlayers.Add(generatedPlayer);
+      }
+
+      if (onProgressUpdate != null)
+        onProgressUpdate(new ProgressUpdate($"Setting rosters, lineups, and rotations", teamPlayers.Count, teamPlayers.Count + 1));
 
       var playerLineupParams = generatedPlayers.Select(p => new LineupParams(
         playerId: p.LSPlayerId,

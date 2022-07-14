@@ -530,7 +530,21 @@ namespace PowerUp
     static void TestGenerateTeam(ITeamGenerator teamGenerator, PlayerGenerationAlgorithm algorithm)
     {
       var team = MLBPPTeam.Rays;
-      var result = teamGenerator.GenerateTeam(team.GetLSTeamId(), 2021, "Cleveland Indians", algorithm);
+      var startTime = DateTime.Now;
+      var result = teamGenerator.GenerateTeam(team.GetLSTeamId(), 2021, "Cleveland Indians", algorithm, update => {
+        var timeElapsed = DateTime.Now - startTime;
+
+        var estTotalTime = update.PercentCompletion > 0
+          ? timeElapsed * (1 / update.PercentCompletion)
+          : (TimeSpan?)null;
+
+        var estTimeRemaining = estTotalTime.HasValue
+          ? estTotalTime - timeElapsed
+          : null;
+
+        var estTimeRemainingDisplay = $"{estTimeRemaining?.Minutes.ToString() ?? "--"}:{estTimeRemaining?.Seconds.ToString() ?? "--"}";
+        Console.WriteLine($"{update.PercentCompletion.ToPercentDisplay()} est. remaining: {estTimeRemainingDisplay} | {update.CurrentAction}");
+      });
 
       var players = result.Team.GetPlayers().ToList();
       foreach(var player in players)
