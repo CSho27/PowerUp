@@ -14,12 +14,14 @@ namespace PowerUp.Generators
 
   public class PlayerGenerationResult
   {
+    public long LSPlayerId { get; set; }
     public Player Player { get; set; }
     public IEnumerable<GeneratorWarning> Warnings { get; set; } = Enumerable.Empty<GeneratorWarning>();
     public long? LastTeamForYear_LSTeamId { get; set; }
 
-    public PlayerGenerationResult(Player player, IEnumerable<GeneratorWarning> warnings, long? lastTeamForYear_lsTeamId)
+    public PlayerGenerationResult(long lsPlayerId, Player player, IEnumerable<GeneratorWarning> warnings, long? lastTeamForYear_lsTeamId)
     {
+      LSPlayerId = lsPlayerId;
       Player = player;
       Warnings = warnings;
       LastTeamForYear_LSTeamId = lastTeamForYear_lsTeamId;
@@ -81,7 +83,7 @@ namespace PowerUp.Generators
           propertiesThatHaveBeenSet.Add(setter.PropertyKey);
       }
       
-      return new PlayerGenerationResult(player, Enumerable.Empty<GeneratorWarning>(), data.LastTeamForYear_LSTeamId);
+      return new PlayerGenerationResult(lsPlayerId, player, Enumerable.Empty<GeneratorWarning>(), data.LastTeamForYear_LSTeamId);
     }
   }
 

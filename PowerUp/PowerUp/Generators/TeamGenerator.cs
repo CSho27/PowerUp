@@ -50,27 +50,73 @@ namespace PowerUp.Generators
         .Where(p => p.LastTeamForYear_LSTeamId == lsTeamId)
         .ToList();
 
-      // Decide Best Lineups
-      // Decide Pitcher Roles
-      // Decide who makes the 25/40 man roster
+      var playerLineupParams = generatedPlayers.Select(p => new LineupParams(
+        playerId: p.LSPlayerId,
+        hitterRating: p.Player.HitterAbilities.GetHitterRating(),
+        contact: p.Player.HitterAbilities.Contact,
+        power: p.Player.HitterAbilities.Power,
+        runSpeed: p.Player.HitterAbilities.RunSpeed,
+        primaryPosition: p.Player.PrimaryPosition,
+        positionCapabilityDictionary: p.Player.PositionCapabilities.GetDictionary()
+      ));
+
+      var dhLineup = LineupCreator.CreateLineup(playerLineupParams, useDH: true);
+      var noDHLineup = LineupCreator.CreateLineup(playerLineupParams, useDH: false);
+      
+      var playersOrderedByHitterAbility = generatedPlayers.OrderByDescending(p => p.Player.HitterAbilities.GetHitterRating()).ToList();
+
+      var playersOrderedByPitcherAbility = generatedPlayers.OrderByDescending(p => p.Player.PitcherAbilities.GetPitcherRating()).ToList();
+      var starters = playersOrderedByPitcherAbility.Where(p => p.Player.PitcherType == PitcherType.Starter).Take(5);
+      var closer = playersOrderedByPitcherAbility.Where(p => p.Player.PitcherType == PitcherType.Closer).FirstOrDefault();
+      var relievers = playersOrderedByPitcherAbility.Where(p => !starters.Any(s => s.LSPlayerId == p.LSPlayerId && p.LSPlayerId != closer?.LSPlayerId));
+
+      var mlbRosterPlayerIds = new HashSet<long>();
+
+      // Add all players in lineups
+      foreach (var player in dhLineup.Concat(noDHLineup))
+      {
+        if(player.PlayerId.HasValue)
+          mlbRosterPlayerIds.Add(player.PlayerId!.Value);
+      }
+
+      // Add backup catcher
+      var backupCatcher = playersOrderedByHitterAbility.Where(p => !mlbRosterPlayerIds.Any(id => id == p.LSPlayerId) && p.Player.PrimaryPosition == Position.Catcher).FirstOrDefault();
+      if (backupCatcher != null)
+        mlbRosterPlayerIds.Add(backupCatcher.LSPlayerId);
+
+      // Add other bench players
+      for(var i=0; i<playersOrderedByHitterAbility.Count && mlbRosterPlayerIds.Count < 12; i++)
+        mlbRosterPlayerIds.Add(playersOrderedByHitterAbility[i].LSPlayerId);
+
+      // Add starting pitchers
+      foreach(var starter in starters)
+        mlbRosterPlayerIds.Add(starter.LSPlayerId);
+
+      // Add closer
+      if(closer != null)
+        mlbRosterPlayerIds.Add(closer.LSPlayerId);
+
+      // Add relievers
+      for (var i = 0; i < playersOrderedByPitcherAbility.Count && mlbRosterPlayerIds.Count < 25; i++)
+        mlbRosterPlayerIds.Add(playersOrderedByPitcherAbility[i].LSPlayerId);
+
+      var fortyManRoster = new HashSet<long>(mlbRosterPlayerIds);
+      // Add hitters to 40 man roster
+      for (var i = 0; i < playersOrderedByHitterAbility.Count && fortyManRoster.Count < 33; i++)
+        fortyManRoster.Add(playersOrderedByHitterAbility[i].LSPlayerId);
+
+      // Add pitchers to 40 man roster
+      for (var i = 0; i < playersOrderedByPitcherAbility.Count && fortyManRoster.Count < 40; i++)
+        fortyManRoster.Add(playersOrderedByPitcherAbility[i].LSPlayerId);
 
       // Save generated players
-
-      var hitters = generatedPlayers
-        .Select(p => p.Player)
-        .Where(p => p.PrimaryPosition != Position.Pitcher)
-        .OrderByDescending(h => h.Overall);
-
-      var pitchers = generatedPlayers
-        .Select(p => p.Player)
-        .Where(p => p.PrimaryPosition == Position.Pitcher)
-        .OrderByDescending(h => h.Overall);
+      
 
       var team = new Team
       {
         Name = name,
         SourceType = EntitySourceType.Generated,
-        // Definitions
+        //PlayerDefinitions = 
         // Lineups
 
       };
