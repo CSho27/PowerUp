@@ -47,7 +47,7 @@ namespace PowerUp.Tests.Generators
       // Skin Color is non-deterministic
       // appearance.SkinColor.ShouldBe(SkinColor.One);
 
-      var positionCapabilities = resultPlayer.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositionCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
       positionCapabilities.Catcher.ShouldBe(Grade.A);
       positionCapabilities.FirstBase.ShouldBe(Grade.G);
@@ -93,7 +93,7 @@ namespace PowerUp.Tests.Generators
       // Skin Color is non-deterministic
       //appearance.SkinColor.ShouldBe(SkinColor.One);
 
-      var positionCapabilities = resultPlayer.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositionCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
       positionCapabilities.Catcher.ShouldBe(Grade.G);
       positionCapabilities.FirstBase.ShouldBe(Grade.F);
@@ -139,7 +139,7 @@ namespace PowerUp.Tests.Generators
       // Skin Color is non-deterministic
       //appearance.SkinColor.ShouldBe(SkinColor.One);
 
-      var positionCapabilities = resultPlayer.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositionCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.G);
       positionCapabilities.Catcher.ShouldBe(Grade.G);
       positionCapabilities.FirstBase.ShouldBe(Grade.G);
@@ -186,7 +186,7 @@ namespace PowerUp.Tests.Generators
       // Skin Color is non-deterministic
       // appearance.SkinColor.ShouldBe(SkinColor.Five);
 
-      var positionCapabilities = resultPlayer.PositonCapabilities;
+      var positionCapabilities = resultPlayer.PositionCapabilities;
       positionCapabilities.Pitcher.ShouldBe(Grade.A);
       positionCapabilities.Catcher.ShouldBe(Grade.G);
       positionCapabilities.FirstBase.ShouldBe(Grade.G);

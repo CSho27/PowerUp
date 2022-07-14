@@ -61,7 +61,7 @@ namespace PowerUp.Mappers.Players
           : ThrowingArm.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
         Appearance = AppearanceMapper.GetAppearance(gsPlayer),
-        PositonCapabilities = gsPlayer.GetPositionCapabilities(),
+        PositionCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
         PitcherAbilities = gsPlayer.GetPitcherAbilities(),
         SpecialAbilities = SpecialAbilitiesMapper.GetSpecialAbilities(gsPlayer),
@@ -73,7 +73,7 @@ namespace PowerUp.Mappers.Players
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();
       var appearance = player.Appearance;
-      var positionCapabilities = player.PositonCapabilities;
+      var positionCapabilities = player.PositionCapabilities;
       var hitterAbilities = player.HitterAbilities;
       var hotZones = player.HitterAbilities.HotZones;
       var pitcherAbilities = player.PitcherAbilities;

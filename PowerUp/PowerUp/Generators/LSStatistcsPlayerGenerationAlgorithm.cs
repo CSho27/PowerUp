@@ -221,7 +221,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.Pitcher = GetGradeForPosition(Position.Pitcher, datasetCollection);
+        player.PositionCapabilities.Pitcher = GetGradeForPosition(Position.Pitcher, datasetCollection);
         return true;
       }
     }
@@ -232,7 +232,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.Catcher = GetGradeForPosition(Position.Catcher, datasetCollection);
+        player.PositionCapabilities.Catcher = GetGradeForPosition(Position.Catcher, datasetCollection);
         return true;
       }
     }
@@ -243,7 +243,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.FirstBase = GetGradeForPosition(Position.FirstBase, datasetCollection);
+        player.PositionCapabilities.FirstBase = GetGradeForPosition(Position.FirstBase, datasetCollection);
         return true;
       }
     }
@@ -254,7 +254,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.SecondBase = GetGradeForPosition(Position.SecondBase, datasetCollection);
+        player.PositionCapabilities.SecondBase = GetGradeForPosition(Position.SecondBase, datasetCollection);
         return true;
       }
     }
@@ -266,7 +266,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.ThirdBase = GetGradeForPosition(Position.ThirdBase, datasetCollection);
+        player.PositionCapabilities.ThirdBase = GetGradeForPosition(Position.ThirdBase, datasetCollection);
         return true;
       }
     }
@@ -277,7 +277,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.Shortstop = GetGradeForPosition(Position.Shortstop, datasetCollection);
+        player.PositionCapabilities.Shortstop = GetGradeForPosition(Position.Shortstop, datasetCollection);
         return true;
       }
     }
@@ -288,7 +288,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.LeftField = GetGradeForPosition(Position.LeftField, datasetCollection);
+        player.PositionCapabilities.LeftField = GetGradeForPosition(Position.LeftField, datasetCollection);
         return true;
       }
     }
@@ -299,7 +299,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.CenterField = GetGradeForPosition(Position.CenterField, datasetCollection);
+        player.PositionCapabilities.CenterField = GetGradeForPosition(Position.CenterField, datasetCollection);
         return true;
       }
     }
@@ -310,7 +310,7 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        player.PositonCapabilities.RightField = GetGradeForPosition(Position.RightField, datasetCollection);
+        player.PositionCapabilities.RightField = GetGradeForPosition(Position.RightField, datasetCollection);
         return true;
       }
     }

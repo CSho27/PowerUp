@@ -277,7 +277,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapPitcherCapability()
     {
-      player.PositonCapabilities.Pitcher = Grade.G;
+      player.PositionCapabilities.Pitcher = Grade.G;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.PitcherCapability.ShouldBe((ushort)1);
     }
@@ -285,7 +285,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapCatcherCapability()
     {
-      player.PositonCapabilities.Catcher = Grade.F;
+      player.PositionCapabilities.Catcher = Grade.F;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.CatcherCapability.ShouldBe((ushort)2);
     }
@@ -293,7 +293,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapFirstBaseCapability()
     {
-      player.PositonCapabilities.FirstBase = Grade.E;
+      player.PositionCapabilities.FirstBase = Grade.E;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.FirstBaseCapability.ShouldBe((ushort)3);
     }
@@ -301,7 +301,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapSecondBaseCapability()
     {
-      player.PositonCapabilities.SecondBase = Grade.D;
+      player.PositionCapabilities.SecondBase = Grade.D;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.SecondBaseCapability.ShouldBe((ushort)4);
     }
@@ -309,7 +309,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapThirdBaseCapability()
     {
-      player.PositonCapabilities.ThirdBase = Grade.C;
+      player.PositionCapabilities.ThirdBase = Grade.C;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.ThirdBaseCapability.ShouldBe((ushort)5);
     }
@@ -317,7 +317,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapShortstopCapability()
     {
-      player.PositonCapabilities.Shortstop = Grade.B;
+      player.PositionCapabilities.Shortstop = Grade.B;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.ShortstopCapability.ShouldBe((ushort)6);
     }
@@ -325,7 +325,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapLeftFieldCapability()
     {
-      player.PositonCapabilities.LeftField = Grade.A;
+      player.PositionCapabilities.LeftField = Grade.A;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.LeftFieldCapability.ShouldBe((ushort)7);
     }
@@ -333,7 +333,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapCenterFieldCapability()
     {
-      player.PositonCapabilities.CenterField = Grade.B;
+      player.PositionCapabilities.CenterField = Grade.B;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.CenterFieldCapability.ShouldBe((ushort)6);
     }
@@ -341,7 +341,7 @@ namespace PowerUp.Tests.Mappers.Players
     [Test]
     public void MapToGSPlayer_ShouldMapRightFieldCapability()
     {
-      player.PositonCapabilities.RightField = Grade.C;
+      player.PositionCapabilities.RightField = Grade.C;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.RightFieldCapability.ShouldBe((ushort)5);
     }

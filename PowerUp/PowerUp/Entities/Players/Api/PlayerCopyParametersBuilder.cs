@@ -5,7 +5,7 @@
     public static PlayerParameters Build(Player player)
     {
       var apperance = player.Appearance;
-      var positionCapabilities = player.PositonCapabilities;
+      var positionCapabilities = player.PositionCapabilities;
       var hitterAbilities = player.HitterAbilities;
       var pitcherAbilities = player.PitcherAbilities;
 

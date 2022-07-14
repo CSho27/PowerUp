@@ -295,7 +295,7 @@ namespace PowerUp
           {
             Console.WriteLine($"Generating {player.FormalDisplayName}");
             var generatedPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm).Player;
-            var genPlayerPosCapabilities = generatedPlayer.PositonCapabilities;
+            var genPlayerPosCapabilities = generatedPlayer.PositionCapabilities;
             var genPlayerHitterAbilities = generatedPlayer.HitterAbilities;
 
             csvLines.AddLine(

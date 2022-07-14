@@ -20,7 +20,7 @@
         ThrowingArm = ThrowingArm.Right,
         PitchingMechanicsId = 0,
         Appearance = DEFAULT_APPEARANCE,
-        PositonCapabilities = DEFAULT_POS_CAPABILITIES_FOR_HITTER,
+        PositionCapabilities = DEFAULT_POS_CAPABILITIES_FOR_HITTER,
         HitterAbilities = DEFAULT_HITTER_ABILITIES_FOR_HITTER,
         PitcherAbilities = DEFAULT_PITCHER_ABILITIES_FOR_HITTER,
         SpecialAbilities = new SpecialAbilities()
@@ -45,7 +45,7 @@
         ThrowingArm = ThrowingArm.Right,
         PitchingMechanicsId = 0,
         Appearance = DEFAULT_APPEARANCE,
-        PositonCapabilities = DEFAULT_POS_CAPABILITIES_FOR_PITCHER,
+        PositionCapabilities = DEFAULT_POS_CAPABILITIES_FOR_PITCHER,
         HitterAbilities = DEFAULT_HITTER_ABILITIES_FOR_PITCHER,
         PitcherAbilities = DEFAULT_PITCHER_ABILITIES_FOR_PITCHER,
         SpecialAbilities = new SpecialAbilities()

@@ -22,7 +22,7 @@
 
       UpdatePersonalDetails(player, parameters.PersonalDetails!);
       UpdateAppearance(player.Appearance, parameters.Appearance!);
-      UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
+      UpdatePositionCapabilities(player.PositionCapabilities, parameters.PositionCapabilities!);
       UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
       UpdatePitcherAbilities(player.PitcherAbilities, parameters.PitcherAbilities!);
       UpdateSpecialAbilities(player.SpecialAbilities, parameters.SpecialAbilities!);
@@ -42,7 +42,7 @@
 
       UpdatePersonalDetails(player, parameters.PersonalDetails!);
       UpdateAppearance(player.Appearance, parameters.Appearance!);
-      UpdatePositionCapabilities(player.PositonCapabilities, parameters.PositionCapabilities!);
+      UpdatePositionCapabilities(player.PositionCapabilities, parameters.PositionCapabilities!);
       UpdateHitterAbilities(player.HitterAbilities, parameters.HitterAbilities!);
       UpdatePitcherAbilities(player.PitcherAbilities, parameters.PitcherAbilities!);
       UpdateSpecialAbilities(player.SpecialAbilities, parameters.SpecialAbilities!);
