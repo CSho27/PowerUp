@@ -1,4 +1,6 @@
-﻿namespace PowerUp.Generators
+﻿using System;
+
+namespace PowerUp.Generators
 {
   public class ProgressUpdate
   {
@@ -12,6 +14,17 @@
       CurrentAction = currentAction;
       CurrentActionIndex = currentIndex;
       TotalActions = totalActions;
+    }
+
+    public TimeSpan? GetEstimatedTimeRemaining(TimeSpan timeElapsed)
+    {
+      var estTotalTime = PercentCompletion > 0
+        ? timeElapsed * (1 / PercentCompletion)
+        : (TimeSpan?)null;
+
+      return estTotalTime.HasValue
+        ? estTotalTime - timeElapsed
+        : null;
     }
   }
 }
