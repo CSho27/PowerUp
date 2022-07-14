@@ -9,18 +9,27 @@ namespace PowerUp.Generators
   {
     public long PlayerId { get; }
     public double HitterRating { get; }
+    public int Contact { get; }
+    public int Power { get; }
+    public int RunSpeed { get; }
     public Position PrimaryPosition { get; }
     public IDictionary<Position, Grade> PositionCapabilities { get; }
 
     public LineupParams(
       long playerId,
       double hitterRating,
+      int contact,
+      int power,
+      int runSpeed,
       Position primaryPosition,
       IDictionary<Position, Grade> positionCapabilityDictionary
     )
     {
       PlayerId = playerId;
       HitterRating = hitterRating;
+      Contact = contact;
+      Power = power;
+      RunSpeed = runSpeed;
       PrimaryPosition = primaryPosition;
       PositionCapabilities = positionCapabilityDictionary;
     }
@@ -28,8 +37,14 @@ namespace PowerUp.Generators
 
   public class LineupResult
   {
-    public long PlayerId { get; }
+    public long? PlayerId { get; }
     public Position Position { get; }
+
+    public LineupResult(long? playerId, Position position)
+    {
+      PlayerId = playerId;
+      Position = position;
+    }
   }
 
   public static class LineupCreator
@@ -37,7 +52,30 @@ namespace PowerUp.Generators
     public static IEnumerable<LineupResult> CreateLineup(IEnumerable<LineupParams> players, bool useDH)
     {
       var bestPlayerAtEachPosition = FindBestPlayerAtEachPosition(players);
-      return Enumerable.Empty<LineupResult>();
+      var playersInLineup = bestPlayerAtEachPosition
+        .Where(p => p.Key != Position.DesignatedHitter || useDH)
+        .Select(kvp => players.Single(p => p.PlayerId == kvp.Value));
+      var playersOrderedByLeadoffAbility = playersInLineup.OrderByDescending(p => p.RunSpeed + p.Contact).ToList();
+      var playersOrderedByRBIAbility = playersInLineup.OrderByDescending(p => p.Power + p.Contact * 10).ToList();
+
+      var lineup = new List<LineupResult>();
+      for(var i=0; i<playersOrderedByLeadoffAbility.Count && lineup.Count < 2; i++)
+      {
+        var player = playersOrderedByLeadoffAbility[i];
+        var orderByRating = playersOrderedByRBIAbility.FindIndex(p => p.PlayerId == player.PlayerId);
+          lineup.Add(new LineupResult(player.PlayerId, bestPlayerAtEachPosition.Single(p => p.Value == player.PlayerId).Key));
+      }
+
+      foreach(var player in playersOrderedByRBIAbility)
+      { 
+        if (!lineup.Any(p => p.PlayerId == player.PlayerId))
+          lineup.Add(new LineupResult(player.PlayerId, bestPlayerAtEachPosition.Single(p => p.Value == player.PlayerId).Key));
+      }
+
+      if (!useDH)
+        lineup.Add(new LineupResult(null, Position.Pitcher));
+
+      return lineup;
     }
 
     public static Dictionary<Position, long> FindBestPlayerAtEachPosition(IEnumerable<LineupParams> players)
