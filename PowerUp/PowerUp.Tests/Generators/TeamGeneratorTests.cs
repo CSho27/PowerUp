@@ -41,8 +41,7 @@ namespace PowerUp.Tests.Generators
             continue;
 
           var lsTeamId = team.GetLSTeamId();
-          _teamGenerator.GenerateTeam(lsTeamId, year, team.GetDisplayName(), _algorithm);
-
+          var result = _teamGenerator.GenerateTeam(lsTeamId, year, team.GetDisplayName(), _algorithm);
         }
       }).GetAwaiter().GetResult();
     }

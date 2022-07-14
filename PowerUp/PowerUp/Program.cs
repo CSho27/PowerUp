@@ -529,8 +529,40 @@ namespace PowerUp
 
     static void TestGenerateTeam(ITeamGenerator teamGenerator, PlayerGenerationAlgorithm algorithm)
     {
-      var team = MLBPPTeam.Yankees;
+      var team = MLBPPTeam.Rays;
       var result = teamGenerator.GenerateTeam(team.GetLSTeamId(), 2021, "Cleveland Indians", algorithm);
+
+      var players = result.Team.GetPlayers().ToList();
+      foreach(var player in players)
+        Console.WriteLine($"{player.InformalDisplayName}: {player.Overall.RoundDown()}, {player.PrimaryPosition.GetAbbrev()}");
+
+      Console.WriteLine();
+      Console.WriteLine("No DH:");
+
+      var noDHLineup = result.Team.NoDHLineup.ToList();
+      for (var i=0; i<noDHLineup.Count; i++)
+      {
+        var slot = noDHLineup[i];
+        if (!slot.PlayerId.HasValue)
+        {
+          Console.WriteLine($"{i+1}. Pitcher");
+          continue;
+        }
+
+        var player = players.Single(p => p.Id == slot.PlayerId);
+        Console.WriteLine($"{i + 1}. {player.InformalDisplayName} {slot.Position.GetAbbrev()} {player.Overall.RoundDown()}");
+      }
+
+      Console.WriteLine();
+      Console.WriteLine("DH:");
+
+      var dhLineup = result.Team.DHLineup.ToList();
+      for (var i = 0; i < dhLineup.Count; i++)
+      {
+        var slot = dhLineup[i];
+        var player = players.Single(p => p.Id == slot.PlayerId);
+        Console.WriteLine($"{i + 1}. {player.InformalDisplayName} {slot.Position.GetAbbrev()} {player.Overall.RoundDown()}");
+      }
     }
 
     static void TestLoad()

@@ -110,15 +110,24 @@ namespace PowerUp.Generators
         fortyManRoster.Add(playersOrderedByPitcherAbility[i].LSPlayerId);
 
       // Save generated players
-      
+      var playersToSave = generatedPlayers.Where(p => fortyManRoster.Any(id => id == p.LSPlayerId)).Select(p => p.Player);
+      DatabaseConfig.Database.SaveAll(playersToSave);
 
       var team = new Team
       {
         Name = name,
         SourceType = EntitySourceType.Generated,
-        //PlayerDefinitions = 
-        // Lineups
-
+        PlayerDefinitions = playersToSave.Select(p => new PlayerRoleDefinition(p.Id!.Value)
+        {
+          IsAAA = mlbRosterPlayerIds.Contains(p.GeneratedPlayer_LSPLayerId!.Value),
+          PitcherRole = starters.Any(s => s.LSPlayerId == p.GeneratedPlayer_LSPLayerId)
+            ? PitcherRole.Starter
+            : closer?.LSPlayerId == p.GeneratedPlayer_LSPLayerId
+              ? PitcherRole.Closer
+              : PitcherRole.MiddleReliever
+        }),
+        NoDHLineup = noDHLineup.Select(s => new LineupSlot { PlayerId = playersToSave.SingleOrDefault(p => p.GeneratedPlayer_LSPLayerId == s.PlayerId)?.Id, Position = s.Position }),
+        DHLineup = dhLineup.Select(s => new LineupSlot { PlayerId = playersToSave.Single(p => p.GeneratedPlayer_LSPLayerId == s.PlayerId).Id, Position = s.Position })
       };
 
       return new TeamGenerationResult(team, Enumerable.Empty<GeneratorWarning>());
