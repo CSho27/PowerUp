@@ -28,6 +28,7 @@ namespace PowerUp.Tests.Generators
       _algorithm = new LSStatistcsPlayerGenerationAlgorithm(TestConfig.VoiceLibrary.Value, new SkinColorGuesser(TestConfig.CountryAndSkinColorLibrary.Value));
     }
 
+    /*
     [Test] 
     public void GetsAccurate40ManRoster()
     {
@@ -45,6 +46,7 @@ namespace PowerUp.Tests.Generators
         }
       }).GetAwaiter().GetResult();
     }
+    */
 
     [Test]
     public void Take5()
