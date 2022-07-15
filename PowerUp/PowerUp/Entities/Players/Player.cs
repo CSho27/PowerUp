@@ -12,6 +12,7 @@ namespace PowerUp.Entities.Players
     public string FirstName { get; set; } = string.Empty;
     public string FormalDisplayName => $"{LastName}, {FirstName}";
     public string InformalDisplayName => $"{FirstName} {LastName}";
+    public long? GeneratedPlayer_LSPLayerId { get; set; }
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
     public int? SourcePowerProsId { get; set; }
@@ -27,7 +28,7 @@ namespace PowerUp.Entities.Players
     public ThrowingArm ThrowingArm { get; set; }
     public int PitchingMechanicsId { get; set; }
     public Appearance Appearance { get; set; } = new Appearance();
-    public PositionCapabilities PositonCapabilities { get; set; } = new PositionCapabilities();
+    public PositionCapabilities PositionCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();
     public PitcherAbilities PitcherAbilities { get; set; } = new PitcherAbilities();
     public SpecialAbilities SpecialAbilities { get; set; } = new SpecialAbilities();

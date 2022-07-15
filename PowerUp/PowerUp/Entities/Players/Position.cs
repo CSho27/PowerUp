@@ -25,4 +25,38 @@ namespace PowerUp.Entities.Players
     [Abbrev("DH"), DisplayName("Designated Hitter")]
     DesignatedHitter,
   }
+
+  public enum PositionType
+  {
+    Pitcher,
+    Catcher,
+    Infielder,
+    Outfielder
+  }
+
+  public static class PositionExtensions
+  {
+    public static PositionType GetPositionType(this Position position)
+    {
+      switch (position)
+      {
+        case Position.Catcher:
+          return PositionType.Catcher;
+        case Position.Pitcher:
+          return PositionType.Pitcher;
+        case Position.FirstBase:
+        case Position.SecondBase:
+        case Position.ThirdBase:
+        case Position.Shortstop:
+          return PositionType.Infielder;
+        case Position.LeftField:
+        case Position.CenterField:
+        case Position.RightField:
+        case Position.DesignatedHitter:
+          return PositionType.Outfielder;
+        default:
+          throw new InvalidOperationException("Invalid position");
+      }
+    }
+  }
 }

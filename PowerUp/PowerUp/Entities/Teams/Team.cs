@@ -12,6 +12,8 @@ namespace PowerUp.Entities.Teams
     public EntitySourceType SourceType { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? ImportSource { get; set; }
+    public long? GeneratedTeam_LSTeamId { get; set; }
+    public int? Year { get; set; }
     
     public IEnumerable<PlayerRoleDefinition> PlayerDefinitions { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 

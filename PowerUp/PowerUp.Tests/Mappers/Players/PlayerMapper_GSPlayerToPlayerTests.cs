@@ -510,7 +510,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.PitcherCapability = 3;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.Pitcher.ShouldBe(Grade.E);
+      result.PositionCapabilities.Pitcher.ShouldBe(Grade.E);
     }
 
     [Test]
@@ -518,7 +518,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.CatcherCapability = 2;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.Catcher.ShouldBe(Grade.F);
+      result.PositionCapabilities.Catcher.ShouldBe(Grade.F);
     }
 
     [Test]
@@ -526,7 +526,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.FirstBaseCapability = 1;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.FirstBase.ShouldBe(Grade.G);
+      result.PositionCapabilities.FirstBase.ShouldBe(Grade.G);
     }
 
     [Test]
@@ -534,7 +534,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.SecondBaseCapability = 4;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.SecondBase.ShouldBe(Grade.D);
+      result.PositionCapabilities.SecondBase.ShouldBe(Grade.D);
     }
 
     [Test]
@@ -542,7 +542,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.ThirdBaseCapability = 5;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.ThirdBase.ShouldBe(Grade.C);
+      result.PositionCapabilities.ThirdBase.ShouldBe(Grade.C);
     }
 
     [Test]
@@ -550,7 +550,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.ShortstopCapability = 6;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.Shortstop.ShouldBe(Grade.B);
+      result.PositionCapabilities.Shortstop.ShouldBe(Grade.B);
     }
 
     [Test]
@@ -558,7 +558,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.LeftFieldCapability = 7;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.LeftField.ShouldBe(Grade.A);
+      result.PositionCapabilities.LeftField.ShouldBe(Grade.A);
     }
 
     [Test]
@@ -566,7 +566,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.CenterFieldCapability = 6;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.CenterField.ShouldBe(Grade.B);
+      result.PositionCapabilities.CenterField.ShouldBe(Grade.B);
     }
 
     [Test]
@@ -574,7 +574,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.RightFieldCapability = 5;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.PositonCapabilities.RightField.ShouldBe(Grade.C);
+      result.PositionCapabilities.RightField.ShouldBe(Grade.C);
     }
 
     [Test]

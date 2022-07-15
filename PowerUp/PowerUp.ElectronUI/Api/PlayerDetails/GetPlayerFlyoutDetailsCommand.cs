@@ -41,7 +41,7 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
       Overall = player.Overall.RoundDown();
       HitterDetails = new HitterDetailsDto(player);
       PitcherDetails = new PitcherDetailsDto(player);
-      PositionCapabilities = new PositionCapabilitiesDto(player.PositonCapabilities);
+      PositionCapabilities = new PositionCapabilitiesDto(player.PositionCapabilities);
     }
   }
 
@@ -60,7 +60,7 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
     public HitterDetailsDto(Player player)
     {
       var hitterAbilities = player.HitterAbilities;
-      var positionList = player.PositonCapabilities.GetDictionary()
+      var positionList = player.PositionCapabilities.GetDictionary()
         .OrderByDescending(kvp => kvp.Value)
         .ThenByDescending(kvp => kvp.Key == player.PrimaryPosition)
         .Where(kvp => kvp.Value >= Grade.D)

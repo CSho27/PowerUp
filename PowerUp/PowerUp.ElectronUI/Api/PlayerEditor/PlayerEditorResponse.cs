@@ -32,7 +32,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, faceLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
       AppearanceDetails = new AppearanceDetailsDto(faceLibrary, player.Appearance);
-      PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositonCapabilities);
+      PositionCapabilityDetails = new PositionCapabilityDetailsDto(player.PositionCapabilities);
       HitterAbilityDetails = new HitterAbilityDetailsDto(player.HitterAbilities);
       PitcherAbilityDetails = new PitcherAbilityDetailsDto(player.PitcherAbilities);
       SpecialAbilityDetails = new SpecialAbilitiesDetailsDto(player.SpecialAbilities);

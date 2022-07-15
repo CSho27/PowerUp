@@ -44,6 +44,20 @@ namespace PowerUp.Databases
         entityCollection.EnsureIndex(propertyGetter);
     }
 
+    public void SaveAll<TEntity>(IEnumerable<TEntity> entities) where TEntity : Entity<TEntity>
+    {
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+
+      var existingEntities = entities.Where(e => e.Id.HasValue);
+      entityCollection.Update(existingEntities);
+
+      var newEntities = entities.Where(e => !e.Id.HasValue).Select(e => { e.Id = 0; return e; });
+      entityCollection.Insert(newEntities);
+
+      foreach (var propertyGetter in entities.FirstOrDefault()?.Indexes ?? Enumerable.Empty<Expression<Func<TEntity, object>>>())
+        entityCollection.EnsureIndex(propertyGetter);
+    }
+
     public TEntity? Load<TEntity>(int id) where TEntity : Entity<TEntity>
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);

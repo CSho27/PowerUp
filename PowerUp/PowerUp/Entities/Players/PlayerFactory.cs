@@ -20,7 +20,7 @@
         ThrowingArm = ThrowingArm.Right,
         PitchingMechanicsId = 0,
         Appearance = DEFAULT_APPEARANCE,
-        PositonCapabilities = DEFAULT_POS_CAPABILITIES_FOR_HITTER,
+        PositionCapabilities = DEFAULT_POS_CAPABILITIES_FOR_HITTER,
         HitterAbilities = DEFAULT_HITTER_ABILITIES_FOR_HITTER,
         PitcherAbilities = DEFAULT_PITCHER_ABILITIES_FOR_HITTER,
         SpecialAbilities = new SpecialAbilities()
@@ -45,14 +45,14 @@
         ThrowingArm = ThrowingArm.Right,
         PitchingMechanicsId = 0,
         Appearance = DEFAULT_APPEARANCE,
-        PositonCapabilities = DEFAULT_POS_CAPABILITIES_FOR_PITCHER,
+        PositionCapabilities = DEFAULT_POS_CAPABILITIES_FOR_PITCHER,
         HitterAbilities = DEFAULT_HITTER_ABILITIES_FOR_PITCHER,
         PitcherAbilities = DEFAULT_PITCHER_ABILITIES_FOR_PITCHER,
         SpecialAbilities = new SpecialAbilities()
       };
     }
 
-    private static readonly Appearance DEFAULT_APPEARANCE = new Appearance
+    private static Appearance DEFAULT_APPEARANCE => new Appearance
     {
       FaceId = 177,
       EyebrowThickness = EyebrowThickness.Thick,
@@ -73,7 +73,7 @@
       LeftWristbandColor = null
     };
 
-    private static readonly PositionCapabilities DEFAULT_POS_CAPABILITIES_FOR_HITTER = new PositionCapabilities
+    private static PositionCapabilities DEFAULT_POS_CAPABILITIES_FOR_HITTER => new PositionCapabilities
     {
       Pitcher = Grade.G,
       Catcher = Grade.G,
@@ -86,7 +86,7 @@
       RightField = Grade.G
     };
 
-    private static readonly PositionCapabilities DEFAULT_POS_CAPABILITIES_FOR_PITCHER = new PositionCapabilities
+    private static PositionCapabilities DEFAULT_POS_CAPABILITIES_FOR_PITCHER => new PositionCapabilities
     {
       Pitcher = Grade.A,
       Catcher = Grade.G,
@@ -99,7 +99,7 @@
       RightField = Grade.G
     };
 
-    private static readonly HitterAbilities DEFAULT_HITTER_ABILITIES_FOR_HITTER = new HitterAbilities
+    private static HitterAbilities DEFAULT_HITTER_ABILITIES_FOR_HITTER => new HitterAbilities
     {
       Trajectory = 2,
       Contact = 4,
@@ -111,7 +111,7 @@
       HotZones = new HotZoneGrid()
     };
 
-    private static readonly HitterAbilities DEFAULT_HITTER_ABILITIES_FOR_PITCHER = new HitterAbilities
+    private static HitterAbilities DEFAULT_HITTER_ABILITIES_FOR_PITCHER => new HitterAbilities
     {
       Trajectory = 1,
       Contact = 1,
@@ -123,14 +123,14 @@
       HotZones = new HotZoneGrid()
     };
 
-    private static readonly PitcherAbilities DEFAULT_PITCHER_ABILITIES_FOR_HITTER = new PitcherAbilities
+    private static PitcherAbilities DEFAULT_PITCHER_ABILITIES_FOR_HITTER => new PitcherAbilities
     {
       TopSpeedMph = 74,
       Control = 0,
       Stamina = 0
     };
 
-    private static readonly PitcherAbilities DEFAULT_PITCHER_ABILITIES_FOR_PITCHER = new PitcherAbilities
+    private static PitcherAbilities DEFAULT_PITCHER_ABILITIES_FOR_PITCHER => new PitcherAbilities
     {
       TopSpeedMph = 88,
       Control = 98,
