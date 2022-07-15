@@ -55,9 +55,9 @@ namespace PowerUp.Generators
       {
         var team = teams[i];
         if (onTeamProgressUpdate != null)
-          onTeamProgressUpdate(new ProgressUpdate($"Generating {team.Name}", i, teams.Count));
+          onTeamProgressUpdate(new ProgressUpdate($"Generating {team.FullName}", i, teams.Count));
 
-        var generatedTeam = _teamGenerator.GenerateTeam(team.LSTeamId, year, team.Name, playerGenerationAlgorithm, onPlayerProgressUpdate);
+        var generatedTeam = _teamGenerator.GenerateTeam(team.LSTeamId, year, team.FullName, playerGenerationAlgorithm, onPlayerProgressUpdate);
         generatedTeams.Add(generatedTeam);
         if(team.League == "NL")
           nlPlayers.AddRange(generatedTeam.Players.OrderByDescending(p => p.Overall).Take(10));
@@ -79,10 +79,15 @@ namespace PowerUp.Generators
       // Match by location or team name
       foreach(var team in teamResults.Results.Where(team => !ppTeamByTeamId.ContainsKey(team.LSTeamId)))
       {
-        var locationMatch = ppTeams.Cast<MLBPPTeam?>().FirstOrDefault(t => 
-          t!.Value.GetTeamLocation() == team.City ||
-          t!.Value.GetTeamLocation() == team.State
-        );
+        var locationMatch = ppTeams
+          .Where(t => !ppTeamByTeamId.ContainsValue(t))
+          .Cast<MLBPPTeam?>()
+          .FirstOrDefault(t => 
+            t!.Value.GetTeamLocation() == team.City ||
+            t!.Value.GetTeamLocation() == team.State ||
+            t.Value.GetTeamLocation() == team.LocationName ||
+            t.Value.GetDisplayName() == team.TeamName
+          );
         if (locationMatch != null)
           ppTeamByTeamId.Add(team.LSTeamId, locationMatch.Value);
       }
@@ -90,24 +95,42 @@ namespace PowerUp.Generators
       // Put rest of teams somewhere
       foreach (var team in teamResults.Results.Where(team => !ppTeamByTeamId.ContainsKey(team.LSTeamId)))
       {
-        for(var i=0; i<ppTeams.Count && ppTeamByTeamId.ContainsValue(ppTeams[i]); i++)
-          ppTeamByTeamId.Add(team.LSTeamId, ppTeams[i]);
+        var firstTeamNotInUse = ppTeams
+          .OrderByDescending(p => p.GetDivision() != MLBPPDivision.AllStars)
+          .Cast<MLBPPTeam?>()
+          .FirstOrDefault(p => !ppTeamByTeamId.ContainsValue(p!.Value));
+        if(firstTeamNotInUse != null)
+          ppTeamByTeamId.Add(team.LSTeamId, firstTeamNotInUse.Value);
       }
-
-      var alAllStars = BuildAllStarTeam(alPlayers, year, isAL: true);
-      ppTeamByTeamId[alAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.AmericanLeagueAllStars;
-
-      var nlAllStars = BuildAllStarTeam(nlPlayers, year, isAL: false);
-      ppTeamByTeamId[nlAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.NationalLeagueAllStars;
 
       var teamsToUse = generatedTeams
         .Where(t => ppTeamByTeamId.ContainsKey(t.LSTeamId))
         .Select(t => t.Team)
-        .Append(alAllStars)
-        .Append(nlAllStars)
         .ToList();
 
+      if(!ppTeamByTeamId.ContainsValue(MLBPPTeam.NationalLeagueAllStars) && nlPlayers.Any())
+      {
+        var nlAllStars = BuildAllStarTeam(nlPlayers, year, isAL: false);
+        ppTeamByTeamId[nlAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.NationalLeagueAllStars;
+        teamsToUse.Add(nlAllStars);
+      }
+
+      if (!ppTeamByTeamId.ContainsValue(MLBPPTeam.AmericanLeagueAllStars) && nlPlayers.Any())
+      {
+        var alAllStars = BuildAllStarTeam(alPlayers, year, isAL: true);
+        ppTeamByTeamId[alAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.AmericanLeagueAllStars;
+        teamsToUse.Add(alAllStars);
+      }
+
       DatabaseConfig.Database.SaveAll(teamsToUse);
+
+      var teamsByPPTeam = teamsToUse.ToDictionary(t => ppTeamByTeamId[t.GeneratedTeam_LSTeamId!.Value], t => t.Id!.Value);
+
+      var teamsNotInList = ppTeams.Where(p => !ppTeamByTeamId.Any(t => t.Value == p));
+      var baseRoster = DatabaseConfig.Database.Query<Roster>().Where(r => r.SourceType == EntitySourceType.Base).Single();
+
+      foreach (var team in teamsNotInList)
+        teamsByPPTeam.Add(team, baseRoster.TeamIdsByPPTeam[team]);
 
       // Add base roster teams for remaining PPTeams
       var roster = new Roster
@@ -115,7 +138,7 @@ namespace PowerUp.Generators
         SourceType = EntitySourceType.Generated,
         Name = $"{year} MLB Rosters",
         Year = year,
-        TeamIdsByPPTeam = teamsToUse.ToDictionary(t => ppTeamByTeamId[t.GeneratedTeam_LSTeamId!.Value], t => t.Id!.Value)
+        TeamIdsByPPTeam = teamsByPPTeam
       };
 
       return new RosterGenerationResult(roster, Enumerable.Empty<GeneratorWarning>());

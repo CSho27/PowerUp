@@ -19,7 +19,9 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     public int LSTeamId { get; }
     public int Year { get; }
-    public string Name { get; }
+    public string LocationName { get; }
+    public string TeamName { get; }
+    public string FullName { get; }
     public string State { get; set; }
     public string City { get; set; }
     public string Venue { get; set; }
@@ -30,7 +32,9 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       LSTeamId = int.Parse(result.team_id!);
       Year = int.Parse(result.season!);
-      Name = result.name_display_full!;
+      LocationName = result.name_short!;
+      TeamName = result.name!;
+      FullName = result.name_display_full!;
       State = result.state!;
       City = result.city!;
       Venue = result.venue_name!;

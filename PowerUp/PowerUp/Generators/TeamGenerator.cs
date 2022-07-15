@@ -58,7 +58,7 @@ namespace PowerUp.Generators
           onProgressUpdate(new ProgressUpdate($"Generating {player.FormalDisplayName.GetInformalDisplayName()}", i, teamPlayers.Count + 1));
 
         var generatedPlayer = _playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
-        if(generatedPlayer.LastTeamForYear_LSTeamId == lsTeamId)
+        if(!generatedPlayer.LastTeamForYear_LSTeamId.HasValue || generatedPlayer.LastTeamForYear_LSTeamId == lsTeamId)
           generatedPlayers.Add(generatedPlayer);
       }
 

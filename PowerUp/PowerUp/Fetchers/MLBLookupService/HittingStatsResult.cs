@@ -36,11 +36,11 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int TotalBases { get; }
     public int Walks { get; }
     public int? IntentionalWalks { get; }
-    public int HitByPitches { get; }
+    public int? HitByPitches { get; }
     public int RunsBattedIn { get; }
     public int? RunnersLeftOnBase { get; }
-    public int Runs { get; }
-    public int Strikeouts { get; }
+    public int? Runs { get; }
+    public int? Strikeouts { get; }
     public int? GroundOuts { get; }
     public int? AirOuts { get; }
     public int? HardGrounders { get; }
@@ -57,8 +57,8 @@ namespace PowerUp.Fetchers.MLBLookupService
     public double? OnBasePlusSluggingPercentage { get; }
     public double? BattingAverageOnBallsInPlay { get; }
     public double? PitchesPerPlateAppearance { get; }
-    public int StolenBases { get; }
-    public int CaughtStealing { get; }
+    public int? StolenBases { get; }
+    public int? CaughtStealing { get; }
 
     public HittingStatsResult(LSHittingStatsResult result)
     {
@@ -79,11 +79,11 @@ namespace PowerUp.Fetchers.MLBLookupService
         TotalBases = int.Parse(result.tb!);
         Walks = int.Parse(result.bb!);
         IntentionalWalks = result.ibb.TryParseInt();
-        HitByPitches = int.Parse(result.hbp!);
+        HitByPitches = result.hbp!.TryParseInt();
         RunsBattedIn = int.Parse(result.rbi!);
         RunnersLeftOnBase = result.lob.TryParseInt();
-        Runs = int.Parse(result.r!);
-        Strikeouts = int.Parse(result.so!);
+        Runs = result.r.TryParseInt();
+        Strikeouts = result.so.TryParseInt();
         GroundOuts = result.go.TryParseInt();
         AirOuts = result.ao.TryParseInt();
         HardGrounders = result.hgnd.TryParseInt();
@@ -100,8 +100,8 @@ namespace PowerUp.Fetchers.MLBLookupService
         OnBasePlusSluggingPercentage = result.ops.TryParseDouble();
         BattingAverageOnBallsInPlay = result.babip.TryParseDouble();
         PitchesPerPlateAppearance = result.ppa.TryParseDouble();
-        StolenBases = int.Parse(result.sb!);
-        CaughtStealing = int.Parse(result.cs!);
+        StolenBases = result.sb.TryParseInt();
+        CaughtStealing = result.cs.TryParseInt();
       }
       catch (Exception ex)
       {

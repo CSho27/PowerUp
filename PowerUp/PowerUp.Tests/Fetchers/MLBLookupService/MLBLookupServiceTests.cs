@@ -611,7 +611,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var orioles = results.Results.First();
         orioles.LSTeamId.ShouldBe(110);
         orioles.Year.ShouldBe(2021);
-        orioles.Name.ShouldBe("Baltimore Orioles");
+        orioles.FullName.ShouldBe("Baltimore Orioles");
         orioles.State.ShouldBe("MD");
         orioles.City.ShouldBe("Baltimore");
         orioles.Venue.ShouldBe("Oriole Park at Camden Yards");
@@ -630,7 +630,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var orioles = results.Results.First();
         orioles.LSTeamId.ShouldBe(111);
         orioles.Year.ShouldBe(1915);
-        orioles.Name.ShouldBe("Boston Red Sox");
+        orioles.FullName.ShouldBe("Boston Red Sox");
         orioles.State.ShouldBe("MA");
         orioles.City.ShouldBe("Boston");
         orioles.Venue.ShouldBe("Fenway Park");
@@ -649,7 +649,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var orioles = results.Results.First();
         orioles.LSTeamId.ShouldBe(159);
         orioles.Year.ShouldBe(2021);
-        orioles.Name.ShouldBe("American League All-Stars");
+        orioles.FullName.ShouldBe("American League All-Stars");
         orioles.State.ShouldBe("DC");
         orioles.City.ShouldBe("Washington");
         orioles.Venue.ShouldBe("Nationals Park");
@@ -668,7 +668,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var orioles = results.Results.First();
         orioles.LSTeamId.ShouldBe(159);
         orioles.Year.ShouldBe(1951);
-        orioles.Name.ShouldBe("American League All-Stars");
+        orioles.FullName.ShouldBe("American League All-Stars");
         orioles.State.ShouldBe("MI");
         orioles.City.ShouldBe("Detroit");
         orioles.Venue.ShouldBe("Briggs Stadium");

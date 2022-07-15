@@ -291,7 +291,7 @@ namespace PowerUp
         var teams = await client.GetTeamsForYear(year);
         foreach (var team in teams.Results)
         {
-          Console.WriteLine($"Generating {team.Name}");
+          Console.WriteLine($"Generating {team.FullName}");
           var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
           foreach(var player in players.Results)
           {
@@ -399,7 +399,7 @@ namespace PowerUp
             continue;
           */
 
-          Console.WriteLine($"Fetching Stats for {team.Name}");
+          Console.WriteLine($"Fetching Stats for {team.FullName}");
           var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
           foreach (var player in players.Results)
           {
@@ -498,7 +498,7 @@ namespace PowerUp
           var teams = await client.GetAllStarTeamsForYear(year);
           foreach(var team in teams.Results)
           {
-            Console.WriteLine($"Adding {team.Name}");
+            Console.WriteLine($"Adding {team.FullName}");
             teamResults.Add(team);
           }
           Console.WriteLine();
@@ -507,7 +507,7 @@ namespace PowerUp
 
       var teamEraResults = teamResults
         .GroupBy(r => r.LSTeamId)
-        .SelectMany(g => g.GroupBy(t => t.Name).Select(e => new { LSTeamId = e.First().LSTeamId, StartYear = e.First().Year, EndYear = e.Last().Year, Name = e.First().Name }));
+        .SelectMany(g => g.GroupBy(t => t.FullName).Select(e => new { LSTeamId = e.First().LSTeamId, StartYear = e.First().Year, EndYear = e.Last().Year, Name = e.First().FullName }));
 
       var csvList = new CSVList("LSTeamId", "StartYear", "EndYear", "Name");
       foreach(var teamEra in teamEraResults)
@@ -523,7 +523,7 @@ namespace PowerUp
       {
         var teams = await client.GetAllStarTeamsForYear(2006);
         foreach (var team in teams.Results)
-          csvList.AddLine(team.LSTeamId, team.Name);
+          csvList.AddLine(team.LSTeamId, team.FullName);
       }).GetAwaiter().GetResult();
 
       csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/TeamList06ASG.csv"));
@@ -534,8 +534,8 @@ namespace PowerUp
       var team = MLBPPTeam.AmericanLeagueAllStars;
       var startTime = DateTime.Now;
       var result = teamGenerator.GenerateTeam(
-        lsTeamId: team.GetLSTeamId(), 
-        year: 2021, 
+        lsTeamId: 119, 
+        year: 1884, 
         name: "Cleveland Indians", 
         playerGenerationAlgorithm: algorithm, 
         onProgressUpdate: update => Console.WriteLine($"{update.PercentCompletion.ToPercentDisplay()} {(DateTime.Now - startTime).ToDisplayString()} | rem. {update.GetEstimatedTimeRemaining(DateTime.Now - startTime).ToDisplayString()} | {update.CurrentAction}")
@@ -546,7 +546,7 @@ namespace PowerUp
 
     static void TestGenerateRoster(IRosterGenerator rosterGenerator, PlayerGenerationAlgorithm algorithm)
     {
-      var year = 1997;
+      var year = 1948;
       var startTime = DateTime.Now;
 
       var result = rosterGenerator.GenerateRoster(
