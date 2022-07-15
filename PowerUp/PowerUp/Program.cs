@@ -39,6 +39,7 @@ namespace PowerUp
       var skinColorGuesser = new SkinColorGuesser(countryAndSkinLibrary);
       var lsStatsAlgorithm = new LSStatistcsPlayerGenerationAlgorithm(voiceLibrary, skinColorGuesser);
       var teamGenerator = new TeamGenerator(mlbLookupServiceClient, playerGenerator);
+      var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary);
@@ -55,7 +56,8 @@ namespace PowerUp
       //CreatePlayerDataComparisonCsv(mlbLookupServiceClient, statsFetcher, playerGenerator, lsStatsAlgorithm, voiceLibrary);
       //GetAllTeamsAndIds(mlbLookupServiceClient);
       //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
-      TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
+      //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
+      TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -529,7 +531,7 @@ namespace PowerUp
 
     static void TestGenerateTeam(ITeamGenerator teamGenerator, PlayerGenerationAlgorithm algorithm)
     {
-      var team = MLBPPTeam.Rays;
+      var team = MLBPPTeam.AmericanLeagueAllStars;
       var startTime = DateTime.Now;
       var result = teamGenerator.GenerateTeam(
         lsTeamId: team.GetLSTeamId(), 
@@ -539,20 +541,55 @@ namespace PowerUp
         onProgressUpdate: update => Console.WriteLine($"{update.PercentCompletion.ToPercentDisplay()} {(DateTime.Now - startTime).ToDisplayString()} | rem. {update.GetEstimatedTimeRemaining(DateTime.Now - startTime).ToDisplayString()} | {update.CurrentAction}")
       );
 
-      var players = result.Team.GetPlayers().ToList();
-      foreach(var player in players)
+      PrintRosterInfoFor(result.Team);
+    }
+
+    static void TestGenerateRoster(IRosterGenerator rosterGenerator, PlayerGenerationAlgorithm algorithm)
+    {
+      var year = 1997;
+      var startTime = DateTime.Now;
+
+      var result = rosterGenerator.GenerateRoster(
+        year: year,
+        playerGenerationAlgorithm: algorithm,
+        onTeamProgressUpdate: update => {
+          Console.WriteLine($"{update.PercentCompletion.ToPercentDisplay()} {(DateTime.Now - startTime).ToDisplayString()} | rem. {update.GetEstimatedTimeRemaining(DateTime.Now - startTime).ToDisplayString()}");
+          Console.WriteLine();
+          Console.WriteLine(update.CurrentAction);
+        },
+        onPlayerProgressUpdate: update => Console.WriteLine($"{update.CurrentAction}")
+      );
+
+      foreach(var team in result.Roster.GetTeams())
+      {
+        Console.WriteLine($"{team.Key.Name} ({team.Value.GetFullDisplayName()})");
+        PrintRosterInfoFor(team.Key);
+        Console.WriteLine();
+      }
+    }
+
+    static void TestLoad()
+    {
+      var player = DatabaseConfig.Database.Load<Player>(1);
+      Console.WriteLine($"Name: {player?.FormalDisplayName}");
+    }
+
+    static void PrintRosterInfoFor(Team team)
+    {
+      var players = team.GetPlayers().ToList();
+      foreach (var player in players)
         Console.WriteLine($"{player.InformalDisplayName}: {player.Overall.RoundDown()}, {player.PrimaryPosition.GetAbbrev()}");
 
       Console.WriteLine();
       Console.WriteLine("No DH:");
 
-      var noDHLineup = result.Team.NoDHLineup.ToList();
-      for (var i=0; i<noDHLineup.Count; i++)
+      var noDHLineup = team.NoDHLineup.ToList();
+      for (var i = 0; i < noDHLineup.Count; i++)
       {
         var slot = noDHLineup[i];
         if (!slot.PlayerId.HasValue)
         {
-          Console.WriteLine($"{i+1}. Pitcher");
+          Console.WriteLine($"{i + 1}. Pitcher");
           continue;
         }
 
@@ -563,19 +600,13 @@ namespace PowerUp
       Console.WriteLine();
       Console.WriteLine("DH:");
 
-      var dhLineup = result.Team.DHLineup.ToList();
+      var dhLineup = team.DHLineup.ToList();
       for (var i = 0; i < dhLineup.Count; i++)
       {
         var slot = dhLineup[i];
         var player = players.Single(p => p.Id == slot.PlayerId);
         Console.WriteLine($"{i + 1}. {player.InformalDisplayName} {slot.Position.GetAbbrev()} {player.Overall.RoundDown()}");
       }
-    }
-
-    static void TestLoad()
-    {
-      var player = DatabaseConfig.Database.Load<Player>(1);
-      Console.WriteLine($"Name: {player?.FormalDisplayName}");
     }
   }
 

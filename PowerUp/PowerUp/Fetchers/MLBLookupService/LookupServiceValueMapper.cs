@@ -12,6 +12,7 @@ namespace PowerUp.Fetchers.MLBLookupService
         case "D":
         case "H":
         case "O":
+        case "I":
           return Position.DesignatedHitter;
         // Y is the Ohtani value. Since Pitchers can still be put into lineups in the game, we'll make him a pitcher
         case "Y":
