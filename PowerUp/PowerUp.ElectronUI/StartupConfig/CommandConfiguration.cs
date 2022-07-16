@@ -35,6 +35,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ReplaceTeamWithExistingCommand>();
       services.AddSingleton<CopyExistingRosterCommand>();
       services.AddSingleton<GetPlayerFlyoutDetailsCommand>();
+      services.AddSingleton<FindClosestVoiceCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -64,6 +65,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplaceTeamWithExistingCommand), "ReplaceTeamWithExisting");
       commandRegistry.RegisterCommand(typeof(CopyExistingRosterCommand), "CopyExistingRoster");
       commandRegistry.RegisterCommand(typeof(GetPlayerFlyoutDetailsCommand), "GetPlayerFlyoutDetails");
+      commandRegistry.RegisterCommand(typeof(FindClosestVoiceCommand), "FindClosestVoice");
     }
   }
 }

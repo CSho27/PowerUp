@@ -134,6 +134,7 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
       <EditorContainer>
         {state.selectedTab === 'Personal' && 
         <PlayerPersonalDetailsEditor
+          appContext={appContext}
           options={options.personalDetailsOptions}
           initiallyHadSpecialSavedName={editorResponse.personalDetails.isSpecialSavedName}
           details={personalDetails}
