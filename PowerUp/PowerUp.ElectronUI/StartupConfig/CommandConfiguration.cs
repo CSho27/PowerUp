@@ -43,6 +43,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<FranchiseLookupCommand>();
       services.AddSingleton<TeamGenerationCommand>();
       services.AddSingleton<GetTeamGenerationStatusCommand>();
+      services.AddSingleton<RosterGenerationCommand>();
+      services.AddSingleton<GetRosterGenerationStatusCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -79,6 +81,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(FranchiseLookupCommand), "FranchiseLookup");
       commandRegistry.RegisterCommand(typeof(TeamGenerationCommand), "TeamGeneration");
       commandRegistry.RegisterCommand(typeof(GetTeamGenerationStatusCommand), "GetTeamGenerationStatus");
+      commandRegistry.RegisterCommand(typeof(RosterGenerationCommand), "RosterGeneration");
+      commandRegistry.RegisterCommand(typeof(GetRosterGenerationStatusCommand), "GetRosterGenerationStatus");
     }
   }
 }

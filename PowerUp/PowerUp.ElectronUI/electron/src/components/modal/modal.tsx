@@ -7,6 +7,7 @@ export interface ModalProps {
   ariaLabel: string;
   children: React.ReactNode;
   distanceFromTop?: string;
+  width?: string;
   fullHeight?: boolean;
 }
 
@@ -17,6 +18,7 @@ export function Modal(props: ModalProps) {
     aria-label={props.ariaLabel}
     style={{ 
       minWidth: '600px',
+      width: props.width,
       backgroundColor: COLORS.jet.superlight_90, 
       boxShadow: '0px 3px 16px -8px',
       marginBottom: 0,

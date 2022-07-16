@@ -51,7 +51,7 @@ export function TeamGenerationModal(props: TeamGenerationModalProps) {
   const isSearching = state.searchText && state.searchText.length > 0
   useDebounceEffect(() => { search() }, 500, [state.searchText]);
 
-return <Modal ariaLabel='Select Team' fullHeight={!state.currentGenerationAction}>
+  return <Modal ariaLabel='Generate Team' fullHeight={!state.currentGenerationAction}>
     {!state.currentGenerationAction && <Wrapper>
       <ModalHeader>
         <ModalHeading>Select Team</ModalHeading>
