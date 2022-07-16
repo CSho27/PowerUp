@@ -85,6 +85,11 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
               Add existing
           </ContextMenuItem>
           <ContextMenuItem 
+            icon='wand-magic-sparkles'
+            onClick={addGeneratedPlayer}>
+              Add generated player
+          </ContextMenuItem>
+          <ContextMenuItem 
             icon='user-plus'
             onClick={() => addNewPlayer(false)}>
               Add new hitter
@@ -234,7 +239,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isPinchRunner} 
-            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
+            {...toDisabledProps('Is pinch runner', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsPinchRunner' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -242,7 +247,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isDefensiveReplacement} 
-            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
+            {...toDisabledProps('Is defensive replacement', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveReplacement' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -250,7 +255,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isDefensiveLiability} 
-            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
+            {...toDisabledProps('Is defensive liability', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveLiability' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -321,6 +326,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         }
       }} 
     />)
+  }
+
+  async function addGeneratedPlayer() {
+    appContext.openModal(closeDialog => <PlayerGenerationModal
+      appContext={appContext}
+      closeDialog={async generatedPlayerId => {
+        closeDialog();
+        if(!!generatedPlayerId) {
+          const details = await detailsApiClientRef.current.execute({ playerId: generatedPlayerId })
+          addPlayer(details);
+        }
+      }}
+    />);
   }
 
   async function addNewPlayer(isPitcher: boolean) {
