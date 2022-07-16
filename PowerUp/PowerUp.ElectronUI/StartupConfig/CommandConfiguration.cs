@@ -1,4 +1,5 @@
-﻿using PowerUp.ElectronUI.Api.PlayerDetails;
+﻿using PowerUp.ElectronUI.Api.Generation;
+using PowerUp.ElectronUI.Api.PlayerDetails;
 using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
 using PowerUp.ElectronUI.Api.Searching;
@@ -36,6 +37,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<CopyExistingRosterCommand>();
       services.AddSingleton<GetPlayerFlyoutDetailsCommand>();
       services.AddSingleton<FindClosestVoiceCommand>();
+      services.AddSingleton<PlayerLookupCommand>();
+      services.AddSingleton<PlayerGenerationCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -66,6 +69,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(CopyExistingRosterCommand), "CopyExistingRoster");
       commandRegistry.RegisterCommand(typeof(GetPlayerFlyoutDetailsCommand), "GetPlayerFlyoutDetails");
       commandRegistry.RegisterCommand(typeof(FindClosestVoiceCommand), "FindClosestVoice");
+      commandRegistry.RegisterCommand(typeof(PlayerLookupCommand), "PlayerLookup");
+      commandRegistry.RegisterCommand(typeof(PlayerGenerationCommand), "PlayerGeneration");
     }
   }
 }

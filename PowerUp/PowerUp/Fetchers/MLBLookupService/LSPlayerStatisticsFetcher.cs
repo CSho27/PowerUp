@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PowerUp.Fetchers.MLBLookupService
@@ -18,7 +17,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     );
   }
 
-  internal class LSPlayerStatisticsFetcher : IPlayerStatisticsFetcher
+  public class LSPlayerStatisticsFetcher : IPlayerStatisticsFetcher
   {
     private readonly IMLBLookupServiceClient _mlbLookupServiceClient;
 

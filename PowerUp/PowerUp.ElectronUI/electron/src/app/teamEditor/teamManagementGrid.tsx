@@ -9,6 +9,8 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app";
+import { PlayerGenerationApiClient } from "../playerGenerationModal/playerGenerationApiClient";
+import { PlayerGenerationModal } from "../playerGenerationModal/playerGenerationModal";
 import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
@@ -53,6 +55,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
 
   const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
   const creationApiClientRef = useRef(new CreatePlayerApiClient(appContext.commandFetcher));
+  
   const detailsApiClientRef = useRef(new GetPlayerDetailsApiClient(appContext.commandFetcher));
 
   const allPlayers = [...mlbPlayers, ...aaaPlayers];
@@ -166,13 +169,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
             </ContextMenuItem>
             <ContextMenuItem 
               icon='box-archive'
-              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
+              {...toDisabledProps('Replace with an existing player from the database', ...disableManageRoster)}
               onClick={() => replacePlayerWithExisting(playerId)}>
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
+              icon='wand-magic-sparkles'
+              {...toDisabledProps('Replace with a new generated player', ...disableManageRoster)}
+              onClick={() => replaceWithGeneratedPlayer(playerId)}>
+                Replace with generated player
+            </ContextMenuItem>
+            <ContextMenuItem 
               icon='user-plus'
-              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
+              {...toDisabledProps('Replace with a new default player', ...disableManageRoster)}
               onClick={() => replaceWithNewPlayer(playerId, playerDetails.position === 'Pitcher')}>
                 Replace with new
             </ContextMenuItem>
@@ -280,6 +289,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         ? 'Player is already on selected team'
         : undefined
     }
+  }
+
+  async function replaceWithGeneratedPlayer(playerId: number) {
+    appContext.openModal(closeDialog => <PlayerGenerationModal
+      appContext={appContext}
+      closeDialog={async generatedPlayerId => {
+        closeDialog();
+        if(!!generatedPlayerId) {
+          const details = await detailsApiClientRef.current.execute({ playerId: generatedPlayerId })
+          updatePlayer(playerId, { type: 'replacePlayer', playerDetails: details })
+        }
+      }}
+    />);
   }
 
   async function replaceWithNewPlayer(playerId: number, isPitcher: boolean) {
