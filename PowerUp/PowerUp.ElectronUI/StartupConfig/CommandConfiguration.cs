@@ -40,6 +40,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<PlayerLookupCommand>();
       services.AddSingleton<PlayerGenerationCommand>();
       services.AddSingleton<GetPlayerInfoCommand>();
+      services.AddSingleton<FranchiseLookupCommand>();
+      services.AddSingleton<TeamGenerationCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -73,6 +75,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(PlayerLookupCommand), "PlayerLookup");
       commandRegistry.RegisterCommand(typeof(PlayerGenerationCommand), "PlayerGeneration");
       commandRegistry.RegisterCommand(typeof(GetPlayerInfoCommand), "GetPlayerInfo");
+      commandRegistry.RegisterCommand(typeof(FranchiseLookupCommand), "FranchiseLookup");
+      commandRegistry.RegisterCommand(typeof(TeamGenerationCommand), "TeamGeneration");
     }
   }
 }

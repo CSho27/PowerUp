@@ -73,13 +73,18 @@ namespace PowerUp.Generators
         power: p.Player.HitterAbilities.Power,
         runSpeed: p.Player.HitterAbilities.RunSpeed,
         primaryPosition: p.Player.PrimaryPosition,
+        pitcherType: p.Player.PitcherType,
         positionCapabilityDictionary: p.Player.PositionCapabilities.GetDictionary()
       ));
 
       var rosterResults = RosterCreator.CreateRosters(rosterParams);
 
       // Save generated players
-      var playersToSave = generatedPlayers.Where(p => rosterResults.FortyManRoster.Any(id => id == p.LSPlayerId)).Select(p => p.Player);
+      var playersToSave = generatedPlayers
+        .Where(p => rosterResults.FortyManRoster.Any(id => id == p.LSPlayerId))
+        .Select(p => p.Player)
+        .OrderByDescending(p => p.Overall);
+
       DatabaseConfig.Database.SaveAll(playersToSave);
 
       var team = new Team
@@ -90,7 +95,7 @@ namespace PowerUp.Generators
         Year = year,
         PlayerDefinitions = playersToSave.Select(p => new PlayerRoleDefinition(p.Id!.Value)
         {
-          IsAAA = rosterResults.TwentyFiveManRoster.Contains(p.GeneratedPlayer_LSPLayerId!.Value),
+          IsAAA = !rosterResults.TwentyFiveManRoster.Contains(p.GeneratedPlayer_LSPLayerId!.Value),
           PitcherRole = rosterResults.Starters.Any(id => id == p.GeneratedPlayer_LSPLayerId)
             ? PitcherRole.Starter
             : rosterResults.Closer == p.GeneratedPlayer_LSPLayerId

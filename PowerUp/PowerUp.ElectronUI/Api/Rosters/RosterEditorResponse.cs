@@ -89,8 +89,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static TeamDetails FromTeam(Team team, MLBPPTeam ppTeam)
     {
       var playersOnTeam = team.GetPlayers();
-      var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
-      var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
+      var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).OrderByDescending(p => p.Overall).Select(HitterDetails.FromPlayer);
+      var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).OrderByDescending(p => p.Overall).Select(PitcherDetails.FromPlayer);
 
       return new TeamDetails(
         team.SourceType, 

@@ -24,15 +24,18 @@ namespace PowerUp.Generators
       int power,
       int runSpeed,
       Position primaryPosition,
+      PitcherType pitcherType,
       IDictionary<Position, Grade> positionCapabilityDictionary
     )
     {
       PlayerId = playerId;
       HitterRating = hitterRating;
+      PitcherRating = pitcherRating;
       Contact = contact;
       Power = power;
       RunSpeed = runSpeed;
       PrimaryPosition = primaryPosition;
+      PitcherType = pitcherType;
       PositionCapabilities = positionCapabilityDictionary;
     }
   }

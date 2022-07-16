@@ -154,6 +154,7 @@ namespace PowerUp.Generators
         power: p.HitterAbilities.Power,
         runSpeed: p.HitterAbilities.RunSpeed,
         primaryPosition: p.PrimaryPosition,
+        pitcherType: p.PitcherType,
         positionCapabilityDictionary: p.PositionCapabilities.GetDictionary()
       ));
 

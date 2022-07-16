@@ -16,7 +16,8 @@ import { PlayerGenerationModal } from "../playerGenerationModal/playerGeneration
 import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
-import { getPositionType } from "../shared/positionCode";
+import { getPositionType, positionCompare } from "../shared/positionCode";
+import { TeamGenerationModal } from "../teamGenerationModal/teamGenerationModal";
 import { TeamSelectionModal } from "../teamSelectionModal/teamSelectionModal";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
@@ -45,8 +46,6 @@ export function TeamGrid(props: TeamGridProps) {
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
   const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
-  const generatePlayerApiClientRef = useRef(new PlayerGenerationApiClient(appContext.commandFetcher));
-
   const teamIdentifier = toIdentifier('Team', team.teamId);
   const teamDisplayName = name === powerProsName
       ? `${name} - ${teamIdentifier}`
@@ -55,6 +54,8 @@ export function TeamGrid(props: TeamGridProps) {
   const disableManageTeam: DisabledCriteria = [
     { isDisabled: !team.canEdit, tooltipIfDisabled: 'Teams of this type cannot be edited' }
   ]
+
+  const hittersDisplay = hitters.slice().sort((p1, p2) => positionCompare(p1.position, p2.position))
 
   return <TeamGridTable>
     <TeamGridCaption>
@@ -112,6 +113,11 @@ export function TeamGrid(props: TeamGridProps) {
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
+              icon='wand-magic-sparkles'
+              onClick={replaceWithGeneratedTeam}>
+                Replace with generated
+            </ContextMenuItem>
+            <ContextMenuItem 
               icon='circle-plus'
               onClick={replaceWithNewTeam}>
                 Replace with new
@@ -139,7 +145,7 @@ export function TeamGrid(props: TeamGridProps) {
       </tr>
     </thead>
     <PlayerTableBody>
-    {hitters.map(h => 
+    {hittersDisplay.map(h => 
       <PlayerRow key={h.playerId}>
         {getPlayerDetailsColumns(h)}
         <PlayerCell>{h.trajectory}</PlayerCell>
@@ -349,6 +355,17 @@ export function TeamGrid(props: TeamGridProps) {
 
   function replaceTeamWithExisting(): void {
     appContext.openModal(closeDialog => <TeamSelectionModal 
+      appContext={appContext} 
+      closeDialog={teamToInsertId => { 
+        closeDialog(); 
+        if(!!teamToInsertId)
+          executeReplaceTeam(teamToInsertId);
+      }} 
+    />)
+  }
+
+  function replaceWithGeneratedTeam(): void {
+    appContext.openModal(closeDialog => <TeamGenerationModal 
       appContext={appContext} 
       closeDialog={teamToInsertId => { 
         closeDialog(); 

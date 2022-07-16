@@ -10,7 +10,11 @@ namespace PowerUp.ElectronUI.Api.Generation
     private readonly IVoiceLibrary _voiceLibrary;
     private readonly ISkinColorGuesser _skinColorGuesser;
 
-    public PlayerGenerationCommand(IPlayerGenerator playerGenerator, IVoiceLibrary voiceLibrary, ISkinColorGuesser skinColorGuesser)
+    public PlayerGenerationCommand(
+      IPlayerGenerator playerGenerator, 
+      IVoiceLibrary voiceLibrary, 
+      ISkinColorGuesser skinColorGuesser
+    )
     {
       _playerGenerator = playerGenerator;
       _voiceLibrary = voiceLibrary;
