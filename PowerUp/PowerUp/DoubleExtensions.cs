@@ -19,10 +19,15 @@ namespace PowerUp
     public static string ToPercentDisplay(this double? value) => value.HasValue
       ? ToPercentDisplay(value.Value)
       : string.Empty;
-    public static string ToPercentDisplay(this double value)
+    public static string ToPercentDisplay(this double value) => $"{value.ToPercent()}%";
+
+    public static int ToPercent(this double? value) => value.HasValue
+      ? ToPercent(value.Value)
+      : 0;
+    public static int ToPercent(this double value)
     {
       var percentValue = value * 100;
-      return $"{percentValue.Round()}%";
+      return percentValue.Round();
     }
   }
 }

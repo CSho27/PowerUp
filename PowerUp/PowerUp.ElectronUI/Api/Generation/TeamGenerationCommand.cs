@@ -24,7 +24,7 @@ namespace PowerUp.ElectronUI.Api.Generation
 
     public TeamGenerationResponse Execute(TeamGenerationRequest request)
     {
-      var teamGenerationProgress = new TeamGenerationStatus(request.LSTeamId, request.Year);
+      var teamGenerationProgress = new TeamGenerationStatus(request.LSTeamId, request.Year, DateTime.Now);
       DatabaseConfig.Database.Save(teamGenerationProgress);
 
       Task.Run(() => {

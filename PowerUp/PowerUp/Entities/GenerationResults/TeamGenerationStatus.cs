@@ -1,5 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Generators;
+using System;
 
 namespace PowerUp.Entities.GenerationResults
 {
@@ -8,6 +9,7 @@ namespace PowerUp.Entities.GenerationResults
     public long LSTeamId { get; set; }
     public int Year { get; set; }
     public int? TeamId { get; set; }
+    public DateTime StartedOn { get; set; }
     public string? CurrentAction { get; set; }
     public int CurrentActionIndex { get; set; }
     public int TotalActions { get; set; }
@@ -16,8 +18,9 @@ namespace PowerUp.Entities.GenerationResults
       ? new ProgressUpdate(CurrentAction, CurrentActionIndex, TotalActions)
       : null;
 
-    public TeamGenerationStatus(long lsTeamId, int year)
+    public TeamGenerationStatus(long lsTeamId, int year, DateTime startedOn)
     {
+      StartedOn = startedOn;
       LSTeamId = lsTeamId;
       Year = year;
     }

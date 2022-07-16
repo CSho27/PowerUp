@@ -6,7 +6,8 @@ export interface TeamGenerationStatusRequest {
 
 export interface TeamGenerationStatusResponse {
   currentAction: string;
-  percentCompletion: string;
+  percentCompletion: number;
+  estimatedTimeToCompletion: string;
   isComplete: boolean;
   completedTeamId: number | null;
 }

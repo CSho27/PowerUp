@@ -9,7 +9,7 @@ namespace PowerUp.ElectronUI.Api.Generation
     public GetTeamGenerationStatusResponse Execute(GetTeamGenerationStatusRequest request)
     {
       var status = DatabaseConfig.Database.Load<TeamGenerationStatus>(request.GenerationStatusId)!;
-      return new GetTeamGenerationStatusResponse(status.Progress, status.TeamId);
+      return new GetTeamGenerationStatusResponse(status);
     }
   }
 
@@ -21,15 +21,17 @@ namespace PowerUp.ElectronUI.Api.Generation
   public class GetTeamGenerationStatusResponse
   {
     public string CurrentAction { get; }
-    public string PercentCompletion { get; }
+    public int PercentCompletion { get; }
+    public string EstimatedTimeToCompletion { get; }
     public bool IsComplete => CompletedTeamId.HasValue;
     public int? CompletedTeamId { get; }
 
-    public GetTeamGenerationStatusResponse(ProgressUpdate? progress, int? completedTeamId)
+    public GetTeamGenerationStatusResponse(TeamGenerationStatus status)
     {
-      CurrentAction = progress?.CurrentAction ?? "";
-      PercentCompletion = progress?.PercentCompletion.ToPercentDisplay() ?? "";
-      CompletedTeamId = completedTeamId;
+      CurrentAction = status.Progress?.CurrentAction ?? "";
+      PercentCompletion = status.Progress?.PercentCompletion.ToPercent() ?? 0;
+      EstimatedTimeToCompletion = status.Progress?.GetEstimatedTimeRemaining(DateTime.Now - status.StartedOn).ToDisplayString() ?? "";
+      CompletedTeamId = status.TeamId;
     }
   }
 }

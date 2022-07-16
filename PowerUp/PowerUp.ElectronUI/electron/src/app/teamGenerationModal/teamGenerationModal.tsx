@@ -5,6 +5,7 @@ import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { Modal } from "../../components/modal/modal";
 import { NumberField } from "../../components/numberField/numberField";
+import { ProgressBar } from "../../components/progressBar/progressBar";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
@@ -26,7 +27,8 @@ interface TeamGenerationModalState {
   maxYear: number | undefined;
   yearToGenerate: number | undefined;
   currentGenerationAction: string | undefined;
-  generationProgress: string | undefined;
+  generationProgress: number | undefined;
+  estimatedTimeRemaining: string | undefined
 }
 
 export function TeamGenerationModal(props: TeamGenerationModalProps) {
@@ -42,13 +44,14 @@ export function TeamGenerationModal(props: TeamGenerationModalProps) {
     maxYear: undefined,
     yearToGenerate: undefined,
     currentGenerationAction: undefined,
-    generationProgress: undefined
+    generationProgress: undefined,
+    estimatedTimeRemaining: undefined
   });
   
   const isSearching = state.searchText && state.searchText.length > 0
   useDebounceEffect(() => { search() }, 500, [state.searchText]);
 
-return <Modal ariaLabel='Select Team' fullHeight>
+return <Modal ariaLabel='Select Team' fullHeight={!state.currentGenerationAction}>
     {!state.currentGenerationAction && <Wrapper>
       <ModalHeader>
         <ModalHeading>Select Team</ModalHeading>
@@ -100,13 +103,15 @@ return <Modal ariaLabel='Select Team' fullHeight>
         </Button>
       </div>
     </Wrapper>}
-    {state.currentGenerationAction && <div>
+    {state.currentGenerationAction && <GenerationWrapper>
       <ModalHeading>Generating {state.yearToGenerate} {state.selectedTeam!.name}</ModalHeading>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <div>{state.generationProgress}</div>
-        <div>{state.currentGenerationAction}</div>
-      </div>
-    </div>}
+        <ProgressBar size='Large' progress={state.generationProgress!} />
+        <GenerationDetailsContainer>
+          <div>{state.generationProgress}%</div>
+          <div>{state.currentGenerationAction}</div>
+          <div>est. Time Remaining: {state.estimatedTimeRemaining}</div>
+        </GenerationDetailsContainer>
+    </GenerationWrapper>}
   </Modal>
 
   async function search() {
@@ -136,11 +141,16 @@ return <Modal ariaLabel='Select Team' fullHeight>
       teamName: state.selectedTeam!.name
     });
 
-    setTimeout(pollProgress, 100);
+    setTimeout(pollProgress, 1000);
 
     async function pollProgress() {
       const status = await statusApiClientRef.current.execute({ generationStatusId: result.generationStatusId });
-      setState(p => ({...p, currentGenerationAction: status.currentAction, generationProgress: status.percentCompletion }));
+      setState(p => ({
+        ...p, 
+        currentGenerationAction: status.currentAction, 
+        generationProgress: status.percentCompletion,
+        estimatedTimeRemaining: status.estimatedTimeToCompletion
+      }));
       
       if(status.completedTeamId)
         closeDialog(status.completedTeamId);
@@ -169,4 +179,17 @@ const ModalHeading = styled.h2`
 
 const SearchBoxWrapper = styled.div`
   flex: auto;
+`
+
+const GenerationWrapper = styled.div`
+  display: grid;
+  grid-template-rows: min-content min-content min-content;
+  gap: 8px;
+  height: 100%;
+`
+
+const GenerationDetailsContainer = styled.div`
+  display: grid;
+  grid-template-columns: min-content auto 275px;
+  gap: 8px;
 `
