@@ -95,6 +95,14 @@ namespace PowerUp.ElectronUI
 
       browserWindow.OnReadyToShow += () => browserWindow.Show();
       browserWindow.SetTitle("PowerUp");
+
+      browserWindow.OnClosed += () =>
+      {
+        Electron.App.Exit(0);
+        Environment.Exit(0);
+        Electron.App.Quit();
+        browserWindow = null;
+      };
     }
   }
 }
