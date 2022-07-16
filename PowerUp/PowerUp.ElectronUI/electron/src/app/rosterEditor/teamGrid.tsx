@@ -11,6 +11,8 @@ import { COLORS, FONT_SIZES } from "../../style/constants"
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../app"
+import { PlayerGenerationApiClient } from "../playerGenerationModal/playerGenerationApiClient";
+import { PlayerGenerationModal } from "../playerGenerationModal/playerGenerationModal";
 import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
@@ -42,6 +44,8 @@ export function TeamGrid(props: TeamGridProps) {
   const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
   const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
+
+  const generatePlayerApiClientRef = useRef(new PlayerGenerationApiClient(appContext.commandFetcher));
 
   const teamIdentifier = toIdentifier('Team', team.teamId);
   const teamDisplayName = name === powerProsName
@@ -231,6 +235,11 @@ export function TeamGrid(props: TeamGridProps) {
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
+              icon='wand-magic-sparkles'
+              onClick={() => replaceWithGeneratedPlayer(playerId)}>
+                Replace with generated
+            </ContextMenuItem>
+            <ContextMenuItem 
               icon='user-plus'
               onClick={() => replaceWithNewPlayer(playerId)}>
                 Replace with new
@@ -292,6 +301,18 @@ export function TeamGrid(props: TeamGridProps) {
           executeReplacePlayer(playerToReplaceId, playerToInsertId); 
       }} 
     />)
+  }
+
+  function replaceWithGeneratedPlayer(playerToReplaceId: number) {
+    appContext.openModal(closeDialog => <PlayerGenerationModal
+      appContext={appContext}
+      closeDialog={async generatedPlayerId => {
+        closeDialog();
+        if(!!generatedPlayerId) {
+          executeReplacePlayer(playerToReplaceId, generatedPlayerId); 
+        }
+      }}
+    />);
   }
 
   async function executeReplacePlayer(playerToReplaceId: number, playerToInsertId: number) {
