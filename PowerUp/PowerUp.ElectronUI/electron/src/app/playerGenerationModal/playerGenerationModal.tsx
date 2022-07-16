@@ -9,6 +9,7 @@ import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../app";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { PlayerGenerationApiClient } from "./playerGenerationApiClient";
+import { PlayerInfoApiClient } from "./playerInfoApiClient";
 import { PlayerLookupApiClient, PlayerLookupResultDto } from "./playerLookupApiClient";
 import { PlayerLookupGrid } from "./playerLookupGrid";
 
@@ -21,17 +22,22 @@ interface PlayerGenerationModalState {
   results: PlayerLookupResultDto[];
   searchText: string | undefined;
   selectedPlayer: PlayerLookupResultDto | undefined;
+  minYear: number | undefined;
+  maxYear: number | undefined;
   yearToGenerate: number | undefined;
 }
 
 export function PlayerGenerationModal(props: PlayerGenerationModalProps) {
   const { appContext, closeDialog } = props;
   const lookupApiClientRef = useRef(new PlayerLookupApiClient(appContext.commandFetcher));
+  const playerInfoApiClientRef = useRef(new PlayerInfoApiClient(appContext.commandFetcher));
   const generationApiClientRef = useRef(new PlayerGenerationApiClient(appContext.commandFetcher));
   const [state, setState] = useState<PlayerGenerationModalState>({
     results: [],
     searchText: undefined,
     selectedPlayer: undefined,
+    minYear: undefined,
+    maxYear: undefined,
     yearToGenerate: undefined
   });
   
@@ -53,7 +59,7 @@ return <Modal ariaLabel='Select Player' fullHeight>
         selectedPlayer={state.selectedPlayer}
         players={state.results}
         noDataMessage={isSearching ? 'No players found' : 'Search for player'}
-        onPlayerSelected={player => setState(p => ({...p, selectedPlayer: player, yearToGenerate: player.debutYear }))}
+        onPlayerSelected={handleSelectPlayer}
       />
       <FlexRow gap='8px'withBottomPadding>
         <FlexFracItem frac='1/3'>
@@ -67,6 +73,8 @@ return <Modal ariaLabel='Select Player' fullHeight>
           <NumberField 
             id='year-to-generate'
             type='PossiblyUndefined'
+            min={state.minYear}
+            max={state.maxYear}
             value={state.yearToGenerate} 
             onChange={year => setState(p => ({...p, yearToGenerate: year}))}
           />
@@ -96,6 +104,24 @@ return <Modal ariaLabel='Select Player' fullHeight>
 
     const response = await lookupApiClientRef.current.execute({ searchText: state.searchText! });
     setState(p => ({ ...p, results: response.results }));
+  }
+
+  async function handleSelectPlayer(player: PlayerLookupResultDto) {
+    const response = await playerInfoApiClientRef.current.execute({ lsPlayerId: player.lsPlayerId });
+    const maxYear = response.endYear ?? new Date().getFullYear();
+    const middleYear = !!response.startYear
+      ? (maxYear + response.startYear) / 2
+      : undefined;
+
+    setState(p => ({
+      ...p, 
+      selectedPlayer: player, 
+      minYear: response.startYear ?? undefined,
+      maxYear: maxYear,
+      yearToGenerate: !!middleYear
+        ? Math.round(middleYear)
+        : undefined
+    }));
   }
 
   async function generateAndClose() {

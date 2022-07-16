@@ -39,6 +39,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<FindClosestVoiceCommand>();
       services.AddSingleton<PlayerLookupCommand>();
       services.AddSingleton<PlayerGenerationCommand>();
+      services.AddSingleton<GetPlayerInfoCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -71,6 +72,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(FindClosestVoiceCommand), "FindClosestVoice");
       commandRegistry.RegisterCommand(typeof(PlayerLookupCommand), "PlayerLookup");
       commandRegistry.RegisterCommand(typeof(PlayerGenerationCommand), "PlayerGeneration");
+      commandRegistry.RegisterCommand(typeof(GetPlayerInfoCommand), "GetPlayerInfo");
     }
   }
 }
