@@ -1,4 +1,5 @@
 ﻿using PowerUp.Databases;
+using PowerUp.Entities.GenerationResults;
 using PowerUp.Generators;
 using PowerUp.Libraries;
 
@@ -23,15 +24,30 @@ namespace PowerUp.ElectronUI.Api.Generation
 
     public TeamGenerationResponse Execute(TeamGenerationRequest request)
     {
-      var result = _teamGenerator.GenerateTeam(
-        lsTeamId: request.LSTeamId, 
-        year: request.Year, 
-        name: request.TeamName, 
-        playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser)
-      );
+      var teamGenerationProgress = new TeamGenerationStatus(request.LSTeamId, request.Year);
+      DatabaseConfig.Database.Save(teamGenerationProgress);
 
-      DatabaseConfig.Database.Save(result.Team);
-      return new TeamGenerationResponse { TeamId = result.Team.Id!.Value };
+      Task.Run(() => {
+        var result = _teamGenerator.GenerateTeam(
+          lsTeamId: request.LSTeamId,
+          year: request.Year,
+          name: request.TeamName,
+          playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser),
+          onProgressUpdate: update => UpdateProgressAndSave(update, teamGenerationProgress)
+        );
+
+        DatabaseConfig.Database.Save(result.Team);
+        teamGenerationProgress.Complete(result.Team.Id!.Value);
+        DatabaseConfig.Database.Save(teamGenerationProgress);
+      });
+
+      return new TeamGenerationResponse { GenerationStatusId = teamGenerationProgress.Id!.Value };
+    }
+
+    private void UpdateProgressAndSave(ProgressUpdate update, TeamGenerationStatus status)
+    {
+      status.Update(update.CurrentAction, update.CurrentActionIndex, update.TotalActions);
+      DatabaseConfig.Database.Save(status);
     }
   }
 
@@ -44,6 +60,6 @@ namespace PowerUp.ElectronUI.Api.Generation
 
   public class TeamGenerationResponse
   {
-    public int TeamId { get; set; }
+    public int GenerationStatusId { get; set; }
   }
 }

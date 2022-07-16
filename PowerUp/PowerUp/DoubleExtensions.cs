@@ -16,6 +16,9 @@ namespace PowerUp
       ? min
       : value;
 
+    public static string ToPercentDisplay(this double? value) => value.HasValue
+      ? ToPercentDisplay(value.Value)
+      : string.Empty;
     public static string ToPercentDisplay(this double value)
     {
       var percentValue = value * 100;

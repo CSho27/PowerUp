@@ -7,7 +7,7 @@ export interface TeamGenerationRequest {
 }
 
 export interface TeamGenerationResponse {
-  teamId: number
+  generationStatusId: number
 }
 
 export class TeamGenerationApiClient {

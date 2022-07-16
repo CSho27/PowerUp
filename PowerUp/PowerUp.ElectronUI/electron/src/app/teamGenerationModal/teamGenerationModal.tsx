@@ -11,6 +11,7 @@ import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { FranchiseLookupApiClient, FranchiseLookupResultDto } from "./franchiseLookupApiClient";
 import { FranchiseLookupGrid } from "./franchiseLookupGrid";
 import { TeamGenerationApiClient } from "./teamGenerationApiClient";
+import { TeamGenerationStatusApiClient } from "./teamGenerationStatusApiClient";
 
 export interface TeamGenerationModalProps {
   appContext: AppContext;
@@ -24,35 +25,40 @@ interface TeamGenerationModalState {
   minYear: number | undefined;
   maxYear: number | undefined;
   yearToGenerate: number | undefined;
+  currentGenerationAction: string | undefined;
+  generationProgress: string | undefined;
 }
 
 export function TeamGenerationModal(props: TeamGenerationModalProps) {
   const { appContext, closeDialog } = props;
   const lookupApiClientRef = useRef(new FranchiseLookupApiClient(appContext.commandFetcher));
   const generationApiClientRef = useRef(new TeamGenerationApiClient(appContext.commandFetcher));
+  const statusApiClientRef = useRef(new TeamGenerationStatusApiClient(appContext.commandFetcher));
   const [state, setState] = useState<TeamGenerationModalState>({
     results: [],
     searchText: undefined,
     selectedTeam: undefined,
     minYear: undefined,
     maxYear: undefined,
-    yearToGenerate: undefined
+    yearToGenerate: undefined,
+    currentGenerationAction: undefined,
+    generationProgress: undefined
   });
   
   const isSearching = state.searchText && state.searchText.length > 0
   useDebounceEffect(() => { search() }, 500, [state.searchText]);
 
 return <Modal ariaLabel='Select Team' fullHeight>
-    <Wrapper>
-      <SelectionHeader>
-        <SelectionHeading>Select Team</SelectionHeading>
+    {!state.currentGenerationAction && <Wrapper>
+      <ModalHeader>
+        <ModalHeading>Select Team</ModalHeading>
         <SearchBoxWrapper>
           <TextField 
             value={state.searchText}
             onChange={text => setState(p => ({...p, searchText: text}))}
           />
         </SearchBoxWrapper>
-      </SelectionHeader>
+      </ModalHeader>
       <FranchiseLookupGrid 
         selectedTeam={state.selectedTeam}
         teams={state.results}
@@ -93,7 +99,14 @@ return <Modal ariaLabel='Select Team' fullHeight>
             Generate Team
         </Button>
       </div>
-    </Wrapper>
+    </Wrapper>}
+    {state.currentGenerationAction && <div>
+      <ModalHeading>Generating {state.yearToGenerate} {state.selectedTeam!.name}</ModalHeading>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <div>{state.generationProgress}</div>
+        <div>{state.currentGenerationAction}</div>
+      </div>
+    </div>}
   </Modal>
 
   async function search() {
@@ -122,7 +135,18 @@ return <Modal ariaLabel='Select Team' fullHeight>
       year: state.yearToGenerate!,
       teamName: state.selectedTeam!.name
     });
-    closeDialog(result.teamId);
+
+    setTimeout(pollProgress, 100);
+
+    async function pollProgress() {
+      const status = await statusApiClientRef.current.execute({ generationStatusId: result.generationStatusId });
+      setState(p => ({...p, currentGenerationAction: status.currentAction, generationProgress: status.percentCompletion }));
+      
+      if(status.completedTeamId)
+        closeDialog(status.completedTeamId);
+      else
+        pollProgress();
+    }
   }
 }
 
@@ -133,13 +157,13 @@ const Wrapper = styled.div`
   height: 100%;
 `
 
-const SelectionHeader = styled.div`
+const ModalHeader = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 16px;
 `
 
-const SelectionHeading = styled.h2`
+const ModalHeading = styled.h2`
   font-style: italic;
 `
 

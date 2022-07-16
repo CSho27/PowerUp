@@ -7,7 +7,9 @@ namespace PowerUp.Generators
     public string CurrentAction { get; set; }
     public int CurrentActionIndex { get; set; }
     public int TotalActions { get; set; }
-    public double PercentCompletion => CurrentActionIndex / (double)TotalActions;
+    public double PercentCompletion => TotalActions > 0
+      ? CurrentActionIndex / (double)TotalActions
+      : 0;
 
     public ProgressUpdate(string currentAction, int currentIndex, int totalActions)
     {

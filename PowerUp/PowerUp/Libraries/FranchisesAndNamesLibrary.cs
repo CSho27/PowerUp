@@ -50,7 +50,8 @@ namespace PowerUp.Libraries
 
     public IEnumerable<FranchiseDetails> Search(string searchText)
     {
-      return Franchises.Where(f => f.Name.Contains(searchText));
+      var lowercasedSearchText = searchText.ToLower();
+      return Franchises.Where(f => f.Name.ToLower().Contains(lowercasedSearchText));
     }
   }
 }
