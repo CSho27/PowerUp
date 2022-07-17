@@ -21,10 +21,12 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
-        <HelpIconWrapper href='https://github.com/CSho27/PowerUp#use-guide' target='_blank' title='View Use Guide'>
-          Help
-          <Icon icon='circle-question' />
-        </HelpIconWrapper>
+        <div>
+          <HelpIconWrapper href='https://github.com/CSho27/PowerUp#use-guide' target='_blank' title='View Use Guide'>
+            Help
+            <Icon icon='circle-question' />
+          </HelpIconWrapper>
+        </div>
       </HeaderTextWrapper>
     </HeaderWrapper>
     <PageContent>
