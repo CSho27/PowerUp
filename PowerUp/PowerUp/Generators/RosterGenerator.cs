@@ -54,6 +54,8 @@ namespace PowerUp.Generators
       for (var i = 0; i < teams.Count; i++)
       {
         var team = teams[i];
+        if (onPlayerProgressUpdate != null)
+          onPlayerProgressUpdate(new ProgressUpdate("--", 0, 0));
         if (onTeamProgressUpdate != null)
           onTeamProgressUpdate(new ProgressUpdate($"Generating {team.FullName}", i, teams.Count));
 
@@ -172,7 +174,7 @@ namespace PowerUp.Generators
         Year = year,
         PlayerDefinitions = players.Where(p => rosterResults.FortyManRoster.Any(id => id == p.Id)).Select(p => new PlayerRoleDefinition(p.Id!.Value)
         {
-          IsAAA = rosterResults.TwentyFiveManRoster.Contains(p.Id!.Value),
+          IsAAA = !rosterResults.TwentyFiveManRoster.Contains(p.Id!.Value),
           PitcherRole = rosterResults.Starters.Any(id => id == p.Id)
             ? PitcherRole.Starter
             : rosterResults.Closer == p.GeneratedPlayer_LSPLayerId

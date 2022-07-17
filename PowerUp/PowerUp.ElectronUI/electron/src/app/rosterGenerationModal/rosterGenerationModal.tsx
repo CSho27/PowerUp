@@ -19,7 +19,8 @@ const minYear = 1876;
 
 interface RosterGenerationModalState {
   yearToGenerate: number | undefined;
-  currentGenerationAction: string | undefined;
+  currentTeamGenerationAction: string | undefined;
+  currentPlayerGenerationAction: string | undefined;
   generationProgress: number | undefined;
   estimatedTimeRemaining: string | undefined
 }
@@ -31,16 +32,17 @@ export function RosterGenerationModal(props: RosterGenerationModalProps) {
   const currentYear = new Date().getFullYear();
   const [state, setState] = useState<RosterGenerationModalState>({
     yearToGenerate: currentYear,
-    currentGenerationAction: undefined,
+    currentTeamGenerationAction: undefined,
+    currentPlayerGenerationAction: undefined,
     generationProgress: undefined,
     estimatedTimeRemaining: undefined
   });
 
-  return <Modal ariaLabel='Generate Roster' width={!state.currentGenerationAction ? '500px' : undefined}>
-    {!state.currentGenerationAction && <>
+  return <Modal ariaLabel='Generate Roster' width={!state.currentTeamGenerationAction ? '500px' : undefined}>
+    {!state.currentTeamGenerationAction && <>
+      <FieldLabel htmlFor='year-to-generate'>Generate MLB Rosters for Year</FieldLabel>
       <FlexRow gap='8px' withBottomPadding>
         <FlexFracItem frac='1/3'>
-          <FieldLabel htmlFor='year-to-generate'>Year to Generate</FieldLabel>
           <NumberField 
             type='PossiblyUndefined' 
             value={state.yearToGenerate}
@@ -62,17 +64,20 @@ export function RosterGenerationModal(props: RosterGenerationModalProps) {
           variant='Fill'
           disabled={!state.yearToGenerate}
           onClick={generateAndClose}>
-            Generate Team
+            Generate Rosters
         </Button>
       </div>  
     </>}
-    {state.currentGenerationAction && <GenerationWrapper>
+    {state.currentTeamGenerationAction && <GenerationWrapper>
       <FieldLabel>Generating {state.yearToGenerate} MLB Rosters</FieldLabel>
       <ProgressBar size='Large' progress={state.generationProgress!} />
       <GenerationDetailsContainer>
-        <div>{state.generationProgress}%</div>
-        <div>{state.currentGenerationAction}</div>
-        <div>est. Time Remaining: {state.estimatedTimeRemaining}</div>
+        <div>
+          <div>{state.generationProgress}%</div>
+          <div>{state.currentTeamGenerationAction}</div>
+          <div>{state.currentPlayerGenerationAction}</div>
+        </div>
+        <div>Est. Time Remaining: {state.estimatedTimeRemaining}</div>
       </GenerationDetailsContainer>
     </GenerationWrapper>}
   </Modal>
@@ -85,7 +90,8 @@ export function RosterGenerationModal(props: RosterGenerationModalProps) {
       const status = await statusApiClientRef.current.execute({ generationStatusId: result.generationStatusId });
       setState(p => ({
         ...p, 
-        currentGenerationAction: `${status.currentTeamAction}, ${status.currentPlayerAction}`,
+        currentTeamGenerationAction: status.currentTeamAction,
+        currentPlayerGenerationAction: status.currentPlayerAction, 
         generationProgress: status.percentCompletion,
         estimatedTimeRemaining: status.estimatedTimeToCompletion
       }));
@@ -108,6 +114,6 @@ const GenerationWrapper = styled.div`
 
 const GenerationDetailsContainer = styled.div`
   display: grid;
-  grid-template-columns: min-content auto 275px;
+  grid-template-columns: auto 275px;
   gap: 8px;
 `

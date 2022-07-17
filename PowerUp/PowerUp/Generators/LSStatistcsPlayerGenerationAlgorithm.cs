@@ -102,7 +102,7 @@ namespace PowerUp.Generators
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
         var uniformNumber = datasetCollection.PlayerInfo!.UniformNumber;
-        if(uniformNumber == null)
+        if(uniformNumber == null || !int.TryParse(uniformNumber, out var _))
           return false;
 
         player.UniformNumber = uniformNumber;

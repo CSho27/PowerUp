@@ -136,7 +136,7 @@ const ContentWrapper = styled(MaxWidthWrapper)`
 `
 
 const ButtonSectionWrapper = styled.section`
-  margin-top: 64px;
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;

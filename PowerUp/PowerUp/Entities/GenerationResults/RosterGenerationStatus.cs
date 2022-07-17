@@ -44,7 +44,7 @@ namespace PowerUp.Entities.GenerationResults
     {
       CurrentPlayerAction = currentAction;
       CurrentPlayerActionIndex = currentActionIndex;
-      TotalTeamActions = totalActions;
+      TotalPlayerActions = totalActions;
     }
 
     public void Complete(int rosterId)
