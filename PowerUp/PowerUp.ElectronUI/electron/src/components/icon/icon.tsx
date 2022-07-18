@@ -35,6 +35,7 @@ export type IconType =
 | 'rotate-left'
 | 'square'
 | 'upload'
+| 'up-right-from-square'
 | 'user-pen'
 | 'user-plus'
 | 'wand-magic-sparkles'

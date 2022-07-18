@@ -193,6 +193,7 @@ const PlayerHeaderContainer = styled.div`
   display: flex;
   gap: 16px;
   align-items: stretch;
+  padding-top: 4px;
   padding-bottom: 8px;
   min-height: 64px;
 `
