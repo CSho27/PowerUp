@@ -9,9 +9,9 @@ namespace PowerUp
     {
       var sb = new StringBuilder();
       if(timeSpan > TimeSpan.FromHours(1))
-        sb.Append($"{timeSpan.Hours}hr");
+        sb.Append($"{timeSpan.Hours}hr ");
       if (timeSpan > TimeSpan.FromMinutes(1))
-        sb.Append($"{timeSpan.Minutes}min");
+        sb.Append($"{timeSpan.Minutes}min ");
 
       sb.Append($"{timeSpan.Seconds}sec");
       return sb.ToString();
