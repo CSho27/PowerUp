@@ -19,8 +19,8 @@ namespace PowerUp.Generators
     public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary, ISkinColorGuesser skinColorGuesser) 
     {
       // Player Info
-      SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed);
-      SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName);
+      SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed.ShortenNameToLength(14));
+      SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName.ShortenNameToLength(14));
       SetProperty(new SavedName());
       SetProperty(new UniformNumber());
       SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PrimaryPosition);
@@ -77,20 +77,7 @@ namespace PowerUp.Generators
           return true;
         }
         
-        if(lastName.Length <= 10)
-        {
-          player.SavedName = lastName;
-          return true;
-        }
-
-        var lastNameWithoutVowels = new string(lastName.Where((c, i) => i == 0 || !c.IsVowel()).ToArray());
-        if(lastNameWithoutVowels.Length <= 10)
-        {
-          player.SavedName = lastNameWithoutVowels;
-          return true;
-        }
-
-        player.SavedName = new string(lastName.Take(10).ToArray());
+        player.SavedName = lastName.ShortenNameToLength(10);
         return true;
       }
     }

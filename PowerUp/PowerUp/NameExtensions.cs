@@ -1,4 +1,6 @@
-﻿namespace PowerUp
+﻿using System.Linq;
+
+namespace PowerUp
 {
   public static class NameExtensions
   {
@@ -10,6 +12,22 @@
         .Replace("De", "")
         .Replace("La", "")
         .Trim();
+    }
+
+    public static string ShortenNameToLength(this string name, int length)
+    {
+      if(name.Length <= length)
+        return name;
+
+      var nameWithoutPrefixesAndSuffixes = name.RemovePrefixesAndSuffixes();
+      if (nameWithoutPrefixesAndSuffixes.Length <= length)
+        return nameWithoutPrefixesAndSuffixes;
+
+      var lastNameWithoutVowels = new string(name.Where((c, i) => i == 0 || !c.IsVowel()).ToArray());
+      if (lastNameWithoutVowels.Length <= 10)
+        return name;
+
+      return new string(name.Take(10).ToArray());
     }
   }
 }
