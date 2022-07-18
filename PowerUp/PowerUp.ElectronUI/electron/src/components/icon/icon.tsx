@@ -13,6 +13,7 @@ export type IconType =
 | 'box-archive'
 | 'chevron-down'
 | 'chevron-up'
+| 'circle-arrow-left'
 | 'circle-info'
 | 'circle-minus'
 | 'circle-notch'

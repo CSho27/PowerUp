@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { AppContext } from "../../app/app";
 import { BreadcrumbDefinition } from "../../app/appState";
 import { COLORS, FONT_SIZES } from "../../style/constants";
+import { Icon } from "../icon/icon";
+import { IconButton } from "../icon/iconButton";
 
 export interface BreadcrumbsProps {
   appContext: AppContext;
@@ -9,10 +11,15 @@ export interface BreadcrumbsProps {
 
 export function Breadcrumbs(props: BreadcrumbsProps) {
   const { breadcrumbs, popBreadcrumb } = props.appContext
-  
-  return <nav aria-label="Breadcrumb">
+  const secondToLastBreadcrumb = breadcrumbs[breadcrumbs.length-2];
+
+  return <BreadcrumbNav aria-label="Breadcrumb">
+    {secondToLastBreadcrumb && <BackLink onClick={() => popBreadcrumb(secondToLastBreadcrumb.id)}>
+      <Icon icon='circle-arrow-left' style={{ textDecoration: 'none' }} />
+      <BackLinkText>Back</BackLinkText>
+    </BackLink>}
     <BreadcrumbList>{breadcrumbs.map(toCrumb)}</BreadcrumbList>
-  </nav>
+  </BreadcrumbNav>
 
   function toCrumb(breadcrumb: BreadcrumbDefinition, index: number) {
     const isCurrentPage = index == breadcrumbs.length-1;
@@ -26,6 +33,33 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
     </Wrapper>;
   }
 }
+
+const BreadcrumbNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+`
+
+const BackLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: ${COLORS.primaryBlue.regular_45};
+  font-size: ${FONT_SIZES._18};
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const BackLinkText = styled.span`
+  font-weight: bold;
+  white-space: nowrap;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`
 
 const BreadcrumbList = styled.ol`
   padding: 0;
