@@ -108,7 +108,11 @@ namespace PowerUp.Generators
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
         if (datasetCollection.PitchingStats == null)
+        {
+          if(datasetCollection.PrimaryPosition == Position.Pitcher)
+            player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
           return false;
+        }
 
         if (datasetCollection.PitchingStats.GamesStarted > 10)
           player.PitcherType = PitcherType.Starter;
@@ -313,8 +317,18 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (datasetCollection.HittingStats == null || !datasetCollection.HittingStats.HomeRuns.HasValue)
+      if(datasetCollection.HittingStats == null)
+      {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
         return false;
+      }
+
+      if (!datasetCollection.HittingStats.HomeRuns.HasValue)
+      {
+
+        return false;
+      }
 
       player.HitterAbilities.Trajectory = GetTrajectoryForHomeRuns(datasetCollection.HittingStats.HomeRuns.Value);
       return true;
@@ -339,8 +353,19 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (datasetCollection.HittingStats == null || datasetCollection.HittingStats.AtBats < 100 || !datasetCollection.HittingStats.BattingAverage.HasValue)
+      if(datasetCollection.HittingStats == null)
+      {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
         return false;
+      }
+
+      if (datasetCollection.HittingStats.AtBats < 100 || !datasetCollection.HittingStats.BattingAverage.HasValue)
+      {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientHittingStats(PropertyKey));
+        return false;
+      }
 
       player.HitterAbilities.Contact = GetContactForBattingAverage(datasetCollection.HittingStats.BattingAverage.Value);
       return true;
@@ -423,14 +448,24 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (
-        datasetCollection.HittingStats == null ||
-        !datasetCollection.HittingStats.AtBats.HasValue ||
-        datasetCollection.HittingStats.AtBats < 100 ||
-        !datasetCollection.HittingStats.HomeRuns.HasValue ||
-        datasetCollection.HittingStats.HomeRuns == 0
-      )
+      if (datasetCollection.HittingStats == null)
       {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+        return false;
+      }
+
+      if (!datasetCollection.HittingStats.AtBats.HasValue || datasetCollection.HittingStats.AtBats < 100 || !datasetCollection.HittingStats.HomeRuns.HasValue)
+      {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientHittingStats(PropertyKey));
+        return false;
+      }
+
+      if (datasetCollection.HittingStats.HomeRuns == 0)
+      {
+        if (player.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(new GeneratorWarning(PropertyKey, "NoHomeRuns", "No home-runs hit by player"));
         return false;
       }
 
@@ -449,7 +484,7 @@ namespace PowerUp.Generators
     {
       var baseRunSpeed = GetBaseRunSpeedForPosition(datasetCollection.PrimaryPosition);
       var stolenBaseBonus = .06 * (datasetCollection.HittingStats?.StolenBases ?? 0);
-      var runsPerAtBatBonus = 7 * GetRunsPerAtBat(datasetCollection);
+      var runsPerAtBatBonus = 7 * GetRunsPerAtBat(datasetCollection, warning => player.GeneratorWarnings.Add(warning));
       var runSpeed = baseRunSpeed + stolenBaseBonus + runsPerAtBatBonus;
       player.HitterAbilities.RunSpeed = runSpeed.Round().MinAt(1).CapAt(15);
       return true;
@@ -470,14 +505,21 @@ namespace PowerUp.Generators
       _ => 4
     };
 
-    private double GetRunsPerAtBat(PlayerGenerationData datasetCollection)
+    private double GetRunsPerAtBat(PlayerGenerationData datasetCollection, Action<GeneratorWarning> addWarning)
     {
-      if (
-       datasetCollection.HittingStats == null ||
-       !datasetCollection.HittingStats.Runs.HasValue ||
-       !datasetCollection.HittingStats.AtBats.HasValue ||
-       datasetCollection.HittingStats.AtBats < 100
-      ) return 0;
+      if (datasetCollection.HittingStats == null)
+      {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          addWarning(GeneratorWarning.NoHittingStats(PropertyKey));
+        return 0;
+      }
+
+      if (!datasetCollection.HittingStats.AtBats.HasValue || datasetCollection.HittingStats.AtBats < 100 || !datasetCollection.HittingStats.Runs.HasValue)
+      {
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          addWarning(GeneratorWarning.InsufficientHittingStats(PropertyKey));
+        return 0;
+      }
 
       return ((double)datasetCollection.HittingStats.Runs) / datasetCollection.HittingStats.AtBats!.Value;
     }
@@ -489,33 +531,33 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      var armStrength = GetArmStrength(datasetCollection);
+      var armStrength = GetArmStrength(datasetCollection, warning => player.GeneratorWarnings.Add(warning));
       player.HitterAbilities.ArmStrength = armStrength.Round().MinAt(1).CapAt(15);
       return true;
     }
 
-    private double GetArmStrength(PlayerGenerationData datasetCollection)
+    private double GetArmStrength(PlayerGenerationData datasetCollection, Action<GeneratorWarning> addWarning)
     {
       switch (datasetCollection.PrimaryPosition)
       {
         case Position.Pitcher:
           return 10;
         case Position.Catcher:
-          return 9 + GetCatcherCaughtStealingPercentageBonus(datasetCollection);
+          return 9 + GetCatcherCaughtStealingPercentageBonus(datasetCollection, addWarning);
         case Position.FirstBase:
-          return 9 + GetAssistsBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.SecondBase:
-          return 9 + GetAssistsBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.ThirdBase:
-          return 9 + GetAssistsBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.Shortstop:
-          return 10 + GetAssistsBonus(datasetCollection);
+          return 10 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.LeftField:
-          return 9 + GetAssistsBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.CenterField:
-          return 9 + GetAssistsBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.RightField:
-          return 9 + GetAssistsBonus(datasetCollection);
+          return 9 + GetAssistsBonus(datasetCollection, addWarning);
         case Position.DesignatedHitter:
           return 8;
         default:
@@ -523,31 +565,48 @@ namespace PowerUp.Generators
       }
     }
 
-    private double GetCatcherCaughtStealingPercentageBonus(PlayerGenerationData datasetCollection)
+    private double GetCatcherCaughtStealingPercentageBonus(PlayerGenerationData datasetCollection, Action<GeneratorWarning> addWarning)
     {
-      if (
-        datasetCollection.FieldingStats == null || 
-        !datasetCollection.FieldingStats.OverallFielding.Catcher_StolenBasesAllowed.HasValue ||
+      if(datasetCollection.FieldingStats == null)
+      {
+        addWarning(GeneratorWarning.NoFieldingStats(PropertyKey));
+        return 0;
+      }
+
+      if (!datasetCollection.FieldingStats.OverallFielding.Catcher_StolenBasesAllowed.HasValue ||
         !datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut.HasValue
-      ) return 0;
+      )
+      {
+        addWarning(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        return 0;
+      }
 
       var attempts = datasetCollection.FieldingStats.OverallFielding.Catcher_StolenBasesAllowed + datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut;
       if(attempts <  10)
+      {
+        addWarning(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return 0;
+      }
 
       var caughtStealingPercentage = datasetCollection.FieldingStats.OverallFielding.Catcher_RunnersThrownOut.Value / ((double)attempts);
       var linearGradient = MathUtils.BuildLinearGradientFunction(.5, .3, 6, 0.5);
       return linearGradient(caughtStealingPercentage);
     }
 
-    private double GetAssistsBonus(PlayerGenerationData datasetCollection)
+    private double GetAssistsBonus(PlayerGenerationData datasetCollection, Action<GeneratorWarning> addWarning)
     {
       if (datasetCollection.FieldingStats == null)
+      {
+        addWarning(GeneratorWarning.NoFieldingStats(PropertyKey));
         return 0;
+      }
 
       var relevantAssists = GetAssistsForPrimaryAndComparable(datasetCollection.PrimaryPosition, datasetCollection.FieldingStats);
       if (!relevantAssists.HasValue)
+      {
+        addWarning(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return 0;
+      }
 
       var positionGradient = GetLinearGradientForPosition(datasetCollection.PrimaryPosition);
       return positionGradient(relevantAssists.Value);
@@ -578,14 +637,24 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if(
-        datasetCollection.FieldingStats == null ||
-        datasetCollection.FieldingStats.OverallFielding.Innings < 30
-      ) return false;
+      if (datasetCollection.FieldingStats == null)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.NoFieldingStats(PropertyKey));
+        return false;
+      }
+
+      if (datasetCollection.FieldingStats.OverallFielding.Innings < 30)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        return false;
+      }
 
       var relevantRF = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.RangeFactor;
       if (!relevantRF.HasValue)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return false;
+      }
 
       var linearGradient = GetRangeFactorGradientForPosition(datasetCollection.PrimaryPosition);
       var fielding = linearGradient(relevantRF.Value);
@@ -614,14 +683,24 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (
-        datasetCollection.FieldingStats == null ||
-        datasetCollection.FieldingStats.OverallFielding.TotalChances < 100
-      ) return false;
+      if(datasetCollection.FieldingStats == null)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.NoFieldingStats(PropertyKey));
+        return false;
+      }
+
+      if (datasetCollection.FieldingStats.OverallFielding.TotalChances < 100)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        return false;
+      }
 
       var relevantFpct = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.FieldingPercentage;
       if (!relevantFpct.HasValue)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return false;
+      }
 
       var linearGradient = GetFieldingPercentageGradientForPosition(datasetCollection.PrimaryPosition);
       var errorResistance = linearGradient(relevantFpct.Value);
@@ -651,11 +730,21 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (
-        datasetCollection.PitchingStats == null ||
-        !datasetCollection.PitchingStats.WalksPer9.HasValue ||
+      if(datasetCollection.PitchingStats == null)
+      {
+        if(datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+        return false;
+      }
+
+      if (!datasetCollection.PitchingStats.WalksPer9.HasValue ||
         datasetCollection.PitchingStats.MathematicalInnings < 15
-      ) return false;
+      )
+      {
+        if (datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientPitchingStats(PropertyKey));
+        return false;
+      }
 
       var linearGradient = MathUtils.BuildLinearGradientFunction(0.9, 3.58, 190, 134.3);
       var control = linearGradient(datasetCollection.PitchingStats.WalksPer9.Value);
@@ -670,13 +759,24 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
+      if (player.PitcherType == PitcherType.SwingMan)
+        return false;
+
+      if (datasetCollection.PitchingStats == null)
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+        return false;
+      }
+
       if (
-        datasetCollection.PitchingStats == null ||
         !datasetCollection.PitchingStats.GamesPitched.HasValue ||
         !datasetCollection.PitchingStats.MathematicalInnings.HasValue ||
-        datasetCollection.PitchingStats.MathematicalInnings < 15 ||
-        player.PitcherType == PitcherType.SwingMan
-      ) return false;
+        datasetCollection.PitchingStats.MathematicalInnings < 15
+      )
+      {
+        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientPitchingStats(PropertyKey));
+        return false;
+      }
 
       var inningsPerGamePitched = datasetCollection.PitchingStats.MathematicalInnings.Value / datasetCollection.PitchingStats.GamesPitched.Value;
       var linearGradient = player.PitcherType == PitcherType.Starter
@@ -695,11 +795,21 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (
-        datasetCollection.PitchingStats == null ||
-        !datasetCollection.PitchingStats.StrikeoutsPer9.HasValue ||
+      if (datasetCollection.PitchingStats == null)
+      {
+        if(datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+        return false;
+      }
+
+      if (!datasetCollection.PitchingStats.StrikeoutsPer9.HasValue ||
         datasetCollection.PitchingStats.MathematicalInnings < 15
-      ) return false;
+      )
+      {
+        if (datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientPitchingStats(PropertyKey));
+        return false;
+      }
 
       var linearGradient = MathUtils.BuildLinearGradientFunction(12.89, 6.81, 100, 94.1);
       var topSpeed = linearGradient(datasetCollection.PitchingStats.StrikeoutsPer9.Value);
@@ -714,11 +824,21 @@ namespace PowerUp.Generators
 
     public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
     {
-      if (
-        datasetCollection.PitchingStats == null ||
-        !datasetCollection.PitchingStats.BattingAverageAgainst.HasValue ||
+      if (datasetCollection.PitchingStats == null)
+      {
+        if (datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+        return false;
+      }
+
+      if (!datasetCollection.PitchingStats.BattingAverageAgainst.HasValue ||
         datasetCollection.PitchingStats.MathematicalInnings < 15
-      ) return false;
+      )
+      {
+        if (datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientPitchingStats(PropertyKey));
+        return false;
+      }
 
       var breakLinearGradient = MathUtils.BuildLinearGradientFunction(.107, .264, 6, 3);
       var firstPitchBreakCalc = breakLinearGradient(datasetCollection.PitchingStats.BattingAverageAgainst.Value);

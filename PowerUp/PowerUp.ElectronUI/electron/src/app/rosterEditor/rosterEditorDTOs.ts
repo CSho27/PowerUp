@@ -40,6 +40,13 @@ export interface PlayerDetails {
   batsAndThrows: string;
   sourceType: EntitySourceType;
   canEdit: boolean;
+  generatedPlayer_Warnings: GeneratorWarningDto[];
+}
+
+export interface GeneratorWarningDto {
+  propertyKey: string;
+  errorKey: string;
+  message: string;
 }
 
 export interface HitterDetails extends PlayerDetails {

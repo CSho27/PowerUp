@@ -34,6 +34,7 @@ export type IconType =
 | 'right-left'
 | 'rotate-left'
 | 'square'
+| 'triangle-exclamation'
 | 'upload'
 | 'up-right-from-square'
 | 'user-pen'

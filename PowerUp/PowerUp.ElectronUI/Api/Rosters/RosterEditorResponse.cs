@@ -3,6 +3,7 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Teams;
+using PowerUp.Generators;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Rosters
@@ -120,6 +121,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
     public bool CanEdit => SourceType.CanEdit();
+    public IEnumerable<GeneratorWarning> GeneratedPlayer_Warnings { get; set; }
 
     public PlayerDetails(
       int id,
@@ -129,7 +131,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string positionAbbreviation,
       int overall,
       string batsAndThrows,
-      EntitySourceType sourceType
+      EntitySourceType sourceType,
+      IEnumerable<GeneratorWarning> generatorWarnings
     )
     {
       PlayerId = id;
@@ -140,6 +143,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       Overall = overall;
       BatsAndThrows = batsAndThrows;
       SourceType = sourceType;
+      GeneratedPlayer_Warnings = generatorWarnings;
     }
 
     public static PlayerDetails FromPlayer(Player player)
@@ -152,7 +156,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
         positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
         overall: player.Overall.RoundDown(),
         batsAndThrows: player.BatsAndThrows,
-        sourceType: player.SourceType
+        sourceType: player.SourceType,
+        generatorWarnings: player.GeneratorWarnings
       );
     }
   }
@@ -176,6 +181,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int overall,
       string batsAndThrows,
       EntitySourceType sourceType,
+      IEnumerable<GeneratorWarning> generatorWarnings,
       int trajectory,
       int contact,
       int power,
@@ -183,7 +189,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int armStrength,
       int fielding,
       int errorResistance
-    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType, generatorWarnings)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -208,6 +214,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
         sourceType: playerDetails.SourceType,
+        generatorWarnings: playerDetails.GeneratedPlayer_Warnings,
         trajectory: hitterAbilities.Trajectory,
         contact: hitterAbilities.Contact,
         power: hitterAbilities.Power,
@@ -238,6 +245,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int overall,
       string batsAndThrows,
       EntitySourceType sourceType,
+      IEnumerable<GeneratorWarning> generatorWarnings,
       string pitcherType,
       int topSpeed,
       int control,
@@ -245,7 +253,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string? breakingBall1,
       string? breakingBall2,
       string? breakingBall3
-    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType, generatorWarnings)
     {
       PitcherType = pitcherType;
       TopSpeed = topSpeed;
@@ -274,6 +282,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
         sourceType: playerDetails.SourceType,
+        generatorWarnings: playerDetails.GeneratedPlayer_Warnings,
         pitcherType: player.PitcherType.GetAbbrev(),
         topSpeed: abilities.TopSpeedMph.RoundDown(),
         control: abilities.Control,

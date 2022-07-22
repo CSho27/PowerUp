@@ -1,13 +1,16 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
 import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
+import { FlyoutAnchor } from "../../components/flyout/flyout";
+import { Icon } from "../../components/icon/icon";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStamp";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
+import { distinctBy } from "../../utils/arrayUtils";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../app"
@@ -37,6 +40,8 @@ interface TeamGridProps {
 export function TeamGrid(props: TeamGridProps) {
   const { appContext, rosterId, disableRosterEdit, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
+
+  const [warningsOpenPlayerId, setWarningsOpenPlayerId] = useState<number|null>(null);
 
   const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
   const replaceTeamWithExistingApiClientRef = useRef(new ReplaceTeamWithExistingApiClient(appContext.commandFetcher));
@@ -195,6 +200,9 @@ export function TeamGrid(props: TeamGridProps) {
     return <>
       <StatHeader columnWidth='1px' />
       <StatHeader columnWidth='1px' />
+      <IconHeader>
+        <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.light_85 }} />
+      </IconHeader>
       <StatHeader>Num</StatHeader>
       <StatHeader>Pos</StatHeader>
       <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
@@ -206,6 +214,7 @@ export function TeamGrid(props: TeamGridProps) {
   function getPlayerDetailsColumns(details: PlayerDetails) {
     const positionType = getPositionType(details.position)
     const { playerId } = details;
+    const warnings = distinctBy(details.generatedPlayer_Warnings, w => w.errorKey);
 
     return <>
       <PlayerCell>
@@ -252,6 +261,19 @@ export function TeamGrid(props: TeamGridProps) {
             </ContextMenuItem>
           </>}
         />
+      </PlayerCell>
+      <PlayerCell>
+        {details.generatedPlayer_Warnings.length > 0 && 
+        <FlyoutAnchor
+          isOpen={warningsOpenPlayerId == playerId}
+          onCloseTrigger={() => setWarningsOpenPlayerId(null)}
+          onOpenTrigger={() => setWarningsOpenPlayerId(playerId)}
+          flyout={<PlayerGenerationWarningsFlyout>
+            {warnings.map(w => <div key={w.errorKey}>{w.message}</div>)}
+          </PlayerGenerationWarningsFlyout>}>
+            <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.regular_45 }} />
+        </FlyoutAnchor>
+        }
       </PlayerCell>
       <PlayerCell>
         <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
@@ -461,6 +483,14 @@ const PlayerGroupH3 = styled.h3`
   font-weight: 600;
 `
 
+const IconHeader = styled.th`
+  background-color: ${COLORS.jet.lighter_71};
+  position: sticky;
+  top: 88px;
+  height: 24px;
+  width: 1px;
+`
+
 const StatHeader = styled.th<{ columnWidth?: string }>`
   background-color: ${COLORS.jet.lighter_71};
   font-style: italic;
@@ -483,4 +513,10 @@ const PlayerRow = styled.tr`
 
 const PlayerCell = styled.td`
   white-space: nowrap;
+`
+
+const PlayerGenerationWarningsFlyout = styled.div`
+  background-color: ${COLORS.white.regular_100};
+  padding: 8px;
+  font-size: ${FONT_SIZES._14};
 `
