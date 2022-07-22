@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
+import { Link } from "../../components/link/link";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
@@ -90,7 +91,6 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
       </PositionBubble>
       </div>
       <div>
-
       <OutlineHeader fontSize={FONT_SIZES._40} strokeWeight={2} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
         {personalDetails.uniformNumber}
       </OutlineHeader>
@@ -98,6 +98,7 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
       <PlayerHeaderActions>
         <div>
           <PlayerHeaderActionButtons>
+            <Link icon='up-right-from-square' href={editorResponse.baseballReferenceUrl} target='_blank'>BBRef Page</Link>
             <Button
               variant='Outline'
               size='Small'

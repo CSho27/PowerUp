@@ -13,7 +13,8 @@ namespace PowerUp.Generators
       PlayerGenerationDataset.LSPlayerInfo,
       PlayerGenerationDataset.LSHittingStats,
       PlayerGenerationDataset.LSFieldingStats,
-      PlayerGenerationDataset.LSPitchingStats
+      PlayerGenerationDataset.LSPitchingStats,
+      PlayerGenerationDataset.BaseballReferenceIdDataset
     };
 
     public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary, ISkinColorGuesser skinColorGuesser) 
@@ -28,6 +29,9 @@ namespace PowerUp.Generators
       SetProperty("VoiceId", (player, data) => player.VoiceId = voiceLibrary.FindClosestTo(data.PlayerInfo!.FirstNameUsed, data.PlayerInfo!.LastName).Key);
       SetProperty("BattingSide", (player, data) => player.BattingSide = data.PlayerInfo!.BattingSide);
       SetProperty("ThrowingArm", (player, data) => player.ThrowingArm = data.PlayerInfo!.ThrowingArm);
+      SetProperty("GeneratedPlayer_FullFirstName", (player, data) => player.GeneratedPlayer_FullFirstName = data.PlayerInfo!.FirstNameUsed);
+      SetProperty("GeneratedPlayer_FullLastName", (player, data) => player.GeneratedPlayer_FullLastName = data.PlayerInfo!.LastName);
+      SetProperty("GeneratedPlayer_ProDebutDate", (player, data) => player.GeneratedPlayer_ProDebutDate = data.PlayerInfo!.ProDebutDate);
 
       // Appearance
       SetProperty(new SkinColorSetter(skinColorGuesser));

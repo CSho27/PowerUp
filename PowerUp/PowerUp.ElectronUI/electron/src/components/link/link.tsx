@@ -7,10 +7,11 @@ export interface LinkProps extends React.DetailedHTMLProps<React.AnchorHTMLAttri
 }
 
 export function Link(props: LinkProps) {
-  return <LinkWrapper>
+ const { ref, ...propsWithoutRef } = props;
+
+  return <LinkWrapper {...propsWithoutRef}>
     {props.icon && <Icon icon={props.icon} />}
     <LinkText>{props.children}</LinkText>
-    <a></a>
   </LinkWrapper>
 }
 

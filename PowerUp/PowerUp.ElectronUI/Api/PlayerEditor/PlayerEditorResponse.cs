@@ -2,6 +2,7 @@
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Libraries;
+using PowerUp.Providers;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.PlayerEditor
@@ -12,6 +13,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; }
     public bool CanEdit => SourceType.CanEdit();
+    public string? BaseballReferenceUrl { get; }
     public PlayerEditorOptions Options { get; }
     public PlayerPersonalDetailsDto PersonalDetails { get; }
     public AppearanceDetailsDto AppearanceDetails { get; }
@@ -25,10 +27,14 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IBattingStanceLibrary battingStanceLibrary,
       IPitchingMechanicsLibrary pitchingMechanicsLibrary,
       IFaceLibrary faceLibrary,
+      IBaseballReferenceUrlProvider bbrefUrlProvider,
       Player player
     )
     {
       SourceType = player.SourceType;
+      BaseballReferenceUrl = player.GeneratedPlayer_LSPLayerId.HasValue
+        ? bbrefUrlProvider.GetPlayerPageForUrl(player.GeneratedPlayer_FullFirstName!, player.GeneratedPlayer_FullLastName!, player.GeneratedPlayer_ProDebutDate!.Value)
+        : bbrefUrlProvider.GetSearchPageForUrl(player.FirstName, player.LastName);
       Options = new PlayerEditorOptions(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, faceLibrary);
       PersonalDetails = new PlayerPersonalDetailsDto(voiceLibrary, battingStanceLibrary, pitchingMechanicsLibrary, player);
       AppearanceDetails = new AppearanceDetailsDto(faceLibrary, player.Appearance);

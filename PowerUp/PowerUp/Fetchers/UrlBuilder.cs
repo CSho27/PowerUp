@@ -13,7 +13,6 @@ namespace PowerUp.Fetchers
         : url;
     }
 
-
     public static string Build(string url, object? parameters = null)
     {
       return parameters != null

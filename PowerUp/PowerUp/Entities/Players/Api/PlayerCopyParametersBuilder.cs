@@ -41,6 +41,9 @@
           BattingStanceId = player.BattingStanceId,
           ThrowingArm = player.ThrowingArm,
           PitchingMechanicsId = player.PitchingMechanicsId,
+          GeneratedPlayer_LSPlayerId = player.GeneratedPlayer_LSPLayerId,
+          GeneratedPlayer_FullFirstName = player.GeneratedPlayer_FullFirstName,
+          GeneratedPlayer_FullLastName  = player.GeneratedPlayer_FullLastName,
         },
         Appearance = new PlayerAppearanceParameters
         {

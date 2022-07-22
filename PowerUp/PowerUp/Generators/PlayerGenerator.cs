@@ -1,9 +1,11 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
+using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PowerUp.Generators
 {
@@ -32,14 +34,17 @@ namespace PowerUp.Generators
   {
     private readonly IPlayerApi _playerApi;
     private readonly IPlayerStatisticsFetcher _playerStatsFetcher;
+    private readonly IBaseballReferenceClient _baseballReferenceClient;
 
     public PlayerGenerator(
       IPlayerApi playerApi,
-      IPlayerStatisticsFetcher playerStatsFetcher
+      IPlayerStatisticsFetcher playerStatsFetcher,
+      IBaseballReferenceClient baseballReferenceClient
     )
     {
       _playerApi = playerApi;
       _playerStatsFetcher = playerStatsFetcher;
+      _baseballReferenceClient = baseballReferenceClient;
     }
 
     public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
@@ -52,6 +57,7 @@ namespace PowerUp.Generators
         excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
         excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
       );
+
       var data = new PlayerGenerationData
       {
         Year = year,

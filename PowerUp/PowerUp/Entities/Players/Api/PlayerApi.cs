@@ -65,6 +65,9 @@
       player.BattingStanceId = parameters.BattingStanceId!.Value;
       player.ThrowingArm = parameters.ThrowingArm;
       player.PitchingMechanicsId = parameters.PitchingMechanicsId!.Value;
+      player.GeneratedPlayer_LSPLayerId = parameters.GeneratedPlayer_LSPlayerId;
+      player.GeneratedPlayer_FullFirstName = parameters.GeneratedPlayer_FullFirstName;
+      player.GeneratedPlayer_FullLastName = parameters.GeneratedPlayer_FullLastName;
     }
 
     private void UpdatePositionCapabilities(PositionCapabilities positionCapabitlies, PlayerPositionCapabilitiesParameters parameters)

@@ -13,6 +13,9 @@ namespace PowerUp.Entities.Players
     public string FormalDisplayName => $"{LastName}, {FirstName}";
     public string InformalDisplayName => $"{FirstName} {LastName}";
     public long? GeneratedPlayer_LSPLayerId { get; set; }
+    public string? GeneratedPlayer_FullFirstName { get; set; }
+    public string? GeneratedPlayer_FullLastName { get; set; }
+    public DateTime? GeneratedPlayer_ProDebutDate { get; set; }
     public int? Year { get; set; }
     public string? ImportSource { get; set; }
     public int? SourcePowerProsId { get; set; }

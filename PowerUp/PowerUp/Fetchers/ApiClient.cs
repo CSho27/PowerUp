@@ -11,7 +11,7 @@ namespace PowerUp.Fetchers
   {
     private readonly HttpClient _client = new HttpClient();
 
-    private async Task<string> GetContent(string url)
+    public async Task<string> GetContent(string url)
     {
       var response = await _client.GetAsync(url);
       if(response.StatusCode != System.Net.HttpStatusCode.OK)

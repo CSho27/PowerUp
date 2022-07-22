@@ -11,7 +11,8 @@ namespace PowerUp.Generators
     LSPlayerInfo,
     LSHittingStats,
     LSFieldingStats,
-    LSPitchingStats
+    LSPitchingStats,
+    BaseballReferenceIdDataset
   }
 
   public class PlayerGenerationData 
@@ -36,6 +37,7 @@ namespace PowerUp.Generators
     public BattingSide BattingSide { get; }
     public ThrowingArm ThrowingArm { get; }
     public string? BirthCountry { get; }
+    public DateTime ProDebutDate { get; }
 
     public LSPlayerInfoDataset(PlayerInfoResult result)
     {
@@ -46,6 +48,7 @@ namespace PowerUp.Generators
       BattingSide = result.BattingSide;
       ThrowingArm = result.ThrowingArm;
       BirthCountry = result.BirthCountry;
+      ProDebutDate = result.ProDebutDate!.Value;
     }
   }
 

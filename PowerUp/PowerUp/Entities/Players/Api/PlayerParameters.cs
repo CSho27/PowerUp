@@ -27,6 +27,9 @@ namespace PowerUp.Entities.Players.Api
     public int? BattingStanceId { get; set; }
     public ThrowingArm ThrowingArm { get; set; }
     public int? PitchingMechanicsId { get; set; }
+    public long? GeneratedPlayer_LSPlayerId { get; set; }
+    public string? GeneratedPlayer_FullFirstName { get; set; }
+    public string? GeneratedPlayer_FullLastName { get; set; }
   }
 
   public class PlayerAppearanceParameters
