@@ -79,7 +79,7 @@ namespace PowerUp.Generators
         twentyFiveManRoster.Add(backupCatcher.PlayerId);
 
       // Add other bench players
-      for (var i = 0; i < playersOrderedByHitterAbility.Count && twentyFiveManRoster.Count < 12; i++)
+      for (var i = 0; i < playersOrderedByHitterAbility.Count && twentyFiveManRoster.Count < 13; i++)
         twentyFiveManRoster.Add(playersOrderedByHitterAbility[i].PlayerId);
 
       // Add starting pitchers
