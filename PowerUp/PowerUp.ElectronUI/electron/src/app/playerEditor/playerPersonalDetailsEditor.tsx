@@ -130,8 +130,12 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4' style={{ display: 'flex', alignItems: 'flex-end' }}>
-        <Button variant='Fill' size='Small' onClick={findClosestVoice}>
-          Find Closest
+        <Button 
+          variant='Fill' 
+          size='Small'
+          onClick={findClosestVoice} 
+          disabled={editorDisabled}>
+            Find Closest
         </Button> 
       </FlexFracItem>
     </FlexRow>
