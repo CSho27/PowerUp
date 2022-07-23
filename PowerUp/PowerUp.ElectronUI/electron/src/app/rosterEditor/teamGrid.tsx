@@ -200,9 +200,8 @@ export function TeamGrid(props: TeamGridProps) {
     return <>
       <StatHeader columnWidth='1px' />
       <StatHeader columnWidth='1px' />
-      <IconHeader>
-        <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.light_85 }} />
-      </IconHeader>
+      <IconHeader><Icon icon='asterisk' /></IconHeader>
+      <IconHeader><Icon icon='triangle-exclamation' /></IconHeader>
       <StatHeader>Num</StatHeader>
       <StatHeader>Pos</StatHeader>
       <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
@@ -263,17 +262,20 @@ export function TeamGrid(props: TeamGridProps) {
         />
       </PlayerCell>
       <PlayerCell>
+        {details.generatedPlayer_IsUnedited && 
+        <Icon icon='asterisk' title='Generated player has not yet been edited' />}
+      </PlayerCell>
+      <PlayerCell>
         {details.generatedPlayer_Warnings.length > 0 && 
         <FlyoutAnchor
           isOpen={warningsOpenPlayerId == playerId}
           onCloseTrigger={() => setWarningsOpenPlayerId(null)}
           onOpenTrigger={() => setWarningsOpenPlayerId(playerId)}
-          flyout={<PlayerGenerationWarningsFlyout>
+          flyout={<PlayerMessageFlyout>
             {warnings.map(w => <div key={w.errorKey}>{w.message}</div>)}
-          </PlayerGenerationWarningsFlyout>}>
+          </PlayerMessageFlyout>}>
             <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.regular_45 }} />
-        </FlyoutAnchor>
-        }
+        </FlyoutAnchor>}
       </PlayerCell>
       <PlayerCell>
         <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
@@ -516,7 +518,7 @@ const PlayerCell = styled.td`
   white-space: nowrap;
 `
 
-const PlayerGenerationWarningsFlyout = styled.div`
+const PlayerMessageFlyout = styled.div`
   background-color: ${COLORS.white.regular_100};
   padding: 8px;
   font-size: ${FONT_SIZES._14};

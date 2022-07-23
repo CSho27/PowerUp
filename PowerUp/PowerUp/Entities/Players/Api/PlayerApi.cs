@@ -50,6 +50,9 @@
 
     private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)
     {
+      if(player.GeneratedPlayer_IsUnedited)
+        player.GeneratedPlayer_IsUnedited = false;
+
       player.IsCustomPlayer = parameters.IsCustomPlayer;
       player.FirstName = parameters.FirstName!;
       player.LastName = parameters.LastName!;

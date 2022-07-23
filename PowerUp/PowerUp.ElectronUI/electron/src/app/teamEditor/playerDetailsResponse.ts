@@ -10,6 +10,7 @@ export interface PlayerDetailsResponse {
   fullName: string;
   savedName: string;
   generatedPlayer_Warnings: GeneratorWarningDto[];
+  generatedPlayer_IsUnedited: boolean;
   position: Position;
   positionAbbreviation: string;
   overall: number;
@@ -29,6 +30,7 @@ export function toPlayerDetails(detailsResponse: PlayerDetailsResponse): PlayerD
     fullName: detailsResponse.fullName,
     savedName: detailsResponse.savedName,
     generatedPlayer_Warnings: detailsResponse.generatedPlayer_Warnings,
+    generatedPlayer_IsUnedited: detailsResponse.generatedPlayer_IsUnedited,
     position: detailsResponse.position,
     positionAbbreviation: detailsResponse.positionAbbreviation,
     overall: detailsResponse.overall,

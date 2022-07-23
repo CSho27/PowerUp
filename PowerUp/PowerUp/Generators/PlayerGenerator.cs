@@ -76,6 +76,7 @@ namespace PowerUp.Generators
       var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data!.PrimaryPosition == Position.Pitcher);
       player.Year = year;
       player.GeneratedPlayer_LSPLayerId = lsPlayerId;
+      player.GeneratedPlayer_IsUnedited = true;
 
       var propertiesThatHaveBeenSet = new HashSet<string>();
       foreach(var setter in generationAlgorithm.PropertySetters)

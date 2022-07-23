@@ -33,6 +33,7 @@ export interface PlayerDetails {
   canEdit: boolean;
   playerId: number;
   generatedPlayer_Warnings: GeneratorWarningDto[];
+  generatedPlayer_IsUnedited: boolean;
   fullName: string;
   savedName: string;
   position: Position;

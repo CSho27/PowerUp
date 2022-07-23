@@ -25,6 +25,7 @@ namespace PowerUp.Entities.Players
     public DateTime? GeneratedPlayer_ProDebutDate { get; set; }
     public int? Year { get; set; }
     public List<GeneratorWarning> GeneratorWarnings { get; set; } = new List<GeneratorWarning>();
+    public bool GeneratedPlayer_IsUnedited { get; set; }
 
     public string SavedName { get; set; } = string.Empty;
     public int? SpecialSavedNameId { get; set; }

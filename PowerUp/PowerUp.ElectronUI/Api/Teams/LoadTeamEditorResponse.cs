@@ -53,6 +53,7 @@ namespace PowerUp.ElectronUI.Api.Teams
     public bool CanEdit => SourceType.CanEdit();
     public int PlayerId { get; }
     public IEnumerable<GeneratorWarning> GeneratedPlayer_Warnings { get; }
+    public bool GeneratedPlayer_IsUnedited { get; }
 
     public bool IsPinchHitter { get; }
     public bool IsPinchRunner { get; }
@@ -77,6 +78,7 @@ namespace PowerUp.ElectronUI.Api.Teams
       PitcherRole = playerRoleDefinition.PitcherRole;
       Details = new PlayerDetailsResponse(player);
       GeneratedPlayer_Warnings = player.GeneratorWarnings;
+      GeneratedPlayer_IsUnedited = player.GeneratedPlayer_IsUnedited;
     }
   }
 

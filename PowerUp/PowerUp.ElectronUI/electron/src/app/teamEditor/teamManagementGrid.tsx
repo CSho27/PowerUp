@@ -114,9 +114,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           <StatHeader columnWidth='1px' />
           <StatHeader columnWidth='1px' />
           <StatHeader columnWidth='1px' />
-          <IconHeader>
-            <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.light_85 }} />
-          </IconHeader>
+          <IconHeader><Icon icon='asterisk'/></IconHeader>
+          <IconHeader><Icon icon='triangle-exclamation'/></IconHeader>
           <StatHeader>Pos</StatHeader>
           <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
           <StatHeader>Ovr</StatHeader>
@@ -210,6 +209,10 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           icon={isAAA ? 'person-arrow-up-from-line' : 'person-arrow-down-to-line'}
           squarePadding
           onClick={() => sendUpOrDown(playerId)} />
+      </PlayerCell>
+      <PlayerCell>
+        {playerDetails.generatedPlayer_IsUnedited && 
+        <Icon icon='asterisk' title='Generated player has not yet been edited' />}
       </PlayerCell>
       <PlayerCell>
         {warnings.length > 0 && 

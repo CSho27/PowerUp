@@ -42,6 +42,7 @@ export interface PlayerDetails {
   sourceType: EntitySourceType;
   canEdit: boolean;
   generatedPlayer_Warnings: GeneratorWarningDto[];
+  generatedPlayer_IsUnedited: boolean;
 }
 
 export interface HitterDetails extends PlayerDetails {
