@@ -639,20 +639,23 @@ namespace PowerUp.Generators
     {
       if (datasetCollection.FieldingStats == null)
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.NoFieldingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoFieldingStats(PropertyKey));
         return false;
       }
 
       if (datasetCollection.FieldingStats.OverallFielding.Innings < 30)
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return false;
       }
 
       var relevantRF = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.RangeFactor;
       if (!relevantRF.HasValue)
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return false;
       }
 
@@ -685,20 +688,23 @@ namespace PowerUp.Generators
     {
       if(datasetCollection.FieldingStats == null)
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.NoFieldingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoFieldingStats(PropertyKey));
         return false;
       }
 
       if (datasetCollection.FieldingStats.OverallFielding.TotalChances < 100)
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return false;
       }
 
       var relevantFpct = datasetCollection.FieldingStats.FieldingByPosition[datasetCollection.PrimaryPosition]?.FieldingPercentage;
       if (!relevantFpct.HasValue)
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition != Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientFieldingStats(PropertyKey));
         return false;
       }
 
