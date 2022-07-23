@@ -1,18 +1,36 @@
+import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { COLORS, FONT_SIZES } from "../../style/constants";
+import { openInBrowserOnClick } from "../../utils/openInBroswer";
 import { Icon, IconType } from "../icon/icon";
 
-export interface LinkProps extends React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
+interface BaseLinkProps {
   icon?: IconType;
 }
 
-export function Link(props: LinkProps) {
- const { ref, ...propsWithoutRef } = props;
+interface UrlLinkProps extends BaseLinkProps {
+  url: string;
+}
 
-  return <LinkWrapper {...propsWithoutRef}>
+interface OnClickLinkProps extends BaseLinkProps {
+  onClick: () => void;
+}
+
+export type LinkProps = UrlLinkProps | OnClickLinkProps;
+
+export function Link(props: PropsWithChildren<LinkProps>) {
+  const onClick = isUrlLinkProps(props)
+    ? openInBrowserOnClick(props.url)
+    : props.onClick; 
+
+  return <LinkWrapper onClick={onClick}>
     {props.icon && <Icon icon={props.icon} />}
     <LinkText>{props.children}</LinkText>
   </LinkWrapper>
+}
+
+function isUrlLinkProps(props: LinkProps): props is UrlLinkProps {
+  return !!(props as UrlLinkProps).url;
 }
 
 const LinkWrapper = styled.a`

@@ -98,7 +98,7 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
       <PlayerHeaderActions>
         <div>
           <PlayerHeaderActionButtons>
-            <Link icon='up-right-from-square' href={editorResponse.baseballReferenceUrl} target='_blank'>BBRef</Link>
+            <Link icon='up-right-from-square' url={editorResponse.baseballReferenceUrl}>BBRef</Link>
             <Button
               variant='Outline'
               size='Small'

@@ -3,6 +3,8 @@ import { Icon } from "../../components/icon/icon";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
+import { shell } from "electron";
+import { openInBrowserOnClick } from "../../utils/openInBroswer";
 
 export interface PowerUpLayoutProps {
   headerText?: string;
@@ -22,7 +24,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
         <HelpIconSectionWrapper>
-          <HelpIconWrapper href='https://github.com/CSho27/PowerUp#use-guide' target='_blank' title='View Use Guide'>
+          <HelpIconWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
             Help
             <Icon icon='circle-question' />
           </HelpIconWrapper>
