@@ -24,8 +24,8 @@ namespace PowerUp
         return nameWithoutPrefixesAndSuffixes;
 
       var lastNameWithoutVowels = new string(name.Where((c, i) => i == 0 || !c.IsVowel()).ToArray());
-      if (lastNameWithoutVowels.Length <= 10)
-        return name;
+      if (lastNameWithoutVowels.Length <= length)
+        return lastNameWithoutVowels;
 
       return new string(name.Take(10).ToArray());
     }
