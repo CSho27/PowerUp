@@ -489,6 +489,7 @@ const IconHeader = styled.th`
   top: 88px;
   height: 24px;
   width: 1px;
+  padding: 0 8px;
 `
 
 const StatHeader = styled.th<{ columnWidth?: string }>`

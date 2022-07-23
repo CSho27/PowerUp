@@ -1,4 +1,5 @@
 import { EntitySourceType } from "../shared/entitySourceType";
+import { GeneratorWarningDto } from "../shared/generatorWarning";
 import { KeyedCode } from "../shared/keyedCode";
 import { Position } from "../shared/positionCode";
 
@@ -41,12 +42,6 @@ export interface PlayerDetails {
   sourceType: EntitySourceType;
   canEdit: boolean;
   generatedPlayer_Warnings: GeneratorWarningDto[];
-}
-
-export interface GeneratorWarningDto {
-  propertyKey: string;
-  errorKey: string;
-  message: string;
 }
 
 export interface HitterDetails extends PlayerDetails {
