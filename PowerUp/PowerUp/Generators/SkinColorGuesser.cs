@@ -25,7 +25,7 @@ namespace PowerUp.Generators
 
       var skinColorForCountry = _countryAndSkinColorLibrary[birthCountry];
       return skinColorForCountry.HasValue
-        ? (SkinColor)(skinColorForCountry + 1)
+        ? (SkinColor)(skinColorForCountry - 1)
         : SkinColor.Three;
     }
 
