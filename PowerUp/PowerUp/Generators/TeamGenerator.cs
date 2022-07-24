@@ -19,14 +19,16 @@ namespace PowerUp.Generators
   {
     public long LSTeamId { get; set; }
     public Team Team { get; set; }
-    public IEnumerable<Player> Players { get; set; }
+    public IEnumerable<Player> PlayersOnTeam { get; set; }
+    public IEnumerable<Player> PotentialFreeAgents { get; set; }
     public IEnumerable<GeneratorWarning> Warnings { get; set; } = Enumerable.Empty<GeneratorWarning>();
 
-    public TeamGenerationResult(long lsTeamId, Team team, IEnumerable<Player> players, IEnumerable<GeneratorWarning> warnings)
+    public TeamGenerationResult(long lsTeamId, Team team, IEnumerable<Player> players, IEnumerable<Player> potentialFreeAgents, IEnumerable<GeneratorWarning> warnings)
     {
       LSTeamId = lsTeamId;
       Team = team;
-      Players = players;
+      PlayersOnTeam = players;
+      PotentialFreeAgents = potentialFreeAgents;
       Warnings = warnings;
     }
   }
@@ -47,7 +49,7 @@ namespace PowerUp.Generators
 
     public TeamGenerationResult GenerateTeam(long lsTeamId, int year, string name, PlayerGenerationAlgorithm algorithm, Action<ProgressUpdate>? onProgressUpdate = null)
     {
-      var playerResults = Task.Run(() => _mlbLookupServiceClient.GetTeamRosterForYear(lsTeamId, year)).GetAwaiter().GetResult();
+      var playerResults = Task.Run(() => _mlbLookupServiceClient.GetTeamRosterForYear(lsTeamId, year)).WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
       var teamPlayers = playerResults.Results.ToList();
 
       var generatedPlayers = new List<PlayerGenerationResult>();
@@ -79,13 +81,20 @@ namespace PowerUp.Generators
 
       var rosterResults = RosterCreator.CreateRosters(rosterParams);
 
-      // Save generated players
-      var playersToSave = generatedPlayers
+      // Save players on team
+      var playersOnTeam = generatedPlayers
         .Where(p => rosterResults.FortyManRoster.Any(id => id == p.LSPlayerId))
         .Select(p => p.Player)
         .OrderByDescending(p => p.Overall);
+      DatabaseConfig.Database.SaveAll(playersOnTeam);
 
-      DatabaseConfig.Database.SaveAll(playersToSave);
+      // Save Potential Free Agents
+      var possibleFreeAgents = generatedPlayers
+        .OrderByDescending(p => p.Player.Overall)
+        .Where(p => !rosterResults.FortyManRoster.Any(id => id == p.LSPlayerId))
+        .Take(5)
+        .Select(p => p.Player);
+      DatabaseConfig.Database.SaveAll(possibleFreeAgents);
 
       var team = new Team
       {
@@ -93,7 +102,7 @@ namespace PowerUp.Generators
         SourceType = EntitySourceType.Generated,
         GeneratedTeam_LSTeamId = lsTeamId,
         Year = year,
-        PlayerDefinitions = playersToSave.Select(p => new PlayerRoleDefinition(p.Id!.Value)
+        PlayerDefinitions = playersOnTeam.Select(p => new PlayerRoleDefinition(p.Id!.Value)
         {
           IsAAA = !rosterResults.TwentyFiveManRoster.Contains(p.GeneratedPlayer_LSPLayerId!.Value),
           PitcherRole = rosterResults.Starters.Any(id => id == p.GeneratedPlayer_LSPLayerId)
@@ -102,11 +111,11 @@ namespace PowerUp.Generators
               ? PitcherRole.Closer
               : PitcherRole.MiddleReliever
         }),
-        NoDHLineup = rosterResults.NoDHLineup.Select(s => new LineupSlot { PlayerId = playersToSave.SingleOrDefault(p => p.GeneratedPlayer_LSPLayerId == s.PlayerId)?.Id, Position = s.Position }),
-        DHLineup = rosterResults.DHLineup.Select(s => new LineupSlot { PlayerId = playersToSave.Single(p => p.GeneratedPlayer_LSPLayerId == s.PlayerId).Id, Position = s.Position })
+        NoDHLineup = rosterResults.NoDHLineup.Select(s => new LineupSlot { PlayerId = playersOnTeam.SingleOrDefault(p => p.GeneratedPlayer_LSPLayerId == s.PlayerId)?.Id, Position = s.Position }),
+        DHLineup = rosterResults.DHLineup.Select(s => new LineupSlot { PlayerId = playersOnTeam.Single(p => p.GeneratedPlayer_LSPLayerId == s.PlayerId).Id, Position = s.Position })
       };
 
-      return new TeamGenerationResult(lsTeamId, team, playersToSave, Enumerable.Empty<GeneratorWarning>());
+      return new TeamGenerationResult(lsTeamId, team, playersOnTeam, possibleFreeAgents, Enumerable.Empty<GeneratorWarning>());
     }
   }
 }

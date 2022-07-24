@@ -47,6 +47,7 @@ namespace PowerUp.Generators
       var teamResults = Task.Run(() => _mlbLookupServiceClient.GetTeamsForYear(year)).GetAwaiter().GetResult();
       var teams = teamResults.Results.ToList();
       var playerIdsByLSPlayerId = new Dictionary<long, int>();
+      var freeAgents = new List<Player>();
       var alPlayers = new List<Player>();
       var nlPlayers = new List<Player>();
 
@@ -61,10 +62,13 @@ namespace PowerUp.Generators
 
         var generatedTeam = _teamGenerator.GenerateTeam(team.LSTeamId, year, team.FullName, playerGenerationAlgorithm, onPlayerProgressUpdate);
         generatedTeams.Add(generatedTeam);
+
+        freeAgents.AddRange(generatedTeam.PotentialFreeAgents);
+
         if(team.League == "NL")
-          nlPlayers.AddRange(generatedTeam.Players.OrderByDescending(p => p.Overall).Take(10));
+          nlPlayers.AddRange(generatedTeam.PlayersOnTeam.OrderByDescending(p => p.Overall).Take(10));
         else
-          alPlayers.AddRange(generatedTeam.Players.OrderByDescending(p => p.Overall).Take(10));
+          alPlayers.AddRange(generatedTeam.PlayersOnTeam.OrderByDescending(p => p.Overall).Take(10));
       }
 
       var ppTeams = Enum.GetValues<MLBPPTeam>().ToList();
@@ -134,13 +138,18 @@ namespace PowerUp.Generators
       foreach (var team in teamsNotInList)
         teamsByPPTeam.Add(team, baseRoster.TeamIdsByPPTeam[team]);
 
+      var orderedFreeAgents = freeAgents.OrderByDescending(fa => fa.Overall);
+      var freeAgentPitchers = orderedFreeAgents.Where(fa => fa.PrimaryPosition == Position.Pitcher).Take(10);
+      var freeAgentHitters = orderedFreeAgents.Where(fa => fa.PrimaryPosition != Position.Pitcher).Take(5);
+
       // Add base roster teams for remaining PPTeams
       var roster = new Roster
       {
         SourceType = EntitySourceType.Generated,
         Name = $"{year} MLB Rosters",
         Year = year,
-        TeamIdsByPPTeam = teamsByPPTeam
+        TeamIdsByPPTeam = teamsByPPTeam,
+        FreeAgentPlayerIds = freeAgentPitchers.Concat(freeAgentHitters).Select(fa => fa.Id!.Value)
       };
 
       return new RosterGenerationResult(roster, Enumerable.Empty<GeneratorWarning>());
