@@ -94,7 +94,7 @@ namespace PowerUp.GameSave.Api
         }
 
 
-        var freeAgents = roster.GetFreeAgentPlayers().Select((fa, i) => _playerMapper.MapToGSPlayer(fa, MLBPPTeam.NationalLeagueAllStars, ppId + i));
+        var freeAgents = roster.GetFreeAgentPlayers().Select((fa, i) => _playerMapper.MapToGSPlayer(fa, MLBPPTeam.NationalLeagueAllStars, ppId + i + 1));
         gsPlayers.AddRange(freeAgents);
 
         var blankFreeAgentSpots = new List<GSFreeAgent>();
