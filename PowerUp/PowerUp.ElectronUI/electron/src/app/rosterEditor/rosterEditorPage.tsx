@@ -15,6 +15,7 @@ import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { EditRosterNameApiClient } from "./editRosterNameApiClient";
 import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
+import { PlayerGrid } from "./playerGrid";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { RosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
@@ -26,11 +27,12 @@ export interface RosterEditorPageProps {
 }
 
 export function RosterEditorPage(props: RosterEditorPageProps) {
-  const { appContext, divisionOptions, rosterDetails } = props;
-  const { rosterId, name, teams } = rosterDetails;
+  const { appContext, rosterDetails } = props;
+  const { rosterId, name, teams, freeAgentHitters, freeAgentPitchers } = rosterDetails;
 
   const rosterNameApiClientRef = useRef(new EditRosterNameApiClient(appContext.commandFetcher));
 
+  const divisionOptions: KeyedCode[] = [...props.divisionOptions, { key: 'FreeAgents', name: 'Free Agents' }];
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
   const [isEditingRosterName, setIsEditingRosterName] = useState(false);
   const [rosterName, setRosterName] = useState(name);
@@ -87,6 +89,18 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     <ContentWithHangingHeader header={header} headerHeight='128px' contentRef={teamsRef}>
       <TeamsContainer>
         {teams.filter(t => t.division === selectedDivision.key).map(toTeamGrid)}
+        {selectedDivision.key === 'FreeAgents' &&
+
+        <FreeAgentTable>
+          <PlayerGrid
+            appContext={appContext}
+            rosterId={rosterId}
+            teamId={null}
+            hitters={freeAgentHitters}
+            pitchers={freeAgentPitchers}
+            disableManagement={disableRosterEdit}
+          />
+        </FreeAgentTable>}
       </TeamsContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
@@ -135,6 +149,12 @@ const TeamsContainer = styled.div`
 
 const TeamWrapper = styled.div`
   margin-top: 16px;
+`
+
+const FreeAgentTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  isolation: isolate;
 `
 
 

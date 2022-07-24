@@ -27,19 +27,27 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public int RosterId { get; set; }
     public string Name { get; set; }
     public IEnumerable<TeamDetails> Teams { get; set; }
+    public IEnumerable<HitterDetails> FreeAgentHitters { get; set; }
+    public IEnumerable<PitcherDetails> FreeAgentPitchers { get; set; }
 
-    public RosterDetails(EntitySourceType sourceType, int rosterId, string name, IEnumerable<TeamDetails> teams)
+    public RosterDetails(EntitySourceType sourceType, int rosterId, string name, IEnumerable<TeamDetails> teams, IEnumerable<HitterDetails> freeAgentHitters, IEnumerable<PitcherDetails> freeAgentPitchers)
     {
       SourceType = sourceType;
       RosterId = rosterId;
       Name = name;
       Teams = teams;
+      FreeAgentHitters = freeAgentHitters;
+      FreeAgentPitchers = freeAgentPitchers;
     }
 
     public static RosterDetails FromRoster(Roster roster)
     {
       var teams = roster.GetTeams().Select(kvp => TeamDetails.FromTeam(kvp.Key, kvp.Value));
-      return new RosterDetails(roster.SourceType, roster.Id!.Value, roster.Name, teams);
+      var freeAgents = roster.GetFreeAgentPlayers().ToList();
+
+      var hitters = freeAgents.Where(p => p.PrimaryPosition != Position.Pitcher).OrderByDescending(p => p.Overall).Select(HitterDetails.FromPlayer);
+      var pitchers = freeAgents.Where(p => p.PrimaryPosition == Position.Pitcher).OrderByDescending(p => p.Overall).Select(PitcherDetails.FromPlayer);
+      return new RosterDetails(roster.SourceType, roster.Id!.Value, roster.Name, teams, hitters, pitchers);
     }
   }
 

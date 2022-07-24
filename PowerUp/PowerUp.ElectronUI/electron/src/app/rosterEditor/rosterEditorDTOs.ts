@@ -14,6 +14,8 @@ export interface RosterDetails {
   rosterId: number;
   name: string
   teams: TeamDetails[];
+  freeAgentHitters: HitterDetails[];
+  freeAgentPitchers: PitcherDetails[];
 }
 
 export interface TeamDetails {

@@ -22,6 +22,7 @@ import { DisableResult } from "../shared/disableResult";
 import { getPositionType, positionCompare } from "../shared/positionCode";
 import { TeamGenerationModal } from "../teamGenerationModal/teamGenerationModal";
 import { TeamSelectionModal } from "../teamSelectionModal/teamSelectionModal";
+import { PlayerGrid } from "./playerGrid";
 import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
 import { ReplaceTeamWithExistingApiClient } from "./replaceTeamWithExistingApiClient";
@@ -41,15 +42,9 @@ export function TeamGrid(props: TeamGridProps) {
   const { appContext, rosterId, disableRosterEdit, team } = props;
   const { name, powerProsName, hitters, pitchers } = team;
 
-  const [warningsOpenPlayerId, setWarningsOpenPlayerId] = useState<number|null>(null);
-
   const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
   const replaceTeamWithExistingApiClientRef = useRef(new ReplaceTeamWithExistingApiClient(appContext.commandFetcher));
   const replaceTeamWithNewApiClientRef = useRef(new ReplaceTeamWithNewTeamApiClient(appContext.commandFetcher));
-
-  const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
-  const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
-  const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
 
   const teamIdentifier = toIdentifier('Team', team.teamId);
   const teamDisplayName = name === powerProsName
@@ -59,8 +54,6 @@ export function TeamGrid(props: TeamGridProps) {
   const disableManageTeam: DisabledCriteria = [
     { isDisabled: !team.canEdit, tooltipIfDisabled: 'Teams of this type cannot be edited' }
   ]
-
-  const hittersDisplay = hitters.slice().sort((p1, p2) => positionCompare(p1.position, p2.position))
 
   return <TeamGridTable>
     <TeamGridCaption>
@@ -130,236 +123,15 @@ export function TeamGrid(props: TeamGridProps) {
           </>}/>
       </div>
     </TeamGridCaption>
-    <thead>
-      <tr>
-        <PlayerGroupHeader colSpan={'100%' as any}>
-          <PlayerGroupH3>
-            Hitters
-          </PlayerGroupH3>
-        </PlayerGroupHeader>
-      </tr>
-      <tr>
-        {getPlayerDetailsHeaders()}
-        <StatHeader>Trj</StatHeader>
-        <StatHeader>Con</StatHeader>
-        <StatHeader>Pwr</StatHeader>
-        <StatHeader>Run</StatHeader>
-        <StatHeader><CenteringWrapper>Arm</CenteringWrapper></StatHeader>
-        <StatHeader>Fld</StatHeader>
-        <StatHeader>E-Res</StatHeader>
-      </tr>
-    </thead>
-    <PlayerTableBody>
-    {hittersDisplay.map(h => 
-      <PlayerRow key={h.playerId}>
-        {getPlayerDetailsColumns(h)}
-        <PlayerCell>{h.trajectory}</PlayerCell>
-        <PlayerCell>{h.contact}</PlayerCell>
-        <PlayerCell>{h.power}</PlayerCell>
-        <PlayerCell>{h.runSpeed}</PlayerCell>
-        <PlayerCell>{h.armStrength}</PlayerCell>
-        <PlayerCell>{h.fielding}</PlayerCell>
-        <PlayerCell>{h.errorResistance}</PlayerCell>
-      </PlayerRow>)}
-    </PlayerTableBody>
-    <thead>
-      <tr>
-        <PlayerGroupHeader colSpan={'100%' as any}>
-          <PlayerGroupH3>
-            Pitchers
-          </PlayerGroupH3>
-        </PlayerGroupHeader>
-      </tr>
-      <tr>
-        {getPlayerDetailsHeaders()}
-        <StatHeader>Type</StatHeader>
-        <StatHeader>Top Spd</StatHeader>
-        <StatHeader>Ctrl</StatHeader>
-        <StatHeader>Stam</StatHeader>
-        <StatHeader columnWidth='64px'>Brk 1</StatHeader>
-        <StatHeader columnWidth='64px'>Brk 2</StatHeader>
-        <StatHeader columnWidth='64px'>Brk 3</StatHeader>
-      </tr>
-    </thead>
-    <PlayerTableBody>
-    {pitchers.map(p => 
-      <PlayerRow key={p.playerId}>
-        {getPlayerDetailsColumns(p)}
-        <PlayerCell>{p.pitcherType}</PlayerCell>
-        <PlayerCell>{p.topSpeed} mph</PlayerCell>
-        <PlayerCell>{p.control}</PlayerCell>
-        <PlayerCell>{p.stamina}</PlayerCell>
-        <PlayerCell>{p.breakingBall1}</PlayerCell>
-        <PlayerCell>{p.breakingBall2}</PlayerCell>
-        <PlayerCell>{p.breakingBall3}</PlayerCell>
-      </PlayerRow>)}
-    </PlayerTableBody>
-  </TeamGridTable>;
-
-  function getPlayerDetailsHeaders() {
-    return <>
-      <StatHeader columnWidth='1px' />
-      <StatHeader columnWidth='1px' />
-      <IconHeader><Icon icon='asterisk' /></IconHeader>
-      <IconHeader><Icon icon='triangle-exclamation' /></IconHeader>
-      <StatHeader>Num</StatHeader>
-      <StatHeader>Pos</StatHeader>
-      <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
-      <StatHeader>Ovr</StatHeader>
-      <StatHeader>B/T</StatHeader>
-    </>
-  }
-
-  function getPlayerDetailsColumns(details: PlayerDetails) {
-    const positionType = getPositionType(details.position)
-    const { playerId } = details;
-    const warnings = distinctBy(details.generatedPlayer_Warnings, w => w.errorKey);
-
-    return <>
-      <PlayerCell>
-        <Button
-          size='Small'
-          variant='Outline'
-          title={details.canEdit
-            ? 'Edit player'
-            : 'View player'}
-          icon={details.canEdit
-            ? 'user-pen'
-            : 'eye'}
-          squarePadding
-          onClick={() => editPlayer(playerId)}
-        />
-      </PlayerCell>
-      <PlayerCell>
-        <ContextMenuButton
-          size='Small'
-          variant='Outline'
-          icon='right-left'
-          {...toDisabledProps('Replace player', ...disableManageTeam)}
-          squarePadding
-          menuItems={<>
-            <ContextMenuItem 
-              icon='copy'
-              onClick={() => replacePlayerWithCopy(playerId)}>
-                Replace with copy
-            </ContextMenuItem>
-            <ContextMenuItem 
-              icon='box-archive'
-              onClick={() => replacePlayerWithExisting(playerId)}>
-                Replace with existing
-            </ContextMenuItem>
-            <ContextMenuItem 
-              icon='wand-magic-sparkles'
-              onClick={() => replaceWithGeneratedPlayer(playerId)}>
-                Replace with generated
-            </ContextMenuItem>
-            <ContextMenuItem 
-              icon='user-plus'
-              onClick={() => replaceWithNewPlayer(playerId)}>
-                Replace with new
-            </ContextMenuItem>
-          </>}
-        />
-      </PlayerCell>
-      <PlayerCell>
-        {details.generatedPlayer_IsUnedited && 
-        <Icon icon='asterisk' title='Generated player has not yet been edited' />}
-      </PlayerCell>
-      <PlayerCell>
-        {details.generatedPlayer_Warnings.length > 0 && 
-        <FlyoutAnchor
-          isOpen={warningsOpenPlayerId == playerId}
-          onCloseTrigger={() => setWarningsOpenPlayerId(null)}
-          onOpenTrigger={() => setWarningsOpenPlayerId(playerId)}
-          flyout={<PlayerMessageFlyout>
-            {warnings.map(w => <div key={w.errorKey}>{w.message}</div>)}
-          </PlayerMessageFlyout>}>
-            <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.regular_45 }} />
-        </FlyoutAnchor>}
-      </PlayerCell>
-      <PlayerCell>
-        <OutlineHeader fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.white.regular_100}>
-          {details.uniformNumber}
-        </OutlineHeader>
-      </PlayerCell>
-      <PlayerCell>
-        <CenteringWrapper>
-          <PositionBubble 
-            positionType={positionType} 
-            size='Medium' 
-            squarePadding>
-              {details.positionAbbreviation}
-          </PositionBubble>
-        </CenteringWrapper>
-      </PlayerCell>
-      <PlayerCell>
-        <CenteringWrapper>
-          <PlayerNameBubble 
-            appContext={appContext}
-            sourceType={details.sourceType}
-            playerId={details.playerId}
-            positionType={positionType} 
-            size='Medium'
-            fullWidth
-          >
-            {details.savedName}
-          </PlayerNameBubble>
-        </CenteringWrapper>
-      </PlayerCell>
-      <PlayerCell>{details.overall}</PlayerCell>
-      <PlayerCell>{details.batsAndThrows}</PlayerCell>
-    </>
-  }
-
-  function editPlayer(playerId: number) {
-    appContext.setPage({ page: 'PlayerEditorPage', playerId: playerId });
-  }
-
-  async function replacePlayerWithCopy(playerId: number) {
-    const response = await replacePlayerWithCopyApiClientRef.current.execute({ teamId: team.teamId, playerId: playerId });
-    if(response.success)
-      appContext.reloadCurrentPage();
-  }
-
-  function replacePlayerWithExisting(playerToReplaceId: number) {
-    appContext.openModal(closeDialog => <PlayerSelectionModal 
-      appContext={appContext} 
-      isPlayerDisabled={isPlayerDisabled}
-      closeDialog={playerToInsertId => { 
-        closeDialog(); 
-        if(!!playerToInsertId)
-          executeReplacePlayer(playerToReplaceId, playerToInsertId); 
-      }} 
-    />)
-  }
-
-  function replaceWithGeneratedPlayer(playerToReplaceId: number) {
-    appContext.openModal(closeDialog => <PlayerGenerationModal
+    <PlayerGrid 
       appContext={appContext}
-      closeDialog={async generatedPlayerId => {
-        closeDialog();
-        if(!!generatedPlayerId) {
-          executeReplacePlayer(playerToReplaceId, generatedPlayerId); 
-        }
-      }}
-    />);
-  }
-
-  async function executeReplacePlayer(playerToReplaceId: number, playerToInsertId: number) {
-    const response = await replacePlayerWithExistingApiClientRef.current.execute({ 
-      teamId: team.teamId, 
-      playerToReplaceId: playerToReplaceId,
-      playerToInsertId: playerToInsertId
-    });
-    if(response.success)
-      appContext.reloadCurrentPage();
-  }
-
-  async function replaceWithNewPlayer(playerId: number) {
-    const response = await replaceWithNewApiClientRef.current.execute({ teamId: team.teamId, playerToReplaceId: playerId });
-    if(response.success)
-      appContext.reloadCurrentPage();
-  }
+      rosterId={rosterId}
+      teamId={team.teamId}
+      hitters={team.hitters}
+      pitchers={team.pitchers}
+      disableManagement={disableManageTeam}
+    />
+  </TeamGridTable>;
 
   async function editTeam() {
     appContext.setPage({ page: 'TeamEditorPage', teamId: team.teamId });
@@ -408,20 +180,6 @@ export function TeamGrid(props: TeamGridProps) {
     if(response.success)
       appContext.reloadCurrentPage();
   }
-
-
-  function isPlayerDisabled(player: PlayerSearchResultDto): DisableResult {
-    const isDisabled = hitters.some(h => h.playerId === player.playerId) 
-      || pitchers.some(p => p.playerId === player.playerId);
-
-    return {
-      disabled: isDisabled,
-      message: isDisabled
-        ? 'Player is already on this team'
-        : undefined
-    }
-
-  }
 }
 
 const TeamGridTable = styled.table`
@@ -468,58 +226,4 @@ const TeamStatLabel = styled.div`
 const TeamStatValue = styled.div`
   font-style: italic;
   text-align: right;
-`
-
-const PlayerGroupHeader = styled.th`
-  padding: 0px 16px;
-  background-color: ${COLORS.jet.light_39};
-  color: ${COLORS.white.regular_100};
-  position: sticky;
-  top: 64px;
-  height: 24px;
-`
-
-const PlayerGroupH3 = styled.h3`
-  text-align: left;
-  font-style: italic;
-  font-weight: 600;
-`
-
-const IconHeader = styled.th`
-  background-color: ${COLORS.jet.lighter_71};
-  position: sticky;
-  top: 88px;
-  height: 24px;
-  width: 1px;
-  padding: 0 8px;
-`
-
-const StatHeader = styled.th<{ columnWidth?: string }>`
-  background-color: ${COLORS.jet.lighter_71};
-  font-style: italic;
-  position: sticky;
-  top: 88px;
-  height: 24px;
-  width: ${p => p.columnWidth ?? '32px'};
-  white-space: nowrap;
-`
-
-const PlayerTableBody = styled.tbody`
-  text-align: center;
-`
-
-const PlayerRow = styled.tr`
-  &:nth-child(even) {
-    background-color: ${COLORS.jet.superlight_85};
-  } 
-`
-
-const PlayerCell = styled.td`
-  white-space: nowrap;
-`
-
-const PlayerMessageFlyout = styled.div`
-  background-color: ${COLORS.white.regular_100};
-  padding: 8px;
-  font-size: ${FONT_SIZES._14};
 `
