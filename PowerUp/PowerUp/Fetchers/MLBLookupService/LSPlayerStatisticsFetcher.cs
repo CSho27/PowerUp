@@ -85,7 +85,7 @@ namespace PowerUp.Fetchers.MLBLookupService
         fetchTasks.Add(fetchPitchingStats);
       }
 
-      Task.WaitAll(fetchTasks.ToArray());
+      Task.WaitAll(fetchTasks.ToArray(), 5000);
 
       return result;
     }
