@@ -97,6 +97,10 @@ namespace PowerUp.GameSave.Api
         var freeAgents = roster.GetFreeAgentPlayers().Select((fa, i) => _playerMapper.MapToGSPlayer(fa, MLBPPTeam.NationalLeagueAllStars, ppId + i));
         gsPlayers.AddRange(freeAgents);
 
+        var blankFreeAgentSpots = new List<GSFreeAgent>();
+        for (var i = freeAgents.Count(); i < 15; i++)
+          blankFreeAgentSpots.Add(new GSFreeAgent() { PowerProsPlayerId = 0 });
+
         var gameSave = new GSGameSave
         {
           Players = gsPlayers,
@@ -104,7 +108,9 @@ namespace PowerUp.GameSave.Api
           Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),
           FreeAgents = new GSFreeAgentList 
           { 
-            FreeAgents = freeAgents.Select(fa => new GSFreeAgent { PowerProsPlayerId = fa.PowerProsId })
+            FreeAgents = freeAgents
+              .Select(fa => new GSFreeAgent { PowerProsPlayerId = fa.PowerProsId })
+              .Concat(blankFreeAgentSpots)
           } 
         };
 
