@@ -17,30 +17,29 @@ import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiCl
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
 import { getPositionType, positionCompare } from "../shared/positionCode";
-import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
+import { CopyPlayerApiClient } from "../teamEditor/copyPlayerApiClient";
+import { CreatePlayerApiClient } from "../teamEditor/createPlayerApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
-import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
 import { HitterDetails, PitcherDetails, PlayerDetails } from "./rosterEditorDTOs";
 
 export interface PlayerGridProps {
   appContext: AppContext;
-  rosterId: number;
-  teamId: number | null;
   hitters: HitterDetails[];
   pitchers: PitcherDetails[];
   disableManagement: DisabledCriteria;
+  hasTeamHeader?: boolean;
+  replacePlayer: (playerToReplaceId: number, playerToInsertId: number) => Promise<boolean>;
 }
 
 export function PlayerGrid(props: PlayerGridProps) {
-  const { appContext, rosterId, teamId, pitchers, disableManagement } = props;
+  const { appContext, pitchers, disableManagement, replacePlayer } = props;
+  const hasTeamHeader = !!props.hasTeamHeader;
   const hitters = props.hitters.slice().sort((p1, p2) => positionCompare(p1.position, p2.position));
 
   const [warningsOpenPlayerId, setWarningsOpenPlayerId] = useState<number|null>(null);
 
-  const replacePlayerWithCopyApiClientRef = useRef(new ReplacePlayerWithCopyApiClient(appContext.commandFetcher));
-  const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
-  const replaceWithNewApiClientRef = useRef(new ReplaceWithNewPlayerApiClient(appContext.commandFetcher));
-  const hasTeamHeader = !!teamId;
+  const copyPlayerApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
+  const createPlayerApiClientRef = useRef(new CreatePlayerApiClient(appContext.commandFetcher));
 
   return <>
     <thead>
@@ -77,7 +76,7 @@ export function PlayerGrid(props: PlayerGridProps) {
   </PlayerTableBody>
   <thead>
     <tr>
-      <PlayerGroupHeader hasTeamHeader={!!teamId} colSpan={'100%' as any}>
+      <PlayerGroupHeader hasTeamHeader={hasTeamHeader} colSpan={'100%' as any}>
         <PlayerGroupH3>
           Pitchers
         </PlayerGroupH3>
@@ -168,7 +167,7 @@ export function PlayerGrid(props: PlayerGridProps) {
             </ContextMenuItem>
             <ContextMenuItem
               icon='user-plus'
-              onClick={() => replaceWithNewPlayer(playerId)}>
+              onClick={() => replaceWithNewPlayer(playerId, details.position === 'Pitcher')}>
               Replace with new
             </ContextMenuItem>
           </>}
@@ -229,9 +228,8 @@ export function PlayerGrid(props: PlayerGridProps) {
   }
 
   async function replacePlayerWithCopy(playerId: number) {
-    const response = await replacePlayerWithCopyApiClientRef.current.execute({ teamId: teamId!, playerId: playerId });
-    if(response.success)
-      appContext.reloadCurrentPage();
+    const response = await copyPlayerApiClientRef.current.execute({ playerId: playerId });
+    executeReplacePlayer(playerId, response.playerId);
   }
 
   function replacePlayerWithExisting(playerToReplaceId: number) {
@@ -258,19 +256,14 @@ export function PlayerGrid(props: PlayerGridProps) {
     />);
   }
 
-  async function executeReplacePlayer(playerToReplaceId: number, playerToInsertId: number) {
-    const response = await replacePlayerWithExistingApiClientRef.current.execute({ 
-      teamId: teamId!, 
-      playerToReplaceId: playerToReplaceId,
-      playerToInsertId: playerToInsertId
-    });
-    if(response.success)
-      appContext.reloadCurrentPage();
+  async function replaceWithNewPlayer(playerId: number, isPitcher: boolean) {
+    const response = await createPlayerApiClientRef.current.execute({ isPitcher: isPitcher });
+    executeReplacePlayer(playerId, response.playerId);
   }
 
-  async function replaceWithNewPlayer(playerId: number) {
-    const response = await replaceWithNewApiClientRef.current.execute({ teamId: teamId!, playerToReplaceId: playerId });
-    if(response.success)
+  async function executeReplacePlayer(playerToReplaceId: number, playerToInsertId: number) {
+    const success = await replacePlayer(playerToReplaceId, playerToInsertId);
+    if(success)
       appContext.reloadCurrentPage();
   }
 

@@ -94,11 +94,11 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
         <FreeAgentTable>
           <PlayerGrid
             appContext={appContext}
-            rosterId={rosterId}
-            teamId={null}
             hitters={freeAgentHitters}
             pitchers={freeAgentPitchers}
             disableManagement={disableRosterEdit}
+            hasTeamHeader
+            replacePlayer={replacePlayer}
           />
         </FreeAgentTable>}
       </TeamsContainer>
@@ -120,7 +120,11 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
     const response = await rosterNameApiClientRef.current.execute({ rosterId: rosterId, rosterName: rosterName });
     if(response.success)
        setIsEditingRosterName(false);
-  } 
+  }
+
+  async function replacePlayer(playerToReplaceId: number, playerToInsertId: number) {
+    return true;
+  }
 
   function handleDivisionChange(division: KeyedCode) {
     setSelectedDivision(division);

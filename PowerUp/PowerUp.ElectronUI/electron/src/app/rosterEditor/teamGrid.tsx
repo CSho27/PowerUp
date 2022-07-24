@@ -1,35 +1,20 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
-import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
-import { FlyoutAnchor } from "../../components/flyout/flyout";
-import { Icon } from "../../components/icon/icon";
-import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStamp";
-import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
-import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants"
-import { distinctBy } from "../../utils/arrayUtils";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../app"
-import { PlayerGenerationApiClient } from "../playerGenerationModal/playerGenerationApiClient";
-import { PlayerGenerationModal } from "../playerGenerationModal/playerGenerationModal";
-import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
-import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
-import { DisableResult } from "../shared/disableResult";
-import { getPositionType, positionCompare } from "../shared/positionCode";
 import { TeamGenerationModal } from "../teamGenerationModal/teamGenerationModal";
 import { TeamSelectionModal } from "../teamSelectionModal/teamSelectionModal";
 import { PlayerGrid } from "./playerGrid";
-import { ReplacePlayerWithCopyApiClient } from "./replacePlayerWithCopyApiClient";
 import { ReplaceTeamWithCopyApiClient } from "./replaceTeamWithCopyApiClient";
 import { ReplaceTeamWithExistingApiClient } from "./replaceTeamWithExistingApiClient";
 import { ReplaceTeamWithNewTeamApiClient } from "./replaceTeamWithNewTeamApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
-import { ReplaceWithNewPlayerApiClient } from "./replaceWithNewPlayerApiClient";
-import { PlayerDetails, TeamDetails } from "./rosterEditorDTOs";
+import { TeamDetails } from "./rosterEditorDTOs";
 
 interface TeamGridProps {
   appContext: AppContext;
@@ -45,6 +30,7 @@ export function TeamGrid(props: TeamGridProps) {
   const replaceTeamWithCopyApiClientRef = useRef(new ReplaceTeamWithCopyApiClient(appContext.commandFetcher));
   const replaceTeamWithExistingApiClientRef = useRef(new ReplaceTeamWithExistingApiClient(appContext.commandFetcher));
   const replaceTeamWithNewApiClientRef = useRef(new ReplaceTeamWithNewTeamApiClient(appContext.commandFetcher));
+  const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
 
   const teamIdentifier = toIdentifier('Team', team.teamId);
   const teamDisplayName = name === powerProsName
@@ -125,11 +111,11 @@ export function TeamGrid(props: TeamGridProps) {
     </TeamGridCaption>
     <PlayerGrid 
       appContext={appContext}
-      rosterId={rosterId}
-      teamId={team.teamId}
       hitters={team.hitters}
       pitchers={team.pitchers}
       disableManagement={disableManageTeam}
+      replacePlayer={replacePlayer}
+      hasTeamHeader
     />
   </TeamGridTable>;
 
@@ -169,6 +155,15 @@ export function TeamGrid(props: TeamGridProps) {
           executeReplaceTeam(teamToInsertId);
       }} 
     />)
+  }
+
+  async function replacePlayer(playerToReplaceId: number, playerToInsertId: number) {
+    const response = await replacePlayerWithExistingApiClientRef.current.execute({ 
+      teamId: team.teamId, 
+      playerToReplaceId: playerToReplaceId,
+      playerToInsertId: playerToInsertId
+    });
+    return response.success;
   }
 
   async function executeReplaceTeam(teamToInsertId: number) {

@@ -19,9 +19,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<LoadExistingRosterOptionsCommand>();
       services.AddSingleton<LoadPlayerEditorCommand>();
       services.AddSingleton<SavePlayerCommand>();
-      services.AddSingleton<ReplaceWithNewPlayerCommand>();
-      services.AddSingleton<ReplacePlayerWithCopyCommand>();
-      services.AddSingleton<ReplaceWithExistingPlayerCommand>();
+      services.AddSingleton<ReplacePlayerCommand>();
       services.AddSingleton<PlayerSearchCommand>();
       services.AddSingleton<LoadTeamEditorCommand>();
       services.AddSingleton<CopyPlayerCommand>();
@@ -57,9 +55,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(LoadExistingRosterOptionsCommand), "LoadExistingRosterOptions");
       commandRegistry.RegisterCommand(typeof(LoadPlayerEditorCommand), "LoadPlayerEditor");
       commandRegistry.RegisterCommand(typeof(SavePlayerCommand), "SavePlayer");
-      commandRegistry.RegisterCommand(typeof(ReplaceWithNewPlayerCommand), "ReplaceWithNewPlayer");
-      commandRegistry.RegisterCommand(typeof(ReplacePlayerWithCopyCommand), "ReplacePlayerWithCopy");
-      commandRegistry.RegisterCommand(typeof(ReplaceWithExistingPlayerCommand), "ReplaceWithExistingPlayer");
+      commandRegistry.RegisterCommand(typeof(ReplacePlayerCommand), "ReplaceWithExistingPlayer");
       commandRegistry.RegisterCommand(typeof(PlayerSearchCommand), "PlayerSearch");
       commandRegistry.RegisterCommand(typeof(LoadTeamEditorCommand), "LoadTeamEditor");
       commandRegistry.RegisterCommand(typeof(CopyPlayerCommand), "CopyPlayer");
