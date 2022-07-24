@@ -1,4 +1,5 @@
 ﻿using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.FreeAgents;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
@@ -43,8 +44,9 @@ namespace PowerUp.GameSave.Objects.GameSaves
         gsTeams.Add(teamReader.Read(i));
         gsLineups.Add(lineupReader.Read(i));
       }
+      var freeAgrents = new FreeAgentListReader(_reader).Read();
 
-      return new GSGameSave { Players = gsPlayers, Teams = gsTeams, Lineups = gsLineups };  
+      return new GSGameSave { Players = gsPlayers, Teams = gsTeams, Lineups = gsLineups, FreeAgents = freeAgrents };  
     }
 
     public void Dispose() => _reader.Dispose();

@@ -1,4 +1,5 @@
 ﻿using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.FreeAgents;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
@@ -37,6 +38,9 @@ namespace PowerUp.GameSave.Objects.GameSaves
         teamWriter.Write(i + 1, teams[i]);
         lineupWriter.Write(i + 1, lineups[i]);
       }
+
+      var freeAgentListWriter = new FreeAgentListWriter(_writer);
+      freeAgentListWriter.Write(gameSave.FreeAgents);
     }
 
     public void Dispose() => _writer.Dispose();

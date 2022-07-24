@@ -38,6 +38,9 @@ namespace PowerUp.Tests.GameSave.Objects.GameSaves
 
       var lineups = result.Lineups.ToList();
       lineups.Count.ShouldBe(32);
+
+      var freeAgents = result.FreeAgents.FreeAgents.ToList();
+      freeAgents.Count.ShouldBe(15);
     }
   }
 }
