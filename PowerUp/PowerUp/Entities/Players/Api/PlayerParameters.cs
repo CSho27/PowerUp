@@ -17,7 +17,7 @@ namespace PowerUp.Entities.Players.Api
     public bool IsCustomPlayer { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public bool KeepSpecialSavedName { get; set; }
+    public int? SpecialSavedNameId { get; set; }
     public string? SavedName { get; set; }
     public string? UniformNumber { get; set; }
     public Position Position { get; set; }
@@ -152,7 +152,7 @@ namespace PowerUp.Entities.Players.Api
       ThrowIfNullOrEmpty(parameters.LastName);
       ThrowIfLongerThanMaxLength(parameters.LastName, 14);
 
-      if (!parameters.KeepSpecialSavedName)
+      if (!parameters.SpecialSavedNameId.HasValue)
       {
         ThrowIfNullOrEmpty(parameters.SavedName);
         ThrowIfLongerThanMaxLength(parameters.SavedName, 10);

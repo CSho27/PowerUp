@@ -56,9 +56,8 @@
       player.IsCustomPlayer = parameters.IsCustomPlayer;
       player.FirstName = parameters.FirstName!;
       player.LastName = parameters.LastName!;
-
-      if (!parameters.KeepSpecialSavedName)
-        player.SavedName = parameters.SavedName!;
+      player.SpecialSavedNameId = parameters.SpecialSavedNameId;
+      player.SavedName = parameters.SavedName!;
 
       player.UniformNumber = parameters.UniformNumber!;
       player.PrimaryPosition = parameters.Position;

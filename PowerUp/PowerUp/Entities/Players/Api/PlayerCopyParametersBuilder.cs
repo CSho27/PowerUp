@@ -29,10 +29,8 @@
           IsCustomPlayer = false,
           FirstName = player.FirstName,
           LastName = player.LastName,
-          KeepSpecialSavedName = player.SpecialSavedNameId.HasValue,
-          SavedName = player.SpecialSavedNameId.HasValue
-            ? null
-            : player.SavedName,
+          SpecialSavedNameId = player.SpecialSavedNameId,
+          SavedName = player.SavedName,
           UniformNumber = player.UniformNumber,
           Position = player.PrimaryPosition,
           PitcherType = player.PitcherType,
