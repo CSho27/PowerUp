@@ -38,6 +38,7 @@ namespace PowerUp.Entities.Rosters.Api
         SourceType = EntitySourceType.Custom,
         Name = roster.Name,
         TeamIdsByPPTeam = roster.TeamIdsByPPTeam,
+        FreeAgentPlayerIds = roster.FreeAgentPlayerIds,
         Year = roster.Year,
       };
     }

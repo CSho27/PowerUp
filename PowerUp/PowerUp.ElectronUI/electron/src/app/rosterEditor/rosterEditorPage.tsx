@@ -16,6 +16,7 @@ import { PowerUpLayout } from "../shared/powerUpLayout";
 import { EditRosterNameApiClient } from "./editRosterNameApiClient";
 import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
 import { PlayerGrid } from "./playerGrid";
+import { ReplaceFreeAgentApiClient } from "./replaceFreeAgentApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { RosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
@@ -31,6 +32,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   const { rosterId, name, teams, freeAgentHitters, freeAgentPitchers } = rosterDetails;
 
   const rosterNameApiClientRef = useRef(new EditRosterNameApiClient(appContext.commandFetcher));
+  const replaceFreeAgentApiClientRef = useRef(new ReplaceFreeAgentApiClient(appContext.commandFetcher));
 
   const divisionOptions: KeyedCode[] = [...props.divisionOptions, { key: 'FreeAgents', name: 'Free Agents' }];
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
@@ -97,7 +99,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
             hitters={freeAgentHitters}
             pitchers={freeAgentPitchers}
             disableManagement={disableRosterEdit}
-            hasTeamHeader
             replacePlayer={replacePlayer}
           />
         </FreeAgentTable>}
@@ -123,7 +124,12 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   }
 
   async function replacePlayer(playerToReplaceId: number, playerToInsertId: number) {
-    return true;
+    const response = await replaceFreeAgentApiClientRef.current.execute({
+      rosterId: rosterId,
+      playerToReplaceId: playerToReplaceId,
+      playerToInsertId: playerToInsertId
+    });
+    return response.success;
   }
 
   function handleDivisionChange(division: KeyedCode) {

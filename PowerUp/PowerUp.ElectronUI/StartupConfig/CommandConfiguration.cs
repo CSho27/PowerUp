@@ -43,6 +43,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<GetTeamGenerationStatusCommand>();
       services.AddSingleton<RosterGenerationCommand>();
       services.AddSingleton<GetRosterGenerationStatusCommand>();
+      services.AddSingleton<ReplaceFreeAgentCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -79,6 +80,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(GetTeamGenerationStatusCommand), "GetTeamGenerationStatus");
       commandRegistry.RegisterCommand(typeof(RosterGenerationCommand), "RosterGeneration");
       commandRegistry.RegisterCommand(typeof(GetRosterGenerationStatusCommand), "GetRosterGenerationStatus");
+      commandRegistry.RegisterCommand(typeof(ReplaceFreeAgentCommand), "ReplaceFreeAgent");
     }
   }
 }
