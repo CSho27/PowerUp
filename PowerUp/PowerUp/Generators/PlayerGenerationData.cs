@@ -37,7 +37,7 @@ namespace PowerUp.Generators
     public BattingSide BattingSide { get; }
     public ThrowingArm ThrowingArm { get; }
     public string? BirthCountry { get; }
-    public DateTime ProDebutDate { get; }
+    public DateTime? ProDebutDate { get; }
 
     public LSPlayerInfoDataset(PlayerInfoResult result)
     {
@@ -48,7 +48,7 @@ namespace PowerUp.Generators
       BattingSide = result.BattingSide;
       ThrowingArm = result.ThrowingArm;
       BirthCountry = result.BirthCountry;
-      ProDebutDate = result.ProDebutDate!.Value;
+      ProDebutDate = result.ProDebutDate;
     }
   }
 
