@@ -415,7 +415,7 @@ namespace PowerUp
             var data = new PlayerGenerationData
             {
               PlayerInfo = playerStats.PlayerInfo != null
-                ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
+                ? new LSPlayerInfoDataset(playerStats.PlayerInfo, player.UniformNumber)
                 : null,
               HittingStats = playerStats.HittingStats != null
                 ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
