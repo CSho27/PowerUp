@@ -21,6 +21,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int LSPlayerId { get; }
     public int Year { get; }
     public int TeamSeq { get; }
+
     public Position Position { get; }
     public int? GamesPlayed { get; }
     public int? GamesStarted { get; }

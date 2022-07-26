@@ -56,21 +56,26 @@ namespace PowerUp.Generators
         excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
       );
 
+      PlayerStatisticsResult? previousYearStats = null;
+      if(MLBSeasonUtils.GetFractionOfSeasonPlayed(year) < 1)
+        previousYearStats = _playerStatsFetcher.GetStatistics(
+          lsPlayerId,
+          year-1,
+          excludePlayerInfo: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo),
+          excludeHittingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats),
+          excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
+          excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
+      );
+
       var data = new PlayerGenerationData
       {
         Year = year,
         PlayerInfo = playerStats.PlayerInfo != null
           ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
           : null,
-        HittingStats = playerStats.HittingStats != null
-          ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
-          : null,
-        FieldingStats = playerStats.FieldingStats != null
-          ? new LSFieldingStatDataset(playerStats.FieldingStats.Results) 
-          : null,
-        PitchingStats = playerStats.PitchingStats != null
-          ? new LSPitchingStatsDataset(playerStats.PitchingStats.Results)
-          : null
+        HittingStats = LSHittingStatsDataset.BuildFor(playerStats.HittingStats?.Results, previousYearStats?.HittingStats?.Results),
+        FieldingStats = LSFieldingStatDataset.BuildFor(playerStats.FieldingStats?.Results, previousYearStats?.FieldingStats?.Results),
+        PitchingStats = LSPitchingStatsDataset.BuildFor(playerStats.PitchingStats?.Results, previousYearStats?.PitchingStats?.Results)
       };
 
       var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data!.PrimaryPosition == Position.Pitcher);

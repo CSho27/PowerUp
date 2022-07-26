@@ -18,6 +18,7 @@ namespace PowerUp.Generators
   public class PlayerGenerationData 
   {
     public int Year { get; set; }
+    public double PortionOfSeason => MLBSeasonUtils.GetFractionOfSeasonPlayed(Year);
     public Position PrimaryPosition => FieldingStats?.PrimaryPosition ?? PlayerInfo!.PrimaryPosition;
     public long? LastTeamForYear_LSTeamId => PrimaryPosition == Position.Pitcher
       ? PitchingStats?.LastTeamForYear_LSTeamId
@@ -61,15 +62,38 @@ namespace PowerUp.Generators
     public int? Runs { get; }
     public long LastTeamForYear_LSTeamId { get; }
 
-    public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results)
+    public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results, (IEnumerable<HittingStatsResult> results, double prorateBy)? supplementaryStats = null)
     {
-      AtBats = results.SumOrNull(r => r.AtBats);
-      HomeRuns = results.SumOrNull(r => r.HomeRuns);
+      var supplementaryResults = supplementaryStats?.results;
+      var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
+
+      AtBats = results.SumOrNull(r => r.AtBats) + (supplementaryResults?.SumOrNull(r => r.AtBats) * proratedSupplementaryBy).Round();
+      HomeRuns = results.SumOrNull(r => r.HomeRuns) + (supplementaryResults?.SumOrNull(r => r.HomeRuns) * proratedSupplementaryBy).Round();
       BattingAverage = results.CombineAverages(r => r.BattingAverage, r => r.AtBats);
-      StolenBases = results.SumOrNull(r => r.StolenBases);
-      Runs = results.SumOrNull(r => r.Runs);
+      StolenBases = results.SumOrNull(r => r.StolenBases) + (supplementaryResults?.SumOrNull(r => r.StolenBases) * proratedSupplementaryBy).Round();
+      Runs = results.SumOrNull(r => r.Runs) + (supplementaryResults?.SumOrNull(r => r.Runs) * proratedSupplementaryBy).Round();
       var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
       LastTeamForYear_LSTeamId = lastResult.LSTeamId;
+    }
+
+    public static LSHittingStatsDataset? BuildFor(IEnumerable<HittingStatsResult>? results, IEnumerable<HittingStatsResult>? previousYearResults)
+    {
+      if(results == null && previousYearResults == null)
+      {
+        return null;
+      }
+      else if(results != null && previousYearResults == null)
+      {
+        return new LSHittingStatsDataset(results);
+      }
+      else if(results == null && previousYearResults != null)
+      {
+        return new LSHittingStatsDataset(previousYearResults);
+      }
+      else
+      {
+        return new LSHittingStatsDataset(results!, (previousYearResults!, 1 - MLBSeasonUtils.GetFractionOfCurrentSeasonPlayed()));
+      }
     }
   }
 
@@ -81,10 +105,33 @@ namespace PowerUp.Generators
       ? FieldingByPosition.MaxBy(p => p.Value.Innings).Key
       : null;
 
-    public LSFieldingStatDataset(IEnumerable<FieldingStatsResult> results)
+    public LSFieldingStatDataset(IEnumerable<FieldingStatsResult> results, (IEnumerable<FieldingStatsResult> results, double prorateBy)? supplementaryStats = null)
     {
-      FieldingByPosition = results.GroupBy(r => r.Position).ToDictionary(g => g.Key, g => new LSFieldingStats(g));
-      OverallFielding = new LSFieldingStats(results);
+      var supplementaryResults = supplementaryStats?.results;
+      var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
+
+      FieldingByPosition = results.GroupBy(r => r.Position).ToDictionary(g => g.Key, g => new LSFieldingStats(g, (supplementaryResults?.Where(r => r.Position == g.Key) ?? Enumerable.Empty<FieldingStatsResult>(), proratedSupplementaryBy)));
+      OverallFielding = new LSFieldingStats(results, supplementaryStats);
+    }
+
+    public static LSFieldingStatDataset? BuildFor(IEnumerable<FieldingStatsResult>? results, IEnumerable<FieldingStatsResult>? previousYearResults)
+    {
+      if (results == null && previousYearResults == null)
+      {
+        return null;
+      }
+      else if (results != null && previousYearResults == null)
+      {
+        return new LSFieldingStatDataset(results);
+      }
+      else if (results == null && previousYearResults != null)
+      {
+        return new LSFieldingStatDataset(previousYearResults);
+      }
+      else
+      {
+        return new LSFieldingStatDataset(results!, (previousYearResults!, 1 - MLBSeasonUtils.GetFractionOfCurrentSeasonPlayed()));
+      }
     }
   }
 
@@ -98,15 +145,18 @@ namespace PowerUp.Generators
     public int? Catcher_StolenBasesAllowed { get; }
     public int? Catcher_RunnersThrownOut { get; }
 
-    public LSFieldingStats(IEnumerable<FieldingStatsResult> results)
+    public LSFieldingStats(IEnumerable<FieldingStatsResult> results, (IEnumerable<FieldingStatsResult> results, double prorateBy)? supplementaryStats = null)
     {
-      Innings = results.SumOrNull(r => r.Innings);
-      TotalChances = results.SumOrNull(r => r.TotalChances);
-      Assists = results.SumOrNull(r => r.Assists);
+      var supplementaryResults = supplementaryStats?.results;
+      var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
+
+      Innings = results.SumOrNull(r => r.Innings) + (supplementaryResults?.SumOrNull(r => r.Innings) * proratedSupplementaryBy).Round();
+      TotalChances = results.SumOrNull(r => r.TotalChances) + (supplementaryResults?.SumOrNull(r => r.TotalChances) * proratedSupplementaryBy).Round();
+      Assists = results.SumOrNull(r => r.Assists) + (supplementaryResults?.SumOrNull(r => r.Assists) * proratedSupplementaryBy).Round();
       FieldingPercentage = results.CombineAverages(r => r.FieldingPercentage, r => r.TotalChances);
       RangeFactor = results.CombineAverages(r => r.RangeFactor, r => r.Innings ?? r.GamesPlayed);
-      Catcher_StolenBasesAllowed = results.SumOrNull(r => r.Catcher_StolenBasesAllowed);
-      Catcher_RunnersThrownOut = results.SumOrNull(r => r.Catcher_RunnersThrownOut);
+      Catcher_StolenBasesAllowed = results.SumOrNull(r => r.Catcher_StolenBasesAllowed) + (supplementaryResults?.SumOrNull(r => r.Catcher_StolenBasesAllowed) * proratedSupplementaryBy).Round();
+      Catcher_RunnersThrownOut = results.SumOrNull(r => r.Catcher_RunnersThrownOut) + (supplementaryResults?.SumOrNull(r => r.Catcher_RunnersThrownOut) * proratedSupplementaryBy).Round();
     }
   }
 
@@ -124,13 +174,17 @@ namespace PowerUp.Generators
     public double? MathematicalInnings { get; }
     public long LastTeamForYear_LSTeamId { get; }
 
-    public LSPitchingStatsDataset(IEnumerable<PitchingStatsResult> results)
+    public LSPitchingStatsDataset(IEnumerable<PitchingStatsResult> results, (IEnumerable<PitchingStatsResult> results, double prorateBy)? supplementaryStats = null)
     {
-      GamesPitched = results.SumOrNull(r => r.GamesPlayed);
-      GamesStarted = results.SumOrNull(r => r.GamesStarted);
-      GamesFinished = results.SumOrNull(r => r.SaveOpportunities);
-      SaveOpportunities = results.SumOrNull(r => r.GamesFinished);
-      MathematicalInnings = results.Select(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0)).Sum(r => r);
+      var supplementaryResults = supplementaryStats?.results;
+      var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
+
+      GamesPitched = results.SumOrNull(r => r.GamesPlayed) + (supplementaryResults?.SumOrNull(r => r.GamesPlayed) * proratedSupplementaryBy).Round();
+      GamesStarted = results.SumOrNull(r => r.GamesStarted) + (supplementaryResults?.SumOrNull(r => r.GamesStarted) * proratedSupplementaryBy).Round();
+      GamesFinished = results.SumOrNull(r => r.GamesFinished) + (supplementaryResults?.SumOrNull(r => r.GamesFinished) * proratedSupplementaryBy).Round();
+      SaveOpportunities = results.SumOrNull(r => r.SaveOpportunities) + (supplementaryResults?.SumOrNull(r => r.SaveOpportunities) * proratedSupplementaryBy).Round();
+      MathematicalInnings = results.SumOrNull(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0)) 
+        + (supplementaryResults?.SumOrNull(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0)) * proratedSupplementaryBy).Round();
       WalksPer9 = results.CombineAverages(r => r.WalksPer9, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
       StrikeoutsPer9 = results.CombineAverages(r => r.StrikeoutsPer9, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
       WHIP = results.CombineAverages(r => r.WHIP, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
@@ -138,6 +192,26 @@ namespace PowerUp.Generators
       BattingAverageAgainst = results.CombineAverages(r => r.BattingAverageAgainst, r => r.AtBats);
       var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
       LastTeamForYear_LSTeamId = lastResult.LSTeamId;
+    }
+
+    public static LSPitchingStatsDataset? BuildFor(IEnumerable<PitchingStatsResult>? results, IEnumerable<PitchingStatsResult>? previousYearResults)
+    {
+      if (results == null && previousYearResults == null)
+      {
+        return null;
+      }
+      else if (results != null && previousYearResults == null)
+      {
+        return new LSPitchingStatsDataset(results);
+      }
+      else if (results == null && previousYearResults != null)
+      {
+        return new LSPitchingStatsDataset(previousYearResults);
+      }
+      else
+      {
+        return new LSPitchingStatsDataset(results!, (previousYearResults!, 1 - MLBSeasonUtils.GetFractionOfCurrentSeasonPlayed()));
+      }
     }
   }
 
