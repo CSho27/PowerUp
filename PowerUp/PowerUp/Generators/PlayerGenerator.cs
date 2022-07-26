@@ -4,7 +4,6 @@ using PowerUp.Entities.Players.Api;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PowerUp.Generators
 {
