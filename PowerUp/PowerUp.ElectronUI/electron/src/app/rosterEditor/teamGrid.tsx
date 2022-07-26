@@ -43,7 +43,7 @@ export function TeamGrid(props: TeamGridProps) {
 
   return <TeamGridTable>
     <TeamGridCaption>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
         <div style={{ flex: 'auto', display: 'flex', gap: '16px', alignItems: 'center' }}>
           <TeamHeader>
             {teamDisplayName}
@@ -198,6 +198,10 @@ const TeamHeader = styled.h1`
   font-weight: 600;
   font-style: italic;
   text-align: left;
+  white-space: nowrap;
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const TeamStatGrid = styled.div`
