@@ -48,3 +48,7 @@ function getItemsBeforeIndex<T>(items: T[], index: number): T[] {
 function getItemsAfterIndex<T>(items: T[], index: number): T[] {
   return items.slice(index + 1);
 }
+
+export function distinctBy<T, V>(items: T[], callback: (item: T) => V) {
+  return items.filter((value, index) => items.findIndex(i => callback(i) === callback(value)) === index)
+}

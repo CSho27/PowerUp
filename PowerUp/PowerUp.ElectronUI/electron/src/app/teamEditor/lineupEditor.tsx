@@ -150,7 +150,7 @@ const EditorWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: 800px;
+  max-width: 875px;
 `
 
 const PlayerGroupWrapper = styled.div`
@@ -233,7 +233,7 @@ function SlotTile(props: SlotTileProps) {
 }
 
 const PlayerTileWrapper = styled.div`
-  width: 24rem;
+  width: 26rem;
   padding: 2px 4px;
   border: 2px solid ${COLORS.richBlack.regular_5};
   border-radius: 8px;

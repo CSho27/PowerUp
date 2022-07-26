@@ -1,10 +1,9 @@
 import Portal from "@reach/portal";
-import { PropsWithChildren, ReactNode, useEffect, useRef, useState } from "react";
+import { PropsWithChildren, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../style/constants";
 import { GenerateId } from "../../utils/generateId";
 import { isPromise } from "../../utils/isPromise";
-import { Spinner } from "../spinner/spinner";
 
 export interface FlyoutStateManagementProps {
   isOpen: boolean;
@@ -63,7 +62,7 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
   const [flyoutElement, setFlyoutElement] = useState<HTMLDivElement|null>(null);
   const [flyoutPosition, setFlyoutPosition] = useState<FlyoutPosition>({ top: undefined, left: undefined });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     updateFlyoutPosition();
     window.removeEventListener('scroll', triggerClose, true);
     window.removeEventListener('mousedown', closeIfOutsideOfFlyout);
@@ -89,8 +88,7 @@ export function FlyoutAnchor(props: PropsWithChildren<FlyoutProps>) {
       : undefined}>
       {children}
       {isOpen && <Portal>
-        <Flyout id={flyoutIdRef.current} ref={setFlyoutElement} style={flyoutPosition} withoutBackground borderRadius={borderRadius}>
-          {/*!flyoutContent && <Spinner />*/}
+        <Flyout id={flyoutIdRef.current} ref={setFlyoutElement} style={flyoutPosition} withoutBackground={!!props.withoutBackground} borderRadius={borderRadius}>
           {!!flyoutContent && flyoutContent}
         </Flyout>
       </Portal>}

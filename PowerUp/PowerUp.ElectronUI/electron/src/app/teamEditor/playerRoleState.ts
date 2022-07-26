@@ -1,4 +1,5 @@
 import { EntitySourceType } from "../shared/entitySourceType";
+import { GeneratorWarningDto } from "../shared/generatorWarning";
 import { Position } from "../shared/positionCode";
 import { LineupSlotDto, PlayerRoleDefinitionDto } from "./loadTeamEditorApiClient";
 import { toPlayerDetails } from "./playerDetailsResponse";
@@ -31,6 +32,8 @@ export interface PlayerDetails {
   sourceType: EntitySourceType;
   canEdit: boolean;
   playerId: number;
+  generatedPlayer_Warnings: GeneratorWarningDto[];
+  generatedPlayer_IsUnedited: boolean;
   fullName: string;
   savedName: string;
   position: Position;

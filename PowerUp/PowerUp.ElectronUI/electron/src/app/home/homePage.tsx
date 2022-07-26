@@ -8,6 +8,7 @@ import { AppContext } from "../app";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { CopyExistingRosterApiClient } from "../rosterEditor/copyExistingRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
+import { RosterGenerationModal } from "../rosterGenerationModal/rosterGenerationModal";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ExistingRostersModal } from "./existingRostersModal";
 import { ImportRosterModal } from "./importRosterModal";
@@ -43,17 +44,15 @@ export function HomePage(props: HomePageProps) {
         >
           Copy Existing Roster
         </Button> 
-        {/*
-          <Button 
-            variant='Fill' 
-            size='Large'
-            icon='wand-magic-sparkles'
-            textAlign='left'
-            onClick={() => {}}
-          >
-            Generate Roster
-          </Button>
-        */}
+        <Button 
+          variant='Fill' 
+          size='Large'
+          icon='wand-magic-sparkles'
+          textAlign='left'
+          onClick={openRosterGenerationModal}
+        >
+          Generate Roster
+        </Button>
         <Button 
           variant='Fill' 
           size='Large'
@@ -93,6 +92,17 @@ export function HomePage(props: HomePageProps) {
     />)
   }
 
+  function openRosterGenerationModal() {
+    appContext.openModal(closeDialog => <RosterGenerationModal 
+      appContext={appContext}
+      closeDialog={rosterId => {
+        closeDialog();
+        if(!!rosterId)
+          loadExisting(rosterId);
+      }}
+    />)
+  }
+
   async function copyAndLoadRoster(rosterId: number) {
     const response = await copyExistingRosterApiClientRef.current.execute({ rosterId: rosterId });
     appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
@@ -126,7 +136,7 @@ const ContentWrapper = styled(MaxWidthWrapper)`
 `
 
 const ButtonSectionWrapper = styled.section`
-  margin-top: 64px;
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;

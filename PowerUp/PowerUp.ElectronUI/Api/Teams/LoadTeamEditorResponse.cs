@@ -3,6 +3,7 @@ using PowerUp.ElectronUI.Api.Shared;
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
+using PowerUp.Generators;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Teams
@@ -51,6 +52,8 @@ namespace PowerUp.ElectronUI.Api.Teams
     public EntitySourceType SourceType { get; }
     public bool CanEdit => SourceType.CanEdit();
     public int PlayerId { get; }
+    public IEnumerable<GeneratorWarning> GeneratedPlayer_Warnings { get; }
+    public bool GeneratedPlayer_IsUnedited { get; }
 
     public bool IsPinchHitter { get; }
     public bool IsPinchRunner { get; }
@@ -74,6 +77,8 @@ namespace PowerUp.ElectronUI.Api.Teams
       IsDefensiveLiability = playerRoleDefinition.IsDefensiveLiability;
       PitcherRole = playerRoleDefinition.PitcherRole;
       Details = new PlayerDetailsResponse(player);
+      GeneratedPlayer_Warnings = player.GeneratorWarnings;
+      GeneratedPlayer_IsUnedited = player.GeneratedPlayer_IsUnedited;
     }
   }
 

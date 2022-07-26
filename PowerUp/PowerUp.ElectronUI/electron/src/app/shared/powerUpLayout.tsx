@@ -3,6 +3,8 @@ import { Icon } from "../../components/icon/icon";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
+import { shell } from "electron";
+import { openInBrowserOnClick } from "../../utils/openInBroswer";
 
 export interface PowerUpLayoutProps {
   headerText?: string;
@@ -21,10 +23,12 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
-        <HelpIconWrapper href='https://github.com/CSho27/PowerUp#use-guide' target='_blank' title='View Use Guide'>
-          Help
-          <Icon icon='circle-question' />
-        </HelpIconWrapper>
+        <HelpIconSectionWrapper>
+          <HelpIconWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
+            Help
+            <Icon icon='circle-question' />
+          </HelpIconWrapper>
+        </HelpIconSectionWrapper>
       </HeaderTextWrapper>
     </HeaderWrapper>
     <PageContent>
@@ -45,6 +49,10 @@ const HeaderWrapper = styled.header`
   background-color: ${COLORS.primaryBlue.regular_45};
   display: flex;
   align-items: center;
+`
+
+const HelpIconSectionWrapper = styled.div`
+  flex: auto;
 `
 
 const HelpIconWrapper = styled.a`    
@@ -101,7 +109,7 @@ const Sidebar = styled.aside`
 const MainContent = styled.main`
   flex: 1 0 auto;
   position: absolute;
-  top: 100px;
+  top: 104px;
   bottom: 0px;
   left: 200px;
   right: 0px;

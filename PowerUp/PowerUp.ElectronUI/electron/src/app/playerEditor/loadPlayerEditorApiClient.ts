@@ -12,6 +12,7 @@ export interface LoadPlayerEditorRequest {
 export interface PlayerEditorResponse {
   sourceType: EntitySourceType;
   canEdit: boolean;
+  baseballReferenceUrl: string;
   options: PlayerEditorOptions; 
   personalDetails: PlayerPersonalDetailsDto;
   appearanceDetails: PlayerAppearanceDetailsDto;

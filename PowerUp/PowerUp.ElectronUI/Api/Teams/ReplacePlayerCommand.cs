@@ -6,16 +6,16 @@ using PowerUp.Entities.Teams.Api;
 
 namespace PowerUp.ElectronUI.Api.Teams
 {
-  public class ReplaceWithExistingPlayerCommand : ICommand<ReplaceWithExistingPlayerRequest, ResultResponse>
+  public class ReplacePlayerCommand : ICommand<ReplacePlayerRequest, ResultResponse>
   {
     private readonly ITeamApi _teamApi;
 
-    public ReplaceWithExistingPlayerCommand(ITeamApi teamApi)
+    public ReplacePlayerCommand(ITeamApi teamApi)
     {
       _teamApi = teamApi;
     }
 
-    public ResultResponse Execute(ReplaceWithExistingPlayerRequest request)
+    public ResultResponse Execute(ReplacePlayerRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
 
@@ -31,7 +31,7 @@ namespace PowerUp.ElectronUI.Api.Teams
     }
   }
 
-  public class ReplaceWithExistingPlayerRequest
+  public class ReplacePlayerRequest
   {
     public int TeamId { get; set; }
     public int PlayerToReplaceId { get; set; }

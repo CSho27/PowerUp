@@ -225,7 +225,7 @@ const GridHeaderWrapper = styled.div`
   align-items: center;
   grid-template-columns: 
     calc(1.5rem + 2px)
-    calc(18rem + 4px)
+    calc(22rem + 4px)
     2rem
     2.25rem
     2rem
@@ -285,7 +285,7 @@ const PitcherTileWrapper = styled.div`
   gap: 16px;
   align-items: center;
   grid-template-columns: 
-    18rem
+    22rem
     2rem
     2.25rem
     2rem

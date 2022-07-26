@@ -47,6 +47,10 @@ export const COLORS = {
     offwhite_92: 'hsl(235deg 85% 92%)',
     offwhite_85: 'hsl(235deg 85% 85%)'
   },
+  attentionYellow: {
+    regular_45: 'hsl(48deg 85% 45%)',
+    light_85: 'hsl(48deg 85% 85%)'
+  },
 
   // PowerPros Colors
   positions: {

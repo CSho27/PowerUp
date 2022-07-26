@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { AppContext } from "../../app/app";
 import { BreadcrumbDefinition } from "../../app/appState";
 import { COLORS, FONT_SIZES } from "../../style/constants";
+import { Link } from "../link/link";
 
 export interface BreadcrumbsProps {
   appContext: AppContext;
@@ -9,10 +10,17 @@ export interface BreadcrumbsProps {
 
 export function Breadcrumbs(props: BreadcrumbsProps) {
   const { breadcrumbs, popBreadcrumb } = props.appContext
-  
-  return <nav aria-label="Breadcrumb">
+  const secondToLastBreadcrumb = breadcrumbs[breadcrumbs.length-2];
+
+  return <BreadcrumbNav aria-label="Breadcrumb">
+    {secondToLastBreadcrumb && 
+    <Link 
+      onClick={() => popBreadcrumb(secondToLastBreadcrumb.id)}
+      icon='circle-arrow-left'>
+        Back
+    </Link>}
     <BreadcrumbList>{breadcrumbs.map(toCrumb)}</BreadcrumbList>
-  </nav>
+  </BreadcrumbNav>
 
   function toCrumb(breadcrumb: BreadcrumbDefinition, index: number) {
     const isCurrentPage = index == breadcrumbs.length-1;
@@ -26,6 +34,12 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
     </Wrapper>;
   }
 }
+
+const BreadcrumbNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+`
 
 const BreadcrumbList = styled.ol`
   padding: 0;

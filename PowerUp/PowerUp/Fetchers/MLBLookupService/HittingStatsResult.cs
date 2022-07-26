@@ -62,51 +62,44 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public HittingStatsResult(LSHittingStatsResult result)
     {
-      try
-      {
-        LSPlayerId = int.Parse(result.player_id!);
-        Year = int.Parse(result.season!);
-        TeamSeq = (int)double.Parse(result.team_seq!);
-        LSTeamId = int.Parse(result.team_id!);
-        GamesPlayed = int.Parse(result.g!);
-        AtBats = int.Parse(result.ab!);
-        PlateAppearances = int.Parse(result.tpa!);
-        Hits = int.Parse(result.h!);
-        Doubles = int.Parse(result.d!);
-        Triples = int.Parse(result.t!);
-        HomeRuns = int.Parse(result.hr!);
-        ExtraBaseHits = int.Parse(result.xbh!);
-        TotalBases = int.Parse(result.tb!);
-        Walks = int.Parse(result.bb!);
-        IntentionalWalks = result.ibb.TryParseInt();
-        HitByPitches = result.hbp!.TryParseInt();
-        RunsBattedIn = int.Parse(result.rbi!);
-        RunnersLeftOnBase = result.lob.TryParseInt();
-        Runs = result.r.TryParseInt();
-        Strikeouts = result.so.TryParseInt();
-        GroundOuts = result.go.TryParseInt();
-        AirOuts = result.ao.TryParseInt();
-        HardGrounders = result.hgnd.TryParseInt();
-        HardLineDrives = result.hldr.TryParseInt();
-        HardFlyBalls = result.hfly.TryParseInt();
-        HardPopUps = result.hpop.TryParseInt();
-        GroundedIntoDoublePlay = result.gidp.TryParseInt();
-        SacrificeFlies = result.sf.TryParseInt();
-        SacrificeBunts = result.sac.TryParseInt();
-        ReachedOnErrors = result.roe.TryParseInt();
-        BattingAverage = result.avg.TryParseDouble();
-        SluggingPercentage = result.slg.TryParseDouble();
-        OnBasePercentage = result.obp.TryParseDouble();
-        OnBasePlusSluggingPercentage = result.ops.TryParseDouble();
-        BattingAverageOnBallsInPlay = result.babip.TryParseDouble();
-        PitchesPerPlateAppearance = result.ppa.TryParseDouble();
-        StolenBases = result.sb.TryParseInt();
-        CaughtStealing = result.cs.TryParseInt();
-      }
-      catch (Exception ex)
-      {
-        throw;
-      }
+      LSPlayerId = int.Parse(result.player_id!);
+      Year = int.Parse(result.season!);
+      TeamSeq = (int)double.Parse(result.team_seq!);
+      LSTeamId = int.Parse(result.team_id!);
+      GamesPlayed = int.Parse(result.g!);
+      AtBats = int.Parse(result.ab!);
+      PlateAppearances = int.Parse(result.tpa!);
+      Hits = int.Parse(result.h!);
+      Doubles = int.Parse(result.d!);
+      Triples = int.Parse(result.t!);
+      HomeRuns = int.Parse(result.hr!);
+      ExtraBaseHits = int.Parse(result.xbh!);
+      TotalBases = int.Parse(result.tb!);
+      Walks = int.Parse(result.bb!);
+      IntentionalWalks = result.ibb.TryParseInt();
+      HitByPitches = result.hbp!.TryParseInt();
+      RunsBattedIn = int.Parse(result.rbi!);
+      RunnersLeftOnBase = result.lob.TryParseInt();
+      Runs = result.r.TryParseInt();
+      Strikeouts = result.so.TryParseInt();
+      GroundOuts = result.go.TryParseInt();
+      AirOuts = result.ao.TryParseInt();
+      HardGrounders = result.hgnd.TryParseInt();
+      HardLineDrives = result.hldr.TryParseInt();
+      HardFlyBalls = result.hfly.TryParseInt();
+      HardPopUps = result.hpop.TryParseInt();
+      GroundedIntoDoublePlay = result.gidp.TryParseInt();
+      SacrificeFlies = result.sf.TryParseInt();
+      SacrificeBunts = result.sac.TryParseInt();
+      ReachedOnErrors = result.roe.TryParseInt();
+      BattingAverage = result.avg.TryParseDouble();
+      SluggingPercentage = result.slg.TryParseDouble();
+      OnBasePercentage = result.obp.TryParseDouble();
+      OnBasePlusSluggingPercentage = result.ops.TryParseDouble();
+      BattingAverageOnBallsInPlay = result.babip.TryParseDouble();
+      PitchesPerPlateAppearance = result.ppa.TryParseDouble();
+      StolenBases = result.sb.TryParseInt();
+      CaughtStealing = result.cs.TryParseInt();
     }
   }
 }

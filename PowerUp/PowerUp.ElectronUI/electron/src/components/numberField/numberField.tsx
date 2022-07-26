@@ -115,9 +115,9 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   function scrubValueForPossiblyUndefined(value: number| undefined): number | undefined {
     let newValue = value;
     if(min && newValue && newValue < min)
-      return newValue;
+      return min;
     else if(max && newValue && newValue > max)
-      return newValue;
+      return max;
     else
       return newValue;    
   }

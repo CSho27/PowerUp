@@ -1,5 +1,8 @@
 ﻿using PowerUp.Databases;
+using PowerUp.Generators;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PowerUp.Entities.Players
 {
@@ -12,10 +15,17 @@ namespace PowerUp.Entities.Players
     public string FirstName { get; set; } = string.Empty;
     public string FormalDisplayName => $"{LastName}, {FirstName}";
     public string InformalDisplayName => $"{FirstName} {LastName}";
-    public long? GeneratedPlayer_LSPLayerId { get; set; }
-    public int? Year { get; set; }
     public string? ImportSource { get; set; }
     public int? SourcePowerProsId { get; set; }
+
+    // Generated Players Only
+    public long? GeneratedPlayer_LSPLayerId { get; set; }
+    public string? GeneratedPlayer_FullFirstName { get; set; }
+    public string? GeneratedPlayer_FullLastName { get; set; }
+    public DateTime? GeneratedPlayer_ProDebutDate { get; set; }
+    public int? Year { get; set; }
+    public List<GeneratorWarning> GeneratorWarnings { get; set; } = new List<GeneratorWarning>();
+    public bool GeneratedPlayer_IsUnedited { get; set; }
 
     public string SavedName { get; set; } = string.Empty;
     public int? SpecialSavedNameId { get; set; }

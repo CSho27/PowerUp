@@ -3,6 +3,7 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Teams;
+using PowerUp.Generators;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Rosters
@@ -26,19 +27,27 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public int RosterId { get; set; }
     public string Name { get; set; }
     public IEnumerable<TeamDetails> Teams { get; set; }
+    public IEnumerable<HitterDetails> FreeAgentHitters { get; set; }
+    public IEnumerable<PitcherDetails> FreeAgentPitchers { get; set; }
 
-    public RosterDetails(EntitySourceType sourceType, int rosterId, string name, IEnumerable<TeamDetails> teams)
+    public RosterDetails(EntitySourceType sourceType, int rosterId, string name, IEnumerable<TeamDetails> teams, IEnumerable<HitterDetails> freeAgentHitters, IEnumerable<PitcherDetails> freeAgentPitchers)
     {
       SourceType = sourceType;
       RosterId = rosterId;
       Name = name;
       Teams = teams;
+      FreeAgentHitters = freeAgentHitters;
+      FreeAgentPitchers = freeAgentPitchers;
     }
 
     public static RosterDetails FromRoster(Roster roster)
     {
       var teams = roster.GetTeams().Select(kvp => TeamDetails.FromTeam(kvp.Key, kvp.Value));
-      return new RosterDetails(roster.SourceType, roster.Id!.Value, roster.Name, teams);
+      var freeAgents = roster.GetFreeAgentPlayers().ToList();
+
+      var hitters = freeAgents.Where(p => p.PrimaryPosition != Position.Pitcher).OrderByDescending(p => p.Overall).Select(HitterDetails.FromPlayer);
+      var pitchers = freeAgents.Where(p => p.PrimaryPosition == Position.Pitcher).OrderByDescending(p => p.Overall).Select(PitcherDetails.FromPlayer);
+      return new RosterDetails(roster.SourceType, roster.Id!.Value, roster.Name, teams, hitters, pitchers);
     }
   }
 
@@ -89,8 +98,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
     public static TeamDetails FromTeam(Team team, MLBPPTeam ppTeam)
     {
       var playersOnTeam = team.GetPlayers();
-      var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).Select(HitterDetails.FromPlayer);
-      var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).Select(PitcherDetails.FromPlayer);
+      var hitters = playersOnTeam.Where(p => p.PrimaryPosition != Position.Pitcher).OrderByDescending(p => p.Overall).Select(HitterDetails.FromPlayer);
+      var pitchers = playersOnTeam.Where(p => p.PrimaryPosition == Position.Pitcher).OrderByDescending(p => p.Overall).Select(PitcherDetails.FromPlayer);
 
       return new TeamDetails(
         team.SourceType, 
@@ -120,6 +129,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public EntitySourceType SourceType { get; set; }
     public bool CanEdit => SourceType.CanEdit();
+    public IEnumerable<GeneratorWarning> GeneratedPlayer_Warnings { get; set; }
+    public bool GeneratedPlayer_IsUnedited { get; set; }
 
     public PlayerDetails(
       int id,
@@ -129,7 +140,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string positionAbbreviation,
       int overall,
       string batsAndThrows,
-      EntitySourceType sourceType
+      EntitySourceType sourceType,
+      IEnumerable<GeneratorWarning> generatorWarnings,
+      bool isUneditedGeneratedPlayer
     )
     {
       PlayerId = id;
@@ -140,6 +153,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       Overall = overall;
       BatsAndThrows = batsAndThrows;
       SourceType = sourceType;
+      GeneratedPlayer_Warnings = generatorWarnings;
+      GeneratedPlayer_IsUnedited = isUneditedGeneratedPlayer;
     }
 
     public static PlayerDetails FromPlayer(Player player)
@@ -152,7 +167,9 @@ namespace PowerUp.ElectronUI.Api.Rosters
         positionAbbreviation: player.PrimaryPosition.GetAbbrev(),
         overall: player.Overall.RoundDown(),
         batsAndThrows: player.BatsAndThrows,
-        sourceType: player.SourceType
+        sourceType: player.SourceType,
+        generatorWarnings: player.GeneratorWarnings,
+        isUneditedGeneratedPlayer: player.GeneratedPlayer_IsUnedited
       );
     }
   }
@@ -176,6 +193,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int overall,
       string batsAndThrows,
       EntitySourceType sourceType,
+      IEnumerable<GeneratorWarning> generatorWarnings,
+      bool isUneditedGeneratedPlayer,
       int trajectory,
       int contact,
       int power,
@@ -183,7 +202,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int armStrength,
       int fielding,
       int errorResistance
-    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType, generatorWarnings, isUneditedGeneratedPlayer)
     {
       Trajectory = trajectory;
       Contact = contact;
@@ -208,6 +227,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
         sourceType: playerDetails.SourceType,
+        generatorWarnings: playerDetails.GeneratedPlayer_Warnings,
+        isUneditedGeneratedPlayer: playerDetails.GeneratedPlayer_IsUnedited,
         trajectory: hitterAbilities.Trajectory,
         contact: hitterAbilities.Contact,
         power: hitterAbilities.Power,
@@ -238,6 +259,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
       int overall,
       string batsAndThrows,
       EntitySourceType sourceType,
+      IEnumerable<GeneratorWarning> generatorWarnings,
+      bool isUneditedGeneratedPlayer,
       string pitcherType,
       int topSpeed,
       int control,
@@ -245,7 +268,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       string? breakingBall1,
       string? breakingBall2,
       string? breakingBall3
-    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType)
+    ) : base(id, savedName, uniformNumber, position, positionAbbreviation, overall, batsAndThrows, sourceType, generatorWarnings, isUneditedGeneratedPlayer)
     {
       PitcherType = pitcherType;
       TopSpeed = topSpeed;
@@ -274,6 +297,8 @@ namespace PowerUp.ElectronUI.Api.Rosters
         overall: playerDetails.Overall,
         batsAndThrows: playerDetails.BatsAndThrows,
         sourceType: playerDetails.SourceType,
+        generatorWarnings: playerDetails.GeneratedPlayer_Warnings,
+        isUneditedGeneratedPlayer: playerDetails.GeneratedPlayer_IsUnedited,
         pitcherType: player.PitcherType.GetAbbrev(),
         topSpeed: abilities.TopSpeedMph.RoundDown(),
         control: abilities.Control,

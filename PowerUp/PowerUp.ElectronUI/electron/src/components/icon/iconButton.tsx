@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../style/constants";
 import { Icon, IconProps } from "./icon";
@@ -7,11 +8,12 @@ export interface IconButtonProps extends IconProps {
   disabled?: boolean;
 }
 
-export function IconButton(props: IconButtonProps) {
+export function IconButton(props: PropsWithChildren<IconButtonProps>) {
   const { onClick, disabled, ...iconProps } = props;
   
   return <IconLink onClick={disabled ? undefined : onClick} disabled={!!disabled}>
     <Icon {...iconProps} />
+    {props.children && <span>{props.children}</span>}
   </IconLink>
 }
 

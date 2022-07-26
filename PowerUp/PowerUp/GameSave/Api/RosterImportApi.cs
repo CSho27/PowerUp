@@ -84,7 +84,8 @@ namespace PowerUp.GameSave.Api
           ImportSource = parameters.IsBase
             ? null
             : parameters.ImportSource,
-          TeamIdsByPPTeam = teamKeysByPPTeam
+          TeamIdsByPPTeam = teamKeysByPPTeam,
+          FreeAgentPlayerIds = gameSave.FreeAgents.FreeAgents!.Select(fa => playerIdsByPPId[fa.PowerProsPlayerId!.Value]),
         };
 
         DatabaseConfig.Database.Save(roster);

@@ -1,4 +1,3 @@
-LSTeamId,StartYear,EndYear,Name
 144,1876,1882,Boston Red Caps
 144,1883,1906,Boston Beaneaters
 144,1907,1910,Boston Doves
@@ -6,11 +5,11 @@ LSTeamId,StartYear,EndYear,Name
 144,1912,1952,Boston Braves
 144,1936,1940,Boston Bees
 144,1953,1965,Milwaukee Braves
-144,1966,2022,Atlanta Braves
+144,1966,,Atlanta Braves
 112,1876,1889,Chicago White Stockings
 112,1890,1897,Chicago Colts
 112,1898,1902,Chicago Orphans
-112,1903,2022,Chicago Cubs
+112,1903,,Chicago Cubs
 204,1876,1880,Cincinnati Reds
 123,1876,1877,Hartford Dark Blues
 132,1876,1877,Louisville Grays
@@ -28,16 +27,16 @@ LSTeamId,StartYear,EndYear,Name
 213,1881,1888,Detroit Wolverines
 163,1882,1889,Baltimore Orioles
 113,1882,1889,Cincinnati Red Stockings
-113,1890,2022,Cincinnati Reds
+113,1890,,Cincinnati Reds
 113,1954,1959,Cincinnati Redlegs
 148,1882,1899,Louisville Colonels
 172,1882,1891,Philadelphia Athletics
-134,1882,2022,Pittsburgh Pirates
+134,1882,,Pittsburgh Pirates
 178,1882,1891,St. Louis Cardinals
 137,1883,1885,New York Gothams
 137,1886,1957,New York Giants
-137,1958,2022,San Francisco Giants
-143,1883,2022,Philadelphia Phillies
+137,1958,,San Francisco Giants
+143,1883,,Philadelphia Phillies
 210,1883,1884,Columbus Colts
 156,1883,1887,New York Metropolitans
 119,1884,1884,Brooklyn Atlantics
@@ -47,7 +46,7 @@ LSTeamId,StartYear,EndYear,Name
 119,1899,1913,Brooklyn Superbas
 119,1911,1957,Brooklyn Dodgers
 119,1914,1931,Brooklyn Robins
-119,1958,2022,Los Angeles Dodgers
+119,1958,,Los Angeles Dodgers
 125,1884,1884,Indianapolis Blues
 181,1884,1884,Richmond Virginias
 201,1884,1884,Toledo Blue Stockings
@@ -86,27 +85,27 @@ LSTeamId,StartYear,EndYear,Name
 205,1891,1891,Cincinnati Kelly's Killers
 151,1891,1891,Milwaukee Brewers
 221,1891,1899,Washington Senators
-138,1892,2022,St. Louis Cardinals
+138,1892,,St. Louis Cardinals
 298,1901,1902,Baltimore Orioles
 111,1901,1906,Boston Americans
-111,1907,2022,Boston Red Sox
-145,1901,2022,Chicago White Sox
+111,1907,,Boston Red Sox
+145,1901,,Chicago White Sox
 114,1901,1901,Cleveland Blues
 114,1902,1902,Cleveland Bronchos
 114,1903,1914,Cleveland Naps
 114,1915,2021,Cleveland Indians
-114,2022,2022,Cleveland Guardians
-116,1901,2022,Detroit Tigers
+114,2022,,Cleveland Guardians
+116,1901,,Detroit Tigers
 110,1901,1901,Milwaukee Brewers
 110,1902,1953,St. Louis Browns
-110,1954,2022,Baltimore Orioles
+110,1954,,Baltimore Orioles
 133,1901,1954,Philadelphia Athletics
 133,1955,1967,Kansas City Athletics
-133,1968,2022,Oakland Athletics
+133,1968,,Oakland Athletics
 142,1901,1960,Washington Senators
-142,1961,2022,Minnesota Twins
+142,1961,,Minnesota Twins
 147,1903,1912,New York Highlanders
-147,1913,2022,New York Yankees
+147,1913,,New York Yankees
 165,1914,1915,Baltimore Terrapins
 185,1914,1915,Brooklyn Feds
 189,1914,1915,Buffalo Feds
@@ -116,25 +115,25 @@ LSTeamId,StartYear,EndYear,Name
 128,1914,1915,Kansas City Packers
 176,1914,1915,Pittsburgh Rebels
 197,1914,1915,St. Louis Terriers
-108,1961,2022,Los Angeles Angels
+108,1961,,Los Angeles Angels
 108,1966,1996,California Angels
 108,1997,2004,Anaheim Angels
 140,1961,1971,Washington Senators
-140,1972,2022,Texas Rangers
+140,1972,,Texas Rangers
 117,1962,1964,Houston Colt 45's
-117,1965,2022,Houston Astros
-121,1962,2022,New York Mets
-118,1968,2022,Kansas City Royals
+117,1965,,Houston Astros
+121,1962,,New York Mets
+118,1968,,Kansas City Royals
 120,1968,2004,Montreal Expos
-120,2005,2022,Washington Nationals
-135,1968,2022,San Diego Padres
+120,2005,,Washington Nationals
+135,1968,,San Diego Padres
 158,1968,1969,Seattle Pilots
-158,1970,2022,Milwaukee Brewers
-136,1977,2022,Seattle Mariners
-141,1977,2022,Toronto Blue Jays
+158,1970,,Milwaukee Brewers
+136,1977,,Seattle Mariners
+141,1977,,Toronto Blue Jays
 146,1991,2011,Florida Marlins
-146,2012,2022,Miami Marlins
-115,1992,2022,Colorado Rockies
-109,1996,2022,Arizona Diamondbacks
+146,2012,,Miami Marlins
+115,1992,,Colorado Rockies
+109,1996,,Arizona Diamondbacks
 139,1996,2007,Tampa Bay Devil Rays
-139,2008,2022,Tampa Bay Rays
+139,2008,,Tampa Bay Rays

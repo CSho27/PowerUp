@@ -19,9 +19,9 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       if (!request.PlayerId.HasValue)
         throw new ArgumentNullException(nameof(request.PlayerId));
 
-      var player = DatabaseConfig.Database.Load<Player>(request.PlayerId!.Value);
-      _playerApi.UpdatePlayer(player!, request.GetParameters());
-      DatabaseConfig.Database.Save(player!);
+      var player = DatabaseConfig.Database.Load<Player>(request.PlayerId!.Value)!;
+      _playerApi.UpdatePlayer(player, request.GetParameters(player));
+      DatabaseConfig.Database.Save(player);
 
       return ResultResponse.Succeeded();
     }
@@ -37,11 +37,11 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public PitcherAbilitiesRequest? PitcherAbilities { get; set; }
     public SpecialAbilitiesRequest? SpecialAbilities { get; set; }
 
-    public PlayerParameters GetParameters()
+    public PlayerParameters GetParameters(Player player)
     {
       return new PlayerParameters
       {
-        PersonalDetails = PersonalDetails!.GetParameters(),
+        PersonalDetails = PersonalDetails!.GetParameters(player.SpecialSavedNameId),
         Appearance = Appearance!.GetParameters(),
         PositionCapabilities = PositionCapabilities!.GetParameters(),
         HitterAbilities = HitterAbilities!.GetParameters(),
@@ -67,14 +67,14 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public string? ThrowingArmKey { get; set; }
     public int? PitchingMechanicsId { get; set; }
 
-    public PlayerPersonalDetailsParameters GetParameters()
+    public PlayerPersonalDetailsParameters GetParameters(int? specialSavedNameId)
     {
       return new PlayerPersonalDetailsParameters
       {
         IsCustomPlayer = IsCustomPlayer,
         FirstName = FirstName,
         LastName = LastName,
-        KeepSpecialSavedName = UseSpecialSavedName,
+        SpecialSavedNameId = specialSavedNameId,
         SavedName = SavedName,
         UniformNumber = UniformNumber,
         Position = Enum.Parse<Position>(PositionKey!),

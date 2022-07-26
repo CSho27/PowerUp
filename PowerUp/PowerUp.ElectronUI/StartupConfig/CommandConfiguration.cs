@@ -1,4 +1,5 @@
-﻿using PowerUp.ElectronUI.Api.PlayerDetails;
+﻿using PowerUp.ElectronUI.Api.Generation;
+using PowerUp.ElectronUI.Api.PlayerDetails;
 using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
 using PowerUp.ElectronUI.Api.Searching;
@@ -18,9 +19,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<LoadExistingRosterOptionsCommand>();
       services.AddSingleton<LoadPlayerEditorCommand>();
       services.AddSingleton<SavePlayerCommand>();
-      services.AddSingleton<ReplaceWithNewPlayerCommand>();
-      services.AddSingleton<ReplacePlayerWithCopyCommand>();
-      services.AddSingleton<ReplaceWithExistingPlayerCommand>();
+      services.AddSingleton<ReplacePlayerCommand>();
       services.AddSingleton<PlayerSearchCommand>();
       services.AddSingleton<LoadTeamEditorCommand>();
       services.AddSingleton<CopyPlayerCommand>();
@@ -35,6 +34,16 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ReplaceTeamWithExistingCommand>();
       services.AddSingleton<CopyExistingRosterCommand>();
       services.AddSingleton<GetPlayerFlyoutDetailsCommand>();
+      services.AddSingleton<FindClosestVoiceCommand>();
+      services.AddSingleton<PlayerLookupCommand>();
+      services.AddSingleton<PlayerGenerationCommand>();
+      services.AddSingleton<GetPlayerInfoCommand>();
+      services.AddSingleton<FranchiseLookupCommand>();
+      services.AddSingleton<TeamGenerationCommand>();
+      services.AddSingleton<GetTeamGenerationStatusCommand>();
+      services.AddSingleton<RosterGenerationCommand>();
+      services.AddSingleton<GetRosterGenerationStatusCommand>();
+      services.AddSingleton<ReplaceFreeAgentCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -47,9 +56,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(LoadExistingRosterOptionsCommand), "LoadExistingRosterOptions");
       commandRegistry.RegisterCommand(typeof(LoadPlayerEditorCommand), "LoadPlayerEditor");
       commandRegistry.RegisterCommand(typeof(SavePlayerCommand), "SavePlayer");
-      commandRegistry.RegisterCommand(typeof(ReplaceWithNewPlayerCommand), "ReplaceWithNewPlayer");
-      commandRegistry.RegisterCommand(typeof(ReplacePlayerWithCopyCommand), "ReplacePlayerWithCopy");
-      commandRegistry.RegisterCommand(typeof(ReplaceWithExistingPlayerCommand), "ReplaceWithExistingPlayer");
+      commandRegistry.RegisterCommand(typeof(ReplacePlayerCommand), "ReplaceWithExistingPlayer");
       commandRegistry.RegisterCommand(typeof(PlayerSearchCommand), "PlayerSearch");
       commandRegistry.RegisterCommand(typeof(LoadTeamEditorCommand), "LoadTeamEditor");
       commandRegistry.RegisterCommand(typeof(CopyPlayerCommand), "CopyPlayer");
@@ -64,6 +71,16 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplaceTeamWithExistingCommand), "ReplaceTeamWithExisting");
       commandRegistry.RegisterCommand(typeof(CopyExistingRosterCommand), "CopyExistingRoster");
       commandRegistry.RegisterCommand(typeof(GetPlayerFlyoutDetailsCommand), "GetPlayerFlyoutDetails");
+      commandRegistry.RegisterCommand(typeof(FindClosestVoiceCommand), "FindClosestVoice");
+      commandRegistry.RegisterCommand(typeof(PlayerLookupCommand), "PlayerLookup");
+      commandRegistry.RegisterCommand(typeof(PlayerGenerationCommand), "PlayerGeneration");
+      commandRegistry.RegisterCommand(typeof(GetPlayerInfoCommand), "GetPlayerInfo");
+      commandRegistry.RegisterCommand(typeof(FranchiseLookupCommand), "FranchiseLookup");
+      commandRegistry.RegisterCommand(typeof(TeamGenerationCommand), "TeamGeneration");
+      commandRegistry.RegisterCommand(typeof(GetTeamGenerationStatusCommand), "GetTeamGenerationStatus");
+      commandRegistry.RegisterCommand(typeof(RosterGenerationCommand), "RosterGeneration");
+      commandRegistry.RegisterCommand(typeof(GetRosterGenerationStatusCommand), "GetRosterGenerationStatus");
+      commandRegistry.RegisterCommand(typeof(ReplaceFreeAgentCommand), "ReplaceFreeAgent");
     }
   }
 }

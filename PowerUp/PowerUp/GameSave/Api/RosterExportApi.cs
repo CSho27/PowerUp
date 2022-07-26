@@ -1,5 +1,6 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Rosters;
+using PowerUp.GameSave.Objects.FreeAgents;
 using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
@@ -63,16 +64,17 @@ namespace PowerUp.GameSave.Api
           .ThenBy(t => t.Value == MLBPPTeam.NationalLeagueAllStars)
           .ThenBy(t => t.Value);
 
-        var players = teams
+        var playersOnTeams = teams
           .SelectMany(t => t.Key.GetPlayers().Select(p => (ppTeam: t.Value, player: p)))
           .ToList();
 
         var gsPlayers = new List<GSPlayer>();
         var ppIdsByTeamAndId = new Dictionary<MLBPPTeam, IDictionary<int, ushort>>();
-        for(var i=0; i<players.Count; i++)
+        var ppId = (ushort)0;
+        for(var i=0; i<playersOnTeams.Count; i++)
         {
-          var player = players[i];
-          var ppId = (ushort)(i + 1);
+          var player = playersOnTeams[i];
+          ppId = (ushort)(i + 1);
           ppIdsByTeamAndId.TryAdd(player.ppTeam, new Dictionary<int, ushort>());
           ppIdsByTeamAndId[player.ppTeam].Add(player.player.Id!.Value, ppId);
 
@@ -81,7 +83,7 @@ namespace PowerUp.GameSave.Api
           var jerseyTeam = player.ppTeam;
           if (player.ppTeam.GetDivision() == MLBPPDivision.AllStars)
           {
-            var onRegTeams = players.Where(p => p.player.Id == player.player.Id && p.ppTeam.GetDivision() != MLBPPDivision.AllStars);
+            var onRegTeams = playersOnTeams.Where(p => p.player.Id == player.player.Id && p.ppTeam.GetDivision() != MLBPPDivision.AllStars);
             if (onRegTeams.Count() == 1)
               jerseyTeam = onRegTeams.Single().ppTeam;
             else
@@ -91,11 +93,25 @@ namespace PowerUp.GameSave.Api
           gsPlayers.Add(_playerMapper.MapToGSPlayer(player.player, jerseyTeam, ppId));
         }
 
+
+        var freeAgents = roster.GetFreeAgentPlayers().Select((fa, i) => _playerMapper.MapToGSPlayer(fa, MLBPPTeam.NationalLeagueAllStars, ppId + i + 1));
+        gsPlayers.AddRange(freeAgents);
+
+        var blankFreeAgentSpots = new List<GSFreeAgent>();
+        for (var i = freeAgents.Count(); i < 15; i++)
+          blankFreeAgentSpots.Add(new GSFreeAgent() { PowerProsPlayerId = 0 });
+
         var gameSave = new GSGameSave
         {
           Players = gsPlayers,
           Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
-          Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value]))
+          Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),
+          FreeAgents = new GSFreeAgentList 
+          { 
+            FreeAgents = freeAgents
+              .Select(fa => new GSFreeAgent { PowerProsPlayerId = fa.PowerProsId })
+              .Concat(blankFreeAgentSpots)
+          } 
         };
 
         writer.Write(gameSave);

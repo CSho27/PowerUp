@@ -1,4 +1,5 @@
 import { EntitySourceType } from "../shared/entitySourceType";
+import { GeneratorWarningDto } from "../shared/generatorWarning";
 import { KeyedCode } from "../shared/keyedCode";
 import { Position } from "../shared/positionCode";
 
@@ -13,6 +14,8 @@ export interface RosterDetails {
   rosterId: number;
   name: string
   teams: TeamDetails[];
+  freeAgentHitters: HitterDetails[];
+  freeAgentPitchers: PitcherDetails[];
 }
 
 export interface TeamDetails {
@@ -40,6 +43,8 @@ export interface PlayerDetails {
   batsAndThrows: string;
   sourceType: EntitySourceType;
   canEdit: boolean;
+  generatedPlayer_Warnings: GeneratorWarningDto[];
+  generatedPlayer_IsUnedited: boolean;
 }
 
 export interface HitterDetails extends PlayerDetails {

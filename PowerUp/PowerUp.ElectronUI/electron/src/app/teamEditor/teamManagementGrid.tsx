@@ -1,14 +1,19 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { CenteringWrapper } from "../../components/centeringWrapper/cetneringWrapper";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
+import { FlyoutAnchor } from "../../components/flyout/flyout";
+import { Icon } from "../../components/icon/icon";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
-import { COLORS } from "../../style/constants";
+import { COLORS, FONT_SIZES } from "../../style/constants";
+import { distinctBy } from "../../utils/arrayUtils";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { AppContext } from "../app";
+import { PlayerGenerationApiClient } from "../playerGenerationModal/playerGenerationApiClient";
+import { PlayerGenerationModal } from "../playerGenerationModal/playerGenerationModal";
 import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";
 import { DisableResult } from "../shared/disableResult";
@@ -51,8 +56,11 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     saveTempTeam
   } = props;
 
+  const [warningsOpenPlayerId, setWarningsOpenPlayerId] = useState<number|null>(null);
+
   const copyingApiClientRef = useRef(new CopyPlayerApiClient(appContext.commandFetcher));
   const creationApiClientRef = useRef(new CreatePlayerApiClient(appContext.commandFetcher));
+  
   const detailsApiClientRef = useRef(new GetPlayerDetailsApiClient(appContext.commandFetcher));
 
   const allPlayers = [...mlbPlayers, ...aaaPlayers];
@@ -82,6 +90,11 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
               Add existing
           </ContextMenuItem>
           <ContextMenuItem 
+            icon='wand-magic-sparkles'
+            onClick={addGeneratedPlayer}>
+              Add generated player
+          </ContextMenuItem>
+          <ContextMenuItem 
             icon='user-plus'
             onClick={() => addNewPlayer(false)}>
               Add new hitter
@@ -101,6 +114,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           <StatHeader columnWidth='1px' />
           <StatHeader columnWidth='1px' />
           <StatHeader columnWidth='1px' />
+          <IconHeader><Icon icon='asterisk'/></IconHeader>
+          <IconHeader><Icon icon='triangle-exclamation'/></IconHeader>
           <StatHeader>Pos</StatHeader>
           <StatHeader columnWidth='100px' style={{ textAlign: 'left' }}>Name</StatHeader>
           <StatHeader>Ovr</StatHeader>
@@ -121,6 +136,8 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     const { playerDetails } = player;
     const { playerId } = playerDetails
     const positionType = getPositionType(playerDetails.position);
+
+    const warnings = distinctBy(playerDetails.generatedPlayer_Warnings, w => w.errorKey);
 
     const pitcherRolesDisabled: DisabledCriteria = [
       ...disableEditRoles,
@@ -166,13 +183,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
             </ContextMenuItem>
             <ContextMenuItem 
               icon='box-archive'
-              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
+              {...toDisabledProps('Replace with an existing player from the database', ...disableManageRoster)}
               onClick={() => replacePlayerWithExisting(playerId)}>
                 Replace with existing
             </ContextMenuItem>
             <ContextMenuItem 
+              icon='wand-magic-sparkles'
+              {...toDisabledProps('Replace with a new generated player', ...disableManageRoster)}
+              onClick={() => replaceWithGeneratedPlayer(playerId)}>
+                Replace with generated player
+            </ContextMenuItem>
+            <ContextMenuItem 
               icon='user-plus'
-              {...toDisabledProps('Make editable copy of player', ...disableManageRoster)}
+              {...toDisabledProps('Replace with a new default player', ...disableManageRoster)}
               onClick={() => replaceWithNewPlayer(playerId, playerDetails.position === 'Pitcher')}>
                 Replace with new
             </ContextMenuItem>
@@ -186,6 +209,23 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
           icon={isAAA ? 'person-arrow-up-from-line' : 'person-arrow-down-to-line'}
           squarePadding
           onClick={() => sendUpOrDown(playerId)} />
+      </PlayerCell>
+      <PlayerCell>
+        {playerDetails.generatedPlayer_IsUnedited && 
+        <Icon icon='asterisk' title='Generated player has not yet been edited' />}
+      </PlayerCell>
+      <PlayerCell>
+        {warnings.length > 0 && 
+        <FlyoutAnchor
+          isOpen={warningsOpenPlayerId == playerId}
+          onCloseTrigger={() => setWarningsOpenPlayerId(null)}
+          onOpenTrigger={() => setWarningsOpenPlayerId(playerId)}
+          flyout={<PlayerGenerationWarningsFlyout>
+            {warnings.map(w => <div key={w.errorKey}>{w.message}</div>)}
+          </PlayerGenerationWarningsFlyout>}>
+            <Icon icon='triangle-exclamation' style={{ color: COLORS.attentionYellow.regular_45 }} />
+        </FlyoutAnchor>
+        }
       </PlayerCell>
       <PlayerCell>
         <CenteringWrapper>
@@ -225,7 +265,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isPinchRunner} 
-            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
+            {...toDisabledProps('Is pinch runner', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsPinchRunner' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -233,7 +273,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isDefensiveReplacement} 
-            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
+            {...toDisabledProps('Is defensive replacement', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveReplacement' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -241,7 +281,7 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         <CenteringWrapper>
           <CheckboxField 
             checked={player.isDefensiveLiability} 
-            {...toDisabledProps('Is pinch hitter', ...pitcherRolesDisabled)}
+            {...toDisabledProps('Is defensive liability', ...pitcherRolesDisabled)}
             onToggle={() => updatePlayer(playerId, { type: 'toggleIsDefensiveLiability' })} />
         </CenteringWrapper>
       </PlayerCell>
@@ -282,6 +322,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
     }
   }
 
+  async function replaceWithGeneratedPlayer(playerId: number) {
+    appContext.openModal(closeDialog => <PlayerGenerationModal
+      appContext={appContext}
+      closeDialog={async generatedPlayerId => {
+        closeDialog();
+        if(!!generatedPlayerId) {
+          const details = await detailsApiClientRef.current.execute({ playerId: generatedPlayerId })
+          updatePlayer(playerId, { type: 'replacePlayer', playerDetails: details })
+        }
+      }}
+    />);
+  }
+
   async function replaceWithNewPlayer(playerId: number, isPitcher: boolean) {
     const response = await creationApiClientRef.current.execute({ isPitcher: isPitcher });
     updatePlayer(playerId, { type: 'replacePlayer', playerDetails: toPlayerDetails(response) });
@@ -299,6 +352,19 @@ export function TeamManagementGrid(props: TeamManagementGridProps) {
         }
       }} 
     />)
+  }
+
+  async function addGeneratedPlayer() {
+    appContext.openModal(closeDialog => <PlayerGenerationModal
+      appContext={appContext}
+      closeDialog={async generatedPlayerId => {
+        closeDialog();
+        if(!!generatedPlayerId) {
+          const details = await detailsApiClientRef.current.execute({ playerId: generatedPlayerId })
+          addPlayer(details);
+        }
+      }}
+    />);
   }
 
   async function addNewPlayer(isPitcher: boolean) {
@@ -333,6 +399,12 @@ const StatHeader = styled.th<{ columnWidth?: string }>`
   white-space: nowrap;
 `
 
+const IconHeader = styled.th`
+  background-color: ${COLORS.jet.lighter_71};
+  width: 1px;
+  padding: 0 8px;
+`
+
 const PlayerRow = styled.tr`
   &:nth-child(even) {
     background-color: ${COLORS.jet.superlight_85};
@@ -341,4 +413,10 @@ const PlayerRow = styled.tr`
 
 const PlayerCell = styled.td`
   white-space: nowrap;
+`
+
+const PlayerGenerationWarningsFlyout = styled.div`
+  background-color: ${COLORS.white.regular_100};
+  padding: 8px;
+  font-size: ${FONT_SIZES._14};
 `

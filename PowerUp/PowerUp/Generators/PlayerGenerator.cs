@@ -1,6 +1,7 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
+using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,19 @@ namespace PowerUp.Generators
 {
   public interface IPlayerGenerator
   {
-    PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
+    PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm, string? uniformNumber = null);
   }
 
   public class PlayerGenerationResult
   {
     public long LSPlayerId { get; set; }
     public Player Player { get; set; }
-    public IEnumerable<GeneratorWarning> Warnings { get; set; } = Enumerable.Empty<GeneratorWarning>();
     public long? LastTeamForYear_LSTeamId { get; set; }
 
-    public PlayerGenerationResult(long lsPlayerId, Player player, IEnumerable<GeneratorWarning> warnings, long? lastTeamForYear_lsTeamId)
+    public PlayerGenerationResult(long lsPlayerId, Player player, long? lastTeamForYear_lsTeamId)
     {
       LSPlayerId = lsPlayerId;
       Player = player;
-      Warnings = warnings;
       LastTeamForYear_LSTeamId = lastTeamForYear_lsTeamId;
     }
   }
@@ -32,17 +31,20 @@ namespace PowerUp.Generators
   {
     private readonly IPlayerApi _playerApi;
     private readonly IPlayerStatisticsFetcher _playerStatsFetcher;
+    private readonly IBaseballReferenceClient _baseballReferenceClient;
 
     public PlayerGenerator(
       IPlayerApi playerApi,
-      IPlayerStatisticsFetcher playerStatsFetcher
+      IPlayerStatisticsFetcher playerStatsFetcher,
+      IBaseballReferenceClient baseballReferenceClient
     )
     {
       _playerApi = playerApi;
       _playerStatsFetcher = playerStatsFetcher;
+      _baseballReferenceClient = baseballReferenceClient;
     }
 
-    public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
+    public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm, string? uniformNumber = null)
     {
       var playerStats = _playerStatsFetcher.GetStatistics(
         lsPlayerId, 
@@ -52,26 +54,33 @@ namespace PowerUp.Generators
         excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
         excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
       );
+
+      PlayerStatisticsResult? previousYearStats = null;
+      if(MLBSeasonUtils.GetFractionOfSeasonPlayed(year) < 1)
+        previousYearStats = _playerStatsFetcher.GetStatistics(
+          lsPlayerId,
+          year-1,
+          excludePlayerInfo: true,
+          excludeHittingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats),
+          excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
+          excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
+      );
+
       var data = new PlayerGenerationData
       {
         Year = year,
         PlayerInfo = playerStats.PlayerInfo != null
-          ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
+          ? new LSPlayerInfoDataset(playerStats.PlayerInfo, uniformNumber)
           : null,
-        HittingStats = playerStats.HittingStats != null
-          ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
-          : null,
-        FieldingStats = playerStats.FieldingStats != null
-          ? new LSFieldingStatDataset(playerStats.FieldingStats.Results) 
-          : null,
-        PitchingStats = playerStats.PitchingStats != null
-          ? new LSPitchingStatsDataset(playerStats.PitchingStats.Results)
-          : null
+        HittingStats = LSHittingStatsDataset.BuildFor(playerStats.HittingStats?.Results, previousYearStats?.HittingStats?.Results),
+        FieldingStats = LSFieldingStatDataset.BuildFor(playerStats.FieldingStats?.Results, previousYearStats?.FieldingStats?.Results),
+        PitchingStats = LSPitchingStatsDataset.BuildFor(playerStats.PitchingStats?.Results, previousYearStats?.PitchingStats?.Results)
       };
 
       var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data!.PrimaryPosition == Position.Pitcher);
       player.Year = year;
       player.GeneratedPlayer_LSPLayerId = lsPlayerId;
+      player.GeneratedPlayer_IsUnedited = true;
 
       var propertiesThatHaveBeenSet = new HashSet<string>();
       foreach(var setter in generationAlgorithm.PropertySetters)
@@ -84,7 +93,7 @@ namespace PowerUp.Generators
           propertiesThatHaveBeenSet.Add(setter.PropertyKey);
       }
       
-      return new PlayerGenerationResult(lsPlayerId, player, Enumerable.Empty<GeneratorWarning>(), data.LastTeamForYear_LSTeamId);
+      return new PlayerGenerationResult(lsPlayerId, player, data.LastTeamForYear_LSTeamId);
     }
   }
 

@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, useRef } from "react";
 import { Button } from "../../components/button/button";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
@@ -8,10 +8,13 @@ import { fromOptions, toOptions } from "../../components/SelectField/selectField
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { ToggleSwitch } from "../../components/toggleSwitch/toggleSwitch";
 import { FONT_SIZES } from "../../style/constants";
+import { AppContext } from "../app";
+import { FindClosestVoiceApiClient } from "./findClosestVoiceApiClient";
 import { PersonalDetailsOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";
 
 export interface PlayerPersonalDetailsEditorProps {
+  appContext: AppContext;
   options: PersonalDetailsOptions;
   initiallyHadSpecialSavedName: boolean;
   details: PlayerPersonalDetails;
@@ -21,12 +24,15 @@ export interface PlayerPersonalDetailsEditorProps {
 
 export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorProps) {
   const { 
+    appContext,
     options,
     initiallyHadSpecialSavedName,
     details,
     disabled: editorDisabled,
     update
   } = props;
+
+  const voiceApiClient = useRef(new FindClosestVoiceApiClient(appContext.commandFetcher));
   
   return <>
     <FlexRow gap='16px' vAlignCenter withBottomPadding>
@@ -124,11 +130,13 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         </SelectField>
       </FlexFracItem>
       <FlexFracItem frac='1/4' style={{ display: 'flex', alignItems: 'flex-end' }}>
-        {false && <>
-        <Button variant='Fill' size='Small' onClick={() =>  console.log('Find Closest Clicked')}>
-          Find Closest
-        </Button>
-        </>}
+        <Button 
+          variant='Fill' 
+          size='Small'
+          onClick={findClosestVoice} 
+          disabled={editorDisabled}>
+            Find Closest
+        </Button> 
       </FlexFracItem>
     </FlexRow>
     <FlexRow gap='16px' withBottomPadding>
@@ -174,4 +182,13 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
       </FlexFracItem>
     </FlexRow>
   </>
+
+  async function findClosestVoice() {
+    const response = await voiceApiClient.current.execute({ 
+      firstName: details.firstName,
+      lastName: details.lastName
+    });
+
+    update({ type: 'updateVoice', voice: fromOptions(options.voiceOptions, response.id.toString())})
+  }
 }

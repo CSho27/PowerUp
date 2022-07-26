@@ -29,10 +29,8 @@
           IsCustomPlayer = false,
           FirstName = player.FirstName,
           LastName = player.LastName,
-          KeepSpecialSavedName = player.SpecialSavedNameId.HasValue,
-          SavedName = player.SpecialSavedNameId.HasValue
-            ? null
-            : player.SavedName,
+          SpecialSavedNameId = player.SpecialSavedNameId,
+          SavedName = player.SavedName,
           UniformNumber = player.UniformNumber,
           Position = player.PrimaryPosition,
           PitcherType = player.PitcherType,
@@ -41,6 +39,9 @@
           BattingStanceId = player.BattingStanceId,
           ThrowingArm = player.ThrowingArm,
           PitchingMechanicsId = player.PitchingMechanicsId,
+          GeneratedPlayer_LSPlayerId = player.GeneratedPlayer_LSPLayerId,
+          GeneratedPlayer_FullFirstName = player.GeneratedPlayer_FullFirstName,
+          GeneratedPlayer_FullLastName  = player.GeneratedPlayer_FullLastName,
         },
         Appearance = new PlayerAppearanceParameters
         {

@@ -1,5 +1,6 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
+using PowerUp.Generators;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Shared
@@ -12,6 +13,8 @@ namespace PowerUp.ElectronUI.Api.Shared
     public int PlayerId { get; }
     public string FullName { get; }
     public string SavedName { get; }
+    public IEnumerable<GeneratorWarning> GeneratedPlayer_Warnings { get; }
+    public bool GeneratedPlayer_IsUnedited { get; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Position Position { get; }
@@ -30,6 +33,8 @@ namespace PowerUp.ElectronUI.Api.Shared
       PlayerId = player.Id!.Value;
       FullName = player.InformalDisplayName;
       SavedName = player.SavedName;
+      GeneratedPlayer_Warnings = player.GeneratorWarnings;
+      GeneratedPlayer_IsUnedited = player.GeneratedPlayer_IsUnedited;
       Position = player.PrimaryPosition;
       Overall = player.Overall.RoundDown();
       BatsAndThrows = player.BatsAndThrows;

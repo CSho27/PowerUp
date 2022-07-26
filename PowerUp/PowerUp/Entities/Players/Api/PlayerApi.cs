@@ -50,12 +50,14 @@
 
     private void UpdatePersonalDetails(Player player, PlayerPersonalDetailsParameters parameters)
     {
+      if(player.GeneratedPlayer_IsUnedited)
+        player.GeneratedPlayer_IsUnedited = false;
+
       player.IsCustomPlayer = parameters.IsCustomPlayer;
       player.FirstName = parameters.FirstName!;
       player.LastName = parameters.LastName!;
-
-      if (!parameters.KeepSpecialSavedName)
-        player.SavedName = parameters.SavedName!;
+      player.SpecialSavedNameId = parameters.SpecialSavedNameId;
+      player.SavedName = parameters.SavedName!;
 
       player.UniformNumber = parameters.UniformNumber!;
       player.PrimaryPosition = parameters.Position;
@@ -65,6 +67,9 @@
       player.BattingStanceId = parameters.BattingStanceId!.Value;
       player.ThrowingArm = parameters.ThrowingArm;
       player.PitchingMechanicsId = parameters.PitchingMechanicsId!.Value;
+      player.GeneratedPlayer_LSPLayerId = parameters.GeneratedPlayer_LSPlayerId;
+      player.GeneratedPlayer_FullFirstName = parameters.GeneratedPlayer_FullFirstName;
+      player.GeneratedPlayer_FullLastName = parameters.GeneratedPlayer_FullLastName;
     }
 
     private void UpdatePositionCapabilities(PositionCapabilities positionCapabitlies, PlayerPositionCapabilitiesParameters parameters)

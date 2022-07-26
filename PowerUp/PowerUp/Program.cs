@@ -3,6 +3,7 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
+using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
@@ -32,9 +33,10 @@ namespace PowerUp
       var voiceLibrary = new VoiceLibrary(Path.Combine(DATA_DIRECTORY, "./data/Voice_Library.csv"));
       var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
       var mlbLookupServiceClient = new MLBLookupServiceClient();
+      var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
       var playerApi = new PlayerApi();
-      var playerGenerator = new PlayerGenerator(playerApi, statsFetcher);
+      var playerGenerator = new PlayerGenerator(playerApi, statsFetcher, baseballReferenceClient);
       var countryAndSkinLibrary = new CountryAndSkinColorLibrary(Path.Combine(DATA_DIRECTORY, "./data/CountryAndSkinColor_Library.csv"));
       var skinColorGuesser = new SkinColorGuesser(countryAndSkinLibrary);
       var lsStatsAlgorithm = new LSStatistcsPlayerGenerationAlgorithm(voiceLibrary, skinColorGuesser);
@@ -57,7 +59,8 @@ namespace PowerUp
       //GetAllTeamsAndIds(mlbLookupServiceClient);
       //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
-      TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
+      //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
+      TestBuildBBRefDictionary();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -412,7 +415,7 @@ namespace PowerUp
             var data = new PlayerGenerationData
             {
               PlayerInfo = playerStats.PlayerInfo != null
-                ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
+                ? new LSPlayerInfoDataset(playerStats.PlayerInfo, player.UniformNumber)
                 : null,
               HittingStats = playerStats.HittingStats != null
                 ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
@@ -566,6 +569,14 @@ namespace PowerUp
         PrintRosterInfoFor(team.Key);
         Console.WriteLine();
       }
+    }
+
+    static void TestBuildBBRefDictionary()
+    {
+      Task.Run(async () =>
+      {
+        var result = await new BaseballReferenceClient().GetBaseballReferenceIdFor("Giancarlo", "Stanton", 2010);
+      }).GetAwaiter().GetResult();
     }
 
     static void TestLoad()
