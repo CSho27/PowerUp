@@ -199,7 +199,6 @@ const TeamHeader = styled.h1`
   font-style: italic;
   text-align: left;
   white-space: nowrap;
-  max-width: 500px;
   overflow: hidden;
   text-overflow: ellipsis;
 `
