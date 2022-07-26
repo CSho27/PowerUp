@@ -5,13 +5,12 @@ using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PowerUp.Generators
 {
   public interface IPlayerGenerator
   {
-    PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm);
+    PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm, string? uniformNumber = null);
   }
 
   public class PlayerGenerationResult
@@ -45,7 +44,7 @@ namespace PowerUp.Generators
       _baseballReferenceClient = baseballReferenceClient;
     }
 
-    public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm)
+    public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm, string? uniformNumber = null)
     {
       var playerStats = _playerStatsFetcher.GetStatistics(
         lsPlayerId, 
@@ -61,7 +60,7 @@ namespace PowerUp.Generators
         previousYearStats = _playerStatsFetcher.GetStatistics(
           lsPlayerId,
           year-1,
-          excludePlayerInfo: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo),
+          excludePlayerInfo: true,
           excludeHittingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats),
           excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
           excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
@@ -71,7 +70,7 @@ namespace PowerUp.Generators
       {
         Year = year,
         PlayerInfo = playerStats.PlayerInfo != null
-          ? new LSPlayerInfoDataset(playerStats.PlayerInfo)
+          ? new LSPlayerInfoDataset(playerStats.PlayerInfo, uniformNumber)
           : null,
         HittingStats = LSHittingStatsDataset.BuildFor(playerStats.HittingStats?.Results, previousYearStats?.HittingStats?.Results),
         FieldingStats = LSFieldingStatDataset.BuildFor(playerStats.FieldingStats?.Results, previousYearStats?.FieldingStats?.Results),

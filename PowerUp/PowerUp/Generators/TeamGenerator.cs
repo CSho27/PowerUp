@@ -63,7 +63,7 @@ namespace PowerUp.Generators
 
         try
         {
-          var generatedPlayer = _playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm);
+          var generatedPlayer = _playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm, player.UniformNumber);
 
           if (!generatedPlayer.LastTeamForYear_LSTeamId.HasValue || generatedPlayer.LastTeamForYear_LSTeamId == lsTeamId)
             generatedPlayers.Add(generatedPlayer);

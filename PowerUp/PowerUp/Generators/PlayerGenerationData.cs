@@ -40,11 +40,11 @@ namespace PowerUp.Generators
     public string? BirthCountry { get; }
     public DateTime? ProDebutDate { get; }
 
-    public LSPlayerInfoDataset(PlayerInfoResult result)
+    public LSPlayerInfoDataset(PlayerInfoResult result, string? uniformNumber)
     {
       FirstNameUsed = result.FirstNameUsed;
       LastName = result.LastName;
-      UniformNumber = result.UniformNumber;
+      UniformNumber = uniformNumber ?? result.UniformNumber;
       PrimaryPosition = result.Position;
       BattingSide = result.BattingSide;
       ThrowingArm = result.ThrowingArm;
