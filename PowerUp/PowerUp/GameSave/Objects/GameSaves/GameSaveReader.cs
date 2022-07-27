@@ -23,7 +23,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
 
     public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream, GameSaveFormat format)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, stream);
+      _reader = new GameSaveObjectReader(characterLibrary, stream, format == GameSaveFormat.Ps2);
       _format = format;
     }
 

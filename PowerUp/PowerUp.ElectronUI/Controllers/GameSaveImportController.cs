@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PowerUp.GameSave.Api;
+using PowerUp.GameSave.Objects.GameSaves;
 
 namespace PowerUp.ElectronUI.Controllers
 {
@@ -20,7 +21,8 @@ namespace PowerUp.ElectronUI.Controllers
       var parameters = new RosterImportParameters 
       { 
         Stream = formData.Files[0].OpenReadStream(),
-        ImportSource = formData["importSource"]
+        ImportSource = formData["importSource"],
+        GameSaveFormat = Enum.Parse<GameSaveFormat>(formData["gameSaveFormat"])
       };
       var result = _rosterImportApi.ImportRoster(parameters);
       return new JsonResult(new { RosterId = result.Roster!.Id!.Value });

@@ -37,7 +37,7 @@ namespace PowerUp.GameSave.Api
       if (!parameters.IsBase && parameters.ImportSource == null)
         throw new ArgumentNullException(nameof(parameters.ImportSource));
 
-      using (var reader = new GameSaveReader(_characterLibrary, parameters.Stream, GameSaveFormat.Wii))
+      using (var reader = new GameSaveReader(_characterLibrary, parameters.Stream, parameters.GameSaveFormat))
       {
         var gameSave = reader.Read();
         var gsPlayers = gameSave.Players.Where(p => p.PowerProsId.HasValue && p.PowerProsId != 0);
@@ -106,6 +106,7 @@ namespace PowerUp.GameSave.Api
     public Stream? Stream { get; set; }
     public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
+    public GameSaveFormat GameSaveFormat { get; set; }
   }
 
   public class RosterImportResult

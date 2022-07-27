@@ -3,7 +3,10 @@ import { PerformWithSpinnerCallback } from "../app";
 export interface ImportRosterRequest {
   file: File;
   importSource: string;
+  gameSaveFormat: GameSaveFormat;
 }
+
+export type GameSaveFormat = 'Wii' | 'Ps2';
 
 export interface ImportRosterResponse {
   rosterId: number;
@@ -22,6 +25,7 @@ export class ImportRosterApiClient {
         const formData = new FormData();
         formData.append("data", request.file);
         formData.append("importSource", request.importSource);
+        formData.append("gameSaveFormat", request.gameSaveFormat);
         const response = await fetch('./Import', {
           method: 'POST',
           mode: 'same-origin',
