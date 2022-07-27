@@ -1,4 +1,5 @@
 ﻿using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.Libraries;
 using System;
 
@@ -19,7 +20,7 @@ namespace PowerUp.GameSave.Objects.Teams
     }
     public void Write(int powerProsTeamId, GSTeam team)
     {
-      var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId);
+      var teamOffset = TeamOffsetUtils.GetTeamOffset(GameSaveFormat.Wii, powerProsTeamId);
       _writer.Write(teamOffset, team);
     }
 
