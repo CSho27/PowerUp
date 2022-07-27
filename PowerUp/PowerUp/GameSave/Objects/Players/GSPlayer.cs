@@ -28,10 +28,14 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x51, bits: 5, bitOffset: 0)]
     public ushort? PowerProsTeamId { get; set; }
 
-    [GSUInt(0x51, bits: 2, bitOffset: 5)]
+    [GSBytes(0x51, numberOfBytes: 3)]
+    public byte[]? PlayerNumberBytes { get; set; }
+
+
+    //[GSUInt(0x51, bits: 2, bitOffset: 5)]
     public ushort? PlayerNumberNumberOfDigits { get; set; }
 
-    [GSUInt(0x51, bits: 10, bitOffset: 7)]
+    //[GSUInt(0x51, bits: 10, bitOffset: 7)]
     public ushort? PlayerNumber { get; set; }
 
     [GSUInt(0x54, bits: 8, bitOffset: 4)]

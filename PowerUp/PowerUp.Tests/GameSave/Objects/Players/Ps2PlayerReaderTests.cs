@@ -55,5 +55,32 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(1);
       player.LastName.ShouldBe("Abreu");
     }
+
+    [Test]
+    public void Reads_IsEdited()
+    {
+      using var objectReader = new GameSaveObjectReader(_characterLibrary, new FileStream(TEST_READ_GAME_SAVE_FILE_PATH, FileMode.Open, FileAccess.Read), isLittleEndian: true);
+      using var loader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
+      var player = loader.Read(1);
+      player.IsEdited.ShouldBe(false);
+    }
+
+    [Test]
+    public void Reads_UniformNumberNumberOfDigits()
+    {
+      using var objectReader = new GameSaveObjectReader(_characterLibrary, new FileStream(TEST_READ_GAME_SAVE_FILE_PATH, FileMode.Open, FileAccess.Read), isLittleEndian: true);
+      using var loader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
+      var player = loader.Read(1);
+      player.PlayerNumberNumberOfDigits.ShouldBe((ushort)2);
+    }
+
+    [Test]
+    public void Reads_UniformNumberValue()
+    {
+      using var objectReader = new GameSaveObjectReader(_characterLibrary, new FileStream(TEST_READ_GAME_SAVE_FILE_PATH, FileMode.Open, FileAccess.Read), isLittleEndian: true);
+      using var loader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
+      var player = loader.Read(1);
+      player.PlayerNumber.ShouldBe((ushort)53);
+    }
   }
 }

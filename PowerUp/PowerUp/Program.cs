@@ -49,7 +49,7 @@ namespace PowerUp
       //AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
-      PrintAllLineups(characterLibrary);
+      //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
       //BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
@@ -64,6 +64,7 @@ namespace PowerUp
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
       //PrintAllPlayersPs2(characterLibrary);
+      CompareReadPs2Wii(characterLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -78,12 +79,16 @@ namespace PowerUp
       while (true)
       {
         Console.ReadLine();
-        using var objectReader = new GameSaveObjectReader(characterLibrary, new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read));
-        using var loader = new PlayerReader(objectReader, GameSaveFormat.Wii);
+        using var objectReader = new GameSaveObjectReader(
+          characterLibrary, 
+          new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read),
+          isLittleEndian: true
+        );
+        using var loader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
         var player = loader.Read(PLAYER_ID);
-        var bitString = player.UnknownBytes_81_88!.ToBitString();
+        var bitString = player.PlayerNumberBytes!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.SavedName}{bitString} {player.TopThrowingSpeedKMH}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.SavedName} {bitString} {player.PlayerNumber}");
       }
     }
 
@@ -649,6 +654,38 @@ namespace PowerUp
         var slot = dhLineup[i];
         var player = players.Single(p => p.Id == slot.PlayerId);
         Console.WriteLine($"{i + 1}. {player.InformalDisplayName} {slot.Position.GetAbbrev()} {player.Overall.RoundDown()}");
+      }
+    }
+
+    static void CompareReadPs2Wii(ICharacterLibrary characterLibrary)
+    {
+      using var ps2Reader = new GameSaveObjectReader(
+        characterLibrary,
+        new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read),
+        isLittleEndian: true
+      );
+      using var ps2PlayerReader = new PlayerReader(ps2Reader, GameSaveFormat.Ps2);
+
+      using var wiiReader = new GameSaveObjectReader(
+        characterLibrary,
+        new FileStream(Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), FileMode.Open, FileAccess.Read),
+        isLittleEndian: false
+      );
+      using var wiiPlayerReader = new PlayerReader(wiiReader, GameSaveFormat.Wii);
+
+      var playerToRead = 25;
+      var ps2Player = ps2PlayerReader.Read(playerToRead);
+      var wiiPlayer = wiiPlayerReader.Read(playerToRead);
+
+      var gsPlayerProperties = typeof(GSPlayer).GetProperties();
+      foreach(var prop in gsPlayerProperties)
+      {
+        var ps2Val = prop.GetValue(ps2Player)?.ToString();
+        var wiiVal = prop.GetValue(wiiPlayer)?.ToString();
+        var sameDiffChar = ps2Val == wiiVal
+          ? " "
+          : "!";
+        Console.WriteLine($"{sameDiffChar} {prop.Name}: {ps2Val} | {wiiVal}");
       }
     }
   }
