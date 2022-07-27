@@ -9,6 +9,7 @@ namespace PowerUp.GameSave.IO
   {
     private readonly Stream _stream;
     private readonly ICharacterLibrary _characterLibrary;
+    private readonly bool _isLittleEndian;
 
     public GameSaveFileReader(ICharacterLibrary characterLibrary, string filePath)
     {
@@ -16,10 +17,11 @@ namespace PowerUp.GameSave.IO
       _characterLibrary = characterLibrary;
     }
 
-    public GameSaveFileReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveFileReader(ICharacterLibrary characterLibrary, Stream stream, bool isLittleEndian = false)
     {
       _stream = stream;
       _characterLibrary = characterLibrary;
+      _isLittleEndian = isLittleEndian;
     }
 
     public byte[] ReadBytes(long offset, int numberOfBytes)
@@ -57,13 +59,13 @@ namespace PowerUp.GameSave.IO
           bitOfCurrentByte = 0;
         }
 
-        valueBits[bitsRead] = currentByte.GetBit(bitOfCurrentByte);
+        valueBits[bitsRead] = currentByte.GetBit(bitOfCurrentByte, _isLittleEndian);
 
         bitsRead++;
         bitOfCurrentByte++;
       }
 
-      return valueBits.ToUInt16();
+      return valueBits.ToUInt16(_isLittleEndian);
     }
 
     public short ReadSInt(long offset, int bitOffset, int numberOfBits)
