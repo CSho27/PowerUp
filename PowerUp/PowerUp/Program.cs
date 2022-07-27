@@ -102,7 +102,11 @@ namespace PowerUp
 
     static void PrintAllPlayersPs2(ICharacterLibrary characterLibrary)
     {
-      using var objectReader = new GameSaveObjectReader(characterLibrary, new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read));
+      using var objectReader = new GameSaveObjectReader(
+        characterLibrary, 
+        new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read),
+        isLittleEndian: true
+      );
       using var playerReader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
 
       for (int id = 1; id < 1513; id++)
@@ -110,7 +114,7 @@ namespace PowerUp
         var player = playerReader.Read(id);
         var position = (Position)player.PrimaryPosition!;
         var playerString = $"{id} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.PitchingForm!.Value}");
+        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.Power}");
       }
     }
 
