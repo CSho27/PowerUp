@@ -25,7 +25,7 @@ namespace PowerUp
   class Program
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
-    private const string PS2_GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/BASLUS-21671";
+    private const string PS2_GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/BASLUS-21671_BASE";
     private const string DATA_DIRECTORY = "./../../../../../PowerUp.ElectronUI/Data";
     private const int PLAYER_ID = 1;
 
@@ -49,7 +49,7 @@ namespace PowerUp
       //AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
-      //PrintAllLineups(characterLibrary);
+      PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
       //BuildPlayerValueLibrary(characterLibrary);
       //FindDuplicatesInLibrary();
@@ -63,7 +63,7 @@ namespace PowerUp
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
-      PrintAllPlayersPs2(characterLibrary);
+      //PrintAllPlayersPs2(characterLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -120,8 +120,13 @@ namespace PowerUp
 
     static void PrintAllTeams(ICharacterLibrary characterLibrary)
     {
-      var teamReader = new TeamReader(characterLibrary, GAME_SAVE_PATH);
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      using var objectReader = new GameSaveObjectReader(
+        characterLibrary,
+        new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read),
+        isLittleEndian: true
+      );
+      var teamReader = new TeamReader(objectReader, GameSaveFormat.Ps2);
+      var playerReader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
 
       for (int teamNum = 1; teamNum <= 32; teamNum++)
       {
@@ -147,23 +152,28 @@ namespace PowerUp
 
     static void PrintAllLineups(ICharacterLibrary characterLibrary)
     {
-      var lineupReader = new LineupReader(characterLibrary, GAME_SAVE_PATH);
+      using var objectReader = new GameSaveObjectReader(
+        characterLibrary,
+        new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read),
+        isLittleEndian: true
+      );
+      var lineupReader = new LineupReader(objectReader, GameSaveFormat.Ps2);
 
       for (int teamNum = 1; teamNum <= 32; teamNum++)
       {
         var lineup = lineupReader.Read(teamNum);
         Console.WriteLine($"Team {teamNum}");
         Console.WriteLine("No DH:");
-        PrintLineup(characterLibrary, lineup.NoDHLineup!);
+        PrintLineup(characterLibrary, lineup.NoDHLineup!, objectReader);
         Console.WriteLine("DH:");
-        PrintLineup(characterLibrary, lineup.DHLineup!);
+        PrintLineup(characterLibrary, lineup.DHLineup!, objectReader);
         Console.WriteLine();
       }
     }
 
-    static void PrintLineup(ICharacterLibrary characterLibrary, IEnumerable<GSLineupPlayer> lineup)
+    static void PrintLineup(ICharacterLibrary characterLibrary, IEnumerable<GSLineupPlayer> lineup, GameSaveObjectReader objectReader)
     {
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerReader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
       var lineupPlayers = lineup.ToArray();
       for (int playerNum = 0; playerNum < lineupPlayers.Length; playerNum++)
       {

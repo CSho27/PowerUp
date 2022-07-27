@@ -28,7 +28,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
         playerWriter.Write(i + 1, players[i]);
 
       var teamWriter = new TeamWriter(_writer);
-      var lineupWriter = new LineupWriter(_writer);
+      var lineupWriter = new LineupWriter(_writer, _format);
       var teams = gameSave.Teams.ToList();
       var lineups = gameSave.Lineups.ToList();
 

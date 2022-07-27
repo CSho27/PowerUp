@@ -39,7 +39,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
         gsPlayers.Add(playerReader.Read(i));
 
       var teamReader = new TeamReader(_reader, _format);
-      var lineupReader = new LineupReader(_reader);
+      var lineupReader = new LineupReader(_reader, _format);
       var gsTeams = new List<GSTeam>();
       var gsLineups = new List<GSLineupDefinition>();
       for (int i = 0; i < 32; i++)
@@ -47,7 +47,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
         gsTeams.Add(teamReader.Read(i));
         gsLineups.Add(lineupReader.Read(i));
       }
-      var freeAgrents = new FreeAgentListReader(_reader).Read();
+      var freeAgrents = new FreeAgentListReader(_reader, _format).Read();
 
       return new GSGameSave { Players = gsPlayers, Teams = gsTeams, Lineups = gsLineups, FreeAgents = freeAgrents };  
     }

@@ -1,4 +1,5 @@
 ﻿using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.GameSaves;
 using System;
 
 namespace PowerUp.GameSave.Objects.FreeAgents
@@ -12,7 +13,7 @@ namespace PowerUp.GameSave.Objects.FreeAgents
       _writer = writer;
     }
 
-    public void Write(GSFreeAgentList freeAgents) => _writer.Write(FreeAgentListOffset.START_OFFSET, freeAgents);
+    public void Write(GSFreeAgentList freeAgents) => _writer.Write(FreeAgentListOffsetUtils.GetFreeAgentListOffset(GameSaveFormat.Wii), freeAgents);
     public void Dispose() => _writer.Dispose();
   }
 }
