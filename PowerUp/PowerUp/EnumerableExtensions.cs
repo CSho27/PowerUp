@@ -22,6 +22,16 @@ namespace PowerUp
         return source.Sum(selector);
     }
 
+    public static int SumOrNullProrated<TSource>(this IEnumerable<TSource>? source, Func<TSource, int?> selector, double prorateBy)
+    {
+      return (source?.SumOrNull(selector) ?? 0 * prorateBy).Round();
+    }
+
+    public static double SumOrNullProrated<TSource>(this IEnumerable<TSource>? source, Func<TSource, double?> selector, double prorateBy)
+    {
+      return (source?.SumOrNull(selector) ?? 0 * prorateBy).Round();
+    }
+
     public static double? CombineAverages<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> averageSelector, Func<TSource, double?> weightSelector)
     {
       if (source.Select(averageSelector).Any(v => !v.HasValue))

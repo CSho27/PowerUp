@@ -67,11 +67,11 @@ namespace PowerUp.Generators
       var supplementaryResults = supplementaryStats?.results;
       var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
 
-      AtBats = results.SumOrNull(r => r.AtBats) + (supplementaryResults?.SumOrNull(r => r.AtBats) * proratedSupplementaryBy).Round();
-      HomeRuns = results.SumOrNull(r => r.HomeRuns) + (supplementaryResults?.SumOrNull(r => r.HomeRuns) * proratedSupplementaryBy).Round();
+      AtBats = results.SumOrNull(r => r.AtBats) + supplementaryResults.SumOrNullProrated(r => r.AtBats, proratedSupplementaryBy);
+      HomeRuns = results.SumOrNull(r => r.HomeRuns) + supplementaryResults.SumOrNullProrated(r => r.HomeRuns, proratedSupplementaryBy);
       BattingAverage = results.CombineAverages(r => r.BattingAverage, r => r.AtBats);
-      StolenBases = results.SumOrNull(r => r.StolenBases) + (supplementaryResults?.SumOrNull(r => r.StolenBases) * proratedSupplementaryBy).Round();
-      Runs = results.SumOrNull(r => r.Runs) + (supplementaryResults?.SumOrNull(r => r.Runs) * proratedSupplementaryBy).Round();
+      StolenBases = results.SumOrNull(r => r.StolenBases) + supplementaryResults.SumOrNullProrated(r => r.StolenBases, proratedSupplementaryBy);
+      Runs = results.SumOrNull(r => r.Runs) + +supplementaryResults.SumOrNullProrated(r => r.Runs, proratedSupplementaryBy);
       var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
       LastTeamForYear_LSTeamId = lastResult.LSTeamId;
     }
@@ -150,13 +150,13 @@ namespace PowerUp.Generators
       var supplementaryResults = supplementaryStats?.results;
       var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
 
-      Innings = results.SumOrNull(r => r.Innings) + (supplementaryResults?.SumOrNull(r => r.Innings) * proratedSupplementaryBy).Round();
-      TotalChances = results.SumOrNull(r => r.TotalChances) + (supplementaryResults?.SumOrNull(r => r.TotalChances) * proratedSupplementaryBy).Round();
-      Assists = results.SumOrNull(r => r.Assists) + (supplementaryResults?.SumOrNull(r => r.Assists) * proratedSupplementaryBy).Round();
+      Innings = results.SumOrNull(r => r.Innings) + supplementaryResults.SumOrNullProrated(r => r.Innings, proratedSupplementaryBy);
+      TotalChances = results.SumOrNull(r => r.TotalChances) + supplementaryResults.SumOrNullProrated(r => r.TotalChances, proratedSupplementaryBy);
+      Assists = results.SumOrNull(r => r.Assists) + supplementaryResults.SumOrNullProrated(r => r.Assists, proratedSupplementaryBy);
       FieldingPercentage = results.CombineAverages(r => r.FieldingPercentage, r => r.TotalChances);
       RangeFactor = results.CombineAverages(r => r.RangeFactor, r => r.Innings ?? r.GamesPlayed);
-      Catcher_StolenBasesAllowed = results.SumOrNull(r => r.Catcher_StolenBasesAllowed) + (supplementaryResults?.SumOrNull(r => r.Catcher_StolenBasesAllowed) * proratedSupplementaryBy).Round();
-      Catcher_RunnersThrownOut = results.SumOrNull(r => r.Catcher_RunnersThrownOut) + (supplementaryResults?.SumOrNull(r => r.Catcher_RunnersThrownOut) * proratedSupplementaryBy).Round();
+      Catcher_StolenBasesAllowed = results.SumOrNull(r => r.Catcher_StolenBasesAllowed) + supplementaryResults.SumOrNullProrated(r => r.Catcher_StolenBasesAllowed, proratedSupplementaryBy);
+      Catcher_RunnersThrownOut = results.SumOrNull(r => r.Catcher_RunnersThrownOut) + supplementaryResults.SumOrNullProrated(r => r.Catcher_RunnersThrownOut, proratedSupplementaryBy);
     }
   }
 
@@ -179,12 +179,12 @@ namespace PowerUp.Generators
       var supplementaryResults = supplementaryStats?.results;
       var proratedSupplementaryBy = supplementaryStats?.prorateBy ?? 0;
 
-      GamesPitched = results.SumOrNull(r => r.GamesPlayed) + (supplementaryResults?.SumOrNull(r => r.GamesPlayed) * proratedSupplementaryBy).Round();
-      GamesStarted = results.SumOrNull(r => r.GamesStarted) + (supplementaryResults?.SumOrNull(r => r.GamesStarted) * proratedSupplementaryBy).Round();
-      GamesFinished = results.SumOrNull(r => r.GamesFinished) + (supplementaryResults?.SumOrNull(r => r.GamesFinished) * proratedSupplementaryBy).Round();
-      SaveOpportunities = results.SumOrNull(r => r.SaveOpportunities) + (supplementaryResults?.SumOrNull(r => r.SaveOpportunities) * proratedSupplementaryBy).Round();
+      GamesPitched = results.SumOrNull(r => r.GamesPlayed) + supplementaryResults.SumOrNullProrated(r => r.GamesPlayed, proratedSupplementaryBy);
+      GamesStarted = results.SumOrNull(r => r.GamesStarted) + supplementaryResults.SumOrNullProrated(r => r.GamesStarted, proratedSupplementaryBy);
+      GamesFinished = results.SumOrNull(r => r.GamesFinished) + supplementaryResults.SumOrNullProrated(r => r.GamesFinished, proratedSupplementaryBy);
+      SaveOpportunities = results.SumOrNull(r => r.SaveOpportunities) + supplementaryResults.SumOrNullProrated(r => r.SaveOpportunities, proratedSupplementaryBy);
       MathematicalInnings = results.SumOrNull(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0)) 
-        + (supplementaryResults?.SumOrNull(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0)) * proratedSupplementaryBy).Round();
+        + supplementaryResults.SumOrNullProrated(r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0), proratedSupplementaryBy);
       WalksPer9 = results.CombineAverages(r => r.WalksPer9, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
       StrikeoutsPer9 = results.CombineAverages(r => r.StrikeoutsPer9, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
       WHIP = results.CombineAverages(r => r.WHIP, r => InningConversion.ToMathematicalInnings(r.InningsPitched ?? 0));
