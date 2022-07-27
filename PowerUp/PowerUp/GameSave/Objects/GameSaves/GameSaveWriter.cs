@@ -27,7 +27,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
       for (int i = 0; i < players.Count; i++)
         playerWriter.Write(i + 1, players[i]);
 
-      var teamWriter = new TeamWriter(_writer);
+      var teamWriter = new TeamWriter(_writer, _format);
       var lineupWriter = new LineupWriter(_writer, _format);
       var teams = gameSave.Teams.ToList();
       var lineups = gameSave.Lineups.ToList();
@@ -41,7 +41,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
         lineupWriter.Write(i + 1, lineups[i]);
       }
 
-      var freeAgentListWriter = new FreeAgentListWriter(_writer);
+      var freeAgentListWriter = new FreeAgentListWriter(_writer, _format);
       freeAgentListWriter.Write(gameSave.FreeAgents);
     }
 
