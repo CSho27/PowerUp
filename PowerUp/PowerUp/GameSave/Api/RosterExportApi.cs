@@ -57,7 +57,7 @@ namespace PowerUp.GameSave.Api
 
       File.Copy(parameters.SourceGameSave ?? _baseGameSavePathProvider.GetPath(), rosterFilePath);
 
-      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath))
+      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath, GameSaveFormat.Wii))
       {
         var teams = roster.GetTeams()
           .OrderBy(t => t.Value.GetDivision())

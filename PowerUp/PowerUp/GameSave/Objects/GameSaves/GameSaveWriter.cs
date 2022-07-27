@@ -12,15 +12,17 @@ namespace PowerUp.GameSave.Objects.GameSaves
   public class GameSaveWriter : IDisposable
   {
     private readonly GameSaveObjectWriter _writer;
+    private readonly GameSaveFormat _format;
 
-    public GameSaveWriter(ICharacterLibrary characterLibrary, string fileName)
+    public GameSaveWriter(ICharacterLibrary characterLibrary, string fileName, GameSaveFormat format)
     {
       _writer = new GameSaveObjectWriter(characterLibrary, fileName);
+      _format = format;
     }
 
     public void Write(GSGameSave gameSave)
     {
-      var playerWriter = new PlayerWriter(_writer);
+      var playerWriter = new PlayerWriter(_writer, _format);
       var players = gameSave.Players.ToList();
       for (int i = 0; i < players.Count; i++)
         playerWriter.Write(i + 1, players[i]);

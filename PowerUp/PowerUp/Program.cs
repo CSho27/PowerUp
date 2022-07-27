@@ -7,6 +7,7 @@ using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
@@ -24,6 +25,7 @@ namespace PowerUp
   class Program
   {
     private const string GAME_SAVE_PATH = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2maus.dat";
+    private const string PS2_GAME_SAVE_PATH = "C:/dev/PowerUp/SaveFileAnalysis/BASLUS-21671";
     private const string DATA_DIRECTORY = "./../../../../../PowerUp.ElectronUI/Data";
     private const int PLAYER_ID = 1;
 
@@ -60,7 +62,8 @@ namespace PowerUp
       //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
-      TestBuildBBRefDictionary();
+      //TestBuildBBRefDictionary();
+      PrintAllPlayersPs2(characterLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -75,7 +78,8 @@ namespace PowerUp
       while (true)
       {
         Console.ReadLine();
-        using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+        using var objectReader = new GameSaveObjectReader(characterLibrary, new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read));
+        using var loader = new PlayerReader(objectReader, GameSaveFormat.Wii);
         var player = loader.Read(PLAYER_ID);
         var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
@@ -86,6 +90,20 @@ namespace PowerUp
     static void PrintAllPlayers(ICharacterLibrary characterLibrary)
     {
       var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+
+      for (int id = 1; id < 1513; id++)
+      {
+        var player = playerReader.Read(id);
+        var position = (Position)player.PrimaryPosition!;
+        var playerString = $"{id} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
+        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.PitchingForm!.Value}");
+      }
+    }
+
+    static void PrintAllPlayersPs2(ICharacterLibrary characterLibrary)
+    {
+      using var objectReader = new GameSaveObjectReader(characterLibrary, new FileStream(PS2_GAME_SAVE_PATH, FileMode.Open, FileAccess.Read));
+      using var playerReader = new PlayerReader(objectReader, GameSaveFormat.Ps2);
 
       for (int id = 1; id < 1513; id++)
       {

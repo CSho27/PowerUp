@@ -13,15 +13,18 @@ namespace PowerUp.GameSave.Objects.GameSaves
   public class GameSaveReader : IDisposable
   {
     private readonly GameSaveObjectReader _reader;
+    private readonly GameSaveFormat _format;
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, string filePath)
+    internal GameSaveReader(ICharacterLibrary characterLibrary, string filePath)
     {
       _reader = new GameSaveObjectReader(characterLibrary, filePath);
+      _format = GameSaveFormat.Wii;
     }
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream, GameSaveFormat format)
     {
       _reader = new GameSaveObjectReader(characterLibrary, stream);
+      _format = format;
     }
 
     /// <summary>
@@ -30,7 +33,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
     /// <returns></returns>
     public GSGameSave Read()
     {
-      var playerReader = new PlayerReader(_reader);
+      var playerReader = new PlayerReader(_reader, _format);
       var gsPlayers = new List<GSPlayer>();
       for (int i = 1; i <= 1500; i++)
         gsPlayers.Add(playerReader.Read(i));

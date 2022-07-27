@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
@@ -27,7 +29,8 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, "Pitch")]
     public void Reads_SavedName(int playerId, string savedName)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var objectReader = new GameSaveObjectReader(_characterLibrary, new FileStream(TEST_READ_GAME_SAVE_FILE_PATH, FileMode.Open, FileAccess.Read));
+      using var loader = new PlayerReader(objectReader, GameSaveFormat.Wii);
       var player = loader.Read(playerId);
       player.SavedName.ShouldBe(savedName);
     }

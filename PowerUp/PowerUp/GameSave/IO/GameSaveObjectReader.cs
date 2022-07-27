@@ -14,9 +14,9 @@ namespace PowerUp.GameSave.IO
       _reader = new GameSaveFileReader(characterLibrary, fileName);
     }
 
-    public GameSaveObjectReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveObjectReader(ICharacterLibrary characterLibrary, Stream stream, bool isLittleEndian = false)
     {
-      _reader = new GameSaveFileReader(characterLibrary, stream);
+      _reader = new GameSaveFileReader(characterLibrary, stream, isLittleEndian);
     }
 
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class
