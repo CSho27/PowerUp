@@ -132,6 +132,11 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - It DOES NOT generate appearances, it uses the default face and hair, and takes a random number stab at skin color using country of birth and demographic data for the MLB for a given year. This means there will be black players that generate as white, vice-versa, and every skin color in between. In the future I might try to improve this using some sort of image analysis library, but that's a ways off.
 - The generator uses the MLB Api, which is missing certain statistics that are available other places. It may be replaced in the future, but for now we're limited by what the MLB Api provides us.
 - It only calculates attributes for players that meet certain sample size benchmarks. For players that do not meet these benchmarks, you'll see a warning in the player list that will detail which attribute category the player does not have adequate statistics available for.
+- Team's rosters are meant to reflect their roster at the _end_ of a given season.
+- 40 man rosters are selected using the generated players' attributes, a lineup generator, and a few position based requirements.
+- Up to 15 of the best players that are generated but do not make their teams' roster will be added to the list of free agents
+- All-Star teams will NOT reflect the all-star team rosters for a given year since that data is not available from the Api used by the generator. Instead, it will be the best possible 40 man rosters for each league for a given year based on the players' generated attributes.
+- Lineups and Rotations are created using the generated players' attributes and do not reflect teams actual lineups. They're meant to be a solid guess at what their best lineup/rotation might have been.
 - The generator's algorithm will slowly improve over time, but it already saves an immense amount of time when creating rosters.
 
 ### Exporting a Roster
