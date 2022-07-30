@@ -38,7 +38,8 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 ![image](https://user-images.githubusercontent.com/30477054/172524588-e6c5b3dd-0a0c-4a8b-8aec-e4f3f2a409a7.png)
 - When you open the app, you will have three different options for how to open a roster to edit:
   - Open Existing Roster: This lets you choose a roster from the list of rosters saved in your system and opens whichever one you select.
-  - Copy Existing Roster: This makes an editable copy of any roster that previously existed in your system, and opens it.   
+  - Copy Existing Roster: This makes an editable copy of any roster that previously existed in your system, and opens it.
+  - Generate Roster: Lets you choose a year for which to generate MLB Rosters
   - Import Roster: This allows you to choose a GameSave file from your filesystem to import into the app, and opens it when the import is complete.
 
 ### Edit Roster
@@ -57,6 +58,7 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - Your options to replace a player are:
   - Replace with copy: replaces player with an editable copy of that player
   - Replace with existing: opens dialog that lets you choose another player from the PowerUp database to insert in this player's place
+  - Replace with generated: lets you search for a player, select a year for the generator to pull the statistics for, and generate the player
   - Replace with new: Creates a new player with default attributes
 - To view further detail about a given player without leaving the page, click the i icon on the right side of any player
 ![image](https://user-images.githubusercontent.com/30477054/172719983-494a17df-84f7-49c1-86c2-f2f1ff64a93a.png)
@@ -67,6 +69,7 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - Your options to replace a team are:
   - Replace with copy: replaces team with an editable copy of the current team
   - Replace with existing: opens dialog that lets you choose another team from the PowerUp database to insert in this team's place
+  - Replace with generated: lets you search for a team, select a year for the generator to pull the roster and statistics for, and generate the team 
   - Replace with new: Creates a new team full of default players
 - To edit/view a team, click the edit/view icon on the team grid header. If the icon is an eye, you are only allowed to view this team and cannot edit it.
 ![image](https://user-images.githubusercontent.com/30477054/172719091-839f775b-979a-448b-b926-efebf3c94770.png)
@@ -123,6 +126,14 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - To undo any work you've done since the last save, click the "Undo Changes" button
 - The "Is Custom" switch controls whether or not the player will *appear* as having been edited in the game (the little blue bar in the bottom of the player name bubble)
 
+### Generator Notes
+- Expect generated players to need some edits before they are good representations of the actual player. The generator is good for ballparking basic attributes but isn't perfect in regards to the finer details.
+- Any unedited, generated player will have an asterisk next to their name in the list. This can be used as a checklist when makinhg final edits to generated players.
+- It DOES NOT generate appearances, it uses the default face and hair, and takes a random number stab at skin color using country of birth and demographic data for the MLB for a given year. This means there will be black players that generate as white, vice-versa, and every skin color in between. In the future I might try to improve this using some sort of image analysis library, but that's a ways off.
+- The generator uses the MLB Api, which is missing certain statistics that are available other places. It may be replaced in the future, but for now we're limited by what the MLB Api provides us.
+- It only calculates attributes for players that meet certain sample size benchmarks. For players that do not meet these benchmarks, you'll see a warning in the player list that will detail which attribute category the player does not have adequate statistics available for.
+- The generator's algorithm will slowly improve over time, but it already saves an immense amount of time when creating rosters.
+
 ### Exporting a Roster
 - To export an edited roster file, click the export icon in the upper right
 ![image](https://user-images.githubusercontent.com/30477054/172822670-caad3786-146b-4e45-aeb9-3497c4b92618.png)
@@ -150,13 +161,13 @@ Alpha Notes:
 *Not currently, but I hope to add that ability in the future*
 
 3. Will I be able to use the exported GameSaves on PS2 <br/>
-*Not currently, but I hope to give you the option in the future to either export game saves in Wii or PS2 format*
+*Not currently, but I hope to begin supporting Ps2 game saves starting with the next release*
 
 4. Will exported GameSaves work in the 2008 version of the game <br/>
 *No, the game saves will be in a different format. I will look into the possibility of supporting 2008 game saves in the future, but it may not be possible.*
 
 5. When will the full version be done? <br/>
-*Probably not until August or September 2022. I'm currently working on this alone and there's a lot of work left to do.*
+*Version 1 will likely be release in September or October 2022. I'm the only person working on the project and each feature takes quite a bit of time*
 
 6. Does PowerUp work on Mac? <br/>
 *There is a Mac version of the app as well. It should work just as well ad the windows one, but because I don't have a Mac to test it, there may be some unforseen bugs*
