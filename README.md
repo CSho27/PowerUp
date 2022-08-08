@@ -10,7 +10,11 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 ![Player Editor - Hitter](https://user-images.githubusercontent.com/30477054/172521472-1f7290cd-7e4f-49d9-8b31-ae8a0ada6913.png)
 
 # Video Tutorials
-[1. Installation and Setup](https://youtu.be/d9W2lvkjeiY)
+1. [Installation and Setup](https://youtu.be/d9W2lvkjeiY)
+2. [Key Concepts](https://youtu.be/yagUsca7gc8)
+3. [Editing Rosters](https://youtu.be/Q2cDIXpyPKQ)
+
+[See All](https://youtube.com/playlist?list=PLZElhD92PxvUupS_fyO0iwZnJMX9g80U8)
 
 # Use Guide
 
