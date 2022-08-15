@@ -87,7 +87,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   const teamsRef = useRef<HTMLElement | null>(null);
 
-  return <PowerUpLayout headerText='Edit Roster'>
+  return <PowerUpLayout appContext={appContext} headerText='Edit Roster'>
     <ContentWithHangingHeader header={header} headerHeight='128px' contentRef={teamsRef}>
       <TeamsContainer>
         {teams.filter(t => t.division === selectedDivision.key).map(toTeamGrid)}

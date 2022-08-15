@@ -5,15 +5,18 @@ import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { shell } from "electron";
 import { openInBrowserOnClick } from "../../utils/openInBroswer";
+import { AppContext } from "../app";
+import { GameSaveManagerModal } from "../gameSaveManager/gameSaveManagementDialog";
 
 export interface PowerUpLayoutProps {
+  appContext: AppContext;
   headerText?: string;
   sidebar?: React.ReactNode;
   children?: React.ReactNode;
 }
 
 export function PowerUpLayout(props: PowerUpLayoutProps) {
-  const { headerText, sidebar, children } = props;
+  const { appContext, headerText, sidebar, children } = props;
   
   return <LayoutWrapper>
     <HeaderWrapper>
@@ -23,12 +26,16 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
-        <HelpIconSectionWrapper>
-          <HelpIconWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
+        <HeaderLinkSectionWrapper>
+          <HeaderLinkWrapper onClick={openGameSaveManagementModal} title='Open Game Save Manager'>
+            Game Saves
+            <Icon icon='sd-card' />
+          </HeaderLinkWrapper>
+          <HeaderLinkWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
             Help
             <Icon icon='circle-question' />
-          </HelpIconWrapper>
-        </HelpIconSectionWrapper>
+          </HeaderLinkWrapper>
+        </HeaderLinkSectionWrapper>
       </HeaderTextWrapper>
     </HeaderWrapper>
     <PageContent>
@@ -36,6 +43,12 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       <MainContent>{children}</MainContent>
     </PageContent>
   </LayoutWrapper>
+
+  function openGameSaveManagementModal() {
+    appContext.openModal(closeDialog => <GameSaveManagerModal 
+      appContext={appContext}
+    />)
+  }
 }
 
 const LayoutWrapper = styled.div`
@@ -51,12 +64,14 @@ const HeaderWrapper = styled.header`
   align-items: center;
 `
 
-const HelpIconSectionWrapper = styled.div`
+const HeaderLinkSectionWrapper = styled.div`
   flex: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
 `
 
-const HelpIconWrapper = styled.a`    
-  flex: auto;
+const HeaderLinkWrapper = styled.a`    
   font-size: ${FONT_SIZES.default_16};
   color: white;
   display: flex;
@@ -64,6 +79,7 @@ const HelpIconWrapper = styled.a`
   align-items: baseline;
   gap: 4px;
   text-decoration: none;
+  cursor: pointer;
 `
 
 const LogoCorner = styled.div`

@@ -130,7 +130,7 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
     />
   </> 
 
-  return <PowerUpLayout headerText='Edit Player'>
+  return <PowerUpLayout appContext={appContext} headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <EditorContainer>
         {state.selectedTab === 'Personal' && 

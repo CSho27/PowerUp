@@ -34,6 +34,7 @@ export type IconType =
 | 'plus'
 | 'right-left'
 | 'rotate-left'
+| 'sd-card'
 | 'square'
 | 'triangle-exclamation'
 | 'upload'
