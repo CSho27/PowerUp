@@ -2,7 +2,7 @@
 
 namespace PowerUp.GameSave.GameSaveManager
 {
-  public class GameSaveFolderPathFactory
+  public class GameSaveDirectoryFactory
   {
     private const string GAME_SAVE_FOLDER_PATH = "./PowerUp Game Saves";
     private const string WII_FOLDER_PATH = "./Wii";

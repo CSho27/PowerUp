@@ -45,7 +45,7 @@ namespace PowerUp.GameSave.Api
 
       var roster = parameters.Roster!;
 
-      var directoryPath = GameSaveFolderPathFactory.BuildFor(parameters.ExportDirectory, parameters.Roster.Name);
+      var directoryPath = GameSaveDirectoryFactory.BuildFor(parameters.ExportDirectory, parameters.Roster.Name);
       var rosterFilePath = Path.Combine(directoryPath, "pm2maus.dat");
       File.Copy(parameters.SourceGameSave ?? _baseGameSavePathProvider.GetPath(), rosterFilePath);
 
