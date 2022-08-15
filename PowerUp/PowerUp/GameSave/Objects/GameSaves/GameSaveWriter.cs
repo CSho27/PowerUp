@@ -41,6 +41,8 @@ namespace PowerUp.GameSave.Objects.GameSaves
 
       var freeAgentListWriter = new FreeAgentListWriter(_writer);
       freeAgentListWriter.Write(gameSave.FreeAgents);
+
+      _writer.WriteInt(GSGameSave.PowerUpIdOffset, gameSave.PowerUpId!.Value);
     }
 
     public void Dispose() => _writer.Dispose();

@@ -103,6 +103,7 @@ namespace PowerUp.GameSave.Api
 
         var gameSave = new GSGameSave
         {
+          PowerUpId = (short)roster.Id!.Value,
           Players = gsPlayers,
           Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
           Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),
