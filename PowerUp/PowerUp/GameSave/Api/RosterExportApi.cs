@@ -1,6 +1,6 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Rosters;
-using PowerUp.GameSave.GameSaveManager;
+using PowerUp.GameSave.GameSaveManagement;
 using PowerUp.GameSave.Objects.FreeAgents;
 using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.GameSave.Objects.Players;
@@ -45,8 +45,8 @@ namespace PowerUp.GameSave.Api
 
       var roster = parameters.Roster!;
 
-      var directoryPath = GameSaveDirectoryFactory.BuildFor(parameters.ExportDirectory, parameters.Roster.Name);
-      var rosterFilePath = Path.Combine(directoryPath, "pm2maus.dat");
+      var directoryPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(parameters.ExportDirectory, parameters.Roster.Name);
+      var rosterFilePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       File.Copy(parameters.SourceGameSave ?? _baseGameSavePathProvider.GetPath(), rosterFilePath);
 
       using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath))

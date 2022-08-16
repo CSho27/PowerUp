@@ -48,6 +48,7 @@ namespace PowerUp.Tests.GameSave.Objects.GameSaves
 
       var gameSave = new GSGameSave()
       {
+        PowerUpId = 1,
         Players = Enumerable.Repeat(testPlayer, 1250),
         Teams = Enumerable.Repeat(testTeam, 32),
         Lineups = Enumerable.Repeat(testLineupDef, 32)
