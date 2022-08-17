@@ -1,4 +1,5 @@
-﻿using PowerUp.ElectronUI.Api.Generation;
+﻿using PowerUp.ElectronUI.Api.GameSaveManagement;
+using PowerUp.ElectronUI.Api.Generation;
 using PowerUp.ElectronUI.Api.PlayerDetails;
 using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
@@ -44,6 +45,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<RosterGenerationCommand>();
       services.AddSingleton<GetRosterGenerationStatusCommand>();
       services.AddSingleton<ReplaceFreeAgentCommand>();
+      services.AddSingleton<OpenGameSaveManagerCommand>();
+      services.AddSingleton<InitializeGameSaveManagerCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -81,6 +84,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(RosterGenerationCommand), "RosterGeneration");
       commandRegistry.RegisterCommand(typeof(GetRosterGenerationStatusCommand), "GetRosterGenerationStatus");
       commandRegistry.RegisterCommand(typeof(ReplaceFreeAgentCommand), "ReplaceFreeAgent");
+      commandRegistry.RegisterCommand(typeof(OpenGameSaveManagerCommand), "OpenGameSaveManager");
+      commandRegistry.RegisterCommand(typeof(InitializeGameSaveManagerCommand), "InitializeGameSaveManager");
     }
   }
 }

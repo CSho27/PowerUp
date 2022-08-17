@@ -18,17 +18,11 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
     public OpenGameSaveManagerResponse Execute(OpenGameSaveManagerRequest request)
     {
       var settings = DatabaseConfig.Database.LoadOnly<AppSettings>();
-      if(settings == null || settings.GameSaveManagerDirectoryPath == null)
-      {
-        var defaultDirExists = _gameSaveManager.Initialize(DEFAULT_DOLPHIN_POWER_PROS_DIR);
-        if (!defaultDirExists)
-          return OpenGameSaveManagerResponse.ForNotInitialized();
-
-        settings = new AppSettings() { GameSaveManagerDirectoryPath = DEFAULT_DOLPHIN_POWER_PROS_DIR };
-      }
+      if (settings == null || settings.GameSaveManagerDirectoryPath == null)
+        throw new InvalidOperationException("Game Save Manager has not been initlialized");
 
       var currentState = _gameSaveManager.GetCurrentState(settings.GameSaveManagerDirectoryPath!);
-      return OpenGameSaveManagerResponse.ForInitialized(currentState);
+      return new OpenGameSaveManagerResponse(currentState);
     }
   }
 
@@ -36,23 +30,13 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
 
   public class OpenGameSaveManagerResponse
   {
-    public bool IsInitialized { get; private set; }
     public int? ActiveGameSaveId { get; private set; }
     public IEnumerable<GameSaveDto>? GameSaveOptions { get; private set; }
 
-    public static OpenGameSaveManagerResponse ForInitialized(GameSaveManagerState state)
+    public OpenGameSaveManagerResponse(GameSaveManagerState state)
     {
-      return new OpenGameSaveManagerResponse
-      {
-        IsInitialized = true,
-        ActiveGameSaveId = state.ActiveGameSaveId,
-        GameSaveOptions = state.GameSaveOptions.Select(o => new GameSaveDto(o))
-      };
-    }
-
-    public static OpenGameSaveManagerResponse ForNotInitialized()
-    {
-      return new OpenGameSaveManagerResponse { IsInitialized = false };
+      ActiveGameSaveId = state.ActiveGameSaveId;
+      GameSaveOptions = state.GameSaveOptions.Select(o => new GameSaveDto(o));
     }
   }
 

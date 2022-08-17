@@ -6,7 +6,10 @@ import { textOutline } from "../../style/outlineHelper";
 import { shell } from "electron";
 import { openInBrowserOnClick } from "../../utils/openInBroswer";
 import { AppContext } from "../app";
-import { GameSaveManagerModal } from "../gameSaveManager/gameSaveManagementDialog";
+import { GameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal";
+import { useRef } from "react";
+import { OpenGameSaveManagerApiClient } from "../gameSaveManager/openGameSaveManagerApiClient";
+import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
 
 export interface PowerUpLayoutProps {
   appContext: AppContext;
@@ -17,6 +20,9 @@ export interface PowerUpLayoutProps {
 
 export function PowerUpLayout(props: PowerUpLayoutProps) {
   const { appContext, headerText, sidebar, children } = props;
+
+  const initializeGSManagerRef = useRef(new InitializeGameSaveManagerApiClient(appContext.commandFetcher));
+  const openGSManagerRef = useRef(new OpenGameSaveManagerApiClient(appContext.commandFetcher));
   
   return <LayoutWrapper>
     <HeaderWrapper>
@@ -44,7 +50,11 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
     </PageContent>
   </LayoutWrapper>
 
-  function openGameSaveManagementModal() {
+  async function openGameSaveManagementModal() {
+    const response = await initializeGSManagerRef.current.execute({});
+    if(!response.success)
+      return;
+      
     appContext.openModal(closeDialog => <GameSaveManagerModal 
       appContext={appContext}
     />)
