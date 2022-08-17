@@ -47,6 +47,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ReplaceFreeAgentCommand>();
       services.AddSingleton<OpenGameSaveManagerCommand>();
       services.AddSingleton<InitializeGameSaveManagerCommand>();
+      services.AddSingleton<ActiveGameSaveCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -86,6 +87,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplaceFreeAgentCommand), "ReplaceFreeAgent");
       commandRegistry.RegisterCommand(typeof(OpenGameSaveManagerCommand), "OpenGameSaveManager");
       commandRegistry.RegisterCommand(typeof(InitializeGameSaveManagerCommand), "InitializeGameSaveManager");
+      commandRegistry.RegisterCommand(typeof(ActiveGameSaveCommand), "ActivateGameSave");
     }
   }
 }

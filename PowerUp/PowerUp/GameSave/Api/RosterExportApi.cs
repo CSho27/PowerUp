@@ -46,6 +46,7 @@ namespace PowerUp.GameSave.Api
       var roster = parameters.Roster!;
 
       var directoryPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(parameters.ExportDirectory, parameters.Roster.Name);
+      DirectoryFactory.CreateDirectoriesForPathIfNeeded(directoryPath);
       var rosterFilePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       File.Copy(parameters.SourceGameSave ?? _baseGameSavePathProvider.GetPath(), rosterFilePath);
 

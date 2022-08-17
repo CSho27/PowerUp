@@ -24,6 +24,7 @@ export type IconType =
 | 'download'
 | 'eye'
 | 'file'
+| 'file-arrow-down'
 | 'floppy-disk'
 | 'folder'
 | 'folder-open'
