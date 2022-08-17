@@ -1,7 +1,7 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
 
 export interface OpenGameSaveManagerResponse {
-  activeGameSaveId: number;
+  activeGameSaveId: number | null;
   gameSaveOptions: GameSaveDto[];
 }
 

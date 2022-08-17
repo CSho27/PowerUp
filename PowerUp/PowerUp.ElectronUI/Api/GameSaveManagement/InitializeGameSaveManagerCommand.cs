@@ -17,16 +17,25 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
 
     public InitializeGameSaveResponse Execute(InitializeGameSaveManagerRequest request)
     {
-      var existingSettings = DatabaseConfig.Database.LoadOnly<AppSettings>();
-      if(existingSettings != null && existingSettings.GameSaveManagerDirectoryPath != null)
+      using var tx = DatabaseConfig.Database.BeginTransaction();
+
+      var directoryPath = request.GameSaveManagerDirectoryPath ?? DEFAULT_DOLPHIN_POWER_PROS_DIR;
+      var settings = DatabaseConfig.Database.LoadOnly<AppSettings>();
+      if(settings != null && settings.GameSaveManagerDirectoryPath != null)
         return new InitializeGameSaveResponse { Success = true };
 
-      var defaultDirExists = _gameSaveManager.Initialize(DEFAULT_DOLPHIN_POWER_PROS_DIR);
+      var defaultDirExists = _gameSaveManager.Initialize(directoryPath);
       if (!defaultDirExists)
         return new InitializeGameSaveResponse { Success = false };
+      
+      if(settings == null)
+        settings = new AppSettings();
 
-      var newSettings = new AppSettings() { GameSaveManagerDirectoryPath = DEFAULT_DOLPHIN_POWER_PROS_DIR };
-      DatabaseConfig.Database.Save(newSettings);
+      settings.GameSaveManagerDirectoryPath = directoryPath;
+      
+      DatabaseConfig.Database.Save(settings);
+      tx.Commit();
+
       return new InitializeGameSaveResponse { Success = true };
     }
   }

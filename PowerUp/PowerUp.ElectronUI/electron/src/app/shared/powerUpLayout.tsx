@@ -51,12 +51,17 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
   </LayoutWrapper>
 
   async function openGameSaveManagementModal() {
-    const response = await initializeGSManagerRef.current.execute({});
-    if(!response.success)
+    const initializationResponse = await initializeGSManagerRef.current.execute({});
+    if(!initializationResponse.success)
       return;
+
+    const managerStateResponse = await openGSManagerRef.current.execute();
       
     appContext.openModal(closeDialog => <GameSaveManagerModal 
       appContext={appContext}
+      initialActiveGameSaveId={managerStateResponse.activeGameSaveId}
+      gameSaveOptions={managerStateResponse.gameSaveOptions}
+      closeDialog={closeDialog}
     />)
   }
 }

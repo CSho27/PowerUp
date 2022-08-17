@@ -4,6 +4,7 @@ using PowerUp.Entities.Teams.Api;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.GameSave.Api;
+using PowerUp.GameSave.GameSaveManagement;
 using PowerUp.Generators;
 using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
@@ -30,6 +31,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IRosterGenerator>(provider => new RosterGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<ITeamGenerator>()));
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
+      services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>()));
     }
   }
 }

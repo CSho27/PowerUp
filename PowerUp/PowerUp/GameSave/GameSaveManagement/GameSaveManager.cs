@@ -61,6 +61,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       var originalFolderPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, "Original");
       DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
       File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath));
+      File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath, forBackup: true));
       return true;
     }
 
@@ -92,7 +93,7 @@ namespace PowerUp.GameSave.GameSaveManagement
     {
       var gameSaveFilePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var gameSaveId = GetGameSaveIdForFile(gameSaveFilePath);
-      var gameSaveName = directoryPath.Split(Path.PathSeparator).Last();
+      var gameSaveName = Path.GetFileName(directoryPath)!;
       return new GameSaveOption(gameSaveId, gameSaveName, directoryPath, gameSaveFilePath);
     }
 
@@ -106,7 +107,7 @@ namespace PowerUp.GameSave.GameSaveManagement
 
     private int GetGameSaveIdForFile(string directoryPath)
     {
-      var reader = new GameSaveObjectReader(_characterLibrary, new FileStream(directoryPath, FileMode.Open, FileAccess.Read));
+      using var reader = new GameSaveObjectReader(_characterLibrary, new FileStream(directoryPath, FileMode.Open, FileAccess.Read));
       return reader.ReadInt(GSGameSave.PowerUpIdOffset);
     }
 

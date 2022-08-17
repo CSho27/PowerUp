@@ -12,8 +12,6 @@ namespace PowerUp.GameSave.GameSaveManagement
     public static string GetPowerUpDirectoryForNewGameSave(string baseDirectory, string gameSaveName)
     {
       var powerUpDirectory = GetPowerUpGameSavesDirectory(baseDirectory);
-      if (!Directory.Exists(powerUpDirectory))
-        throw new InvalidOperationException($"PowerUp GameSave Folder is not configured correctly. No directory found at {powerUpDirectory}");
 
       bool dirExists = true;
       string gameSaveDir = "";
@@ -28,6 +26,8 @@ namespace PowerUp.GameSave.GameSaveManagement
 
       return gameSaveDir;
     }
-    public static string GetGameSavePath(string gameSaveDirectory) => Path.Combine(gameSaveDirectory, "./pm2maus.dat");
+    public static string GetGameSavePath(string gameSaveDirectory, bool forBackup = false) => forBackup
+      ? Path.Combine(gameSaveDirectory, "./backup_pm2maus.dat")
+      : Path.Combine(gameSaveDirectory, "./pm2maus.dat");
   }
 }
