@@ -43,10 +43,12 @@ export function GameSaveManagerModal(props: GameSaveManagerModalProps) {
         <CenteredCell>
           {isSelected 
             ? <ActiveText>Active</ActiveText> 
-            : <IconButton 
+            : <Button
+                variant='Outline' 
+                size='Small'
                 icon='file-arrow-down'
                 onClick={() => activeGameSave(gameSave.id)} 
-              />}
+              >Activate</Button>}
         </CenteredCell>
         <div>{gameSave.name}</div>
       </GameSaveRow>
@@ -86,7 +88,7 @@ const GameSaveRow = styled.div<{ selected: boolean }>`
     ? COLORS.white.offwhite_85 
     : undefined};
   display: grid;
-  grid-template-columns: 64px auto;
+  grid-template-columns: 128px auto;
 
   &:nth-child(even) {
     background-color: ${p => p.selected 
@@ -102,6 +104,5 @@ const CenteredCell = styled.div`
 `
 
 const ActiveText = styled.div`
-  font-size: ${FONT_SIZES._12};
   color: ${COLORS.white.regular_100};
 `
