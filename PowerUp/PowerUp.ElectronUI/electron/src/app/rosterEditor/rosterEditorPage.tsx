@@ -18,7 +18,7 @@ import { LoadExistingRosterApiClient } from "./loadExistingRosterApiClient";
 import { PlayerGrid } from "./playerGrid";
 import { ReplaceFreeAgentApiClient } from "./replaceFreeAgentApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
-import { RosterExportModal } from "./rosterExportModal";
+import { openRosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
 
 export interface RosterEditorPageProps {
@@ -75,7 +75,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
         variant='Fill' 
         squarePadding
         icon='download'
-        onClick={openExportModal} 
+        onClick={() => openRosterExportModal(appContext, rosterId)} 
       />
     </div>
     <TabButtonNav 
@@ -135,14 +135,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
   function handleDivisionChange(division: KeyedCode) {
     setSelectedDivision(division);
     teamsRef.current?.scrollTo({ top: 0, behavior: 'auto' })
-  }
-
-  function openExportModal() {
-    appContext.openModal(closeDialog => <RosterExportModal 
-      appContext={appContext} 
-      rosterId={rosterId}
-      closeDialog={closeDialog} 
-    />)
   }
 }
 

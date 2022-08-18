@@ -4,7 +4,7 @@ export interface GetCurrentGameSaveManagerDirectoryResponse {
   gameSaveManagerDirectoryPath: string | null;
 }
 
-export class GetCurrentGameSaveManagerDirectoryApiClient {
+export class GetGameSaveManagerDirectoryApiClient {
   private readonly commandName = 'GetGameSaveManagerDirectory';
   private readonly commandFetcher: CommandFetcher;
 

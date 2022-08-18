@@ -4,10 +4,10 @@ import { AppContext } from "../app";
 import { FileSystemSelector } from "../../components/fileSystemSelector/fileSystemSelector";
 import { Modal } from "../../components/modal/modal";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
-import { GetCurrentGameSaveManagerDirectoryApiClient as GetGameSaveManagerDirectoryApiClient } from "./getGameSaveManagerDirectoryApiClient";
+import { GetGameSaveManagerDirectoryApiClient } from "./getGameSaveManagerDirectoryApiClient";
 import { InitializeGameSaveManagerApiClient } from "./initializeGameSaveManagerApiClient";
 
-export async function openGameSaveManagerModal(appContext: AppContext): Promise<boolean> {
+export async function openGameSaveManagerInitializationModal(appContext: AppContext): Promise<boolean> {
   const apiClient = new GetGameSaveManagerDirectoryApiClient(appContext.commandFetcher);  
   const response = await apiClient.execute();
   return new Promise(resolve => {
