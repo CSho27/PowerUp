@@ -24,8 +24,8 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
       if(settings != null && settings.GameSaveManagerDirectoryPath != null)
         return new InitializeGameSaveResponse { Success = true };
 
-      var defaultDirExists = _gameSaveManager.Initialize(directoryPath);
-      if (!defaultDirExists)
+      var dirExists = _gameSaveManager.Initialize(directoryPath);
+      if (!dirExists)
         return new InitializeGameSaveResponse { Success = false };
       
       if(settings == null)

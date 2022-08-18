@@ -10,6 +10,7 @@ import { GameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal
 import { useRef } from "react";
 import { OpenGameSaveManagerApiClient } from "../gameSaveManager/openGameSaveManagerApiClient";
 import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
+import { openGameSaveManagerModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
 
 export interface PowerUpLayoutProps {
   appContext: AppContext;
@@ -52,11 +53,13 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
 
   async function openGameSaveManagementModal() {
     const initializationResponse = await initializeGSManagerRef.current.execute({});
-    if(!initializationResponse.success)
-      return;
+    if(!initializationResponse.success) {
+      const shouldOpenManager = await openGameSaveManagerModal(appContext);
+      if(!shouldOpenManager)
+        return;
+    }
 
     const managerStateResponse = await openGSManagerRef.current.execute();
-      
     appContext.openModal(closeDialog => <GameSaveManagerModal 
       appContext={appContext}
       initialActiveGameSaveId={managerStateResponse.activeGameSaveId}

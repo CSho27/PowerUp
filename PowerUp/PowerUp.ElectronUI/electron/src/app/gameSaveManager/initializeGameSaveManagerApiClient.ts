@@ -1,7 +1,7 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
 
 export interface InitializeGameSaveManagerRequest {
-  directoryPath?: string;
+  gameSaveManagerDirectoryPath?: string;
 }
 
 export interface InitializeGameSaveManagerResponse {

@@ -57,14 +57,23 @@ namespace PowerUp.GameSave.GameSaveManagement
     
     public bool Initialize(string directoryPath)
     {
-      var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
-      if (!File.Exists(originalGameSavePath))
+      if (!Directory.Exists(directoryPath))
         return false;
 
-      var originalFolderPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, "Original");
-      DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
-      File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath));
-      File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath, forBackup: true));
+      var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
+      if (File.Exists(originalGameSavePath))
+      {
+        var originalFolderPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, "Original");
+        DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
+        File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath));
+        File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath, forBackup: true));
+      }
+      else
+      {
+        var originalFolderPath = GameSavePathBuilder.GetPowerUpGameSavesDirectory(directoryPath);
+        DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
+      }
+
       return true;
     }
     

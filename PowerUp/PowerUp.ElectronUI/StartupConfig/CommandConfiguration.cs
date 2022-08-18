@@ -48,6 +48,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<OpenGameSaveManagerCommand>();
       services.AddSingleton<InitializeGameSaveManagerCommand>();
       services.AddSingleton<ActiveGameSaveCommand>();
+      services.AddSingleton<GetGameSaveManagerDirectoryCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -88,6 +89,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(OpenGameSaveManagerCommand), "OpenGameSaveManager");
       commandRegistry.RegisterCommand(typeof(InitializeGameSaveManagerCommand), "InitializeGameSaveManager");
       commandRegistry.RegisterCommand(typeof(ActiveGameSaveCommand), "ActivateGameSave");
+      commandRegistry.RegisterCommand(typeof(GetGameSaveManagerDirectoryCommand), "GetGameSaveManagerDirectory");
     }
   }
 }
