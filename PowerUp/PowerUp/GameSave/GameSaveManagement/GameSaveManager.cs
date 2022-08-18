@@ -61,7 +61,8 @@ namespace PowerUp.GameSave.GameSaveManagement
         return false;
 
       var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
-      if (File.Exists(originalGameSavePath))
+      var existingOptions = GetGameSaveOptions(directoryPath);
+      if (File.Exists(originalGameSavePath) && !existingOptions.Any(o => o.Name == "Original"))
       {
         var originalFolderPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, "Original");
         DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
@@ -110,7 +111,10 @@ namespace PowerUp.GameSave.GameSaveManagement
 
     private IEnumerable<GameSaveOption> GetGameSaveOptions(string directoryPath)
     {
-      var gameSaveDirectories = Directory.GetDirectories(GameSavePathBuilder.GetPowerUpGameSavesDirectory(directoryPath));
+      var gameSaveDirectory = GameSavePathBuilder.GetPowerUpGameSavesDirectory(directoryPath);
+      if(!Directory.Exists(gameSaveDirectory))
+        return Enumerable.Empty<GameSaveOption>();
+      var gameSaveDirectories = Directory.GetDirectories(gameSaveDirectory);
       return gameSaveDirectories.Select(x => GetGameSaveOptionForFolder(x)).Where(o => o != null).Cast<GameSaveOption>();
     }
 

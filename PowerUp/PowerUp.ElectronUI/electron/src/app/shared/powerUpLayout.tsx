@@ -3,14 +3,12 @@ import { Icon } from "../../components/icon/icon";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
-import { shell } from "electron";
 import { openInBrowserOnClick } from "../../utils/openInBroswer";
 import { AppContext } from "../app";
-import { GameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal";
 import { useRef } from "react";
-import { OpenGameSaveManagerApiClient } from "../gameSaveManager/openGameSaveManagerApiClient";
 import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
 import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
+import { openGameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal";
 
 export interface PowerUpLayoutProps {
   appContext: AppContext;
@@ -21,10 +19,8 @@ export interface PowerUpLayoutProps {
 
 export function PowerUpLayout(props: PowerUpLayoutProps) {
   const { appContext, headerText, sidebar, children } = props;
-
   const initializeGSManagerRef = useRef(new InitializeGameSaveManagerApiClient(appContext.commandFetcher));
-  const openGSManagerRef = useRef(new OpenGameSaveManagerApiClient(appContext.commandFetcher));
-  
+
   return <LayoutWrapper>
     <HeaderWrapper>
       <LogoCorner>
@@ -58,14 +54,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       if(!shouldOpenManager)
         return;
     }
-
-    const managerStateResponse = await openGSManagerRef.current.execute();
-    appContext.openModal(closeDialog => <GameSaveManagerModal 
-      appContext={appContext}
-      initialActiveGameSaveId={managerStateResponse.activeGameSaveId}
-      gameSaveOptions={managerStateResponse.gameSaveOptions}
-      closeDialog={closeDialog}
-    />)
+    openGameSaveManagerModal(appContext);
   }
 }
 

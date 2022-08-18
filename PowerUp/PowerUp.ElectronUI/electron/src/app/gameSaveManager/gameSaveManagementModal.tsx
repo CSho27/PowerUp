@@ -6,16 +6,27 @@ import { Modal } from "../../components/modal/modal";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../app";
 import { ActivateGameSaveApiClient } from "./activateGameSaveApiClient";
-import { GameSaveDto } from "./openGameSaveManagerApiClient";
+import { openGameSaveManagerInitializationModal } from "./gameSaveManagerInitializationModal";
+import { GameSaveDto, OpenGameSaveManagerApiClient } from "./openGameSaveManagerApiClient";
 
-export interface GameSaveManagerModalProps {
+export async function openGameSaveManagerModal(appContext: AppContext) {
+  const managerStateResponse = await new OpenGameSaveManagerApiClient(appContext.commandFetcher).execute();
+  appContext.openModal(closeDialog => <GameSaveManagerModal 
+    appContext={appContext}
+    initialActiveGameSaveId={managerStateResponse.activeGameSaveId}
+    gameSaveOptions={managerStateResponse.gameSaveOptions}
+    closeDialog={closeDialog}
+  />)
+}
+
+interface GameSaveManagerModalProps {
   appContext: AppContext;
   initialActiveGameSaveId: number | null;
   gameSaveOptions: GameSaveDto[];
   closeDialog: () => void;
 }
 
-export function GameSaveManagerModal(props: GameSaveManagerModalProps) {
+function GameSaveManagerModal(props: GameSaveManagerModalProps) {
   const { appContext, initialActiveGameSaveId, gameSaveOptions, closeDialog } = props;
   const [activeGameSaveId, setActiveGameSaveId] = useState<number|null>(initialActiveGameSaveId);
   const activeGameSaveApiClientRef = useRef(new ActivateGameSaveApiClient(appContext.commandFetcher));
@@ -29,7 +40,8 @@ export function GameSaveManagerModal(props: GameSaveManagerModalProps) {
       <GridWrapper>
         {gameSaveOptions.map(toGridRow)}
       </GridWrapper>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button variant='Ghost' size='Small' onClick={selectNewDirectory}>Select Different Directory</Button>
         <Button variant='Fill' size='Small' onClick={closeDialog}>Close</Button>
       </div>
       </Wrapper>
@@ -61,6 +73,14 @@ export function GameSaveManagerModal(props: GameSaveManagerModalProps) {
 
     if(response.success)
       setActiveGameSaveId(gameSaveId);
+  }
+
+  async function selectNewDirectory() {
+    const shouldReload = await openGameSaveManagerInitializationModal(appContext)
+    if(!shouldReload)
+      return;
+    closeDialog();
+    openGameSaveManagerModal(appContext);
   }
 }
 

@@ -21,7 +21,7 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
 
       var directoryPath = request.GameSaveManagerDirectoryPath ?? DEFAULT_DOLPHIN_POWER_PROS_DIR;
       var settings = DatabaseConfig.Database.LoadOnly<AppSettings>();
-      if(settings != null && settings.GameSaveManagerDirectoryPath != null)
+      if(request.GameSaveManagerDirectoryPath == null && settings != null && settings.GameSaveManagerDirectoryPath != null)
         return new InitializeGameSaveResponse { Success = true };
 
       var dirExists = _gameSaveManager.Initialize(directoryPath);
