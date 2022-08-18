@@ -89,6 +89,7 @@ const GameSaveRow = styled.div<{ selected: boolean }>`
     : undefined};
   display: grid;
   grid-template-columns: 128px auto;
+  gap: 16px;
 
   &:nth-child(even) {
     background-color: ${p => p.selected 
@@ -104,5 +105,5 @@ const CenteredCell = styled.div`
 `
 
 const ActiveText = styled.div`
-  color: ${COLORS.white.regular_100};
+  color: ${COLORS.affirmativeGreen.regular_25};
 `

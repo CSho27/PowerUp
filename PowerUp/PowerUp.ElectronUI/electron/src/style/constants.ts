@@ -43,13 +43,16 @@ export const COLORS = {
     regular_100_t60: 'hsl(0deg 100% 100% / .6)',
     regular_100_t70: 'hsl(0deg 100% 100% / .7)',
     grayed_80_t40: 'hsl(0deg 0% 80% / .4)',
-    offwhite_97: 'hsl(235deg 85% 97%)',
-    offwhite_92: 'hsl(235deg 85% 92%)',
-    offwhite_85: 'hsl(235deg 85% 85%)'
+    offwhite_97: 'hsl(210deg 70% 97%)',
+    offwhite_92: 'hsl(210deg 70% 92%)',
+    offwhite_85: 'hsl(210deg 70% 85%)'
   },
   attentionYellow: {
     regular_45: 'hsl(48deg 85% 45%)',
     light_85: 'hsl(48deg 85% 85%)'
+  },
+  affirmativeGreen: {
+    regular_25: 'hsl(130deg 80% 25%)'
   },
 
   // PowerPros Colors
