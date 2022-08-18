@@ -78,7 +78,7 @@ const NoDataMessage = styled.div`
 
 const PlayerRow = styled.tr<{ selected: boolean, disabled?: boolean }>`
   padding: 2px 8px;
-  cursor: ${p => p.disabled ? 'undefined' : 'pointer' };
+  cursor: ${p => p.disabled ? undefined : 'pointer'};
   background-color: ${p => p.disabled
     ? COLORS.white.grayed_80_t40
     : p.selected 
