@@ -104,7 +104,7 @@ const header = <>
     />
   </> 
 
-  return <PowerUpLayout headerText='Edit Team'>
+  return <PowerUpLayout appContext={appContext} headerText='Edit Team'>
     <ContentWithHangingHeader header={header} headerHeight='130px'>
       <EditorContainer>
         {state.selectedTab === 'Management' &&

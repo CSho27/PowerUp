@@ -64,6 +64,12 @@ namespace PowerUp.Databases
       return entityCollection.FindById(id);
     }
 
+    public TEntity? LoadOnly<TEntity>() where TEntity : Entity<TEntity>
+    {
+      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+      return entityCollection.FindOne(_ => true);
+    }
+
     public void Delete<TEntity>(TEntity entity) where TEntity : Entity<TEntity>
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);

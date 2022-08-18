@@ -8,27 +8,46 @@ import { FileSystemSelector } from "../../components/fileSystemSelector/fileSyst
 import { FlexRow } from "../../components/flexRow/flexRow";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FONT_SIZES } from "../../style/constants";
+import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
+import { GetGameSaveManagerDirectoryApiClient } from "../gameSaveManager/getGameSaveManagerDirectoryApiClient";
 
-export interface RosterExportModalProps {
+export async function openRosterExportModal(appContext: AppContext, rosterId: number) {
+  const apiClient = new GetGameSaveManagerDirectoryApiClient(appContext.commandFetcher);
+  const response = await apiClient.execute();
+  if(!response.gameSaveManagerDirectoryPath) {
+    const shouldOpenExporetModal = await openGameSaveManagerInitializationModal(appContext);
+    if(!shouldOpenExporetModal)
+      return;
+  }
+
+  const newResponse = await apiClient.execute();
+  appContext.openModal(closeDialog => <RosterExportModal
+    appContext={appContext}
+    rosterId={rosterId}
+    gameSaveManagerDirectory={newResponse.gameSaveManagerDirectoryPath!}
+    closeDialog={closeDialog}
+  />);
+}
+
+interface RosterExportModalProps {
   appContext: AppContext;
   rosterId: number;
+  gameSaveManagerDirectory: string;
   closeDialog: () => void;
 }
 
 interface State {
   useBaseGameSave: boolean;
   selectedGameSaveFile: string | undefined; 
-  selectedDirectory: string | undefined;
 }
 
-export function RosterExportModal(props: RosterExportModalProps) {
-  const { appContext, rosterId, closeDialog } = props;
+function RosterExportModal(props: RosterExportModalProps) {
+  const { appContext, rosterId, gameSaveManagerDirectory, closeDialog } = props;
   
   const exportApiClientRef = useRef(new ExportRosterApiClient(appContext.commandFetcher));
   const [state, setState] = useState<State>({
     useBaseGameSave: true,
     selectedGameSaveFile: undefined,
-    selectedDirectory: undefined
   });
 
   return <Modal ariaLabel='Export Roster'>
@@ -54,18 +73,9 @@ export function RosterExportModal(props: RosterExportModalProps) {
         onSelection={file => setState(p => ({ ...p, selectedGameSaveFile: file }))}
       />
     </div>
-    <div style={{ paddingBottom: '16px' }}>
-      <FieldLabel htmlFor='gameSaveExportLocationSelector'>Export Location</FieldLabel>
-      <FileSystemSelector
-        id='gameSaveExportLocationSelector'
-        type='Directory'
-        selectedPath={state.selectedDirectory}
-        onSelection={dir => setState(p => ({ ...p, selectedDirectory: dir }))}
-      />
-    </div>
     <div style={{ display: 'flex', gap: '4px' }}>
       <Button variant='Outline' size='Small' onClick={closeDialog}>Cancel</Button>
-      <Button variant='Fill' size='Small' disabled={!state.selectedDirectory || (!state.useBaseGameSave && !state.selectedGameSaveFile)} onClick={exportRoster}>Export</Button>
+      <Button variant='Fill' size='Small' disabled={!state.useBaseGameSave && !state.selectedGameSaveFile} onClick={exportRoster}>Export</Button>
     </div>
   </Modal>
 
@@ -73,7 +83,7 @@ export function RosterExportModal(props: RosterExportModalProps) {
     const response = await exportApiClientRef.current.execute({
       rosterId: rosterId,
       sourceGameSavePath: state.selectedGameSaveFile,
-      directoryPath: state.selectedDirectory!
+      directoryPath: gameSaveManagerDirectory
     });
 
     if(response.success)

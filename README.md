@@ -153,14 +153,17 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 ![image](https://user-images.githubusercontent.com/30477054/172822944-9e9a8a41-fa8a-43ee-9766-29be47e7ecbe.png)
 - From here, you can select to either use a blank file or copy from an existing one
 - If you copy from an existing one, this will allow you to still have your settings and purchases from your original game save file. This will **not** save over your orginal game save file, instead, it will just write to a copy of that file.
-- Select a directory to output your game save file
-- The outputted file will have a name in the format {RosterName}.ps2maus.dat
-- In order to use this roster in the game, you will need to:
-  - Find the Dolphin/Wii folder where the original game save is stored 
-  - **Rename or create a copy of your original game save file (DONT OVERWITE YOUR MAIN GAME SAVE)**
-  - Delete the Roster name prefix from the beginning of the file name
-  - Place it in the same folder where you found your original game save file
-- In order for the game to load the new data, you will have to restart the game if it is already running
+
+### GameSave Manager
+- In order to use exported PowerUp rosters in the game, you will need to replace the active game save file with your own. If you're using Dolphin, the GameSave Manager can take care of all of this for you
+- You can open the GameSave Manager by clicking the link labeled "Game Saves" in the upper righthand corner of the app
+- The first time you use the GameSave Manager, you may need to configure it by selecting your Dolphin/Wii PowerPros data directory
+- The default on Windows is: C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data, so there should be a similar directory on your machine
+- Once the GameSave Manager is configured, you will see a dialog listing all of your exported GameSave files
+- The one labeled "Original" is the the GameSave that was active when the manager was initialized. It can be used as a backup of the original GameSave file
+- To use a different GameSave in the game, click the activate button next to the one you'd like to use
+- Start up PowerPros in Dolphin or restart it if it was already running and see that your custom roster has been loaded into the game
+- If you'd like to rename any of your exported GameSaves, you can do so by clicking the rename button
 
 Alpha Notes:
  - There is no guaruntee your alpha database will work when used with newer versions of the app. App data will not be backwards compatible until v1.0.0.

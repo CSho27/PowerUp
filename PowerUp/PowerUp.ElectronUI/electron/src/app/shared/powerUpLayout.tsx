@@ -3,18 +3,24 @@ import { Icon } from "../../components/icon/icon";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
-import { shell } from "electron";
 import { openInBrowserOnClick } from "../../utils/openInBroswer";
+import { AppContext } from "../app";
+import { useRef } from "react";
+import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
+import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
+import { openGameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal";
 
 export interface PowerUpLayoutProps {
+  appContext: AppContext;
   headerText?: string;
   sidebar?: React.ReactNode;
   children?: React.ReactNode;
 }
 
 export function PowerUpLayout(props: PowerUpLayoutProps) {
-  const { headerText, sidebar, children } = props;
-  
+  const { appContext, headerText, sidebar, children } = props;
+  const initializeGSManagerRef = useRef(new InitializeGameSaveManagerApiClient(appContext.commandFetcher));
+
   return <LayoutWrapper>
     <HeaderWrapper>
       <LogoCorner>
@@ -23,12 +29,16 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       </LogoCorner>
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
-        <HelpIconSectionWrapper>
-          <HelpIconWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
+        <HeaderLinkSectionWrapper>
+          <HeaderLinkWrapper onClick={openGameSaveManagementModal} title='Open Game Save Manager'>
+            Game Saves
+            <Icon icon='sd-card' />
+          </HeaderLinkWrapper>
+          <HeaderLinkWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
             Help
             <Icon icon='circle-question' />
-          </HelpIconWrapper>
-        </HelpIconSectionWrapper>
+          </HeaderLinkWrapper>
+        </HeaderLinkSectionWrapper>
       </HeaderTextWrapper>
     </HeaderWrapper>
     <PageContent>
@@ -36,6 +46,16 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       <MainContent>{children}</MainContent>
     </PageContent>
   </LayoutWrapper>
+
+  async function openGameSaveManagementModal() {
+    const initializationResponse = await initializeGSManagerRef.current.execute({});
+    if(!initializationResponse.success) {
+      const shouldOpenManager = await openGameSaveManagerInitializationModal(appContext);
+      if(!shouldOpenManager)
+        return;
+    }
+    openGameSaveManagerModal(appContext);
+  }
 }
 
 const LayoutWrapper = styled.div`
@@ -51,12 +71,14 @@ const HeaderWrapper = styled.header`
   align-items: center;
 `
 
-const HelpIconSectionWrapper = styled.div`
+const HeaderLinkSectionWrapper = styled.div`
   flex: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
 `
 
-const HelpIconWrapper = styled.a`    
-  flex: auto;
+const HeaderLinkWrapper = styled.a`    
   font-size: ${FONT_SIZES.default_16};
   color: white;
   display: flex;
@@ -64,6 +86,7 @@ const HelpIconWrapper = styled.a`
   align-items: baseline;
   gap: 4px;
   text-decoration: none;
+  cursor: pointer;
 `
 
 const LogoCorner = styled.div`

@@ -22,6 +22,8 @@ namespace PowerUp.GameSave.IO
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class
       => (TGameSaveObject)Read(typeof(TGameSaveObject), offset);
 
+    public short ReadInt(long offset) => _reader.ReadSInt(offset, 0, 16);
+
     public object Read(Type type, long offset)
     {
       var gsObject = type.GetConstructors().First().Invoke(null);

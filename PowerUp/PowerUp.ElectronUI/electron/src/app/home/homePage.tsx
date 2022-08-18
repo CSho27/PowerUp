@@ -22,7 +22,7 @@ export function HomePage(props: HomePageProps) {
   const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
   const copyExistingRosterApiClientRef = useRef(new CopyExistingRosterApiClient(appContext.commandFetcher));
 
-  return <PowerUpLayout>
+  return <PowerUpLayout appContext={appContext}>
     <ContentWrapper maxWidth='800px'>
       <AppTitle/>
       <ButtonSectionWrapper>
