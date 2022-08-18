@@ -21,19 +21,19 @@ namespace PowerUp.GameSave.Api
 
   public class RosterExportApi : IRosterExportApi
   {
-    private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
     private readonly ICharacterLibrary _characterLibrary;
     private readonly IPlayerMapper _playerMapper;
+    private readonly IGameSaveManager _gameSaveManager;
 
     public RosterExportApi(
-      IBaseGameSavePathProvider baseGameSavePathProvider,
       ICharacterLibrary characterLibrary,
-      IPlayerMapper playerMapper
+      IPlayerMapper playerMapper,
+      IGameSaveManager gameSaveManager
     )
     {
-      _baseGameSavePathProvider = baseGameSavePathProvider;
       _characterLibrary = characterLibrary;
       _playerMapper = playerMapper;
+      _gameSaveManager = gameSaveManager;
     }
 
     public void ExportRoster(RosterExportParameters parameters)
@@ -44,11 +44,7 @@ namespace PowerUp.GameSave.Api
         throw new ArgumentNullException(nameof(parameters.Roster));
 
       var roster = parameters.Roster!;
-
-      var directoryPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(parameters.ExportDirectory, parameters.Roster.Name);
-      DirectoryFactory.CreateDirectoriesForPathIfNeeded(directoryPath);
-      var rosterFilePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
-      File.Copy(parameters.SourceGameSave ?? _baseGameSavePathProvider.GetPath(), rosterFilePath);
+      var (rosterFilePath, gameSaveId) = _gameSaveManager.CreateNewGameSave(parameters.ExportDirectory, parameters.SourceGameSave, roster.Name);
 
       using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath))
       {
@@ -96,7 +92,7 @@ namespace PowerUp.GameSave.Api
 
         var gameSave = new GSGameSave
         {
-          PowerUpId = (short)roster.Id!.Value,
+          PowerUpId = (short)gameSaveId,
           Players = gsPlayers,
           Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
           Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),

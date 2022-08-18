@@ -10,6 +10,7 @@ namespace PowerUp.GameSave.GameSaveManagement
   public interface IGameSaveManager
   {
     public bool Initialize(string directoryPath);
+    public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSavePath, string rosterName);
     public GameSaveManagerState GetCurrentState(string directoryPath);
     public void ActivateGameSave(string directoryPath, int gameSaveId);
   }
@@ -46,10 +47,12 @@ namespace PowerUp.GameSave.GameSaveManagement
   public class GameSaveManager : IGameSaveManager
   {
     private readonly ICharacterLibrary _characterLibrary;
+    private readonly IBaseGameSavePathProvider _gameSavePathProvider;
 
-    public GameSaveManager(ICharacterLibrary characterLibrary)
+    public GameSaveManager(ICharacterLibrary characterLibrary, IBaseGameSavePathProvider gameSavePathProvider)
     {
       _characterLibrary = characterLibrary;
+      _gameSavePathProvider = gameSavePathProvider;
     }
     
     public bool Initialize(string directoryPath)
@@ -63,6 +66,19 @@ namespace PowerUp.GameSave.GameSaveManagement
       File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath));
       File.Copy(originalGameSavePath, GameSavePathBuilder.GetGameSavePath(originalFolderPath, forBackup: true));
       return true;
+    }
+    
+    public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSave, string rosterName)
+    {
+      var nextGameSaveId = GetGameSaveOptions(directoryPath).Select(o => o.GameSaveId).Max() + 1;
+
+      var newGameSaveDirPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, rosterName);
+      DirectoryFactory.CreateDirectoriesForPathIfNeeded(newGameSaveDirPath);
+
+      var newGameSavePath = GameSavePathBuilder.GetGameSavePath(newGameSaveDirPath);
+
+      File.Copy(sourceGameSave ?? _gameSavePathProvider.GetPath(), newGameSavePath);
+      return (newGameSavePath, nextGameSaveId);
     }
 
     public GameSaveManagerState GetCurrentState(string directoryPath)
