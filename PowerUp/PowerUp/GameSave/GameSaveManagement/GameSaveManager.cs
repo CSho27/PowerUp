@@ -13,6 +13,7 @@ namespace PowerUp.GameSave.GameSaveManagement
     public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSavePath, string rosterName);
     public GameSaveManagerState GetCurrentState(string directoryPath);
     public void ActivateGameSave(string directoryPath, int gameSaveId);
+    public bool RenameGameSave(string directoryPath, int gameSaveId, string? newName);
   }
 
   public class GameSaveManagerState
@@ -108,6 +109,20 @@ namespace PowerUp.GameSave.GameSaveManagement
       var activeGameSaveBackupPath = GetGameSavePathForId(directoryPath, gameSaveId);
       File.Copy(activeGameSaveBackupPath, activeGameSavePath, overwrite: true);
     }
+    
+    public bool RenameGameSave(string directoryPath, int gameSaveId, string? newName)
+    {
+      var gameSaveOptions = GetGameSaveOptions(directoryPath);
+      var optionToRename = gameSaveOptions.Single(o => o.GameSaveId == gameSaveId);
+      var otherGameSaveOptions = gameSaveOptions.Where(o => o.GameSaveId != gameSaveId);
+      if (string.IsNullOrWhiteSpace(newName) || otherGameSaveOptions.Any(o => o.Name == newName))
+        return false;
+
+      var currentGameSaveDirectoryPath = optionToRename.DirectoryPath;
+      var newGameSaveDirectoryPath = Path.Combine(Path.GetDirectoryName(currentGameSaveDirectoryPath)!, newName);
+      Directory.Move(currentGameSaveDirectoryPath, newGameSaveDirectoryPath);
+      return true;
+    }
 
     private IEnumerable<GameSaveOption> GetGameSaveOptions(string directoryPath)
     {
@@ -115,7 +130,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       if(!Directory.Exists(gameSaveDirectory))
         return Enumerable.Empty<GameSaveOption>();
       var gameSaveDirectories = Directory.GetDirectories(gameSaveDirectory);
-      return gameSaveDirectories.Select(x => GetGameSaveOptionForFolder(x)).Where(o => o != null).Cast<GameSaveOption>();
+      return gameSaveDirectories.Select(x => GetGameSaveOptionForFolder(x)).Where(o => o != null).Cast<GameSaveOption>().ToList();
     }
 
     private GameSaveOption? GetGameSaveOptionForFolder(string directoryPath)
