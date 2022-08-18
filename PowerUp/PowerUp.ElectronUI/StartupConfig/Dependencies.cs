@@ -17,7 +17,7 @@ namespace PowerUp.ElectronUI.StartupConfig
     public static void RegisterDependencies(this IServiceCollection services)
     {
       services.AddTransient<IRosterImportApi>(provider => new RosterImportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>()));
-      services.AddTransient<IRosterExportApi>(provider => new RosterExportApi(provider.GetRequiredService<IBaseGameSavePathProvider>(), provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>()));
+      services.AddTransient<IRosterExportApi>(provider => new RosterExportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>(), provider.GetRequiredService<IGameSaveManager>()));
       services.AddTransient<IPlayerMapper>(provider => new PlayerMapper(provider.GetRequiredService<ISpecialSavedNameLibrary>()));
       services.AddTransient<IPlayerApi>(provider => new PlayerApi());
       services.AddTransient<ITeamApi>(provider => new TeamApi(provider.GetRequiredService<IPlayerApi>()));
@@ -31,7 +31,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IRosterGenerator>(provider => new RosterGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<ITeamGenerator>()));
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
-      services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>()));
+      services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IBaseGameSavePathProvider>()));
     }
   }
 }
