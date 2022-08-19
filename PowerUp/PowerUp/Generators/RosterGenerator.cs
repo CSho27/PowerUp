@@ -61,7 +61,8 @@ namespace PowerUp.Generators
           onTeamProgressUpdate(new ProgressUpdate($"Generating {team.FullName}", i, teams.Count));
 
         var generatedTeam = _teamGenerator.GenerateTeam(team.LSTeamId, year, team.FullName, playerGenerationAlgorithm, onPlayerProgressUpdate);
-        generatedTeams.Add(generatedTeam);
+        if(generatedTeam.PlayersOnTeam.Count() >= 10)
+          generatedTeams.Add(generatedTeam);
 
         freeAgents.AddRange(generatedTeam.PotentialFreeAgents);
 
@@ -77,13 +78,13 @@ namespace PowerUp.Generators
       // Match by lsTeamId
       foreach (var ppTeam in ppTeams)
       {
-        var teamIdMatch = teamResults.Results.SingleOrDefault(r => r.LSTeamId == ppTeam.GetLSTeamId());
+        var teamIdMatch = generatedTeams.SingleOrDefault(r => r.LSTeamId == ppTeam.GetLSTeamId());
         if (teamIdMatch != null)
           ppTeamByTeamId.Add(teamIdMatch.LSTeamId, ppTeam);
       }
 
       // Match by location or team name
-      foreach(var team in teamResults.Results.Where(team => !ppTeamByTeamId.ContainsKey(team.LSTeamId)))
+      foreach(var team in teamResults.Results.Where(team => generatedTeams.Any(t => t.LSTeamId == team.LSTeamId) && !ppTeamByTeamId.ContainsKey(team.LSTeamId)))
       {
         var locationMatch = ppTeams
           .Where(t => !ppTeamByTeamId.ContainsValue(t))
@@ -99,7 +100,7 @@ namespace PowerUp.Generators
       }
 
       // Put rest of teams somewhere
-      foreach (var team in teamResults.Results.Where(team => !ppTeamByTeamId.ContainsKey(team.LSTeamId)))
+      foreach (var team in generatedTeams.Where(team => !ppTeamByTeamId.ContainsKey(team.LSTeamId)))
       {
         var firstTeamNotInUse = ppTeams
           .OrderByDescending(p => p.GetDivision() != MLBPPDivision.AllStars)
@@ -121,7 +122,7 @@ namespace PowerUp.Generators
         teamsToUse.Add(nlAllStars);
       }
 
-      if (!ppTeamByTeamId.ContainsValue(MLBPPTeam.AmericanLeagueAllStars) && nlPlayers.Any())
+      if (!ppTeamByTeamId.ContainsValue(MLBPPTeam.AmericanLeagueAllStars) && alPlayers.Any())
       {
         var alAllStars = BuildAllStarTeam(alPlayers, year, isAL: true);
         ppTeamByTeamId[alAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.AmericanLeagueAllStars;
