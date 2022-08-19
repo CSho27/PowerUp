@@ -84,7 +84,7 @@ export function RosterGenerationModal(props: RosterGenerationModalProps) {
 
   async function generateAndClose() {
     const result = await generationApiClientRef.current.execute({ year: state.yearToGenerate! });
-    setTimeout(pollProgress, 1000);
+    pollProgress();
 
     async function pollProgress() {
       const status = await statusApiClientRef.current.execute({ generationStatusId: result.generationStatusId });
@@ -99,7 +99,7 @@ export function RosterGenerationModal(props: RosterGenerationModalProps) {
       if(!!status.completedRosterId)
         closeDialog(status.completedRosterId);
       else
-        pollProgress();
+        setTimeout(pollProgress, 20);
     }
   }
 }
