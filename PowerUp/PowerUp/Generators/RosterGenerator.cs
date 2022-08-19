@@ -115,18 +115,29 @@ namespace PowerUp.Generators
         .Select(t => t.Team)
         .ToList();
 
+      Team? nlAllStars = null;
       if(!ppTeamByTeamId.ContainsValue(MLBPPTeam.NationalLeagueAllStars) && nlPlayers.Any())
       {
-        var nlAllStars = BuildAllStarTeam(nlPlayers, year, isAL: false);
+        nlAllStars = BuildAllStarTeam(nlPlayers, year, MLBPPTeam.NationalLeagueAllStars.GetFullDisplayName(), isAL: false);
         ppTeamByTeamId[nlAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.NationalLeagueAllStars;
         teamsToUse.Add(nlAllStars);
       }
 
       if (!ppTeamByTeamId.ContainsValue(MLBPPTeam.AmericanLeagueAllStars) && alPlayers.Any())
       {
-        var alAllStars = BuildAllStarTeam(alPlayers, year, isAL: true);
+        var alAllStars = BuildAllStarTeam(alPlayers, year, MLBPPTeam.AmericanLeagueAllStars.GetFullDisplayName(), isAL: true);
         ppTeamByTeamId[alAllStars.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.AmericanLeagueAllStars;
         teamsToUse.Add(alAllStars);
+      }
+
+      var notFirstTeamNl = nlAllStars != null
+        ? nlPlayers.Where(p => !nlAllStars.PlayerDefinitions.Any(a => a.PlayerId == p.Id))
+        : Enumerable.Empty<Player>();
+      if (!ppTeamByTeamId.ContainsValue(MLBPPTeam.AmericanLeagueAllStars) && !alPlayers.Any() && notFirstTeamNl.Any())
+      {
+        var nlAllStars2 = BuildAllStarTeam(notFirstTeamNl, year, "Second Team All National League", isAL: true);
+        ppTeamByTeamId[nlAllStars2.GeneratedTeam_LSTeamId!.Value] = MLBPPTeam.AmericanLeagueAllStars;
+        teamsToUse.Add(nlAllStars2);
       }
 
       DatabaseConfig.Database.SaveAll(teamsToUse);
@@ -156,7 +167,7 @@ namespace PowerUp.Generators
       return new RosterGenerationResult(roster, Enumerable.Empty<GeneratorWarning>());
     }
 
-    private Team BuildAllStarTeam(IEnumerable<Player> players, int year, bool isAL)
+    private Team BuildAllStarTeam(IEnumerable<Player> players, int year, string name, bool isAL)
     {
       var rosterParams = players.Select(p => new RosterParams(
         playerId: p.Id!.Value,
@@ -178,7 +189,7 @@ namespace PowerUp.Generators
 
       return new Team
       {
-        Name = mlbPPTeam.GetFullDisplayName(),
+        Name = name,
         SourceType = EntitySourceType.Generated,
         GeneratedTeam_LSTeamId = mlbPPTeam.GetLSTeamId(),
         Year = year,
