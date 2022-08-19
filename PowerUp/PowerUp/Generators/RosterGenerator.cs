@@ -67,9 +67,9 @@ namespace PowerUp.Generators
         freeAgents.AddRange(generatedTeam.PotentialFreeAgents);
 
         if(team.League == "NL")
-          nlPlayers.AddRange(generatedTeam.PlayersOnTeam.OrderByDescending(p => p.Overall).Take(10));
+          nlPlayers.AddRange(generatedTeam.PlayersOnTeam);
         else
-          alPlayers.AddRange(generatedTeam.PlayersOnTeam.OrderByDescending(p => p.Overall).Take(10));
+          alPlayers.AddRange(generatedTeam.PlayersOnTeam);
       }
 
       var ppTeams = Enum.GetValues<MLBPPTeam>().ToList();
