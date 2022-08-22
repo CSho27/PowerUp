@@ -107,7 +107,8 @@ namespace PowerUp.GameSave.GameSaveManagement
 
       var activeGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var activeGameSaveBackupPath = GetGameSavePathForId(directoryPath, gameSaveId);
-      File.Copy(activeGameSaveBackupPath, activeGameSavePath, overwrite: true);
+      if(activeGameSaveBackupPath != null)
+        File.Copy(activeGameSaveBackupPath, activeGameSavePath, overwrite: true);
     }
     
     public bool RenameGameSave(string directoryPath, int gameSaveId, string? newName)
@@ -155,11 +156,11 @@ namespace PowerUp.GameSave.GameSaveManagement
       return reader.ReadInt(GSGameSave.PowerUpIdOffset);
     }
 
-    private string GetGameSavePathForId(string directoryPath, int gameSaveId)
+    private string? GetGameSavePathForId(string directoryPath, int gameSaveId)
     {
       var options = GetGameSaveOptions(directoryPath);
-      var activeGameSave = options.Single(o => o.GameSaveId == gameSaveId);
-      return activeGameSave.GameSaveFilePath;
+      var activeGameSave = options.SingleOrDefault(o => o.GameSaveId == gameSaveId);
+      return activeGameSave?.GameSaveFilePath;
     }
 
     private void SyncActiveGameSave(string directoryPath, int? activeGameSaveId)
@@ -169,6 +170,7 @@ namespace PowerUp.GameSave.GameSaveManagement
 
       var activeGameSave = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var activeGameBackupPath = GetGameSavePathForId(directoryPath, activeGameSaveId!.Value);
+      if (activeGameBackupPath != null)
       File.Copy(activeGameSave, activeGameBackupPath, overwrite: true);
     }
   }
