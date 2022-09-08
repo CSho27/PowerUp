@@ -15,7 +15,7 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 3. [Editing Rosters](https://youtu.be/Q2cDIXpyPKQ)
 4. [Editing Players](https://youtu.be/Ux-iCIOp5KQ)
 5. [Editing Teams](https://youtu.be/07BBwJpy4Xw)
-6. [Exporting Rosters](https://youtu.be/WIk8AF6_G9o)
+6. [GameSave Manager](https://youtu.be/wEnM_knn0H8)
 
 [See All](https://youtube.com/playlist?list=PLZElhD92PxvUupS_fyO0iwZnJMX9g80U8)
 
