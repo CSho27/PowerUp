@@ -44,8 +44,10 @@ namespace PowerUp.Entities.Players
     public SpecialAbilities SpecialAbilities { get; set; } = new SpecialAbilities();
 
     public double Overall => PrimaryPosition == Position.Pitcher
-      ? PitcherAbilities.GetPitcherRating()
-      : HitterAbilities.GetHitterRating();
+      ? PitcherRating
+      : HitterRating;
+    public double HitterRating => HitterAbilities.GetHitterRating();
+    public double PitcherRating => PitcherAbilities.GetPitcherRating();
 
     public string BatsAndThrows => $"{BattingSide.GetAbbrev()}/{ThrowingArm.GetAbbrev()}";
   }

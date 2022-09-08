@@ -32,12 +32,12 @@ namespace PowerUp.Entities.Teams
     private IEnumerable<Player> GetHitters() => GetPlayers().Where(p => p.PrimaryPosition != Position.Pitcher);
     private IEnumerable<Player> GetPitchers() => GetPlayers().Where(p => p.PrimaryPosition == Position.Pitcher);
 
-    public double GetHittingRating() => TeamRatingCalculator.CalculateHittingRating(GetHitters().Select(h => h.Overall));
-    public double GetPitchingRating() => TeamRatingCalculator.CalculatePitchingRating(GetPitchers().Select(p => p.Overall));
+    public double GetHittingRating() => TeamRatingCalculator.CalculateHittingRating(GetPlayers().Select(h => h.HitterRating));
+    public double GetPitchingRating() => TeamRatingCalculator.CalculatePitchingRating(GetPlayers().Select(p => p.PitcherRating));
     public double GetOverallRating() => TeamRatingCalculator.CalculateOverallRating(new TeamRatingParameters
     {
-      HitterRatings = GetHitters().Select(h => h.Overall),
-      PitcherRatings = GetPitchers().Select(p => p.Overall) 
+      HitterRatings = GetPlayers().Select(h => h.HitterRating),
+      PitcherRatings = GetPlayers().Select(p => p.PitcherRating) 
     });
   }
 }
