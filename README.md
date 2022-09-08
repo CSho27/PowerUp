@@ -155,6 +155,7 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - If you copy from an existing one, this will allow you to still have your settings and purchases from your original game save file. This will **not** save over your orginal game save file, instead, it will just write to a copy of that file.
 
 ### GameSave Manager
+![image](https://user-images.githubusercontent.com/30477054/189008339-70e0cec2-4d0f-4a1b-8a05-fcbce546e2e6.png)
 - In order to use exported PowerUp rosters in the game, you will need to replace the active game save file with your own. If you're using Dolphin, the GameSave Manager can take care of all of this for you
 - You can open the GameSave Manager by clicking the link labeled "Game Saves" in the upper righthand corner of the app
 - The first time you use the GameSave Manager, you may need to configure it by selecting your Dolphin/Wii PowerPros data directory
