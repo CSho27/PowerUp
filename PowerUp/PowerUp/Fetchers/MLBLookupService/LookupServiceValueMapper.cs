@@ -63,9 +63,6 @@ namespace PowerUp.Fetchers.MLBLookupService
     
     public static PlayerRosterStatus MapRosterStatus(string status)
     {
-      if (string.IsNullOrEmpty(status))
-        throw new ArgumentNullException();
-
       if (status.Contains("IL"))
         return PlayerRosterStatus.IL;
 
@@ -78,7 +75,11 @@ namespace PowerUp.Fetchers.MLBLookupService
         case "Temporary Inactive":
           return PlayerRosterStatus.TemporaryInactive;
         default:
-          return Enum.Parse<PlayerRosterStatus>(status);
+          var success = Enum.TryParse<PlayerRosterStatus>(status, out var value);
+          Console.WriteLine($"Unhandled PlayerRosterStatus {status}");
+          return success
+            ? value
+            : PlayerRosterStatus.Unhandled;
       }
     }
   }
