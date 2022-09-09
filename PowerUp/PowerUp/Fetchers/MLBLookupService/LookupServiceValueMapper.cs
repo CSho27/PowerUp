@@ -24,7 +24,11 @@ namespace PowerUp.Fetchers.MLBLookupService
         default:
           var success = int.TryParse(positionId, out var pos);
           if (!success)
-            throw new ArgumentException($"{positionId} is not a valid integer");
+          {
+            Console.WriteLine($"{positionId} is not a valid integer");
+            return Position.DesignatedHitter;
+          }
+
           return (Position)pos;
       }
     }
