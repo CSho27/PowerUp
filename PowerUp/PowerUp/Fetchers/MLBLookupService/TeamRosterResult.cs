@@ -23,7 +23,9 @@ namespace PowerUp.Fetchers.MLBLookupService
     TemporaryInactive,
     Traded,
     Waived,
-    IL
+    IL,
+    Paternity,
+    Unhandled
   }
 
   public class TeamRosterResult
@@ -44,6 +46,7 @@ namespace PowerUp.Fetchers.MLBLookupService
     public string? UniformNumber { get; }
     public string FormalDisplayName { get; }
     public PlayerRosterStatus Status { get; }
+    public string StatusString { get; }
     public Position Position { get; }
     public BattingSide BattingSide { get; }
     public ThrowingArm ThrowingArm { get; }
@@ -53,7 +56,8 @@ namespace PowerUp.Fetchers.MLBLookupService
       LSPlayerId = long.Parse(result.player_id!);
       UniformNumber = result.jersey_number.StringIfNotEmpty();
       FormalDisplayName = result.name_last_first!;
-      Status = LookupServiceValueMapper.MapRosterStatus(result.status_short!); 
+      Status = LookupServiceValueMapper.MapRosterStatus(result.status_short!);
+      StatusString = result.status_short!;
       Position = LookupServiceValueMapper.MapPosition(result.primary_position_cd!);
       BattingSide = LookupServiceValueMapper.MapBatingSide(result.bats!);
       ThrowingArm = LookupServiceValueMapper.MapThrowingArm(result.throws!);
