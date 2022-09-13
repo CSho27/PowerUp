@@ -171,7 +171,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       var activeGameSave = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var activeGameBackupPath = GetGameSavePathForId(directoryPath, activeGameSaveId!.Value);
       if (activeGameBackupPath != null)
-      File.Copy(activeGameSave, activeGameBackupPath, overwrite: true);
+        File.Copy(activeGameSave, activeGameBackupPath, overwrite: true);
     }
   }
 }
