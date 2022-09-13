@@ -81,7 +81,7 @@ namespace PowerUp.GameSave.GameSaveManagement
     
     public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSave, string rosterName)
     {
-      var nextGameSaveId = GetGameSaveOptions(directoryPath).Select(o => o.GameSaveId).Max() + 1;
+      var nextGameSaveId = GetGameSaveOptions(directoryPath).Select(o => o.GameSaveId).MaxOrDefault() + 1;
 
       var newGameSaveDirPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, rosterName);
       DirectoryFactory.CreateDirectoriesForPathIfNeeded(newGameSaveDirPath);
