@@ -80,7 +80,8 @@ namespace PowerUp.Fetchers.MLBLookupService
           return PlayerRosterStatus.TemporaryInactive;
         default:
           var success = Enum.TryParse<PlayerRosterStatus>(status, out var value);
-          Console.WriteLine($"Unhandled PlayerRosterStatus {status}");
+          if(!success)
+            Console.WriteLine($"Unhandled PlayerRosterStatus {status}");
           return success
             ? value
             : PlayerRosterStatus.Unhandled;
