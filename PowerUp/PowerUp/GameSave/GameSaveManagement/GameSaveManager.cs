@@ -63,7 +63,7 @@ namespace PowerUp.GameSave.GameSaveManagement
 
       var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var existingOptions = GetGameSaveOptions(directoryPath);
-      if (File.Exists(originalGameSavePath) && !existingOptions.Any(o => o.Name == "Original"))
+      if (File.Exists(originalGameSavePath) && !existingOptions.Any(o => o.GameSaveId == 0))
       {
         var originalFolderPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, "Original");
         DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
