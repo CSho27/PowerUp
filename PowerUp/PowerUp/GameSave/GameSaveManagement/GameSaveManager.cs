@@ -113,14 +113,19 @@ namespace PowerUp.GameSave.GameSaveManagement
     
     public bool RenameGameSave(string directoryPath, int gameSaveId, string? newName)
     {
+      if (string.IsNullOrWhiteSpace(newName))
+        return false;
+
       var gameSaveOptions = GetGameSaveOptions(directoryPath);
       var optionToRename = gameSaveOptions.Single(o => o.GameSaveId == gameSaveId);
       var otherGameSaveOptions = gameSaveOptions.Where(o => o.GameSaveId != gameSaveId);
-      if (string.IsNullOrWhiteSpace(newName) || otherGameSaveOptions.Any(o => o.Name == newName))
+
+      var scrubbedNewName = GameSavePathBuilder.ScrubForFileName(newName);
+      if (otherGameSaveOptions.Any(o => o.Name == scrubbedNewName))
         return false;
 
       var currentGameSaveDirectoryPath = optionToRename.DirectoryPath;
-      var newGameSaveDirectoryPath = Path.Combine(Path.GetDirectoryName(currentGameSaveDirectoryPath)!, newName);
+      var newGameSaveDirectoryPath = Path.Combine(Path.GetDirectoryName(currentGameSaveDirectoryPath)!, scrubbedNewName);
       Directory.Move(currentGameSaveDirectoryPath, newGameSaveDirectoryPath);
       return true;
     }
