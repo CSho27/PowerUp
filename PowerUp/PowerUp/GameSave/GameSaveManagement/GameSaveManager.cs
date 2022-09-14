@@ -63,7 +63,7 @@ namespace PowerUp.GameSave.GameSaveManagement
 
       var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var existingOptions = GetGameSaveOptions(directoryPath);
-      if (File.Exists(originalGameSavePath) && !existingOptions.Any(o => o.Name == "Original"))
+      if (File.Exists(originalGameSavePath) && !existingOptions.Any(o => o.GameSaveId == 0))
       {
         var originalFolderPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, "Original");
         DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
@@ -81,7 +81,7 @@ namespace PowerUp.GameSave.GameSaveManagement
     
     public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSave, string rosterName)
     {
-      var nextGameSaveId = GetGameSaveOptions(directoryPath).Select(o => o.GameSaveId).Max() + 1;
+      var nextGameSaveId = GetGameSaveOptions(directoryPath).Select(o => o.GameSaveId).MaxOrDefault() + 1;
 
       var newGameSaveDirPath = GameSavePathBuilder.GetPowerUpDirectoryForNewGameSave(directoryPath, rosterName);
       DirectoryFactory.CreateDirectoriesForPathIfNeeded(newGameSaveDirPath);
@@ -113,14 +113,19 @@ namespace PowerUp.GameSave.GameSaveManagement
     
     public bool RenameGameSave(string directoryPath, int gameSaveId, string? newName)
     {
+      if (string.IsNullOrWhiteSpace(newName))
+        return false;
+
       var gameSaveOptions = GetGameSaveOptions(directoryPath);
       var optionToRename = gameSaveOptions.Single(o => o.GameSaveId == gameSaveId);
       var otherGameSaveOptions = gameSaveOptions.Where(o => o.GameSaveId != gameSaveId);
-      if (string.IsNullOrWhiteSpace(newName) || otherGameSaveOptions.Any(o => o.Name == newName))
+
+      var scrubbedNewName = GameSavePathBuilder.ScrubForFileName(newName);
+      if (otherGameSaveOptions.Any(o => o.Name == scrubbedNewName))
         return false;
 
       var currentGameSaveDirectoryPath = optionToRename.DirectoryPath;
-      var newGameSaveDirectoryPath = Path.Combine(Path.GetDirectoryName(currentGameSaveDirectoryPath)!, newName);
+      var newGameSaveDirectoryPath = Path.Combine(Path.GetDirectoryName(currentGameSaveDirectoryPath)!, scrubbedNewName);
       Directory.Move(currentGameSaveDirectoryPath, newGameSaveDirectoryPath);
       return true;
     }
@@ -171,7 +176,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       var activeGameSave = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var activeGameBackupPath = GetGameSavePathForId(directoryPath, activeGameSaveId!.Value);
       if (activeGameBackupPath != null)
-      File.Copy(activeGameSave, activeGameBackupPath, overwrite: true);
+        File.Copy(activeGameSave, activeGameBackupPath, overwrite: true);
     }
   }
 }

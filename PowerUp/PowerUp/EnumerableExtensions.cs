@@ -43,6 +43,13 @@ namespace PowerUp
       return average / sum;
     }
 
+    public static TSource? MaxOrDefault<TSource>(this IEnumerable<TSource> source)
+    {
+      return source.Any()
+        ? source.Max()
+        : default(TSource);
+    }
+
     private static double AggregateAverage<TSource>(double average, TSource source, Func<TSource, double?> averageSelector, Func<TSource, double?> weightSelector)
     {
       var weight = weightSelector(source)!.Value;
