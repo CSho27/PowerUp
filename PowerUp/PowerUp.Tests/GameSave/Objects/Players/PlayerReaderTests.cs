@@ -1464,6 +1464,39 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
+    public void Reads_BirthMonth(int playerId, ushort birthMonth)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BirthMonth.ShouldBe(birthMonth);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Reads_BirthDay(int playerId, ushort birthDay)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BirthDay.ShouldBe(birthDay);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)12)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)23)]
+    public void Reads_YearsInMajors(int playerId, ushort yearsInMajors)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.YearsInMajors.ShouldBe(yearsInMajors);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)253)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)666)]
     [TestCase(PAUL_PITCHER_ID, (ushort)074)]

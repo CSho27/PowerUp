@@ -81,9 +81,9 @@ namespace PowerUp
           : PLAYER_ID;
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(playerId);
-        var bitString = player.UnknownBytes_81_88!.ToBitString();
+        var bitString = player.UnknownByte_78!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.BirthYear} {bitString} ");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.YearsInMajors} {bitString} ");
       }
     }
 
