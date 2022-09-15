@@ -439,6 +439,9 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBytes(0x81, numberOfBytes: 7)]
     public byte[]? UnknownBytes_81_88 { get; set; }
 
+    [GSUInt(0x84, bits: 11, bitOffset: 0)]
+    public ushort? BirthYear { get; set; }
+
     [GSUInt(0x86, bits: 5, bitOffset: 5)]
     public ushort? YearsInMajors { get; set; }
 

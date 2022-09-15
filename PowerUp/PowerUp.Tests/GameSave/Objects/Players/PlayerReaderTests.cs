@@ -1453,6 +1453,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1971)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1974)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1962)]
+    public void Reads_BirthYear(int playerId, ushort birthYear)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BirthYear.ShouldBe(birthYear);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)253)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)666)]
     [TestCase(PAUL_PITCHER_ID, (ushort)074)]

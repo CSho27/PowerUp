@@ -44,7 +44,7 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      //AnalyzeGameSave(characterLibrary);
+      AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -60,7 +60,7 @@ namespace PowerUp
       //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
-      TestBuildBBRefDictionary();
+      //TestBuildBBRefDictionary();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -74,12 +74,16 @@ namespace PowerUp
     {
       while (true)
       {
-        Console.ReadLine();
+        var input = Console.ReadLine();
+        int.TryParse(input, out var result);
+        var playerId = result != 0
+          ? result
+          : PLAYER_ID;
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
-        var player = loader.Read(PLAYER_ID);
+        var player = loader.Read(playerId);
         var bitString = player.UnknownBytes_81_88!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.SavedName}{bitString} {player.TopThrowingSpeedKMH}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.BirthYear} {bitString} ");
       }
     }
 
