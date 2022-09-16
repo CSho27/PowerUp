@@ -83,7 +83,7 @@ namespace PowerUp
         var player = loader.Read(playerId);
         var bitString = player.UnknownByte_87!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.YearsInMajors} {bitString} ");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.IsFreeSwinger} {bitString} ");
       }
     }
 

@@ -785,6 +785,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(JASON_GIAMBI_ID, false)]
     [TestCase(SAMMY_SPEEDSTER_ID, false)]
     [TestCase(PAUL_PITCHER_ID, true)]
+    public void Reads_IsFreeSwinger(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsFreeSwinger.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsFirstballHitter(int playerId, bool abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
