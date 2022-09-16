@@ -331,11 +331,11 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x78, bitOffset: 1)]
     public bool? IsPullHitter { get; set; }
 
-    /// <summary>
-    ///  There is actually something here but I haven't had any luck figuring out what it is
-    /// </summary>
-    [GSBytes(0x78, numberOfBytes: 1)]
-    public byte[]? UnknownByte_78 { get; set; }
+    [GSSInt(0x78, bits: 2, bitOffset: 2)]
+    public short? GoodOrPoorDayGame { get; set; }
+
+    [GSSInt(0x78, bits: 2, bitOffset: 4)]
+    public short? GoodOrPoorRain { get; set; }
 
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
