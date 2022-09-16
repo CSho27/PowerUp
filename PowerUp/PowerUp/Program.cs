@@ -44,9 +44,9 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary);
+      //AnalyzeGameSave(characterLibrary);
       //PrintAllPlayers(characterLibrary);
-      //PrintAllTeams(characterLibrary);
+      PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
       //BuildPlayerValueLibrary(characterLibrary);
@@ -120,8 +120,8 @@ namespace PowerUp
           var position = (Position)player.PrimaryPosition!;
 
           var playerString = $"{playerNum + 1} - {string.Format("{0:X4}", player.PowerProsId)} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-          Console.WriteLine(playerString);
-          //Console.WriteLine($"{playerString}{new string(' ', 36 - playerString.Length)}{BinaryUtils.ToBitString(player.UnknownBytes_81_88!, formatted: false)}");
+          //Console.WriteLine(playerString);
+          Console.WriteLine($"{playerString}{new string(' ', 36 - playerString.Length)}{BinaryUtils.ToBitString(pe.OtherPlayerByte!, formatted: false)}");
         }
         Console.WriteLine();
       }
