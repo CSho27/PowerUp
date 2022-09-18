@@ -142,10 +142,10 @@ namespace PowerUp.Tests.Mappers.Players
 
     [Test]
     [TestCase(null, null, (ushort)0)]
-    [TestCase(SkinColor.One, EyeColor.Brown, (ushort)0)]
-    [TestCase(SkinColor.One, EyeColor.Blue, (ushort)5)]
-    [TestCase(SkinColor.Five, EyeColor.Brown, (ushort)4)]
-    [TestCase(SkinColor.Five, EyeColor.Blue, (ushort)9)]
+    [TestCase(SkinColor.One, EyeColor.Brown, (ushort)5)]
+    [TestCase(SkinColor.One, EyeColor.Blue, (ushort)0)]
+    [TestCase(SkinColor.Five, EyeColor.Brown, (ushort)9)]
+    [TestCase(SkinColor.Five, EyeColor.Blue, (ushort)4)]
     public void MapToGSPlayer_ShouldMapSkinAndEyes(SkinColor? skin, EyeColor? eyeColor, ushort exptectedValue)
     {
       player.Appearance.SkinColor = skin;
