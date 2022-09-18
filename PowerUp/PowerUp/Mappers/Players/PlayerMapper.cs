@@ -119,7 +119,7 @@ namespace PowerUp.Mappers.Players
         Face = appearance.EyebrowThickness == EyebrowThickness.Thin
           ? (ushort)(appearance.FaceId + AppearanceMapper.THICK_EYEBROW_OFFSET)
           : (ushort)appearance.FaceId,
-        SkinAndEyes = appearance.EyeColor == EyeColor.Blue
+        SkinAndEyes = appearance.EyeColor == EyeColor.Brown
           ? (ushort)(skinColorValue + AppearanceMapper.EYE_COLOR_OFFSET)
           : (ushort)skinColorValue,
         Hair = (ushort?)appearance.HairStyle ?? 0,
