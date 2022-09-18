@@ -44,7 +44,7 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary);
+      AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -70,7 +70,7 @@ namespace PowerUp
       return DateTime.Now - startTime;
     }
 
-    static void AnalyzeGameSave(ICharacterLibrary characterLibrary)
+    static void AnalyzeGameSave(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary specialSavedNameLibrary)
     {
       while (true)
       {
@@ -81,9 +81,10 @@ namespace PowerUp
           : PLAYER_ID;
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
         var player = loader.Read(playerId);
+        var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
         var bitString = player.UnknownByte_87!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.IsFreeSwinger} {bitString} ");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.SkinAndEyes} {mappedPlayer.Appearance.SkinColor} {mappedPlayer.Appearance.EyeColor} {bitString} ");
       }
     }
 

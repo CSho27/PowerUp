@@ -17,9 +17,9 @@
         return FaceType.Anime;
       else if (faceId < 177)
         return FaceType.Player;
-      else if ((faceId >= 177 && faceId < 190) || (faceId >= 196 && faceId < 209))
+      else if ((faceId >= 177 && faceId < 190) || (faceId >= 195 && faceId < 209))
         return FaceType.Standard;
-      else if ((faceId >= 190 && faceId < 196) || (faceId >= 209 && faceId < 213))
+      else if ((faceId >= 190 && faceId < 195) || (faceId >= 209 && faceId < 213))
         return FaceType.StandardWithoutEyeColor;
       else
         return FaceType.Other;
