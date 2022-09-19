@@ -5,6 +5,7 @@ using PowerUp.Entities.Players;
 using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
 using Shouldly;
+using System;
 
 namespace PowerUp.Tests.Mappers.Players
 {
@@ -64,6 +65,24 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.PlayerNumber.ShouldBe(expectedNumberValue);
       result.PlayerNumberNumberOfDigits.ShouldBe(expectedNumberDigits);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapBirthDate()
+    {
+      player.BirthDate = new DateTime(1998, 4, 9);
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BirthYear!.Value.ShouldBe((ushort)1998);
+      result.BirthMonth!.Value.ShouldBe((ushort)4);
+      result.BirthDay!.Value.ShouldBe((ushort)9);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapYearsInMajors()
+    {
+      player.YearsInMajors = 25;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.YearsInMajors.ShouldBe((ushort)25);
     }
 
     [Test]

@@ -3,6 +3,7 @@ using PowerUp.Entities.Players;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
+using System;
 
 namespace PowerUp.Mappers.Players
 {
@@ -50,6 +51,8 @@ namespace PowerUp.Mappers.Players
           ? null
           : parameters.ImportSource,
         SourcePowerProsId = gsPlayer.PowerProsId!.Value,
+        BirthDate = new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value),
+        YearsInMajors = gsPlayer.YearsInMajors!.Value,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
         PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value),
@@ -101,6 +104,10 @@ namespace PowerUp.Mappers.Players
         SpecialSavedNameId = (ushort?)player.SpecialSavedNameId,
         IsEdited = player.IsCustomPlayer,
         Unedited = !player.IsCustomPlayer,
+        BirthYear = (ushort)player.BirthDate.Year,
+        BirthMonth = (ushort)player.BirthDate.Month,
+        BirthDay = (ushort)player.BirthDate.Day,
+        YearsInMajors = (ushort)player.YearsInMajors,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
         PrimaryPosition = player.PrimaryPosition == Position.DesignatedHitter

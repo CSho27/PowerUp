@@ -38,6 +38,10 @@ namespace PowerUp.Tests.Mappers.Players
         IsReliever = false,
         IsCloser = false,
         VoiceId = 0,
+        BirthDay = 1,
+        BirthMonth = 1,
+        BirthYear = 2000,
+        YearsInMajors = 0,
         BattingSide = 0,
         BattingForm = 0,
         ThrowsLefty = false,
@@ -255,6 +259,54 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.PlayerNumberNumberOfDigits = numberDigits;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.UniformNumber.ShouldBe(expectedUniformNumber);
+    }
+
+    [Test]
+    [TestCase((ushort)1890, 1890)]
+    [TestCase((ushort)2000, 2000)]
+    [TestCase((ushort)1979, 1979)]
+    [TestCase((ushort)1945, 1945)]
+    public void MapToPlayer_ShouldMapBirthYear(ushort year, int expectedYear)
+    {
+      gsPlayer.BirthYear = year;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BirthDate.Year.ShouldBe(expectedYear);
+    }
+
+    [Test]
+    [TestCase((ushort)2, 2)]
+    [TestCase((ushort)4, 4)]
+    [TestCase((ushort)8, 8)]
+    [TestCase((ushort)11, 11)]
+    public void MapToPlayer_ShouldMapBirthMonth(ushort month, int expectedMonth)
+    {
+      gsPlayer.BirthMonth = month;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BirthDate.Month.ShouldBe(expectedMonth);
+    }
+
+    [Test]
+    [TestCase((ushort)2, 2)]
+    [TestCase((ushort)4, 4)]
+    [TestCase((ushort)8, 8)]
+    [TestCase((ushort)11, 11)]
+    public void MapToPlayer_ShouldMapBirthDay(ushort day, int expectedDay)
+    {
+      gsPlayer.BirthDay = day;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BirthDate.Day.ShouldBe(expectedDay);
+    }
+
+    [Test]
+    [TestCase((ushort)2, 2)]
+    [TestCase((ushort)4, 4)]
+    [TestCase((ushort)8, 8)]
+    [TestCase((ushort)11, 11)]
+    public void MapToPlayer_ShouldMapYearsInMajors(ushort yearsInMajors, int expectedYearsInMajors)
+    {
+      gsPlayer.YearsInMajors = yearsInMajors;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.YearsInMajors.ShouldBe(expectedYearsInMajors);
     }
 
     [Test]
