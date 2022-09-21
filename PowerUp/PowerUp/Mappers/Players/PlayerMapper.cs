@@ -233,6 +233,8 @@ namespace PowerUp.Mappers.Players
         IsStar = generalSpecialAbilities.IsStar,
         Durability = (short)generalSpecialAbilities.Durability,
         Morale = (short)generalSpecialAbilities.Morale,
+        GoodOrPoorDayGame = (short)generalSpecialAbilities.DayGameAbility,
+        GoodOrPoorRain = (short)generalSpecialAbilities.InRainAbility,
 
         // Hitting
         // Situational
@@ -243,6 +245,7 @@ namespace PowerUp.Mappers.Players
         IsBackToBackHitter = hittingSpecialAbilities.SituationalHitting.IsBackToBackHitter,
         IsHotHitter = hittingSpecialAbilities.SituationalHitting.IsHotHitter,
         IsRallyHitter = hittingSpecialAbilities.SituationalHitting.IsRallyHitter,
+        IsGoodPinchHitter = hittingSpecialAbilities.SituationalHitting.IsGoodPinchHitter,
         BasesLoadedHitter = hittingSpecialAbilities.SituationalHitting.BasesLoadedHitter.HasValue
           ? (ushort)hittingSpecialAbilities.SituationalHitting.BasesLoadedHitter.Value
           : (ushort)0,
@@ -265,6 +268,7 @@ namespace PowerUp.Mappers.Players
           ? (short)hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter
           : (short)0,
         IsRefinedHitter = hittingSpecialAbilities.HittingApproach.IsRefinedHitter,
+        IsFreeSwinger = hittingSpecialAbilities.HittingApproach.IsFreeSwinger,
         IsToughOut = hittingSpecialAbilities.HittingApproach.IsToughOut,
         IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.IsIntimidator,
         IsSparkplug = hittingSpecialAbilities.HittingApproach.IsSparkplug,

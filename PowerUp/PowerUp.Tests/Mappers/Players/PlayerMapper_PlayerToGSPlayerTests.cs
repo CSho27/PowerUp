@@ -761,6 +761,21 @@ namespace PowerUp.Tests.Mappers.Players
       result.Morale!.Value.ShouldBe((short)-1);
     }
 
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodPoorDayGame()
+    {
+      player.SpecialAbilities.General.DayGameAbility = SpecialPositive_Negative.Negative;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodOrPoorDayGame!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodPoorInRain()
+    {
+      player.SpecialAbilities.General.InRainAbility = SpecialPositive_Negative.Positive;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodOrPoorRain!.Value.ShouldBe((short)1);
+    }
 
     [Test]
     public void MapToGSPlayer_ShouldMapHittingConsistency()
@@ -810,6 +825,14 @@ namespace PowerUp.Tests.Mappers.Players
       player.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsRallyHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapIsGoodPinchHitter()
+    {
+      player.SpecialAbilities.Hitter.SituationalHitting.IsGoodPinchHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsGoodPinchHitter!.Value.ShouldBe(true);
     }
 
     [Test]
@@ -906,6 +929,14 @@ namespace PowerUp.Tests.Mappers.Players
       player.SpecialAbilities.Hitter.HittingApproach.IsRefinedHitter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsRefinedHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapFreeSwinger()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.IsFreeSwinger = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsFreeSwinger!.Value.ShouldBe(true);
     }
 
     [Test]

@@ -12,6 +12,8 @@
     public bool IsStar { get; set; }
     public Special2_4 Durability { get; set; }
     public SpecialPositive_Negative Morale { get; set; }
+    public SpecialPositive_Negative InRainAbility { get; set; }
+    public SpecialPositive_Negative DayGameAbility { get; set; }
   }
 
   public class HitterSpecialAbilities
@@ -48,6 +50,7 @@
     public bool IsFirstballHitter { get; set; }
     public AggressiveOrPatientHitter? AggressiveOrPatientHitter { get; set; }
     public bool IsRefinedHitter { get; set; }
+    public bool IsFreeSwinger { get; set; }
     public bool IsToughOut { get; set; }
     public bool IsIntimidator { get; set; }
     public bool IsSparkplug { get; set; }

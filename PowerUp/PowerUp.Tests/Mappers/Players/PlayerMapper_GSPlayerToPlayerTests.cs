@@ -115,6 +115,8 @@ namespace PowerUp.Tests.Mappers.Players
         IsStar = false,
         Durability = 0,
         Morale = 0,
+        GoodOrPoorDayGame = 0,
+        GoodOrPoorRain = 0,
         HittingConsistency = 0,
         HittingVersusLefty1 = 0,
         HittingVersusLefty2 = 0,
@@ -122,6 +124,7 @@ namespace PowerUp.Tests.Mappers.Players
         IsBackToBackHitter = false,
         IsHotHitter = false,
         IsRallyHitter = false,
+        IsGoodPinchHitter = false,
         BasesLoadedHitter = 0,
         WalkoffHitter = 0,
         ClutchHitter = 0,
@@ -134,6 +137,7 @@ namespace PowerUp.Tests.Mappers.Players
         IsFirstballHitter = false,
         AggressiveOrPatientHitter = 0,
         IsRefinedHitter = false,
+        IsFreeSwinger = false,
         IsToughOut = false,
         IsIntimidatingHitter = false,
         IsSparkplug = false,
@@ -1030,6 +1034,23 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    public void MapToPlayer_ShouldMapGoodPoorDayGame()
+    {
+      gsPlayer.GoodOrPoorDayGame = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.DayGameAbility.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodPoorRainGame()
+    {
+      gsPlayer.GoodOrPoorRain = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.InRainAbility.ShouldBe(SpecialPositive_Negative.Negative);
+    }
+
+
+    [Test]
     public void MapToPlayer_ShouldMapHittingConsistency()
     {
       gsPlayer.HittingConsistency = -1;
@@ -1083,6 +1104,14 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.IsRallyHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsGoodPinchHitter()
+    {
+      gsPlayer.IsGoodPinchHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsGoodPinchHitter.ShouldBe(true);
     }
 
     [Test]
@@ -1179,6 +1208,14 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.IsRefinedHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.HittingApproach.IsRefinedHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFreeSwinger()
+    {
+      gsPlayer.IsFreeSwinger = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsFreeSwinger.ShouldBe(true);
     }
 
     [Test]
