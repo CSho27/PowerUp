@@ -84,7 +84,7 @@ namespace PowerUp
         var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
         var bitString = player.UnknownByte_87!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.SkinAndEyes} {mappedPlayer.Appearance.SkinColor} {mappedPlayer.Appearance.EyeColor} {bitString} ");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.EarnedRunAverage} {mappedPlayer.EarnedRunAverage} {bitString}");
       }
     }
 

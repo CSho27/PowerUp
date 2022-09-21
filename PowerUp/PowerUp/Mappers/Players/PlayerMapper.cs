@@ -63,6 +63,18 @@ namespace PowerUp.Mappers.Players
           ? ThrowingArm.Left
           : ThrowingArm.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
+        BattingAverage = gsPlayer.BattingAveragePoints != 1023
+          ? gsPlayer.BattingAveragePoints!.Value / 1000.0
+          : null,
+        RunsBattedIn = gsPlayer.RunsBattedIn != 1023
+          ? gsPlayer.RunsBattedIn!.Value
+          : null,
+        HomeRuns = gsPlayer.HomeRuns != 1023
+          ? gsPlayer.HomeRuns!.Value
+          : null,
+        EarnedRunAverage = gsPlayer.EarnedRunAverage != 16383
+          ? gsPlayer.EarnedRunAverage!.Value / 100.0
+          : null,
         Appearance = AppearanceMapper.GetAppearance(gsPlayer),
         PositionCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
@@ -121,6 +133,14 @@ namespace PowerUp.Mappers.Players
         BattingForm = (ushort)player.BattingStanceId,
         ThrowsLefty = player.ThrowingArm == ThrowingArm.Left,
         PitchingForm = (ushort)player.PitchingMechanicsId,
+        BattingAveragePoints = player.BattingAverage.HasValue
+          ? (ushort)(player.BattingAverage.Value * 1000)
+          : (ushort)1023,
+        RunsBattedIn = (ushort)(player.RunsBattedIn ?? 1023),
+        HomeRuns = (ushort)(player.HomeRuns ?? 1023),
+        EarnedRunAverage = player.EarnedRunAverage.HasValue
+          ? (ushort)(player.EarnedRunAverage.Value * 100)
+          : (ushort)16383,
 
         // Appearance
         Face = appearance.EyebrowThickness == EyebrowThickness.Thin

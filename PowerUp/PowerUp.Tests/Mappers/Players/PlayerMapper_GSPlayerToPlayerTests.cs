@@ -46,6 +46,10 @@ namespace PowerUp.Tests.Mappers.Players
         BattingForm = 0,
         ThrowsLefty = false,
         PitchingForm = 0,
+        BattingAveragePoints = 0,
+        HomeRuns = 0,
+        RunsBattedIn = 0,
+        EarnedRunAverage = 0,
         Face = 0,
         SkinAndEyes = 0,
         Hair = 0,
@@ -369,6 +373,46 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.PitchingForm = 3;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.PitchingMechanicsId.ShouldBe(3);
+    }
+
+    [Test]
+    [TestCase((ushort)690, .690)]
+    [TestCase((ushort)1023, null)]
+    public void MapToPlayer_ShouldMapBattingAveragePoints(ushort battingAveragePoints, double? expectedBattingAverage)
+    {
+      gsPlayer.BattingAveragePoints = battingAveragePoints;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BattingAverage.ShouldBe(expectedBattingAverage);
+    }
+
+    [Test]
+    [TestCase((ushort)130, 130)]
+    [TestCase((ushort)1023, null)]
+    public void MapToPlayer_ShouldMapRunsBattedIn(ushort runsBattedIn, int? expectedRBI)
+    {
+      gsPlayer.RunsBattedIn = runsBattedIn;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.RunsBattedIn.ShouldBe(expectedRBI);
+    }
+
+    [Test]
+    [TestCase((ushort)40, 40)]
+    [TestCase((ushort)1023, null)]
+    public void MapToPlayer_ShouldMapHomeRuns(ushort homeRuns, int? expectedHomeRuns)
+    {
+      gsPlayer.HomeRuns = homeRuns;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.HomeRuns.ShouldBe(expectedHomeRuns);
+    }
+
+    [Test]
+    [TestCase((ushort)383, 3.83)]
+    [TestCase((ushort)16383, null)]
+    public void MapToPlayer_ShouldMapHomeRuns(ushort era, double? expectedEra)
+    {
+      gsPlayer.EarnedRunAverage = era;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.EarnedRunAverage.ShouldBe(expectedEra);
     }
 
     [Test]

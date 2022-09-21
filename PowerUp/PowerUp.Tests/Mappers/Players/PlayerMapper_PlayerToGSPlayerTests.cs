@@ -148,6 +148,46 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    [TestCase(.179, (ushort)179)]
+    [TestCase(null, (ushort)1023)]
+    public void MapToGSPlayer_ShouldMapBattingAverage(double? battingAverage, ushort expectedBattingAveragePoints)
+    {
+      player.BattingAverage = battingAverage;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BattingAveragePoints.ShouldBe(expectedBattingAveragePoints);
+    }
+
+    [Test]
+    [TestCase(179, (ushort)179)]
+    [TestCase(null, (ushort)1023)]
+    public void MapToGSPlayer_ShouldMapRunsBattedIn(int? rbi, ushort expectedRbi)
+    {
+      player.RunsBattedIn = rbi;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.RunsBattedIn.ShouldBe(expectedRbi);
+    }
+
+    [Test]
+    [TestCase(23, (ushort)23)]
+    [TestCase(null, (ushort)1023)]
+    public void MapToGSPlayer_ShouldMapHomeRuns(int? hr, ushort expectedHr)
+    {
+      player.HomeRuns = hr;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.HomeRuns.ShouldBe(expectedHr);
+    }
+
+    [Test]
+    [TestCase(3.18, (ushort)318)]
+    [TestCase(null, (ushort)16383)]
+    public void MapToGSPlayer_ShouldMapEarnedRunAverage(double? era, ushort expectedEra)
+    {
+      player.EarnedRunAverage = era;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.EarnedRunAverage.ShouldBe(expectedEra);
+    }
+
+    [Test]
     [TestCase(5, null, (ushort)5)]
     [TestCase(179, EyebrowThickness.Thick, (ushort)179)]
     [TestCase(179, EyebrowThickness.Thin, (ushort)197)]
