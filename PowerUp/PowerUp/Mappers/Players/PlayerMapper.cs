@@ -25,6 +25,7 @@ namespace PowerUp.Mappers.Players
   public class PlayerMapper : IPlayerMapper
   {
     private readonly ISpecialSavedNameLibrary _savedNameLibrary;
+    private readonly DateTime OpeningDay07 = MLBSeasonUtils.GetEstimatedStartOfSeason(2007);
 
     public PlayerMapper(ISpecialSavedNameLibrary savedNameLibrary)
     {
@@ -34,8 +35,6 @@ namespace PowerUp.Mappers.Players
     public Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters)
     {
       var inGameBirthDate = new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value);
-      var openingDay07 = MLBSeasonUtils.GetEstimatedStartOfSeason(2007);
-
       return new Player
       {
         SourceType = parameters.IsBase
@@ -56,7 +55,7 @@ namespace PowerUp.Mappers.Players
         SourcePowerProsId = gsPlayer.PowerProsId!.Value,
         BirthMonth = inGameBirthDate.Month,
         BirthDay = inGameBirthDate.Day,
-        Age = openingDay07.YearsElapsedSince(inGameBirthDate),
+        Age = OpeningDay07.YearsElapsedSince(inGameBirthDate),
         YearsInMajors = gsPlayer.YearsInMajors!.Value,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
@@ -108,6 +107,8 @@ namespace PowerUp.Mappers.Players
       var rightWristbandValue = (int?)appearance.RightWristbandColor ?? 0;
       var leftWristbandValue = (int?)appearance.LeftWristbandColor ?? 0;
 
+      var inGameBirthDate = OpeningDay07.GetDateNYearsBefore(player.BirthMonth, player.BirthDay, player.Age);
+
       return new GSPlayer
       {
         PowerProsId = (ushort)powerProsId,
@@ -121,9 +122,9 @@ namespace PowerUp.Mappers.Players
         SpecialSavedNameId = (ushort?)player.SpecialSavedNameId,
         IsEdited = player.IsCustomPlayer,
         Unedited = !player.IsCustomPlayer,
-        BirthYear = (ushort)(2007 - player.Age),
-        BirthMonth = (ushort)player.BirthMonth,
-        BirthDay = (ushort)player.BirthDay,
+        BirthYear = (ushort)inGameBirthDate.Year,
+        BirthMonth = (ushort)inGameBirthDate.Month,
+        BirthDay = (ushort)inGameBirthDate.Day,
         YearsInMajors = (ushort)player.YearsInMajors,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,

@@ -17,7 +17,7 @@ namespace PowerUp.Tests.Mappers.Players
     [SetUp]
     public void SetUp()
     {
-      player = new Player() { UniformNumber = "24" };
+      player = new Player() { UniformNumber = "24", BirthMonth = 3, BirthDay = 1, Age = 28 };
       playerMapper = new PlayerMapper(Substitute.For<ISpecialSavedNameLibrary>());
     }
 

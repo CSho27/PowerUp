@@ -11,7 +11,7 @@ namespace PowerUp
 
     public static DateTime GetDateNYearsBefore(this DateTime date, int month, int day, int yearsBefore)
     {
-      if (date.Month > month && date.Day > day)
+      if (date.Month > month || (date.Month == month && date.Day > day))
         return new DateTime(date.Year-yearsBefore, month, day);
       else
         return new DateTime(date.Year-yearsBefore-1, month, day);
