@@ -33,6 +33,9 @@ namespace PowerUp.Mappers.Players
 
     public Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters)
     {
+      var inGameBirthDate = new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value);
+      var openingDay07 = MLBSeasonUtils.GetEstimatedStartOfSeason(2007);
+
       return new Player
       {
         SourceType = parameters.IsBase
@@ -51,9 +54,9 @@ namespace PowerUp.Mappers.Players
           ? null
           : parameters.ImportSource,
         SourcePowerProsId = gsPlayer.PowerProsId!.Value,
-        BirthMonth = gsPlayer.BirthMonth!.Value,
-        BirthDay = gsPlayer.BirthDay!.Value,
-        Age = 2007 - gsPlayer.BirthYear!.Value,
+        BirthMonth = inGameBirthDate.Month,
+        BirthDay = inGameBirthDate.Day,
+        Age = openingDay07.YearsElapsedSince(inGameBirthDate),
         YearsInMajors = gsPlayer.YearsInMajors!.Value,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,

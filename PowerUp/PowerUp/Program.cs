@@ -44,8 +44,8 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary, savedNameLibrary);
-      //PrintAllPlayers(characterLibrary);
+      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
@@ -88,16 +88,19 @@ namespace PowerUp
       }
     }
 
-    static void PrintAllPlayers(ICharacterLibrary characterLibrary)
+    static void PrintAllPlayers(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary specialSavedNameLibrary)
     {
       var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerMapper = new PlayerMapper(specialSavedNameLibrary);
 
       for (int id = 1; id < 1513; id++)
       {
         var player = playerReader.Read(id);
+        var mappedPlayer = playerMapper.MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
         var position = (Position)player.PrimaryPosition!;
         var playerString = $"{id} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.PitchingForm!.Value}");
+        if(mappedPlayer.BirthMonth == 3 || mappedPlayer.BirthMonth == 4)
+          Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.BirthMonth}/{player.BirthDay}/{player.BirthYear}");
       }
     }
 
