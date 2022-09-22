@@ -390,12 +390,16 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsStar { get; }
     public KeyedCode Durability { get; }
     public KeyedCode Morale { get; }
+    public KeyedCode DayGameAbility { get; }
+    public KeyedCode InRainAbility { get; }
 
     public GeneralSpecialAbilitiesDetailsDto(GeneralSpecialAbilities general)
     {
       IsStar = general.IsStar;
       Durability = general.Durability.ToKeyedCode();
       Morale = general.Morale.ToKeyedCode();
+      DayGameAbility = general.DayGameAbility.ToKeyedCode();
+      InRainAbility = general.InRainAbility.ToKeyedCode();
     }
   }
 
@@ -456,6 +460,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsFirstballHitter { get; }
     public KeyedCode? AggressiveOrPatientHitter { get; }
     public bool IsRefinedHitter { get; }
+    public bool IsFreeSwinger { get; }
     public bool IsToughOut { get; }
     public bool IsIntimidatingHitter { get; }
     public bool IsSparkplug { get; }
@@ -471,6 +476,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IsFirstballHitter = approach.IsFirstballHitter;
       AggressiveOrPatientHitter = approach.AggressiveOrPatientHitter?.ToKeyedCode();
       IsRefinedHitter = approach.IsRefinedHitter;
+      IsFreeSwinger = approach.IsFreeSwinger;
       IsToughOut = approach.IsToughOut;
       IsIntimidatingHitter = approach.IsIntimidator;
       IsSparkplug = approach.IsSparkplug;

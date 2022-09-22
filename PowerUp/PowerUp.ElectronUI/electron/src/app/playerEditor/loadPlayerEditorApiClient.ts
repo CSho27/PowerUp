@@ -198,6 +198,8 @@ export interface GeneralSpecialAbilitiesDetailsDto {
   isStar: boolean;
   durability: KeyedCode;
   morale: KeyedCode;
+  dayGameAbility: KeyedCode;
+  inRainAbility: KeyedCode;
 }
 
 export interface HitterSpecialAblitiesDetailsDto {
@@ -231,6 +233,7 @@ export interface HittingApproachSpecialAbilitiesDetailsDto {
   isFirstballHitter: boolean;
   aggressiveOrPatientHitter: KeyedCode | null;
   isRefinedHitter: boolean;
+  isFreeSwinger: boolean;
   isToughOut: boolean;
   isIntimidatingHitter: boolean;
   isSparkplug: boolean;
