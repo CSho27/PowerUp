@@ -3,6 +3,7 @@ import { Button } from "../../components/button/button";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
+import { NumberField } from "../../components/numberField/numberField";
 import { SelectField } from "../../components/SelectField/selectField";
 import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
@@ -179,6 +180,61 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         >
           {toOptions(options.pitchingMechanicsOptions)}
         </SelectField>
+      </FlexFracItem>
+    </FlexRow>
+    <h3>Statistics</h3>
+    <FlexRow gap='16px' withBottomPadding>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Batting Average</FieldLabel>
+        <NumberField 
+          type='PossiblyUndefined'
+          value={details.battingAverage}
+          disabled={editorDisabled}
+          stepSize={.01}
+          min={0}
+          max={1}
+          decimalPlaces={3}
+          leadingDecimal
+          placeholder='.---'
+          onChange={value => update({ type: 'updateBattingAverage', battingAverage: value })}
+        /> 
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>RBI</FieldLabel>
+        <NumberField 
+          type='PossiblyUndefined'
+          value={details.runsBattedIn}
+          disabled={editorDisabled}
+          stepSize={1}
+          min={0}
+          placeholder='---'
+          onChange={value => update({ type: 'updateRunsBattedIn', runsBattedIn: value })}
+        /> 
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>Home Runs</FieldLabel>
+        <NumberField 
+          type='PossiblyUndefined'
+          value={details.homeRuns}
+          disabled={editorDisabled}
+          stepSize={1}
+          min={0}
+          placeholder='---'
+          onChange={value => update({ type: 'updateHomeRuns', homeRuns: value })}
+        /> 
+      </FlexFracItem>
+      <FlexFracItem frac='1/4'>
+        <FieldLabel>ERA</FieldLabel>
+        <NumberField 
+          type='PossiblyUndefined'
+          value={details.earnedRunAverage}
+          disabled={editorDisabled}
+          stepSize={.01}
+          min={0}
+          decimalPlaces={2}
+          placeholder='.---'
+          onChange={value => update({ type: 'updateEarnedRunAverage', earnedRunAverage: value })}
+        /> 
       </FlexFracItem>
     </FlexRow>
   </>

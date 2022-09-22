@@ -104,6 +104,10 @@ export interface PlayerPersonalDetailsDto {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+  battingAverage: number | null;
+  runsBattedIn: number | null;
+  homeRuns: number | null;
+  earnedRunAverage: number | null;
 }
 
 export interface PlayerAppearanceDetailsDto {

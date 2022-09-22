@@ -133,6 +133,10 @@ export interface PlayerPersonalDetails {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+  battingAverage: number | undefined;
+  runsBattedIn: number | undefined;
+  homeRuns: number | undefined;
+  earnedRunAverage: number | undefined;
 }
 
 export type PlayerPersonalDetailsAction =
@@ -149,6 +153,10 @@ export type PlayerPersonalDetailsAction =
 | { type: 'updateBattingStance', battingStance: SimpleCode }
 | { type: 'updateThrowingArm', throwingArm: KeyedCode }
 | { type: 'updatePitchingMechanics', mechanics: SimpleCode }
+| { type: 'updateBattingAverage', battingAverage: number | undefined }
+| { type: 'updateRunsBattedIn', runsBattedIn: number | undefined }
+| { type: 'updateHomeRuns', homeRuns: number | undefined }
+| { type: 'updateEarnedRunAverage', earnedRunAverage: number | undefined }
 
 export interface PlayerPersonalDetailsContext {
   swingManRole: KeyedCode;
@@ -225,6 +233,26 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
       return {
         ...state,
         pitchingMechanics: action.mechanics
+      }
+    case 'updateBattingAverage':
+      return {
+        ...state,
+        battingAverage: action.battingAverage
+      }
+    case 'updateRunsBattedIn': 
+      return {
+        ...state,
+        runsBattedIn: action.runsBattedIn
+      }
+    case 'updateHomeRuns':
+      return {
+        ...state,
+        homeRuns: action.homeRuns
+      }
+    case 'updateEarnedRunAverage':
+      return {
+        ...state,
+        earnedRunAverage: action.earnedRunAverage
       }
   }
 }
@@ -860,7 +888,11 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       battingSide: personalDetails.battingSide,
       battingStance: personalDetails.battingStance,
       throwingArm: personalDetails.throwingArm,
-      pitchingMechanics: personalDetails.pitchingMechanics
+      pitchingMechanics: personalDetails.pitchingMechanics,
+      battingAverage: personalDetails.battingAverage ?? undefined,
+      runsBattedIn: personalDetails.runsBattedIn ?? undefined,
+      homeRuns: personalDetails.homeRuns ?? undefined,
+      earnedRunAverage: personalDetails.earnedRunAverage ?? undefined
     },
     appearance: {
       face: appearance.face,

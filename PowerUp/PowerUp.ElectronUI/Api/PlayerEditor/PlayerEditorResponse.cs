@@ -170,6 +170,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public SimpleCode BattingStance { get; }
     public KeyedCode ThrowingArm { get; }
     public SimpleCode PitchingMechanics { get; }
+    public double? BattingAverage { get; }
+    public int? RunsBattedIn { get; }
+    public int? HomeRuns { get; }
+    public double? EarnedRunAverage { get; }
 
     public PlayerPersonalDetailsDto(
       IVoiceLibrary voiceLibrary,
@@ -193,6 +197,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       BattingStance = new SimpleCode(id: player.BattingStanceId, name: battingStanceLibrary[player.BattingStanceId]);
       ThrowingArm = player.ThrowingArm.ToKeyedCode();
       PitchingMechanics = new SimpleCode(id: player.PitchingMechanicsId, name: pitchingMechanicsLibrary[player.PitchingMechanicsId]);
+      BattingAverage = player.BattingAverage;
+      RunsBattedIn = player.RunsBattedIn;
+      HomeRuns = player.HomeRuns;
+      EarnedRunAverage = player.EarnedRunAverage;
     }
   }
 

@@ -11,6 +11,8 @@ interface BaseNumberFieldProps {
   min?: number;
   max?: number;
   stepSize?: number;
+  decimalPlaces?: number;
+  leadingDecimal?: boolean;
 }
 
 export interface PossiblyUndefinedNumberFieldProps extends BaseNumberFieldProps {
@@ -26,7 +28,7 @@ export interface DefinedNumberFieldProps extends BaseNumberFieldProps {
 }
 
 export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNumberFieldProps) {
-  const { id, type, disabled, placeholder, autoFocus, max, min, onChange } = props;
+  const { id, type, disabled, placeholder, autoFocus, max, min, decimalPlaces, leadingDecimal, onChange } = props;
   const stepSize = props.stepSize ?? 1;
 
   const [value, setValue]  = useState(props.value);
@@ -82,9 +84,13 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   }
 
   function handleInputChanged(event: ChangeEvent<HTMLInputElement>) {
-    const textValue = event.target.value;
+    const textValue = leadingDecimal && !value 
+      ? `.${event.target.value}`
+      : event.target.value;
     const numberValue = textValue?.length > 0
-      ? Number.parseInt(textValue)
+      ? decimalPlaces 
+        ? Number.parseFloat(Number.parseFloat(textValue).toFixed(decimalPlaces))
+        : Number.parseInt(textValue)
       : undefined
     setValue(numberValue);
   }
