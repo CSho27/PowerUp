@@ -68,13 +68,27 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    public void MapToGSPlayer_ShoudMapBirthDate()
+    public void MapToGSPlayer_ShoudMapBirthMonth()
     {
-      player.BirthDate = new DateTime(1998, 4, 9);
+      player.BirthMonth = 4;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BirthMonth!.Value.ShouldBe((ushort)4);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapBirthDay()
+    {
+      player.BirthDay = 9;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BirthDay!.Value.ShouldBe((ushort)9);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapAge()
+    {
+      player.Age = 9;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.BirthYear!.Value.ShouldBe((ushort)1998);
-      result.BirthMonth!.Value.ShouldBe((ushort)4);
-      result.BirthDay!.Value.ShouldBe((ushort)9);
     }
 
     [Test]

@@ -29,7 +29,9 @@ namespace PowerUp.Entities.Players
 
     public string SavedName { get; set; } = string.Empty;
     public int? SpecialSavedNameId { get; set; }
-    public DateTime BirthDate { get; set; }
+    public int BirthMonth { get; set; }
+    public int BirthDay { get; set; }
+    public int Age { get; set; }
     public int YearsInMajors { get; set; }
     public string UniformNumber { get; set; } = string.Empty;
     public Position PrimaryPosition { get; set; }

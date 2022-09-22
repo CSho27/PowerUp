@@ -270,15 +270,15 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase((ushort)1890, 1890)]
-    [TestCase((ushort)2000, 2000)]
-    [TestCase((ushort)1979, 1979)]
-    [TestCase((ushort)1945, 1945)]
+    [TestCase((ushort)1890, 117)]
+    [TestCase((ushort)2000, 7)]
+    [TestCase((ushort)1979, 28)]
+    [TestCase((ushort)1945, 62)]
     public void MapToPlayer_ShouldMapBirthYear(ushort year, int expectedYear)
     {
       gsPlayer.BirthYear = year;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.BirthDate.Year.ShouldBe(expectedYear);
+      result.Age.ShouldBe(expectedYear);
     }
 
     [Test]
@@ -290,7 +290,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.BirthMonth = month;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.BirthDate.Month.ShouldBe(expectedMonth);
+      result.BirthMonth.ShouldBe(expectedMonth);
     }
 
     [Test]
@@ -302,7 +302,7 @@ namespace PowerUp.Tests.Mappers.Players
     {
       gsPlayer.BirthDay = day;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
-      result.BirthDate.Day.ShouldBe(expectedDay);
+      result.BirthDay.ShouldBe(expectedDay);
     }
 
     [Test]
