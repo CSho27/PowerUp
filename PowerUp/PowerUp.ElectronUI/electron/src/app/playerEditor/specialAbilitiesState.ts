@@ -953,7 +953,9 @@ export function buildSpecialAbilitiesRequestFromState(state: SpecialAbilities): 
     generalSpecialAbilitiesRequest: {
       isStar: general.isStar,
       durabilityKey: general.durability.key,
-      moraleKey: general.morale.key
+      moraleKey: general.morale.key,
+      dayGameAbilityKey: general.dayGameAbility.key,
+      inRainAbilityKey: general.inRainAbility.key
     },
     hitterSpecialAbilitiesRequest: {
       situational: {
@@ -978,6 +980,7 @@ export function buildSpecialAbilitiesRequestFromState(state: SpecialAbilities): 
         isFirstballHitter: approach.isFirstballHitter,
         aggressiveOrPatientHitterKey: approach.aggressiveOrPatientHitter?.key ?? null,
         isRefinedHitter: approach.isRefinedHitter,
+        isFreeSwinger: approach.isFreeSwinger,
         isToughOut: approach.isToughOut,
         isIntimidator: approach.isIntimidatingHitter,
         isSparkplug: approach.isSparkplug

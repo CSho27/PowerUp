@@ -120,6 +120,8 @@ export interface GeneralSpecialAbilitiesRequest {
   isStar: boolean;
   durabilityKey: string; 
   moraleKey: string;
+  dayGameAbilityKey: string;
+  inRainAbilityKey: string;
 }
 
 export interface HitterSpecialAbilitiesRequest {
@@ -153,6 +155,7 @@ export interface HittingApproachSpecialAbilitiesRequest {
   isFirstballHitter: boolean;
   aggressiveOrPatientHitterKey: string | null;
   isRefinedHitter: boolean;
+  isFreeSwinger: boolean;
   isToughOut: boolean;
   isIntimidator: boolean;
   isSparkplug: boolean;

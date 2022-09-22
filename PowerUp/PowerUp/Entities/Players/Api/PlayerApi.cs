@@ -221,6 +221,8 @@
       general.IsStar = parameters.IsStar;
       general.Durability = parameters.Durability;
       general.Morale = parameters.Morale;
+      general.DayGameAbility = parameters.DayGameAbility;
+      general.InRainAbility = parameters.InRainAbility;
     }
 
     private void UpdateHitterSpecialAbilities(HitterSpecialAbilities hitter, HitterSpecialAbilitiesParameters parameters)
@@ -257,6 +259,7 @@
       approach.IsFirstballHitter = parameters.IsFirstballHitter;
       approach.AggressiveOrPatientHitter = parameters.AggressiveOrPatientHitter;
       approach.IsRefinedHitter = parameters.IsRefinedHitter;
+      approach.IsFreeSwinger = parameters.IsFreeSwinger;
       approach.IsToughOut = parameters.IsToughOut;
       approach.IsIntimidator = parameters.IsIntimidator;
       approach.IsSparkplug = parameters.IsSparkplug;
