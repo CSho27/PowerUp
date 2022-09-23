@@ -89,7 +89,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
       : event.target.value;
     const numberValue = textValue?.length > 0
       ? decimalPlaces 
-        ? Number.parseFloat(Number.parseFloat(textValue).toFixed(decimalPlaces))
+        ? Number.parseFloat(textValue)
         : Number.parseInt(textValue)
       : undefined
     setValue(numberValue);
@@ -109,6 +109,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   }
 
   function scrubValueForDefined(value: number | undefined): number {
+    value = roundValue(value);
     let newValue: number = value ?? min ?? 0;
     if(min && newValue < min)
       return min;
@@ -119,6 +120,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   }
 
   function scrubValueForPossiblyUndefined(value: number| undefined): number | undefined {
+    value = roundValue(value);
     let newValue = value;
     if(min && newValue && newValue < min)
       return min;
@@ -126,6 +128,12 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
       return max;
     else
       return newValue;    
+  }
+
+  function roundValue(value: number | undefined): number | undefined {
+    return !!value
+      ? Number.parseFloat(value.toFixed(decimalPlaces))
+      : undefined;
   }
 }
 
