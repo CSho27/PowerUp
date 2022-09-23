@@ -57,6 +57,7 @@ export function App(props: ApplicationStartupData) {
     { keys: ['Control', 'Alt', 'Shift', 'H'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
     { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) },
     { keys: ['Control', 'Alt', 'Shift', 'T'], callbackFn: () => setPage({ page: 'TeamEditorPage', teamId: 8 }) },
+    { keys: ['Control', 'Alt', 'Shift', 'Q'], callbackFn: () => setPage({ page: 'TestPage' }) },
   )
 
   // Initializes Base Roster
