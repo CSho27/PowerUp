@@ -124,7 +124,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
     let newValue = value;
     if(min && newValue && newValue < min)
       return min;
-    else if(max && newValue && newValue > max)
+    else if(max != undefined && newValue && newValue > max)
       return max;
     else
       return newValue;    
