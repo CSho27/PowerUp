@@ -126,6 +126,10 @@ export interface PlayerPersonalDetails {
   useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  birthMonth: number;
+  birthDay: number;
+  age: number;
+  yearsInMajors: number;
   position: PositionCode;
   pitcherType: KeyedCode;
   voice: SimpleCode;
@@ -146,6 +150,9 @@ export type PlayerPersonalDetailsAction =
 | { type: 'toggleUseSpecialSavedName' }
 | { type: 'updateSavedName', savedName: string }
 | { type: 'updateUniformNumber', uniformNumber: string }
+| { type: 'updateBirthDate', birthMonth: number, birthDay: number }
+| { type: 'updateAge', age: number }
+| { type: 'updateYearsInMajors', yearsInMajors: number }
 | { type: 'updatePosition', position: PositionCode }
 | { type: 'updatePitcherType', pitcherType: KeyedCode }
 | { type: 'updateVoice', voice: SimpleCode }
@@ -203,6 +210,22 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
         pitcherType: isPitcher 
           ? context.starterRole
           : context.swingManRole,
+      }
+    case 'updateBirthDate':
+      return {
+        ...state,
+        birthMonth: action.birthMonth,
+        birthDay: action.birthDay
+      }
+    case 'updateAge':
+      return {
+        ...state,
+        age: action.age
+      }
+    case 'updateYearsInMajors':
+      return {
+        ...state,
+        yearsInMajors: action.yearsInMajors
       }
     case 'updatePitcherType':
       return {
@@ -883,6 +906,10 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       savedName: personalDetails.savedName,
       uniformNumber: personalDetails.uniformNumber,
       position: personalDetails.position,
+      birthMonth: personalDetails.birthMonth,
+      birthDay: personalDetails.birthDay,
+      age: personalDetails.age,
+      yearsInMajors: personalDetails.yearsInMajors,
       pitcherType: personalDetails.pitcherType,
       voice: personalDetails.voice,
       battingSide: personalDetails.battingSide,

@@ -163,6 +163,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsSpecialSavedName { get; }
     public string SavedName { get; }
     public string UniformNumber { get; }
+    public int BirthMonth { get; }
+    public int BirthDay { get; }
+    public int Age { get; }
+    public int YearsInMajors { get; }
     public KeyedCode Position { get; }
     public KeyedCode PitcherType { get; }
     public SimpleCode Voice { get; }
@@ -190,6 +194,12 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IsSpecialSavedName = player.SpecialSavedNameId.HasValue;
       SavedName = player.SavedName;
       UniformNumber = player.UniformNumber;
+
+      BirthMonth = player.BirthMonth;
+      BirthDay = player.BirthDay;
+      Age = player.Age;
+      YearsInMajors = player.YearsInMajors;
+
       Position = player.PrimaryPosition.ToKeyedCode(useAbbrev: true);
       PitcherType = player.PitcherType.ToKeyedCode();
       Voice = new SimpleCode(id: player.VoiceId, name: voiceLibrary[player.VoiceId]);

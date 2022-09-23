@@ -97,6 +97,10 @@ export interface PlayerPersonalDetailsDto {
   isSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  birthMonth: number;
+  birthDay: number;
+  age: number;
+  yearsInMajors: number;
   position: PositionCode;
   pitcherType: KeyedCode;
   voice: SimpleCode;
