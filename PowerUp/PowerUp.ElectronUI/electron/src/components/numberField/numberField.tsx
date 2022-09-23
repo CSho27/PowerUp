@@ -98,7 +98,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   function setValueAndCallOnChange(value: number | undefined) {
     if(type === 'Defined') {
       const newValue = scrubValueForDefined(value);
-      setValue(newValue)
+      setValue(newValue);
       onChange(newValue);
     }
     else {

@@ -150,7 +150,8 @@ export type PlayerPersonalDetailsAction =
 | { type: 'toggleUseSpecialSavedName' }
 | { type: 'updateSavedName', savedName: string }
 | { type: 'updateUniformNumber', uniformNumber: string }
-| { type: 'updateBirthDate', birthMonth: number, birthDay: number }
+| { type: 'updateBirthMonth', birthMonth: number  }
+| { type: 'updateBirthDay', birthDay: number }
 | { type: 'updateAge', age: number }
 | { type: 'updateYearsInMajors', yearsInMajors: number }
 | { type: 'updatePosition', position: PositionCode }
@@ -211,10 +212,14 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
           ? context.starterRole
           : context.swingManRole,
       }
-    case 'updateBirthDate':
+    case 'updateBirthMonth':
       return {
         ...state,
         birthMonth: action.birthMonth,
+      }
+    case 'updateBirthDay':
+      return {
+        ...state,
         birthDay: action.birthDay
       }
     case 'updateAge':
