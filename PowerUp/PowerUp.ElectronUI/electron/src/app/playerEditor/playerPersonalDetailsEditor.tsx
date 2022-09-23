@@ -211,8 +211,8 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
         <NumberField 
           type='Defined'
           value={details.age}
-          min={18}
-          max={50}
+          min={18 + details.yearsInMajors}
+          max={60}
           disabled={editorDisabled}
           onChange={value => update({ type: 'updateAge', age: value })}
         />
@@ -223,7 +223,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
           type='Defined'
           value={details.yearsInMajors}
           min={0}
-          max={32}
+          max={details.age - 18}
           disabled={editorDisabled}
           onChange={value => update({ type: 'updateYearsInMajors', yearsInMajors: value })}
         />
