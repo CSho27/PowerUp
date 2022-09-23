@@ -70,6 +70,10 @@
       player.GeneratedPlayer_LSPLayerId = parameters.GeneratedPlayer_LSPlayerId;
       player.GeneratedPlayer_FullFirstName = parameters.GeneratedPlayer_FullFirstName;
       player.GeneratedPlayer_FullLastName = parameters.GeneratedPlayer_FullLastName;
+      player.BattingAverage = parameters.BattingAverage;
+      player.RunsBattedIn = parameters.RunsBattedIn;
+      player.HomeRuns = parameters.HomeRuns;
+      player.EarnedRunAverage = parameters.EarnedRunAverage;
     }
 
     private void UpdatePositionCapabilities(PositionCapabilities positionCapabitlies, PlayerPositionCapabilitiesParameters parameters)

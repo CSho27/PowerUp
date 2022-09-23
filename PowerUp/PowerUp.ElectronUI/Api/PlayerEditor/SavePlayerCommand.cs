@@ -66,6 +66,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public int? BattingStanceId { get; set; }
     public string? ThrowingArmKey { get; set; }
     public int? PitchingMechanicsId { get; set; }
+    public double? BattingAverage { get; set; }
+    public int? RunsBattedIn { get; set; }
+    public int? HomeRuns { get; set; }
+    public double? EarnedRunAverage { get; set; }
 
     public PlayerPersonalDetailsParameters GetParameters(int? specialSavedNameId)
     {
@@ -84,6 +88,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         BattingStanceId = BattingStanceId,
         ThrowingArm = Enum.Parse<ThrowingArm>(ThrowingArmKey!),
         PitchingMechanicsId = PitchingMechanicsId,
+        BattingAverage = BattingAverage,
+        RunsBattedIn = RunsBattedIn,
+        HomeRuns = HomeRuns,
+        EarnedRunAverage = EarnedRunAverage
       };
     }
   }

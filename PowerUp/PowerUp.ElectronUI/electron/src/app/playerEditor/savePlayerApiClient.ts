@@ -26,6 +26,10 @@ export interface PersonalDetailsRequest {
   battingStanceId: number;
   throwingArmKey: string;
   pitchingMechanicsId: number;
+  battingAverage: number | null;
+  runsBattedIn: number | null;
+  homeRuns: number | null;
+  earnedRunAverage: number | null;
 }
 
 export interface AppearanceRequest {

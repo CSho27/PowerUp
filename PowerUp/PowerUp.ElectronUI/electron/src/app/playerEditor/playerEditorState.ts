@@ -998,6 +998,10 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorDetails, play
       battingStanceId: personalDetails.battingStance.id,
       throwingArmKey: personalDetails.throwingArm.key,
       pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+      battingAverage: personalDetails.battingAverage ?? null,
+      runsBattedIn: personalDetails.runsBattedIn ?? null,
+      homeRuns: personalDetails.homeRuns ?? null,
+      earnedRunAverage: personalDetails.earnedRunAverage ?? null
     },
     appearance: {
       faceId: appearance.face.id,
