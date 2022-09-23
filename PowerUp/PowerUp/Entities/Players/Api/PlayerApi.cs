@@ -59,6 +59,11 @@
       player.SpecialSavedNameId = parameters.SpecialSavedNameId;
       player.SavedName = parameters.SavedName!;
 
+      player.BirthMonth = parameters.BirthMonth;
+      player.BirthDay = parameters.BirthDay;
+      player.Age = parameters.Age;
+      player.YearsInMajors = parameters.YearsInMajors;
+
       player.UniformNumber = parameters.UniformNumber!;
       player.PrimaryPosition = parameters.Position;
       player.PitcherType = parameters.PitcherType;

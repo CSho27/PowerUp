@@ -19,6 +19,10 @@ export interface PersonalDetailsRequest {
   useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  birthMonth: number;
+  birthDay: number;
+  age: number;
+  yearsInMajors: number;
   positionKey: string;
   pitcherTypeKey: string;
   voiceId: number;

@@ -59,6 +59,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool UseSpecialSavedName { get; set; }
     public string? SavedName { get; set; }
     public string? UniformNumber { get; set; }
+    public int BirthMonth { get; set; }
+    public int BirthDay { get; set; }
+    public int Age { get; set; }
+    public int YearsInMajors { get; set; }
     public string? PositionKey { get; set; }
     public string? PitcherTypeKey { get; set; }
     public int? VoiceId { get; set; }
@@ -81,6 +85,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
         SpecialSavedNameId = specialSavedNameId,
         SavedName = SavedName,
         UniformNumber = UniformNumber,
+        BirthMonth = BirthMonth,
+        BirthDay = BirthDay,
+        Age = Age,
+        YearsInMajors = YearsInMajors,
         Position = Enum.Parse<Position>(PositionKey!),
         PitcherType = Enum.Parse<PitcherType>(PitcherTypeKey!),
         VoiceId = VoiceId,
