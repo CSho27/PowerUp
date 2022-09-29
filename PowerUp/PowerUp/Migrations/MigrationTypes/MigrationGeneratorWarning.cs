@@ -1,6 +1,6 @@
 ﻿using PowerUp.Generators;
 
-namespace PowerUp.Migrations
+namespace PowerUp.Migrations.MigrationTypes
 {
   [MigrationTypeFor(typeof(GeneratorWarning))]
   public class MigrationGeneratorWarning

@@ -1,6 +1,6 @@
 ﻿using PowerUp.Entities.AppSettings;
 
-namespace PowerUp.Migrations
+namespace PowerUp.Migrations.MigrationTypes
 {
   [MigrationTypeFor(typeof(AppSettings))]
   public class MigrationAppSettings

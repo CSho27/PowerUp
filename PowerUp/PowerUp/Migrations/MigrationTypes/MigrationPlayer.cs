@@ -1,11 +1,10 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
-using PowerUp.Generators;
 using PowerUp.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace PowerUp.Databases.MigrationEntities
+namespace PowerUp.Migrations.MigrationTypes
 {
   [MigrationTypeFor(typeof(Player))]
   public class MigrationPlayer

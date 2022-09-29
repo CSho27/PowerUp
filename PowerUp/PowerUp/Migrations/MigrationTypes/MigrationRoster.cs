@@ -3,7 +3,7 @@ using PowerUp.Entities.Rosters;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PowerUp.Migrations
+namespace PowerUp.Migrations.MigrationTypes
 {
   [MigrationTypeFor(typeof(Roster))]
   public class MigrationRoster

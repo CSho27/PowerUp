@@ -4,7 +4,7 @@ using PowerUp.Entities.Teams;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PowerUp.Migrations
+namespace PowerUp.Migrations.MigrationTypes
 {
   [MigrationTypeFor(typeof(Team))]
   public class MigrationTeam

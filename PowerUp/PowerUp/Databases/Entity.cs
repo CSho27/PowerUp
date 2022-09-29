@@ -10,11 +10,15 @@ namespace PowerUp.Databases
   {
     [MigrationIgnore]
     public int? Id { get; set; }
+
+    public virtual IEnumerable<Func<Entity, object>> UntypedIndexes 
+      => Enumerable.Empty<Func<Entity, object>>();
   }
 
   public abstract class Entity<TEntity> : Entity where TEntity : Entity<TEntity>
   {
-    public virtual IEnumerable<Expression<Func<TEntity, object>>> Indexes 
-      => Enumerable.Empty<Expression<Func<TEntity, object>>>();
+    public override IEnumerable<Func<Entity, object>> UntypedIndexes => Indexes.Cast<Func<Entity, object>>();
+    public virtual IEnumerable<Func<TEntity, object>> Indexes 
+      => Enumerable.Empty<Func<TEntity, object>>();
   }
 }
