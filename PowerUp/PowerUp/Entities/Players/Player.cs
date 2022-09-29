@@ -2,7 +2,6 @@
 using PowerUp.Generators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PowerUp.Entities.Players
 {

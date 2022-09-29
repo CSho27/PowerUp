@@ -29,9 +29,6 @@ namespace PowerUp.Entities.Teams
       return players;
     }
 
-    private IEnumerable<Player> GetHitters() => GetPlayers().Where(p => p.PrimaryPosition != Position.Pitcher);
-    private IEnumerable<Player> GetPitchers() => GetPlayers().Where(p => p.PrimaryPosition == Position.Pitcher);
-
     public double GetHittingRating() => TeamRatingCalculator.CalculateHittingRating(GetPlayers().Select(h => h.HitterRating));
     public double GetPitchingRating() => TeamRatingCalculator.CalculatePitchingRating(GetPlayers().Select(p => p.PitcherRating));
     public double GetOverallRating() => TeamRatingCalculator.CalculateOverallRating(new TeamRatingParameters
