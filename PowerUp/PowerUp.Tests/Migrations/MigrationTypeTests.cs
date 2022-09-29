@@ -1,10 +1,6 @@
 ﻿using NUnit.Framework;
 using PowerUp.Databases;
-using PowerUp.Databases.MigrationEntities;
-using PowerUp.Entities.Players;
 using PowerUp.Migrations;
-using Shouldly;
-using System;
 using System.Linq;
 using System.Reflection;
 
@@ -16,7 +12,11 @@ namespace PowerUp.Tests.Migrations
     public void ValidMigrationTypeExistsForEveryEntity()
     {
       var typesInAssembly = Assembly.GetAssembly(typeof(EntityDatabase)).GetTypes();
-      var entityTypes = typesInAssembly.Where(t => t.IsAssignableTo(typeof(Entity)) && t.GetCustomAttribute<MigrationIgnoreAttribute>() == null);
+      var entityTypes = typesInAssembly
+        .Where(t => t.IsAssignableTo(typeof(Entity)))
+        .Where(t => t.GetCustomAttribute<MigrationIgnoreAttribute>() == null)
+        .Where(t => t != typeof(Entity))
+        .Where(t => t.BaseType != typeof(Entity));
 
       foreach(var entityType in entityTypes)
       {

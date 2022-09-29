@@ -9,7 +9,6 @@ namespace PowerUp.Migrations
   [MigrationTypeFor(typeof(Team))]
   public class MigrationTeam
   {
-    public int? Id { get; set; }
     public EntitySourceType? SourceType { get; set; }
     public string? Name { get; set; }
     public string? ImportSource { get; set; }

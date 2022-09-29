@@ -14,7 +14,8 @@ namespace PowerUp.Tests.Migrations
     {
       var propsOfDatabaseTypeWithPublicSetters = databaseType
         .GetProperties()
-        .Where(p => p.SetMethod?.IsPublic ?? false);
+        .Where(p => p.SetMethod?.IsPublic ?? false)
+        .Where(p => p.GetCustomAttribute<MigrationIgnoreAttribute>() == null);
 
       var propsOfMigrationType = migrationType.GetProperties();
 
@@ -63,9 +64,11 @@ namespace PowerUp.Tests.Migrations
       else
       {
         Assert.IsTrue
-          (databasePropType == migrationPropType.GetCustomAttribute<MigrationTypeForAttribute>()?.DatabaseType
+          ( databasePropType == migrationPropType.GetCustomAttribute<MigrationTypeForAttribute>()?.DatabaseType
           , $"{propContext}: {migrationPropType.Name} is not a valid migration type for {databasePropType.Name}"
           );
+
+        migrationPropType.ShouldCoverPropertiesOf(databasePropType);
       }
     }
 
