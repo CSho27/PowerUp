@@ -87,7 +87,6 @@ namespace PowerUp.Databases
       return entityCollection.FindById(id);
     }
 
-
     public TEntity? LoadOnly<TEntity>() where TEntity : Entity<TEntity>
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
@@ -112,11 +111,11 @@ namespace PowerUp.Databases
       return entityCollection.FindAll().ToList();
     }
 
-    public IEnumerable<object> LoadAll(Type entityType)
+    public IEnumerable<Entity> LoadAll(Type entityType)
     {
       var entityCollection = DBConnection.GetCollection(entityType.Name);
       var mapper = new BsonMapper();
-      return entityCollection.FindAll().Select(d => mapper.ToObject(entityType, d)).ToList();
+      return entityCollection.FindAll().Select(d => (Entity)mapper.ToObject(entityType, d)).ToList();
     }
 
     public ILiteQueryable<TEntity> Query<TEntity>()

@@ -1,12 +1,9 @@
 ﻿using PowerUp.Databases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PowerUp.Migrations;
 
 namespace PowerUp.Entities.AppSettings
 {
+  [MigrationIgnore]
   public class AppSettings : Entity<AppSettings>
   {
     public string? GameSaveManagerDirectoryPath { get; set; }

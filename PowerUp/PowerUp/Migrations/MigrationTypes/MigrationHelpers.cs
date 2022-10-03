@@ -18,6 +18,12 @@ namespace PowerUp.Migrations.MigrationTypes
         .Where(t => t.BaseType != typeof(Entity));
     }
 
+    public static IEnumerable<Type> GetAllMigrationTypes()
+    {
+      var typesInAssembly = Assembly.GetAssembly(typeof(MigrationTypeForAttribute))!.GetTypes();
+      return typesInAssembly.Where(t => t.GetCustomAttribute<MigrationTypeForAttribute>() != null);
+    }
+
     public static Type? GetMigrationTypeFor(Type databaseType)
     {
       var typesInAssembly = Assembly.GetAssembly(typeof(MigrationTypeForAttribute))!.GetTypes();
@@ -27,9 +33,14 @@ namespace PowerUp.Migrations.MigrationTypes
     public static Migrator? GetMigratorFor(Type databaseType, Type migrationType)
     {
       var typesInAssembly = Assembly.GetAssembly(typeof(Migrator))!.GetTypes();
-      return typesInAssembly
-        .Select(t => t.GetConstructors().First().Invoke(null) as Migrator)
-        .SingleOrDefault(m => m != null && m.DatabaseType == databaseType && m.MigrationType == migrationType);
+      var migratorType = typesInAssembly
+        .Where(t => t.IsAssignableTo(typeof(Migrator)))
+        .Where(t => t.BaseType?.GenericTypeArguments?.Length == 2)
+        .SingleOrDefault(m => m.BaseType!.GenericTypeArguments[0] == databaseType && m.BaseType!.GenericTypeArguments[1] == migrationType);
+
+      return migratorType != null
+        ? migratorType.GetConstructors().First().Invoke(null) as Migrator
+        : null;
     }
   }
 }
