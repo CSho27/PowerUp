@@ -6,9 +6,9 @@ namespace PowerUp.Entities.Players
   public class PitcherAbilities
   {
     /// <summary>Round down to display</summary>
-    public double TopSpeedMph { get; set; }
-    public int Control { get; set; }
-    public int Stamina { get; set; }
+    public double TopSpeedMph { get; set; } = 74;
+    public int Control { get; set; } = 98;
+    public int Stamina { get; set; } = 37;
 
     public bool HasTwoSeam { get; set; }
     public int? TwoSeamMovement { get; set; }

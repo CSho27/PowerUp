@@ -243,7 +243,7 @@
 
   public class Appearance
   {
-    public int FaceId { get; set; }
+    public int FaceId { get; set; } = 177;
     public EyebrowThickness? EyebrowThickness { get; set; }
     public SkinColor? SkinColor { get; set; }
     public EyeColor? EyeColor { get; set; }
