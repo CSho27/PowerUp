@@ -43,6 +43,22 @@ export function SpecialAbilitiesEditor(props: SpecialAbilitiesEditorProps) {
         disabled={editorDisabled}
         onChange={value => updateGeneral({ type: 'updateMorale', morale: value })}
       />
+      <SpecialPositiveNegativeRow
+        positiveLabel='Gd Day Game'
+        negativeLabel='Pr Day Game'
+        options={options.specialPositive_NegativeOptions}
+        value={general.dayGameAbility}
+        disabled={editorDisabled}
+        onChange={value => updateGeneral({ type: 'updateDayGameAbility', dayGameAbility: value })}
+      />
+      <SpecialPositiveNegativeRow
+        positiveLabel='Gd Rain'
+        negativeLabel='Pr Rain'
+        options={options.specialPositive_NegativeOptions}
+        value={general.inRainAbility}
+        disabled={editorDisabled}
+        onChange={value => updateGeneral({ type: 'updateInRainAbility', inRainAbility: value })}
+      />
     </SpecialAbilitiesSection>
     {!isPitcher && getHitterSection()}
     {!isPitcher && getPitcherSection()}
@@ -183,6 +199,13 @@ export function SpecialAbilitiesEditor(props: SpecialAbilitiesEditorProps) {
         value={approach.isRefinedHitter}
         disabled={editorDisabled}
         onChange={value => updateApproach({ type: 'updateIsRefinedHitter', isRefinedHitter: value })}
+      />
+      <SpecialBooleanRow
+        label='Free Swinger'
+        value={approach.isFreeSwinger}
+        disabled={editorDisabled}
+        effectIsNegative
+        onChange={value => updateApproach({ type: 'updateIsFreeSwinger', isFreeSwinger: value })}
       />
       <SpecialBooleanRow
         label='Tough Out'

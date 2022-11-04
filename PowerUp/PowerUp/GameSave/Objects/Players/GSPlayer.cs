@@ -243,6 +243,9 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x72, bitOffset: 1)]
     public bool? IsGoodPinchHitter { get; set; }
 
+    [GSBoolean(0x72, bitOffset: 2)]
+    public bool? IsFreeSwinger { get; set; }
+
     [GSBoolean(0x72, bitOffset: 3)]
     public bool? IsFirstballHitter { get; set; }
 
@@ -331,11 +334,11 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x78, bitOffset: 1)]
     public bool? IsPullHitter { get; set; }
 
-    /// <summary>
-    ///  There is actually something here but I haven't had any luck figuring out what it is
-    /// </summary>
-    [GSBytes(0x78, numberOfBytes: 1)]
-    public byte[]? UnknownByte_78 { get; set; }
+    [GSSInt(0x78, bits: 2, bitOffset: 2)]
+    public short? GoodOrPoorDayGame { get; set; }
+
+    [GSSInt(0x78, bits: 2, bitOffset: 4)]
+    public short? GoodOrPoorRain { get; set; }
 
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
     public ushort? TopThrowingSpeedKMH { get; set; }
@@ -436,15 +439,23 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x81, bits: 2, bitOffset: 1)]
     public short? PowerOrBreakingBallPitcher { get; set; }
 
-    [GSBytes(0x81, numberOfBytes: 7)]
-    public byte[]? UnknownBytes_81_88 { get; set; }
+    [GSBytes(0x81, numberOfBytes: 3)]
+    public byte[]? UnknownBytes_81_83 { get; set; }
+
+    [GSUInt(0x84, bits: 11, bitOffset: 0)]
+    public ushort? BirthYear { get; set; }
+
+    [GSUInt(0x85, bits: 4, bitOffset: 3)]
+    public ushort? BirthMonth { get; set; }
+
+    [GSUInt(0x85, bits: 5, bitOffset: 7)]
+    public ushort? BirthDay { get; set; }
 
     [GSUInt(0x86, bits: 5, bitOffset: 5)]
     public ushort? YearsInMajors { get; set; }
 
-    [GSBytes(0x92, numberOfBytes: 3)]
-    public byte[]? TestBytes { get; set; }
-
+    [GSBytes(0x87, numberOfBytes: 1)]
+    public byte[]? UnknownByte_87 { get; set; }
 
     // 1023 means the stat has been 'cleared' (maxValue of a 10 bit int)
     [GSUInt(0x88, bits: 10, bitOffset: 0)]

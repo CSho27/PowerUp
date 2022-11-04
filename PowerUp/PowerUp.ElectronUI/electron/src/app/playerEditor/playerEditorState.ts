@@ -126,6 +126,10 @@ export interface PlayerPersonalDetails {
   useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  birthMonth: number;
+  birthDay: number;
+  age: number;
+  yearsInMajors: number;
   position: PositionCode;
   pitcherType: KeyedCode;
   voice: SimpleCode;
@@ -133,6 +137,10 @@ export interface PlayerPersonalDetails {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+  battingAverage: number | undefined;
+  runsBattedIn: number | undefined;
+  homeRuns: number | undefined;
+  earnedRunAverage: number | undefined;
 }
 
 export type PlayerPersonalDetailsAction =
@@ -142,6 +150,10 @@ export type PlayerPersonalDetailsAction =
 | { type: 'toggleUseSpecialSavedName' }
 | { type: 'updateSavedName', savedName: string }
 | { type: 'updateUniformNumber', uniformNumber: string }
+| { type: 'updateBirthMonth', birthMonth: number  }
+| { type: 'updateBirthDay', birthDay: number }
+| { type: 'updateAge', age: number }
+| { type: 'updateYearsInMajors', yearsInMajors: number }
 | { type: 'updatePosition', position: PositionCode }
 | { type: 'updatePitcherType', pitcherType: KeyedCode }
 | { type: 'updateVoice', voice: SimpleCode }
@@ -149,6 +161,10 @@ export type PlayerPersonalDetailsAction =
 | { type: 'updateBattingStance', battingStance: SimpleCode }
 | { type: 'updateThrowingArm', throwingArm: KeyedCode }
 | { type: 'updatePitchingMechanics', mechanics: SimpleCode }
+| { type: 'updateBattingAverage', battingAverage: number | undefined }
+| { type: 'updateRunsBattedIn', runsBattedIn: number | undefined }
+| { type: 'updateHomeRuns', homeRuns: number | undefined }
+| { type: 'updateEarnedRunAverage', earnedRunAverage: number | undefined }
 
 export interface PlayerPersonalDetailsContext {
   swingManRole: KeyedCode;
@@ -196,6 +212,26 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
           ? context.starterRole
           : context.swingManRole,
       }
+    case 'updateBirthMonth':
+      return {
+        ...state,
+        birthMonth: action.birthMonth,
+      }
+    case 'updateBirthDay':
+      return {
+        ...state,
+        birthDay: action.birthDay
+      }
+    case 'updateAge':
+      return {
+        ...state,
+        age: action.age
+      }
+    case 'updateYearsInMajors':
+      return {
+        ...state,
+        yearsInMajors: action.yearsInMajors
+      }
     case 'updatePitcherType':
       return {
         ...state,
@@ -225,6 +261,26 @@ export function PlayerPersonalDetailReducer(state: PlayerPersonalDetails, action
       return {
         ...state,
         pitchingMechanics: action.mechanics
+      }
+    case 'updateBattingAverage':
+      return {
+        ...state,
+        battingAverage: action.battingAverage
+      }
+    case 'updateRunsBattedIn': 
+      return {
+        ...state,
+        runsBattedIn: action.runsBattedIn
+      }
+    case 'updateHomeRuns':
+      return {
+        ...state,
+        homeRuns: action.homeRuns
+      }
+    case 'updateEarnedRunAverage':
+      return {
+        ...state,
+        earnedRunAverage: action.earnedRunAverage
       }
   }
 }
@@ -855,12 +911,20 @@ export function getInitialStateFromResponse(response: PlayerEditorResponse): Pla
       savedName: personalDetails.savedName,
       uniformNumber: personalDetails.uniformNumber,
       position: personalDetails.position,
+      birthMonth: personalDetails.birthMonth,
+      birthDay: personalDetails.birthDay,
+      age: personalDetails.age,
+      yearsInMajors: personalDetails.yearsInMajors,
       pitcherType: personalDetails.pitcherType,
       voice: personalDetails.voice,
       battingSide: personalDetails.battingSide,
       battingStance: personalDetails.battingStance,
       throwingArm: personalDetails.throwingArm,
-      pitchingMechanics: personalDetails.pitchingMechanics
+      pitchingMechanics: personalDetails.pitchingMechanics,
+      battingAverage: personalDetails.battingAverage ?? undefined,
+      runsBattedIn: personalDetails.runsBattedIn ?? undefined,
+      homeRuns: personalDetails.homeRuns ?? undefined,
+      earnedRunAverage: personalDetails.earnedRunAverage ?? undefined
     },
     appearance: {
       face: appearance.face,
@@ -959,6 +1023,10 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorDetails, play
       useSpecialSavedName: personalDetails.useSpecialSavedName,
       savedName: personalDetails.savedName,
       uniformNumber: personalDetails.uniformNumber,
+      birthMonth: personalDetails.birthMonth,
+      birthDay: personalDetails.birthDay,
+      age: personalDetails.age,
+      yearsInMajors: personalDetails.yearsInMajors,
       positionKey: personalDetails.position.key,
       pitcherTypeKey: personalDetails.pitcherType.key,
       voiceId: personalDetails.voice.id,
@@ -966,6 +1034,10 @@ export function buildSavePlayerRequestFromState(state: PlayerEditorDetails, play
       battingStanceId: personalDetails.battingStance.id,
       throwingArmKey: personalDetails.throwingArm.key,
       pitchingMechanicsId: personalDetails.pitchingMechanics.id,
+      battingAverage: personalDetails.battingAverage ?? null,
+      runsBattedIn: personalDetails.runsBattedIn ?? null,
+      homeRuns: personalDetails.homeRuns ?? null,
+      earnedRunAverage: personalDetails.earnedRunAverage ?? null
     },
     appearance: {
       faceId: appearance.face.id,

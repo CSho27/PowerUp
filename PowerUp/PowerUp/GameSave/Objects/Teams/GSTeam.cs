@@ -23,7 +23,7 @@ namespace PowerUp.GameSave.Objects.Teams
       IsDefensiveReplacement = false,
       IsDefensiveLiability = false,
       PitcherRole = 0,
-      OtherPlayerBytes = Enumerable.Repeat(new byte(), 6).ToArray()
+      OtherPlayerByte = new[] { new byte() }
     };
 
     [GSUInt(offset: 0, bits: 16)]
@@ -54,7 +54,7 @@ namespace PowerUp.GameSave.Objects.Teams
     public ushort? PitcherRole { get; set; }
 
 
-    [GSBytes(offset: 2, numberOfBytes: 6)]
-    public byte[]? OtherPlayerBytes { get; set; }
+    [GSBytes(offset: 7, numberOfBytes: 1)]
+    public byte[]? OtherPlayerByte { get; set; }
   }
 }

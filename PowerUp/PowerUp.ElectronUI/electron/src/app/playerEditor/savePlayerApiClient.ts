@@ -19,6 +19,10 @@ export interface PersonalDetailsRequest {
   useSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  birthMonth: number;
+  birthDay: number;
+  age: number;
+  yearsInMajors: number;
   positionKey: string;
   pitcherTypeKey: string;
   voiceId: number;
@@ -26,6 +30,10 @@ export interface PersonalDetailsRequest {
   battingStanceId: number;
   throwingArmKey: string;
   pitchingMechanicsId: number;
+  battingAverage: number | null;
+  runsBattedIn: number | null;
+  homeRuns: number | null;
+  earnedRunAverage: number | null;
 }
 
 export interface AppearanceRequest {
@@ -120,6 +128,8 @@ export interface GeneralSpecialAbilitiesRequest {
   isStar: boolean;
   durabilityKey: string; 
   moraleKey: string;
+  dayGameAbilityKey: string;
+  inRainAbilityKey: string;
 }
 
 export interface HitterSpecialAbilitiesRequest {
@@ -153,6 +163,7 @@ export interface HittingApproachSpecialAbilitiesRequest {
   isFirstballHitter: boolean;
   aggressiveOrPatientHitterKey: string | null;
   isRefinedHitter: boolean;
+  isFreeSwinger: boolean;
   isToughOut: boolean;
   isIntimidator: boolean;
   isSparkplug: boolean;

@@ -3,6 +3,7 @@ using PowerUp.Entities.Players;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
+using System;
 
 namespace PowerUp.Mappers.Players
 {
@@ -24,6 +25,7 @@ namespace PowerUp.Mappers.Players
   public class PlayerMapper : IPlayerMapper
   {
     private readonly ISpecialSavedNameLibrary _savedNameLibrary;
+    private readonly DateTime OpeningDay07 = MLBSeasonUtils.GetEstimatedStartOfSeason(2007);
 
     public PlayerMapper(ISpecialSavedNameLibrary savedNameLibrary)
     {
@@ -32,6 +34,7 @@ namespace PowerUp.Mappers.Players
 
     public Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters)
     {
+      var inGameBirthDate = new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value);
       return new Player
       {
         SourceType = parameters.IsBase
@@ -50,6 +53,10 @@ namespace PowerUp.Mappers.Players
           ? null
           : parameters.ImportSource,
         SourcePowerProsId = gsPlayer.PowerProsId!.Value,
+        BirthMonth = inGameBirthDate.Month,
+        BirthDay = inGameBirthDate.Day,
+        Age = OpeningDay07.YearsElapsedSince(inGameBirthDate),
+        YearsInMajors = gsPlayer.YearsInMajors!.Value,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
         PitcherType = PitcherTypeMapper.ToPitcherType(gsPlayer.IsStarter!.Value, gsPlayer.IsReliever!.Value, gsPlayer.IsCloser!.Value),
@@ -60,6 +67,18 @@ namespace PowerUp.Mappers.Players
           ? ThrowingArm.Left
           : ThrowingArm.Right,
         PitchingMechanicsId = gsPlayer.PitchingForm!.Value,
+        BattingAverage = gsPlayer.BattingAveragePoints != 1023
+          ? gsPlayer.BattingAveragePoints!.Value / 1000.0
+          : null,
+        RunsBattedIn = gsPlayer.RunsBattedIn != 1023
+          ? gsPlayer.RunsBattedIn!.Value
+          : null,
+        HomeRuns = gsPlayer.HomeRuns != 1023
+          ? gsPlayer.HomeRuns!.Value
+          : null,
+        EarnedRunAverage = gsPlayer.EarnedRunAverage != 16383
+          ? gsPlayer.EarnedRunAverage!.Value / 100.0
+          : null,
         Appearance = AppearanceMapper.GetAppearance(gsPlayer),
         PositionCapabilities = gsPlayer.GetPositionCapabilities(),
         HitterAbilities = gsPlayer.GetHitterAbilities(),
@@ -88,6 +107,8 @@ namespace PowerUp.Mappers.Players
       var rightWristbandValue = (int?)appearance.RightWristbandColor ?? 0;
       var leftWristbandValue = (int?)appearance.LeftWristbandColor ?? 0;
 
+      var inGameBirthDate = OpeningDay07.GetDateNYearsBefore(player.BirthMonth, player.BirthDay, player.Age);
+
       return new GSPlayer
       {
         PowerProsId = (ushort)powerProsId,
@@ -101,6 +122,10 @@ namespace PowerUp.Mappers.Players
         SpecialSavedNameId = (ushort?)player.SpecialSavedNameId,
         IsEdited = player.IsCustomPlayer,
         Unedited = !player.IsCustomPlayer,
+        BirthYear = (ushort)inGameBirthDate.Year,
+        BirthMonth = (ushort)inGameBirthDate.Month,
+        BirthDay = (ushort)inGameBirthDate.Day,
+        YearsInMajors = (ushort)player.YearsInMajors,
         PlayerNumber = gsPlayerNumber.uniformNumberValue,
         PlayerNumberNumberOfDigits = gsPlayerNumber.numberOfDigits,
         PrimaryPosition = player.PrimaryPosition == Position.DesignatedHitter
@@ -114,12 +139,20 @@ namespace PowerUp.Mappers.Players
         BattingForm = (ushort)player.BattingStanceId,
         ThrowsLefty = player.ThrowingArm == ThrowingArm.Left,
         PitchingForm = (ushort)player.PitchingMechanicsId,
+        BattingAveragePoints = player.BattingAverage.HasValue
+          ? (ushort)(player.BattingAverage.Value * 1000)
+          : (ushort)1023,
+        RunsBattedIn = (ushort)(player.RunsBattedIn ?? 1023),
+        HomeRuns = (ushort)(player.HomeRuns ?? 1023),
+        EarnedRunAverage = player.EarnedRunAverage.HasValue
+          ? (ushort)(player.EarnedRunAverage.Value * 100)
+          : (ushort)16383,
 
         // Appearance
         Face = appearance.EyebrowThickness == EyebrowThickness.Thin
           ? (ushort)(appearance.FaceId + AppearanceMapper.THICK_EYEBROW_OFFSET)
           : (ushort)appearance.FaceId,
-        SkinAndEyes = appearance.EyeColor == EyeColor.Blue
+        SkinAndEyes = appearance.EyeColor == EyeColor.Brown
           ? (ushort)(skinColorValue + AppearanceMapper.EYE_COLOR_OFFSET)
           : (ushort)skinColorValue,
         Hair = (ushort?)appearance.HairStyle ?? 0,
@@ -206,6 +239,8 @@ namespace PowerUp.Mappers.Players
         IsStar = generalSpecialAbilities.IsStar,
         Durability = (short)generalSpecialAbilities.Durability,
         Morale = (short)generalSpecialAbilities.Morale,
+        GoodOrPoorDayGame = (short)generalSpecialAbilities.DayGameAbility,
+        GoodOrPoorRain = (short)generalSpecialAbilities.InRainAbility,
 
         // Hitting
         // Situational
@@ -216,6 +251,7 @@ namespace PowerUp.Mappers.Players
         IsBackToBackHitter = hittingSpecialAbilities.SituationalHitting.IsBackToBackHitter,
         IsHotHitter = hittingSpecialAbilities.SituationalHitting.IsHotHitter,
         IsRallyHitter = hittingSpecialAbilities.SituationalHitting.IsRallyHitter,
+        IsGoodPinchHitter = hittingSpecialAbilities.SituationalHitting.IsGoodPinchHitter,
         BasesLoadedHitter = hittingSpecialAbilities.SituationalHitting.BasesLoadedHitter.HasValue
           ? (ushort)hittingSpecialAbilities.SituationalHitting.BasesLoadedHitter.Value
           : (ushort)0,
@@ -238,6 +274,7 @@ namespace PowerUp.Mappers.Players
           ? (short)hittingSpecialAbilities.HittingApproach.AggressiveOrPatientHitter
           : (short)0,
         IsRefinedHitter = hittingSpecialAbilities.HittingApproach.IsRefinedHitter,
+        IsFreeSwinger = hittingSpecialAbilities.HittingApproach.IsFreeSwinger,
         IsToughOut = hittingSpecialAbilities.HittingApproach.IsToughOut,
         IsIntimidatingHitter = hittingSpecialAbilities.HittingApproach.IsIntimidator,
         IsSparkplug = hittingSpecialAbilities.HittingApproach.IsSparkplug,

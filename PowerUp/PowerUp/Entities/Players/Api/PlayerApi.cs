@@ -59,6 +59,11 @@
       player.SpecialSavedNameId = parameters.SpecialSavedNameId;
       player.SavedName = parameters.SavedName!;
 
+      player.BirthMonth = parameters.BirthMonth;
+      player.BirthDay = parameters.BirthDay;
+      player.Age = parameters.Age;
+      player.YearsInMajors = parameters.YearsInMajors;
+
       player.UniformNumber = parameters.UniformNumber!;
       player.PrimaryPosition = parameters.Position;
       player.PitcherType = parameters.PitcherType;
@@ -70,6 +75,10 @@
       player.GeneratedPlayer_LSPLayerId = parameters.GeneratedPlayer_LSPlayerId;
       player.GeneratedPlayer_FullFirstName = parameters.GeneratedPlayer_FullFirstName;
       player.GeneratedPlayer_FullLastName = parameters.GeneratedPlayer_FullLastName;
+      player.BattingAverage = parameters.BattingAverage;
+      player.RunsBattedIn = parameters.RunsBattedIn;
+      player.HomeRuns = parameters.HomeRuns;
+      player.EarnedRunAverage = parameters.EarnedRunAverage;
     }
 
     private void UpdatePositionCapabilities(PositionCapabilities positionCapabitlies, PlayerPositionCapabilitiesParameters parameters)
@@ -221,6 +230,8 @@
       general.IsStar = parameters.IsStar;
       general.Durability = parameters.Durability;
       general.Morale = parameters.Morale;
+      general.DayGameAbility = parameters.DayGameAbility;
+      general.InRainAbility = parameters.InRainAbility;
     }
 
     private void UpdateHitterSpecialAbilities(HitterSpecialAbilities hitter, HitterSpecialAbilitiesParameters parameters)
@@ -257,6 +268,7 @@
       approach.IsFirstballHitter = parameters.IsFirstballHitter;
       approach.AggressiveOrPatientHitter = parameters.AggressiveOrPatientHitter;
       approach.IsRefinedHitter = parameters.IsRefinedHitter;
+      approach.IsFreeSwinger = parameters.IsFreeSwinger;
       approach.IsToughOut = parameters.IsToughOut;
       approach.IsIntimidator = parameters.IsIntimidator;
       approach.IsSparkplug = parameters.IsSparkplug;

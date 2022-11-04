@@ -29,6 +29,10 @@ namespace PowerUp.Entities.Players
 
     public string SavedName { get; set; } = string.Empty;
     public int? SpecialSavedNameId { get; set; }
+    public int BirthMonth { get; set; }
+    public int BirthDay { get; set; }
+    public int Age { get; set; }
+    public int YearsInMajors { get; set; }
     public string UniformNumber { get; set; } = string.Empty;
     public Position PrimaryPosition { get; set; }
     public PitcherType PitcherType { get; set; }
@@ -37,6 +41,10 @@ namespace PowerUp.Entities.Players
     public int BattingStanceId { get; set; }
     public ThrowingArm ThrowingArm { get; set; }
     public int PitchingMechanicsId { get; set; }
+    public double? BattingAverage { get; set; }
+    public int? RunsBattedIn { get; set; }
+    public int? HomeRuns { get; set; }
+    public double? EarnedRunAverage { get; set; }
     public Appearance Appearance { get; set; } = new Appearance();
     public PositionCapabilities PositionCapabilities { get; set; } = new PositionCapabilities();
     public HitterAbilities HitterAbilities { get; set; } = new HitterAbilities();

@@ -25,6 +25,8 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsStar { get; set; }
     public string? DurabilityKey { get; set; }
     public string? MoraleKey { get; set; }
+    public string? DayGameAbilityKey { get; set; }
+    public string? InRainAbilityKey { get; set; }
 
     public GeneralSpecialAbilitiesParameters GetParameters()
     {
@@ -32,7 +34,9 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       {
         IsStar = IsStar,
         Durability = Enum.Parse<Special2_4>(DurabilityKey!),
-        Morale = Enum.Parse<SpecialPositive_Negative>(MoraleKey!)
+        Morale = Enum.Parse<SpecialPositive_Negative>(MoraleKey!),
+        DayGameAbility = Enum.Parse<SpecialPositive_Negative>(DayGameAbilityKey!),
+        InRainAbility = Enum.Parse<SpecialPositive_Negative>(InRainAbilityKey!)
       };
     }
   }
@@ -104,6 +108,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsFirstballHitter { get; set; }
     public string? AggressiveOrPatientHitterKey { get; set; }
     public bool IsRefinedHitter { get; set; }
+    public bool IsFreeSwinger { get; set; }
     public bool IsToughOut { get; set; }
     public bool IsIntimidator { get; set; }
     public bool IsSparkplug { get; set; }
@@ -125,6 +130,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
           ? Enum.Parse<AggressiveOrPatientHitter>(AggressiveOrPatientHitterKey)
           : null,
         IsRefinedHitter = IsRefinedHitter,
+        IsFreeSwinger = IsFreeSwinger,
         IsToughOut = IsToughOut,
         IsIntimidator = IsIntimidator,
         IsSparkplug = IsSparkplug

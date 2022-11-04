@@ -785,6 +785,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(JASON_GIAMBI_ID, false)]
     [TestCase(SAMMY_SPEEDSTER_ID, false)]
     [TestCase(PAUL_PITCHER_ID, true)]
+    public void Reads_IsFreeSwinger(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.IsFreeSwinger.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsFirstballHitter(int playerId, bool abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
@@ -1098,6 +1109,30 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
       player.IsPullHitter.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)0)]
+    [TestCase(197, (short)-1)]
+    public void Reads_GoodOrPoorDayGame(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.GoodOrPoorDayGame.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (short)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
+    [TestCase(PAUL_PITCHER_ID, (short)0)]
+    [TestCase(904, (short)-1)]
+    public void Reads_GoodOrPoorRain(int playerId, short abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.GoodOrPoorRain.ShouldBe(abilityValue);
     }
 
     [Test]
@@ -1450,6 +1485,50 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
       var player = loader.Read(playerId);
       player.PowerOrBreakingBallPitcher.ShouldBe(abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1971)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1974)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1962)]
+    public void Reads_BirthYear(int playerId, ushort birthYear)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BirthYear.ShouldBe(birthYear);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
+    public void Reads_BirthMonth(int playerId, ushort birthMonth)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BirthMonth.ShouldBe(birthMonth);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
+    public void Reads_BirthDay(int playerId, ushort birthDay)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.BirthDay.ShouldBe(birthDay);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)12)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)23)]
+    public void Reads_YearsInMajors(int playerId, ushort yearsInMajors)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      var player = loader.Read(playerId);
+      player.YearsInMajors.ShouldBe(yearsInMajors);
     }
 
     [Test]

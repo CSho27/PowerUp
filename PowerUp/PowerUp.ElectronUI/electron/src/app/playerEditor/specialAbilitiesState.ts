@@ -13,6 +13,8 @@ export interface GeneralSpecialAbilities {
   isStar: boolean;
   durability: KeyedCode;
   morale: KeyedCode;
+  dayGameAbility: KeyedCode;
+  inRainAbility: KeyedCode;
 }
 
 export interface HitterSpecialAblities {
@@ -46,6 +48,7 @@ export interface HittingApproachSpecialAbilities {
   isFirstballHitter: boolean;
   aggressiveOrPatientHitter: KeyedCode | undefined;
   isRefinedHitter: boolean;
+  isFreeSwinger: boolean;
   isToughOut: boolean;
   isIntimidatingHitter: boolean;
   isSparkplug: boolean;
@@ -138,6 +141,8 @@ export type GeneralSpecialAbilitiesAction =
 | { type: 'updateIsStar', isStar: boolean }
 | { type: 'updateDurability', durability: KeyedCode }
 | { type: 'updateMorale', morale: KeyedCode }
+| { type: 'updateDayGameAbility', dayGameAbility: KeyedCode }
+| { type: 'updateInRainAbility', inRainAbility: KeyedCode }
 
 export type HitterSpecialAbilitiesAction =
 | { type: 'updateSituationalAbility', situationalAction: SituationalHittingSpecialAbilitiesAction }
@@ -168,6 +173,7 @@ export type HittingApproachSpecialAbilitiesAction =
 | { type: 'updateIsFirstballHitter', isFirstballHitter: boolean }
 | { type: 'updateAggressiveOrPatientHitter', aggressiveOrPatientHitter: KeyedCode | undefined }
 | { type: 'updateIsRefinedHitter', isRefinedHitter: boolean }
+| { type: 'updateIsFreeSwinger', isFreeSwinger: boolean }
 | { type: 'updateIsToughOut', isToughOut: boolean }
 | { type: 'updateIsIntimidatingHitter', isIntimidatingHitter: boolean }
 | { type: 'updateIsSparkplug', isSparkplug: boolean }
@@ -278,6 +284,16 @@ export function GeneralSpecialAbilitiesReducer(state: GeneralSpecialAbilities, a
       return {
         ...state,
         morale: action.morale
+      }
+    case 'updateDayGameAbility':
+      return {
+        ...state,
+        dayGameAbility: action.dayGameAbility
+      }
+    case 'updateInRainAbility':
+      return {
+        ...state,
+        inRainAbility: action.inRainAbility
       }
   }
 }
@@ -427,6 +443,11 @@ export function HittingApproachSpecialAbilitiesReducer(state: HittingApproachSpe
       return {
         ...state,
         isRefinedHitter: action.isRefinedHitter
+      }
+    case 'updateIsFreeSwinger':
+      return {
+        ...state,
+        isFreeSwinger: action.isFreeSwinger
       }
     case 'updateIsToughOut':
       return {
@@ -821,7 +842,9 @@ export function getInitialSpecialAbilitiesFromResponse(response: SpecialAbilitie
     general: {
       isStar: general.isStar,
       durability: general.durability,
-      morale: general.morale
+      morale: general.morale,
+      dayGameAbility: general.dayGameAbility,
+      inRainAbility: general.inRainAbility
     },
     hitter:  {
       situational: {
@@ -846,6 +869,7 @@ export function getInitialSpecialAbilitiesFromResponse(response: SpecialAbilitie
         isFirstballHitter: approach.isFirstballHitter,
         aggressiveOrPatientHitter: approach.aggressiveOrPatientHitter ?? undefined,
         isRefinedHitter: approach.isRefinedHitter,
+        isFreeSwinger: approach.isFreeSwinger,
         isToughOut: approach.isToughOut,
         isIntimidatingHitter: approach.isIntimidatingHitter,
         isSparkplug: approach.isSparkplug
@@ -929,7 +953,9 @@ export function buildSpecialAbilitiesRequestFromState(state: SpecialAbilities): 
     generalSpecialAbilitiesRequest: {
       isStar: general.isStar,
       durabilityKey: general.durability.key,
-      moraleKey: general.morale.key
+      moraleKey: general.morale.key,
+      dayGameAbilityKey: general.dayGameAbility.key,
+      inRainAbilityKey: general.inRainAbility.key
     },
     hitterSpecialAbilitiesRequest: {
       situational: {
@@ -954,6 +980,7 @@ export function buildSpecialAbilitiesRequestFromState(state: SpecialAbilities): 
         isFirstballHitter: approach.isFirstballHitter,
         aggressiveOrPatientHitterKey: approach.aggressiveOrPatientHitter?.key ?? null,
         isRefinedHitter: approach.isRefinedHitter,
+        isFreeSwinger: approach.isFreeSwinger,
         isToughOut: approach.isToughOut,
         isIntimidator: approach.isIntimidatingHitter,
         isSparkplug: approach.isSparkplug

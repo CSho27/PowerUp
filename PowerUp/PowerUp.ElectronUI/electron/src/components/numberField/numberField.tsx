@@ -11,6 +11,8 @@ interface BaseNumberFieldProps {
   min?: number;
   max?: number;
   stepSize?: number;
+  decimalPlaces?: number;
+  leadingDecimal?: boolean;
 }
 
 export interface PossiblyUndefinedNumberFieldProps extends BaseNumberFieldProps {
@@ -26,7 +28,7 @@ export interface DefinedNumberFieldProps extends BaseNumberFieldProps {
 }
 
 export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNumberFieldProps) {
-  const { id, type, disabled, placeholder, autoFocus, max, min, onChange } = props;
+  const { id, type, disabled, placeholder, autoFocus, max, min, decimalPlaces, leadingDecimal, onChange } = props;
   const stepSize = props.stepSize ?? 1;
 
   const [value, setValue]  = useState(props.value);
@@ -82,9 +84,13 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   }
 
   function handleInputChanged(event: ChangeEvent<HTMLInputElement>) {
-    const textValue = event.target.value;
+    const textValue = leadingDecimal && !value 
+      ? `.${event.target.value}`
+      : event.target.value;
     const numberValue = textValue?.length > 0
-      ? Number.parseInt(textValue)
+      ? decimalPlaces 
+        ? Number.parseFloat(textValue)
+        : Number.parseInt(textValue)
       : undefined
     setValue(numberValue);
   }
@@ -92,7 +98,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   function setValueAndCallOnChange(value: number | undefined) {
     if(type === 'Defined') {
       const newValue = scrubValueForDefined(value);
-      setValue(newValue)
+      setValue(newValue);
       onChange(newValue);
     }
     else {
@@ -103,6 +109,7 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   }
 
   function scrubValueForDefined(value: number | undefined): number {
+    value = roundValue(value);
     let newValue: number = value ?? min ?? 0;
     if(min && newValue < min)
       return min;
@@ -113,13 +120,20 @@ export function NumberField(props: PossiblyUndefinedNumberFieldProps | DefinedNu
   }
 
   function scrubValueForPossiblyUndefined(value: number| undefined): number | undefined {
+    value = roundValue(value);
     let newValue = value;
     if(min && newValue && newValue < min)
       return min;
-    else if(max && newValue && newValue > max)
+    else if(max != undefined && newValue && newValue > max)
       return max;
     else
       return newValue;    
+  }
+
+  function roundValue(value: number | undefined): number | undefined {
+    return !!value
+      ? Number.parseFloat(value.toFixed(decimalPlaces))
+      : undefined;
   }
 }
 

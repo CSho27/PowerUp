@@ -38,10 +38,18 @@ namespace PowerUp.Tests.Mappers.Players
         IsReliever = false,
         IsCloser = false,
         VoiceId = 0,
+        BirthDay = 1,
+        BirthMonth = 1,
+        BirthYear = 2000,
+        YearsInMajors = 0,
         BattingSide = 0,
         BattingForm = 0,
         ThrowsLefty = false,
         PitchingForm = 0,
+        BattingAveragePoints = 0,
+        HomeRuns = 0,
+        RunsBattedIn = 0,
+        EarnedRunAverage = 0,
         Face = 0,
         SkinAndEyes = 0,
         Hair = 0,
@@ -107,6 +115,8 @@ namespace PowerUp.Tests.Mappers.Players
         IsStar = false,
         Durability = 0,
         Morale = 0,
+        GoodOrPoorDayGame = 0,
+        GoodOrPoorRain = 0,
         HittingConsistency = 0,
         HittingVersusLefty1 = 0,
         HittingVersusLefty2 = 0,
@@ -114,6 +124,7 @@ namespace PowerUp.Tests.Mappers.Players
         IsBackToBackHitter = false,
         IsHotHitter = false,
         IsRallyHitter = false,
+        IsGoodPinchHitter = false,
         BasesLoadedHitter = 0,
         WalkoffHitter = 0,
         ClutchHitter = 0,
@@ -126,6 +137,7 @@ namespace PowerUp.Tests.Mappers.Players
         IsFirstballHitter = false,
         AggressiveOrPatientHitter = 0,
         IsRefinedHitter = false,
+        IsFreeSwinger = false,
         IsToughOut = false,
         IsIntimidatingHitter = false,
         IsSparkplug = false,
@@ -258,6 +270,54 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    [TestCase((ushort)1890, 117)]
+    [TestCase((ushort)2000, 7)]
+    [TestCase((ushort)1979, 28)]
+    [TestCase((ushort)1945, 62)]
+    public void MapToPlayer_ShouldMapBirthYear(ushort year, int expectedYear)
+    {
+      gsPlayer.BirthYear = year;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.Age.ShouldBe(expectedYear);
+    }
+
+    [Test]
+    [TestCase((ushort)2, 2)]
+    [TestCase((ushort)4, 4)]
+    [TestCase((ushort)8, 8)]
+    [TestCase((ushort)11, 11)]
+    public void MapToPlayer_ShouldMapBirthMonth(ushort month, int expectedMonth)
+    {
+      gsPlayer.BirthMonth = month;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BirthMonth.ShouldBe(expectedMonth);
+    }
+
+    [Test]
+    [TestCase((ushort)2, 2)]
+    [TestCase((ushort)4, 4)]
+    [TestCase((ushort)8, 8)]
+    [TestCase((ushort)11, 11)]
+    public void MapToPlayer_ShouldMapBirthDay(ushort day, int expectedDay)
+    {
+      gsPlayer.BirthDay = day;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BirthDay.ShouldBe(expectedDay);
+    }
+
+    [Test]
+    [TestCase((ushort)2, 2)]
+    [TestCase((ushort)4, 4)]
+    [TestCase((ushort)8, 8)]
+    [TestCase((ushort)11, 11)]
+    public void MapToPlayer_ShouldMapYearsInMajors(ushort yearsInMajors, int expectedYearsInMajors)
+    {
+      gsPlayer.YearsInMajors = yearsInMajors;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.YearsInMajors.ShouldBe(expectedYearsInMajors);
+    }
+
+    [Test]
     public void MapToPlayer_ShouldMapPrimaryPosition()
     {
       gsPlayer.PrimaryPosition = 8;
@@ -317,6 +377,46 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.PitchingForm = 3;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.PitchingMechanicsId.ShouldBe(3);
+    }
+
+    [Test]
+    [TestCase((ushort)690, .690)]
+    [TestCase((ushort)1023, null)]
+    public void MapToPlayer_ShouldMapBattingAveragePoints(ushort battingAveragePoints, double? expectedBattingAverage)
+    {
+      gsPlayer.BattingAveragePoints = battingAveragePoints;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.BattingAverage.ShouldBe(expectedBattingAverage);
+    }
+
+    [Test]
+    [TestCase((ushort)130, 130)]
+    [TestCase((ushort)1023, null)]
+    public void MapToPlayer_ShouldMapRunsBattedIn(ushort runsBattedIn, int? expectedRBI)
+    {
+      gsPlayer.RunsBattedIn = runsBattedIn;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.RunsBattedIn.ShouldBe(expectedRBI);
+    }
+
+    [Test]
+    [TestCase((ushort)40, 40)]
+    [TestCase((ushort)1023, null)]
+    public void MapToPlayer_ShouldMapHomeRuns(ushort homeRuns, int? expectedHomeRuns)
+    {
+      gsPlayer.HomeRuns = homeRuns;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.HomeRuns.ShouldBe(expectedHomeRuns);
+    }
+
+    [Test]
+    [TestCase((ushort)383, 3.83)]
+    [TestCase((ushort)16383, null)]
+    public void MapToPlayer_ShouldMapHomeRuns(ushort era, double? expectedEra)
+    {
+      gsPlayer.EarnedRunAverage = era;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.EarnedRunAverage.ShouldBe(expectedEra);
     }
 
     [Test]
@@ -934,6 +1034,23 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    public void MapToPlayer_ShouldMapGoodPoorDayGame()
+    {
+      gsPlayer.GoodOrPoorDayGame = 1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.DayGameAbility.ShouldBe(SpecialPositive_Negative.Positive);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapGoodPoorRainGame()
+    {
+      gsPlayer.GoodOrPoorRain = -1;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.General.InRainAbility.ShouldBe(SpecialPositive_Negative.Negative);
+    }
+
+
+    [Test]
     public void MapToPlayer_ShouldMapHittingConsistency()
     {
       gsPlayer.HittingConsistency = -1;
@@ -987,6 +1104,14 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.IsRallyHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapIsGoodPinchHitter()
+    {
+      gsPlayer.IsGoodPinchHitter = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.SituationalHitting.IsGoodPinchHitter.ShouldBe(true);
     }
 
     [Test]
@@ -1083,6 +1208,14 @@ namespace PowerUp.Tests.Mappers.Players
       gsPlayer.IsRefinedHitter = true;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.SpecialAbilities.Hitter.HittingApproach.IsRefinedHitter.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToPlayer_ShouldMapFreeSwinger()
+    {
+      gsPlayer.IsFreeSwinger = true;
+      var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
+      result.SpecialAbilities.Hitter.HittingApproach.IsFreeSwinger.ShouldBe(true);
     }
 
     [Test]

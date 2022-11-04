@@ -97,6 +97,10 @@ export interface PlayerPersonalDetailsDto {
   isSpecialSavedName: boolean;
   savedName: string;
   uniformNumber: string;
+  birthMonth: number;
+  birthDay: number;
+  age: number;
+  yearsInMajors: number;
   position: PositionCode;
   pitcherType: KeyedCode;
   voice: SimpleCode;
@@ -104,6 +108,10 @@ export interface PlayerPersonalDetailsDto {
   battingStance: SimpleCode;
   throwingArm: KeyedCode;
   pitchingMechanics: SimpleCode;
+  battingAverage: number | null;
+  runsBattedIn: number | null;
+  homeRuns: number | null;
+  earnedRunAverage: number | null;
 }
 
 export interface PlayerAppearanceDetailsDto {
@@ -198,6 +206,8 @@ export interface GeneralSpecialAbilitiesDetailsDto {
   isStar: boolean;
   durability: KeyedCode;
   morale: KeyedCode;
+  dayGameAbility: KeyedCode;
+  inRainAbility: KeyedCode;
 }
 
 export interface HitterSpecialAblitiesDetailsDto {
@@ -231,6 +241,7 @@ export interface HittingApproachSpecialAbilitiesDetailsDto {
   isFirstballHitter: boolean;
   aggressiveOrPatientHitter: KeyedCode | null;
   isRefinedHitter: boolean;
+  isFreeSwinger: boolean;
   isToughOut: boolean;
   isIntimidatingHitter: boolean;
   isSparkplug: boolean;

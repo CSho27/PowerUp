@@ -22,6 +22,8 @@ namespace PowerUp.Mappers.Players
         IsStar = player.IsStar!.Value,
         Durability = (Special2_4)player.Durability!,
         Morale = (SpecialPositive_Negative)player.Morale!,
+        DayGameAbility = (SpecialPositive_Negative)player.GoodOrPoorDayGame!,
+        InRainAbility = (SpecialPositive_Negative)player.GoodOrPoorRain!,
       };
     }
 
@@ -49,6 +51,7 @@ namespace PowerUp.Mappers.Players
         IsBackToBackHitter = player.IsBackToBackHitter!.Value,
         IsHotHitter = player.IsHotHitter!.Value,
         IsRallyHitter = player.IsRallyHitter!.Value,
+        IsGoodPinchHitter = player.IsGoodPinchHitter!.Value,
         BasesLoadedHitter = player.BasesLoadedHitter != 0
          ? (BasesLoadedHitter)player.BasesLoadedHitter!.Value
          : null,
@@ -76,6 +79,7 @@ namespace PowerUp.Mappers.Players
           ? (AggressiveOrPatientHitter)player.AggressiveOrPatientHitter!.Value
           : null,
         IsRefinedHitter = player.IsRefinedHitter!.Value,
+        IsFreeSwinger = player.IsFreeSwinger!.Value,
         IsToughOut = player.IsToughOut!.Value,
         IsIntimidator = player.IsIntimidatingHitter!.Value,
         IsSparkplug = player.IsSparkplug!.Value

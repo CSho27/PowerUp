@@ -12,7 +12,7 @@ namespace PowerUp.Mappers.Players
     public static Appearance GetAppearance(GSPlayer player)
     {
       var ppFaceId = player.Face!.Value;
-      var faceHasThinEyebrows = ppFaceId > 194 && ppFaceId < 213;
+      var faceHasThinEyebrows = ppFaceId >= 195 && ppFaceId < 213;
       var faceType = FaceTypeHelpers.GetFaceType(ppFaceId);
 
       return new Appearance

@@ -20,6 +20,10 @@ namespace PowerUp.Entities.Players.Api
     public int? SpecialSavedNameId { get; set; }
     public string? SavedName { get; set; }
     public string? UniformNumber { get; set; }
+    public int BirthMonth { get; set; }
+    public int BirthDay { get; set; }
+    public int Age { get; set; }
+    public int YearsInMajors { get; set; }
     public Position Position { get; set; }
     public PitcherType PitcherType { get; set; }
     public int? VoiceId { get; set; }
@@ -30,6 +34,10 @@ namespace PowerUp.Entities.Players.Api
     public long? GeneratedPlayer_LSPlayerId { get; set; }
     public string? GeneratedPlayer_FullFirstName { get; set; }
     public string? GeneratedPlayer_FullLastName { get; set; }
+    public double? BattingAverage { get; set; }
+    public int? RunsBattedIn { get; set; }
+    public int? HomeRuns { get; set; }
+    public double? EarnedRunAverage { get; set; }
   }
 
   public class PlayerAppearanceParameters

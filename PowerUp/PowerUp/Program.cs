@@ -44,8 +44,8 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      //AnalyzeGameSave(characterLibrary);
-      //PrintAllPlayers(characterLibrary);
+      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
@@ -60,7 +60,7 @@ namespace PowerUp
       //GetTeamsForMappingPPTeams(mlbLookupServiceClient);
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
-      TestBuildBBRefDictionary();
+      //TestBuildBBRefDictionary();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -70,29 +70,37 @@ namespace PowerUp
       return DateTime.Now - startTime;
     }
 
-    static void AnalyzeGameSave(ICharacterLibrary characterLibrary)
+    static void AnalyzeGameSave(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary specialSavedNameLibrary)
     {
       while (true)
       {
-        Console.ReadLine();
+        var input = Console.ReadLine();
+        int.TryParse(input, out var result);
+        var playerId = result != 0
+          ? result
+          : PLAYER_ID;
         using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
-        var player = loader.Read(PLAYER_ID);
-        var bitString = player.UnknownBytes_81_88!.ToBitString();
+        var player = loader.Read(playerId);
+        var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
+        var bitString = player.UnknownByte_87!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.SavedName}{bitString} {player.TopThrowingSpeedKMH}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.EarnedRunAverage} {mappedPlayer.EarnedRunAverage} {bitString}");
       }
     }
 
-    static void PrintAllPlayers(ICharacterLibrary characterLibrary)
+    static void PrintAllPlayers(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary specialSavedNameLibrary)
     {
       var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerMapper = new PlayerMapper(specialSavedNameLibrary);
 
       for (int id = 1; id < 1513; id++)
       {
         var player = playerReader.Read(id);
+        var mappedPlayer = playerMapper.MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
         var position = (Position)player.PrimaryPosition!;
         var playerString = $"{id} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-        Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.PitchingForm!.Value}");
+        if(mappedPlayer.BirthMonth == 3 || mappedPlayer.BirthMonth == 4)
+          Console.WriteLine($"{playerString}{new string(' ', 38 - playerString.Length)}{player.BirthMonth}/{player.BirthDay}/{player.BirthYear}");
       }
     }
 
@@ -116,8 +124,8 @@ namespace PowerUp
           var position = (Position)player.PrimaryPosition!;
 
           var playerString = $"{playerNum + 1} - {string.Format("{0:X4}", player.PowerProsId)} {position.GetAbbrev()} {player.LastName}, {player.FirstName}";
-          Console.WriteLine(playerString);
-          //Console.WriteLine($"{playerString}{new string(' ', 36 - playerString.Length)}{BinaryUtils.ToBitString(player.UnknownBytes_81_88!, formatted: false)}");
+          //Console.WriteLine(playerString);
+          Console.WriteLine($"{playerString}{new string(' ', 36 - playerString.Length)}{BinaryUtils.ToBitString(pe.OtherPlayerByte!, formatted: false)}");
         }
         Console.WriteLine();
       }

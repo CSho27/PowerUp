@@ -163,6 +163,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsSpecialSavedName { get; }
     public string SavedName { get; }
     public string UniformNumber { get; }
+    public int BirthMonth { get; }
+    public int BirthDay { get; }
+    public int Age { get; }
+    public int YearsInMajors { get; }
     public KeyedCode Position { get; }
     public KeyedCode PitcherType { get; }
     public SimpleCode Voice { get; }
@@ -170,6 +174,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public SimpleCode BattingStance { get; }
     public KeyedCode ThrowingArm { get; }
     public SimpleCode PitchingMechanics { get; }
+    public double? BattingAverage { get; }
+    public int? RunsBattedIn { get; }
+    public int? HomeRuns { get; }
+    public double? EarnedRunAverage { get; }
 
     public PlayerPersonalDetailsDto(
       IVoiceLibrary voiceLibrary,
@@ -186,6 +194,12 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IsSpecialSavedName = player.SpecialSavedNameId.HasValue;
       SavedName = player.SavedName;
       UniformNumber = player.UniformNumber;
+
+      BirthMonth = player.BirthMonth;
+      BirthDay = player.BirthDay;
+      Age = player.Age;
+      YearsInMajors = player.YearsInMajors;
+
       Position = player.PrimaryPosition.ToKeyedCode(useAbbrev: true);
       PitcherType = player.PitcherType.ToKeyedCode();
       Voice = new SimpleCode(id: player.VoiceId, name: voiceLibrary[player.VoiceId]);
@@ -193,6 +207,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       BattingStance = new SimpleCode(id: player.BattingStanceId, name: battingStanceLibrary[player.BattingStanceId]);
       ThrowingArm = player.ThrowingArm.ToKeyedCode();
       PitchingMechanics = new SimpleCode(id: player.PitchingMechanicsId, name: pitchingMechanicsLibrary[player.PitchingMechanicsId]);
+      BattingAverage = player.BattingAverage;
+      RunsBattedIn = player.RunsBattedIn;
+      HomeRuns = player.HomeRuns;
+      EarnedRunAverage = player.EarnedRunAverage;
     }
   }
 
@@ -390,12 +408,16 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsStar { get; }
     public KeyedCode Durability { get; }
     public KeyedCode Morale { get; }
+    public KeyedCode DayGameAbility { get; }
+    public KeyedCode InRainAbility { get; }
 
     public GeneralSpecialAbilitiesDetailsDto(GeneralSpecialAbilities general)
     {
       IsStar = general.IsStar;
       Durability = general.Durability.ToKeyedCode();
       Morale = general.Morale.ToKeyedCode();
+      DayGameAbility = general.DayGameAbility.ToKeyedCode();
+      InRainAbility = general.InRainAbility.ToKeyedCode();
     }
   }
 
@@ -456,6 +478,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
     public bool IsFirstballHitter { get; }
     public KeyedCode? AggressiveOrPatientHitter { get; }
     public bool IsRefinedHitter { get; }
+    public bool IsFreeSwinger { get; }
     public bool IsToughOut { get; }
     public bool IsIntimidatingHitter { get; }
     public bool IsSparkplug { get; }
@@ -471,6 +494,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       IsFirstballHitter = approach.IsFirstballHitter;
       AggressiveOrPatientHitter = approach.AggressiveOrPatientHitter?.ToKeyedCode();
       IsRefinedHitter = approach.IsRefinedHitter;
+      IsFreeSwinger = approach.IsFreeSwinger;
       IsToughOut = approach.IsToughOut;
       IsIntimidatingHitter = approach.IsIntimidator;
       IsSparkplug = approach.IsSparkplug;

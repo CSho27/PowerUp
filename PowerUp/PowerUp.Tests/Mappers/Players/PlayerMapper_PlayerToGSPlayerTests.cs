@@ -5,6 +5,7 @@ using PowerUp.Entities.Players;
 using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
 using Shouldly;
+using System;
 
 namespace PowerUp.Tests.Mappers.Players
 {
@@ -16,7 +17,7 @@ namespace PowerUp.Tests.Mappers.Players
     [SetUp]
     public void SetUp()
     {
-      player = new Player() { UniformNumber = "24" };
+      player = new Player() { UniformNumber = "24", BirthMonth = 3, BirthDay = 1, Age = 28 };
       playerMapper = new PlayerMapper(Substitute.For<ISpecialSavedNameLibrary>());
     }
 
@@ -64,6 +65,38 @@ namespace PowerUp.Tests.Mappers.Players
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.PlayerNumber.ShouldBe(expectedNumberValue);
       result.PlayerNumberNumberOfDigits.ShouldBe(expectedNumberDigits);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapBirthMonth()
+    {
+      player.BirthMonth = 4;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BirthMonth!.Value.ShouldBe((ushort)4);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapBirthDay()
+    {
+      player.BirthDay = 9;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BirthDay!.Value.ShouldBe((ushort)9);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapAge()
+    {
+      player.Age = 9;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BirthYear!.Value.ShouldBe((ushort)1998);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShoudMapYearsInMajors()
+    {
+      player.YearsInMajors = 25;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.YearsInMajors.ShouldBe((ushort)25);
     }
 
     [Test]
@@ -129,6 +162,46 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
+    [TestCase(.179, (ushort)179)]
+    [TestCase(null, (ushort)1023)]
+    public void MapToGSPlayer_ShouldMapBattingAverage(double? battingAverage, ushort expectedBattingAveragePoints)
+    {
+      player.BattingAverage = battingAverage;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.BattingAveragePoints.ShouldBe(expectedBattingAveragePoints);
+    }
+
+    [Test]
+    [TestCase(179, (ushort)179)]
+    [TestCase(null, (ushort)1023)]
+    public void MapToGSPlayer_ShouldMapRunsBattedIn(int? rbi, ushort expectedRbi)
+    {
+      player.RunsBattedIn = rbi;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.RunsBattedIn.ShouldBe(expectedRbi);
+    }
+
+    [Test]
+    [TestCase(23, (ushort)23)]
+    [TestCase(null, (ushort)1023)]
+    public void MapToGSPlayer_ShouldMapHomeRuns(int? hr, ushort expectedHr)
+    {
+      player.HomeRuns = hr;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.HomeRuns.ShouldBe(expectedHr);
+    }
+
+    [Test]
+    [TestCase(3.18, (ushort)318)]
+    [TestCase(null, (ushort)16383)]
+    public void MapToGSPlayer_ShouldMapEarnedRunAverage(double? era, ushort expectedEra)
+    {
+      player.EarnedRunAverage = era;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.EarnedRunAverage.ShouldBe(expectedEra);
+    }
+
+    [Test]
     [TestCase(5, null, (ushort)5)]
     [TestCase(179, EyebrowThickness.Thick, (ushort)179)]
     [TestCase(179, EyebrowThickness.Thin, (ushort)197)]
@@ -142,10 +215,10 @@ namespace PowerUp.Tests.Mappers.Players
 
     [Test]
     [TestCase(null, null, (ushort)0)]
-    [TestCase(SkinColor.One, EyeColor.Brown, (ushort)0)]
-    [TestCase(SkinColor.One, EyeColor.Blue, (ushort)5)]
-    [TestCase(SkinColor.Five, EyeColor.Brown, (ushort)4)]
-    [TestCase(SkinColor.Five, EyeColor.Blue, (ushort)9)]
+    [TestCase(SkinColor.One, EyeColor.Brown, (ushort)5)]
+    [TestCase(SkinColor.One, EyeColor.Blue, (ushort)0)]
+    [TestCase(SkinColor.Five, EyeColor.Brown, (ushort)9)]
+    [TestCase(SkinColor.Five, EyeColor.Blue, (ushort)4)]
     public void MapToGSPlayer_ShouldMapSkinAndEyes(SkinColor? skin, EyeColor? eyeColor, ushort exptectedValue)
     {
       player.Appearance.SkinColor = skin;
@@ -702,6 +775,21 @@ namespace PowerUp.Tests.Mappers.Players
       result.Morale!.Value.ShouldBe((short)-1);
     }
 
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodPoorDayGame()
+    {
+      player.SpecialAbilities.General.DayGameAbility = SpecialPositive_Negative.Negative;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodOrPoorDayGame!.Value.ShouldBe((short)-1);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapGoodPoorInRain()
+    {
+      player.SpecialAbilities.General.InRainAbility = SpecialPositive_Negative.Positive;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.GoodOrPoorRain!.Value.ShouldBe((short)1);
+    }
 
     [Test]
     public void MapToGSPlayer_ShouldMapHittingConsistency()
@@ -751,6 +839,14 @@ namespace PowerUp.Tests.Mappers.Players
       player.SpecialAbilities.Hitter.SituationalHitting.IsRallyHitter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsRallyHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapIsGoodPinchHitter()
+    {
+      player.SpecialAbilities.Hitter.SituationalHitting.IsGoodPinchHitter = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsGoodPinchHitter!.Value.ShouldBe(true);
     }
 
     [Test]
@@ -847,6 +943,14 @@ namespace PowerUp.Tests.Mappers.Players
       player.SpecialAbilities.Hitter.HittingApproach.IsRefinedHitter = true;
       var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
       result.IsRefinedHitter!.Value.ShouldBe(true);
+    }
+
+    [Test]
+    public void MapToGSPlayer_ShouldMapFreeSwinger()
+    {
+      player.SpecialAbilities.Hitter.HittingApproach.IsFreeSwinger = true;
+      var result = playerMapper.MapToGSPlayer(player, MLBPPTeam.Indians, 1);
+      result.IsFreeSwinger!.Value.ShouldBe(true);
     }
 
     [Test]
