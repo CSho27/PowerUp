@@ -37,6 +37,8 @@ namespace PowerUp.Databases
       else
       {
         entity.Id = 0;
+
+        var mappedDoc = new BsonMapper().ToDocument(entity);
         entity.Id = entityCollection.Insert(entity);
       }
 
@@ -68,9 +70,19 @@ namespace PowerUp.Databases
         .Select(e => mapper.ToDocument(e));
       entityCollection.Update(existingEntities);
 
+      var lastInsert = entityCollection.FindOne(LiteDB.Query.All(LiteDB.Query.Descending));
+      var nextId = lastInsert != null
+        ? lastInsert["_id"].AsInt32 + 1
+        : 1;
+
       var newEntities = entities
         .Where(e => !e.Id.HasValue)
-        .Select(e => { e.Id = 0; return e; })
+        .Select(e => 
+          { 
+            e.Id = nextId;
+            nextId++;
+            return e; 
+          })
         .Select(e => mapper.ToDocument(e));
       entityCollection.Insert(newEntities);
 

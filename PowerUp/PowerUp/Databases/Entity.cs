@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace PowerUp.Databases
 {
@@ -10,7 +9,7 @@ namespace PowerUp.Databases
   {
     [MigrationIgnore]
     public int? Id { get; set; }
-
+    public virtual bool ShouldIgnoreInMigration { get; }
     public virtual IEnumerable<Func<Entity, object>> UntypedIndexes 
       => Enumerable.Empty<Func<Entity, object>>();
   }

@@ -18,7 +18,7 @@ namespace PowerUp.Migrations
   {
     public void MigrateDataFrom2(string dataDirectory)
     {
-      var existingDatabase = new EntityDatabase(dataDirectory);
+      using var existingDatabase = new EntityDatabase(dataDirectory);
       foreach(var entityType in MigrationHelpers.GetAllEntityTypes())
       {
         var migrationType = MigrationHelpers.GetMigrationTypeFor(entityType)!;
@@ -26,8 +26,8 @@ namespace PowerUp.Migrations
         var allObjectsForEntity = existingDatabase
           .LoadAll(migrationType)
           .Select(o => migrator.Migrate(o))
-          .Where(o => o is not null)
-          .Cast<Entity>();
+          .Cast<Entity>()
+          .Where(o => o is not null && !o.ShouldIgnoreInMigration);
 
         DatabaseConfig.Database.SaveAll(entityType, allObjectsForEntity);
       }
@@ -35,11 +35,15 @@ namespace PowerUp.Migrations
 
     public void MigrateDataFrom(string dataDirectory)
     {
-      var existingDatabase = new EntityDatabase(dataDirectory);
+      using var existingDatabase = new EntityDatabase(dataDirectory);
       foreach (var entityType in MigrationHelpers.GetAllEntityTypes())
       {
-        var allObjectsForEntity = existingDatabase.LoadAll(entityType);
-        DatabaseConfig.Database.SaveAll(entityType, allObjectsForEntity);
+        var allEntitiesOfType = existingDatabase.LoadAll(entityType).Where(e => !e.ShouldIgnoreInMigration);
+        // clear ids
+        foreach (var entity in allEntitiesOfType)
+          entity.Id = null;
+
+        DatabaseConfig.Database.SaveAll(entityType, allEntitiesOfType);
       }
     }
   }

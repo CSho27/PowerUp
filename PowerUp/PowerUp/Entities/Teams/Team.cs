@@ -10,6 +10,7 @@ namespace PowerUp.Entities.Teams
   {
     public string Identifier => $"T{Id}";
     public EntitySourceType SourceType { get; set; }
+    public override bool ShouldIgnoreInMigration => SourceType == EntitySourceType.Base;
     public string Name { get; set; } = string.Empty;
     public string? ImportSource { get; set; }
     public long? GeneratedTeam_LSTeamId { get; set; }
