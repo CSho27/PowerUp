@@ -37,11 +37,13 @@ namespace PowerUp.Databases
       else
       {
         entity.Id = 0;
+
+        var mappedDoc = new BsonMapper().ToDocument(entity);
         entity.Id = entityCollection.Insert(entity);
       }
 
-      foreach(var propertyGetter in entity.Indexes)
-        entityCollection.EnsureIndex(propertyGetter);
+      foreach(var propertyGetter in entity.UntypedIndexes)
+        entityCollection.EnsureIndex(e => propertyGetter(e));
     }
 
     public void SaveAll<TEntity>(IEnumerable<TEntity> entities) where TEntity : Entity<TEntity>
@@ -54,8 +56,41 @@ namespace PowerUp.Databases
       var newEntities = entities.Where(e => !e.Id.HasValue).Select(e => { e.Id = 0; return e; });
       entityCollection.Insert(newEntities);
 
-      foreach (var propertyGetter in entities.FirstOrDefault()?.Indexes ?? Enumerable.Empty<Expression<Func<TEntity, object>>>())
-        entityCollection.EnsureIndex(propertyGetter);
+      foreach (var propertyGetter in entities.FirstOrDefault()?.Indexes ?? Enumerable.Empty<Func<TEntity, object>>())
+        entityCollection.EnsureIndex(e => propertyGetter(e));
+    }
+
+    public void SaveAll(Type entityType, IEnumerable<Entity> entities)
+    {
+      var entityCollection = DBConnection.GetCollection<BsonDocument>(entityType.Name);
+      var mapper = new BsonMapper();
+
+      var existingEntities = entities
+        .Where(e => e.Id.HasValue)
+        .Select(e => mapper.ToDocument(e));
+      entityCollection.Update(existingEntities);
+
+      var lastInsert = entityCollection.FindOne(LiteDB.Query.All(LiteDB.Query.Descending));
+      var nextId = lastInsert != null
+        ? lastInsert["_id"].AsInt32 + 1
+        : 1;
+
+      var newEntities = entities
+        .Where(e => !e.Id.HasValue)
+        .Select(e => 
+          { 
+            e.Id = nextId;
+            nextId++;
+            return e; 
+          })
+        .Select(e => mapper.ToDocument(e));
+      entityCollection.Insert(newEntities);
+
+      foreach (var propertyGetter in entities.FirstOrDefault()?.UntypedIndexes ?? Enumerable.Empty<Func<Entity, object>>())
+      {
+        Expression<Func<BsonDocument, object>> bsonGetter = d => propertyGetter((Entity)mapper.ToObject(entityType, d));
+        entityCollection.EnsureIndex(bsonGetter);
+      }
     }
 
     public TEntity? Load<TEntity>(int id) where TEntity : Entity<TEntity>
@@ -86,6 +121,13 @@ namespace PowerUp.Databases
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
       return entityCollection.FindAll().ToList();
+    }
+
+    public IEnumerable<Entity> LoadAll(Type entityType)
+    {
+      var entityCollection = DBConnection.GetCollection(entityType.Name);
+      var mapper = new BsonMapper();
+      return entityCollection.FindAll().Select(d => (Entity)mapper.ToObject(entityType, d)).ToList();
     }
 
     public ILiteQueryable<TEntity> Query<TEntity>()

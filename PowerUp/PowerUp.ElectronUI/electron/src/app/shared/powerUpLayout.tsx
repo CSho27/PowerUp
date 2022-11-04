@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
 import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
 import { openGameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal";
+import { openMigrationModal } from "../migrationModal/migrationModal";
 
 export interface PowerUpLayoutProps {
   appContext: AppContext;
@@ -34,6 +35,10 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
             Game Saves
             <Icon icon='sd-card' />
           </HeaderLinkWrapper>
+          <HeaderLinkWrapper onClick={importOldData} title='Import data from an older version of the PowerUp app'>
+            Import Old Data
+            <Icon icon='upload' />
+          </HeaderLinkWrapper>
           <HeaderLinkWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
             Help
             <Icon icon='circle-question' />
@@ -55,6 +60,10 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
         return;
     }
     openGameSaveManagerModal(appContext);
+  }
+
+  function importOldData() {
+    openMigrationModal(appContext);
   }
 }
 

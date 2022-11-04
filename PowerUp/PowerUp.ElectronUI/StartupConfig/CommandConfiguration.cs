@@ -1,5 +1,6 @@
 ﻿using PowerUp.ElectronUI.Api.GameSaveManagement;
 using PowerUp.ElectronUI.Api.Generation;
+using PowerUp.ElectronUI.Api.Migration;
 using PowerUp.ElectronUI.Api.PlayerDetails;
 using PowerUp.ElectronUI.Api.PlayerEditor;
 using PowerUp.ElectronUI.Api.Rosters;
@@ -50,6 +51,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<ActiveGameSaveCommand>();
       services.AddSingleton<GetGameSaveManagerDirectoryCommand>();
       services.AddSingleton<RenameGameSaveCommand>();
+      services.AddSingleton<MigrateExistingDatabaseCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -92,6 +94,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ActiveGameSaveCommand), "ActivateGameSave");
       commandRegistry.RegisterCommand(typeof(GetGameSaveManagerDirectoryCommand), "GetGameSaveManagerDirectory");
       commandRegistry.RegisterCommand(typeof(RenameGameSaveCommand), "RenameGameSave");
+      commandRegistry.RegisterCommand(typeof(MigrateExistingDatabaseCommand), "MigrateExistingDatabase");
     }
   }
 }

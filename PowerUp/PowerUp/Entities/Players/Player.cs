@@ -2,14 +2,14 @@
 using PowerUp.Generators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PowerUp.Entities.Players
 {
   public class Player : Entity<Player>
   {
     public string Identifier => $"P{Id}";
-    public EntitySourceType SourceType { get; set; }
+    public EntitySourceType SourceType { get; set; } = EntitySourceType.Custom;
+    public override bool ShouldIgnoreInMigration => SourceType == EntitySourceType.Base;
     public bool IsCustomPlayer { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
@@ -29,14 +29,14 @@ namespace PowerUp.Entities.Players
 
     public string SavedName { get; set; } = string.Empty;
     public int? SpecialSavedNameId { get; set; }
-    public int BirthMonth { get; set; }
-    public int BirthDay { get; set; }
-    public int Age { get; set; }
-    public int YearsInMajors { get; set; }
+    public int BirthMonth { get; set; } = 1;
+    public int BirthDay { get; set; } = 1;
+    public int Age { get; set; } = 28;
+    public int YearsInMajors { get; set; } = 5;
     public string UniformNumber { get; set; } = string.Empty;
     public Position PrimaryPosition { get; set; }
     public PitcherType PitcherType { get; set; }
-    public int VoiceId { get; set; }
+    public int VoiceId { get; set; } = 2052;
     public BattingSide BattingSide { get; set; }
     public int BattingStanceId { get; set; }
     public ThrowingArm ThrowingArm { get; set; }

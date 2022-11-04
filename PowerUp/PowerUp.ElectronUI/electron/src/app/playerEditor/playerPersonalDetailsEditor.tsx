@@ -185,7 +185,7 @@ export function PlayerPersonalDetailsEditor(props: PlayerPersonalDetailsEditorPr
     
     <FlexRow gap='16px' withBottomPadding>
       <FlexFracItem frac='1/4'>
-        <FieldLabel>Birth Date</FieldLabel>
+        <FieldLabel>Birth Date (month/day)</FieldLabel>
         <div style={{ display: 'flex', gap: '4px' }}>
           <NumberField 
             type='Defined'

@@ -112,6 +112,9 @@ namespace PowerUp.Mappers
       return new GSTeam
       {
         PlayerEntries = team.PlayerDefinitions
+          .OrderBy(p => p.IsAAA)
+          .OrderBy(p => p.PitcherRole != PitcherRole.SwingMan)
+          .OrderBy(p => p.PitcherRole)
           .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, ppIdsById[p.PlayerId]))
           .Concat(emptyPlayerSlots)
       };

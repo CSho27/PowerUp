@@ -1,9 +1,11 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Generators;
+using PowerUp.Migrations;
 using System;
 
 namespace PowerUp.Entities.GenerationResults
 {
+  [MigrationIgnore]
   public class RosterGenerationStatus : Entity<RosterGenerationStatus>
   {
     public int Year { get; set; }

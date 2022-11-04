@@ -8,6 +8,7 @@ using PowerUp.GameSave.GameSaveManagement;
 using PowerUp.Generators;
 using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
+using PowerUp.Migrations;
 using PowerUp.Providers;
 
 namespace PowerUp.ElectronUI.StartupConfig
@@ -32,6 +33,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
       services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IBaseGameSavePathProvider>()));
+      services.AddTransient<IMigrationApi>(provider => new MigrationApi());
     }
   }
 }

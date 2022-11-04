@@ -1,9 +1,11 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Generators;
+using PowerUp.Migrations;
 using System;
 
 namespace PowerUp.Entities.GenerationResults
 {
+  [MigrationIgnore]
   public class TeamGenerationStatus : Entity<TeamGenerationStatus>
   {
     public long LSTeamId { get; set; }

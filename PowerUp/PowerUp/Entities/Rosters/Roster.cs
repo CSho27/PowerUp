@@ -10,6 +10,7 @@ namespace PowerUp.Entities.Rosters
   {
     public string Identifier => $"R{Id}";
     public EntitySourceType SourceType { get; set; }
+    public override bool ShouldIgnoreInMigration => SourceType == EntitySourceType.Base;
     public string Name { get; set; } = "";
     public int? Year { get; set; }
     public string? ImportSource { get; set; }

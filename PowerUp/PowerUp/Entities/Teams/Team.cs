@@ -10,6 +10,7 @@ namespace PowerUp.Entities.Teams
   {
     public string Identifier => $"T{Id}";
     public EntitySourceType SourceType { get; set; }
+    public override bool ShouldIgnoreInMigration => SourceType == EntitySourceType.Base;
     public string Name { get; set; } = string.Empty;
     public string? ImportSource { get; set; }
     public long? GeneratedTeam_LSTeamId { get; set; }
@@ -28,9 +29,6 @@ namespace PowerUp.Entities.Teams
 
       return players;
     }
-
-    private IEnumerable<Player> GetHitters() => GetPlayers().Where(p => p.PrimaryPosition != Position.Pitcher);
-    private IEnumerable<Player> GetPitchers() => GetPlayers().Where(p => p.PrimaryPosition == Position.Pitcher);
 
     public double GetHittingRating() => TeamRatingCalculator.CalculateHittingRating(GetPlayers().Select(h => h.HitterRating));
     public double GetPitchingRating() => TeamRatingCalculator.CalculatePitchingRating(GetPlayers().Select(p => p.PitcherRating));

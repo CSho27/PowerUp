@@ -2,13 +2,13 @@
 {
   public class HitterAbilities
   {
-    public int Trajectory { get; set; }
-    public int Contact { get; set; }
-    public int Power { get; set; }
-    public int RunSpeed { get; set; }
-    public int ArmStrength { get; set; }
-    public int Fielding { get; set; }
-    public int ErrorResistance { get; set; }
+    public int Trajectory { get; set; } = 1;
+    public int Contact { get; set; } = 1;
+    public int Power { get; set; } = 16;
+    public int RunSpeed { get; set; } = 2;
+    public int ArmStrength { get; set; } = 7;
+    public int Fielding { get; set; } = 6;
+    public int ErrorResistance { get; set; } = 5;
 
     public HotZoneGrid HotZones { get; set; } = new HotZoneGrid();
 
