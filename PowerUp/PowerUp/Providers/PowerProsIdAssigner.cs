@@ -25,49 +25,52 @@ namespace PowerUp.Providers
     {
       var powerProsIdsByPlayerId = new Dictionary<int, int>();
 
-      IEnumerable<PlayerSalaryDetails> remainingContracts = playerContracts.OrderByDescending(s => s.GuaranteedPowerProsPoints);
+      IList<PlayerSalaryDetails> remainingContracts = playerContracts.OrderByDescending(s => s.GuaranteedPowerProsPoints).ToList();
       var nextPlayerId = remainingContracts.Select(c => c.PlayerId).Max() + 1;
-      var postArbPlayersRankedByOverall = parameters.Where(p => p.YearsInMajors >= PRE_ARB_YEARS).OrderByDescending(p => p.Overall).ToArray();
+      var allPlayersRankedByOverall = parameters.DistinctBy(p => p.PlayerId).OrderByDescending(p => p.Overall).ToList();
+      var postArbPlayersRankedByOverall = allPlayersRankedByOverall.Where(p => p.YearsInMajors >= PRE_ARB_YEARS).ToArray();
       
       foreach(var player in postArbPlayersRankedByOverall)
       {
-        if (!remainingContracts.Any())
+        var assignedContract = remainingContracts.RemoveFirstOrDefault();
+        if (assignedContract == null)
         {
           powerProsIdsByPlayerId.Add(player.PlayerId, nextPlayerId);
           nextPlayerId++;
           continue;
         }
-
-        var assignedContract = remainingContracts.First();
-        remainingContracts = remainingContracts.Skip(1);
+        
         powerProsIdsByPlayerId.Add(player.PlayerId, assignedContract.PlayerId);
       }
 
-      var rookieContracts = remainingContracts.Where(s => s.IsRookieDeal);
-      var rookieContractPlayers = parameters.Where(p => p.YearsInMajors < PRE_ARB_YEARS);
+      var groupedRookieContracts = remainingContracts.Where(s => s.IsRookieDeal).GroupBy(s => s.YearsUntilFreeAgency).ToDictionary(s => s.Key, s => s.ToList());
+      var rookieContractPlayers = allPlayersRankedByOverall.Where(p => p.YearsInMajors < PRE_ARB_YEARS).ToList();
       var leftoverRookies = new List<PowerProsIdParameters>();
       foreach (var player in rookieContractPlayers)
       {
-        var assignedContract = rookieContracts.FirstOrDefault(c => c.YearsUntilFreeAgency == PRE_ARB_YEARS - player.YearsInMajors);
-        rookieContracts = rookieContracts.Where(c => c.PlayerId != assignedContract?.PlayerId);
-        remainingContracts = remainingContracts.Where(c => c.PlayerId != assignedContract?.PlayerId);
-        if(assignedContract != null)
-          powerProsIdsByPlayerId.Add(player.PlayerId, assignedContract!.PlayerId);
-        else
+        var yearsUntilFreeAgency = PRE_ARB_YEARS - player.YearsInMajors;
+        groupedRookieContracts.TryGetValue(yearsUntilFreeAgency, out var contractsWithRightLength);
+        var assignedContract = (contractsWithRightLength ?? new List<PlayerSalaryDetails>()).RemoveFirstOrDefault();
+        if (assignedContract == null)
+        {
           leftoverRookies.Add(player);
+          continue;
+        }
+
+        powerProsIdsByPlayerId.Add(player.PlayerId, assignedContract!.PlayerId);
+        remainingContracts = remainingContracts.Where(c => c.PlayerId != assignedContract.PlayerId).ToList();
       }
 
-      foreach(var player in leftoverRookies.OrderByDescending(r => r.Overall))
+      foreach(var player in leftoverRookies)
       {
-        if (!remainingContracts.Any())
+        var assignedContract = remainingContracts.RemoveFirstOrDefault();
+        if (assignedContract == null)
         {
           powerProsIdsByPlayerId.Add(player.PlayerId, nextPlayerId);
           nextPlayerId++;
           continue;
         }
 
-        var assignedContract = remainingContracts.First();
-        remainingContracts = remainingContracts.Skip(1);
         powerProsIdsByPlayerId.Add(player.PlayerId, assignedContract.PlayerId);
       }
 

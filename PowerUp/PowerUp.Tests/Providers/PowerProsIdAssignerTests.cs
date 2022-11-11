@@ -2,6 +2,8 @@
 using PowerUp.Libraries;
 using PowerUp.Providers;
 using Shouldly;
+using System;
+using System.Collections.Generic;
 
 namespace PowerUp.Tests.Providers
 {
@@ -175,6 +177,44 @@ namespace PowerUp.Tests.Providers
       results.ShouldContain(p => p.Key == 1 && p.Value == 103);
       results.ShouldContain(p => p.Key == 2 && p.Value == 102);
       results.ShouldContain(p => p.Key == 3 && p.Value == 101);
+    }
+
+    [Test]
+    [TestCase(500, 1)]
+    [TestCase(1000, 1)]
+    [TestCase(5000, 1)]
+
+    public void AssignIds_RunsInAReasonableAmountOfTime(int numberOfEntries, int secondsToCompletion)
+    {
+      var players = new List<PowerProsIdParameters>();
+      for(int i=0; i<numberOfEntries; i++)
+      {
+        players.Add(new PowerProsIdParameters
+        { PlayerId = i+1
+        , Overall = i % 99
+        , YearsInMajors = i % 20
+        });
+      }
+
+      var contracts = new List<PlayerSalaryDetails>();
+      for (int i=0; i<numberOfEntries; i++)
+      {
+        contracts.Add(new PlayerSalaryDetails
+          ( playerId: i+1
+          , powerProsPointsPerYear: i % 2 == 0
+              ? 380
+              : i * 100
+          , yearsUntilFreeAgency: i % 20
+          ));
+      }
+
+      IDictionary<int, int> results = null;
+      Should.CompleteIn(() =>
+      {
+        results = new PowerProsIdAssigner().AssignIds(players, contracts);
+      }, TimeSpan.FromSeconds(secondsToCompletion));
+      
+      results.Count.ShouldBe(numberOfEntries);
     }
   }
 }

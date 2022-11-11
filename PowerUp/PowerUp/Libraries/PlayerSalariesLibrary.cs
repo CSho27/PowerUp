@@ -15,7 +15,7 @@ namespace PowerUp.Libraries
     public int PowerProsPointsPerYear { get; }
     public int YearsUntilFreeAgency { get; }
     public int GuaranteedPowerProsPoints => YearsUntilFreeAgency * PowerProsPointsPerYear;
-    public bool IsRookieDeal => PowerProsPointsPerYear == 380;
+    public bool IsRookieDeal => PowerProsPointsPerYear == 380 && YearsUntilFreeAgency <= 6;
 
     public PlayerSalaryDetails(
       int playerId,
@@ -40,7 +40,7 @@ namespace PowerUp.Libraries
         .Select(l => new PlayerSalaryDetails(
           playerId: int.Parse(l[0]),
           powerProsPointsPerYear: int.Parse(l[1]),
-          yearsUntilFreeAgency: int.Parse(l[1])
+          yearsUntilFreeAgency: int.Parse(l[2])
         ));
     }
   }
