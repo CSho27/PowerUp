@@ -13,6 +13,7 @@ namespace PowerUp.Providers
   {
     public int PlayerId { get; set; }
     public int YearsInMajors { get; set; }
+    public double HitterRating { get; set; }
     public double Overall { get; set; }
   }
 
@@ -27,7 +28,8 @@ namespace PowerUp.Providers
 
       IList<PlayerSalaryDetails> remainingContracts = playerContracts.OrderByDescending(s => s.PowerProsPointsPerYear).ToList();
       var nextPlayerId = remainingContracts.Select(c => c.PlayerId).Max() + 1;
-      var allPlayersRankedByOverall = parameters.DistinctBy(p => p.PlayerId).OrderByDescending(p => p.Overall).ToList();
+      // If a player's hitter rating is below 60, it's very likely they're only a pitcher
+      var allPlayersRankedByOverall = parameters.DistinctBy(p => p.PlayerId).OrderByDescending(p => p.HitterRating < 60  ? p.Overall * .92 : p.Overall).ToList();
       var postArbPlayersRankedByOverall = allPlayersRankedByOverall.Where(p => p.YearsInMajors >= PRE_ARB_YEARS).ToArray();
       
       foreach(var player in postArbPlayersRankedByOverall)

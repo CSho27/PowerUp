@@ -69,8 +69,8 @@ namespace PowerUp.GameSave.Api
           .Select(p => { playerExportId++; return (player: p, playerExportId: playerExportId); })
           .ToList();
         var allPlayerParameters = playersOnTeams
-          .Select(p => new PowerProsIdParameters { PlayerId = p.playerExportId, YearsInMajors = p.player.YearsInMajors, Overall = p.player.Overall })
-          .Concat(freeAgents.Select(p => new PowerProsIdParameters { PlayerId = p.playerExportId, YearsInMajors = p.player.YearsInMajors, Overall = p.player.Overall }));
+          .Select(p => new PowerProsIdParameters { PlayerId = p.playerExportId, YearsInMajors = p.player.YearsInMajors, HitterRating = p.player.HitterRating, Overall = p.player.Overall })
+          .Concat(freeAgents.Select(p => new PowerProsIdParameters { PlayerId = p.playerExportId, YearsInMajors = p.player.YearsInMajors, HitterRating = p.player.HitterRating, Overall = p.player.Overall }));
 
         var ppIdByExportId = _powerProsIdAssigner.AssignIds(allPlayerParameters, _playerSalariesLibrary.PlayerSalaries);
 
