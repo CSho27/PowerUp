@@ -18,7 +18,7 @@ namespace PowerUp.Entities.Players
 
     private const double H_HIGHEST_RATING = 85.87254902; // By this weighted average, Albert Pujols has the hight rating int the game at ~85.87
     private const double H_AVERAGE_RATING = 51.70664926; // By this weighted average, the average player has a rating of ~51.7
-    private const double H_DESIRED_HIGHEST_RATING = 95; // In all of baseball history, I'll give Pujols '06 season a 95
+    private const double H_DESIRED_HIGHEST_RATING = 99; // In all of baseball history, I'll give Pujols '06 ratings a 99
     private const double H_DESIRED_AVERAGE_RATING = 80; // C average
     private static readonly Func<double, double> HittingLinearGradient = MathUtils.BuildLinearGradientFunction(
       max: H_HIGHEST_RATING,
@@ -28,14 +28,14 @@ namespace PowerUp.Entities.Players
     );
 
     // Pitcher Ability Weights
-    private const double TOP_SPD_WEIGHT = 0.6;
-    private const double CTRL_WEIGHT = 0.16;
-    private const double STAM_WEIGHT = 0.1;
-    private const double _2SFB_WEIGHT = 0.04;
-    private const double SLD_WEIGHT = 0.04;
-    private const double CRV_WEIGHT = 0.005;
+    private const double TOP_SPD_WEIGHT = 0.45;
+    private const double CTRL_WEIGHT = 0.24;
+    private const double STAM_WEIGHT = 0.18;
+    private const double _2SFB_WEIGHT = 0.02;
+    private const double SLD_WEIGHT = 0.08;
+    private const double CRV_WEIGHT = 0.01;
     private const double FRK_WEIGHT = 0.02;
-    private const double SNK_WEIGHT = 0.005;
+    private const double SNK_WEIGHT = 0.01;
     private const double SNKFB_WEIGHT = 0.03;
 
     private static readonly Func<double, double> TopSpeedLinearGradient = MathUtils.BuildLinearGradientFunction(
@@ -47,7 +47,7 @@ namespace PowerUp.Entities.Players
 
     private const double P_HIGHEST_RATING = 76.92430538; // By this weighted average, Albert Pujols has the hight rating int the game at ~85.87
     private const double P_AVERAGE_RATING = 67.36310524; // By this weighted average, the average player has a rating of ~51.7
-    private const double P_DESIRED_HIGHEST_RATING = 93; // The best pitchers from 06 earn about a 93 in history in my mind
+    private const double P_DESIRED_HIGHEST_RATING = 96; // The best pitchers from 06 earn about a 96 in history in my mind
     private const double P_DESIRED_AVERAGE_RATING = 80; // C average
     private static readonly Func<double, double> PitchingLinearGradient = MathUtils.BuildLinearGradientFunction(
       max: P_HIGHEST_RATING,

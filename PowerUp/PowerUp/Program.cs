@@ -9,6 +9,7 @@ using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.GameSave.Objects.Players;
+using PowerUp.GameSave.Objects.SeasonModeSalaries;
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Generators;
 using PowerUp.Libraries;
@@ -45,7 +46,7 @@ namespace PowerUp
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary, savedNameLibrary);
-      PrintAllPlayers(characterLibrary, savedNameLibrary);
+      //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
       //PrintRedsPlayers();
@@ -61,6 +62,7 @@ namespace PowerUp
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
+      ReadSalaryInfo(characterLibrary);
     }
 
     static TimeSpan TimeAction(Action action)
@@ -626,6 +628,24 @@ namespace PowerUp
         var player = players.Single(p => p.Id == slot.PlayerId);
         Console.WriteLine($"{i + 1}. {player.InformalDisplayName} {slot.Position.GetAbbrev()} {player.Overall.RoundDown()}");
       }
+    }
+
+    static void ReadSalaryInfo(ICharacterLibrary characterLibrary)
+    {
+      var csvList = new CSVList("PlayerId", "First", "Last", "Salary", "Length");
+
+      using var reader = new GameSaveObjectReader(characterLibrary, "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2se1us.dat");
+      var salaryDict = reader.Read<GSSalaryList>(0x20F4C).SalaryEntries!.ToDictionary(e => e.PowerProsPlayerId!.Value, e => e);
+
+      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));
+      for (int id = 1; id < 971; id++)
+      {
+        var player = playerReader.Read(id);
+        var salaryEntry = salaryDict[(ushort)id];
+;       csvList.AddLine(salaryEntry.PowerProsPlayerId, player.FirstName, player.LastName, salaryEntry.PowerProsPointsPerYear, salaryEntry.YearsUntilFreeAgency);
+      }
+
+      csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerSalaries.csv"));
     }
   }
 

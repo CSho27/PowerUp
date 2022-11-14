@@ -16,6 +16,7 @@ namespace PowerUp.Libraries
       services.AddTransient<ICountryAndSkinColorLibrary>(provider => new CountryAndSkinColorLibrary(Path.Combine(dataDirectory, "./data/CountryAndSkinColor_Library.csv")));
       services.AddTransient<IBaseGameSavePathProvider>(provider => new BaseGameSavePathProvider(Path.Combine(dataDirectory, "./data/BASE.pm2maus.dat")));
       services.AddTransient<IFranchisesAndNamesLibrary>(provider => new FranchisesAndNamesLibrary(Path.Combine(dataDirectory, "./data/FranchisesAndNames_Library.csv")));
+      services.AddTransient<IPlayerSalariesLibrary>(provider => new PlayerSalariesLibrary(Path.Combine(dataDirectory, "./data/PlayerSalaries_Library.csv")));
     }
   }
 }

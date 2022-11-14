@@ -31,8 +31,8 @@ namespace PowerUp.Entities.Players
     public int? SpecialSavedNameId { get; set; }
     public int BirthMonth { get; set; } = 1;
     public int BirthDay { get; set; } = 1;
-    public int Age { get; set; } = 28;
-    public int YearsInMajors { get; set; } = 5;
+    public int Age { get; set; } = 29;
+    public int YearsInMajors { get; set; } = 6;
     public string UniformNumber { get; set; } = string.Empty;
     public Position PrimaryPosition { get; set; }
     public PitcherType PitcherType { get; set; }
