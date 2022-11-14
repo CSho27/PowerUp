@@ -25,7 +25,7 @@ namespace PowerUp.Providers
     {
       var powerProsIdsByPlayerId = new Dictionary<int, int>();
 
-      IList<PlayerSalaryDetails> remainingContracts = playerContracts.OrderByDescending(s => s.GuaranteedPowerProsPoints).ToList();
+      IList<PlayerSalaryDetails> remainingContracts = playerContracts.OrderByDescending(s => s.PowerProsPointsPerYear).ToList();
       var nextPlayerId = remainingContracts.Select(c => c.PlayerId).Max() + 1;
       var allPlayersRankedByOverall = parameters.DistinctBy(p => p.PlayerId).OrderByDescending(p => p.Overall).ToList();
       var postArbPlayersRankedByOverall = allPlayersRankedByOverall.Where(p => p.YearsInMajors >= PRE_ARB_YEARS).ToArray();

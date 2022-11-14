@@ -49,9 +49,9 @@ namespace PowerUp.Tests.Providers
       };
 
       var results = new PowerProsIdAssigner().AssignIds(players, contracts);
-      results.ShouldContain(p => p.Key == 1 && p.Value == 102);
+      results.ShouldContain(p => p.Key == 1 && p.Value == 101);
       results.ShouldContain(p => p.Key == 2 && p.Value == 103);
-      results.ShouldContain(p => p.Key == 3 && p.Value == 101);
+      results.ShouldContain(p => p.Key == 3 && p.Value == 102);
     }
 
     [Test]
@@ -140,8 +140,8 @@ namespace PowerUp.Tests.Providers
 
       var results = new PowerProsIdAssigner().AssignIds(players, contracts);
       results.ShouldContain(p => p.Key == 1 && p.Value == 102);
-      results.ShouldContain(p => p.Key == 2 && p.Value == 101);
-      results.ShouldContain(p => p.Key == 3 && p.Value == 103);
+      results.ShouldContain(p => p.Key == 2 && p.Value == 103);
+      results.ShouldContain(p => p.Key == 3 && p.Value == 101);
     }
 
     [Test]

@@ -14,7 +14,6 @@ namespace PowerUp.Libraries
     public int PlayerId { get; }
     public int PowerProsPointsPerYear { get; }
     public int YearsUntilFreeAgency { get; }
-    public int GuaranteedPowerProsPoints => YearsUntilFreeAgency * PowerProsPointsPerYear;
     public bool IsRookieDeal => PowerProsPointsPerYear == 380 && YearsUntilFreeAgency <= 6;
 
     public PlayerSalaryDetails(
