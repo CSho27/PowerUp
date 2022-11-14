@@ -18,7 +18,7 @@ namespace PowerUp.Entities.Players
 
     private const double H_HIGHEST_RATING = 85.87254902; // By this weighted average, Albert Pujols has the hight rating int the game at ~85.87
     private const double H_AVERAGE_RATING = 51.70664926; // By this weighted average, the average player has a rating of ~51.7
-    private const double H_DESIRED_HIGHEST_RATING = 99; // In all of baseball history, I'll give Pujols '06 season a 98
+    private const double H_DESIRED_HIGHEST_RATING = 99; // In all of baseball history, I'll give Pujols '06 ratings a 99
     private const double H_DESIRED_AVERAGE_RATING = 80; // C average
     private static readonly Func<double, double> HittingLinearGradient = MathUtils.BuildLinearGradientFunction(
       max: H_HIGHEST_RATING,
