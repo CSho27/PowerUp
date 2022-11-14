@@ -60,22 +60,26 @@ namespace PowerUp.GameSave.Api
           .ThenBy(t => t.Value == MLBPPTeam.NationalLeagueAllStars)
           .ThenBy(t => t.Value);
 
+        var playerExportId = 0;
         var playersOnTeams = teams
-          .SelectMany(t => t.Key.GetPlayers().Select(p => (ppTeam: t.Value, player: p)))
+          .SelectMany(t => t.Key.GetPlayers().Select(p => { playerExportId++; return (ppTeam: t.Value, player: p, playerExportId: playerExportId); }))
           .ToList();
-        var freeAgents = roster.GetFreeAgentPlayers();
+        var freeAgents = roster
+          .GetFreeAgentPlayers()
+          .Select(p => { playerExportId++; return (player: p, playerExportId: playerExportId); })
+          .ToList();
         var allPlayerParameters = playersOnTeams
-          .Select(p => new PowerProsIdParameters { PlayerId = p.player.Id!.Value, YearsInMajors = p.player.YearsInMajors, Overall = p.player.Overall })
-          .Concat(freeAgents.Select(p => new PowerProsIdParameters { PlayerId = p.Id!.Value, YearsInMajors = p.YearsInMajors, Overall = p.Overall }));
+          .Select(p => new PowerProsIdParameters { PlayerId = p.playerExportId, YearsInMajors = p.player.YearsInMajors, Overall = p.player.Overall })
+          .Concat(freeAgents.Select(p => new PowerProsIdParameters { PlayerId = p.playerExportId, YearsInMajors = p.player.YearsInMajors, Overall = p.player.Overall }));
 
-        var ppIdByPlayerId = _powerProsIdAssigner.AssignIds(allPlayerParameters, _playerSalariesLibrary.PlayerSalaries);
+        var ppIdByExportId = _powerProsIdAssigner.AssignIds(allPlayerParameters, _playerSalariesLibrary.PlayerSalaries);
 
         var gsPlayers = new List<GSPlayer>();
         var ppIdsByTeamAndId = new Dictionary<MLBPPTeam, IDictionary<int, ushort>>();
         for(var i=0; i<playersOnTeams.Count; i++)
         {
           var player = playersOnTeams[i];
-          var ppId = (ushort)ppIdByPlayerId[player.player.Id!.Value];
+          var ppId = (ushort)ppIdByExportId[player.playerExportId];
           ppIdsByTeamAndId.TryAdd(player.ppTeam, new Dictionary<int, ushort>());
           ppIdsByTeamAndId[player.ppTeam].Add(player.player.Id!.Value, ppId);
 
@@ -94,7 +98,7 @@ namespace PowerUp.GameSave.Api
           gsPlayers.Add(_playerMapper.MapToGSPlayer(player.player, jerseyTeam, ppId));
         }
 
-        var mappedFAs = freeAgents.Select(fa => _playerMapper.MapToGSPlayer(fa, MLBPPTeam.NationalLeagueAllStars, (ushort)ppIdByPlayerId[fa.Id!.Value]));
+        var mappedFAs = freeAgents.Select(fa => _playerMapper.MapToGSPlayer(fa.player, MLBPPTeam.NationalLeagueAllStars, (ushort)ppIdByExportId[fa.playerExportId]));
         gsPlayers.AddRange(mappedFAs);
 
         var blankFreeAgentSpots = new List<GSFreeAgent>();
