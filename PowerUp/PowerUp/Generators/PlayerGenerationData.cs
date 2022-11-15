@@ -37,6 +37,7 @@ namespace PowerUp.Generators
     public Position PrimaryPosition { get; }
     public BattingSide BattingSide { get; }
     public ThrowingArm ThrowingArm { get; }
+    public DateTime? BirthDate { get; }
     public string? BirthCountry { get; }
     public DateTime? ProDebutDate { get; }
 
@@ -48,6 +49,7 @@ namespace PowerUp.Generators
       PrimaryPosition = result.Position;
       BattingSide = result.BattingSide;
       ThrowingArm = result.ThrowingArm;
+      BirthDate = result.BirthDate;
       BirthCountry = result.BirthCountry;
       ProDebutDate = result.ProDebutDate;
     }

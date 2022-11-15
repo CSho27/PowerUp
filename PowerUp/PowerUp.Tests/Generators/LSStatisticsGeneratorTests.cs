@@ -43,6 +43,9 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.Catcher);
       resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Johnny", "Bench").Key);
+      resultPlayer.Age.ShouldBe(32);
+      resultPlayer.BirthMonth.ShouldBe(12);
+      resultPlayer.BirthDay.ShouldBe(7);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -89,6 +92,9 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.Shortstop);
       resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Cal", "Ripken Jr.").Key);
+      resultPlayer.Age.ShouldBe(29);
+      resultPlayer.BirthMonth.ShouldBe(8);
+      resultPlayer.BirthDay.ShouldBe(24);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -135,6 +141,9 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.RightField);
       resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Juan", "Soto").Key);
+      resultPlayer.Age.ShouldBe(22);
+      resultPlayer.BirthMonth.ShouldBe(10);
+      resultPlayer.BirthDay.ShouldBe(25);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -182,6 +191,9 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.Pitcher);
       resultPlayer.PitcherType.ShouldBe(PitcherType.Starter);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Bob", "Gibson").Key);
+      resultPlayer.Age.ShouldBe(27);
+      resultPlayer.BirthMonth.ShouldBe(11);
+      resultPlayer.BirthDay.ShouldBe(9);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic

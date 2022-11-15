@@ -32,6 +32,9 @@ namespace PowerUp.Generators
       SetProperty("GeneratedPlayer_FullFirstName", (player, data) => player.GeneratedPlayer_FullFirstName = data.PlayerInfo!.FirstNameUsed);
       SetProperty("GeneratedPlayer_FullLastName", (player, data) => player.GeneratedPlayer_FullLastName = data.PlayerInfo!.LastName);
       SetProperty("GeneratedPlayer_ProDebutDate", (player, data) => player.GeneratedPlayer_ProDebutDate = data.PlayerInfo!.ProDebutDate);
+      SetProperty(new AgeSetter());
+      SetProperty(new BirthMonthSetter());
+      SetProperty(new BirthDaySetter());
 
       // Appearance
       SetProperty(new SkinColorSetter(skinColorGuesser));
@@ -123,6 +126,57 @@ namespace PowerUp.Generators
         else
           player.PitcherType = PitcherType.Reliever;
 
+        return true;
+      }
+    }
+
+    public class AgeSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "Age";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.BirthDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoBirthDate(PropertyKey));
+          return false;
+        }
+
+        player.Age = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.BirthDate.Value);
+        return true;
+      }
+    }
+
+    public class BirthMonthSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "BirthMonth";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.BirthDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoBirthDate(PropertyKey));
+          return false;
+        }
+
+        player.BirthMonth = datasetCollection.PlayerInfo.BirthDate.Value.Month;
+        return true;
+      }
+    }
+
+    public class BirthDaySetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "BirthDay";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.BirthDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoBirthDate(PropertyKey));
+          return false;
+        }
+
+        player.BirthDay = datasetCollection.PlayerInfo.BirthDate.Value.Day;
         return true;
       }
     }
