@@ -35,6 +35,10 @@ namespace PowerUp.Generators
       SetProperty(new AgeSetter());
       SetProperty(new BirthMonthSetter());
       SetProperty(new BirthDaySetter());
+      SetProperty(new BattingAverageSetter());
+      SetProperty(new RBIsSetter());
+      SetProperty(new HomeRunsSetter());
+      SetProperty(new ERASetter());
 
       // Appearance
       SetProperty(new SkinColorSetter(skinColorGuesser));
@@ -177,6 +181,74 @@ namespace PowerUp.Generators
         }
 
         player.BirthDay = datasetCollection.PlayerInfo.BirthDate.Value.Day;
+        return true;
+      }
+    }
+
+    public class BattingAverageSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "BattingAverage";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.HittingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          return false;
+        }
+
+        player.BattingAverage = datasetCollection.HittingStats.BattingAverage;
+        return true;
+      }
+    }
+
+    public class RBIsSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "RunsBattedIn";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.HittingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          return false;
+        }
+
+        player.RunsBattedIn = datasetCollection.HittingStats.RunsBattedIn;
+        return true;
+      }
+    }
+
+    public class HomeRunsSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "HomeRuns";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.HittingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          return false;
+        }
+
+        player.HomeRuns = datasetCollection.HittingStats.HomeRuns;
+        return true;
+      }
+    }
+
+    public class ERASetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "EarnedRunAverage";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.PitchingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+          return false;
+        }
+
+        player.EarnedRunAverage = datasetCollection.PitchingStats.EarnedRunAverage;
         return true;
       }
     }

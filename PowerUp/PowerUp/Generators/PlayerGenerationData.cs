@@ -62,6 +62,7 @@ namespace PowerUp.Generators
     public double? BattingAverage { get; }
     public int? StolenBases { get; }
     public int? Runs { get; }
+    public int? RunsBattedIn { get; }
     public long LastTeamForYear_LSTeamId { get; }
 
     public LSHittingStatsDataset(IEnumerable<HittingStatsResult> results, (IEnumerable<HittingStatsResult> results, double prorateBy)? supplementaryStats = null)
@@ -73,7 +74,8 @@ namespace PowerUp.Generators
       HomeRuns = results.SumOrNull(r => r.HomeRuns) + supplementaryResults.SumOrNullProrated(r => r.HomeRuns, proratedSupplementaryBy);
       BattingAverage = results.CombineAverages(r => r.BattingAverage, r => r.AtBats);
       StolenBases = results.SumOrNull(r => r.StolenBases) + supplementaryResults.SumOrNullProrated(r => r.StolenBases, proratedSupplementaryBy);
-      Runs = results.SumOrNull(r => r.Runs) + +supplementaryResults.SumOrNullProrated(r => r.Runs, proratedSupplementaryBy);
+      Runs = results.SumOrNull(r => r.Runs) + supplementaryResults.SumOrNullProrated(r => r.Runs, proratedSupplementaryBy);
+      RunsBattedIn = results.SumOrNull(r => r.RunsBattedIn) + supplementaryResults.SumOrNullProrated(r => r.RunsBattedIn, proratedSupplementaryBy);
       var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
       LastTeamForYear_LSTeamId = lastResult.LSTeamId;
     }

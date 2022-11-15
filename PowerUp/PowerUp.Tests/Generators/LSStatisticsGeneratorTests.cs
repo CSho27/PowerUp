@@ -46,6 +46,10 @@ namespace PowerUp.Tests.Generators
       resultPlayer.Age.ShouldBe(32);
       resultPlayer.BirthMonth.ShouldBe(12);
       resultPlayer.BirthDay.ShouldBe(7);
+      resultPlayer.BattingAverage.ShouldBe(.250);
+      resultPlayer.RunsBattedIn.ShouldBe(68);
+      resultPlayer.HomeRuns.ShouldBe(24);
+      resultPlayer.EarnedRunAverage.ShouldBe(null);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -95,6 +99,10 @@ namespace PowerUp.Tests.Generators
       resultPlayer.Age.ShouldBe(29);
       resultPlayer.BirthMonth.ShouldBe(8);
       resultPlayer.BirthDay.ShouldBe(24);
+      resultPlayer.BattingAverage.ShouldBe(.250);
+      resultPlayer.RunsBattedIn.ShouldBe(84);
+      resultPlayer.HomeRuns.ShouldBe(21);
+      resultPlayer.EarnedRunAverage.ShouldBe(null);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -144,6 +152,10 @@ namespace PowerUp.Tests.Generators
       resultPlayer.Age.ShouldBe(22);
       resultPlayer.BirthMonth.ShouldBe(10);
       resultPlayer.BirthDay.ShouldBe(25);
+      resultPlayer.BattingAverage.ShouldBe(.313);
+      resultPlayer.RunsBattedIn.ShouldBe(95);
+      resultPlayer.HomeRuns.ShouldBe(29);
+      resultPlayer.EarnedRunAverage.ShouldBe(null);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -194,6 +206,10 @@ namespace PowerUp.Tests.Generators
       resultPlayer.Age.ShouldBe(27);
       resultPlayer.BirthMonth.ShouldBe(11);
       resultPlayer.BirthDay.ShouldBe(9);
+      resultPlayer.BattingAverage.ShouldBeWithTolerance(.207, .001);
+      resultPlayer.RunsBattedIn.ShouldBe(20);
+      resultPlayer.HomeRuns.ShouldBe(3);
+      resultPlayer.EarnedRunAverage.ShouldBe(3.39);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
