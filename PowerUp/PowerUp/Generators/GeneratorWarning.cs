@@ -14,6 +14,7 @@
     }
 
     public static GeneratorWarning NoBirthDate(string propertyKey) => new GeneratorWarning(propertyKey, "NoBirthDate", "Birth date not found");
+    public static GeneratorWarning NoDebutDate(string propertyKey) => new GeneratorWarning(propertyKey, "NoDebutDate", "Debut date not found");
 
     public static GeneratorWarning NoPitchingStats(string propertyKey) => new GeneratorWarning(propertyKey, "NoPitchingStats", "Pitching stats not found");
     public static GeneratorWarning InsufficientPitchingStats(string propertyKey) => new GeneratorWarning(propertyKey, "InsufficentPitchingStats", "Insufficient pitching stats found");

@@ -33,6 +33,7 @@ namespace PowerUp.Generators
       SetProperty("GeneratedPlayer_FullLastName", (player, data) => player.GeneratedPlayer_FullLastName = data.PlayerInfo!.LastName);
       SetProperty("GeneratedPlayer_ProDebutDate", (player, data) => player.GeneratedPlayer_ProDebutDate = data.PlayerInfo!.ProDebutDate);
       SetProperty(new AgeSetter());
+      SetProperty(new YearsInMajorsSetter());
       SetProperty(new BirthMonthSetter());
       SetProperty(new BirthDaySetter());
       SetProperty(new BattingAverageSetter());
@@ -147,6 +148,23 @@ namespace PowerUp.Generators
         }
 
         player.Age = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.BirthDate.Value);
+        return true;
+      }
+    }
+
+    public class YearsInMajorsSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "YearsInMajors";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.ProDebutDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoDebutDate(PropertyKey));
+          return false;
+        }
+
+        player.YearsInMajors = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.ProDebutDate.Value);
         return true;
       }
     }
