@@ -164,7 +164,10 @@ namespace PowerUp.Generators
           return false;
         }
 
-        player.YearsInMajors = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.ProDebutDate.Value);
+        var yearsInMajors = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.ProDebutDate.Value);
+        player.YearsInMajors = yearsInMajors < 0
+          ? 0
+          : yearsInMajors;
         return true;
       }
     }
