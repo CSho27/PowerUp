@@ -11,18 +11,21 @@ namespace PowerUp.ElectronUI.Api.Generation
     private readonly IVoiceLibrary _voiceLibrary;
     private readonly ISkinColorGuesser _skinColorGuesser;
     private readonly IBattingStanceGuesser _battingStanceGuesser;
+    private readonly IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
 
     public RosterGenerationCommand
     ( IRosterGenerator rosterGenerator
     , IVoiceLibrary voiceLibrary
     , ISkinColorGuesser skinColorGuesser
     , IBattingStanceGuesser battingStanceGuesser
+    , IPitchingMechanicsGuesser pitchingMechanicsGuesser
     )
     {
       _rosterGenerator = rosterGenerator;
       _voiceLibrary = voiceLibrary;
       _skinColorGuesser = skinColorGuesser;
       _battingStanceGuesser = battingStanceGuesser;
+      _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
     public RosterGeneratioResponse Execute(RosterGenerationRequest request)
@@ -33,9 +36,14 @@ namespace PowerUp.ElectronUI.Api.Generation
       Task.Run(() => {
         var result = _rosterGenerator.GenerateRoster
         ( year: request.Year
-        , playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser, _battingStanceGuesser),
-          onTeamProgressUpdate: update => UpdateTeamProgressAndSave(update, generationStatus),
-          onPlayerProgressUpdate: update => UpdatePlayerProgressAndSave(update, generationStatus)
+        , playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm
+          ( _voiceLibrary
+          , _skinColorGuesser
+          , _battingStanceGuesser
+          , _pitchingMechanicsGuesser
+          )
+        , onTeamProgressUpdate: update => UpdateTeamProgressAndSave(update, generationStatus)
+        , onPlayerProgressUpdate: update => UpdatePlayerProgressAndSave(update, generationStatus)
         );
 
         DatabaseConfig.Database.Save(result.Roster);

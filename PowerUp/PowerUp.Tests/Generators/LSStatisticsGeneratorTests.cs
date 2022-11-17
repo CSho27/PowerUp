@@ -16,6 +16,7 @@ namespace PowerUp.Tests.Generators
     IVoiceLibrary _voiceLibrary; 
     ISkinColorGuesser _skinColorGuesser;
     IBattingStanceGuesser _battingStanceGuesser;
+    IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
     IMLBLookupServiceClient _mlbLookupApiClient;
 
     [SetUp]
@@ -25,13 +26,20 @@ namespace PowerUp.Tests.Generators
       _voiceLibrary = TestConfig.VoiceLibrary.Value;
       _skinColorGuesser = new SkinColorGuesser(TestConfig.CountryAndSkinColorLibrary.Value);
       _battingStanceGuesser = new BattingStanceGuesser(TestConfig.BattingStanceLibrary.Value);
+      _pitchingMechanicsGuesser = new PitchingMechanicsGuesser(TestConfig.PitchingMechanicsLibrary.Value);
       _mlbLookupApiClient = new MLBLookupServiceClient();
     }
 
     [Test]
     public void LSStatisticsAlgorithm_GeneratesCatcher()
     {
-      var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser, _battingStanceGuesser));
+      var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(113);
 
       var resultPlayer = result.Player;
@@ -87,7 +95,13 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesShortstop()
     {
-      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser, _battingStanceGuesser));
+      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(110);
 
       var resultPlayer = result.Player;
@@ -142,7 +156,13 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesOutfielder()
     {
-      var result = _playerGenerator.GeneratePlayer(665742, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser, _battingStanceGuesser));
+      var result = _playerGenerator.GeneratePlayer(665742, 2021, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(120);
 
       var resultPlayer = result.Player;
@@ -197,7 +217,13 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesPitcher()
     {
-      var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser, _battingStanceGuesser));
+      var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(138);
 
       var resultPlayer = result.Player;

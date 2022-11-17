@@ -21,6 +21,7 @@ namespace PowerUp.Generators
     ( IVoiceLibrary voiceLibrary
     , ISkinColorGuesser skinColorGuesser
     , IBattingStanceGuesser battingStanceGuesser
+    , IPitchingMechanicsGuesser pitchingMechanicsGuesser
     ) 
     {
       // Player Info
@@ -78,6 +79,7 @@ namespace PowerUp.Generators
 
       // Batting Stance and Pitching Mechanics
       SetProperty(new BattingStanceSetter(battingStanceGuesser));
+      SetProperty(new PitchingMechanicsSetter(pitchingMechanicsGuesser));
     }
 
     public class SavedName : PlayerPropertySetter
@@ -158,6 +160,22 @@ namespace PowerUp.Generators
           , player.HitterAbilities.Contact
           , player.HitterAbilities.Power
           );
+        return true;
+      }
+    }
+
+    public class PitchingMechanicsSetter : PlayerPropertySetter
+    {
+      private readonly IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
+      public override string PropertyKey => "PitchingMechanicsId";
+
+      public PitchingMechanicsSetter(IPitchingMechanicsGuesser pitchingMechanicsGuesser)
+      {
+        _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
+      }
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PitchingMechanicsId = _pitchingMechanicsGuesser.GuessPitchingMechanics(datasetCollection.Year, player.PitcherType);
         return true;
       }
     }
