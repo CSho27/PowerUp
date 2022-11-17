@@ -10,6 +10,7 @@ namespace PowerUp.GameSave.GameSaveManagement
   public interface IGameSaveManager
   {
     public bool Initialize(string directoryPath);
+    public string MoveDirectoryIfNeeded(string currentDirectoryPath);
     public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSavePath, string rosterName);
     public GameSaveManagerState GetCurrentState(string directoryPath);
     public void ActivateGameSave(string directoryPath, int gameSaveId);
@@ -61,7 +62,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       if (!Directory.Exists(directoryPath))
         return false;
 
-      var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
+      var originalGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath, forDataFolder: true);
       var existingOptions = GetGameSaveOptions(directoryPath);
       if (File.Exists(originalGameSavePath) && !existingOptions.Any(o => o.GameSaveId == 0))
       {
@@ -72,13 +73,27 @@ namespace PowerUp.GameSave.GameSaveManagement
       }
       else
       {
-        var originalFolderPath = GameSavePathBuilder.GetPowerUpGameSavesDirectory(directoryPath);
+        var originalFolderPath = GameSavePathBuilder.GetPowerUpGameSavesWiiDirectory(directoryPath);
         DirectoryFactory.CreateDirectoriesForPathIfNeeded(originalFolderPath);
       }
 
       return true;
     }
-    
+
+    // This is here specifically to avoid PowerPros thinking it's out of memory to use
+    public string MoveDirectoryIfNeeded(string directoryPath)
+    {
+      if (Path.GetFileName(directoryPath) != "data" || Path.GetDirectoryName(directoryPath) == "524d5045")
+        return directoryPath;
+
+      var currentGameSavesPath = GameSavePathBuilder.GetPowerUpGameSavesDirectory(directoryPath);
+      var newDirectoryPath = Path.Combine(directoryPath, "../");
+      var newGameSavesPath = GameSavePathBuilder.GetPowerUpGameSavesDirectory(newDirectoryPath);
+      FileSystemUtils.CopyDirectoryRecursively(currentGameSavesPath, newGameSavesPath);
+      Directory.Delete(currentGameSavesPath, recursive: true);
+      return newDirectoryPath;
+    }
+
     public (string gameSavePath, int gameSaveId) CreateNewGameSave(string directoryPath, string? sourceGameSave, string rosterName)
     {
       var nextGameSaveId = GetGameSaveOptions(directoryPath).Select(o => o.GameSaveId).MaxOrDefault() + 1;
@@ -105,7 +120,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       var activeGameSaveId = GetActiveGameSaveId(directoryPath);
       SyncActiveGameSave(directoryPath, activeGameSaveId);
 
-      var activeGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
+      var activeGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath, forDataFolder: true);
       var activeGameSaveBackupPath = GetGameSavePathForId(directoryPath, gameSaveId);
       if(activeGameSaveBackupPath != null)
         File.Copy(activeGameSaveBackupPath, activeGameSavePath, overwrite: true);
@@ -132,7 +147,7 @@ namespace PowerUp.GameSave.GameSaveManagement
 
     private IEnumerable<GameSaveOption> GetGameSaveOptions(string directoryPath)
     {
-      var gameSaveDirectory = GameSavePathBuilder.GetPowerUpGameSavesDirectory(directoryPath);
+      var gameSaveDirectory = GameSavePathBuilder.GetPowerUpGameSavesWiiDirectory(directoryPath);
       if(!Directory.Exists(gameSaveDirectory))
         return Enumerable.Empty<GameSaveOption>();
       var gameSaveDirectories = Directory.GetDirectories(gameSaveDirectory);
@@ -149,7 +164,7 @@ namespace PowerUp.GameSave.GameSaveManagement
 
     private int? GetActiveGameSaveId(string directoryPath)
     {
-      var activeGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
+      var activeGameSavePath = GameSavePathBuilder.GetGameSavePath(directoryPath, forDataFolder: true);
       return File.Exists(activeGameSavePath)
         ? GetGameSaveIdForFile(activeGameSavePath)
         : null;
@@ -173,7 +188,7 @@ namespace PowerUp.GameSave.GameSaveManagement
       if (!activeGameSaveId.HasValue)
         return;
 
-      var activeGameSave = GameSavePathBuilder.GetGameSavePath(directoryPath);
+      var activeGameSave = GameSavePathBuilder.GetGameSavePath(directoryPath, forDataFolder: true);
       var activeGameBackupPath = GetGameSavePathForId(directoryPath, activeGameSaveId!.Value);
       if (activeGameBackupPath != null)
         File.Copy(activeGameSave, activeGameBackupPath, overwrite: true);

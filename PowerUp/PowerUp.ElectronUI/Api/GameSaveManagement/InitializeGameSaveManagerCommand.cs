@@ -6,8 +6,7 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
 {
   public class InitializeGameSaveManagerCommand : ICommand<InitializeGameSaveManagerRequest, InitializeGameSaveResponse>
   {
-    private const string DEFAULT_DOLPHIN_POWER_PROS_DIR = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data";
-
+    private const string DEFAULT_DOLPHIN_POWER_PROS_DIR = "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045";
     private readonly IGameSaveManager _gameSaveManager;
 
     public InitializeGameSaveManagerCommand(IGameSaveManager gameSaveManager)
@@ -18,24 +17,27 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
     public InitializeGameSaveResponse Execute(InitializeGameSaveManagerRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
-
-      var directoryPath = request.GameSaveManagerDirectoryPath ?? DEFAULT_DOLPHIN_POWER_PROS_DIR;
       var settings = DatabaseConfig.Database.LoadOnly<AppSettings>();
-      if(request.GameSaveManagerDirectoryPath == null && settings != null && settings.GameSaveManagerDirectoryPath != null)
-        return new InitializeGameSaveResponse { Success = true };
-
-      var dirExists = _gameSaveManager.Initialize(directoryPath);
+      if(settings == null)
+      {
+        settings = new AppSettings();
+        settings.GameSaveManagerDirectoryPath = request.GameSaveManagerDirectoryPath ?? DEFAULT_DOLPHIN_POWER_PROS_DIR;
+      }
+      else
+      {
+        settings.GameSaveManagerDirectoryPath = request.GameSaveManagerDirectoryPath != null
+          ? Path.GetFullPath(request.GameSaveManagerDirectoryPath) == Path.GetFullPath(Path.Combine(DEFAULT_DOLPHIN_POWER_PROS_DIR, "data"))
+             ? DEFAULT_DOLPHIN_POWER_PROS_DIR
+             : request.GameSaveManagerDirectoryPath
+          : _gameSaveManager.MoveDirectoryIfNeeded(settings.GameSaveManagerDirectoryPath!);
+      }
+      DatabaseConfig.Database.Save(settings);
+      
+      var dirExists = _gameSaveManager.Initialize(settings.GameSaveManagerDirectoryPath);
       if (!dirExists)
         return new InitializeGameSaveResponse { Success = false };
       
-      if(settings == null)
-        settings = new AppSettings();
-
-      settings.GameSaveManagerDirectoryPath = directoryPath;
-      
-      DatabaseConfig.Database.Save(settings);
       tx.Commit();
-
       return new InitializeGameSaveResponse { Success = true };
     }
   }

@@ -69,7 +69,8 @@ namespace PowerUp
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
-      ReadSalaryInfo(characterLibrary);
+      //ReadSalaryInfo(characterLibrary);
+      CopyDir();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -653,6 +654,11 @@ namespace PowerUp
       }
 
       csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerSalaries.csv"));
+    }
+
+    static void CopyDir()
+    {
+      FileSystemUtils.CopyDirectoryRecursively("C:/PowerUp_Demo2", "C:/PowerUp_Demo3");
     }
   }
 
