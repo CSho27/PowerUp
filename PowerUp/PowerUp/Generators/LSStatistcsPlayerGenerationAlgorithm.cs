@@ -17,7 +17,12 @@ namespace PowerUp.Generators
       PlayerGenerationDataset.BaseballReferenceIdDataset
     };
 
-    public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary, ISkinColorGuesser skinColorGuesser) 
+    public LSStatistcsPlayerGenerationAlgorithm
+    ( IVoiceLibrary voiceLibrary
+    , ISkinColorGuesser skinColorGuesser
+    , IBattingStanceGuesser battingStanceGuesser
+    , IPitchingMechanicsGuesser pitchingMechanicsGuesser
+    ) 
     {
       // Player Info
       SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed.ShortenNameToLength(14));
@@ -32,6 +37,14 @@ namespace PowerUp.Generators
       SetProperty("GeneratedPlayer_FullFirstName", (player, data) => player.GeneratedPlayer_FullFirstName = data.PlayerInfo!.FirstNameUsed);
       SetProperty("GeneratedPlayer_FullLastName", (player, data) => player.GeneratedPlayer_FullLastName = data.PlayerInfo!.LastName);
       SetProperty("GeneratedPlayer_ProDebutDate", (player, data) => player.GeneratedPlayer_ProDebutDate = data.PlayerInfo!.ProDebutDate);
+      SetProperty(new AgeSetter());
+      SetProperty(new YearsInMajorsSetter());
+      SetProperty(new BirthMonthSetter());
+      SetProperty(new BirthDaySetter());
+      SetProperty(new BattingAverageSetter());
+      SetProperty(new RBIsSetter());
+      SetProperty(new HomeRunsSetter());
+      SetProperty(new ERASetter());
 
       // Appearance
       SetProperty(new SkinColorSetter(skinColorGuesser));
@@ -63,6 +76,10 @@ namespace PowerUp.Generators
       SetProperty(new PitchArsenalSetter());
 
       // TODO: Do Special Abilities
+
+      // Batting Stance and Pitching Mechanics
+      SetProperty(new BattingStanceSetter(battingStanceGuesser));
+      SetProperty(new PitchingMechanicsSetter(pitchingMechanicsGuesser));
     }
 
     public class SavedName : PlayerPropertySetter
@@ -127,12 +144,185 @@ namespace PowerUp.Generators
       }
     }
 
+    public class BattingStanceSetter : PlayerPropertySetter
+    {
+      private readonly IBattingStanceGuesser _battingStanceGuesser;
+      public override string PropertyKey => "BattingStanceId";
+
+      public BattingStanceSetter(IBattingStanceGuesser battingStanceGuesser)
+      {
+        _battingStanceGuesser = battingStanceGuesser;
+      }
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.BattingStanceId = _battingStanceGuesser.GuessBattingStance
+          ( datasetCollection.Year
+          , player.HitterAbilities.Contact
+          , player.HitterAbilities.Power
+          );
+        return true;
+      }
+    }
+
+    public class PitchingMechanicsSetter : PlayerPropertySetter
+    {
+      private readonly IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
+      public override string PropertyKey => "PitchingMechanicsId";
+
+      public PitchingMechanicsSetter(IPitchingMechanicsGuesser pitchingMechanicsGuesser)
+      {
+        _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
+      }
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.PitchingMechanicsId = _pitchingMechanicsGuesser.GuessPitchingMechanics(datasetCollection.Year, player.PitcherType);
+        return true;
+      }
+    }
+
+    public class AgeSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "Age";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.BirthDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoBirthDate(PropertyKey));
+          return false;
+        }
+
+        player.Age = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.BirthDate.Value);
+        return true;
+      }
+    }
+
+    public class YearsInMajorsSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "YearsInMajors";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.ProDebutDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoDebutDate(PropertyKey));
+          return false;
+        }
+
+        var yearsInMajors = MLBSeasonUtils.GetEstimatedStartOfSeason(datasetCollection.Year).YearsElapsedSince(datasetCollection.PlayerInfo.ProDebutDate.Value);
+        player.YearsInMajors = yearsInMajors < 0
+          ? 0
+          : yearsInMajors;
+        return true;
+      }
+    }
+
+    public class BirthMonthSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "BirthMonth";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.BirthDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoBirthDate(PropertyKey));
+          return false;
+        }
+
+        player.BirthMonth = datasetCollection.PlayerInfo.BirthDate.Value.Month;
+        return true;
+      }
+    }
+
+    public class BirthDaySetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "BirthDay";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (!datasetCollection.PlayerInfo!.BirthDate.HasValue)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoBirthDate(PropertyKey));
+          return false;
+        }
+
+        player.BirthDay = datasetCollection.PlayerInfo.BirthDate.Value.Day;
+        return true;
+      }
+    }
+
+    public class BattingAverageSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "BattingAverage";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.HittingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          return false;
+        }
+
+        player.BattingAverage = datasetCollection.HittingStats.BattingAverage;
+        return true;
+      }
+    }
+
+    public class RBIsSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "RunsBattedIn";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.HittingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          return false;
+        }
+
+        player.RunsBattedIn = datasetCollection.HittingStats.RunsBattedIn;
+        return true;
+      }
+    }
+
+    public class HomeRunsSetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "HomeRuns";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.HittingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          return false;
+        }
+
+        player.HomeRuns = datasetCollection.HittingStats.HomeRuns;
+        return true;
+      }
+    }
+
+    public class ERASetter : PlayerPropertySetter
+    {
+      public override string PropertyKey => "EarnedRunAverage";
+
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        if (datasetCollection.PitchingStats == null)
+        {
+          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+          return false;
+        }
+
+        player.EarnedRunAverage = datasetCollection.PitchingStats.EarnedRunAverage;
+        return true;
+      }
+    }
+
     public class SkinColorSetter : PlayerPropertySetter
     {
       private readonly ISkinColorGuesser _skinColorGuesser;
-
       public override string PropertyKey => "Appearance_SkinColor";
-
 
       public SkinColorSetter(ISkinColorGuesser skinColorGuesser)
       {

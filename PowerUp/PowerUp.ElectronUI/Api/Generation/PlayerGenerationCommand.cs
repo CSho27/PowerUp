@@ -9,16 +9,22 @@ namespace PowerUp.ElectronUI.Api.Generation
     private readonly IPlayerGenerator _playerGenerator;
     private readonly IVoiceLibrary _voiceLibrary;
     private readonly ISkinColorGuesser _skinColorGuesser;
+    private readonly IBattingStanceGuesser _batttingStanceGuesser;
+    private readonly IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
 
-    public PlayerGenerationCommand(
-      IPlayerGenerator playerGenerator, 
-      IVoiceLibrary voiceLibrary, 
-      ISkinColorGuesser skinColorGuesser
+    public PlayerGenerationCommand
+    ( IPlayerGenerator playerGenerator
+    , IVoiceLibrary voiceLibrary
+    , ISkinColorGuesser skinColorGuesser
+    , IBattingStanceGuesser batttingStanceGuesser
+    , IPitchingMechanicsGuesser pitchingMechanicsGuesser
     )
     {
       _playerGenerator = playerGenerator;
       _voiceLibrary = voiceLibrary;
       _skinColorGuesser = skinColorGuesser;
+      _batttingStanceGuesser = batttingStanceGuesser;
+      _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
     public PlayerGenerationResponse Execute(PlayerGenerationRequest request)
@@ -26,7 +32,12 @@ namespace PowerUp.ElectronUI.Api.Generation
       var result = _playerGenerator.GeneratePlayer(
         lsPlayerId: request.LSPlayerId,
         year: request.Year,
-        generationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser)
+        generationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _batttingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
       );
 
       DatabaseConfig.Database.Save(result.Player);

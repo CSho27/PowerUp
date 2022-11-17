@@ -15,6 +15,8 @@ namespace PowerUp.Tests.Generators
     IPlayerGenerator _playerGenerator;
     IVoiceLibrary _voiceLibrary; 
     ISkinColorGuesser _skinColorGuesser;
+    IBattingStanceGuesser _battingStanceGuesser;
+    IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
     IMLBLookupServiceClient _mlbLookupApiClient;
 
     [SetUp]
@@ -23,13 +25,21 @@ namespace PowerUp.Tests.Generators
       _playerGenerator = new PlayerGenerator(new PlayerApi(), new LSPlayerStatisticsFetcher(new MLBLookupServiceClient()), new BaseballReferenceClient());
       _voiceLibrary = TestConfig.VoiceLibrary.Value;
       _skinColorGuesser = new SkinColorGuesser(TestConfig.CountryAndSkinColorLibrary.Value);
+      _battingStanceGuesser = new BattingStanceGuesser(TestConfig.BattingStanceLibrary.Value);
+      _pitchingMechanicsGuesser = new PitchingMechanicsGuesser(TestConfig.PitchingMechanicsLibrary.Value);
       _mlbLookupApiClient = new MLBLookupServiceClient();
     }
 
     [Test]
     public void LSStatisticsAlgorithm_GeneratesCatcher()
     {
-      var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
+      var result = _playerGenerator.GeneratePlayer(110849, 1980, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(113);
 
       var resultPlayer = result.Player;
@@ -43,6 +53,15 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.Catcher);
       resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Johnny", "Bench").Key);
+      result.Player.BattingSide.ShouldBe(BattingSide.Right);
+      result.Player.ThrowingArm.ShouldBe(ThrowingArm.Right);
+      resultPlayer.Age.ShouldBe(32);
+      resultPlayer.BirthMonth.ShouldBe(12);
+      resultPlayer.BirthDay.ShouldBe(7);
+      resultPlayer.BattingAverage.ShouldBe(.250);
+      resultPlayer.RunsBattedIn.ShouldBe(68);
+      resultPlayer.HomeRuns.ShouldBe(24);
+      resultPlayer.EarnedRunAverage.ShouldBe(null);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -76,7 +95,13 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesShortstop()
     {
-      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
+      var result = _playerGenerator.GeneratePlayer(121222, 1990, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(110);
 
       var resultPlayer = result.Player;
@@ -89,6 +114,15 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.Shortstop);
       resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Cal", "Ripken Jr.").Key);
+      result.Player.BattingSide.ShouldBe(BattingSide.Right);
+      result.Player.ThrowingArm.ShouldBe(ThrowingArm.Right);
+      resultPlayer.Age.ShouldBe(29);
+      resultPlayer.BirthMonth.ShouldBe(8);
+      resultPlayer.BirthDay.ShouldBe(24);
+      resultPlayer.BattingAverage.ShouldBe(.250);
+      resultPlayer.RunsBattedIn.ShouldBe(84);
+      resultPlayer.HomeRuns.ShouldBe(21);
+      resultPlayer.EarnedRunAverage.ShouldBe(null);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -122,7 +156,13 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesOutfielder()
     {
-      var result = _playerGenerator.GeneratePlayer(665742, 2021, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
+      var result = _playerGenerator.GeneratePlayer(665742, 2021, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(120);
 
       var resultPlayer = result.Player;
@@ -135,6 +175,15 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.RightField);
       resultPlayer.PitcherType.ShouldBe(PitcherType.SwingMan);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Juan", "Soto").Key);
+      result.Player.BattingSide.ShouldBe(BattingSide.Left);
+      result.Player.ThrowingArm.ShouldBe(ThrowingArm.Left);
+      resultPlayer.Age.ShouldBe(22);
+      resultPlayer.BirthMonth.ShouldBe(10);
+      resultPlayer.BirthDay.ShouldBe(25);
+      resultPlayer.BattingAverage.ShouldBe(.313);
+      resultPlayer.RunsBattedIn.ShouldBe(95);
+      resultPlayer.HomeRuns.ShouldBe(29);
+      resultPlayer.EarnedRunAverage.ShouldBe(null);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic
@@ -168,7 +217,13 @@ namespace PowerUp.Tests.Generators
     [Test]
     public void LSStatisticsAlgorithm_GeneratesPitcher()
     {
-      var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser));
+      var result = _playerGenerator.GeneratePlayer(114756, 1963, new LSStatistcsPlayerGenerationAlgorithm
+        ( _voiceLibrary
+        , _skinColorGuesser
+        , _battingStanceGuesser
+        , _pitchingMechanicsGuesser
+        )
+      );
       result.LastTeamForYear_LSTeamId.ShouldBe(138);
 
       var resultPlayer = result.Player;
@@ -182,6 +237,15 @@ namespace PowerUp.Tests.Generators
       resultPlayer.PrimaryPosition.ShouldBe(Position.Pitcher);
       resultPlayer.PitcherType.ShouldBe(PitcherType.Starter);
       resultPlayer.VoiceId.ShouldBe(_voiceLibrary.FindClosestTo("Bob", "Gibson").Key);
+      result.Player.BattingSide.ShouldBe(BattingSide.Right);
+      result.Player.ThrowingArm.ShouldBe(ThrowingArm.Right);
+      resultPlayer.Age.ShouldBe(27);
+      resultPlayer.BirthMonth.ShouldBe(11);
+      resultPlayer.BirthDay.ShouldBe(9);
+      resultPlayer.BattingAverage.ShouldBeWithTolerance(.207, .001);
+      resultPlayer.RunsBattedIn.ShouldBe(20);
+      resultPlayer.HomeRuns.ShouldBe(3);
+      resultPlayer.EarnedRunAverage.ShouldBe(3.39);
 
       var appearance = resultPlayer.Appearance;
       // Skin Color is non-deterministic

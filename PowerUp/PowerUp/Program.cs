@@ -33,6 +33,8 @@ namespace PowerUp
       var characterLibrary = new CharacterLibrary(Path.Combine(DATA_DIRECTORY, "./data/Character_Library.csv"));
       var voiceLibrary = new VoiceLibrary(Path.Combine(DATA_DIRECTORY, "./data/Voice_Library.csv"));
       var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
+      var battingStanceLibrary = new BattingStanceLibrary(Path.Combine(DATA_DIRECTORY, "./data/BattingForm_Library.csv"));
+      var pitchingMechanicsLibrary = new PitchingMechanicsLibrary(Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv"));
       var mlbLookupServiceClient = new MLBLookupServiceClient();
       var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
@@ -40,7 +42,12 @@ namespace PowerUp
       var playerGenerator = new PlayerGenerator(playerApi, statsFetcher, baseballReferenceClient);
       var countryAndSkinLibrary = new CountryAndSkinColorLibrary(Path.Combine(DATA_DIRECTORY, "./data/CountryAndSkinColor_Library.csv"));
       var skinColorGuesser = new SkinColorGuesser(countryAndSkinLibrary);
-      var lsStatsAlgorithm = new LSStatistcsPlayerGenerationAlgorithm(voiceLibrary, skinColorGuesser);
+      var lsStatsAlgorithm = new LSStatistcsPlayerGenerationAlgorithm
+        ( voiceLibrary
+        , skinColorGuesser
+        , new BattingStanceGuesser(battingStanceLibrary)
+        , new PitchingMechanicsGuesser(pitchingMechanicsLibrary)
+        );
       var teamGenerator = new TeamGenerator(mlbLookupServiceClient, playerGenerator);
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
@@ -62,7 +69,8 @@ namespace PowerUp
       //TestGenerateTeam(teamGenerator, lsStatsAlgorithm);
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
-      ReadSalaryInfo(characterLibrary);
+      //ReadSalaryInfo(characterLibrary);
+      CopyDir();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -646,6 +654,11 @@ namespace PowerUp
       }
 
       csvList.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerSalaries.csv"));
+    }
+
+    static void CopyDir()
+    {
+      FileSystemUtils.CopyDirectoryRecursively("C:/PowerUp_Demo2", "C:/PowerUp_Demo3");
     }
   }
 

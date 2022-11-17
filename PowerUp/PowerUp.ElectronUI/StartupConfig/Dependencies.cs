@@ -35,6 +35,8 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IBaseGameSavePathProvider>()));
       services.AddTransient<IMigrationApi>(provider => new MigrationApi());
       services.AddTransient<IPowerProsIdAssigner>(provider => new PowerProsIdAssigner());
+      services.AddTransient<IBattingStanceGuesser>(provider => new BattingStanceGuesser(provider.GetRequiredService<IBattingStanceLibrary>()));
+      services.AddTransient<IPitchingMechanicsGuesser>(provider => new PitchingMechanicsGuesser(provider.GetRequiredService<IPitchingMechanicsLibrary>()));
     }
   }
 }

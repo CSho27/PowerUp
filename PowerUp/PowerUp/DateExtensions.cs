@@ -11,10 +11,21 @@ namespace PowerUp
 
     public static DateTime GetDateNYearsBefore(this DateTime date, int month, int day, int yearsBefore)
     {
-      if (date.Month > month || (date.Month == month && date.Day > day))
-        return new DateTime(date.Year-yearsBefore, month, day);
-      else
-        return new DateTime(date.Year-yearsBefore-1, month, day);
+      var year = date.Month > month || (date.Month == month && date.Day > day)
+        ? date.Year - yearsBefore
+        : date.Year - yearsBefore - 1;
+
+      try
+      {
+        return new DateTime(year, month, day);
+      }
+      catch (ArgumentOutOfRangeException e)
+      {
+        if (month == 2 && day > 28)
+          return new DateTime(year, 2, 28);
+        else
+          throw e;
+      }
     } 
 
   }

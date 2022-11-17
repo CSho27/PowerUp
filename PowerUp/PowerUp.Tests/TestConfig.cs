@@ -14,5 +14,8 @@ namespace PowerUp.Tests
     public static Lazy<ICharacterLibrary> CharacterLibrary = new Lazy<ICharacterLibrary>(() => new CharacterLibrary(Path.Combine(DataDirectoryPath, "./data/Character_Library.csv")));
     public static Lazy<IVoiceLibrary> VoiceLibrary = new Lazy<IVoiceLibrary>(() => new VoiceLibrary(Path.Combine(DataDirectoryPath, "./data/Voice_Library.csv")));
     public static Lazy<ICountryAndSkinColorLibrary> CountryAndSkinColorLibrary = new Lazy<ICountryAndSkinColorLibrary>(() => new CountryAndSkinColorLibrary(Path.Combine(DataDirectoryPath, "./data/CountryAndSkinColor_Library.csv")));
+    public static Lazy<IBattingStanceLibrary> BattingStanceLibrary = new Lazy<IBattingStanceLibrary>(() => new BattingStanceLibrary(Path.Combine(DataDirectoryPath, "./data/BattingForm_Library.csv")));
+    public static Lazy<IPitchingMechanicsLibrary> PitchingMechanicsLibrary = new Lazy<IPitchingMechanicsLibrary>(() => new PitchingMechanicsLibrary(Path.Combine(DataDirectoryPath, "./data/PitchingForm_Library.csv")));
+
   }
 }

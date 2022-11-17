@@ -10,16 +10,22 @@ namespace PowerUp.ElectronUI.Api.Generation
     private readonly ITeamGenerator _teamGenerator;
     private readonly IVoiceLibrary _voiceLibrary;
     private readonly ISkinColorGuesser _skinColorGuesser;
+    private readonly IBattingStanceGuesser _batttingStanceGuesser;
+    private readonly IPitchingMechanicsGuesser _pitchingMechanicsGuesser;
 
-    public TeamGenerationCommand(
-      ITeamGenerator teamGenerator,
-      IVoiceLibrary voiceLibrary,
-      ISkinColorGuesser skinColorGuesser
+    public TeamGenerationCommand
+    ( ITeamGenerator teamGenerator
+    , IVoiceLibrary voiceLibrary
+    , ISkinColorGuesser skinColorGuesser
+    , IBattingStanceGuesser batttingStanceGuesser
+    , IPitchingMechanicsGuesser pitchingMechanicsGuesser
     )
     {
       _teamGenerator = teamGenerator;
       _voiceLibrary = voiceLibrary;
       _skinColorGuesser = skinColorGuesser;
+      _batttingStanceGuesser = batttingStanceGuesser;
+      _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
     public TeamGenerationResponse Execute(TeamGenerationRequest request)
@@ -28,12 +34,17 @@ namespace PowerUp.ElectronUI.Api.Generation
       DatabaseConfig.Database.Save(teamGenerationProgress);
 
       Task.Run(() => {
-        var result = _teamGenerator.GenerateTeam(
-          lsTeamId: request.LSTeamId,
-          year: request.Year,
-          name: request.TeamName,
-          playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser),
-          onProgressUpdate: update => UpdateProgressAndSave(update, teamGenerationProgress)
+        var result = _teamGenerator.GenerateTeam
+        ( lsTeamId: request.LSTeamId
+        , year: request.Year
+        , name: request.TeamName
+        , playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm
+          ( _voiceLibrary
+          , _skinColorGuesser
+          , _batttingStanceGuesser
+          , _pitchingMechanicsGuesser
+          )
+        , onProgressUpdate: update => UpdateProgressAndSave(update, teamGenerationProgress)
         );
 
         DatabaseConfig.Database.Save(result.Team);
