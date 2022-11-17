@@ -10,16 +10,19 @@ namespace PowerUp.ElectronUI.Api.Generation
     private readonly ITeamGenerator _teamGenerator;
     private readonly IVoiceLibrary _voiceLibrary;
     private readonly ISkinColorGuesser _skinColorGuesser;
+    private readonly IBattingStanceGuesser _batttingStanceGuesser;
 
-    public TeamGenerationCommand(
-      ITeamGenerator teamGenerator,
-      IVoiceLibrary voiceLibrary,
-      ISkinColorGuesser skinColorGuesser
+    public TeamGenerationCommand
+    ( ITeamGenerator teamGenerator
+    , IVoiceLibrary voiceLibrary
+    , ISkinColorGuesser skinColorGuesser
+    , IBattingStanceGuesser batttingStanceGuesser
     )
     {
       _teamGenerator = teamGenerator;
       _voiceLibrary = voiceLibrary;
       _skinColorGuesser = skinColorGuesser;
+      _batttingStanceGuesser = batttingStanceGuesser;
     }
 
     public TeamGenerationResponse Execute(TeamGenerationRequest request)
@@ -32,7 +35,7 @@ namespace PowerUp.ElectronUI.Api.Generation
           lsTeamId: request.LSTeamId,
           year: request.Year,
           name: request.TeamName,
-          playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser),
+          playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm(_voiceLibrary, _skinColorGuesser, _batttingStanceGuesser),
           onProgressUpdate: update => UpdateProgressAndSave(update, teamGenerationProgress)
         );
 

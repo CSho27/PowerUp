@@ -17,7 +17,11 @@ namespace PowerUp.Generators
       PlayerGenerationDataset.BaseballReferenceIdDataset
     };
 
-    public LSStatistcsPlayerGenerationAlgorithm(IVoiceLibrary voiceLibrary, ISkinColorGuesser skinColorGuesser) 
+    public LSStatistcsPlayerGenerationAlgorithm
+    ( IVoiceLibrary voiceLibrary
+    , ISkinColorGuesser skinColorGuesser
+    , IBattingStanceGuesser battingStanceGuesser
+    ) 
     {
       // Player Info
       SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed.ShortenNameToLength(14));
@@ -71,6 +75,9 @@ namespace PowerUp.Generators
       SetProperty(new PitchArsenalSetter());
 
       // TODO: Do Special Abilities
+
+      // Batting Stance and Pitching Mechanics
+      SetProperty(new BattingStanceSetter(battingStanceGuesser));
     }
 
     public class SavedName : PlayerPropertySetter
@@ -131,6 +138,26 @@ namespace PowerUp.Generators
         else
           player.PitcherType = PitcherType.Reliever;
 
+        return true;
+      }
+    }
+
+    public class BattingStanceSetter : PlayerPropertySetter
+    {
+      private readonly IBattingStanceGuesser _battingStanceGuesser;
+      public override string PropertyKey => "BattingStanceId";
+
+      public BattingStanceSetter(IBattingStanceGuesser battingStanceGuesser)
+      {
+        _battingStanceGuesser = battingStanceGuesser;
+      }
+      public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
+      {
+        player.BattingStanceId = _battingStanceGuesser.GuessBattingStance
+          ( datasetCollection.Year
+          , player.HitterAbilities.Contact
+          , player.HitterAbilities.Power
+          );
         return true;
       }
     }
@@ -277,9 +304,7 @@ namespace PowerUp.Generators
     public class SkinColorSetter : PlayerPropertySetter
     {
       private readonly ISkinColorGuesser _skinColorGuesser;
-
       public override string PropertyKey => "Appearance_SkinColor";
-
 
       public SkinColorSetter(ISkinColorGuesser skinColorGuesser)
       {
