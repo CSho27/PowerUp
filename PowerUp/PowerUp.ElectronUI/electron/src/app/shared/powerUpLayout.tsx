@@ -36,7 +36,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
             <Icon icon='sd-card' />
           </HeaderLinkWrapper>
           <HeaderLinkWrapper onClick={importOldData} title='Import data from an older version of the PowerUp app'>
-            Import Old Data
+            Import Data
             <Icon icon='upload' />
           </HeaderLinkWrapper>
           <HeaderLinkWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
