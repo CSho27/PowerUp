@@ -15,9 +15,9 @@ namespace PowerUp.Mappers
     public bool IsBase { get; set; }
     public string? ImportSource { get; set; }
 
-    public IDictionary<ushort, int>? IdsByPPId { get; set; }
+    public IDictionary<int, int>? IdsByPPId { get; set; }
 
-    public static TeamMappingParameters FromImportParameters(RosterImportParameters importParameters, IDictionary<ushort, int> idsByPPId)
+    public static TeamMappingParameters FromImportParameters(RosterImportParameters importParameters, IDictionary<int, int> idsByPPId)
       => new TeamMappingParameters { IsBase = importParameters.IsBase, ImportSource = importParameters.ImportSource, IdsByPPId = idsByPPId };
   }
 
@@ -57,7 +57,7 @@ namespace PowerUp.Mappers
 
     public static PlayerRoleDefinition MapToPlayerRoleDefinition(
       this GSTeamPlayerEntry gsPlayerEntry,
-      IDictionary<ushort, int> idsByPPId
+      IDictionary<int, int> idsByPPId
     )
     {
       var playerKey = idsByPPId[gsPlayerEntry.PowerProsPlayerId!.Value];
@@ -74,7 +74,7 @@ namespace PowerUp.Mappers
 
     public static LineupSlot MapToLineupSlot(
       this GSLineupPlayer lineupPlayer,
-      IDictionary<ushort, int> idsByPPId
+      IDictionary<int, int> idsByPPId
     )
     {
       return new LineupSlot 

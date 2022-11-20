@@ -56,7 +56,7 @@ namespace PowerUp.Databases
       entityCollection.Update(existingEntities);
 
       var newEntities = entities.Where(e => !e.Id.HasValue).Select(e => { e.Id = 0; return e; });
-      entityCollection.Insert(newEntities);
+      entityCollection.InsertBulk(newEntities);
 
       foreach (var propertyGetter in entities.FirstOrDefault()?.Indexes ?? Enumerable.Empty<Func<TEntity, object>>())
         entityCollection.EnsureIndex(e => propertyGetter(e));
