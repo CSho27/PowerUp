@@ -9,7 +9,12 @@ namespace PowerUp.Entities.Players
   {
     public string Identifier => $"P{Id}";
     public EntitySourceType SourceType { get; set; } = EntitySourceType.Custom;
-    public override bool ShouldIgnoreInMigration => SourceType == EntitySourceType.Base;
+    public override string? GetBaseMatchIdentifier()
+    {
+      return SourceType == EntitySourceType.Base
+        ? $"{SourceType}_{SourcePowerProsId}"
+        : null;
+    }
     public bool IsCustomPlayer { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;

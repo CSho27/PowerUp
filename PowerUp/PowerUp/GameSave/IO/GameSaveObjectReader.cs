@@ -26,7 +26,7 @@ namespace PowerUp.GameSave.IO
 
     public object Read(Type type, long offset)
     {
-      var gsObject = type.GetConstructors().First().Invoke(null);
+      var gsObject = type.InstantiateWithEmptyConstructor();
       foreach (var property in type.GetProperties())
       {
         var gameSaveAttribute = property.GetGSAttribute();
