@@ -29,7 +29,7 @@ namespace PowerUp.Databases
     public void Save<TEntity>(TEntity entity) where TEntity : Entity<TEntity> => Save(typeof(TEntity), entity);
     public void Save(Type entityType, Entity entity)
     {
-      var entityCollection = DBConnection.GetCollection(entityType.Name);
+      var entityCollection = DBConnection.GetCollection(entityType.Name, autoId: BsonAutoId.Int32);
       var mapper = new BsonMapper();
 
       if (entity.Id.HasValue)
@@ -39,13 +39,9 @@ namespace PowerUp.Databases
       }
       else
       {
-        var lastInsert = entityCollection.FindOne(LiteDB.Query.All(LiteDB.Query.Descending));
-        var nextId = lastInsert != null
-          ? lastInsert["_id"].AsInt32 + 1
-          : 1;
-        entity.Id = nextId;
         var mappedDoc = mapper.ToDocument(entity);
-        entityCollection.Insert(mappedDoc);
+        mappedDoc.Remove("_id");
+        entity.Id = entityCollection.Insert(mappedDoc);
       }
 
       foreach (var propertyGetter in entity.UntypedIndexes)
