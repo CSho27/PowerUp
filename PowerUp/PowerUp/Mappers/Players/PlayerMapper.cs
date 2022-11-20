@@ -34,7 +34,10 @@ namespace PowerUp.Mappers.Players
 
     public Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters)
     {
-      var inGameBirthDate = new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value);
+      var inGameBirthDate = gsPlayer.BirthYear != 0
+        ? new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value)
+        : (DateTime?)null;
+
       return new Player
       {
         SourceType = parameters.IsBase
@@ -53,9 +56,11 @@ namespace PowerUp.Mappers.Players
           ? null
           : parameters.ImportSource,
         SourcePowerProsId = gsPlayer.PowerProsId!.Value,
-        BirthMonth = inGameBirthDate.Month,
-        BirthDay = inGameBirthDate.Day,
-        Age = OpeningDay07.YearsElapsedSince(inGameBirthDate),
+        BirthMonth = inGameBirthDate?.Month ?? 1,
+        BirthDay = inGameBirthDate?.Day ?? 1,
+        Age = inGameBirthDate.HasValue
+          ? OpeningDay07.YearsElapsedSince(inGameBirthDate.Value)
+          : 29,
         YearsInMajors = gsPlayer.YearsInMajors!.Value,
         UniformNumber = UniformNumberMapper.ToUniformNumber(gsPlayer.PlayerNumberNumberOfDigits, gsPlayer.PlayerNumber),
         PrimaryPosition = (Position)gsPlayer.PrimaryPosition!,
