@@ -26,24 +26,26 @@ namespace PowerUp.Databases
       return new Transaction(() => DBConnection.Commit(), () => DBConnection.Rollback());
     }
 
-    public void Save<TEntity>(TEntity entity) where TEntity : Entity<TEntity>
+    public void Save<TEntity>(TEntity entity) where TEntity : Entity<TEntity> => Save(typeof(TEntity), entity);
+    public void Save(Type entityType, Entity entity)
     {
-      var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
+      var entityCollection = DBConnection.GetCollection(entityType.Name, autoId: BsonAutoId.Int32);
+      var mapper = new BsonMapper();
 
       if (entity.Id.HasValue)
       {
-        entityCollection.Update(entity);
+        var mappedDoc = mapper.ToDocument(entity);
+        entityCollection.Update(mappedDoc);
       }
       else
       {
-        entity.Id = 0;
-
-        var mappedDoc = new BsonMapper().ToDocument(entity);
-        entity.Id = entityCollection.Insert(entity);
+        var mappedDoc = mapper.ToDocument(entity);
+        mappedDoc.Remove("_id");
+        entity.Id = entityCollection.Insert(mappedDoc);
       }
 
-      foreach(var propertyGetter in entity.UntypedIndexes)
-        entityCollection.EnsureIndex(e => propertyGetter(e));
+      foreach (var propertyGetter in entity.UntypedIndexes)
+        entityCollection.EnsureIndex(e => propertyGetter((Entity)mapper.ToObject(entityType, e)));
     }
 
     public void SaveAll<TEntity>(IEnumerable<TEntity> entities) where TEntity : Entity<TEntity>
@@ -54,21 +56,17 @@ namespace PowerUp.Databases
       entityCollection.Update(existingEntities);
 
       var newEntities = entities.Where(e => !e.Id.HasValue).Select(e => { e.Id = 0; return e; });
-      entityCollection.Insert(newEntities);
+      entityCollection.InsertBulk(newEntities);
 
       foreach (var propertyGetter in entities.FirstOrDefault()?.Indexes ?? Enumerable.Empty<Func<TEntity, object>>())
         entityCollection.EnsureIndex(e => propertyGetter(e));
     }
 
-    public void SaveAll(Type entityType, IEnumerable<Entity> entities)
+    public IDictionary<int, int> ImportAll(Type entityType, IEnumerable<Entity> entities)
     {
+      var savedIdsByImportIds = new Dictionary<int, int>();
       var entityCollection = DBConnection.GetCollection<BsonDocument>(entityType.Name);
       var mapper = new BsonMapper();
-
-      var existingEntities = entities
-        .Where(e => e.Id.HasValue)
-        .Select(e => mapper.ToDocument(e));
-      entityCollection.Update(existingEntities);
 
       var lastInsert = entityCollection.FindOne(LiteDB.Query.All(LiteDB.Query.Descending));
       var nextId = lastInsert != null
@@ -76,14 +74,14 @@ namespace PowerUp.Databases
         : 1;
 
       var newEntities = entities
-        .Where(e => !e.Id.HasValue)
-        .Select(e => 
+        .Select(e =>
           { 
+            savedIdsByImportIds.Add(e.Id!.Value, nextId);
             e.Id = nextId;
             nextId++;
             return e; 
           })
-        .Select(e => mapper.ToDocument(e));
+        .Select(e => mapper.ToDocument(entityType, e));
       entityCollection.Insert(newEntities);
 
       foreach (var propertyGetter in entities.FirstOrDefault()?.UntypedIndexes ?? Enumerable.Empty<Func<Entity, object>>())
@@ -91,12 +89,24 @@ namespace PowerUp.Databases
         Expression<Func<BsonDocument, object>> bsonGetter = d => propertyGetter((Entity)mapper.ToObject(entityType, d));
         entityCollection.EnsureIndex(bsonGetter);
       }
+
+      return savedIdsByImportIds;
     }
 
     public TEntity? Load<TEntity>(int id) where TEntity : Entity<TEntity>
     {
       var entityCollection = DBConnection.GetCollection<TEntity>(typeof(TEntity).Name);
       return entityCollection.FindById(id);
+    }
+
+    public Entity? Load(Type entityType, int entityId)
+    {
+      var entityCollection = DBConnection.GetCollection(entityType.Name);
+      var mapper = new BsonMapper();
+      var bsonDoc = entityCollection.FindById(entityId);
+      return bsonDoc != null
+        ? (Entity)mapper.ToObject(entityType, bsonDoc)
+        : null;
     }
 
     public TEntity? LoadOnly<TEntity>() where TEntity : Entity<TEntity>

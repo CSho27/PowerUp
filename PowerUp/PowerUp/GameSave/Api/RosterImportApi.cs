@@ -42,16 +42,15 @@ namespace PowerUp.GameSave.Api
         var gameSave = reader.Read();
         var gsPlayers = gameSave.Players.Where(p => p.PowerProsId.HasValue && p.PowerProsId != 0);
 
-        var playerIdsByPPId = new Dictionary<ushort, int>();
         var players = new List<Player>();
 
         foreach (var gsPlayer in gsPlayers)
         {
           var player = _playerMapper.MapToPlayer(gsPlayer, PlayerMappingParameters.FromRosterImport(parameters));
-          DatabaseConfig.Database.Save(player);
-          playerIdsByPPId.Add(gsPlayer.PowerProsId!.Value, player.Id!.Value);
           players.Add(player);
         }
+        DatabaseConfig.Database.SaveAll(players);
+        var playerIdsByPPId = players.ToDictionary(p => p.SourcePowerProsId!.Value, p => p.Id!.Value);
 
         var gsTeams = gameSave.Teams.ToList();
         var gsLineups = gameSave.Lineups.ToList();

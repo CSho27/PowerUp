@@ -1,15 +1,15 @@
-﻿using PowerUp.Migrations;
+﻿using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace PowerUp.Databases
 {
   public abstract class Entity
   {
-    [MigrationIgnore]
     public int? Id { get; set; }
-    public virtual bool ShouldIgnoreInMigration { get; }
+    public virtual string? GetBaseMatchIdentifier() => null;
     public virtual IEnumerable<Func<Entity, object>> UntypedIndexes 
       => Enumerable.Empty<Func<Entity, object>>();
   }

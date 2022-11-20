@@ -1,6 +1,6 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities.Players;
-using System;
+using PowerUp.Migrations;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,15 +10,25 @@ namespace PowerUp.Entities.Teams
   {
     public string Identifier => $"T{Id}";
     public EntitySourceType SourceType { get; set; }
-    public override bool ShouldIgnoreInMigration => SourceType == EntitySourceType.Base;
+    public override string? GetBaseMatchIdentifier()
+    {
+      return SourceType == EntitySourceType.Base
+        ? $"{SourceType}_{Id}_{Name}"
+        : null;
+    }
+
     public string Name { get; set; } = string.Empty;
     public string? ImportSource { get; set; }
     public long? GeneratedTeam_LSTeamId { get; set; }
     public int? Year { get; set; }
     
+    [MigrationLateMap(typeof(TeamLateMappers.PlayerDefinitionsLateMapper))]
     public IEnumerable<PlayerRoleDefinition> PlayerDefinitions { get; set; } = Enumerable.Empty<PlayerRoleDefinition>();
 
+    [MigrationLateMap(typeof(TeamLateMappers.NoDHLineupLateMapper))]
     public IEnumerable<LineupSlot> NoDHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
+
+    [MigrationLateMap(typeof(TeamLateMappers.DHLineupLateMapper))]
     public IEnumerable<LineupSlot> DHLineup { get; set; } = Enumerable.Empty<LineupSlot>();
 
     private IEnumerable<Player>? players = null;

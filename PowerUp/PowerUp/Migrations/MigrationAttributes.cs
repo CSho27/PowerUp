@@ -2,14 +2,16 @@
 
 namespace PowerUp.Migrations
 {
-  public class MigrationTypeForAttribute : Attribute
+  [AttributeUsage(AttributeTargets.Property)]
+  public class MigrationLateMapAttribute : Attribute
   {
-    public Type DatabaseType { get; }
-    public MigrationTypeForAttribute(Type databaseType)
+    public Type LateMapper { get; }
+    public MigrationLateMapAttribute(Type lateMapperType)
     {
-      DatabaseType = databaseType;
+      LateMapper = lateMapperType;
     }
   }
 
+  [AttributeUsage(AttributeTargets.Class)]
   public class MigrationIgnoreAttribute : Attribute { }
 }
