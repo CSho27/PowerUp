@@ -39,10 +39,13 @@ namespace PowerUp.Databases
       }
       else
       {
-        entity.Id = 0;
-
+        var lastInsert = entityCollection.FindOne(LiteDB.Query.All(LiteDB.Query.Descending));
+        var nextId = lastInsert != null
+          ? lastInsert["_id"].AsInt32 + 1
+          : 1;
+        entity.Id = nextId;
         var mappedDoc = mapper.ToDocument(entity);
-        entity.Id = entityCollection.Insert(mappedDoc);
+        entityCollection.Insert(mappedDoc);
       }
 
       foreach (var propertyGetter in entity.UntypedIndexes)
