@@ -166,6 +166,33 @@ PowerUp is a Roster Generation and Editing Tool For MLB PowerPros (2007). Its ul
 - Start up PowerPros in Dolphin or restart it if it was already running and see that your custom roster has been loaded into the game
 - If you'd like to rename any of your exported GameSaves, you can do so by clicking the rename button
 
+### Exporting Loading GameSave files for use on Wii
+Heads up, this process can be tricky, because it will require you to soft-mod your wii so that you can transfer the files to it via SD card. There are a few recommended precautionary measures that are not required, but will be life-savers in the unlikely scenario that you brick your Wii. In following these steps, you assume full responsibility for any damage that may be done to your wii. With that said, 
+- First, [follow this guide to pick an exploit and install HackMii](https://wii.guide/get-started). If the first method you try doesn't work, retry it a couple times, and if that doesn't work, try one of the other methods. The first exploit I tried did not work on my Wii.
+- Next, [follow this guide to install the Homebrew Channel](https://wii.guide/hbc). This is how you will access and run the app to transfer the save file
+- If desired, follow these precautionary measures to protect your Wii
+  - (Recommended) install BootMii and use it to take a backup of your NAND onto your SD card. If for some reason goes horribly wrong and you ruin your NAND, this will allow youto recover your Wii. You can use [this video to help you install it](https://www.youtube.com/watch?v=cp_LIs2nByk).
+  - (Recommended) install Priiloader, so that you can access the your system on startup on the off-chance your wii gets bricked. [You can follow this guide to install it](https://wii.guide/priiloader.html)
+- Download WiiXplorer from [the its wiki page](https://wiibrew.org/wiki/WiiXplorer), extract the zip file, and copy the folder's contents into the "apps" folder on your SD card. If no "apps" folder exists, create one at the root level and copy the app into it.
+- Find the "PowerUp Game Saves" folder (the default on Windows should be "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/PowerUp Game Saves") and copy the entire folder onto your SD card. This way you'll have access to your entire game save library when copying.
+- Put the SD card into the Wii, open HomeBrew and load WiiExplorer
+- Click the "Start" menu in the lower left, open "Settings -> Boot Settings" and then toggle "NAND write access" to ON
+  - This will allow you to copy your Game Save overtop of the existing one
+  - It will pop up a message telling you to be VERY CAREFUL. If you follow the steps closely, you shouldn't cause any damage to your wii, but if you make any other changes on NAND along the way, all bets are off.
+- If you wish to copy a backup of your current PowerPros game save:
+  - Switch to NAND by clicking the icon in the upper left
+  - Navigate to the PowerPros folder "nand:/title/00010000/524d5045/data"
+  - Hover over pm2maus.dat and hit the plus button
+  - When the menu pops up, select "Copy"
+  - Hit the icon in the upper left again to switch back to your SD card and pick a folder to save your backup in
+  - Once you are in the desired folder location, hit the plus button again and select "Paste"
+- To load your own PowerUp roster into the game:
+  - Within the SD folder structure, find the "PowerUp Game Saves" folder, open the "Wii" folder, and then find the folder of the Game Save you want to copy
+  - Enter that folder, hover pm2maus.dat, hit the plus button, and select "Copy"
+  - Navigate back to the PowerUp data folder in NAND ("nand:/title/00010000/524d5045/data"), hit the plus button and select "Paste"
+  - When if asks you about replacing existing files, say "replace all"
+- Exit HomeBrew and reload PowerPros. You'll see that your PowerUp roster is now loaded into the game
+
 ## Importing Data from an Earlier Version
 - To import data from an earlier version of the app, click the button in the upper right labeled "Import Data"
 - From the dialog, find the PowerUp.exe file for the old version of PowerUp you'd like to import data from and select it
