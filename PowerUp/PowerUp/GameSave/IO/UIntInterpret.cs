@@ -10,11 +10,10 @@ namespace PowerUp.GameSave.IO
     public static byte[] GetValueBits(byte[] bytesToReadFrom, int bitOffset, int numberOfBits)
     {
       var valueBits = new byte[numberOfBits];
-
       int byteIndex = 0;
       int bitsRead = 0;
       int bitOfCurrentByte = bitOffset;
-      byte currentByte = bytesToReadFrom[0];
+      byte currentByte = bytesToReadFrom[byteIndex];
       while (bitsRead < numberOfBits)
       {
         if (bitOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
@@ -32,5 +31,6 @@ namespace PowerUp.GameSave.IO
       return valueBits;
     }
   }
+
   public enum ByteOrder { BigEndian, LittleEndian };
 }

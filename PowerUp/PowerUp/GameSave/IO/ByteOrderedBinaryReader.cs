@@ -29,8 +29,10 @@ namespace PowerUp.GameSave.IO
 
     private byte ReadNextByte()
     {
-      _stream.Seek(ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder), SeekOrigin.Begin);
-      return _reader.ReadByte();
+      var nextByteOffset = ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder);
+      var @byte = _reader.ReadByte();
+      _stream.Seek(nextByteOffset, SeekOrigin.Begin);
+      return @byte;
     }
 
     public void Dispose()
