@@ -7,8 +7,8 @@
       if (byteOrder == ByteOrder.BigEndian)
         return offset;
 
-      var offsetIsEven = offset % 2 == 0;
-      return offsetIsEven
+      var offsetIsOdd = offset % 2 == 1;
+      return offsetIsOdd
         ? offset + 1
         : offset - 1;
     }
@@ -18,8 +18,8 @@
       if(byteOrder == ByteOrder.BigEndian)
         return offset + 1;
 
-      var offsetIsEven = offset % 2 == 0;
-      return offsetIsEven
+      var offsetIsOdd = offset % 2 == 1;
+      return offsetIsOdd
         ? offset + 3
         : offset - 1;
     }

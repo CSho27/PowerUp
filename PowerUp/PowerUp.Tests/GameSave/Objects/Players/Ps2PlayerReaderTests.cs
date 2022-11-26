@@ -32,6 +32,18 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, JASON_GIAMBI_ID)]
+    [TestCase(SAMMY_SPEEDSTER_ID, SAMMY_SPEEDSTER_ID)]
+    [TestCase(PAUL_PITCHER_ID, PAUL_PITCHER_ID)]
+    [TestCase(PETE_SALTINE_ID, PETE_SALTINE_ID)]
+    public void Reads_PowerProsId(int playerId, int powerProsId)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.PowerProsId.ShouldBe((ushort)powerProsId);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, "Giambi")]
     [TestCase(SAMMY_SPEEDSTER_ID, "Speed")]
     [TestCase(PAUL_PITCHER_ID, "Pitch")]
