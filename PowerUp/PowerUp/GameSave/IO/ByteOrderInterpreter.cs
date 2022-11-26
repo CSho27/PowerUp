@@ -11,7 +11,7 @@ namespace PowerUp.GameSave.IO
     public static long GetNextByteOffset(long offset, ByteOrder byteOrder)
     {
       if(byteOrder == ByteOrder.BigEndian)
-        return offset;
+        return offset + 1;
 
       var offsetIsEven = offset % 2 == 0;
       return offsetIsEven
