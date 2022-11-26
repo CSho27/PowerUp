@@ -11,6 +11,27 @@ namespace PowerUp.Tests.GameSave.IO
     private readonly static byte _1 = Convert.ToByte(1);
 
     [Test]
+    public void GetBit_GET_0_ShouldBe1()
+    {
+      var @byte = byte.Parse("202");
+      @byte.GetBit(0).ShouldBe(Convert.ToByte(1));
+    }
+
+    [Test]
+    public void GetBit_GET_2_ShouldBe0()
+    {
+      var @byte = byte.Parse("202");
+      @byte.GetBit(2).ShouldBe(Convert.ToByte(0));
+    }
+
+    [Test]
+    public void GetBit_GET_6_ShouldBe1()
+    {
+      var @byte = byte.Parse("202");
+      @byte.GetBit(6).ShouldBe(Convert.ToByte(1));
+    }
+
+    [Test]
     public void SetBit_0_SET_3rd_TO_1()
     {
       var @byte = new byte();
