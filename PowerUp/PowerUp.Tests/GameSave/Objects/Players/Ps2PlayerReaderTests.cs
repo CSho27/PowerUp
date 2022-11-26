@@ -47,11 +47,36 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(JASON_GIAMBI_ID, "Giambi")]
     [TestCase(SAMMY_SPEEDSTER_ID, "Speed")]
     [TestCase(PAUL_PITCHER_ID, "Pitch")]
+    [TestCase(PETE_SALTINE_ID, "Salt")]
     public void Reads_SavedName(int playerId, string savedName)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
       player.SavedName.ShouldBe(savedName);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, "Giambi")]
+    [TestCase(SAMMY_SPEEDSTER_ID, "Speedster")]
+    [TestCase(PAUL_PITCHER_ID, "Pitcher")]
+    [TestCase(PETE_SALTINE_ID, "Saltine")]
+    public void Reads_LastName(int playerId, string lastName)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.LastName.ShouldBe(lastName);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, "Jason")]
+    [TestCase(SAMMY_SPEEDSTER_ID, "Sammy")]
+    [TestCase(PAUL_PITCHER_ID, "Paul")]
+    [TestCase(PETE_SALTINE_ID, "Pete")]
+    public void Reads_FirstName(int playerId, string firstName)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.FirstName.ShouldBe(firstName);
     }
   }
 }
