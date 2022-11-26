@@ -18,8 +18,8 @@ namespace PowerUp.Mappers.Players
 
   public interface IPlayerMapper
   {
-    Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters);
-    GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam, int powerProsId);
+    Player MapToPlayer(IGSPlayer gsPlayer, PlayerMappingParameters parameters);
+    IGSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam, int powerProsId);
   }
 
   public class PlayerMapper : IPlayerMapper
@@ -32,7 +32,7 @@ namespace PowerUp.Mappers.Players
       _savedNameLibrary = savedNameLibrary;
     }
 
-    public Player MapToPlayer(GSPlayer gsPlayer, PlayerMappingParameters parameters)
+    public Player MapToPlayer(IGSPlayer gsPlayer, PlayerMappingParameters parameters)
     {
       var inGameBirthDate = gsPlayer.BirthYear != 0
         ? new DateTime(gsPlayer.BirthYear!.Value, gsPlayer.BirthMonth!.Value, gsPlayer.BirthDay!.Value)
@@ -85,14 +85,14 @@ namespace PowerUp.Mappers.Players
           ? gsPlayer.EarnedRunAverage!.Value / 100.0
           : null,
         Appearance = AppearanceMapper.GetAppearance(gsPlayer),
-        PositionCapabilities = gsPlayer.GetPositionCapabilities(),
-        HitterAbilities = gsPlayer.GetHitterAbilities(),
-        PitcherAbilities = gsPlayer.GetPitcherAbilities(),
+        PositionCapabilities = PositionCapabilitiesMapper.GetPositionCapabilities(gsPlayer),
+        HitterAbilities = HitterAbilitiesMapper.GetHitterAbilities(gsPlayer),
+        PitcherAbilities = PitcherAbilitiesMapper.GetPitcherAbilities(gsPlayer),
         SpecialAbilities = SpecialAbilitiesMapper.GetSpecialAbilities(gsPlayer),
       };
     }
 
-    public GSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam, int powerProsId)
+    public IGSPlayer MapToGSPlayer(Player player, MLBPPTeam mlbPPTeam, int powerProsId)
     {
       var gsPlayerNumber = player.UniformNumber.ToGSUniformNumber();
       var gsPitcherType = player.PitcherType.ToGSPitcherType();

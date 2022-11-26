@@ -74,7 +74,7 @@ namespace PowerUp.GameSave.Api
 
         var ppIdByExportId = _powerProsIdAssigner.AssignIds(allPlayerParameters, _playerSalariesLibrary.PlayerSalaries);
 
-        var gsPlayers = new List<GSPlayer>();
+        var gsPlayers = new List<IGSPlayer>();
         var ppIdsByTeamAndId = new Dictionary<MLBPPTeam, IDictionary<int, ushort>>();
         for(var i=0; i<playersOnTeams.Count; i++)
         {
@@ -105,10 +105,11 @@ namespace PowerUp.GameSave.Api
         for (var i = freeAgents.Count(); i < 15; i++)
           blankFreeAgentSpots.Add(new GSFreeAgent() { PowerProsPlayerId = 0 });
 
+        // CHRISTODO: Remove explicit cast
         var gameSave = new GSGameSave
         {
           PowerUpId = (short)gameSaveId,
-          Players = gsPlayers.OrderBy(p => p.PowerProsId),
+          Players = gsPlayers.OrderBy(p => p.PowerProsId).Cast<GSPlayer>(),
           Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
           Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),
           FreeAgents = new GSFreeAgentList 

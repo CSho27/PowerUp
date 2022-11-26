@@ -44,7 +44,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -61,7 +61,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -78,7 +78,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -95,7 +95,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -112,7 +112,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -129,7 +129,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -146,7 +146,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -163,7 +163,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -180,7 +180,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -197,7 +197,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -214,7 +214,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -231,7 +231,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -248,7 +248,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -265,7 +265,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -282,7 +282,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -299,7 +299,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -316,7 +316,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -333,7 +333,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -350,7 +350,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -367,7 +367,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -384,7 +384,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -401,7 +401,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -418,7 +418,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -435,7 +435,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -452,7 +452,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -469,7 +469,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -486,7 +486,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -503,7 +503,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -520,7 +520,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -537,7 +537,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -554,7 +554,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -571,7 +571,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -588,7 +588,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -605,7 +605,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -622,7 +622,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -639,7 +639,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -656,7 +656,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -673,7 +673,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -690,7 +690,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -707,7 +707,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -724,7 +724,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -741,7 +741,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -758,7 +758,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -775,7 +775,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -792,7 +792,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -809,7 +809,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -826,7 +826,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -843,7 +843,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -860,7 +860,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -877,7 +877,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -894,7 +894,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -911,7 +911,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -928,7 +928,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -945,7 +945,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -962,7 +962,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -979,7 +979,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -996,7 +996,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1013,7 +1013,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1030,7 +1030,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1047,7 +1047,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1064,7 +1064,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1081,7 +1081,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1098,7 +1098,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1115,7 +1115,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1132,7 +1132,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1149,7 +1149,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1166,7 +1166,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1183,7 +1183,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1200,7 +1200,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1217,7 +1217,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1234,7 +1234,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1251,7 +1251,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1268,7 +1268,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1285,7 +1285,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1302,7 +1302,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1319,7 +1319,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1336,7 +1336,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1353,7 +1353,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1370,7 +1370,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1387,7 +1387,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1404,7 +1404,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1421,7 +1421,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1438,7 +1438,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1455,7 +1455,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1472,7 +1472,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1489,7 +1489,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1506,7 +1506,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1523,7 +1523,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1540,7 +1540,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1557,7 +1557,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1574,7 +1574,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1591,7 +1591,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1608,7 +1608,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1625,7 +1625,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1642,7 +1642,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1659,7 +1659,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1676,7 +1676,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1693,7 +1693,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1710,7 +1710,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1727,7 +1727,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1744,7 +1744,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1761,7 +1761,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1778,7 +1778,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1795,7 +1795,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1812,7 +1812,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1829,7 +1829,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1846,7 +1846,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1863,7 +1863,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1880,7 +1880,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1897,7 +1897,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1914,7 +1914,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1931,7 +1931,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1948,7 +1948,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1965,7 +1965,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1982,7 +1982,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -1999,7 +1999,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2016,7 +2016,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2033,7 +2033,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2050,7 +2050,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2067,7 +2067,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2084,7 +2084,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2101,7 +2101,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2118,7 +2118,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2135,7 +2135,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2152,7 +2152,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2169,7 +2169,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2186,7 +2186,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2203,7 +2203,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2220,7 +2220,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2237,7 +2237,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2254,7 +2254,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2271,7 +2271,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2288,7 +2288,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2305,7 +2305,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2322,7 +2322,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2339,7 +2339,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2356,7 +2356,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2373,7 +2373,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2390,7 +2390,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2407,7 +2407,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2424,7 +2424,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2441,7 +2441,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2458,7 +2458,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2475,7 +2475,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2492,7 +2492,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2509,7 +2509,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2526,7 +2526,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2543,7 +2543,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2560,7 +2560,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2577,7 +2577,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
@@ -2594,7 +2594,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
-      GSPlayer loadedPlayer = null;
+      IGSPlayer loadedPlayer = null;
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 

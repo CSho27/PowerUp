@@ -26,10 +26,15 @@ namespace PowerUp.GameSave.Objects.Players
       _reader = reader;
     }
 
-    public GSPlayer Read(int powerProsId)
+    public IGSPlayer Read(int powerProsId)
     {
       var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId, _format);
-      return _reader.Read<GSPlayer>(playerOffset);
+      return _format switch
+      {
+        GameSaveFormat.Wii_2007 => _reader.Read<GSPlayer>(playerOffset),
+        GameSaveFormat.Ps2_2007 => _reader.Read<Ps2GSPlayer>(playerOffset),
+        _ => throw new NotImplementedException()
+      };
     }
 
     public void Dispose() => _reader.Dispose();

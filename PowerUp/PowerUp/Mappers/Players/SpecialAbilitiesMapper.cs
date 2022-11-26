@@ -5,7 +5,7 @@ namespace PowerUp.Mappers.Players
 {
   public static class SpecialAbilitiesMapper
   {
-    public static SpecialAbilities GetSpecialAbilities(GSPlayer player)
+    public static SpecialAbilities GetSpecialAbilities(IGSPlayer player)
     {
       return new SpecialAbilities
       {
@@ -15,7 +15,7 @@ namespace PowerUp.Mappers.Players
       };
     } 
 
-    public static GeneralSpecialAbilities GetGeneralSpecialAbilities(GSPlayer player)
+    public static GeneralSpecialAbilities GetGeneralSpecialAbilities(IGSPlayer player)
     {
       return new GeneralSpecialAbilities
       {
@@ -27,7 +27,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static HitterSpecialAbilities GetHitterSpecialAbilities(GSPlayer player)
+    public static HitterSpecialAbilities GetHitterSpecialAbilities(IGSPlayer player)
     {
       return new HitterSpecialAbilities
       {
@@ -39,7 +39,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static SituationalHittingSpecialAbilities GetSituationalHittingSpecialAbilities(GSPlayer player)
+    public static SituationalHittingSpecialAbilities GetSituationalHittingSpecialAbilities(IGSPlayer player)
     {
       return new SituationalHittingSpecialAbilities
       {
@@ -62,7 +62,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static HittingApproachSpecialAbilities GetHittingApproachSpecialAbilities(GSPlayer player)
+    public static HittingApproachSpecialAbilities GetHittingApproachSpecialAbilities(IGSPlayer player)
     {
       return new HittingApproachSpecialAbilities
       {
@@ -86,7 +86,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static SmallBallSpecialAbilities GetSmallBallSpecialAbilities(GSPlayer player)
+    public static SmallBallSpecialAbilities GetSmallBallSpecialAbilities(IGSPlayer player)
     {
       return new SmallBallSpecialAbilities
       {
@@ -100,7 +100,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static BaseRunningSpecialAbilities GetBaseRunningSpecialAbilities(GSPlayer player)
+    public static BaseRunningSpecialAbilities GetBaseRunningSpecialAbilities(IGSPlayer player)
     {
       return new BaseRunningSpecialAbilities
       {
@@ -116,7 +116,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static FieldingSpecialAbilities GetFieldingSpecialAbilities(GSPlayer player)
+    public static FieldingSpecialAbilities GetFieldingSpecialAbilities(IGSPlayer player)
     {
       return new FieldingSpecialAbilities
       {
@@ -136,7 +136,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static PitcherSpecialAbilities GetPitcherSpecialAbilities(GSPlayer player)
+    public static PitcherSpecialAbilities GetPitcherSpecialAbilities(IGSPlayer player)
     {
       return new PitcherSpecialAbilities
       {
@@ -147,7 +147,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static SituationalPitchingSpecialAbilities GetSituationalPitchingSpecialAbilities(GSPlayer player)
+    public static SituationalPitchingSpecialAbilities GetSituationalPitchingSpecialAbilities(IGSPlayer player)
     {
       return new SituationalPitchingSpecialAbilities
       {
@@ -167,7 +167,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static PitchingDemeanorSpecialAbilities GetPitchingDemeanorSpecialAbilities(GSPlayer player)
+    public static PitchingDemeanorSpecialAbilities GetPitchingDemeanorSpecialAbilities(IGSPlayer player)
     {
       return new PitchingDemeanorSpecialAbilities
       {
@@ -181,7 +181,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static PitchingMechanicsSpecialAbilities GetPitchingMechanicsSpecialAbilities(GSPlayer player)
+    public static PitchingMechanicsSpecialAbilities GetPitchingMechanicsSpecialAbilities(IGSPlayer player)
     {
       return new PitchingMechanicsSpecialAbilities
       {
@@ -193,7 +193,7 @@ namespace PowerUp.Mappers.Players
       };
     }
 
-    public static PitchQualitiesSpecialAbilities GetPitchQuailitiesSpecialAbilities(GSPlayer player)
+    public static PitchQualitiesSpecialAbilities GetPitchQuailitiesSpecialAbilities(IGSPlayer player)
     {
       return new PitchQualitiesSpecialAbilities
       {
