@@ -2,7 +2,7 @@
 
 namespace PowerUp.GameSave.Objects.Players
 {
-  public class GSPlayer
+  public class GSPlayer : IGSPlayer
   {
     [GSUInt(0x00, bits: 16)]
     public ushort? PowerProsId { get; set; }
