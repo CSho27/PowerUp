@@ -45,31 +45,13 @@ namespace PowerUp.GameSave.IO
     public ushort ReadUInt(long offset, int bitOffset, int numberOfBits)
     {
       var reader = GetReaderFor(offset);
-      var valueBits = new byte[numberOfBits];
 
       var numberOfBytesToRead = UIntInterpret.GetNumberOfBytesNeeded(bitOffset, numberOfBits);
       var bytesToReadFrom = new List<byte>();
       for(int i = 0; i<= numberOfBytesToRead; i++)
         bytesToReadFrom.Add(reader.ReadByte());
 
-      int byteIndex = 0;
-      int bitsRead = 0;
-      int bitOfCurrentByte = bitOffset;
-      byte currentByte = bytesToReadFrom[0];
-      while (bitsRead < numberOfBits)
-      {
-        if (bitOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
-        {
-          currentByte = bytesToReadFrom[++byteIndex];
-          bitOfCurrentByte = 0;
-        }
-
-        valueBits[bitsRead] = currentByte.GetBit(bitOfCurrentByte);
-
-        bitsRead++;
-        bitOfCurrentByte++;
-      }
-
+      var valueBits = UIntInterpret.GetValueBits(bytesToReadFrom.ToArray(), bitOffset, numberOfBits);
       return valueBits.ToUInt16();
     }
 
