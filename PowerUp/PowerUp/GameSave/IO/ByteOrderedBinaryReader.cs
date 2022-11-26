@@ -19,7 +19,7 @@ namespace PowerUp.GameSave.IO
 
     public byte[] ReadBytes(long offset, int numberOfBytes) 
     {
-      _stream.Seek(offset, SeekOrigin.Begin);
+      _stream.Seek(ByteOrderInterpreter.TranslateOffset(offset, _byteOrder), SeekOrigin.Begin);
       var bytes = new byte[numberOfBytes];
       for (int i = 0; i < numberOfBytes; i++)
         bytes[i] = ReadNextByte();
