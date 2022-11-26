@@ -89,7 +89,7 @@ namespace PowerUp
         var playerId = result != 0
           ? result
           : PLAYER_ID;
-        using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+        using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, ByteOrder.BigEndian);
         var player = loader.Read(playerId);
         var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
         var bitString = player.UnknownByte_87!.ToBitString();
@@ -100,7 +100,7 @@ namespace PowerUp
 
     static void PrintAllPlayers(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary specialSavedNameLibrary)
     {
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, ByteOrder.BigEndian);
       var playerMapper = new PlayerMapper(specialSavedNameLibrary);
 
       for (int id = 1; id < 1513; id++)
@@ -116,8 +116,8 @@ namespace PowerUp
 
     static void PrintAllTeams(ICharacterLibrary characterLibrary)
     {
-      var teamReader = new TeamReader(characterLibrary, GAME_SAVE_PATH);
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var teamReader = new TeamReader(characterLibrary, GAME_SAVE_PATH, ByteOrder.BigEndian);
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, ByteOrder.BigEndian);
 
       for (int teamNum = 1; teamNum <= 32; teamNum++)
       {
@@ -143,7 +143,7 @@ namespace PowerUp
 
     static void PrintAllLineups(ICharacterLibrary characterLibrary)
     {
-      var lineupReader = new LineupReader(characterLibrary, GAME_SAVE_PATH);
+      var lineupReader = new LineupReader(characterLibrary, GAME_SAVE_PATH, ByteOrder.BigEndian);
 
       for (int teamNum = 1; teamNum <= 32; teamNum++)
       {
@@ -159,7 +159,7 @@ namespace PowerUp
 
     static void PrintLineup(ICharacterLibrary characterLibrary, IEnumerable<GSLineupPlayer> lineup)
     {
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, ByteOrder.BigEndian);
       var lineupPlayers = lineup.ToArray();
       for (int playerNum = 0; playerNum < lineupPlayers.Length; playerNum++)
       {
@@ -185,7 +185,7 @@ namespace PowerUp
 
     static void BuildPlayerValueLibrary(ICharacterLibrary characterLibrary)
     {
-      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));
+      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), ByteOrder.BigEndian);
       var playersAndValues = new Dictionary<string, int>();
       
       for (int id = 1; id < 1500; id++)
@@ -642,10 +642,10 @@ namespace PowerUp
     {
       var csvList = new CSVList("PlayerId", "First", "Last", "Salary", "Length");
 
-      using var reader = new GameSaveObjectReader(characterLibrary, "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2se1us.dat");
+      using var reader = new GameSaveObjectReader(characterLibrary, "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2se1us.dat", ByteOrder.BigEndian);
       var salaryDict = reader.Read<GSSalaryList>(0x20F4C).SalaryEntries!.ToDictionary(e => e.PowerProsPlayerId!.Value, e => e);
 
-      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));
+      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), ByteOrder.BigEndian);
       for (int id = 1; id < 971; id++)
       {
         var player = playerReader.Read(id);

@@ -8,9 +8,9 @@ namespace PowerUp.GameSave.Objects.Players
   {
     private readonly GameSaveObjectReader _reader;
 
-    public PlayerReader(ICharacterLibrary characterLibrary, string fileName)
+    public PlayerReader(ICharacterLibrary characterLibrary, string fileName, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, fileName);
+      _reader = new GameSaveObjectReader(characterLibrary, fileName, byteOrder);
     }
 
     public PlayerReader(GameSaveObjectReader reader)

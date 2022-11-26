@@ -6,7 +6,8 @@ namespace PowerUp.GameSave.Api
 {
   public class RosterIdReader
   {
-    private ICharacterLibrary _characterLibrary;
+    private readonly ICharacterLibrary _characterLibrary;
+    private readonly ByteOrder _byteOrder;
 
     public RosterIdReader(ICharacterLibrary characterLibrary)
     {
@@ -15,7 +16,7 @@ namespace PowerUp.GameSave.Api
 
     public short Read(string filePath)
     {
-      using var reader = new GameSaveObjectReader(_characterLibrary, filePath);
+      using var reader = new GameSaveObjectReader(_characterLibrary, filePath, ByteOrder.BigEndian);
       return reader.ReadInt(GSGameSave.PowerUpIdOffset);
     }
   }

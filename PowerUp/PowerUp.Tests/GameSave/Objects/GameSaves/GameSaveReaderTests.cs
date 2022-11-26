@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.Libraries;
 using Shouldly;
@@ -22,7 +23,7 @@ namespace PowerUp.Tests.GameSave.Objects.GameSaves
     [Test]
     public void Read_ReadsData()
     {
-      using var reader = new GameSaveReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var reader = new GameSaveReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var result = reader.Read();
 
       var players = result.Players.ToList();

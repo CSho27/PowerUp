@@ -3,6 +3,7 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Teams;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.Libraries;
 using PowerUp.Mappers;
@@ -37,7 +38,8 @@ namespace PowerUp.GameSave.Api
       if (!parameters.IsBase && parameters.ImportSource == null)
         throw new ArgumentNullException(nameof(parameters.ImportSource));
 
-      using (var reader = new GameSaveReader(_characterLibrary, parameters.Stream))
+      // CHRISTODO: Don't hard code this
+      using (var reader = new GameSaveReader(_characterLibrary, parameters.Stream, ByteOrder.BigEndian))
       {
         var gameSave = reader.Read();
         var gsPlayers = gameSave.Players.Where(p => p.PowerProsId.HasValue && p.PowerProsId != 0);

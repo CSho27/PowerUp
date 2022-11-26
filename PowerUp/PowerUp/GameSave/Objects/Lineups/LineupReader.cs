@@ -8,9 +8,9 @@ namespace PowerUp.GameSave.Objects.Lineups
   {
     private readonly GameSaveObjectReader _reader;
 
-    public LineupReader(ICharacterLibrary characterLibrary, string fileName)
+    public LineupReader(ICharacterLibrary characterLibrary, string fileName, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, fileName);
+      _reader = new GameSaveObjectReader(characterLibrary, fileName, byteOrder);
     }
 
     public LineupReader(GameSaveObjectReader reader)

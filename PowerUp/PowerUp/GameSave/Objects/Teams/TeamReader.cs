@@ -8,9 +8,9 @@ namespace PowerUp.GameSave.Objects.Teams
   {
     private readonly GameSaveObjectReader _reader;
 
-    public TeamReader(ICharacterLibrary characterLibrary, string fileName)
+    public TeamReader(ICharacterLibrary characterLibrary, string fileName, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, fileName);
+      _reader = new GameSaveObjectReader(characterLibrary, fileName, byteOrder);
     }
 
     public TeamReader(GameSaveObjectReader reader)

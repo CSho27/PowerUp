@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
 using PowerUp.Libraries;
 using Shouldly;
@@ -23,7 +24,7 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [Test]
     public void Reads_NoDHLineup()
     {
-      using var reader = new LineupReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var reader = new LineupReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var lineupDefinition = reader.Read(INDIANS_ID);
       var noDH = lineupDefinition.NoDHLineup;
 
@@ -66,7 +67,7 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [Test]
     public void Reads_DHLineup()
     {
-      using var reader = new LineupReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var reader = new LineupReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var lineupDefinition = reader.Read(INDIANS_ID);
       var dh = lineupDefinition.DHLineup;
 

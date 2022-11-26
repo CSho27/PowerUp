@@ -10,15 +10,15 @@ namespace PowerUp.GameSave.IO
     private readonly ByteOrderedBinaryReader _reader;
     private readonly ICharacterLibrary _characterLibrary;
 
-    public GameSaveFileReader(ICharacterLibrary characterLibrary, string filePath)
+    public GameSaveFileReader(ICharacterLibrary characterLibrary, string filePath, ByteOrder byteOrder)
     {
-      _reader =  new ByteOrderedBinaryReader(new FileStream(filePath, FileMode.Open, FileAccess.Read), ByteOrder.BigEndian);
+      _reader =  new ByteOrderedBinaryReader(new FileStream(filePath, FileMode.Open, FileAccess.Read), byteOrder);
       _characterLibrary = characterLibrary;
     }
 
-    public GameSaveFileReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveFileReader(ICharacterLibrary characterLibrary, Stream stream, ByteOrder byteOrder)
     {
-      _reader = new ByteOrderedBinaryReader(stream, ByteOrder.BigEndian);
+      _reader = new ByteOrderedBinaryReader(stream, byteOrder);
       _characterLibrary = characterLibrary;
     }
 

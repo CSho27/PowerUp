@@ -14,14 +14,14 @@ namespace PowerUp.GameSave.Objects.GameSaves
   {
     private readonly GameSaveObjectReader _reader;
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, string filePath)
+    public GameSaveReader(ICharacterLibrary characterLibrary, string filePath, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, filePath);
+      _reader = new GameSaveObjectReader(characterLibrary, filePath, byteOrder);
     }
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, stream);
+      _reader = new GameSaveObjectReader(characterLibrary, stream, byteOrder);
     }
 
     /// <summary>

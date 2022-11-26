@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
@@ -29,7 +30,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, "Pitch")]
     public void Reads_SavedName(int playerId, string savedName)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SavedName.ShouldBe(savedName);
     }
@@ -40,7 +41,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, "Pitcher")]
     public void Reads_LastName(int playerId, string lastName)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.LastName.ShouldBe(lastName);
     }
@@ -51,7 +52,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, "Paul")]
     public void Reads_FirstName(int playerId, string firstName)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.FirstName.ShouldBe(firstName);
     }
@@ -62,7 +63,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsEdited(int playerId, bool isEdited)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsEdited.ShouldBe(isEdited);
     }
@@ -73,7 +74,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)36)]
     public void Reads_PlayerNumber(int playerId, ushort playerNumber)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PlayerNumber.ShouldBe(playerNumber);
     }
@@ -84,7 +85,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
     }
@@ -95,7 +96,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)206)]
     public void Reads_Face(int playerId, ushort face)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Face.ShouldBe(face);
     }
@@ -107,7 +108,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_SkinAndEyes(int playerId, ushort skinAndEyes)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SkinAndEyes.ShouldBe(skinAndEyes);
     }
@@ -118,7 +119,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)5)]
     public void Reads_Bat(int playerId, ushort bat)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Bat.ShouldBe(bat);
     }
@@ -129,7 +130,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_Glove(int playerId, ushort glove)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Glove.ShouldBe(glove);
     }
@@ -140,7 +141,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)6)]
     public void Reads_Hair(int playerId, ushort hair)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Hair.ShouldBe(hair);
     }
@@ -151,7 +152,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_HairColor(int playerId, ushort hairColor)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HairColor.ShouldBe(hairColor);
     }
@@ -162,7 +163,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_FacialHair(int playerId, ushort facialHair)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.FacialHair.ShouldBe(facialHair);
     }
@@ -173,7 +174,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)13)]
     public void Reads_FacialHairColor(int playerId, ushort facialHairColor)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.FacialHairColor.ShouldBe(facialHairColor);
     }
@@ -184,7 +185,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)5)]
     public void Reads_GlassesType(int playerId, ushort glassesType)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.EyewearType.ShouldBe(glassesType);
     }
@@ -195,7 +196,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_GlassesColor(int playerId, ushort glassesColor)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.EyewearColor.ShouldBe(glassesColor);
     }
@@ -206,7 +207,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_EarringType(int playerId, ushort earringType)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.EarringSide.ShouldBe(earringType);
     }
@@ -217,7 +218,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)8)]
     public void Reads_EarringColor(int playerId, ushort earringColor)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.EarringColor.ShouldBe(earringColor);
     }
@@ -228,7 +229,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_RightWristband(int playerId, ushort rightWristband)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.RightWristband.ShouldBe(rightWristband);
     }
@@ -239,7 +240,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_LeftWristband(int playerId, ushort leftWristband)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.LeftWristband.ShouldBe(leftWristband);
     }
@@ -250,7 +251,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_PrimaryPosition(int playerId, ushort primaryPosition)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PrimaryPosition.ShouldBe(primaryPosition);
     }
@@ -261,7 +262,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)7)]
     public void Reads_PitcherCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PitcherCapability.ShouldBe(capability);
     }
@@ -272,7 +273,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_CatcherCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.CatcherCapability.ShouldBe(capability);
     }
@@ -283,7 +284,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_FirstBaseCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.FirstBaseCapability.ShouldBe(capability);
     }
@@ -294,7 +295,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_SecondBaseCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SecondBaseCapability.ShouldBe(capability);
     }
@@ -305,7 +306,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_ThirdBaseCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ThirdBaseCapability.ShouldBe(capability);
     }
@@ -316,7 +317,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_ShortstopCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ShortstopCapability.ShouldBe(capability);
     }
@@ -327,7 +328,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_LeftFieldCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.LeftFieldCapability.ShouldBe(capability);
     }
@@ -338,7 +339,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_CenterFieldCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.CenterFieldCapability.ShouldBe(capability);
     }
@@ -349,7 +350,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_RightFieldCapability(int playerId, ushort capability)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.RightFieldCapability.ShouldBe(capability);
     }
@@ -360,7 +361,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsStarter(int playerId, bool isStarter)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsStarter.ShouldBe(isStarter);
     }
@@ -371,7 +372,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsReliever(int playerId, bool isReliever)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsReliever.ShouldBe(isReliever);
     }
@@ -382,7 +383,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsCloser(int playerId, bool isCloser)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsCloser.ShouldBe(isCloser);
     }
@@ -393,7 +394,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
     public void Reads_HotZoneUpAndIn(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneUpAndIn.ShouldBe(hzValue);
     }
@@ -404,7 +405,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
     public void Reads_HotZoneUp(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneUp.ShouldBe(hzValue);
     }
@@ -415,7 +416,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
     public void Reads_HotZoneUpAndOut(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneUpAndAway.ShouldBe(hzValue);
     }
@@ -426,7 +427,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_HotZoneMiddleIn(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneMiddleIn.ShouldBe(hzValue);
     }
@@ -437,7 +438,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_HotZoneMiddle(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneMiddle.ShouldBe(hzValue);
     }
@@ -448,7 +449,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_HotZoneMiddleAway(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneMiddleAway.ShouldBe(hzValue);
     }
@@ -459,7 +460,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_HotZoneDownAndIn(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneDownAndIn.ShouldBe(hzValue);
     }
@@ -470,7 +471,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_HotZoneDown(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneDown.ShouldBe(hzValue);
     }
@@ -481,7 +482,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_HotZoneDownAndAway(int playerId, ushort hzValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HotZoneDownAndAway.ShouldBe(hzValue);
     }
@@ -492,7 +493,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
     public void Reads_BattingSide(int playerId, ushort battingSide)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BattingSide.ShouldBe(battingSide);
     }
@@ -503,7 +504,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_ThrowsLefty(int playerId, bool throwsLefty)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ThrowsLefty.ShouldBe(throwsLefty);
     }
@@ -514,7 +515,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_Durability(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Durability.ShouldBe(abilityValue);
     }
@@ -525,7 +526,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
     public void Reads_Trajectory(int playerId, ushort trajectory)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Trajectory.ShouldBe(trajectory);
     }
@@ -536,7 +537,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_Contact(int playerId, ushort contact)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Contact.ShouldBe(contact);
     }
@@ -547,7 +548,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)56)]
     public void Reads_Power(int playerId, ushort power)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Power.ShouldBe(power);
     }
@@ -558,7 +559,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_RunSpeed(int playerId, ushort runSpeed)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.RunSpeed.ShouldBe(runSpeed);
     }
@@ -569,7 +570,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)6)]
     public void Reads_ArmStrength(int playerId, ushort armStrength)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ArmStrength.ShouldBe(armStrength);
     }
@@ -580,7 +581,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)7)]
     public void Reads_Fielding(int playerId, ushort fielding)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Fielding.ShouldBe(fielding);
     }
@@ -591,7 +592,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_ErrorResistance(int playerId, ushort errorResistance)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ErrorResistance.ShouldBe(errorResistance);
     }
@@ -602,7 +603,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_HittingConsistency(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HittingConsistency.ShouldBe(abilityValue);
     }
@@ -613,7 +614,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_HittingVersusLefty1(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HittingVersusLefty1.ShouldBe(abilityValue);
     }
@@ -624,7 +625,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_HittingVersusLefty2(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HittingVersusLefty2.ShouldBe(abilityValue);
     }
@@ -635,7 +636,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-3)]
     public void Reads_ClutchHit(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ClutchHitter.ShouldBe(abilityValue);
     }
@@ -646,7 +647,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsTableSetter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsTableSetter.ShouldBe(abilityValue);
     }
@@ -657,7 +658,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_Morale(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Morale.ShouldBe(abilityValue);
     }
@@ -668,7 +669,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsSparkplug(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsSparkplug.ShouldBe(abilityValue);
     }
@@ -679,7 +680,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsRallyHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsRallyHitter.ShouldBe(abilityValue);
     }
@@ -690,7 +691,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsHotHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsHotHitter.ShouldBe(abilityValue);
     }
@@ -701,7 +702,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsBackToBackHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsBackToBackHitter.ShouldBe(abilityValue);
     }
@@ -712,7 +713,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsToughOut(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsToughOut.ShouldBe(abilityValue);
     }
@@ -723,7 +724,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsPushHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsPushHitter.ShouldBe(abilityValue);
     }
@@ -734,7 +735,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsSprayHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsSprayHitter.ShouldBe(abilityValue);
     }
@@ -745,7 +746,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_InfieldHitter(int playerId, ushort abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.InfieldHitter.ShouldBe(abilityValue);
     }
@@ -756,7 +757,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsContactHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsContactHitter.ShouldBe(abilityValue);
     }
@@ -767,7 +768,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsPowerHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsPowerHitter.ShouldBe(abilityValue);
     }
@@ -778,7 +779,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsGoodPinchHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsGoodPinchHitter.ShouldBe(abilityValue);
     }
@@ -789,7 +790,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsFreeSwinger(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsFreeSwinger.ShouldBe(abilityValue);
     }
@@ -800,7 +801,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsFirstballHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsFirstballHitter.ShouldBe(abilityValue);
     }
@@ -811,7 +812,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_Bunting(int playerId, ushort abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Bunting.ShouldBe(abilityValue);
     }
@@ -822,7 +823,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_WalkoffHitter(int playerId, ushort abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.WalkoffHitter.ShouldBe(abilityValue);
     }
@@ -833,7 +834,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_BasesLoadedHitter(int playerId, ushort abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BasesLoadedHitter.ShouldBe(abilityValue);
     }
@@ -844,7 +845,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsRefinedHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsRefinedHitter.ShouldBe(abilityValue);
     }
@@ -855,7 +856,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsIntimidatingHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsIntimidatingHitter.ShouldBe(abilityValue);
     }
@@ -866,7 +867,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_Stealing(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Stealing.ShouldBe(abilityValue);
     }
@@ -877,7 +878,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_BaseRunning(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BaseRunning.ShouldBe(abilityValue);
     }
@@ -888,7 +889,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_WillSlideHeadFirst(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.WillSlideHeadFirst.ShouldBe(abilityValue);
     }
@@ -899,7 +900,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_WillBreakupDoublePlay(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.WillBreakupDoublePlay.ShouldBe(abilityValue);
     }
@@ -910,7 +911,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsToughRunner(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsToughRunner.ShouldBe(abilityValue);
     }
@@ -921,7 +922,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_Throwing(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Throwing.ShouldBe(abilityValue);
     }
@@ -932,7 +933,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsGoldGlover(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsGoldGlover.ShouldBe(abilityValue);
     }
@@ -943,7 +944,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_CanBarehandCatch(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.CanBarehandCatch.ShouldBe(abilityValue);
     }
@@ -954,7 +955,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_CanSpiderCatch(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.CanSpiderCatch.ShouldBe(abilityValue);
     }
@@ -965,7 +966,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsErrorProne(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsErrorProne.ShouldBe(abilityValue);
     }
@@ -976,7 +977,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)0)]
     public void Reads_Catching(int playerId, ushort abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Catching.ShouldBe(abilityValue);
     }
@@ -987,7 +988,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsGoodBlocker(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsGoodBlocker.ShouldBe(abilityValue);
     }
@@ -998,7 +999,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsTrashTalker(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsTrashTalker.ShouldBe(abilityValue);
     }
@@ -1009,7 +1010,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_HasCannonArm(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsErrorProne.ShouldBe(abilityValue);
     }
@@ -1020,7 +1021,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsStar(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsStar.ShouldBe(abilityValue);
     }
@@ -1031,7 +1032,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_SmallBall(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SmallBall.ShouldBe(abilityValue);
     }
@@ -1042,7 +1043,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)0)]
     public void Reads_SlugOrSlap(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SlugOrSlap.ShouldBe(abilityValue);
     }
@@ -1053,7 +1054,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)0)]
     public void Reads_AggressiveOrPatientHitter(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.AggressiveOrPatientHitter.ShouldBe(abilityValue);
     }
@@ -1064,7 +1065,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)0)]
     public void Reads_AggressiveOrCautiousBaseStealer(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.AggressiveOrCautiousBaseStealer.ShouldBe(abilityValue);
     }
@@ -1075,7 +1076,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsAggressiveBaserunner(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsAggressiveBaserunner.ShouldBe(abilityValue);
     }
@@ -1086,7 +1087,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsAggressiveFielder(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsAggressiveFielder.ShouldBe(abilityValue);
     }
@@ -1097,7 +1098,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsPivotMan(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsPivotMan.ShouldBe(abilityValue);
     }
@@ -1108,7 +1109,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsPullHitter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsPullHitter.ShouldBe(abilityValue);
     }
@@ -1120,7 +1121,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(197, (short)-1)]
     public void Reads_GoodOrPoorDayGame(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.GoodOrPoorDayGame.ShouldBe(abilityValue);
     }
@@ -1132,7 +1133,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(904, (short)-1)]
     public void Reads_GoodOrPoorRain(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.GoodOrPoorRain.ShouldBe(abilityValue);
     }
@@ -1143,7 +1144,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)169)]
     public void Reads_TopThrowingSpeedKMH(int playerId, ushort topSpeedKMH)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.TopThrowingSpeedKMH.ShouldBe(topSpeedKMH);
     }
@@ -1154,7 +1155,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)246)]
     public void Reads_Control(int playerId, ushort control)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Control.ShouldBe(control);
     }
@@ -1165,7 +1166,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)237)]
     public void Reads_Stamina(int playerId, ushort stamina)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Stamina.ShouldBe(stamina);
     }
@@ -1176,7 +1177,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_Recovery(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Recovery.ShouldBe(abilityValue);
     }
@@ -1187,7 +1188,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_GroundBallFlyBallPitcher(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.GroundBallOrFlyBallPitcher.ShouldBe(abilityValue);
     }
@@ -1198,7 +1199,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_SafeOrFatPitch(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SafeOrFatPitch.ShouldBe(abilityValue);
     }
@@ -1209,7 +1210,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_WithRunnersInScoringPosition(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.WithRunnersInScoringPosition.ShouldBe(abilityValue);
     }
@@ -1220,7 +1221,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_Spin(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Spin.ShouldBe(abilityValue);
     }
@@ -1231,7 +1232,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_FastballLife(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.FastballLife.ShouldBe(abilityValue);
     }
@@ -1242,7 +1243,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_Gyroball(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Gyroball.ShouldBe(abilityValue);
     }
@@ -1253,7 +1254,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_ShuttoSpin(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.ShuttoSpin.ShouldBe(abilityValue);
     }
@@ -1264,7 +1265,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_Poise(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Poise.ShouldBe(abilityValue);
     }
@@ -1275,7 +1276,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_Luck(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Luck.ShouldBe(abilityValue);
     }
@@ -1286,7 +1287,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_Release(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Release.ShouldBe(abilityValue);
     }
@@ -1297,7 +1298,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)-1)]
     public void Reads_VersusLeftHandedBatter(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PitchingVersusLefty.ShouldBe(abilityValue);
     }
@@ -1308,7 +1309,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_PoorVersusRunner(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PoorVersusRunner.ShouldBe(abilityValue);
     }
@@ -1319,7 +1320,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_GoodPickoff(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.GoodPickoff.ShouldBe(abilityValue);
     }
@@ -1330,7 +1331,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_GoodDelivery(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.GoodDelivery.ShouldBe(abilityValue);
     }
@@ -1341,7 +1342,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_GoodLowPitch(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.GoodLowPitch.ShouldBe(abilityValue);
     }
@@ -1352,7 +1353,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_DoctorK(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.DoctorK.ShouldBe(abilityValue);
     }
@@ -1363,7 +1364,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_WalkProne(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsWalkProne.ShouldBe(abilityValue);
     }
@@ -1374,7 +1375,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsSandbag(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsSandbag.ShouldBe(abilityValue);
     }
@@ -1385,7 +1386,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_HasPokerFace(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HasPokerFace.ShouldBe(abilityValue);
     }
@@ -1396,7 +1397,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsIntimidatingPitcher(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsIntimidatingPitcher.ShouldBe(abilityValue);
     }
@@ -1407,7 +1408,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsBattler(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsBattler.ShouldBe(abilityValue);
     }
@@ -1418,7 +1419,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsHotHead(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsHotHead.ShouldBe(abilityValue);
     }
@@ -1429,7 +1430,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_IsSlowStarter(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsSlowStarter.ShouldBe(abilityValue);
     }
@@ -1440,7 +1441,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsStarterFinisher(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsStarterFinisher.ShouldBe(abilityValue);
     }
@@ -1451,7 +1452,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_IsChokeAtrist(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.IsChokeArtist.ShouldBe(abilityValue);
     }
@@ -1462,7 +1463,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, false)]
     public void Reads_HasGoodReflexes(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HasGoodReflexes.ShouldBe(abilityValue);
     }
@@ -1473,7 +1474,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, true)]
     public void Reads_HasGoodPace(int playerId, bool abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HasGoodPace.ShouldBe(abilityValue);
     }
@@ -1484,7 +1485,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (short)1)]
     public void Reads_PowerOrBreakingBallPitcher(int playerId, short abilityValue)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.PowerOrBreakingBallPitcher.ShouldBe(abilityValue);
     }
@@ -1495,7 +1496,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1962)]
     public void Reads_BirthYear(int playerId, ushort birthYear)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BirthYear.ShouldBe(birthYear);
     }
@@ -1506,7 +1507,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)8)]
     public void Reads_BirthMonth(int playerId, ushort birthMonth)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BirthMonth.ShouldBe(birthMonth);
     }
@@ -1517,7 +1518,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_BirthDay(int playerId, ushort birthDay)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BirthDay.ShouldBe(birthDay);
     }
@@ -1528,7 +1529,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)23)]
     public void Reads_YearsInMajors(int playerId, ushort yearsInMajors)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.YearsInMajors.ShouldBe(yearsInMajors);
     }
@@ -1539,7 +1540,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)074)]
     public void Reads_BattingAveragePoints(int playerId, ushort battingAveragePoints)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.BattingAveragePoints.ShouldBe(battingAveragePoints);
     }
@@ -1550,7 +1551,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_RunsBattedIn(int playerId, ushort rbi)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.RunsBattedIn.ShouldBe(rbi);
     }
@@ -1561,7 +1562,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_HomeRuns(int playerId, ushort homeRuns)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.HomeRuns.ShouldBe(homeRuns);
     }
@@ -1572,7 +1573,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)215)]
     public void Reads_EarnedRunAverage(int playerId, ushort era)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.EarnedRunAverage.ShouldBe(era);
     }
@@ -1583,7 +1584,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2426)]
     public void Reads_VoiceId(int playerId, ushort voiceId)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.VoiceId.ShouldBe(voiceId);
     }
@@ -1594,7 +1595,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_Slider1Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Slider1Type.ShouldBe(type);
     }
@@ -1605,7 +1606,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_Slider1Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Slider1Movement.ShouldBe(movement);
     }
@@ -1616,7 +1617,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)6)]
     public void Reads_Curve1Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Curve1Type.ShouldBe(type);
     }
@@ -1627,7 +1628,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)5)]
     public void Reads_Curve1Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Curve1Movement.ShouldBe(movement);
     }
@@ -1638,7 +1639,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)18)]
     public void Reads_Fork1Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Fork1Type.ShouldBe(type);
     }
@@ -1649,7 +1650,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)5)]
     public void Reads_Fork1Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Fork1Movement.ShouldBe(movement);
     }
@@ -1660,7 +1661,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)20)]
     public void Reads_Sinker1Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Sinker1Type.ShouldBe(type);
     }
@@ -1671,7 +1672,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)6)]
     public void Reads_Sinker1Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Sinker1Movement.ShouldBe(movement);
     }
@@ -1682,7 +1683,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)25)]
     public void Reads_SinkingFastball1Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SinkingFastball1Type.ShouldBe(type);
     }
@@ -1693,7 +1694,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)4)]
     public void Reads_SinkingFastball1Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SinkingFastball1Movement.ShouldBe(movement);
     }
@@ -1704,7 +1705,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_TwoSeamType(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.TwoSeamType.ShouldBe(type);
     }
@@ -1715,7 +1716,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_TwoSeamMovement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.TwoSeamMovement.ShouldBe(movement);
     }
@@ -1726,7 +1727,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)5)]
     public void Reads_Slider2Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Slider2Type.ShouldBe(type);
     }
@@ -1737,7 +1738,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_Slider2Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Slider2Movement.ShouldBe(movement);
     }
@@ -1748,7 +1749,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)11)]
     public void Reads_Curve2Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Curve2Type.ShouldBe(type);
     }
@@ -1759,7 +1760,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_Curve2Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Curve2Movement.ShouldBe(movement);
     }
@@ -1770,7 +1771,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)17)]
     public void Reads_Fork2Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Fork2Type.ShouldBe(type);
     }
@@ -1781,7 +1782,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)1)]
     public void Reads_Fork2Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Fork2Movement.ShouldBe(movement);
     }
@@ -1792,7 +1793,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)21)]
     public void Reads_Sinker2Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Sinker2Type.ShouldBe(type);
     }
@@ -1803,7 +1804,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)3)]
     public void Reads_Sinker2Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.Sinker2Movement.ShouldBe(movement);
     }
@@ -1814,7 +1815,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)24)]
     public void Reads_SinkingFastball2Type(int playerId, ushort type)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SinkingFastball2Type.ShouldBe(type);
     }
@@ -1825,7 +1826,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     public void Reads_SinkingFastball2Movement(int playerId, ushort movement)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian);
       var player = loader.Read(playerId);
       player.SinkingFastball2Movement.ShouldBe(movement);
     }

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
@@ -44,7 +45,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SavedName.ShouldBe(savedName);
@@ -61,7 +62,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.LastName.ShouldBe(lastName);
@@ -78,7 +79,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.FirstName.ShouldBe(firstName);
@@ -95,7 +96,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PlayerNumber.ShouldBe(playerNumber);
@@ -112,7 +113,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
@@ -129,7 +130,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SkinAndEyes.ShouldBe(skinAndEyes);
@@ -146,7 +147,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Bat.ShouldBe(bat);
@@ -163,7 +164,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Glove.ShouldBe(glove);
@@ -180,7 +181,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Hair.ShouldBe(hair);
@@ -197,7 +198,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HairColor.ShouldBe(hairColor);
@@ -214,7 +215,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.FacialHair.ShouldBe(facialHair);
@@ -231,7 +232,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.FacialHairColor.ShouldBe(facialHairColor);
@@ -248,7 +249,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.EyewearType.ShouldBe(glassesType);
@@ -265,7 +266,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.EyewearColor.ShouldBe(glassesColor);
@@ -282,7 +283,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.EarringSide.ShouldBe(earringType);
@@ -299,7 +300,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.EarringColor.ShouldBe(earringColor);
@@ -316,7 +317,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.RightWristband.ShouldBe(rightWristband);
@@ -333,7 +334,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.LeftWristband.ShouldBe(leftWristband);
@@ -350,7 +351,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PrimaryPosition.ShouldBe(primaryPosition);
@@ -367,7 +368,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PitcherCapability.ShouldBe(capability);
@@ -384,7 +385,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.CatcherCapability.ShouldBe(capability);
@@ -401,7 +402,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.FirstBaseCapability.ShouldBe(capability);
@@ -418,7 +419,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SecondBaseCapability.ShouldBe(capability);
@@ -435,7 +436,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ThirdBaseCapability.ShouldBe(capability);
@@ -452,7 +453,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ShortstopCapability.ShouldBe(capability);
@@ -469,7 +470,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.LeftFieldCapability.ShouldBe(capability);
@@ -486,7 +487,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.CenterFieldCapability.ShouldBe(capability);
@@ -503,7 +504,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.RightFieldCapability.ShouldBe(capability);
@@ -520,7 +521,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsStarter.ShouldBe(isStarter);
@@ -537,7 +538,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsReliever.ShouldBe(isReliever);
@@ -554,7 +555,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsCloser.ShouldBe(isCloser);
@@ -571,7 +572,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneUpAndIn.ShouldBe(hzValue);
@@ -588,7 +589,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneUp.ShouldBe(hzValue);
@@ -605,7 +606,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneUpAndAway.ShouldBe(hzValue);
@@ -622,7 +623,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneMiddleIn.ShouldBe(hzValue);
@@ -639,7 +640,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneMiddle.ShouldBe(hzValue);
@@ -656,7 +657,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneDownAndIn.ShouldBe(hzValue);
@@ -673,7 +674,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneDown.ShouldBe(hzValue);
@@ -690,7 +691,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HotZoneDownAndAway.ShouldBe(hzValue);
@@ -707,7 +708,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.BattingSide.ShouldBe(battingSide);
@@ -724,7 +725,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ThrowsLefty.ShouldBe(throwsLeft);
@@ -741,7 +742,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Durability.ShouldBe(value);
@@ -758,7 +759,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Trajectory.ShouldBe(value);
@@ -775,7 +776,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Contact.ShouldBe(value);
@@ -792,7 +793,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Power.ShouldBe(value);
@@ -809,7 +810,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.RunSpeed.ShouldBe(value);
@@ -826,7 +827,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ArmStrength.ShouldBe(value);
@@ -843,7 +844,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Fielding.ShouldBe(value);
@@ -860,7 +861,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ErrorResistance.ShouldBe(value);
@@ -877,7 +878,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HittingConsistency.ShouldBe(value);
@@ -894,7 +895,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HittingVersusLefty1.ShouldBe(value);
@@ -911,7 +912,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HittingVersusLefty2.ShouldBe(value);
@@ -928,7 +929,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ClutchHitter.ShouldBe(value);
@@ -945,7 +946,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsTableSetter.ShouldBe(value);
@@ -962,7 +963,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Morale.ShouldBe(value);
@@ -979,7 +980,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsSparkplug.ShouldBe(value);
@@ -996,7 +997,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsRallyHitter.ShouldBe(value);
@@ -1013,7 +1014,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsHotHitter.ShouldBe(value);
@@ -1030,7 +1031,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsBackToBackHitter.ShouldBe(value);
@@ -1047,7 +1048,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsToughOut.ShouldBe(value);
@@ -1064,7 +1065,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsPushHitter.ShouldBe(value);
@@ -1081,7 +1082,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsSprayHitter.ShouldBe(value);
@@ -1098,7 +1099,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.InfieldHitter.ShouldBe(value);
@@ -1115,7 +1116,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsContactHitter.ShouldBe(value);
@@ -1132,7 +1133,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsPowerHitter.ShouldBe(value);
@@ -1149,7 +1150,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsGoodPinchHitter.ShouldBe(value);
@@ -1166,7 +1167,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsFirstballHitter.ShouldBe(value);
@@ -1183,7 +1184,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Bunting.ShouldBe(value);
@@ -1200,7 +1201,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.WalkoffHitter.ShouldBe(value);
@@ -1217,7 +1218,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.BasesLoadedHitter.ShouldBe(value);
@@ -1234,7 +1235,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsRefinedHitter.ShouldBe(value);
@@ -1251,7 +1252,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsIntimidatingHitter.ShouldBe(value);
@@ -1268,7 +1269,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Stealing.ShouldBe(value);
@@ -1285,7 +1286,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.BaseRunning.ShouldBe(value);
@@ -1302,7 +1303,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.WillSlideHeadFirst.ShouldBe(value);
@@ -1319,7 +1320,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.WillBreakupDoublePlay.ShouldBe(value);
@@ -1336,7 +1337,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsToughRunner.ShouldBe(value);
@@ -1353,7 +1354,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Throwing.ShouldBe(value);
@@ -1370,7 +1371,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsGoldGlover.ShouldBe(value);
@@ -1387,7 +1388,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.CanBarehandCatch.ShouldBe(value);
@@ -1404,7 +1405,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.CanSpiderCatch.ShouldBe(value);
@@ -1421,7 +1422,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsErrorProne.ShouldBe(value);
@@ -1438,7 +1439,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Catching.ShouldBe(value);
@@ -1455,7 +1456,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsGoodBlocker.ShouldBe(value);
@@ -1472,7 +1473,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsTrashTalker.ShouldBe(value);
@@ -1489,7 +1490,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HasCannonArm.ShouldBe(value);
@@ -1506,7 +1507,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsStar.ShouldBe(value);
@@ -1523,7 +1524,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SmallBall.ShouldBe(value);
@@ -1540,7 +1541,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SlugOrSlap.ShouldBe(value);
@@ -1557,7 +1558,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.AggressiveOrPatientHitter.ShouldBe(value);
@@ -1574,7 +1575,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.AggressiveOrCautiousBaseStealer.ShouldBe(value);
@@ -1591,7 +1592,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsAggressiveBaserunner.ShouldBe(value);
@@ -1608,7 +1609,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsAggressiveFielder.ShouldBe(value);
@@ -1625,7 +1626,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsPivotMan.ShouldBe(value);
@@ -1642,7 +1643,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsPullHitter.ShouldBe(value);
@@ -1659,7 +1660,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.TopThrowingSpeedKMH.ShouldBe(value);
@@ -1676,7 +1677,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Control.ShouldBe(value);
@@ -1693,7 +1694,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Stamina.ShouldBe(value);
@@ -1710,7 +1711,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Recovery.ShouldBe(value);
@@ -1727,7 +1728,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.GroundBallOrFlyBallPitcher.ShouldBe(value);
@@ -1744,7 +1745,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SafeOrFatPitch.ShouldBe(value);
@@ -1761,7 +1762,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PitchingConsistency.ShouldBe(value);
@@ -1778,7 +1779,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.WithRunnersInScoringPosition.ShouldBe(value);
@@ -1795,7 +1796,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Spin.ShouldBe(value);
@@ -1812,7 +1813,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.FastballLife.ShouldBe(value);
@@ -1829,7 +1830,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Gyroball.ShouldBe(value);
@@ -1846,7 +1847,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.ShuttoSpin.ShouldBe(value);
@@ -1863,7 +1864,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Poise.ShouldBe(value);
@@ -1880,7 +1881,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Luck.ShouldBe(value);
@@ -1897,7 +1898,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Release.ShouldBe(value);
@@ -1914,7 +1915,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PitchingVersusLefty.ShouldBe(value);
@@ -1931,7 +1932,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PoorVersusRunner.ShouldBe(value);
@@ -1948,7 +1949,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.GoodPickoff.ShouldBe(value);
@@ -1965,7 +1966,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.GoodDelivery.ShouldBe(value);
@@ -1982,7 +1983,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.GoodLowPitch.ShouldBe(value);
@@ -1999,7 +2000,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.DoctorK.ShouldBe(value);
@@ -2016,7 +2017,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsWalkProne.ShouldBe(value);
@@ -2033,7 +2034,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsSandbag.ShouldBe(value);
@@ -2050,7 +2051,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HasPokerFace.ShouldBe(value);
@@ -2067,7 +2068,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsIntimidatingPitcher.ShouldBe(value);
@@ -2084,7 +2085,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsBattler.ShouldBe(value);
@@ -2101,7 +2102,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsHotHead.ShouldBe(value);
@@ -2118,7 +2119,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsSlowStarter.ShouldBe(value);
@@ -2135,7 +2136,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsStarterFinisher.ShouldBe(value);
@@ -2152,7 +2153,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.IsChokeArtist.ShouldBe(value);
@@ -2169,7 +2170,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HasGoodReflexes.ShouldBe(value);
@@ -2186,7 +2187,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.HasGoodPace.ShouldBe(value);
@@ -2203,7 +2204,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.PowerOrBreakingBallPitcher.ShouldBe(value);
@@ -2220,7 +2221,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.VoiceId.ShouldBe(value);
@@ -2237,7 +2238,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Slider1Type.ShouldBe(value);
@@ -2254,7 +2255,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Slider1Movement.ShouldBe(value);
@@ -2271,7 +2272,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Curve1Type.ShouldBe(value);
@@ -2288,7 +2289,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Curve1Movement.ShouldBe(value);
@@ -2305,7 +2306,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Fork1Type.ShouldBe(value);
@@ -2322,7 +2323,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Fork1Movement.ShouldBe(value);
@@ -2339,7 +2340,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Sinker1Type.ShouldBe(value);
@@ -2356,7 +2357,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Sinker1Movement.ShouldBe(value);
@@ -2373,7 +2374,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SinkingFastball1Type.ShouldBe(value);
@@ -2390,7 +2391,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SinkingFastball1Movement.ShouldBe(value);
@@ -2407,7 +2408,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.TwoSeamType.ShouldBe(value);
@@ -2424,7 +2425,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.TwoSeamMovement.ShouldBe(value);
@@ -2441,7 +2442,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Slider2Type.ShouldBe(value);
@@ -2458,7 +2459,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Slider2Movement.ShouldBe(value);
@@ -2475,7 +2476,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Curve2Type.ShouldBe(value);
@@ -2492,7 +2493,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Curve2Movement.ShouldBe(value);
@@ -2509,7 +2510,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Fork2Type.ShouldBe(value);
@@ -2526,7 +2527,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Fork2Movement.ShouldBe(value);
@@ -2543,7 +2544,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Sinker2Type.ShouldBe(value);
@@ -2560,7 +2561,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.Sinker2Movement.ShouldBe(value);
@@ -2577,7 +2578,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SinkingFastball2Type.ShouldBe(value);
@@ -2594,7 +2595,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
         writer.Write(playerId, playerToWrite);
 
       GSPlayer loadedPlayer = null;
-      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
         loadedPlayer = reader.Read(playerId);
 
       loadedPlayer.SinkingFastball2Movement.ShouldBe(value);
