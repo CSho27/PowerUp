@@ -1,7 +1,6 @@
 ﻿using PowerUp.Libraries;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace PowerUp.GameSave.IO
 {

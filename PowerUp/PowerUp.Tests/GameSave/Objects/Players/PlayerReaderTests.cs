@@ -10,7 +10,9 @@ namespace PowerUp.Tests.GameSave.Objects.Players
   {
     private readonly static string TEST_READ_GAME_SAVE_FILE_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "./pm2maus_TEST.dat");
     private const int JASON_GIAMBI_ID = 55;
+    // Miguel Cairo in base roster
     private const int SAMMY_SPEEDSTER_ID = 20;
+    // Roger Clemens in base roster
     private const int PAUL_PITCHER_ID = 32;
 
     private ICharacterLibrary _characterLibrary;
