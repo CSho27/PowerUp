@@ -16,12 +16,12 @@ namespace PowerUp.Tests.Mappers.Teams
     private TeamMappingParameters mappingParameters;
     private GSTeam gsTeam;
     private GSLineupDefinition gsLineupDef;
-    private Dictionary<ushort, int> idsByPPId;
+    private Dictionary<int, int> idsByPPId;
 
     [SetUp]
     public void SetUp()
     {
-      idsByPPId = new Dictionary<ushort, int>
+      idsByPPId = new Dictionary<int, int>
       {
         { 1, 1 },
         { 2, 2 },
