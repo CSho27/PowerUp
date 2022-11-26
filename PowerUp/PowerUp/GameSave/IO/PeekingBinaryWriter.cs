@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace PowerUp.GameSave.IO
 {
-  public class PeekingBinaryWriter
+  public class PeekingBinaryWriter : IDisposable
   {
     private readonly Stream _stream;
     private readonly BinaryReader _reader;
@@ -23,5 +24,12 @@ namespace PowerUp.GameSave.IO
     }
 
     public void Write(byte @byte) => _writer.Write(@byte);
+
+    public void Dispose()
+    {
+      _reader.Dispose();
+      _writer.Dispose();
+      _stream.Dispose();
+    }
   }
 }

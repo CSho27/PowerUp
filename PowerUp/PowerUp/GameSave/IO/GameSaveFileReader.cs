@@ -8,71 +8,51 @@ namespace PowerUp.GameSave.IO
 {
   public class GameSaveFileReader : IDisposable
   {
-    private readonly Stream _stream;
+    private readonly ByteOrderedBinaryReader _reader;
     private readonly ICharacterLibrary _characterLibrary;
 
     public GameSaveFileReader(ICharacterLibrary characterLibrary, string filePath)
     {
-      _stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+      _reader =  new ByteOrderedBinaryReader(new FileStream(filePath, FileMode.Open, FileAccess.Read), ByteOrder.BigEndian);
       _characterLibrary = characterLibrary;
     }
 
     public GameSaveFileReader(ICharacterLibrary characterLibrary, Stream stream)
     {
-      _stream = stream;
+      _reader = new ByteOrderedBinaryReader(stream, ByteOrder.BigEndian);
       _characterLibrary = characterLibrary;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes)
-    {
-      var reader = GetReaderFor(offset);
-      var bytes = Enumerable.Empty<byte>();
-      for (int i = 0; i < numberOfBytes; i++)
-        bytes = bytes.Append(reader.ReadByte());
-
-      return bytes.ToArray();
-    }
-
-    public string ReadString(long offset, int stringLength, ByteOrder byteOrder)
+    public byte[] ReadBytes(long offset, int numberOfBytes) => _reader.ReadBytes(offset, numberOfBytes);
+    public string ReadString(long offset, int stringLength)
     {
       var chars = Enumerable.Empty<char>();
       for (int i = 0; i < stringLength; i++)
-        chars = chars.Append(ReadChar(offset + 2 * i, byteOrder));
+        chars = chars.Append(ReadChar(offset + 2 * i));
 
       return new string(chars.ToArray()).TrimEnd();
     }
 
-    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits, ByteOrder byteOrder)
+    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits)
     {
-      var reader = GetReaderFor(offset);
-
       var numberOfBytesToRead = UIntInterpret.GetNumberOfBytesNeeded(bitOffset, numberOfBits);
-      var bytesToReadFrom = new List<byte>();
-      for(int i = 0; i<= numberOfBytesToRead; i++)
-        bytesToReadFrom.Add(reader.ReadByte());
-
+      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead);
       var valueBits = UIntInterpret.GetValueBits(bytesToReadFrom.ToArray(), bitOffset, numberOfBits);
       return valueBits.ToUInt16();
     }
 
-    public short ReadSInt(long offset, int bitOffset, int numberOfBits, ByteOrder byteOrder)
+    public short ReadSInt(long offset, int bitOffset, int numberOfBits)
     {
-      var isNegative = ReadBool(offset, bitOffset, byteOrder);
-      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1, byteOrder);
+      var isNegative = ReadBool(offset, bitOffset);
+      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1);
       return isNegative
         ? (short)(value * -1)
         : (short)value;
     }
 
-    public char ReadChar(long offset, ByteOrder byteOrder) => _characterLibrary[ReadUInt(offset, 0, 16, byteOrder)];
-    public bool ReadBool(long offset, int bitOffset, ByteOrder byteOrder) => ReadUInt(offset, bitOffset, 1, byteOrder) == 1;
+    public char ReadChar(long offset) => _characterLibrary[ReadUInt(offset, 0, 16)];
+    public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
 
-    private BinaryReader GetReaderFor(long offset)
-    {
-      _stream.Seek(offset, SeekOrigin.Begin);
-      return new BinaryReader(_stream);
-    }
-
-    public void Dispose() => _stream.Dispose();
+    public void Dispose() => _reader.Dispose();
   }
 }
