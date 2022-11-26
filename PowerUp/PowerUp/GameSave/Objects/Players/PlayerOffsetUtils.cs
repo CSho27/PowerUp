@@ -8,7 +8,7 @@ namespace PowerUp.GameSave.Objects.Players
     private const long PS2_PLAYER_START_OFFSET = 0x6834b;
     private const long PLAYER_SIZE = 0xb0;
 
-    public static long GetPlayerOffset(GameSaveFormat format, int powerProsId) => GetStartOffset(format) + PLAYER_SIZE * (powerProsId - 1);
+    public static long GetPlayerOffset(int powerProsId, GameSaveFormat format) => GetStartOffset(format) + PLAYER_SIZE * (powerProsId - 1);
 
     private static long GetStartOffset(GameSaveFormat format) => format switch
     {

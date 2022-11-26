@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
 using Shouldly;
@@ -88,7 +89,7 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
         writer.Write(INDIANS_ID, testTeam);
 
       GSTeam loadedTeam = null;
-      using (var reader = new TeamReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
+      using (var reader = new TeamReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedTeam = reader.Read(INDIANS_ID);
 
       var playerList = loadedTeam.PlayerEntries.ToList();

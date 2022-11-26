@@ -20,7 +20,7 @@ namespace PowerUp.GameSave.Objects.Players
 
     public void Write(int powerProsId, GSPlayer player)
     {
-      var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId);
+      var playerOffset = PlayerOffsetUtils.GetPlayerOffset(powerProsId, GameSaveFormat.Wii_2007);
       _writer.Write(playerOffset, player);
     }
 

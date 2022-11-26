@@ -37,7 +37,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(PAUL_PITCHER_ID, "Pitch")]
     public void Reads_SavedName(int playerId, string savedName)
     {
-      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, ByteOrder.LittleEndian);
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
       player.SavedName.ShouldBe(savedName);
     }
