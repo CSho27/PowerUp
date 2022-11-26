@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace PowerUp.GameSave.IO
 {
@@ -17,19 +16,20 @@ namespace PowerUp.GameSave.IO
       _byteOrder = byteOrder;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes) 
+    public byte[] ReadBytes(long offset, int numberOfBytes, bool startsOnEven) 
     {
-      _stream.Seek(ByteOrderInterpreter.TranslateOffset(offset, _byteOrder), SeekOrigin.Begin);
+      _stream.Seek(ByteOrderInterpreter.TranslateOffset(offset, _byteOrder, startsOnEven), SeekOrigin.Begin);
       var bytes = new byte[numberOfBytes];
       for (int i = 0; i < numberOfBytes; i++)
-        bytes[i] = ReadNextByte();
+        bytes[i] = ReadNextByte(startsOnEven);
 
-      return bytes.ToArray();
+      return bytes;
     }
 
-    private byte ReadNextByte()
+    private byte ReadNextByte(bool startsOnEven)
     {
-      var nextByteOffset = ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder);
+      var nextByteOffset = ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder, startsOnEven);
+      var position = _stream.Position;
       var @byte = _reader.ReadByte();
       _stream.Seek(nextByteOffset, SeekOrigin.Begin);
       return @byte;

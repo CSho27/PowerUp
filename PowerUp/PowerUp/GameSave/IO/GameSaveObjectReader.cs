@@ -35,7 +35,7 @@ namespace PowerUp.GameSave.IO
         if (gameSaveAttribute is GSBooleanAttribute boolAttr)
           property.SetValue(gsObject, _reader.ReadBool(offset + boolAttr.Offset, boolAttr.BitOffset));
         else if (gameSaveAttribute is GSUIntAttribute uintAttr)
-          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits));
+          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, uintAttr.StartsOnEven));
         else if (gameSaveAttribute is GSSIntAttribute sintAttr)
           property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits));
         else if (gameSaveAttribute is GSStringAttribute stringAttr)

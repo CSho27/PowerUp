@@ -22,7 +22,7 @@ namespace PowerUp.GameSave.IO
       _characterLibrary = characterLibrary;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes) => _reader.ReadBytes(offset, numberOfBytes);
+    public byte[] ReadBytes(long offset, int numberOfBytes) => _reader.ReadBytes(offset, numberOfBytes, false);
     public string ReadString(long offset, int stringLength)
     {
       var chars = Enumerable.Empty<char>();
@@ -32,25 +32,25 @@ namespace PowerUp.GameSave.IO
       return new string(chars.ToArray()).TrimEnd();
     }
 
-    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits)
+    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits, bool doNotTranslate)
     {
       var numberOfBytesToRead = UIntInterpret.GetNumberOfBytesNeeded(bitOffset, numberOfBits);
-      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead);
-      var valueBits = UIntInterpret.GetValueBits(bytesToReadFrom.ToArray(), bitOffset, numberOfBits);
+      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead, doNotTranslate);
+      var valueBits = UIntInterpret.GetValueBits(bytesToReadFrom, bitOffset, numberOfBits);
       return valueBits.ToUInt16();
     }
 
     public short ReadSInt(long offset, int bitOffset, int numberOfBits)
     {
       var isNegative = ReadBool(offset, bitOffset);
-      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1);
+      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1, false);
       return isNegative
         ? (short)(value * -1)
         : (short)value;
     }
 
-    public char ReadChar(long offset) => _characterLibrary[ReadUInt(offset, 0, 16)];
-    public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
+    public char ReadChar(long offset) => _characterLibrary[ReadUInt(offset, 0, 16, false)];
+    public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1, false) == 1;
 
     public void Dispose() => _reader.Dispose();
   }

@@ -19,12 +19,14 @@ namespace PowerUp.GameSave.IO
   {
     public int Bits { get; }
     public int BitOffset { get; }
+    public bool StartsOnEven { get; }
 
-    public GSUIntAttribute(long offset, int bits, int bitOffset = 0)
+    public GSUIntAttribute(long offset, int bits, int bitOffset = 0, bool startsOnEven = false)
       : base(offset)
     {
       Bits = bits;
       BitOffset = bitOffset;
+      StartsOnEven = startsOnEven;
     }
   }
 
