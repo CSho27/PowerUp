@@ -32,4 +32,5 @@ namespace PowerUp.GameSave.IO
       return valueBits;
     }
   }
+  public enum ByteOrder { BigEndian, LittleEndian };
 }

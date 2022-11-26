@@ -33,16 +33,16 @@ namespace PowerUp.GameSave.IO
       return bytes.ToArray();
     }
 
-    public string ReadString(long offset, int stringLength)
+    public string ReadString(long offset, int stringLength, ByteOrder byteOrder)
     {
       var chars = Enumerable.Empty<char>();
       for (int i = 0; i < stringLength; i++)
-        chars = chars.Append(ReadChar(offset + 2 * i));
+        chars = chars.Append(ReadChar(offset + 2 * i, byteOrder));
 
       return new string(chars.ToArray()).TrimEnd();
     }
 
-    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits)
+    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits, ByteOrder byteOrder)
     {
       var reader = GetReaderFor(offset);
 
@@ -55,17 +55,17 @@ namespace PowerUp.GameSave.IO
       return valueBits.ToUInt16();
     }
 
-    public short ReadSInt(long offset, int bitOffset, int numberOfBits)
+    public short ReadSInt(long offset, int bitOffset, int numberOfBits, ByteOrder byteOrder)
     {
-      var isNegative = ReadBool(offset, bitOffset);
-      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1);
+      var isNegative = ReadBool(offset, bitOffset, byteOrder);
+      var value = ReadUInt(offset, bitOffset + 1, numberOfBits - 1, byteOrder);
       return isNegative
         ? (short)(value * -1)
         : (short)value;
     }
 
-    public char ReadChar(long offset) => _characterLibrary[ReadUInt(offset, 0, 16)];
-    public bool ReadBool(long offset, int bitOffset) => ReadUInt(offset, bitOffset, 1) == 1;
+    public char ReadChar(long offset, ByteOrder byteOrder) => _characterLibrary[ReadUInt(offset, 0, 16, byteOrder)];
+    public bool ReadBool(long offset, int bitOffset, ByteOrder byteOrder) => ReadUInt(offset, bitOffset, 1, byteOrder) == 1;
 
     private BinaryReader GetReaderFor(long offset)
     {

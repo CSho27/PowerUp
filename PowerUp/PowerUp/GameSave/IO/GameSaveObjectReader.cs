@@ -22,7 +22,7 @@ namespace PowerUp.GameSave.IO
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class
       => (TGameSaveObject)Read(typeof(TGameSaveObject), offset);
 
-    public short ReadInt(long offset) => _reader.ReadSInt(offset, 0, 16);
+    public short ReadInt(long offset) => _reader.ReadSInt(offset, 0, 16, ByteOrder.BigEndian);
 
     public object Read(Type type, long offset)
     {
@@ -34,13 +34,13 @@ namespace PowerUp.GameSave.IO
           continue;
 
         if (gameSaveAttribute is GSBooleanAttribute boolAttr)
-          property.SetValue(gsObject, _reader.ReadBool(offset + boolAttr.Offset, boolAttr.BitOffset));
+          property.SetValue(gsObject, _reader.ReadBool(offset + boolAttr.Offset, boolAttr.BitOffset, ByteOrder.BigEndian));
         else if (gameSaveAttribute is GSUIntAttribute uintAttr)
-          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits));
+          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, ByteOrder.BigEndian));
         else if (gameSaveAttribute is GSSIntAttribute sintAttr)
-          property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits));
+          property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, ByteOrder.BigEndian));
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
-          property.SetValue(gsObject, _reader.ReadString(offset + stringAttr.Offset, stringAttr.StringLength));
+          property.SetValue(gsObject, _reader.ReadString(offset + stringAttr.Offset, stringAttr.StringLength, ByteOrder.BigEndian));
         else if (gameSaveAttribute is GSBytesAttribute bytesAttr)
           property.SetValue(gsObject, _reader.ReadBytes(offset + bytesAttr.Offset, bytesAttr.NumberOfBytes));
         else if (gameSaveAttribute is GSArrayAttribute arrayAttr)
