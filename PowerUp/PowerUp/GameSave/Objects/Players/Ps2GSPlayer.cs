@@ -113,7 +113,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x62, bits: 3, bitOffset: 6, traverseBackwardsOnEvenOffset: true)]
     public ushort? CenterFieldCapability { get; set; }
 
-    [GSUInt(0x62, bits: 3, bitOffset: 2)]
+    [GSUInt(0x62, bits: 3, bitOffset: 3)]
     public ushort? RightFieldCapability { get; set; }
 
     [GSBoolean(0x62, bitOffset: 7)]
