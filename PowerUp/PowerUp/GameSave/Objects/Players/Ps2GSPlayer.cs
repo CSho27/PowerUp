@@ -83,13 +83,13 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x5d, bits: 8, bitOffset: 4)]
     public ushort? PitchingForm { get; set; }
 
-    [GSBytes(0x5d, numberOfBytes: 5, traverseSequentially: true)]
+    [GSBytes(0x5f, numberOfBytes: 5, traverseSequentially: true)]
     public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x5e, bits: 4, bitOffset: 0)]
     public ushort? PrimaryPosition { get; set; }
 
-    [GSUInt(0x5f, bits: 3, bitOffset: 0)]
+    [GSUInt(0x5f, bits: 3, bitOffset: 5)]
     public ushort? PitcherCapability { get; set; }
 
     [GSUInt(0x5f, bits: 3, bitOffset: 3)]
