@@ -83,9 +83,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x5d, bits: 8, bitOffset: 4)]
     public ushort? PitchingForm { get; set; }
 
-    [GSBytes(0x5f, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x5e, bits: 4, bitOffset: 0)]
     public ushort? PrimaryPosition { get; set; }
 
@@ -98,7 +95,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x60, bits: 3, bitOffset: 5)]
     public ushort? FirstBaseCapability { get; set; }
 
-    [GSUInt(0x60, bits: 3, bitOffset: 3)]
+    [GSBytes(0x5f, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x60, bits: 3, bitOffset: 2)]
     public ushort? SecondBaseCapability { get; set; }
 
     [GSUInt(0x60, bits: 3, bitOffset: 6)]
