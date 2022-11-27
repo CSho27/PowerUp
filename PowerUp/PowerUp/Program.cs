@@ -51,7 +51,7 @@ namespace PowerUp
       var teamGenerator = new TeamGenerator(mlbLookupServiceClient, playerGenerator);
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
-      DatabaseConfig.Initialize(DATA_DIRECTORY);
+      //DatabaseConfig.Initialize(DATA_DIRECTORY);
       AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
