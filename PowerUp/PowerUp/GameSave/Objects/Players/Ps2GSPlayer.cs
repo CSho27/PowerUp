@@ -107,7 +107,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x61, bits: 3, bitOffset: 4)]
     public ushort? ShortstopCapability { get; set; }
 
-    [GSUInt(0x61, bits: 3, bitOffset: 4)]
+    [GSUInt(0x61, bits: 3, bitOffset: 1)]
     public ushort? LeftFieldCapability { get; set; }
 
     [GSUInt(0x61, bits: 3, bitOffset: 7)]
