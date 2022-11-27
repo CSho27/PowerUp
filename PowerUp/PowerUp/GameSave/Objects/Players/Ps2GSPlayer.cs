@@ -40,13 +40,13 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x55, bits: 4, bitOffset: 0)]
     public ushort? SkinAndEyes { get; set; }
 
-    [GSBytes(0x56, numberOfBytes: 4, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x56, bits: 3, bitOffset: 5)]
     public ushort? Bat { get; set; }
 
-    [GSUInt(0x56, bits: 3, bitOffset: 4)]
+    [GSBytes(0x56, numberOfBytes: 4, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Glove { get; set; }
 
     [GSUInt(0x56, bits: 4, bitOffset: 7)]
