@@ -222,5 +222,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.FacialHairColor.ShouldBe(facialHairColor);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
+    [TestCase(PETE_SALTINE_ID, (ushort)1)]
+    public void Reads_GlassesType(int playerId, ushort glassesType)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.EyewearType.ShouldBe(glassesType);
+    }
   }
 }
