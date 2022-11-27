@@ -95,9 +95,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x60, bits: 3, bitOffset: 5)]
     public ushort? FirstBaseCapability { get; set; }
 
-    [GSBytes(0x5f, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x60, bits: 3, bitOffset: 2)]
     public ushort? SecondBaseCapability { get; set; }
 
@@ -116,7 +113,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x62, bits: 3, bitOffset: 3)]
     public ushort? RightFieldCapability { get; set; }
 
-    [GSBoolean(0x62, bitOffset: 7)]
+    [GSBytes(0x62, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSBoolean(0x62, bitOffset: 2)]
     public bool? IsStarter { get; set; }
 
     [GSBoolean(0x63, bitOffset: 2)]
