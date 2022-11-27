@@ -52,7 +52,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x57, bits: 4, bitOffset: 5)]
     public ushort? RightWristband { get; set; }
 
-    [GSUInt(0x57, bits: 4, bitOffset: 3)]
+    [GSUInt(0x57, bits: 4, bitOffset: 1)]
     public ushort? LeftWristband { get; set; }
 
     [GSUInt(0x58, bits: 5, bitOffset: 3)]
