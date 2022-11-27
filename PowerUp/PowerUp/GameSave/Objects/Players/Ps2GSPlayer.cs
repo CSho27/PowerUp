@@ -10,7 +10,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSString(0x02, stringLength: 10)]
     public string? SavedName { get; set; }
 
-    [GSUInt(0x02, bits: 16, bitOffset: 0)]
+    [GSUInt(0x02, bits: 16, bitOffset: 0, translateToStartOfChunk: true)]
     public ushort? SpecialSavedNameId { get; set; }
 
     [GSString(0x16, stringLength: 14)]
@@ -22,7 +22,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x50, bitOffset: 3)]
     public bool? Unedited { get; set; }
 
-    [GSBoolean(0x50, bitOffset: 4)]
+    [GSBoolean(0x50, bitOffset: 3)]
     public bool? IsEdited { get; set; }
 
     [GSUInt(0x51, bits: 5, bitOffset: 0)]

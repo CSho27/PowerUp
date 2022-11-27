@@ -80,6 +80,19 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    [TestCase(PETE_SALTINE_ID, true)]
+    public void Reads_IsEdited(int playerId, bool isEdited)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.IsEdited.ShouldBe(isEdited);
+    }
+
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)25)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)999)]
     [TestCase(PAUL_PITCHER_ID, (ushort)36)]
@@ -118,8 +131,8 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)0)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    [TestCase(PETE_SALTINE_ID, (ushort)0)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    [TestCase(PETE_SALTINE_ID, (ushort)4)]
     public void Reads_SkinAndEyes(int playerId, ushort skinAndEyes)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
