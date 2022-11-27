@@ -58,9 +58,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x59, bits: 4, bitOffset: 7)]
     public ushort? HairColor { get; set; }
 
-    [GSBytes(0x59, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x59, bits: 5, bitOffset: 2)]
     public ushort? FacialHair { get; set; }
 
@@ -77,7 +74,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x5b, bits: 4, bitOffset: 2)]
     public ushort? EyewearType { get; set; }
 
-    [GSUInt(0x5c, bits: 4, bitOffset: 0)]
+    [GSBytes(0x5b, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x5c, bits: 4, bitOffset: 4)]
     public ushort? EyewearColor { get; set; }
 
     [GSUInt(0x5c, bits: 8, bitOffset: 4)]
