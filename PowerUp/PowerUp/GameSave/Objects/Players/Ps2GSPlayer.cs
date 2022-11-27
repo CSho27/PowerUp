@@ -58,7 +58,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x58, bits: 5, bitOffset: 3)]
     public ushort? Hair { get; set; }
 
-    [GSUInt(0x58, bits: 4, bitOffset: 5)]
+    [GSUInt(0x59, bits: 4, bitOffset: 7)]
     public ushort? HairColor { get; set; }
 
     [GSUInt(0x59, bits: 5, bitOffset: 1)]
