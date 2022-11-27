@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
@@ -86,12 +85,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)777)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)23)]
-    public void Writes_PlayerNumber(int playerId, ushort playerNumber)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 777)]
+    [TestCase(PAUL_PITCHER_ID, 23)]
+    public void Writes_PlayerNumber(int playerId, int playerNumber)
     {
-      var playerToWrite = new GSPlayer { PlayerNumber = playerNumber };
+      var playerToWrite = new GSPlayer { PlayerNumber = (ushort)playerNumber };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -99,16 +98,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PlayerNumber.ShouldBe(playerNumber);
+      loadedPlayer.PlayerNumber.ShouldBe((ushort)playerNumber);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Writes_PlayerNumberNumberOfDigits(int playerId, int numberOfDigits)
     {
-      var playerToWrite = new GSPlayer { PlayerNumberNumberOfDigits = numberOfDigits };
+      var playerToWrite = new GSPlayer { PlayerNumberNumberOfDigits = (ushort)numberOfDigits };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -116,16 +115,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
+      loadedPlayer.PlayerNumberNumberOfDigits.ShouldBe((ushort)numberOfDigits);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Writes_SkinAndEyes(int playerId, ushort skinAndEyes)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Writes_SkinAndEyes(int playerId, int skinAndEyes)
     {
-      var playerToWrite = new GSPlayer { SkinAndEyes = skinAndEyes };
+      var playerToWrite = new GSPlayer { SkinAndEyes = (ushort)skinAndEyes };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -133,16 +132,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SkinAndEyes.ShouldBe(skinAndEyes);
+      loadedPlayer.SkinAndEyes.ShouldBe((ushort)skinAndEyes);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Writes_Bat(int playerId, ushort bat)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Writes_Bat(int playerId, int bat)
     {
-      var playerToWrite = new GSPlayer { Bat = bat };
+      var playerToWrite = new GSPlayer { Bat = (ushort)bat };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -150,16 +149,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Bat.ShouldBe(bat);
+      loadedPlayer.Bat.ShouldBe((ushort)bat);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Writes_Glove(int playerId, ushort glove)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Writes_Glove(int playerId, int glove)
     {
-      var playerToWrite = new GSPlayer { Glove = glove };
+      var playerToWrite = new GSPlayer { Glove = (ushort)glove };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -167,16 +166,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Glove.ShouldBe(glove);
+      loadedPlayer.Glove.ShouldBe((ushort)glove);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)25)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)30)]
-    public void Writes_Hair(int playerId, ushort hair)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 25)]
+    [TestCase(PAUL_PITCHER_ID, 30)]
+    public void Writes_Hair(int playerId, int hair)
     {
-      var playerToWrite = new GSPlayer { Hair = hair };
+      var playerToWrite = new GSPlayer { Hair = (ushort)hair };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -184,16 +183,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Hair.ShouldBe(hair);
+      loadedPlayer.Hair.ShouldBe((ushort)hair);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)14)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
-    public void Writes_HairColor(int playerId, ushort hairColor)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 14)]
+    [TestCase(PAUL_PITCHER_ID, 8)]
+    public void Writes_HairColor(int playerId, int hairColor)
     {
-      var playerToWrite = new GSPlayer { HairColor = hairColor };
+      var playerToWrite = new GSPlayer { HairColor = (ushort)hairColor };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -201,16 +200,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HairColor.ShouldBe(hairColor);
+      loadedPlayer.HairColor.ShouldBe((ushort)hairColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)25)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)30)]
-    public void Writes_FacialHair(int playerId, ushort facialHair)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 25)]
+    [TestCase(PAUL_PITCHER_ID, 30)]
+    public void Writes_FacialHair(int playerId, int facialHair)
     {
-      var playerToWrite = new GSPlayer { FacialHair = facialHair };
+      var playerToWrite = new GSPlayer { FacialHair = (ushort)facialHair };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -218,16 +217,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.FacialHair.ShouldBe(facialHair);
+      loadedPlayer.FacialHair.ShouldBe((ushort)facialHair);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)14)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
-    public void Writes_FacialHairColor(int playerId, ushort facialHairColor)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 14)]
+    [TestCase(PAUL_PITCHER_ID, 8)]
+    public void Writes_FacialHairColor(int playerId, int facialHairColor)
     {
-      var playerToWrite = new GSPlayer { FacialHairColor = facialHairColor };
+      var playerToWrite = new GSPlayer { FacialHairColor = (ushort)facialHairColor };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -235,16 +234,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.FacialHairColor.ShouldBe(facialHairColor);
+      loadedPlayer.FacialHairColor.ShouldBe((ushort)facialHairColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)13)]
-    public void Writes_GlassesType(int playerId, ushort glassesType)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
+    [TestCase(PAUL_PITCHER_ID, 13)]
+    public void Writes_GlassesType(int playerId, int glassesType)
     {
-      var playerToWrite = new GSPlayer { EyewearType = glassesType };
+      var playerToWrite = new GSPlayer { EyewearType = (ushort)glassesType };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -252,16 +251,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.EyewearType.ShouldBe(glassesType);
+      loadedPlayer.EyewearType.ShouldBe((ushort)glassesType);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)9)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)10)]
-    public void Writes_GlassesColor(int playerId, ushort glassesColor)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 9)]
+    [TestCase(PAUL_PITCHER_ID, 10)]
+    public void Writes_GlassesColor(int playerId, int glassesColor)
     {
-      var playerToWrite = new GSPlayer { EyewearColor = glassesColor };
+      var playerToWrite = new GSPlayer { EyewearColor = (ushort)glassesColor };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -269,16 +268,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.EyewearColor.ShouldBe(glassesColor);
+      loadedPlayer.EyewearColor.ShouldBe((ushort)glassesColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_EarringType(int playerId, ushort earringType)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_EarringType(int playerId, int earringType)
     {
-      var playerToWrite = new GSPlayer { EarringSide = earringType };
+      var playerToWrite = new GSPlayer { EarringSide = (ushort)earringType };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -286,16 +285,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.EarringSide.ShouldBe(earringType);
+      loadedPlayer.EarringSide.ShouldBe((ushort)earringType);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Writes_EarringColor(int playerId, ushort earringColor)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 12)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Writes_EarringColor(int playerId, int earringColor)
     {
-      var playerToWrite = new GSPlayer { EarringColor = earringColor };
+      var playerToWrite = new GSPlayer { EarringColor = (ushort)earringColor };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -303,16 +302,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.EarringColor.ShouldBe(earringColor);
+      loadedPlayer.EarringColor.ShouldBe((ushort)earringColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)11)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
-    public void Writes_RightWristband(int playerId, ushort rightWristband)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 11)]
+    [TestCase(PAUL_PITCHER_ID, 8)]
+    public void Writes_RightWristband(int playerId, int rightWristband)
     {
-      var playerToWrite = new GSPlayer { RightWristband = rightWristband };
+      var playerToWrite = new GSPlayer { RightWristband = (ushort)rightWristband };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -320,16 +319,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.RightWristband.ShouldBe(rightWristband);
+      loadedPlayer.RightWristband.ShouldBe((ushort)rightWristband);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)6)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)10)]
-    public void Writes_LeftWristband(int playerId, ushort leftWristband)
+    [TestCase(JASON_GIAMBI_ID, 6)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 10)]
+    public void Writes_LeftWristband(int playerId, int leftWristband)
     {
-      var playerToWrite = new GSPlayer { LeftWristband = leftWristband };
+      var playerToWrite = new GSPlayer { LeftWristband = (ushort)leftWristband };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -337,16 +336,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.LeftWristband.ShouldBe(leftWristband);
+      loadedPlayer.LeftWristband.ShouldBe((ushort)leftWristband);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)6)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_PrimaryPosition(int playerId, ushort primaryPosition)
+    [TestCase(JASON_GIAMBI_ID, 6)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_PrimaryPosition(int playerId, int primaryPosition)
     {
-      var playerToWrite = new GSPlayer { PrimaryPosition = primaryPosition };
+      var playerToWrite = new GSPlayer { PrimaryPosition = (ushort)primaryPosition };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -354,16 +353,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PrimaryPosition.ShouldBe(primaryPosition);
+      loadedPlayer.PrimaryPosition.ShouldBe((ushort)primaryPosition);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_PitcherCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Writes_PitcherCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { PitcherCapability = capability };
+      var playerToWrite = new GSPlayer { PitcherCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -371,16 +370,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PitcherCapability.ShouldBe(capability);
+      loadedPlayer.PitcherCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_CatcherCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_CatcherCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { CatcherCapability = capability };
+      var playerToWrite = new GSPlayer { CatcherCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -388,16 +387,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.CatcherCapability.ShouldBe(capability);
+      loadedPlayer.CatcherCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Writes_FirstBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Writes_FirstBaseCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { FirstBaseCapability = capability };
+      var playerToWrite = new GSPlayer { FirstBaseCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -405,16 +404,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.FirstBaseCapability.ShouldBe(capability);
+      loadedPlayer.FirstBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_SecondBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_SecondBaseCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { SecondBaseCapability = capability };
+      var playerToWrite = new GSPlayer { SecondBaseCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -422,16 +421,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SecondBaseCapability.ShouldBe(capability);
+      loadedPlayer.SecondBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)7)]
-    public void Writes_ThirdBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 7)]
+    public void Writes_ThirdBaseCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { ThirdBaseCapability = capability };
+      var playerToWrite = new GSPlayer { ThirdBaseCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -439,16 +438,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.ThirdBaseCapability.ShouldBe(capability);
+      loadedPlayer.ThirdBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Writes_ShortstopCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Writes_ShortstopCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { ShortstopCapability = capability };
+      var playerToWrite = new GSPlayer { ShortstopCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -456,16 +455,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.ShortstopCapability.ShouldBe(capability);
+      loadedPlayer.ShortstopCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_LeftFieldCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Writes_LeftFieldCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { LeftFieldCapability = capability };
+      var playerToWrite = new GSPlayer { LeftFieldCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -473,16 +472,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.LeftFieldCapability.ShouldBe(capability);
+      loadedPlayer.LeftFieldCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Writes_CenterFieldCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Writes_CenterFieldCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { CenterFieldCapability = capability };
+      var playerToWrite = new GSPlayer { CenterFieldCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -490,16 +489,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.CenterFieldCapability.ShouldBe(capability);
+      loadedPlayer.CenterFieldCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_RightFieldCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_RightFieldCapability(int playerId, int capability)
     {
-      var playerToWrite = new GSPlayer { RightFieldCapability = capability };
+      var playerToWrite = new GSPlayer { RightFieldCapability = (ushort)capability };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -507,7 +506,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.RightFieldCapability.ShouldBe(capability);
+      loadedPlayer.RightFieldCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
@@ -562,12 +561,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneUpAndIn(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneUpAndIn(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneUpAndIn = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneUpAndIn = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -575,16 +574,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneUpAndIn.ShouldBe(hzValue);
+      loadedPlayer.HotZoneUpAndIn.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneUp(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneUp(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneUp = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneUp = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -592,16 +591,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneUp.ShouldBe(hzValue);
+      loadedPlayer.HotZoneUp.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneUpAndOut(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneUpAndOut(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneUpAndAway = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneUpAndAway = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -609,16 +608,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneUpAndAway.ShouldBe(hzValue);
+      loadedPlayer.HotZoneUpAndAway.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneMiddleIn(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneMiddleIn(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneMiddleIn = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneMiddleIn = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -626,16 +625,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneMiddleIn.ShouldBe(hzValue);
+      loadedPlayer.HotZoneMiddleIn.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneMiddle(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneMiddle(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneMiddle = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneMiddle = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -643,16 +642,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneMiddle.ShouldBe(hzValue);
+      loadedPlayer.HotZoneMiddle.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneDownAndIn(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneDownAndIn(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneDownAndIn = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneDownAndIn = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -660,16 +659,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneDownAndIn.ShouldBe(hzValue);
+      loadedPlayer.HotZoneDownAndIn.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneDown(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneDown(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneDown = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneDown = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -677,16 +676,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneDown.ShouldBe(hzValue);
+      loadedPlayer.HotZoneDown.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_HotZoneDownAndAway(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_HotZoneDownAndAway(int playerId, int hzValue)
     {
-      var playerToWrite = new GSPlayer { HotZoneDownAndAway = hzValue };
+      var playerToWrite = new GSPlayer { HotZoneDownAndAway = (ushort)hzValue };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -694,16 +693,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HotZoneDownAndAway.ShouldBe(hzValue);
+      loadedPlayer.HotZoneDownAndAway.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_BattingSide(int playerId, ushort battingSide)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_BattingSide(int playerId, int battingSide)
     {
-      var playerToWrite = new GSPlayer { BattingSide = battingSide };
+      var playerToWrite = new GSPlayer { BattingSide = (ushort)battingSide };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -711,7 +710,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.BattingSide.ShouldBe(battingSide);
+      loadedPlayer.BattingSide.ShouldBe((ushort)battingSide);
     }
 
     [Test]
@@ -732,12 +731,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Writes_Durability(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Writes_Durability(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Durability = value };
+      var playerToWrite = new GSPlayer { Durability = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -745,16 +744,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Durability.ShouldBe(value);
+      loadedPlayer.Durability.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_Trajectory(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Writes_Trajectory(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Trajectory = value };
+      var playerToWrite = new GSPlayer { Trajectory = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -762,16 +761,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Trajectory.ShouldBe(value);
+      loadedPlayer.Trajectory.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)12)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)15)]
-    public void Writes_Contact(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 12)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 15)]
+    public void Writes_Contact(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Contact = value };
+      var playerToWrite = new GSPlayer { Contact = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -779,16 +778,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Contact.ShouldBe(value);
+      loadedPlayer.Contact.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)255)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)105)]
-    public void Writes_Power(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 255)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 105)]
+    public void Writes_Power(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Power = value };
+      var playerToWrite = new GSPlayer { Power = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -796,16 +795,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Power.ShouldBe(value);
+      loadedPlayer.Power.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
-    public void Writes_RunSpeed(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 12)]
+    public void Writes_RunSpeed(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { RunSpeed = value };
+      var playerToWrite = new GSPlayer { RunSpeed = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -813,16 +812,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.RunSpeed.ShouldBe(value);
+      loadedPlayer.RunSpeed.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
-    public void Writes_ArmStrength(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 12)]
+    public void Writes_ArmStrength(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { ArmStrength = value };
+      var playerToWrite = new GSPlayer { ArmStrength = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -830,16 +829,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.ArmStrength.ShouldBe(value);
+      loadedPlayer.ArmStrength.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
-    public void Writes_Fielding(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 12)]
+    public void Writes_Fielding(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Fielding = value };
+      var playerToWrite = new GSPlayer { Fielding = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -847,16 +846,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Fielding.ShouldBe(value);
+      loadedPlayer.Fielding.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)12)]
-    public void Writes_ErrorResistance(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 12)]
+    public void Writes_ErrorResistance(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { ErrorResistance = value };
+      var playerToWrite = new GSPlayer { ErrorResistance = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -864,16 +863,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.ErrorResistance.ShouldBe(value);
+      loadedPlayer.ErrorResistance.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Writes_HittingConsistency(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Writes_HittingConsistency(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { HittingConsistency = value };
+      var playerToWrite = new GSPlayer { HittingConsistency = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -881,16 +880,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HittingConsistency.ShouldBe(value);
+      loadedPlayer.HittingConsistency.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)-3)]
-    public void Writes_HittingVersusLefty1(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, -3)]
+    public void Writes_HittingVersusLefty1(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { HittingVersusLefty1 = value };
+      var playerToWrite = new GSPlayer { HittingVersusLefty1 = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -898,16 +897,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HittingVersusLefty1.ShouldBe(value);
+      loadedPlayer.HittingVersusLefty1.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Writes_HittingVersusLefty2(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Writes_HittingVersusLefty2(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { HittingVersusLefty2 = value };
+      var playerToWrite = new GSPlayer { HittingVersusLefty2 = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -915,16 +914,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.HittingVersusLefty2.ShouldBe(value);
+      loadedPlayer.HittingVersusLefty2.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_ClutchHit(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_ClutchHit(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { ClutchHitter = value };
+      var playerToWrite = new GSPlayer { ClutchHitter = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -932,7 +931,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.ClutchHitter.ShouldBe(value);
+      loadedPlayer.ClutchHitter.ShouldBe((short)value);
     }
 
     [Test]
@@ -953,12 +952,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Morale(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Morale(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Morale = value };
+      var playerToWrite = new GSPlayer { Morale = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -966,7 +965,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Morale.ShouldBe(value);
+      loadedPlayer.Morale.ShouldBe((short)value);
     }
 
     [Test]
@@ -1089,12 +1088,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_InfieldHitter(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_InfieldHitter(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { InfieldHitter = value };
+      var playerToWrite = new GSPlayer { InfieldHitter = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1102,7 +1101,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.InfieldHitter.ShouldBe(value);
+      loadedPlayer.InfieldHitter.ShouldBe((ushort)value);
     }
 
     [Test]
@@ -1174,12 +1173,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_Bunting(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Bunting(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Bunting = value };
+      var playerToWrite = new GSPlayer { Bunting = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1187,16 +1186,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Bunting.ShouldBe(value);
+      loadedPlayer.Bunting.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_WalkoffHitter(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Writes_WalkoffHitter(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { WalkoffHitter = value };
+      var playerToWrite = new GSPlayer { WalkoffHitter = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1204,16 +1203,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.WalkoffHitter.ShouldBe(value);
+      loadedPlayer.WalkoffHitter.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Writes_BasesLoadedHitter(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Writes_BasesLoadedHitter(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { BasesLoadedHitter = value };
+      var playerToWrite = new GSPlayer { BasesLoadedHitter = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1221,7 +1220,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.BasesLoadedHitter.ShouldBe(value);
+      loadedPlayer.BasesLoadedHitter.ShouldBe((ushort)value);
     }
 
     [Test]
@@ -1259,12 +1258,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Stealing(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Stealing(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Stealing = value };
+      var playerToWrite = new GSPlayer { Stealing = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1272,16 +1271,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Stealing.ShouldBe(value);
+      loadedPlayer.Stealing.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_BaseRunning(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_BaseRunning(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { BaseRunning = value };
+      var playerToWrite = new GSPlayer { BaseRunning = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1289,7 +1288,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.BaseRunning.ShouldBe(value);
+      loadedPlayer.BaseRunning.ShouldBe((short)value);
     }
 
     [Test]
@@ -1344,12 +1343,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Throwing(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Throwing(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Throwing = value };
+      var playerToWrite = new GSPlayer { Throwing = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1357,7 +1356,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Throwing.ShouldBe(value);
+      loadedPlayer.Throwing.ShouldBe((short)value);
     }
 
     [Test]
@@ -1429,12 +1428,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Writes_Catching(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Writes_Catching(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Catching = value };
+      var playerToWrite = new GSPlayer { Catching = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1442,7 +1441,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Catching.ShouldBe(value);
+      loadedPlayer.Catching.ShouldBe((ushort)value);
     }
 
     [Test]
@@ -1514,12 +1513,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_SmallBall(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_SmallBall(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SmallBall = value };
+      var playerToWrite = new GSPlayer { SmallBall = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1527,16 +1526,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SmallBall.ShouldBe(value);
+      loadedPlayer.SmallBall.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_SlugOrSlap(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_SlugOrSlap(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SlugOrSlap = value };
+      var playerToWrite = new GSPlayer { SlugOrSlap = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1544,16 +1543,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SlugOrSlap.ShouldBe(value);
+      loadedPlayer.SlugOrSlap.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_AggressiveOrPatientHitter(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_AggressiveOrPatientHitter(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { AggressiveOrPatientHitter = value };
+      var playerToWrite = new GSPlayer { AggressiveOrPatientHitter = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1561,16 +1560,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.AggressiveOrPatientHitter.ShouldBe(value);
+      loadedPlayer.AggressiveOrPatientHitter.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_AggressiveOrCautiousBaseStealer(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_AggressiveOrCautiousBaseStealer(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { AggressiveOrCautiousBaseStealer = value };
+      var playerToWrite = new GSPlayer { AggressiveOrCautiousBaseStealer = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1578,7 +1577,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.AggressiveOrCautiousBaseStealer.ShouldBe(value);
+      loadedPlayer.AggressiveOrCautiousBaseStealer.ShouldBe((short)value);
     }
 
     [Test]
@@ -1650,12 +1649,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)155)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)90)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)130)]
-    public void Writes_TopThrowingSpeedKMH(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 155)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 90)]
+    [TestCase(PAUL_PITCHER_ID, 130)]
+    public void Writes_TopThrowingSpeedKMH(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { TopThrowingSpeedKMH = value };
+      var playerToWrite = new GSPlayer { TopThrowingSpeedKMH = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1663,16 +1662,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.TopThrowingSpeedKMH.ShouldBe(value);
+      loadedPlayer.TopThrowingSpeedKMH.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)155)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)90)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)130)]
-    public void Writes_Control(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 155)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 90)]
+    [TestCase(PAUL_PITCHER_ID, 130)]
+    public void Writes_Control(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Control = value };
+      var playerToWrite = new GSPlayer { Control = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1680,16 +1679,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Control.ShouldBe(value);
+      loadedPlayer.Control.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)155)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)90)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)130)]
-    public void Writes_Stamina(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 155)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 90)]
+    [TestCase(PAUL_PITCHER_ID, 130)]
+    public void Writes_Stamina(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Stamina = value };
+      var playerToWrite = new GSPlayer { Stamina = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1697,16 +1696,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Stamina.ShouldBe(value);
+      loadedPlayer.Stamina.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Recovery(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Recovery(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Recovery = value };
+      var playerToWrite = new GSPlayer { Recovery = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1714,16 +1713,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Recovery.ShouldBe(value);
+      loadedPlayer.Recovery.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_GroundBallFlyBallPitcher(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_GroundBallFlyBallPitcher(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { GroundBallOrFlyBallPitcher = value };
+      var playerToWrite = new GSPlayer { GroundBallOrFlyBallPitcher = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1731,16 +1730,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.GroundBallOrFlyBallPitcher.ShouldBe(value);
+      loadedPlayer.GroundBallOrFlyBallPitcher.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_SafeOrFatPitch(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_SafeOrFatPitch(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SafeOrFatPitch = value };
+      var playerToWrite = new GSPlayer { SafeOrFatPitch = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1748,16 +1747,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SafeOrFatPitch.ShouldBe(value);
+      loadedPlayer.SafeOrFatPitch.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_PitchingConsistency(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_PitchingConsistency(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { PitchingConsistency = value };
+      var playerToWrite = new GSPlayer { PitchingConsistency = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1765,16 +1764,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PitchingConsistency.ShouldBe(value);
+      loadedPlayer.PitchingConsistency.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_WithRunnersInScoringPosition(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_WithRunnersInScoringPosition(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { WithRunnersInScoringPosition = value };
+      var playerToWrite = new GSPlayer { WithRunnersInScoringPosition = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1782,16 +1781,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.WithRunnersInScoringPosition.ShouldBe(value);
+      loadedPlayer.WithRunnersInScoringPosition.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Spin(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Spin(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Spin = value };
+      var playerToWrite = new GSPlayer { Spin = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1799,16 +1798,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Spin.ShouldBe(value);
+      loadedPlayer.Spin.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_FastballLife(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_FastballLife(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { FastballLife = value };
+      var playerToWrite = new GSPlayer { FastballLife = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1816,7 +1815,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.FastballLife.ShouldBe(value);
+      loadedPlayer.FastballLife.ShouldBe((short)value);
     }
 
     [Test]
@@ -1854,12 +1853,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Poise(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Poise(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Poise = value };
+      var playerToWrite = new GSPlayer { Poise = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1867,16 +1866,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Poise.ShouldBe(value);
+      loadedPlayer.Poise.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Luck(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Luck(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Luck = value };
+      var playerToWrite = new GSPlayer { Luck = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1884,16 +1883,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Luck.ShouldBe(value);
+      loadedPlayer.Luck.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_Release(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_Release(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Release = value };
+      var playerToWrite = new GSPlayer { Release = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1901,16 +1900,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Release.ShouldBe(value);
+      loadedPlayer.Release.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_VersusLeftHandedBatter(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_VersusLeftHandedBatter(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { PitchingVersusLefty = value };
+      var playerToWrite = new GSPlayer { PitchingVersusLefty = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -1918,7 +1917,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PitchingVersusLefty.ShouldBe(value);
+      loadedPlayer.PitchingVersusLefty.ShouldBe((short)value);
     }
 
     [Test]
@@ -2194,12 +2193,12 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Writes_PowerOrBreakingBallPitcher(int playerId, short value)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_PowerOrBreakingBallPitcher(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { PowerOrBreakingBallPitcher = value };
+      var playerToWrite = new GSPlayer { PowerOrBreakingBallPitcher = (short)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2207,16 +2206,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.PowerOrBreakingBallPitcher.ShouldBe(value);
+      loadedPlayer.PowerOrBreakingBallPitcher.ShouldBe((short)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2284)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2907)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2426)]
-    public void Writes_VoiceId(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 2284)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2907)]
+    [TestCase(PAUL_PITCHER_ID, 2426)]
+    public void Writes_VoiceId(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { VoiceId = value };
+      var playerToWrite = new GSPlayer { VoiceId = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2224,16 +2223,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.VoiceId.ShouldBe(value);
+      loadedPlayer.VoiceId.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Slider1Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Slider1Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Slider1Type = value };
+      var playerToWrite = new GSPlayer { Slider1Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2241,16 +2240,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Slider1Type.ShouldBe(value);
+      loadedPlayer.Slider1Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Slider1Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Slider1Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Slider1Movement = value };
+      var playerToWrite = new GSPlayer { Slider1Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2258,16 +2257,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Slider1Movement.ShouldBe(value);
+      loadedPlayer.Slider1Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)11)]
-    public void Writes_Curve1Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 10)]
+    [TestCase(PAUL_PITCHER_ID, 11)]
+    public void Writes_Curve1Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Curve1Type = value };
+      var playerToWrite = new GSPlayer { Curve1Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2275,16 +2274,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Curve1Type.ShouldBe(value);
+      loadedPlayer.Curve1Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Curve1Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Curve1Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Curve1Movement = value };
+      var playerToWrite = new GSPlayer { Curve1Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2292,16 +2291,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Curve1Movement.ShouldBe(value);
+      loadedPlayer.Curve1Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)13)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)16)]
-    public void Writes_Fork1Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 13)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 15)]
+    [TestCase(PAUL_PITCHER_ID, 16)]
+    public void Writes_Fork1Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Fork1Type = value };
+      var playerToWrite = new GSPlayer { Fork1Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2309,16 +2308,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Fork1Type.ShouldBe(value);
+      loadedPlayer.Fork1Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Fork1Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Fork1Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Fork1Movement = value };
+      var playerToWrite = new GSPlayer { Fork1Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2326,16 +2325,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Fork1Movement.ShouldBe(value);
+      loadedPlayer.Fork1Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)20)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)21)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)22)]
-    public void Writes_Sinker1Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 20)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 21)]
+    [TestCase(PAUL_PITCHER_ID, 22)]
+    public void Writes_Sinker1Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Sinker1Type = value };
+      var playerToWrite = new GSPlayer { Sinker1Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2343,16 +2342,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Sinker1Type.ShouldBe(value);
+      loadedPlayer.Sinker1Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Sinker1Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Sinker1Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Sinker1Movement = value };
+      var playerToWrite = new GSPlayer { Sinker1Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2360,16 +2359,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Sinker1Movement.ShouldBe(value);
+      loadedPlayer.Sinker1Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)23)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)24)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)25)]
-    public void Writes_SinkingFastball1Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 23)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 24)]
+    [TestCase(PAUL_PITCHER_ID, 25)]
+    public void Writes_SinkingFastball1Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SinkingFastball1Type = value };
+      var playerToWrite = new GSPlayer { SinkingFastball1Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2377,16 +2376,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SinkingFastball1Type.ShouldBe(value);
+      loadedPlayer.SinkingFastball1Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_SinkingFastball1Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_SinkingFastball1Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SinkingFastball1Movement = value };
+      var playerToWrite = new GSPlayer { SinkingFastball1Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2394,16 +2393,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SinkingFastball1Movement.ShouldBe(value);
+      loadedPlayer.SinkingFastball1Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Writes_TwoSeamType(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Writes_TwoSeamType(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { TwoSeamType = value };
+      var playerToWrite = new GSPlayer { TwoSeamType = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2411,16 +2410,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.TwoSeamType.ShouldBe(value);
+      loadedPlayer.TwoSeamType.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Writes_TwoSeamMovement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Writes_TwoSeamMovement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { TwoSeamMovement = value };
+      var playerToWrite = new GSPlayer { TwoSeamMovement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2428,16 +2427,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.TwoSeamMovement.ShouldBe(value);
+      loadedPlayer.TwoSeamMovement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Slider2Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Slider2Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Slider2Type = value };
+      var playerToWrite = new GSPlayer { Slider2Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2445,16 +2444,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Slider2Type.ShouldBe(value);
+      loadedPlayer.Slider2Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Slider2Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Slider2Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Slider2Movement = value };
+      var playerToWrite = new GSPlayer { Slider2Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2462,16 +2461,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Slider2Movement.ShouldBe(value);
+      loadedPlayer.Slider2Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)11)]
-    public void Writes_Curve2Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 10)]
+    [TestCase(PAUL_PITCHER_ID, 11)]
+    public void Writes_Curve2Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Curve2Type = value };
+      var playerToWrite = new GSPlayer { Curve2Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2479,16 +2478,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Curve2Type.ShouldBe(value);
+      loadedPlayer.Curve2Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Curve2Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Curve2Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Curve2Movement = value };
+      var playerToWrite = new GSPlayer { Curve2Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2496,16 +2495,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Curve2Movement.ShouldBe(value);
+      loadedPlayer.Curve2Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)13)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)16)]
-    public void Writes_Fork2Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 13)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 15)]
+    [TestCase(PAUL_PITCHER_ID, 16)]
+    public void Writes_Fork2Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Fork2Type = value };
+      var playerToWrite = new GSPlayer { Fork2Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2513,16 +2512,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Fork2Type.ShouldBe(value);
+      loadedPlayer.Fork2Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Fork2Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Fork2Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Fork2Movement = value };
+      var playerToWrite = new GSPlayer { Fork2Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2530,16 +2529,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Fork2Movement.ShouldBe(value);
+      loadedPlayer.Fork2Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)20)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)21)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)22)]
-    public void Writes_Sinker2Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 20)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 21)]
+    [TestCase(PAUL_PITCHER_ID, 22)]
+    public void Writes_Sinker2Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Sinker2Type = value };
+      var playerToWrite = new GSPlayer { Sinker2Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2547,16 +2546,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Sinker2Type.ShouldBe(value);
+      loadedPlayer.Sinker2Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_Sinker2Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_Sinker2Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { Sinker2Movement = value };
+      var playerToWrite = new GSPlayer { Sinker2Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2564,16 +2563,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.Sinker2Movement.ShouldBe(value);
+      loadedPlayer.Sinker2Movement.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)23)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)24)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)25)]
-    public void Writes_SinkingFastball2Type(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 23)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 24)]
+    [TestCase(PAUL_PITCHER_ID, 25)]
+    public void Writes_SinkingFastball2Type(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SinkingFastball2Type = value };
+      var playerToWrite = new GSPlayer { SinkingFastball2Type = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2581,16 +2580,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SinkingFastball2Type.ShouldBe(value);
+      loadedPlayer.SinkingFastball2Type.ShouldBe((ushort)value);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Writes_SinkingFastball2Movement(int playerId, ushort value)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Writes_SinkingFastball2Movement(int playerId, int value)
     {
-      var playerToWrite = new GSPlayer { SinkingFastball2Movement = value };
+      var playerToWrite = new GSPlayer { SinkingFastball2Movement = (ushort)value };
       using (var writer = new PlayerWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
         writer.Write(playerId, playerToWrite);
 
@@ -2598,7 +2597,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       using (var reader = new PlayerReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedPlayer = reader.Read(playerId);
 
-      loadedPlayer.SinkingFastball2Movement.ShouldBe(value);
+      loadedPlayer.SinkingFastball2Movement.ShouldBe((ushort)value);
     }
   }
 }

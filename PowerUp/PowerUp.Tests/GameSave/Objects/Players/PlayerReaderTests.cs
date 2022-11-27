@@ -69,290 +69,290 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)25)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)999)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)36)]
-    public void Reads_PlayerNumber(int playerId, ushort playerNumber)
+    [TestCase(JASON_GIAMBI_ID, 25)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 999)]
+    [TestCase(PAUL_PITCHER_ID, 36)]
+    public void Reads_PlayerNumber(int playerId, int playerNumber)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.PlayerNumber.ShouldBe(playerNumber);
+      player.PlayerNumber.ShouldBe((ushort)playerNumber);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_PlayerNumberNumberOfDigits(int playerId, int numberOfDigits)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
+      player.PlayerNumberNumberOfDigits.ShouldBe((ushort)numberOfDigits);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)102)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)180)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)206)]
-    public void Reads_Face(int playerId, ushort face)
+    [TestCase(JASON_GIAMBI_ID, 102)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 180)]
+    [TestCase(PAUL_PITCHER_ID, 206)]
+    public void Reads_Face(int playerId, int face)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Face.ShouldBe(face);
+      player.Face.ShouldBe((ushort)face);
     }
     
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_SkinAndEyes(int playerId, ushort skinAndEyes)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_SkinAndEyes(int playerId, int skinAndEyes)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SkinAndEyes.ShouldBe(skinAndEyes);
+      player.SkinAndEyes.ShouldBe((ushort)skinAndEyes);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Reads_Bat(int playerId, ushort bat)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Reads_Bat(int playerId, int bat)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Bat.ShouldBe(bat);
+      player.Bat.ShouldBe((ushort)bat);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_Glove(int playerId, ushort glove)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_Glove(int playerId, int glove)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Glove.ShouldBe(glove);
+      player.Glove.ShouldBe((ushort)glove);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)17)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Reads_Hair(int playerId, ushort hair)
+    [TestCase(JASON_GIAMBI_ID, 17)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 12)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Reads_Hair(int playerId, int hair)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Hair.ShouldBe(hair);
+      player.Hair.ShouldBe((ushort)hair);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_HairColor(int playerId, ushort hairColor)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_HairColor(int playerId, int hairColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HairColor.ShouldBe(hairColor);
+      player.HairColor.ShouldBe((ushort)hairColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_FacialHair(int playerId, ushort facialHair)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_FacialHair(int playerId, int facialHair)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.FacialHair.ShouldBe(facialHair);
+      player.FacialHair.ShouldBe((ushort)facialHair);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)8)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)13)]
-    public void Reads_FacialHairColor(int playerId, ushort facialHairColor)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 8)]
+    [TestCase(PAUL_PITCHER_ID, 13)]
+    public void Reads_FacialHairColor(int playerId, int facialHairColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.FacialHairColor.ShouldBe(facialHairColor);
+      player.FacialHairColor.ShouldBe((ushort)facialHairColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Reads_GlassesType(int playerId, ushort glassesType)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Reads_GlassesType(int playerId, int glassesType)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.EyewearType.ShouldBe(glassesType);
+      player.EyewearType.ShouldBe((ushort)glassesType);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_GlassesColor(int playerId, ushort glassesColor)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_GlassesColor(int playerId, int glassesColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.EyewearColor.ShouldBe(glassesColor);
+      player.EyewearColor.ShouldBe((ushort)glassesColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_EarringType(int playerId, ushort earringType)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_EarringType(int playerId, int earringType)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.EarringSide.ShouldBe(earringType);
+      player.EarringSide.ShouldBe((ushort)earringType);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
-    public void Reads_EarringColor(int playerId, ushort earringColor)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 8)]
+    public void Reads_EarringColor(int playerId, int earringColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.EarringColor.ShouldBe(earringColor);
+      player.EarringColor.ShouldBe((ushort)earringColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_RightWristband(int playerId, ushort rightWristband)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_RightWristband(int playerId, int rightWristband)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.RightWristband.ShouldBe(rightWristband);
+      player.RightWristband.ShouldBe((ushort)rightWristband);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_LeftWristband(int playerId, ushort leftWristband)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_LeftWristband(int playerId, int leftWristband)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.LeftWristband.ShouldBe(leftWristband);
+      player.LeftWristband.ShouldBe((ushort)leftWristband);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)8)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_PrimaryPosition(int playerId, ushort primaryPosition)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 8)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_PrimaryPosition(int playerId, int primaryPosition)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.PrimaryPosition.ShouldBe(primaryPosition);
+      player.PrimaryPosition.ShouldBe((ushort)primaryPosition);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)7)]
-    public void Reads_PitcherCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 7)]
+    public void Reads_PitcherCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.PitcherCapability.ShouldBe(capability);
+      player.PitcherCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_CatcherCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_CatcherCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.CatcherCapability.ShouldBe(capability);
+      player.CatcherCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_FirstBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_FirstBaseCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.FirstBaseCapability.ShouldBe(capability);
+      player.FirstBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_SecondBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_SecondBaseCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SecondBaseCapability.ShouldBe(capability);
+      player.SecondBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_ThirdBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_ThirdBaseCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.ThirdBaseCapability.ShouldBe(capability);
+      player.ThirdBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_ShortstopCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_ShortstopCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.ShortstopCapability.ShouldBe(capability);
+      player.ShortstopCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_LeftFieldCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_LeftFieldCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.LeftFieldCapability.ShouldBe(capability);
+      player.LeftFieldCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_CenterFieldCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_CenterFieldCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.CenterFieldCapability.ShouldBe(capability);
+      player.CenterFieldCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_RightFieldCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_RightFieldCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.RightFieldCapability.ShouldBe(capability);
+      player.RightFieldCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
@@ -389,113 +389,113 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Reads_HotZoneUpAndIn(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_HotZoneUpAndIn(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneUpAndIn.ShouldBe(hzValue);
+      player.HotZoneUpAndIn.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Reads_HotZoneUp(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_HotZoneUp(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneUp.ShouldBe(hzValue);
+      player.HotZoneUp.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Reads_HotZoneUpAndOut(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_HotZoneUpAndOut(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneUpAndAway.ShouldBe(hzValue);
+      player.HotZoneUpAndAway.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_HotZoneMiddleIn(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_HotZoneMiddleIn(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneMiddleIn.ShouldBe(hzValue);
+      player.HotZoneMiddleIn.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_HotZoneMiddle(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_HotZoneMiddle(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneMiddle.ShouldBe(hzValue);
+      player.HotZoneMiddle.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_HotZoneMiddleAway(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_HotZoneMiddleAway(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneMiddleAway.ShouldBe(hzValue);
+      player.HotZoneMiddleAway.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_HotZoneDownAndIn(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HotZoneDownAndIn(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneDownAndIn.ShouldBe(hzValue);
+      player.HotZoneDownAndIn.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_HotZoneDown(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HotZoneDown(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneDown.ShouldBe(hzValue);
+      player.HotZoneDown.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_HotZoneDownAndAway(int playerId, ushort hzValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HotZoneDownAndAway(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HotZoneDownAndAway.ShouldBe(hzValue);
+      player.HotZoneDownAndAway.ShouldBe((ushort)hzValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Reads_BattingSide(int playerId, ushort battingSide)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_BattingSide(int playerId, int battingSide)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BattingSide.ShouldBe(battingSide);
+      player.BattingSide.ShouldBe((ushort)battingSide);
     }
 
     [Test]
@@ -510,135 +510,135 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_Durability(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Durability(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Durability.ShouldBe(abilityValue);
+      player.Durability.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Reads_Trajectory(int playerId, ushort trajectory)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_Trajectory(int playerId, int trajectory)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Trajectory.ShouldBe(trajectory);
+      player.Trajectory.ShouldBe((ushort)trajectory);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)13)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_Contact(int playerId, ushort contact)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 13)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_Contact(int playerId, int contact)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Contact.ShouldBe(contact);
+      player.Contact.ShouldBe((ushort)contact);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)206)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)138)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)56)]
-    public void Reads_Power(int playerId, ushort power)
+    [TestCase(JASON_GIAMBI_ID, 206)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 138)]
+    [TestCase(PAUL_PITCHER_ID, 56)]
+    public void Reads_Power(int playerId, int power)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Power.ShouldBe(power);
+      player.Power.ShouldBe((ushort)power);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)5)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_RunSpeed(int playerId, ushort runSpeed)
+    [TestCase(JASON_GIAMBI_ID, 5)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 15)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_RunSpeed(int playerId, int runSpeed)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.RunSpeed.ShouldBe(runSpeed);
+      player.RunSpeed.ShouldBe((ushort)runSpeed);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)14)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Reads_ArmStrength(int playerId, ushort armStrength)
+    [TestCase(JASON_GIAMBI_ID, 4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 14)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Reads_ArmStrength(int playerId, int armStrength)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.ArmStrength.ShouldBe(armStrength);
+      player.ArmStrength.ShouldBe((ushort)armStrength);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)4)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)7)]
-    public void Reads_Fielding(int playerId, ushort fielding)
+    [TestCase(JASON_GIAMBI_ID, 4)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 12)]
+    [TestCase(PAUL_PITCHER_ID, 7)]
+    public void Reads_Fielding(int playerId, int fielding)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Fielding.ShouldBe(fielding);
+      player.Fielding.ShouldBe((ushort)fielding);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_ErrorResistance(int playerId, ushort errorResistance)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_ErrorResistance(int playerId, int errorResistance)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.ErrorResistance.ShouldBe(errorResistance);
+      player.ErrorResistance.ShouldBe((ushort)errorResistance);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_HittingConsistency(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HittingConsistency(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HittingConsistency.ShouldBe(abilityValue);
+      player.HittingConsistency.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-3)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_HittingVersusLefty1(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -3)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HittingVersusLefty1(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HittingVersusLefty1.ShouldBe(abilityValue);
+      player.HittingVersusLefty1.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-3)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_HittingVersusLefty2(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -3)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HittingVersusLefty2(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HittingVersusLefty2.ShouldBe(abilityValue);
+      player.HittingVersusLefty2.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)2)]
-    [TestCase(PAUL_PITCHER_ID, (short)-3)]
-    public void Reads_ClutchHit(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, -3)]
+    public void Reads_ClutchHit(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.ClutchHitter.ShouldBe(abilityValue);
+      player.ClutchHitter.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -653,14 +653,14 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_Morale(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Morale(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Morale.ShouldBe(abilityValue);
+      player.Morale.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -741,14 +741,14 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_InfieldHitter(int playerId, ushort abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_InfieldHitter(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.InfieldHitter.ShouldBe(abilityValue);
+      player.InfieldHitter.ShouldBe((ushort)abilityValue);
     }
 
     [Test]
@@ -807,36 +807,36 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_Bunting(int playerId, ushort abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Bunting(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Bunting.ShouldBe(abilityValue);
+      player.Bunting.ShouldBe((ushort)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_WalkoffHitter(int playerId, ushort abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_WalkoffHitter(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.WalkoffHitter.ShouldBe(abilityValue);
+      player.WalkoffHitter.ShouldBe((ushort)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_BasesLoadedHitter(int playerId, ushort abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_BasesLoadedHitter(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BasesLoadedHitter.ShouldBe(abilityValue);
+      player.BasesLoadedHitter.ShouldBe((ushort)abilityValue);
     }
 
     [Test]
@@ -862,25 +862,25 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_Stealing(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_Stealing(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Stealing.ShouldBe(abilityValue);
+      player.Stealing.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_BaseRunning(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_BaseRunning(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BaseRunning.ShouldBe(abilityValue);
+      player.BaseRunning.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -917,14 +917,14 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_Throwing(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_Throwing(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Throwing.ShouldBe(abilityValue);
+      player.Throwing.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -972,14 +972,14 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)0)]
-    public void Reads_Catching(int playerId, ushort abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_Catching(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Catching.ShouldBe(abilityValue);
+      player.Catching.ShouldBe((ushort)abilityValue);
     }
 
     [Test]
@@ -1027,47 +1027,47 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_SmallBall(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_SmallBall(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SmallBall.ShouldBe(abilityValue);
+      player.SmallBall.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)0)]
-    public void Reads_SlugOrSlap(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_SlugOrSlap(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SlugOrSlap.ShouldBe(abilityValue);
+      player.SlugOrSlap.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)0)]
-    public void Reads_AggressiveOrPatientHitter(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_AggressiveOrPatientHitter(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.AggressiveOrPatientHitter.ShouldBe(abilityValue);
+      player.AggressiveOrPatientHitter.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)-1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)0)]
-    public void Reads_AggressiveOrCautiousBaseStealer(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, -1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    public void Reads_AggressiveOrCautiousBaseStealer(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.AggressiveOrCautiousBaseStealer.ShouldBe(abilityValue);
+      player.AggressiveOrCautiousBaseStealer.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -1115,126 +1115,126 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)0)]
-    [TestCase(197, (short)-1)]
-    public void Reads_GoodOrPoorDayGame(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    [TestCase(197, -1)]
+    public void Reads_GoodOrPoorDayGame(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.GoodOrPoorDayGame.ShouldBe(abilityValue);
+      player.GoodOrPoorDayGame.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)0)]
-    [TestCase(PAUL_PITCHER_ID, (short)0)]
-    [TestCase(904, (short)-1)]
-    public void Reads_GoodOrPoorRain(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    [TestCase(904, -1)]
+    public void Reads_GoodOrPoorRain(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.GoodOrPoorRain.ShouldBe(abilityValue);
+      player.GoodOrPoorRain.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)120)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)141)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)169)]
-    public void Reads_TopThrowingSpeedKMH(int playerId, ushort topSpeedKMH)
+    [TestCase(JASON_GIAMBI_ID, 120)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 141)]
+    [TestCase(PAUL_PITCHER_ID, 169)]
+    public void Reads_TopThrowingSpeedKMH(int playerId, int topSpeedKMH)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.TopThrowingSpeedKMH.ShouldBe(topSpeedKMH);
+      player.TopThrowingSpeedKMH.ShouldBe((ushort)topSpeedKMH);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)52)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)246)]
-    public void Reads_Control(int playerId, ushort control)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 52)]
+    [TestCase(PAUL_PITCHER_ID, 246)]
+    public void Reads_Control(int playerId, int control)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Control.ShouldBe(control);
+      player.Control.ShouldBe((ushort)control);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)67)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)237)]
-    public void Reads_Stamina(int playerId, ushort stamina)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 67)]
+    [TestCase(PAUL_PITCHER_ID, 237)]
+    public void Reads_Stamina(int playerId, int stamina)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Stamina.ShouldBe(stamina);
+      player.Stamina.ShouldBe((ushort)stamina);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_Recovery(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Recovery(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Recovery.ShouldBe(abilityValue);
+      player.Recovery.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_GroundBallFlyBallPitcher(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_GroundBallFlyBallPitcher(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.GroundBallOrFlyBallPitcher.ShouldBe(abilityValue);
+      player.GroundBallOrFlyBallPitcher.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_SafeOrFatPitch(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_SafeOrFatPitch(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SafeOrFatPitch.ShouldBe(abilityValue);
+      player.SafeOrFatPitch.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_WithRunnersInScoringPosition(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_WithRunnersInScoringPosition(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.WithRunnersInScoringPosition.ShouldBe(abilityValue);
+      player.WithRunnersInScoringPosition.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_Spin(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Spin(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Spin.ShouldBe(abilityValue);
+      player.Spin.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_FastballLife(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_FastballLife(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.FastballLife.ShouldBe(abilityValue);
+      player.FastballLife.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -1260,47 +1260,47 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_Poise(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_Poise(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Poise.ShouldBe(abilityValue);
+      player.Poise.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_Luck(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Luck(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Luck.ShouldBe(abilityValue);
+      player.Luck.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_Release(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_Release(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Release.ShouldBe(abilityValue);
+      player.Release.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)1)]
-    [TestCase(PAUL_PITCHER_ID, (short)-1)]
-    public void Reads_VersusLeftHandedBatter(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, -1)]
+    public void Reads_VersusLeftHandedBatter(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.PitchingVersusLefty.ShouldBe(abilityValue);
+      player.PitchingVersusLefty.ShouldBe((short)abilityValue);
     }
 
     [Test]
@@ -1480,355 +1480,355 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (short)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (short)-1)]
-    [TestCase(PAUL_PITCHER_ID, (short)1)]
-    public void Reads_PowerOrBreakingBallPitcher(int playerId, short abilityValue)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, -1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_PowerOrBreakingBallPitcher(int playerId, int abilityValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.PowerOrBreakingBallPitcher.ShouldBe(abilityValue);
+      player.PowerOrBreakingBallPitcher.ShouldBe((short)abilityValue);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1971)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1974)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1962)]
-    public void Reads_BirthYear(int playerId, ushort birthYear)
+    [TestCase(JASON_GIAMBI_ID, 1971)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1974)]
+    [TestCase(PAUL_PITCHER_ID, 1962)]
+    public void Reads_BirthYear(int playerId, int birthYear)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BirthYear.ShouldBe(birthYear);
+      player.BirthYear.ShouldBe((ushort)birthYear);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
-    public void Reads_BirthMonth(int playerId, ushort birthMonth)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 8)]
+    public void Reads_BirthMonth(int playerId, int birthMonth)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BirthMonth.ShouldBe(birthMonth);
+      player.BirthMonth.ShouldBe((ushort)birthMonth);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)8)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_BirthDay(int playerId, ushort birthDay)
+    [TestCase(JASON_GIAMBI_ID, 8)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_BirthDay(int playerId, int birthDay)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BirthDay.ShouldBe(birthDay);
+      player.BirthDay.ShouldBe((ushort)birthDay);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)12)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)10)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)23)]
-    public void Reads_YearsInMajors(int playerId, ushort yearsInMajors)
+    [TestCase(JASON_GIAMBI_ID, 12)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 10)]
+    [TestCase(PAUL_PITCHER_ID, 23)]
+    public void Reads_YearsInMajors(int playerId, int yearsInMajors)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.YearsInMajors.ShouldBe(yearsInMajors);
+      player.YearsInMajors.ShouldBe((ushort)yearsInMajors);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)253)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)666)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)074)]
-    public void Reads_BattingAveragePoints(int playerId, ushort battingAveragePoints)
+    [TestCase(JASON_GIAMBI_ID, 253)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 666)]
+    [TestCase(PAUL_PITCHER_ID, 074)]
+    public void Reads_BattingAveragePoints(int playerId, int battingAveragePoints)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.BattingAveragePoints.ShouldBe(battingAveragePoints);
+      player.BattingAveragePoints.ShouldBe((ushort)battingAveragePoints);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)113)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)15)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_RunsBattedIn(int playerId, ushort rbi)
+    [TestCase(JASON_GIAMBI_ID, 113)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 15)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_RunsBattedIn(int playerId, int rbi)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.RunsBattedIn.ShouldBe(rbi);
+      player.RunsBattedIn.ShouldBe((ushort)rbi);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)37)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_HomeRuns(int playerId, ushort homeRuns)
+    [TestCase(JASON_GIAMBI_ID, 37)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_HomeRuns(int playerId, int homeRuns)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.HomeRuns.ShouldBe(homeRuns);
+      player.HomeRuns.ShouldBe((ushort)homeRuns);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)215)]
-    public void Reads_EarnedRunAverage(int playerId, ushort era)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 215)]
+    public void Reads_EarnedRunAverage(int playerId, int era)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.EarnedRunAverage.ShouldBe(era);
+      player.EarnedRunAverage.ShouldBe((ushort)era);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2284)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2907)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2426)]
-    public void Reads_VoiceId(int playerId, ushort voiceId)
+    [TestCase(JASON_GIAMBI_ID, 2284)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2907)]
+    [TestCase(PAUL_PITCHER_ID, 2426)]
+    public void Reads_VoiceId(int playerId, int voiceId)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.VoiceId.ShouldBe(voiceId);
+      player.VoiceId.ShouldBe((ushort)voiceId);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_Slider1Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_Slider1Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Slider1Type.ShouldBe(type);
+      player.Slider1Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_Slider1Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_Slider1Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Slider1Movement.ShouldBe(movement);
+      player.Slider1Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)9)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Reads_Curve1Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 9)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Reads_Curve1Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Curve1Type.ShouldBe(type);
+      player.Curve1Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)2)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Reads_Curve1Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Reads_Curve1Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Curve1Movement.ShouldBe(movement);
+      player.Curve1Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)19)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)18)]
-    public void Reads_Fork1Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 19)]
+    [TestCase(PAUL_PITCHER_ID, 18)]
+    public void Reads_Fork1Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Fork1Type.ShouldBe(type);
+      player.Fork1Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Reads_Fork1Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Reads_Fork1Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Fork1Movement.ShouldBe(movement);
+      player.Fork1Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)22)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)20)]
-    public void Reads_Sinker1Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 22)]
+    [TestCase(PAUL_PITCHER_ID, 20)]
+    public void Reads_Sinker1Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Sinker1Type.ShouldBe(type);
+      player.Sinker1Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    public void Reads_Sinker1Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    public void Reads_Sinker1Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Sinker1Movement.ShouldBe(movement);
+      player.Sinker1Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)23)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)25)]
-    public void Reads_SinkingFastball1Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 23)]
+    [TestCase(PAUL_PITCHER_ID, 25)]
+    public void Reads_SinkingFastball1Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SinkingFastball1Type.ShouldBe(type);
+      player.SinkingFastball1Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)4)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    public void Reads_SinkingFastball1Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 4)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    public void Reads_SinkingFastball1Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SinkingFastball1Movement.ShouldBe(movement);
+      player.SinkingFastball1Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_TwoSeamType(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_TwoSeamType(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.TwoSeamType.ShouldBe(type);
+      player.TwoSeamType.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_TwoSeamMovement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_TwoSeamMovement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.TwoSeamMovement.ShouldBe(movement);
+      player.TwoSeamMovement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    public void Reads_Slider2Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    public void Reads_Slider2Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Slider2Type.ShouldBe(type);
+      player.Slider2Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_Slider2Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_Slider2Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Slider2Movement.ShouldBe(movement);
+      player.Slider2Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)11)]
-    public void Reads_Curve2Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 11)]
+    public void Reads_Curve2Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Curve2Type.ShouldBe(type);
+      player.Curve2Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_Curve2Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_Curve2Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Curve2Movement.ShouldBe(movement);
+      player.Curve2Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)17)]
-    public void Reads_Fork2Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 17)]
+    public void Reads_Fork2Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Fork2Type.ShouldBe(type);
+      player.Fork2Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    public void Reads_Fork2Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_Fork2Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Fork2Movement.ShouldBe(movement);
+      player.Fork2Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)21)]
-    public void Reads_Sinker2Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 21)]
+    public void Reads_Sinker2Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Sinker2Type.ShouldBe(type);
+      player.Sinker2Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    public void Reads_Sinker2Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    public void Reads_Sinker2Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.Sinker2Movement.ShouldBe(movement);
+      player.Sinker2Movement.ShouldBe((ushort)movement);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)24)]
-    public void Reads_SinkingFastball2Type(int playerId, ushort type)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 24)]
+    public void Reads_SinkingFastball2Type(int playerId, int type)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SinkingFastball2Type.ShouldBe(type);
+      player.SinkingFastball2Type.ShouldBe((ushort)type);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    public void Reads_SinkingFastball2Movement(int playerId, ushort movement)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    public void Reads_SinkingFastball2Movement(int playerId, int movement)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
       var player = loader.Read(playerId);
-      player.SinkingFastball2Movement.ShouldBe(movement);
+      player.SinkingFastball2Movement.ShouldBe((ushort)movement);
     }
   }
 }
