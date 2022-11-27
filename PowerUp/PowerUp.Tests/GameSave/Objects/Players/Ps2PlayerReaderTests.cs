@@ -174,5 +174,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.Glove.ShouldBe(glove);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)17)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
+    [TestCase(PETE_SALTINE_ID, (ushort)3)]
+    public void Reads_Hair(int playerId, ushort hair)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.Hair.ShouldBe(hair);
+    }
   }
 }
