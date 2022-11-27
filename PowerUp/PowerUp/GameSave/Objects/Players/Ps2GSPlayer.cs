@@ -46,9 +46,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Glove { get; set; }
 
-    [GSBytes(0x56, numberOfBytes: 4, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x56, bits: 4, bitOffset: 7)]
     public ushort? RightWristband { get; set; }
 
@@ -61,7 +58,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x59, bits: 4, bitOffset: 7)]
     public ushort? HairColor { get; set; }
 
-    [GSUInt(0x59, bits: 5, bitOffset: 1)]
+    [GSBytes(0x59, numberOfBytes: 4, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x59, bits: 5, bitOffset: 2)]
     public ushort? FacialHair { get; set; }
 
     [GSUInt(0x59, bits: 4, bitOffset: 6)]
