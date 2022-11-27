@@ -94,7 +94,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)2)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
     [TestCase(PETE_SALTINE_ID, (ushort)1)]
     public void Reads_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
     {

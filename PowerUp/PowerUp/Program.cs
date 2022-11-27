@@ -52,7 +52,7 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       DatabaseConfig.Initialize(DATA_DIRECTORY);
-      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -70,7 +70,7 @@ namespace PowerUp
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
-      CopyDir();
+      //CopyDir();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -88,13 +88,15 @@ namespace PowerUp
         int.TryParse(input, out var result);
         var playerId = result != 0
           ? result
-          : PLAYER_ID;
-        using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, GameSaveFormat.Wii_2007);
-        var player = loader.Read(playerId);
+          : 20;
+        using var loader = new PlayerReader(characterLibrary, "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/BASLUS-21671_TEST", GameSaveFormat.Ps2_2007);
+        var player = (Ps2GSPlayer)loader.Read(playerId);
+        /*
         var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
-        var bitString = player.UnknownByte_87!.ToBitString();
+        */
+        var bitString = player.Bytes!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.EarnedRunAverage} {mappedPlayer.EarnedRunAverage} {bitString}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
       }
     }
 

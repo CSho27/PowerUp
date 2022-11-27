@@ -22,7 +22,7 @@ namespace PowerUp.GameSave.IO
       _characterLibrary = characterLibrary;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes) => _reader.ReadBytes(offset, numberOfBytes, false);
+    public byte[] ReadBytes(long offset, int numberOfBytes, bool startsOnEven) => _reader.ReadBytes(offset, numberOfBytes, startsOnEven);
     public string ReadString(long offset, int stringLength)
     {
       var chars = Enumerable.Empty<char>();
@@ -32,10 +32,10 @@ namespace PowerUp.GameSave.IO
       return new string(chars.ToArray()).TrimEnd();
     }
 
-    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits, bool doNotTranslate)
+    public ushort ReadUInt(long offset, int bitOffset, int numberOfBits, bool startsOnEven)
     {
       var numberOfBytesToRead = UIntInterpret.GetNumberOfBytesNeeded(bitOffset, numberOfBits);
-      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead, doNotTranslate);
+      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead, startsOnEven);
       var valueBits = UIntInterpret.GetValueBits(bytesToReadFrom, bitOffset, numberOfBits);
       return valueBits.ToUInt16();
     }

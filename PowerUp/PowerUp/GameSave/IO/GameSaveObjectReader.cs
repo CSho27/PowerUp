@@ -41,7 +41,7 @@ namespace PowerUp.GameSave.IO
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           property.SetValue(gsObject, _reader.ReadString(offset + stringAttr.Offset, stringAttr.StringLength));
         else if (gameSaveAttribute is GSBytesAttribute bytesAttr)
-          property.SetValue(gsObject, _reader.ReadBytes(offset + bytesAttr.Offset, bytesAttr.NumberOfBytes));
+          property.SetValue(gsObject, _reader.ReadBytes(offset + bytesAttr.Offset, bytesAttr.NumberOfBytes, true));
         else if (gameSaveAttribute is GSArrayAttribute arrayAttr)
         {
           var arrayType = property.PropertyType.GenericTypeArguments[0];
