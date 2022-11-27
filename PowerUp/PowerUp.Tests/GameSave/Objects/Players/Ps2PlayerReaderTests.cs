@@ -375,5 +375,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.ThirdBaseCapability.ShouldBe((ushort)capability);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_ShortstopCapability(int playerId, int capability)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.ShortstopCapability.ShouldBe((ushort)capability);
+    }
   }
 }
