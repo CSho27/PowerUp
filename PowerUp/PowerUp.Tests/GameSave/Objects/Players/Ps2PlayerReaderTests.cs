@@ -270,5 +270,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.EarringColor.ShouldBe(earringColor);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
+    [TestCase(PETE_SALTINE_ID, (ushort)8)]
+    public void Reads_RightWristband(int playerId, ushort rightWristband)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.RightWristband.ShouldBe(rightWristband);
+    }
   }
 }

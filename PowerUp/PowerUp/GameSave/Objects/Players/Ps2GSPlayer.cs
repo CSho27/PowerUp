@@ -46,7 +46,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Glove { get; set; }
 
-    [GSUInt(0x56, bits: 4, bitOffset: 7)]
+    [GSBytes(0x55, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x57, bits: 4, bitOffset: 5)]
     public ushort? RightWristband { get; set; }
 
     [GSUInt(0x57, bits: 4, bitOffset: 3)]
@@ -73,9 +76,6 @@ namespace PowerUp.GameSave.Objects.Players
     // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
     [GSUInt(0x5b, bits: 4, bitOffset: 2)]
     public ushort? EyewearType { get; set; }
-
-    [GSBytes(0x5A, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x5c, bits: 4, bitOffset: 4)]
     public ushort? EyewearColor { get; set; }
