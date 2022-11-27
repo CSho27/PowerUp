@@ -294,5 +294,18 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.LeftWristband.ShouldBe(leftWristband);
     }
+
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)8)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
+    [TestCase(PETE_SALTINE_ID, (ushort)9)]
+    public void Reads_PrimaryPosition(int playerId, ushort primaryPosition)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.PrimaryPosition.ShouldBe(primaryPosition);
+    }
   }
 }

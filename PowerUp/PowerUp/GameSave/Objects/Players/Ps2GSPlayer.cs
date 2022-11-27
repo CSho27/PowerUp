@@ -46,9 +46,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x56, bits: 3, bitOffset: 1)]
     public ushort? Glove { get; set; }
 
-    [GSBytes(0x55, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x57, bits: 4, bitOffset: 5)]
     public ushort? RightWristband { get; set; }
 
@@ -86,7 +83,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x5d, bits: 8, bitOffset: 4)]
     public ushort? PitchingForm { get; set; }
 
-    [GSUInt(0x5e, bits: 4, bitOffset: 4)]
+    [GSBytes(0x5d, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x5e, bits: 4, bitOffset: 0)]
     public ushort? PrimaryPosition { get; set; }
 
     [GSUInt(0x5f, bits: 3, bitOffset: 0)]
