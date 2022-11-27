@@ -67,14 +67,14 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x5A, bits: 2, bitOffset: 4)]
     public ushort? EarringSide { get; set; }
 
-    [GSUInt(0x5A, bits: 4, bitOffset: 6)]
+    [GSUInt(0x5b, bits: 4, bitOffset: 6)]
     public ushort? EarringColor { get; set; }
 
     // There is no 2. It jumps from eye black at 1, to first pair of glasses at 3
     [GSUInt(0x5b, bits: 4, bitOffset: 2)]
     public ushort? EyewearType { get; set; }
 
-    [GSBytes(0x5b, numberOfBytes: 5, traverseSequentially: true)]
+    [GSBytes(0x5A, numberOfBytes: 5, traverseSequentially: true)]
     public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x5c, bits: 4, bitOffset: 4)]
