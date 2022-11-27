@@ -43,7 +43,7 @@ namespace PowerUp.Mappers.Players
         SourceType = parameters.IsBase
           ? EntitySourceType.Base
           : EntitySourceType.Imported,
-        IsCustomPlayer = gsPlayer.IsEdited!.Value || !gsPlayer.Unedited!.Value,
+        IsCustomPlayer = gsPlayer.IsEdited!.Value || !(gsPlayer.Unedited.HasValue && !gsPlayer.Unedited!.Value),
         LastName = gsPlayer.LastName!,
         FirstName = gsPlayer.FirstName!,
         SavedName = gsPlayer.SavedName!.Contains('*')

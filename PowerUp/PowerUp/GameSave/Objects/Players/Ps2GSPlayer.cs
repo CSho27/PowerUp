@@ -19,7 +19,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSString(0x32, stringLength: 14)]
     public string? FirstName { get; set; }
 
-    [GSBoolean(0x50, bitOffset: 3)]
+    // Not sure this bit exists on Ps2
     public bool? Unedited { get; set; }
 
     [GSBoolean(0x50, bitOffset: 3)]

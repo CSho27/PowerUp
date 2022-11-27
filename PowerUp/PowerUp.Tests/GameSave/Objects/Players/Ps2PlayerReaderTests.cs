@@ -91,7 +91,6 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       player.IsEdited.ShouldBe(isEdited);
     }
 
-
     [Test]
     [TestCase(JASON_GIAMBI_ID, (ushort)25)]
     [TestCase(SAMMY_SPEEDSTER_ID, (ushort)999)]
