@@ -101,7 +101,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x60, bits: 3, bitOffset: 2)]
     public ushort? SecondBaseCapability { get; set; }
 
-    [GSUInt(0x60, bits: 3, bitOffset: 6)]
+    [GSUInt(0x61, bits: 3, bitOffset: 7)]
     public ushort? ThirdBaseCapability { get; set; }
 
     [GSUInt(0x61, bits: 3, bitOffset: 1)]

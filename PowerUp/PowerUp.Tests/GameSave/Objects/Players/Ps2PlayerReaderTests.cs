@@ -1,14 +1,8 @@
 ﻿using NUnit.Framework;
-using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Tests.GameSave.Objects.Players
 {
@@ -103,257 +97,283 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       player.IsEdited.ShouldBe(isEdited);
     }
 
+    /*
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)25)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)999)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)36)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_PlayerNumber(int playerId, ushort playerNumber)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    [TestCase(PETE_SALTINE_ID, 3)]
+    public void Reads_PowerProsTeamId(int playerId, int playerNumber)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.PlayerNumber.ShouldBe(playerNumber);
+      player.PowerProsTeamId.ShouldBe(playerNumber);
+    }
+    */
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 25)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 999)]
+    [TestCase(PAUL_PITCHER_ID, 36)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_PlayerNumber(int playerId, int playerNumber)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.PlayerNumber.ShouldBe((ushort)playerNumber);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_PlayerNumberNumberOfDigits(int playerId, ushort numberOfDigits)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_PlayerNumberNumberOfDigits(int playerId, int numberOfDigits)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
+      player.PlayerNumberNumberOfDigits.ShouldBe((ushort)numberOfDigits);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)102)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)180)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)206)]
-    [TestCase(PETE_SALTINE_ID, (ushort)191)]
-    public void Reads_Face(int playerId, ushort face)
+    [TestCase(JASON_GIAMBI_ID, 102)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 180)]
+    [TestCase(PAUL_PITCHER_ID, 206)]
+    [TestCase(PETE_SALTINE_ID, 191)]
+    public void Reads_Face(int playerId, int face)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.Face.ShouldBe(face);
+      player.Face.ShouldBe((ushort)face);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)6)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)3)]
-    [TestCase(PETE_SALTINE_ID, (ushort)4)]
-    public void Reads_SkinAndEyes(int playerId, ushort skinAndEyes)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 6)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    [TestCase(PETE_SALTINE_ID, 4)]
+    public void Reads_SkinAndEyes(int playerId, int skinAndEyes)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.SkinAndEyes.ShouldBe(skinAndEyes);
+      player.SkinAndEyes.ShouldBe((ushort)skinAndEyes);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    [TestCase(PETE_SALTINE_ID, (ushort)4)]
-    public void Reads_Bat(int playerId, ushort bat)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    [TestCase(PETE_SALTINE_ID, 4)]
+    public void Reads_Bat(int playerId, int bat)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.Bat.ShouldBe(bat);
+      player.Bat.ShouldBe((ushort)bat);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    [TestCase(PETE_SALTINE_ID, (ushort)2)]
-    public void Reads_Glove(int playerId, ushort glove)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    [TestCase(PETE_SALTINE_ID, 2)]
+    public void Reads_Glove(int playerId, int glove)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.Glove.ShouldBe(glove);
+      player.Glove.ShouldBe((ushort)glove);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)17)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)12)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)6)]
-    [TestCase(PETE_SALTINE_ID, (ushort)3)]
-    public void Reads_Hair(int playerId, ushort hair)
+    [TestCase(JASON_GIAMBI_ID, 17)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 12)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    [TestCase(PETE_SALTINE_ID, 3)]
+    public void Reads_Hair(int playerId, int hair)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.Hair.ShouldBe(hair);
+      player.Hair.ShouldBe((ushort)hair);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    [TestCase(PETE_SALTINE_ID, (ushort)7)]
-    public void Reads_HairColor(int playerId, ushort hairColor)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    [TestCase(PETE_SALTINE_ID, 7)]
+    public void Reads_HairColor(int playerId, int hairColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.HairColor.ShouldBe(hairColor);
+      player.HairColor.ShouldBe((ushort)hairColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    [TestCase(PETE_SALTINE_ID, (ushort)4)]
-    public void Reads_FacialHair(int playerId, ushort facialHair)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    [TestCase(PETE_SALTINE_ID, 4)]
+    public void Reads_FacialHair(int playerId, int facialHair)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.FacialHair.ShouldBe(facialHair);
+      player.FacialHair.ShouldBe((ushort)facialHair);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)8)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)13)]
-    [TestCase(PETE_SALTINE_ID, (ushort)6)]
-    public void Reads_FacialHairColor(int playerId, ushort facialHairColor)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 8)]
+    [TestCase(PAUL_PITCHER_ID, 13)]
+    [TestCase(PETE_SALTINE_ID, 6)]
+    public void Reads_FacialHairColor(int playerId, int facialHairColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.FacialHairColor.ShouldBe(facialHairColor);
+      player.FacialHairColor.ShouldBe((ushort)facialHairColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)5)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_GlassesType(int playerId, ushort glassesType)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_GlassesType(int playerId, int glassesType)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.EyewearType.ShouldBe(glassesType);
+      player.EyewearType.ShouldBe((ushort)glassesType);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)7)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    [TestCase(PETE_SALTINE_ID, (ushort)0)]
-    public void Reads_GlassesColor(int playerId, ushort glassesColor)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 7)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    [TestCase(PETE_SALTINE_ID, 0)]
+    public void Reads_GlassesColor(int playerId, int glassesColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.EyewearColor.ShouldBe(glassesColor);
+      player.EyewearColor.ShouldBe((ushort)glassesColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    [TestCase(PETE_SALTINE_ID, (ushort)2)]
-    public void Reads_EarringType(int playerId, ushort earringType)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 2)]
+    public void Reads_EarringType(int playerId, int earringType)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.EarringSide.ShouldBe(earringType);
+      player.EarringSide.ShouldBe((ushort)earringType);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)0)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)0)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)8)]
-    [TestCase(PETE_SALTINE_ID, (ushort)2)]
-    public void Reads_EarringColor(int playerId, ushort earringColor)
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 8)]
+    [TestCase(PETE_SALTINE_ID, 2)]
+    public void Reads_EarringColor(int playerId, int earringColor)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.EarringColor.ShouldBe(earringColor);
+      player.EarringColor.ShouldBe((ushort)earringColor);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)3)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)2)]
-    [TestCase(PETE_SALTINE_ID, (ushort)8)]
-    public void Reads_RightWristband(int playerId, ushort rightWristband)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    [TestCase(PETE_SALTINE_ID, 8)]
+    public void Reads_RightWristband(int playerId, int rightWristband)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.RightWristband.ShouldBe(rightWristband);
+      player.RightWristband.ShouldBe((ushort)rightWristband);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)4)]
-    [TestCase(PETE_SALTINE_ID, (ushort)7)]
-    public void Reads_LeftWristband(int playerId, ushort leftWristband)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    [TestCase(PETE_SALTINE_ID, 7)]
+    public void Reads_LeftWristband(int playerId, int leftWristband)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.LeftWristband.ShouldBe(leftWristband);
+      player.LeftWristband.ShouldBe((ushort)leftWristband);
     }
 
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)3)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)8)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    [TestCase(PETE_SALTINE_ID, (ushort)9)]
-    public void Reads_PrimaryPosition(int playerId, ushort primaryPosition)
+    [TestCase(JASON_GIAMBI_ID, 3)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 8)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 9)]
+    public void Reads_PrimaryPosition(int playerId, int primaryPosition)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.PrimaryPosition.ShouldBe(primaryPosition);
+      player.PrimaryPosition.ShouldBe((ushort)primaryPosition);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)7)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_PitcherCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 7)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_PitcherCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.PitcherCapability.ShouldBe(capability);
+      player.PitcherCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)1)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)5)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_CatcherCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_CatcherCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.CatcherCapability.ShouldBe(capability);
+      player.CatcherCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)7)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_FirstBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 7)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_FirstBaseCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.FirstBaseCapability.ShouldBe(capability);
+      player.FirstBaseCapability.ShouldBe((ushort)capability);
     }
 
     [Test]
-    [TestCase(JASON_GIAMBI_ID, (ushort)2)]
-    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)1)]
-    [TestCase(PAUL_PITCHER_ID, (ushort)1)]
-    [TestCase(PETE_SALTINE_ID, (ushort)1)]
-    public void Reads_SecondBaseCapability(int playerId, ushort capability)
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_SecondBaseCapability(int playerId, int capability)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.SecondBaseCapability.ShouldBe(capability);
+      player.SecondBaseCapability.ShouldBe((ushort)capability);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 2)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_ThirdBaseCapability(int playerId, int capability)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.ThirdBaseCapability.ShouldBe((ushort)capability);
     }
   }
 }
