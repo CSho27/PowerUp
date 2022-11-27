@@ -94,7 +94,7 @@ namespace PowerUp
         /*
         var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
         */
-        var bitString = player.UnknownBytes_8d_92!.ToBitString();
+        var bitString = player.BytesToCheck!.ToBitString();
         var currentTime = DateTime.Now;
         Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
       }

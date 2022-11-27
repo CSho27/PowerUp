@@ -31,7 +31,7 @@ namespace PowerUp.Tests.GameSave.IO
     [TestCase(3, ByteOrder.LittleEndian, 6)]
     public void GetNextByteOffset_ShouldReturnCorrectOffset(int offset, ByteOrder byteOrder, int expectedNextOffset)
     {
-      ByteOrderInterpreter.GetNextByteOffset(offset, byteOrder, false).ShouldBe(expectedNextOffset);
+      ByteOrderInterpreter.GetNextByteOffset(offset, byteOrder, dataStartsOnEven: false, traverseSequentially: false).ShouldBe(expectedNextOffset);
     }
   }
 }

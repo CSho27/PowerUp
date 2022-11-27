@@ -102,5 +102,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.PlayerNumberNumberOfDigits.ShouldBe(numberOfDigits);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, (ushort)102)]
+    [TestCase(SAMMY_SPEEDSTER_ID, (ushort)180)]
+    [TestCase(PAUL_PITCHER_ID, (ushort)206)]
+    [TestCase(PETE_SALTINE_ID, (ushort)191)]
+    public void Reads_Face(int playerId, ushort face)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.Face.ShouldBe(face);
+    }
   }
 }

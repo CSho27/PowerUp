@@ -16,7 +16,7 @@ namespace PowerUp.GameSave.IO
       _byteOrder = byteOrder;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes, bool translateToStartOfTwoByteChunk, bool twoByteCheckStartsAtEvenOffset) 
+    public byte[] ReadBytes(long offset, int numberOfBytes, bool translateToStartOfTwoByteChunk, bool twoByteCheckStartsAtEvenOffset, bool traverseSequentially) 
     {
       var offsetToStartAt = translateToStartOfTwoByteChunk
         ? ByteOrderInterpreter.TranslateOffset(offset, _byteOrder, twoByteCheckStartsAtEvenOffset)
@@ -24,14 +24,14 @@ namespace PowerUp.GameSave.IO
       _stream.Seek(offsetToStartAt, SeekOrigin.Begin);
       var bytes = new byte[numberOfBytes];
       for (int i = 0; i < numberOfBytes; i++)
-        bytes[i] = ReadNextByte(twoByteCheckStartsAtEvenOffset);
+        bytes[i] = ReadNextByte(twoByteCheckStartsAtEvenOffset, traverseSequentially);
 
       return bytes;
     }
 
-    private byte ReadNextByte(bool startsOnEven)
+    private byte ReadNextByte(bool startsOnEven, bool traverseSequentially)
     {
-      var nextByteOffset = ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder, startsOnEven);
+      var nextByteOffset = ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder, startsOnEven, traverseSequentially);
       var position = _stream.Position;
       var @byte = _reader.ReadByte();
       _stream.Seek(nextByteOffset, SeekOrigin.Begin);

@@ -82,11 +82,13 @@ namespace PowerUp.GameSave.IO
   public class GSBytesAttribute : GSAttribute
   {
     public int NumberOfBytes { get; }
+    public bool TraverseSequentially { get; }
 
-    public GSBytesAttribute(long offset, int numberOfBytes)
+    public GSBytesAttribute(long offset, int numberOfBytes, bool traverseSequentially = false)
       : base(offset)
     {
       NumberOfBytes = numberOfBytes;
+      TraverseSequentially = traverseSequentially;
     }
   }
 

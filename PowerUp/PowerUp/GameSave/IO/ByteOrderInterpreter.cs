@@ -22,9 +22,9 @@
       }
     }
 
-    public static long GetNextByteOffset(long offset, ByteOrder byteOrder, bool dataStartsOnEven)
+    public static long GetNextByteOffset(long offset, ByteOrder byteOrder, bool dataStartsOnEven, bool traverseSequentially)
     {
-      if(byteOrder == ByteOrder.BigEndian)
+      if(byteOrder == ByteOrder.BigEndian || traverseSequentially)
         return offset + 1;
 
       var offsetIsOdd = offset % 2 == 1;

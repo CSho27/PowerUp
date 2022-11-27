@@ -22,12 +22,13 @@ namespace PowerUp.GameSave.IO
       _characterLibrary = characterLibrary;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes, bool startsOnEven) 
+    public byte[] ReadBytes(long offset, int numberOfBytes, bool traverseSequentially) 
       => _reader.ReadBytes
           ( offset
           , numberOfBytes
           , translateToStartOfTwoByteChunk: false
-          , startsOnEven
+          , twoByteCheckStartsAtEvenOffset: false
+          , traverseSequentially: traverseSequentially
           );
     public string ReadString(long offset, int stringLength)
     {
@@ -41,7 +42,7 @@ namespace PowerUp.GameSave.IO
     public ushort ReadUInt(long offset, int bitOffset, int numberOfBits, bool translateToStartOfTwoByteChunk, bool twoByteChunkStartsAtEvenOffset)
     {
       var numberOfBytesToRead = UIntInterpret.GetNumberOfBytesNeeded(bitOffset, numberOfBits);
-      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead, translateToStartOfTwoByteChunk, twoByteChunkStartsAtEvenOffset);
+      var bytesToReadFrom = _reader.ReadBytes(offset, numberOfBytesToRead, translateToStartOfTwoByteChunk, twoByteChunkStartsAtEvenOffset, traverseSequentially: false);
       var valueBits = UIntInterpret.GetValueBits(bytesToReadFrom, bitOffset, numberOfBits);
       return valueBits.ToUInt16();
     }

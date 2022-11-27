@@ -34,8 +34,11 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x53, bits: 2, bitOffset: 7)]
     public ushort? PlayerNumberNumberOfDigits { get; set; }
 
-    [GSUInt(0x54, bits: 8, bitOffset: 4)]
+    [GSUInt(0x54, bits: 8, bitOffset: 0)]
     public ushort? Face { get; set; }
+
+    [GSBytes(0x54, numberOfBytes: 4, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x55, bits: 4, bitOffset: 4)]
     public ushort? SkinAndEyes { get; set; }
