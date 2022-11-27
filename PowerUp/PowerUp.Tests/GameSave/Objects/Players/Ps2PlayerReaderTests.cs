@@ -56,6 +56,18 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(28, 3840)]
+    [TestCase(47, 3841)]
+    [TestCase(54, 3842)]
+    [TestCase(63, 3843)]
+    public void Reads_SpecialSavedNameId(int playerId, int expectedId)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.SpecialSavedNameId.ShouldBe((ushort)expectedId);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, "Giambi")]
     [TestCase(SAMMY_SPEEDSTER_ID, "Speedster")]
     [TestCase(PAUL_PITCHER_ID, "Pitcher")]
