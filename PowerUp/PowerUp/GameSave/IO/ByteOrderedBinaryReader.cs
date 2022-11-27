@@ -16,12 +16,15 @@ namespace PowerUp.GameSave.IO
       _byteOrder = byteOrder;
     }
 
-    public byte[] ReadBytes(long offset, int numberOfBytes, bool startsOnEven) 
+    public byte[] ReadBytes(long offset, int numberOfBytes, bool translateToStartOfTwoByteChunk, bool twoByteCheckStartsAtEvenOffset) 
     {
-      _stream.Seek(ByteOrderInterpreter.TranslateOffset(offset, _byteOrder, startsOnEven), SeekOrigin.Begin);
+      var offsetToStartAt = translateToStartOfTwoByteChunk
+        ? ByteOrderInterpreter.TranslateOffset(offset, _byteOrder, twoByteCheckStartsAtEvenOffset)
+        : offset;
+      _stream.Seek(offsetToStartAt, SeekOrigin.Begin);
       var bytes = new byte[numberOfBytes];
       for (int i = 0; i < numberOfBytes; i++)
-        bytes[i] = ReadNextByte(startsOnEven);
+        bytes[i] = ReadNextByte(twoByteCheckStartsAtEvenOffset);
 
       return bytes;
     }

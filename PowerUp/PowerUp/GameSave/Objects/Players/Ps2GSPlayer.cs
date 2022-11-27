@@ -4,7 +4,7 @@ namespace PowerUp.GameSave.Objects.Players
 {
   public class Ps2GSPlayer : IGSPlayer
   {
-    [GSUInt(0x00, bits: 16)]
+    [GSUInt(0x00, bits: 16, translateToStartOfChunk: true)]
     public ushort? PowerProsId { get; set; }
 
     [GSString(0x02, stringLength: 10)]
@@ -28,10 +28,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x51, bits: 5, bitOffset: 0)]
     public ushort? PowerProsTeamId { get; set; }
 
-    [GSUInt(0x51, bits: 10, bitOffset: 1, startsOnEven: true)]
+    [GSUInt(0x52, bits: 10, bitOffset: 1, traverseBackwardsOnEvenOffset: true)]
     public ushort? PlayerNumber { get; set; }
 
-    [GSUInt(0x52, bits: 2, bitOffset: 7)]
+    [GSUInt(0x53, bits: 2, bitOffset: 7)]
     public ushort? PlayerNumberNumberOfDigits { get; set; }
 
     [GSUInt(0x54, bits: 8, bitOffset: 4)]

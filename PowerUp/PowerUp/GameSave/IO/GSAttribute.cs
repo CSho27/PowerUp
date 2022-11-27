@@ -19,14 +19,21 @@ namespace PowerUp.GameSave.IO
   {
     public int Bits { get; }
     public int BitOffset { get; }
-    public bool StartsOnEven { get; }
+    public bool TranslateToStartOfChunk { get; }
+    public bool TraverseBackwardsOnEvenOffset { get; }
 
-    public GSUIntAttribute(long offset, int bits, int bitOffset = 0, bool startsOnEven = false)
-      : base(offset)
+    public GSUIntAttribute
+    ( long offset
+    , int bits
+    , int bitOffset = 0
+    , bool translateToStartOfChunk = false
+    , bool traverseBackwardsOnEvenOffset = false
+    ): base(offset)
     {
       Bits = bits;
       BitOffset = bitOffset;
-      StartsOnEven = startsOnEven;
+      TranslateToStartOfChunk = translateToStartOfChunk;
+      TraverseBackwardsOnEvenOffset = traverseBackwardsOnEvenOffset;
     }
   }
 
@@ -34,12 +41,21 @@ namespace PowerUp.GameSave.IO
   {
     public int Bits { get; }
     public int BitOffset { get; }
+    public bool TranslateToStartOfChunk { get; }
+    public bool TraverseBackwardsOnEvenOffset { get; }
 
-    public GSSIntAttribute(long offset, int bits, int bitOffset = 0)
-      : base(offset)
+    public GSSIntAttribute
+    ( long offset
+    , int bits
+    , int bitOffset = 0
+    , bool translateToStartOfChunk = false
+    , bool traverseBackwardsOnEvenOffset = false
+    ) : base(offset)
     {
       Bits = bits;
       BitOffset = bitOffset;
+      TranslateToStartOfChunk = translateToStartOfChunk;
+      TraverseBackwardsOnEvenOffset = traverseBackwardsOnEvenOffset;
     }
   }
 

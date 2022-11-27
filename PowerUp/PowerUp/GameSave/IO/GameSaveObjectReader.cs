@@ -21,7 +21,14 @@ namespace PowerUp.GameSave.IO
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class
       => (TGameSaveObject)Read(typeof(TGameSaveObject), offset);
 
-    public short ReadInt(long offset) => _reader.ReadSInt(offset, 0, 16);
+    public short ReadInt(long offset) 
+      => _reader.ReadSInt
+          ( offset
+          , bitOffset: 0
+          , numberOfBits: 16
+          , translateToStartOfTwoByteChunk: true
+          , twoByteChunkStartsAtEvenOffset: false
+          );
 
     public object Read(Type type, long offset)
     {
@@ -35,9 +42,9 @@ namespace PowerUp.GameSave.IO
         if (gameSaveAttribute is GSBooleanAttribute boolAttr)
           property.SetValue(gsObject, _reader.ReadBool(offset + boolAttr.Offset, boolAttr.BitOffset));
         else if (gameSaveAttribute is GSUIntAttribute uintAttr)
-          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, uintAttr.StartsOnEven));
+          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, uintAttr.TranslateToStartOfChunk, uintAttr.TraverseBackwardsOnEvenOffset));
         else if (gameSaveAttribute is GSSIntAttribute sintAttr)
-          property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits));
+          property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, sintAttr.TranslateToStartOfChunk, sintAttr.TraverseBackwardsOnEvenOffset));
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           property.SetValue(gsObject, _reader.ReadString(offset + stringAttr.Offset, stringAttr.StringLength));
         else if (gameSaveAttribute is GSBytesAttribute bytesAttr)
