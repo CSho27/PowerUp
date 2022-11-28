@@ -131,13 +131,13 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x67, bits: 2, bitOffset: 1)]
     public ushort? HotZoneUp { get; set; }
 
-    [GSBytes(0x68, numberOfBytes: 5, traverseSequentially: true)]
+    [GSBytes(0x67, numberOfBytes: 5, traverseSequentially: true)]
     public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x68, bits: 2, bitOffset: 6)]
     public ushort? HotZoneUpAndAway { get; set; }
 
-    [GSUInt(0x68, bits: 2, bitOffset: 2)]
+    [GSUInt(0x68, bits: 2, bitOffset: 4)]
     public ushort? HotZoneMiddleIn { get; set; }
 
     [GSUInt(0x68, bits: 2, bitOffset: 4)]
