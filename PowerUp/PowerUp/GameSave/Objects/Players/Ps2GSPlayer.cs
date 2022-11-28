@@ -131,7 +131,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x67, bits: 2, bitOffset: 3)]
     public ushort? HotZoneUpAndIn { get; set; }
 
-    [GSUInt(0x67, bits: 2, bitOffset: 5)]
+    [GSUInt(0x67, bits: 2, bitOffset: 1)]
     public ushort? HotZoneUp { get; set; }
 
     [GSUInt(0x68, bits: 2, bitOffset: 0)]
