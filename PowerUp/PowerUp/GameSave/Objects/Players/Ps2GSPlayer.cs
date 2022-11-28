@@ -113,9 +113,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x62, bits: 3, bitOffset: 3)]
     public ushort? RightFieldCapability { get; set; }
 
-    [GSBytes(0x62, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSBoolean(0x62, bitOffset: 2)]
     public bool? IsStarter { get; set; }
 
@@ -134,7 +131,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x67, bits: 2, bitOffset: 1)]
     public ushort? HotZoneUp { get; set; }
 
-    [GSUInt(0x68, bits: 2, bitOffset: 0)]
+    [GSBytes(0x68, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x68, bits: 2, bitOffset: 6)]
     public ushort? HotZoneUpAndAway { get; set; }
 
     [GSUInt(0x68, bits: 2, bitOffset: 2)]
