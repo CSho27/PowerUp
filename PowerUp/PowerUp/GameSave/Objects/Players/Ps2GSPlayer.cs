@@ -122,7 +122,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x63, bitOffset: 7)]
     public bool? IsReliever { get; set; }
 
-    [GSBoolean(0x63, bitOffset: 5)]
+    [GSBoolean(0x63, bitOffset: 4)]
     public bool? IsCloser { get; set; }
 
     /// <summary>
