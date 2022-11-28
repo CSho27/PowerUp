@@ -156,7 +156,7 @@ namespace PowerUp.GameSave.Objects.Players
     public ushort? HotZoneDownAndAway { get; set; }
 
 
-    [GSUInt(0x69, bits: 2, bitOffset: 6)]
+    [GSUInt(0x69, bits: 2, bitOffset: 0)]
     public ushort? BattingSide { get; set; }
 
     [GSBoolean(0x6a, bitOffset: 1)]
