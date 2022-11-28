@@ -536,7 +536,7 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     [TestCase(JASON_GIAMBI_ID, 3)]
     [TestCase(SAMMY_SPEEDSTER_ID, 1)]
     [TestCase(PAUL_PITCHER_ID, 0)]
-    [TestCase(PETE_SALTINE_ID, 1)]
+    [TestCase(PETE_SALTINE_ID, 3)]
     public void Reads_HotZoneDownAndIn(int playerId, int hzValue)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
