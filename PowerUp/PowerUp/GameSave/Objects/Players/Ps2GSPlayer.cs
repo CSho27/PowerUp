@@ -140,7 +140,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x68, bits: 2, bitOffset: 4)]
     public ushort? HotZoneMiddleIn { get; set; }
 
-    [GSUInt(0x68, bits: 2, bitOffset: 4)]
+    [GSUInt(0x68, bits: 2, bitOffset: 2)]
     public ushort? HotZoneMiddle { get; set; }
 
     [GSUInt(0x68, bits: 2, bitOffset: 6)]
