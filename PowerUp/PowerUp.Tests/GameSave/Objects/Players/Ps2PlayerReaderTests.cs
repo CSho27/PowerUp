@@ -460,5 +460,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.IsCloser.ShouldBe(isCloser);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    [TestCase(PETE_SALTINE_ID, 0)]
+    public void Reads_HotZoneUpAndIn(int playerId, int hzValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.HotZoneUpAndIn.ShouldBe((ushort)hzValue);
+    }
   }
 }
