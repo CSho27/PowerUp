@@ -159,7 +159,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x69, bits: 2, bitOffset: 0)]
     public ushort? BattingSide { get; set; }
 
-    [GSBoolean(0x6a, bitOffset: 1)]
+    [GSBoolean(0x6a, bitOffset: 7)]
     public bool? ThrowsLefty { get; set; }
 
 
