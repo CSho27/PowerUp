@@ -377,7 +377,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7d, bitOffset: 2)]
     public bool? ShuttoSpin { get; set; }
 
-    [GSSInt(0x7e, bits: 2, bitOffset: 0)]
+    [GSSInt(0x7e, bits: 2, bitOffset: 6)]
     public short? Poise { get; set; }
 
     [GSSInt(0x7e, bits: 2, bitOffset: 2)]
