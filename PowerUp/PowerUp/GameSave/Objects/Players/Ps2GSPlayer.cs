@@ -389,7 +389,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7e, bits: 2, bitOffset: 0)]
     public short? PitchingVersusLefty { get; set; }
 
-    [GSBoolean(0x7f, bitOffset: 0)]
+    [GSBoolean(0x7f, bitOffset: 7)]
     public bool? PoorVersusRunner { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 1)]
