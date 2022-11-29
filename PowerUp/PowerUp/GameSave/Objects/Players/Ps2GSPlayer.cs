@@ -256,7 +256,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x72, bits: 2, bitOffset: 0)]
     public ushort? WalkoffHitter { get; set; }
 
-    [GSUInt(0x73, bits: 2, bitOffset: 0)]
+    [GSUInt(0x73, bits: 2, bitOffset: 6)]
     public ushort? BasesLoadedHitter { get; set; }
 
     [GSBoolean(0x73, bitOffset: 2)]
