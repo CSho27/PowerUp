@@ -229,7 +229,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x71, bitOffset: 4)]
     public bool? IsPushHitter { get; set; }
 
-    [GSBoolean(0x71, bitOffset: 4)]
+    [GSBoolean(0x71, bitOffset: 3)]
     public bool? IsSprayHitter { get; set; }
 
     [GSUInt(0x71, bits: 2, bitOffset: 5)]
