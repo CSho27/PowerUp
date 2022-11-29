@@ -386,7 +386,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7e, bits: 2, bitOffset: 2)]
     public short? Release { get; set; }
 
-    [GSSInt(0x7e, bits: 2, bitOffset: 6)]
+    [GSSInt(0x7e, bits: 2, bitOffset: 0)]
     public short? PitchingVersusLefty { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 0)]
