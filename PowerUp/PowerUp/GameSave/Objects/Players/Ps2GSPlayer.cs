@@ -286,7 +286,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x74, bitOffset: 1)]
     public bool? IsGoldGlover { get; set; }
 
-    [GSBoolean(0x74, bitOffset: 7)]
+    [GSBoolean(0x74, bitOffset: 0)]
     public bool? CanBarehandCatch { get; set; }
 
     [GSBoolean(0x75, bitOffset: 0)]
