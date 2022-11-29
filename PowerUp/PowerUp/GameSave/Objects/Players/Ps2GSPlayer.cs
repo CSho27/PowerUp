@@ -192,7 +192,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x6e, bits: 4, bitOffset: 0)]
     public ushort? ErrorResistance { get; set; }
 
-    [GSSInt(0x6f, bits: 2, bitOffset: 0)]
+    [GSSInt(0x6f, bits: 2, bitOffset: 6)]
     public short? HittingConsistency { get; set; }
 
     // These two properties are signed ints but -3 represents -1
