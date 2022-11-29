@@ -214,7 +214,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x70, bitOffset: 1)]
     public bool? IsSparkplug { get; set; }
 
-    [GSBoolean(0x70, bitOffset: 7)]
+    [GSBoolean(0x70, bitOffset: 0)]
     public bool? IsRallyHitter { get; set; }
 
     [GSBoolean(0x71, bitOffset: 0)]
