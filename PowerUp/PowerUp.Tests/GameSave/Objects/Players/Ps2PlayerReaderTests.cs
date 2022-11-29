@@ -1253,5 +1253,29 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.IsPullHitter.ShouldBe(abilityValue);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    [TestCase(197, -1)]
+    public void Reads_GoodOrPoorDayGame(int playerId, int abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.GoodOrPoorDayGame.ShouldBe((short)abilityValue);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    [TestCase(904, -1)]
+    public void Reads_GoodOrPoorRain(int playerId, int abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.GoodOrPoorRain.ShouldBe((short)abilityValue);
+    }
   }
 }

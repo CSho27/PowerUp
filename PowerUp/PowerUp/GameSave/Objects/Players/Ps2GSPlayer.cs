@@ -335,10 +335,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x78, bitOffset: 6)]
     public bool? IsPullHitter { get; set; }
 
-    [GSSInt(0x78, bits: 2, bitOffset: 2)]
+    [GSSInt(0x78, bits: 2, bitOffset: 4)]
     public short? GoodOrPoorDayGame { get; set; }
 
-    [GSSInt(0x78, bits: 2, bitOffset: 4)]
+    [GSSInt(0x78, bits: 2, bitOffset: 2)]
     public short? GoodOrPoorRain { get; set; }
 
     [GSUInt(0x79, bits: 8, bitOffset: 0)]
