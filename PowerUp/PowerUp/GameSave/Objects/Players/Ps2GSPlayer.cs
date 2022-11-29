@@ -250,7 +250,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x72, bitOffset: 4)]
     public bool? IsFirstballHitter { get; set; }
 
-    [GSUInt(0x72, bits: 2, bitOffset: 4)]
+    [GSUInt(0x72, bits: 2, bitOffset: 2)]
     public ushort? Bunting { get; set; }
 
     [GSUInt(0x72, bits: 2, bitOffset: 6)]
