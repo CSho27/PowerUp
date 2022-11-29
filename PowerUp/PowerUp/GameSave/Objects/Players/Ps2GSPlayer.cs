@@ -232,7 +232,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x71, bitOffset: 3)]
     public bool? IsSprayHitter { get; set; }
 
-    [GSUInt(0x71, bits: 2, bitOffset: 5)]
+    [GSUInt(0x71, bits: 2, bitOffset: 1)]
     public ushort? InfieldHitter { get; set; }
 
     [GSBoolean(0x71, bitOffset: 7)]
