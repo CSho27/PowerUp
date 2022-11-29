@@ -434,7 +434,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x80, bitOffset: 1)]
     public bool? HasGoodReflexes { get; set; }
 
-    [GSBoolean(0x81, bitOffset: 0)]
+    [GSBoolean(0x81, bitOffset: 7)]
     public bool? HasGoodPace { get; set; }
 
     [GSSInt(0x81, bits: 2, bitOffset: 1)]
