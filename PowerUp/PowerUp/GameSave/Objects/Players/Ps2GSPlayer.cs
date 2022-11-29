@@ -410,7 +410,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7f, bitOffset: 1)]
     public bool? IsSandbag { get; set; }
 
-    [GSBoolean(0x7f, bitOffset: 7)]
+    [GSBoolean(0x7f, bitOffset: 0)]
     public bool? HasPokerFace { get; set; }
 
     [GSBoolean(0x80, bitOffset: 0)]
