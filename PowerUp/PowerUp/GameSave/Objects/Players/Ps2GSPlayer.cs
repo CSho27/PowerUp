@@ -371,7 +371,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7d, bits: 2, bitOffset: 4)]
     public short? FastballLife { get; set; }
 
-    [GSBoolean(0x7d, bitOffset: 4)]
+    [GSBoolean(0x7d, bitOffset: 3)]
     public bool? Gyroball { get; set; }
 
     [GSBoolean(0x7d, bitOffset: 5)]
