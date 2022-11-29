@@ -353,7 +353,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7c, bits: 2, bitOffset: 6)]
     public short? Recovery { get; set; }
 
-    [GSSInt(0x7c, bits: 2, bitOffset: 2)]
+    [GSSInt(0x7c, bits: 2, bitOffset: 4)]
     public short? PitchingConsistency { get; set; }
 
     [GSSInt(0x7c, bits: 2, bitOffset: 2)]
