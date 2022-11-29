@@ -262,7 +262,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x73, bitOffset: 5)]
     public bool? IsRefinedHitter { get; set; }
 
-    [GSBoolean(0x73, bitOffset: 3)]
+    [GSBoolean(0x73, bitOffset: 4)]
     public bool? IsIntimidatingHitter { get; set; }
 
     [GSSInt(0x73, bits: 2, bitOffset: 4)]
