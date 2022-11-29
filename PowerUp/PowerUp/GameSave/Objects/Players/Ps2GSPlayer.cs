@@ -425,7 +425,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x80, bitOffset: 4)]
     public bool? IsSlowStarter { get; set; }
 
-    [GSBoolean(0x80, bitOffset: 4)]
+    [GSBoolean(0x80, bitOffset: 3)]
     public bool? IsStarterFinisher { get; set; }
 
     [GSBoolean(0x80, bitOffset: 5)]
