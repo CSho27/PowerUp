@@ -416,7 +416,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x80, bitOffset: 0)]
     public bool? IsIntimidatingPitcher { get; set; }
 
-    [GSBoolean(0x80, bitOffset: 1)]
+    [GSBoolean(0x80, bitOffset: 6)]
     public bool? IsBattler { get; set; }
 
     [GSBoolean(0x80, bitOffset: 2)]
