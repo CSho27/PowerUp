@@ -431,7 +431,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x80, bitOffset: 2)]
     public bool? IsChokeArtist { get; set; }
 
-    [GSBoolean(0x80, bitOffset: 6)]
+    [GSBoolean(0x80, bitOffset: 1)]
     public bool? HasGoodReflexes { get; set; }
 
     [GSBoolean(0x81, bitOffset: 0)]
