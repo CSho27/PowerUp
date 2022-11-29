@@ -395,7 +395,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7f, bitOffset: 6)]
     public bool? GoodPickoff { get; set; }
 
-    [GSBoolean(0x7f, bitOffset: 2)]
+    [GSBoolean(0x7f, bitOffset: 5)]
     public bool? GoodDelivery { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 3)]
