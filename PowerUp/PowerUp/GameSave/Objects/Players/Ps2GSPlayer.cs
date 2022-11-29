@@ -296,7 +296,7 @@ namespace PowerUp.GameSave.Objects.Players
     public bool? IsErrorProne { get; set; }
 
     // no setting = 1, gd = 3, grt = 4
-    [GSUInt(0x75, bits: 3, bitOffset: 2)]
+    [GSUInt(0x75, bits: 3, bitOffset: 3)]
     public ushort? Catching { get; set; }
 
     [GSBoolean(0x75, bitOffset: 5)]
