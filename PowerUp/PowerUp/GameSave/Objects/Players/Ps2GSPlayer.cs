@@ -217,7 +217,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x70, bitOffset: 0)]
     public bool? IsRallyHitter { get; set; }
 
-    [GSBoolean(0x71, bitOffset: 0)]
+    [GSBoolean(0x71, bitOffset: 7)]
     public bool? IsHotHitter { get; set; }
 
     [GSBoolean(0x71, bitOffset: 1)]
