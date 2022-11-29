@@ -428,7 +428,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x80, bitOffset: 3)]
     public bool? IsStarterFinisher { get; set; }
 
-    [GSBoolean(0x80, bitOffset: 5)]
+    [GSBoolean(0x80, bitOffset: 2)]
     public bool? IsChokeArtist { get; set; }
 
     [GSBoolean(0x80, bitOffset: 6)]
