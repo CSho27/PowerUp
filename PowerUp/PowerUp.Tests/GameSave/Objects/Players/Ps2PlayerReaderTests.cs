@@ -639,5 +639,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.Power.ShouldBe((ushort)power);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 5)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 15)]
+    [TestCase(PAUL_PITCHER_ID, 4)]
+    [TestCase(PETE_SALTINE_ID, 9)]
+    public void Reads_RunSpeed(int playerId, int runSpeed)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.RunSpeed.ShouldBe((ushort)runSpeed);
+    }
   }
 }

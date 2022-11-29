@@ -180,7 +180,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x6c, bits: 8, bitOffset: 0)]
     public ushort? Power { get; set; }
 
-    [GSUInt(0x6d, bits: 4, bitOffset: 0)]
+    [GSUInt(0x6d, bits: 4, bitOffset: 4)]
     public ushort? RunSpeed { get; set; }
 
     [GSUInt(0x6d, bits: 4, bitOffset: 4)]
