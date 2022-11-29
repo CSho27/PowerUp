@@ -1229,5 +1229,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.IsAggressiveFielder.ShouldBe(abilityValue);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, false)]
+    [TestCase(PAUL_PITCHER_ID, true)]
+    [TestCase(PETE_SALTINE_ID, true)]
+    public void Reads_IsPivotMan(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.IsPivotMan.ShouldBe(abilityValue);
+    }
   }
 }

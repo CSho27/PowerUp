@@ -329,7 +329,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x77, bitOffset: 2)]
     public bool? IsAggressiveFielder { get; set; }
 
-    [GSBoolean(0x78, bitOffset: 0)]
+    [GSBoolean(0x78, bitOffset: 7)]
     public bool? IsPivotMan { get; set; }
 
     [GSBoolean(0x78, bitOffset: 1)]
