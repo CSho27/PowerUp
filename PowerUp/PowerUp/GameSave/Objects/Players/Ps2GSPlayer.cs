@@ -422,7 +422,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x80, bitOffset: 5)]
     public bool? IsHotHead { get; set; }
 
-    [GSBoolean(0x80, bitOffset: 3)]
+    [GSBoolean(0x80, bitOffset: 4)]
     public bool? IsSlowStarter { get; set; }
 
     [GSBoolean(0x80, bitOffset: 4)]
