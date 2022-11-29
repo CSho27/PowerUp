@@ -305,7 +305,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x75, bitOffset: 1)]
     public bool? IsTrashTalker { get; set; }
 
-    [GSBoolean(0x75, bitOffset: 7)]
+    [GSBoolean(0x75, bitOffset: 0)]
     public bool? HasCannonArm { get; set; }
 
     [GSBoolean(0x76, bitOffset: 2)]
