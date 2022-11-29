@@ -1048,5 +1048,18 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.Throwing.ShouldBe((short)abilityValue);
     }
+
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, false)]
+    [TestCase(SAMMY_SPEEDSTER_ID, true)]
+    [TestCase(PAUL_PITCHER_ID, false)]
+    [TestCase(PETE_SALTINE_ID, true)]
+    public void Reads_IsGoldGlover(int playerId, bool abilityValue)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.IsGoldGlover.ShouldBe(abilityValue);
+    }
   }
 }

@@ -283,7 +283,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x74, bits: 2, bitOffset: 2)]
     public short? Throwing { get; set; }
 
-    [GSBoolean(0x74, bitOffset: 6)]
+    [GSBoolean(0x74, bitOffset: 1)]
     public bool? IsGoldGlover { get; set; }
 
     [GSBoolean(0x74, bitOffset: 7)]
