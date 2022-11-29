@@ -362,7 +362,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7c, bits: 2, bitOffset: 0)]
     public short? SafeOrFatPitch { get; set; }
 
-    [GSSInt(0x7d, bits: 2, bitOffset: 6)]
+    [GSSInt(0x7d, bits: 2, bitOffset: 0)]
     public short? WithRunnersInScoringPosition { get; set; }
 
     [GSSInt(0x7d, bits: 2, bitOffset: 0)]
