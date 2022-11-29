@@ -332,7 +332,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x78, bitOffset: 7)]
     public bool? IsPivotMan { get; set; }
 
-    [GSBoolean(0x78, bitOffset: 1)]
+    [GSBoolean(0x78, bitOffset: 6)]
     public bool? IsPullHitter { get; set; }
 
     [GSSInt(0x78, bits: 2, bitOffset: 2)]
