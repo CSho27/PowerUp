@@ -401,7 +401,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7f, bitOffset: 4)]
     public bool? GoodLowPitch { get; set; }
 
-    [GSBoolean(0x7f, bitOffset: 4)]
+    [GSBoolean(0x7f, bitOffset: 3)]
     public bool? DoctorK { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 5)]
