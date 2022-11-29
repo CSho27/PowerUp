@@ -292,7 +292,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x75, bitOffset: 7)]
     public bool? CanSpiderCatch { get; set; }
 
-    [GSBoolean(0x75, bitOffset: 1)]
+    [GSBoolean(0x75, bitOffset: 6)]
     public bool? IsErrorProne { get; set; }
 
     // no setting = 1, gd = 3, grt = 4
