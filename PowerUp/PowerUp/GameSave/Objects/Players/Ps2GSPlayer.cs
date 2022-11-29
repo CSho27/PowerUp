@@ -235,7 +235,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x71, bits: 2, bitOffset: 1)]
     public ushort? InfieldHitter { get; set; }
 
-    [GSBoolean(0x71, bitOffset: 7)]
+    [GSBoolean(0x71, bitOffset: 0)]
     public bool? IsContactHitter { get; set; }
 
     [GSBoolean(0x72, bitOffset: 0)]
