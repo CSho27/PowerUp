@@ -259,7 +259,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x73, bits: 2, bitOffset: 6)]
     public ushort? BasesLoadedHitter { get; set; }
 
-    [GSBoolean(0x73, bitOffset: 2)]
+    [GSBoolean(0x73, bitOffset: 5)]
     public bool? IsRefinedHitter { get; set; }
 
     [GSBoolean(0x73, bitOffset: 3)]
