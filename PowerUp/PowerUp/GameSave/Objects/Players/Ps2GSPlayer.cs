@@ -326,7 +326,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x77, bitOffset: 4)]
     public bool? IsAggressiveBaserunner { get; set; }
 
-    [GSBoolean(0x77, bitOffset: 6)]
+    [GSBoolean(0x77, bitOffset: 2)]
     public bool? IsAggressiveFielder { get; set; }
 
     [GSBoolean(0x78, bitOffset: 0)]
