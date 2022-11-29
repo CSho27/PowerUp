@@ -265,7 +265,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x73, bitOffset: 4)]
     public bool? IsIntimidatingHitter { get; set; }
 
-    [GSSInt(0x73, bits: 2, bitOffset: 4)]
+    [GSSInt(0x73, bits: 2, bitOffset: 2)]
     public short? Stealing { get; set; }
 
     [GSSInt(0x73, bits: 2, bitOffset: 6)]
