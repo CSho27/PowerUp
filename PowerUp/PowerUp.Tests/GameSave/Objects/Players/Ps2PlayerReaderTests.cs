@@ -1277,5 +1277,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.GoodOrPoorRain.ShouldBe((short)abilityValue);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 120)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 141)]
+    [TestCase(PAUL_PITCHER_ID, 169)]
+    [TestCase(PETE_SALTINE_ID, 157)]
+    public void Reads_TopThrowingSpeedKMH(int playerId, int topSpeedKMH)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.TopThrowingSpeedKMH.ShouldBe((ushort)topSpeedKMH);
+    }
   }
 }
