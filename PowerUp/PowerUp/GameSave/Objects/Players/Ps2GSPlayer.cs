@@ -374,7 +374,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7d, bitOffset: 3)]
     public bool? Gyroball { get; set; }
 
-    [GSBoolean(0x7d, bitOffset: 5)]
+    [GSBoolean(0x7d, bitOffset: 2)]
     public bool? ShuttoSpin { get; set; }
 
     [GSSInt(0x7e, bits: 2, bitOffset: 0)]
