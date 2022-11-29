@@ -247,7 +247,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x72, bitOffset: 5)]
     public bool? IsFreeSwinger { get; set; }
 
-    [GSBoolean(0x72, bitOffset: 3)]
+    [GSBoolean(0x72, bitOffset: 4)]
     public bool? IsFirstballHitter { get; set; }
 
     [GSUInt(0x72, bits: 2, bitOffset: 4)]
