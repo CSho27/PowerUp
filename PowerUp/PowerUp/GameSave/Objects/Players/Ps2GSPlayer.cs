@@ -380,7 +380,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7e, bits: 2, bitOffset: 6)]
     public short? Poise { get; set; }
 
-    [GSSInt(0x7e, bits: 2, bitOffset: 2)]
+    [GSSInt(0x7e, bits: 2, bitOffset: 4)]
     public short? Luck { get; set; }
 
     [GSSInt(0x7e, bits: 2, bitOffset: 4)]
