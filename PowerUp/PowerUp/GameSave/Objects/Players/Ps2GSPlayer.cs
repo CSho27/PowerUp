@@ -308,7 +308,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x75, bitOffset: 0)]
     public bool? HasCannonArm { get; set; }
 
-    [GSBoolean(0x76, bitOffset: 2)]
+    [GSBoolean(0x76, bitOffset: 5)]
     public bool? IsStar { get; set; }
 
     [GSSInt(0x76, bits: 2, bitOffset: 3)]
