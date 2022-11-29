@@ -437,7 +437,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x81, bitOffset: 7)]
     public bool? HasGoodPace { get; set; }
 
-    [GSSInt(0x81, bits: 2, bitOffset: 1)]
+    [GSSInt(0x81, bits: 2, bitOffset: 5)]
     public short? PowerOrBreakingBallPitcher { get; set; }
 
     [GSBytes(0x81, numberOfBytes: 3)]
