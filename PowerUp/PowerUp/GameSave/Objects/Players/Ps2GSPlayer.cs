@@ -170,7 +170,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x6a, bits: 2, bitOffset: 2)]
     public ushort? Trajectory { get; set; }
 
-    [GSUInt(0x6a, bits: 4, bitOffset: 7)]
+    [GSUInt(0x6b, bits: 4, bitOffset: 5)]
     public ushort? Contact { get; set; }
 
     /// <summary>I think the latter 5 bits of this byte are just always empty</summary>
