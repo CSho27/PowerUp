@@ -404,7 +404,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7f, bitOffset: 3)]
     public bool? DoctorK { get; set; }
 
-    [GSBoolean(0x7f, bitOffset: 5)]
+    [GSBoolean(0x7f, bitOffset: 2)]
     public bool? IsWalkProne { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 6)]
