@@ -268,7 +268,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x73, bits: 2, bitOffset: 2)]
     public short? Stealing { get; set; }
 
-    [GSSInt(0x73, bits: 2, bitOffset: 6)]
+    [GSSInt(0x73, bits: 2, bitOffset: 0)]
     public short? BaseRunning { get; set; }
 
     [GSBoolean(0x74, bitOffset: 0)]
