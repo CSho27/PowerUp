@@ -350,7 +350,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x7b, bits: 8, bitOffset: 0)]
     public ushort? Stamina { get; set; }
 
-    [GSSInt(0x7c, bits: 2, bitOffset: 0)]
+    [GSSInt(0x7c, bits: 2, bitOffset: 6)]
     public short? Recovery { get; set; }
 
     [GSSInt(0x7c, bits: 2, bitOffset: 2)]
