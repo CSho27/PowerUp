@@ -253,7 +253,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x72, bits: 2, bitOffset: 2)]
     public ushort? Bunting { get; set; }
 
-    [GSUInt(0x72, bits: 2, bitOffset: 6)]
+    [GSUInt(0x72, bits: 2, bitOffset: 0)]
     public ushort? WalkoffHitter { get; set; }
 
     [GSUInt(0x73, bits: 2, bitOffset: 0)]
