@@ -277,7 +277,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x74, bitOffset: 5)]
     public bool? IsToughRunner { get; set; }
 
-    [GSBoolean(0x74, bitOffset: 3)]
+    [GSBoolean(0x74, bitOffset: 4)]
     public bool? WillBreakupDoublePlay { get; set; }
 
     [GSSInt(0x74, bits: 2, bitOffset: 4)]
