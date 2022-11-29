@@ -299,7 +299,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x75, bits: 3, bitOffset: 3)]
     public ushort? Catching { get; set; }
 
-    [GSBoolean(0x75, bitOffset: 5)]
+    [GSBoolean(0x75, bitOffset: 2)]
     public bool? IsGoodBlocker { get; set; }
 
     [GSBoolean(0x75, bitOffset: 6)]
