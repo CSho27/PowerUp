@@ -167,7 +167,7 @@ namespace PowerUp.GameSave.Objects.Players
     /// <summary>
     /// Game value is value loaded plus 1
     /// </summary>
-    [GSUInt(0x6a, bits: 2, bitOffset: 5)]
+    [GSUInt(0x6a, bits: 2, bitOffset: 2)]
     public ushort? Trajectory { get; set; }
 
     [GSUInt(0x6a, bits: 4, bitOffset: 7)]
