@@ -289,7 +289,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x74, bitOffset: 0)]
     public bool? CanBarehandCatch { get; set; }
 
-    [GSBoolean(0x75, bitOffset: 0)]
+    [GSBoolean(0x75, bitOffset: 7)]
     public bool? CanSpiderCatch { get; set; }
 
     [GSBoolean(0x75, bitOffset: 1)]
