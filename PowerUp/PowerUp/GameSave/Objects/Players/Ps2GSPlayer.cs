@@ -226,7 +226,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x71, bitOffset: 5)]
     public bool? IsToughOut { get; set; }
 
-    [GSBoolean(0x71, bitOffset: 3)]
+    [GSBoolean(0x71, bitOffset: 4)]
     public bool? IsPushHitter { get; set; }
 
     [GSBoolean(0x71, bitOffset: 4)]
