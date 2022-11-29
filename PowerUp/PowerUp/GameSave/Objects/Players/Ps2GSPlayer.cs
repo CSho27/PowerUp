@@ -407,7 +407,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7f, bitOffset: 2)]
     public bool? IsWalkProne { get; set; }
 
-    [GSBoolean(0x7f, bitOffset: 6)]
+    [GSBoolean(0x7f, bitOffset: 1)]
     public bool? IsSandbag { get; set; }
 
     [GSBoolean(0x7f, bitOffset: 7)]
