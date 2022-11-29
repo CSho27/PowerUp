@@ -205,7 +205,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x70, bits: 3, bitOffset: 5)]
     public short? ClutchHitter { get; set; }
 
-    [GSBoolean(0x70, bitOffset: 3)]
+    [GSBoolean(0x70, bitOffset: 4)]
     public bool? IsTableSetter { get; set; }
 
     [GSSInt(0x70, bits: 2, bitOffset: 4)]
