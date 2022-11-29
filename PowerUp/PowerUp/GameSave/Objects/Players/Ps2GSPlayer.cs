@@ -314,7 +314,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x76, bits: 2, bitOffset: 3)]
     public short? SmallBall { get; set; }
 
-    [GSSInt(0x76, bits: 2, bitOffset: 5)]
+    [GSSInt(0x76, bits: 2, bitOffset: 1)]
     public short? SlugOrSlap { get; set; }
 
     [GSSInt(0x76, bits: 2, bitOffset: 7)]
