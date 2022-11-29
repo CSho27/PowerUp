@@ -220,7 +220,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x71, bitOffset: 7)]
     public bool? IsHotHitter { get; set; }
 
-    [GSBoolean(0x71, bitOffset: 1)]
+    [GSBoolean(0x71, bitOffset: 6)]
     public bool? IsBackToBackHitter { get; set; }
 
     [GSBoolean(0x71, bitOffset: 2)]
