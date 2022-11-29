@@ -211,7 +211,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x70, bits: 2, bitOffset: 2)]
     public short? Morale { get; set; }
 
-    [GSBoolean(0x70, bitOffset: 6)]
+    [GSBoolean(0x70, bitOffset: 1)]
     public bool? IsSparkplug { get; set; }
 
     [GSBoolean(0x70, bitOffset: 7)]
