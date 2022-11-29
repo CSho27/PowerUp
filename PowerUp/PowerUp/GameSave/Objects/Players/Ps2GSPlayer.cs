@@ -368,7 +368,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x7d, bits: 2, bitOffset: 6)]
     public short? Spin { get; set; }
 
-    [GSSInt(0x7d, bits: 2, bitOffset: 2)]
+    [GSSInt(0x7d, bits: 2, bitOffset: 4)]
     public short? FastballLife { get; set; }
 
     [GSBoolean(0x7d, bitOffset: 4)]
