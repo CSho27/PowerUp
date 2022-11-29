@@ -238,7 +238,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x71, bitOffset: 0)]
     public bool? IsContactHitter { get; set; }
 
-    [GSBoolean(0x72, bitOffset: 0)]
+    [GSBoolean(0x72, bitOffset: 7)]
     public bool? IsPowerHitter { get; set; }
 
     [GSBoolean(0x72, bitOffset: 1)]
