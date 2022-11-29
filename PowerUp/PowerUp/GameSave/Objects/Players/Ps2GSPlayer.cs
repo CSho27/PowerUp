@@ -280,7 +280,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x74, bitOffset: 4)]
     public bool? WillBreakupDoublePlay { get; set; }
 
-    [GSSInt(0x74, bits: 2, bitOffset: 4)]
+    [GSSInt(0x74, bits: 2, bitOffset: 2)]
     public short? Throwing { get; set; }
 
     [GSBoolean(0x74, bitOffset: 6)]
