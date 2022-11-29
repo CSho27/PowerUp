@@ -208,7 +208,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x70, bitOffset: 4)]
     public bool? IsTableSetter { get; set; }
 
-    [GSSInt(0x70, bits: 2, bitOffset: 4)]
+    [GSSInt(0x70, bits: 2, bitOffset: 2)]
     public short? Morale { get; set; }
 
     [GSBoolean(0x70, bitOffset: 6)]
