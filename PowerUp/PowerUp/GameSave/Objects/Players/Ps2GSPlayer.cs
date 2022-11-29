@@ -271,7 +271,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x73, bits: 2, bitOffset: 0)]
     public short? BaseRunning { get; set; }
 
-    [GSBoolean(0x74, bitOffset: 0)]
+    [GSBoolean(0x74, bitOffset: 6)]
     public bool? WillSlideHeadFirst { get; set; }
 
     [GSBoolean(0x74, bitOffset: 2)]
