@@ -317,7 +317,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x76, bits: 2, bitOffset: 1)]
     public short? SlugOrSlap { get; set; }
 
-    [GSSInt(0x76, bits: 2, bitOffset: 7)]
+    [GSSInt(0x77, bits: 2, bitOffset: 7)]
     public short? AggressiveOrPatientHitter { get; set; }
 
     [GSSInt(0x77, bits: 2, bitOffset: 1)]
