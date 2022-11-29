@@ -302,7 +302,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x75, bitOffset: 2)]
     public bool? IsGoodBlocker { get; set; }
 
-    [GSBoolean(0x75, bitOffset: 6)]
+    [GSBoolean(0x75, bitOffset: 1)]
     public bool? IsTrashTalker { get; set; }
 
     [GSBoolean(0x75, bitOffset: 7)]
