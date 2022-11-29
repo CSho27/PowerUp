@@ -413,7 +413,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x7f, bitOffset: 0)]
     public bool? HasPokerFace { get; set; }
 
-    [GSBoolean(0x80, bitOffset: 0)]
+    [GSBoolean(0x80, bitOffset: 7)]
     public bool? IsIntimidatingPitcher { get; set; }
 
     [GSBoolean(0x80, bitOffset: 6)]
