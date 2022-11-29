@@ -320,7 +320,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSSInt(0x77, bits: 2, bitOffset: 7)]
     public short? AggressiveOrPatientHitter { get; set; }
 
-    [GSSInt(0x77, bits: 2, bitOffset: 1)]
+    [GSSInt(0x77, bits: 2, bitOffset: 5)]
     public short? AggressiveOrCautiousBaseStealer { get; set; }
 
     [GSBoolean(0x77, bitOffset: 4)]
