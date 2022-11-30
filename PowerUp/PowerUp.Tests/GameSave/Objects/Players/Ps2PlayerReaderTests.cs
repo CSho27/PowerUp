@@ -1826,5 +1826,29 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.Slider1Movement.ShouldBe((ushort)movement);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 9)]
+    [TestCase(PAUL_PITCHER_ID, 6)]
+    [TestCase(PETE_SALTINE_ID, 10)]
+    public void Reads_Curve1Type(int playerId, int type)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.Curve1Type.ShouldBe((ushort)type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 2)]
+    [TestCase(PAUL_PITCHER_ID, 5)]
+    [TestCase(PETE_SALTINE_ID, 7)]
+    public void Reads_Curve1Movement(int playerId, int movement)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.Curve1Movement.ShouldBe((ushort)movement);
+    }
   }
 }
