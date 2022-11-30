@@ -452,7 +452,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x87, bits: 5, bitOffset: 7)]
     public ushort? YearsInMajors { get; set; }
 
-    [GSBytes(0x85, numberOfBytes: 5, traverseSequentially: true)]
+    [GSBytes(0x87, numberOfBytes: 5, traverseSequentially: true)]
     public byte[]? BytesToCheck { get; set; }
 
     [GSBytes(0x87, numberOfBytes: 1)]
@@ -462,7 +462,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x89, bits: 10, bitOffset: 6)]
     public ushort? BattingAveragePoints { get; set; }
 
-    [GSUInt(0x89, bits: 10, bitOffset: 2)]
+    [GSUInt(0x8a, bits: 10, bitOffset: 4, traverseBackwardsOnEvenOffset: true)]
     public ushort? RunsBattedIn { get; set; }
 
     [GSUInt(0x8a, bits: 10, bitOffset: 4)]
