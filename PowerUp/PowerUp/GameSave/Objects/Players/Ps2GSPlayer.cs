@@ -452,7 +452,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x87, bits: 5, bitOffset: 7)]
     public ushort? YearsInMajors { get; set; }
 
-    [GSBytes(0x87, numberOfBytes: 5, traverseSequentially: true)]
+    [GSBytes(0x8a, numberOfBytes: 5, traverseSequentially: true)]
     public byte[]? BytesToCheck { get; set; }
 
     [GSBytes(0x87, numberOfBytes: 1)]
@@ -469,7 +469,7 @@ namespace PowerUp.GameSave.Objects.Players
     public ushort? HomeRuns { get; set; }
 
     // 16383 means the stat has been 'cleared' (maxValue of a 14 bit int)
-    [GSUInt(0x8c, bits: 14, bitOffset: 0)]
+    [GSUInt(0x8d, bits: 14, bitOffset: 2)]
     public ushort? EarnedRunAverage { get; set; }
 
     [GSBytes(0x8d, numberOfBytes: 5)]
