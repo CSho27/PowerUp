@@ -25,7 +25,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x50, bitOffset: 3)]
     public bool? IsEdited { get; set; }
 
-    [GSUInt(0x51, bits: 5, bitOffset: 0)]
+    [GSBytes(0x50, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x51, bits: 5, bitOffset: 6)]
     public ushort? PowerProsTeamId { get; set; }
 
     [GSUInt(0x52, bits: 10, bitOffset: 1, traverseBackwardsOnEvenOffset: true)]
@@ -471,9 +474,6 @@ namespace PowerUp.GameSave.Objects.Players
 
     [GSBytes(0x8d, numberOfBytes: 5)]
     public byte[]? UnknownBytes_8d_92 { get; set; }
-
-    [GSBytes(0x94, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x91, bits: 14, bitOffset: 2)]
     public ushort? VoiceId { get; set; }

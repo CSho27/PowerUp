@@ -97,19 +97,19 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       player.IsEdited.ShouldBe(isEdited);
     }
 
-    /*
     [Test]
     [TestCase(JASON_GIAMBI_ID, 3)]
     [TestCase(SAMMY_SPEEDSTER_ID, 3)]
     [TestCase(PAUL_PITCHER_ID, 3)]
     [TestCase(PETE_SALTINE_ID, 3)]
+    [TestCase(15, 7)]
+    [TestCase(57, 17)]
     public void Reads_PowerProsTeamId(int playerId, int playerNumber)
     {
       using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
       var player = loader.Read(playerId);
-      player.PowerProsTeamId.ShouldBe(playerNumber);
+      player.PowerProsTeamId.ShouldBe((ushort)playerNumber);
     }
-    */
 
     [Test]
     [TestCase(JASON_GIAMBI_ID, 25)]
