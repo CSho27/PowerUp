@@ -465,7 +465,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x8a, bits: 10, bitOffset: 4, traverseBackwardsOnEvenOffset: true)]
     public ushort? RunsBattedIn { get; set; }
 
-    [GSUInt(0x8a, bits: 10, bitOffset: 4)]
+    [GSUInt(0x8b, bits: 10, bitOffset: 2)]
     public ushort? HomeRuns { get; set; }
 
     // 16383 means the stat has been 'cleared' (maxValue of a 14 bit int)

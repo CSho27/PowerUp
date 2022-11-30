@@ -1741,5 +1741,18 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.RunsBattedIn.ShouldBe((ushort)rbi);
     }
+
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 37)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 5)]
+    [TestCase(PAUL_PITCHER_ID, 0)]
+    [TestCase(PETE_SALTINE_ID, 16)]
+    public void Reads_HomeRuns(int playerId, int homeRuns)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.HomeRuns.ShouldBe((ushort)homeRuns);
+    }
   }
 }
