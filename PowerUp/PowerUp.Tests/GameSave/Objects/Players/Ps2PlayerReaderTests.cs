@@ -1717,5 +1717,17 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.YearsInMajors.ShouldBe((ushort)yearsInMajors);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 253)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 666)]
+    [TestCase(PAUL_PITCHER_ID, 074)]
+    [TestCase(PETE_SALTINE_ID, 305)]
+    public void Reads_BattingAveragePoints(int playerId, int battingAveragePoints)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.BattingAveragePoints.ShouldBe((ushort)battingAveragePoints);
+    }
   }
 }

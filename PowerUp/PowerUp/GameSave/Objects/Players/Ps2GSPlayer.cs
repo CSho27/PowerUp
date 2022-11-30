@@ -440,9 +440,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBytes(0x81, numberOfBytes: 3)]
     public byte[]? UnknownBytes_81_83 { get; set; }
 
-    [GSBytes(0x85, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSUInt(0x85, bits: 11, bitOffset: 5)]
     public ushort? BirthYear { get; set; }
 
@@ -455,11 +452,14 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x87, bits: 5, bitOffset: 7)]
     public ushort? YearsInMajors { get; set; }
 
+    [GSBytes(0x85, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
     [GSBytes(0x87, numberOfBytes: 1)]
     public byte[]? UnknownByte_87 { get; set; }
 
     // 1023 means the stat has been 'cleared' (maxValue of a 10 bit int)
-    [GSUInt(0x88, bits: 10, bitOffset: 0)]
+    [GSUInt(0x89, bits: 10, bitOffset: 6)]
     public ushort? BattingAveragePoints { get; set; }
 
     [GSUInt(0x89, bits: 10, bitOffset: 2)]
