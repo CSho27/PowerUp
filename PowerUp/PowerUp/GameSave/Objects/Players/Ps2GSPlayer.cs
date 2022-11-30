@@ -514,10 +514,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x99, bits: 3, bitOffset: 0)]
     public ushort? SinkingFastball1Movement { get; set; }
 
-    [GSUInt(0x9a, bits: 5, bitOffset: 0)]
+    [GSUInt(0x9a, bits: 5, bitOffset: 3)]
     public ushort? TwoSeamType { get; set; }
 
-    [GSUInt(0x9a, bits: 3, bitOffset: 5)]
+    [GSUInt(0x9a, bits: 3, bitOffset: 0)]
     public ushort? TwoSeamMovement { get; set; }
 
     [GSUInt(0x9b, bits: 5, bitOffset: 0)]

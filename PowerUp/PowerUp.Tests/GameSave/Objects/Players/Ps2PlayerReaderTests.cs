@@ -1922,5 +1922,29 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.SinkingFastball1Movement.ShouldBe((ushort)movement);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 2)]
+    [TestCase(PETE_SALTINE_ID, 2)]
+    public void Reads_TwoSeamType(int playerId, int type)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.TwoSeamType.ShouldBe((ushort)type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 0)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 0)]
+    [TestCase(PAUL_PITCHER_ID, 3)]
+    [TestCase(PETE_SALTINE_ID, 1)]
+    public void Reads_TwoSeamMovement(int playerId, int movement)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.TwoSeamMovement.ShouldBe((ushort)movement);
+    }
   }
 }
