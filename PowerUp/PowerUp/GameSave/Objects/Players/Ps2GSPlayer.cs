@@ -544,10 +544,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x9e, bits: 3, bitOffset: 0)]
     public ushort? Sinker2Movement { get; set; }
 
-    [GSUInt(0x9f, bits: 5, bitOffset: 0)]
+    [GSUInt(0x9f, bits: 5, bitOffset: 3)]
     public ushort? SinkingFastball2Type { get; set; }
 
-    [GSUInt(0x9f, bits: 3, bitOffset: 5)]
+    [GSUInt(0x9f, bits: 3, bitOffset: 0)]
     public ushort? SinkingFastball2Movement { get; set; }
 
     // I don't think these are used for anything but I am not 100% positive
