@@ -478,10 +478,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x91, bits: 14, bitOffset: 2)]
     public ushort? VoiceId { get; set; }
 
-    [GSUInt(0x94, bits: 5, bitOffset: 0)]
+    [GSUInt(0x94, bits: 5, bitOffset: 3)]
     public ushort? FourSeamType { get; set; }
 
-    [GSUInt(0x94, bits: 3, bitOffset: 5)]
+    [GSUInt(0x94, bits: 3, bitOffset: 0)]
     public ushort? FourSeamMovement { get; set; }
 
     [GSUInt(0x95, bits: 5, bitOffset: 3)]

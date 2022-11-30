@@ -1601,6 +1601,28 @@ namespace PowerUp.Tests.GameSave.Objects.Players
     }
 
     [Test]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1)]
+    [TestCase(PAUL_PITCHER_ID, 1)]
+    public void Reads_FourSeamType(int playerId, int type)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
+      var player = loader.Read(playerId);
+      player.FourSeamType.ShouldBe((ushort)type);
+    }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 1)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 3)]
+    [TestCase(PAUL_PITCHER_ID, 7)]
+    public void Reads_FourSeamMovement(int playerId, int movement)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007);
+      var player = loader.Read(playerId);
+      player.FourSeamMovement.ShouldBe((ushort)movement);
+    }
+
+    [Test]
     [TestCase(JASON_GIAMBI_ID, 0)]
     [TestCase(SAMMY_SPEEDSTER_ID, 3)]
     [TestCase(PAUL_PITCHER_ID, 4)]
