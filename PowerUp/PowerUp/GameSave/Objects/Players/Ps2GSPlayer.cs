@@ -452,9 +452,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x87, bits: 5, bitOffset: 7)]
     public ushort? YearsInMajors { get; set; }
 
-    [GSBytes(0x8a, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSBytes(0x87, numberOfBytes: 1)]
     public byte[]? UnknownByte_87 { get; set; }
 
@@ -475,8 +472,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBytes(0x8d, numberOfBytes: 5)]
     public byte[]? UnknownBytes_8d_92 { get; set; }
 
+    [GSBytes(0x90, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
 
-    [GSUInt(0x92, bits: 14, bitOffset: 2)]
+    [GSUInt(0x91, bits: 14, bitOffset: 2)]
     public ushort? VoiceId { get; set; }
 
     [GSUInt(0x94, bits: 5, bitOffset: 0)]
