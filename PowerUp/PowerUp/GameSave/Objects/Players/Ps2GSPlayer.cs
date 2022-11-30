@@ -526,10 +526,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x9b, bits: 3, bitOffset: 0)]
     public ushort? Slider2Movement { get; set; }
 
-    [GSUInt(0x9c, bits: 5, bitOffset: 0)]
+    [GSUInt(0x9c, bits: 5, bitOffset: 3)]
     public ushort? Curve2Type { get; set; }
 
-    [GSUInt(0x9c, bits: 3, bitOffset: 5)]
+    [GSUInt(0x9c, bits: 3, bitOffset: 0)]
     public ushort? Curve2Movement { get; set; }
 
     [GSUInt(0x9d, bits: 5, bitOffset: 0)]
