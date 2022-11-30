@@ -496,10 +496,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x96, bits: 3, bitOffset: 0)]
     public ushort? Curve1Movement { get; set; }
 
-    [GSUInt(0x97, bits: 5, bitOffset: 0)]
+    [GSUInt(0x97, bits: 5, bitOffset: 3)]
     public ushort? Fork1Type { get; set; }
 
-    [GSUInt(0x97, bits: 3, bitOffset: 5)]
+    [GSUInt(0x97, bits: 3, bitOffset: 0)]
     public ushort? Fork1Movement { get; set; }
 
     [GSUInt(0x98, bits: 5, bitOffset: 0)]
