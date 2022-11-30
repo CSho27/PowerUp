@@ -158,9 +158,6 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBoolean(0x6a, bitOffset: 7)]
     public bool? ThrowsLefty { get; set; }
 
-    [GSBytes(0x6a, numberOfBytes: 5, traverseSequentially: true)]
-    public byte[]? BytesToCheck { get; set; }
-
     [GSSInt(0x6a, bits: 2, bitOffset: 4)]
     public short? Durability { get; set; }
 
@@ -443,7 +440,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBytes(0x81, numberOfBytes: 3)]
     public byte[]? UnknownBytes_81_83 { get; set; }
 
-    [GSUInt(0x84, bits: 11, bitOffset: 0)]
+    [GSBytes(0x83, numberOfBytes: 5, traverseSequentially: true)]
+    public byte[]? BytesToCheck { get; set; }
+
+    [GSUInt(0x85, bits: 11, bitOffset: 5)]
     public ushort? BirthYear { get; set; }
 
     [GSUInt(0x85, bits: 4, bitOffset: 3)]

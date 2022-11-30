@@ -1673,5 +1673,16 @@ namespace PowerUp.Tests.GameSave.Objects.Players
       var player = loader.Read(playerId);
       player.PowerOrBreakingBallPitcher.ShouldBe((short)abilityValue);
     }
+
+    [Test]
+    [TestCase(JASON_GIAMBI_ID, 1971)]
+    [TestCase(SAMMY_SPEEDSTER_ID, 1974)]
+    [TestCase(PAUL_PITCHER_ID, 1962)]
+    public void Reads_BirthYear(int playerId, int birthYear)
+    {
+      using var loader = new PlayerReader(_characterLibrary, TEST_READ_GAME_SAVE_FILE_PATH, GameSaveFormat.Ps2_2007);
+      var player = loader.Read(playerId);
+      player.BirthYear.ShouldBe((ushort)birthYear);
+    }
   }
 }
