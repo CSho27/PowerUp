@@ -446,7 +446,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x85, bits: 11, bitOffset: 5)]
     public ushort? BirthYear { get; set; }
 
-    [GSUInt(0x85, bits: 4, bitOffset: 3)]
+    [GSUInt(0x85, bits: 4, bitOffset: 1)]
     public ushort? BirthMonth { get; set; }
 
     [GSUInt(0x85, bits: 5, bitOffset: 7)]
