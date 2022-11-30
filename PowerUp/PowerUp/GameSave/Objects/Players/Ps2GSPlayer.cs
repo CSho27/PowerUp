@@ -472,7 +472,7 @@ namespace PowerUp.GameSave.Objects.Players
     [GSBytes(0x8d, numberOfBytes: 5)]
     public byte[]? UnknownBytes_8d_92 { get; set; }
 
-    [GSBytes(0x90, numberOfBytes: 5, traverseSequentially: true)]
+    [GSBytes(0x94, numberOfBytes: 5, traverseSequentially: true)]
     public byte[]? BytesToCheck { get; set; }
 
     [GSUInt(0x91, bits: 14, bitOffset: 2)]
@@ -484,10 +484,10 @@ namespace PowerUp.GameSave.Objects.Players
     [GSUInt(0x94, bits: 3, bitOffset: 5)]
     public ushort? FourSeamMovement { get; set; }
 
-    [GSUInt(0x95, bits: 5, bitOffset: 0)]
+    [GSUInt(0x95, bits: 5, bitOffset: 3)]
     public ushort? Slider1Type { get; set; }
 
-    [GSUInt(0x95, bits: 3, bitOffset: 5)]
+    [GSUInt(0x95, bits: 3, bitOffset: 0)]
     public ushort? Slider1Movement { get; set; }
 
     [GSUInt(0x96, bits: 5, bitOffset: 0)]
