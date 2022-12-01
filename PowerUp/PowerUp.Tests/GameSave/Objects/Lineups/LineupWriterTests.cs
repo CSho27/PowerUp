@@ -73,7 +73,7 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [Test]
     public void Writes_NoDHLineup()
     {
-      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testLineups);
 
       GSLineupDefinition loadedLineup = null;
@@ -91,7 +91,7 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [Test]
     public void Writes_DHLineup()
     {
-      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testLineups);
 
       GSLineupDefinition loadedLineup = null;

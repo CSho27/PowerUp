@@ -8,11 +8,13 @@ namespace PowerUp.GameSave.IO
   {
     private readonly Stream _stream;
     private readonly ICharacterLibrary _characterLibrary;
+    private readonly ByteOrder _byteOrder;
 
-    public GameSaveFileWriter(ICharacterLibrary characterLibrary, string filePath)
+    public GameSaveFileWriter(ICharacterLibrary characterLibrary, string filePath, ByteOrder byteOrder)
     {
       _stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
       _characterLibrary = characterLibrary;
+      _byteOrder = byteOrder;
     }
 
     public void WriteString(long offset, int stringLength, string @string)
@@ -24,10 +26,20 @@ namespace PowerUp.GameSave.IO
         WriteChar(offset + 2 * i, i < @string.Length ? @string[i] : ' ');
     }
 
-    public void WriteUInt(long offset, int bitOffset, int numberOfBits, ushort @uint)
+    public void WriteUInt(
+      long offset,
+      int bitOffset,
+      int numberOfBits,
+      bool translateToStartOfTwoByteChunk,
+      bool twoByteCheckStartsAtEvenOffset,
+      ushort @uint
+    )
     {
-      _stream.Seek(offset, SeekOrigin.Begin);
-      var writer = new PeekingBinaryWriter(_stream);
+      var offsetToStartAt = translateToStartOfTwoByteChunk
+        ? ByteOrderInterpreter.TranslateOffset(offset, _byteOrder, twoByteCheckStartsAtEvenOffset)
+        : offset;
+      _stream.Seek(offsetToStartAt, SeekOrigin.Begin);
+      var writer = new PeekingBinaryWriter(_stream, _byteOrder);
       var valueBits = @uint.ToBitArray(numberOfBits);
 
       int bitsWritten = 0;
@@ -37,7 +49,7 @@ namespace PowerUp.GameSave.IO
       {
         if (bitsOfCurrentByte >= BinaryUtils.BYTE_LENGTH)
         {
-          writer.Write(currentByte);
+          writer.Write(currentByte, twoByteCheckStartsAtEvenOffset);
           currentByte = writer.PeekByte();
           bitsOfCurrentByte = 0;
         }
@@ -47,23 +59,55 @@ namespace PowerUp.GameSave.IO
         bitsWritten++;
         bitsOfCurrentByte++;
       }
-      writer.Write(currentByte);
+      writer.Write(currentByte, twoByteCheckStartsAtEvenOffset);
     }
 
-    public void WriteSInt(long offset, int bitOffset, int numberOfBits, short sint)
+    public void WriteSInt(
+      long offset,
+      int bitOffset,
+      int numberOfBits,
+      bool translateToStartOfTwoByteChunk,
+      bool twoByteCheckStartsAtEvenOffset,
+      short sint
+    )
     {
+      var offsetToStartAt = translateToStartOfTwoByteChunk
+        ? ByteOrderInterpreter.TranslateOffset(offset, _byteOrder, twoByteCheckStartsAtEvenOffset)
+        : offset;
       var isNegative = sint < 0;
-      WriteBool(offset, bitOffset, isNegative);
-      WriteUInt(offset, bitOffset + 1, numberOfBits - 1, (ushort)Math.Abs(sint));
+      WriteBool(offsetToStartAt, bitOffset, isNegative);
+      WriteUInt(
+        offsetToStartAt,
+        bitOffset + 1,
+        numberOfBits - 1,
+        translateToStartOfTwoByteChunk,
+        twoByteCheckStartsAtEvenOffset,
+        (ushort)Math.Abs(sint)
+      );
     }
 
     public void WriteChar(long offset, char @char)
     {
       var charNum = _characterLibrary[@char];
-      WriteUInt(offset, 0, 16, charNum);
+      WriteUInt(
+        offset, 
+        0, 
+        16,
+        translateToStartOfTwoByteChunk: true,
+        twoByteCheckStartsAtEvenOffset: false,
+        charNum
+      );
     }
 
-    public void WriteBool(long offset, int bitOffset, bool @bool) => WriteUInt(offset, bitOffset, 1, (ushort)(@bool ? 1 : 0));
+    public void WriteBool(long offset, int bitOffset, bool @bool) 
+      => WriteUInt(
+          offset,
+          bitOffset,
+          1,
+          translateToStartOfTwoByteChunk: false,
+          twoByteCheckStartsAtEvenOffset: false,
+          (ushort)(@bool ? 1 : 0)
+         );
 
     public void Dispose() => _stream.Dispose();
   }

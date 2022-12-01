@@ -55,7 +55,7 @@ namespace PowerUp.Tests.GameSave.Objects.GameSaves
         Lineups = Enumerable.Repeat(testLineupDef, 32)
       };
 
-      using (var writer = new GameSaveWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new GameSaveWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, ByteOrder.BigEndian))
       {
         writer.Write(gameSave);
       }

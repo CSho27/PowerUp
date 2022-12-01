@@ -13,9 +13,9 @@ namespace PowerUp.GameSave.Objects.GameSaves
   {
     private readonly GameSaveObjectWriter _writer;
 
-    public GameSaveWriter(ICharacterLibrary characterLibrary, string fileName)
+    public GameSaveWriter(ICharacterLibrary characterLibrary, string fileName, ByteOrder byteOrder)
     {
-      _writer = new GameSaveObjectWriter(characterLibrary, fileName);
+      _writer = new GameSaveObjectWriter(characterLibrary, fileName, byteOrder);
     }
 
     public void Write(GSGameSave gameSave)

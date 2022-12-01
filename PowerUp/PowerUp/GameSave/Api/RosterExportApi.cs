@@ -1,6 +1,7 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Rosters;
 using PowerUp.GameSave.GameSaveManagement;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.FreeAgents;
 using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.GameSave.Objects.Players;
@@ -53,7 +54,8 @@ namespace PowerUp.GameSave.Api
       var roster = parameters.Roster!;
       var (rosterFilePath, gameSaveId) = _gameSaveManager.CreateNewGameSave(parameters.ExportDirectory, parameters.SourceGameSave, roster.Name);
 
-      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath))
+      // CHRISTODO: Don't hard code endian-ness
+      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath, ByteOrder.BigEndian))
       {
         var teams = roster.GetTeams()
           .OrderBy(t => t.Value.GetDivision())

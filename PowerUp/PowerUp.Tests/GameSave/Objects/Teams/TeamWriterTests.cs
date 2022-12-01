@@ -85,7 +85,7 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
     [Test]
     public void Writes_Team()
     {
-      using (var writer = new TeamWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new TeamWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testTeam);
 
       GSTeam loadedTeam = null;

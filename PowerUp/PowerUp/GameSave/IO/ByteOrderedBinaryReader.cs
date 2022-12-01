@@ -32,7 +32,6 @@ namespace PowerUp.GameSave.IO
     private byte ReadNextByte(bool startsOnEven, bool traverseSequentially)
     {
       var nextByteOffset = ByteOrderInterpreter.GetNextByteOffset(_stream.Position, _byteOrder, startsOnEven, traverseSequentially);
-      var position = _stream.Position;
       var @byte = _reader.ReadByte();
       _stream.Seek(nextByteOffset, SeekOrigin.Begin);
       return @byte;
