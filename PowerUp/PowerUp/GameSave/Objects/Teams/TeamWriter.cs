@@ -29,7 +29,17 @@ namespace PowerUp.GameSave.Objects.Teams
     public void Write(int powerProsTeamId, IGSTeam team)
     {
       var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId, _format);
-      _writer.Write(teamOffset, team);
+      switch (_format)
+      {
+        case GameSaveFormat.Wii_2007:
+          _writer.Write(teamOffset, (GSTeam)team);
+          break;
+        case GameSaveFormat.Ps2_2007:
+          _writer.Write(teamOffset, (Ps2GSTeam)team);
+          break;
+        default:
+          throw new NotImplementedException();
+      }
     }
 
     public void Dispose() => _writer.Dispose();
