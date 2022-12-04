@@ -295,18 +295,18 @@ namespace PowerUp.Tests.Mappers.Teams
     }
 
     [Test]
-    [TestCase((ushort)0, PitcherRole.Starter)]
-    [TestCase((ushort)1, PitcherRole.SwingMan)]
-    [TestCase((ushort)2, PitcherRole.LongReliever)]
-    [TestCase((ushort)3, PitcherRole.MiddleReliever)]
-    [TestCase((ushort)4, PitcherRole.SituationalLefty)]
-    [TestCase((ushort)5, PitcherRole.MopUpMan)]
-    [TestCase((ushort)6, PitcherRole.SetupMan)]
-    [TestCase((ushort)7, PitcherRole.Closer)]
-    public void MapToPlayerDefinition_ShouldMapPitcherRole(ushort pitcherRole, PitcherRole expectedValue)
+    [TestCase(0, PitcherRole.Starter)]
+    [TestCase(1, PitcherRole.SwingMan)]
+    [TestCase(2, PitcherRole.LongReliever)]
+    [TestCase(3, PitcherRole.MiddleReliever)]
+    [TestCase(4, PitcherRole.SituationalLefty)]
+    [TestCase(5, PitcherRole.MopUpMan)]
+    [TestCase(6, PitcherRole.SetupMan)]
+    [TestCase(7, PitcherRole.Closer)]
+    public void MapToPlayerDefinition_ShouldMapPitcherRole(int pitcherRole, PitcherRole expectedValue)
     {
       var gsPlayerEntry = ToPlayerEntry(1);
-      gsPlayerEntry.PitcherRole = pitcherRole;
+      gsPlayerEntry.PitcherRole = (ushort)pitcherRole;
       var result = gsPlayerEntry.MapToPlayerRoleDefinition(idsByPPId);
 
       result.PitcherRole.ShouldBe(expectedValue);

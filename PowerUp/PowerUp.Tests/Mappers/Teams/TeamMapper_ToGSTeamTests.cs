@@ -128,15 +128,15 @@ namespace PowerUp.Tests.Mappers.Teams
     }
 
     [Test]
-    [TestCase(PitcherRole.Starter, (ushort)0)]
-    [TestCase(PitcherRole.SwingMan, (ushort)1)]
-    [TestCase(PitcherRole.LongReliever, (ushort)2)]
-    [TestCase(PitcherRole.MiddleReliever, (ushort)3)]
-    [TestCase(PitcherRole.SituationalLefty, (ushort)4)]
-    [TestCase(PitcherRole.MopUpMan, (ushort)5)]
-    [TestCase(PitcherRole.SetupMan, (ushort)6)]
-    [TestCase(PitcherRole.Closer, (ushort)7)]
-    public void MapToPlayerDefinition_ShouldMapPitcherRole(PitcherRole pitcherRole, ushort expectedValue)
+    [TestCase(PitcherRole.Starter, 0)]
+    [TestCase(PitcherRole.SwingMan, 1)]
+    [TestCase(PitcherRole.LongReliever, 2)]
+    [TestCase(PitcherRole.MiddleReliever, 3)]
+    [TestCase(PitcherRole.SituationalLefty, 4)]
+    [TestCase(PitcherRole.MopUpMan, 5)]
+    [TestCase(PitcherRole.SetupMan, 6)]
+    [TestCase(PitcherRole.Closer, 7)]
+    public void MapToPlayerDefinition_ShouldMapPitcherRole(PitcherRole pitcherRole, int expectedValue)
     {
       var entry = new PlayerRoleDefinition(5)
       {
@@ -144,7 +144,7 @@ namespace PowerUp.Tests.Mappers.Teams
       };
       var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
-      result.PitcherRole.ShouldBe(expectedValue);
+      result.PitcherRole.ShouldBe((ushort)expectedValue);
     }
   }
 }

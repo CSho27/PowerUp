@@ -257,62 +257,62 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort)1, "0")]
-    [TestCase((ushort)12, (ushort)2, "12")]
-    [TestCase((ushort)99, (ushort)3, "099")]
-    [TestCase((ushort)999, (ushort)3, "999")]
-    public void MapToPlayer_ShouldMapUniformNumber(ushort numberValue, ushort numberDigits, string expectedUniformNumber)
+    [TestCase(0, 1, "0")]
+    [TestCase(12, 2, "12")]
+    [TestCase(99, 3, "099")]
+    [TestCase(999, 3, "999")]
+    public void MapToPlayer_ShouldMapUniformNumber(int numberValue, int numberDigits, string expectedUniformNumber)
     {
-      gsPlayer.PlayerNumber = numberValue;
-      gsPlayer.PlayerNumberNumberOfDigits = numberDigits;
+      gsPlayer.PlayerNumber = (ushort)numberValue;
+      gsPlayer.PlayerNumberNumberOfDigits = (ushort)numberDigits;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.UniformNumber.ShouldBe(expectedUniformNumber);
     }
 
     [Test]
-    [TestCase((ushort)1890, 117)]
-    [TestCase((ushort)2000, 7)]
-    [TestCase((ushort)1979, 28)]
-    [TestCase((ushort)1945, 62)]
-    public void MapToPlayer_ShouldMapBirthYear(ushort year, int expectedYear)
+    [TestCase(1890, 117)]
+    [TestCase(2000, 7)]
+    [TestCase(1979, 28)]
+    [TestCase(1945, 62)]
+    public void MapToPlayer_ShouldMapBirthYear(int year, int expectedYear)
     {
-      gsPlayer.BirthYear = year;
+      gsPlayer.BirthYear = (ushort)year;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Age.ShouldBe(expectedYear);
     }
 
     [Test]
-    [TestCase((ushort)2, 2)]
-    [TestCase((ushort)4, 4)]
-    [TestCase((ushort)8, 8)]
-    [TestCase((ushort)11, 11)]
-    public void MapToPlayer_ShouldMapBirthMonth(ushort month, int expectedMonth)
+    [TestCase(2, 2)]
+    [TestCase(4, 4)]
+    [TestCase(8, 8)]
+    [TestCase(11, 11)]
+    public void MapToPlayer_ShouldMapBirthMonth(int month, int expectedMonth)
     {
-      gsPlayer.BirthMonth = month;
+      gsPlayer.BirthMonth = (ushort)month;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.BirthMonth.ShouldBe(expectedMonth);
     }
 
     [Test]
-    [TestCase((ushort)2, 2)]
-    [TestCase((ushort)4, 4)]
-    [TestCase((ushort)8, 8)]
-    [TestCase((ushort)11, 11)]
-    public void MapToPlayer_ShouldMapBirthDay(ushort day, int expectedDay)
+    [TestCase(2, 2)]
+    [TestCase(4, 4)]
+    [TestCase(8, 8)]
+    [TestCase(11, 11)]
+    public void MapToPlayer_ShouldMapBirthDay(int day, int expectedDay)
     {
-      gsPlayer.BirthDay = day;
+      gsPlayer.BirthDay = (ushort)day;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.BirthDay.ShouldBe(expectedDay);
     }
 
     [Test]
-    [TestCase((ushort)2, 2)]
-    [TestCase((ushort)4, 4)]
-    [TestCase((ushort)8, 8)]
-    [TestCase((ushort)11, 11)]
-    public void MapToPlayer_ShouldMapYearsInMajors(ushort yearsInMajors, int expectedYearsInMajors)
+    [TestCase(2, 2)]
+    [TestCase(4, 4)]
+    [TestCase(8, 8)]
+    [TestCase(11, 11)]
+    public void MapToPlayer_ShouldMapYearsInMajors(int yearsInMajors, int expectedYearsInMajors)
     {
-      gsPlayer.YearsInMajors = yearsInMajors;
+      gsPlayer.YearsInMajors = (ushort)yearsInMajors;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.YearsInMajors.ShouldBe(expectedYearsInMajors);
     }
@@ -380,210 +380,210 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase((ushort)690, .690)]
-    [TestCase((ushort)1023, null)]
-    public void MapToPlayer_ShouldMapBattingAveragePoints(ushort battingAveragePoints, double? expectedBattingAverage)
+    [TestCase(690, .690)]
+    [TestCase(1023, null)]
+    public void MapToPlayer_ShouldMapBattingAveragePoints(int battingAveragePoints, double? expectedBattingAverage)
     {
-      gsPlayer.BattingAveragePoints = battingAveragePoints;
+      gsPlayer.BattingAveragePoints = (ushort)battingAveragePoints;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.BattingAverage.ShouldBe(expectedBattingAverage);
     }
 
     [Test]
-    [TestCase((ushort)130, 130)]
-    [TestCase((ushort)1023, null)]
-    public void MapToPlayer_ShouldMapRunsBattedIn(ushort runsBattedIn, int? expectedRBI)
+    [TestCase(130, 130)]
+    [TestCase(1023, null)]
+    public void MapToPlayer_ShouldMapRunsBattedIn(int runsBattedIn, int? expectedRBI)
     {
-      gsPlayer.RunsBattedIn = runsBattedIn;
+      gsPlayer.RunsBattedIn = (ushort)runsBattedIn;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.RunsBattedIn.ShouldBe(expectedRBI);
     }
 
     [Test]
-    [TestCase((ushort)40, 40)]
-    [TestCase((ushort)1023, null)]
-    public void MapToPlayer_ShouldMapHomeRuns(ushort homeRuns, int? expectedHomeRuns)
+    [TestCase(40, 40)]
+    [TestCase(1023, null)]
+    public void MapToPlayer_ShouldMapHomeRuns(int homeRuns, int? expectedHomeRuns)
     {
-      gsPlayer.HomeRuns = homeRuns;
+      gsPlayer.HomeRuns = (ushort)homeRuns;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.HomeRuns.ShouldBe(expectedHomeRuns);
     }
 
     [Test]
-    [TestCase((ushort)383, 3.83)]
-    [TestCase((ushort)16383, null)]
-    public void MapToPlayer_ShouldMapHomeRuns(ushort era, double? expectedEra)
+    [TestCase(383, 3.83)]
+    [TestCase(16383, null)]
+    public void MapToPlayer_ShouldMapHomeRuns(int era, double? expectedEra)
     {
-      gsPlayer.EarnedRunAverage = era;
+      gsPlayer.EarnedRunAverage = (ushort)era;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.EarnedRunAverage.ShouldBe(expectedEra);
     }
 
     [Test]
-    [TestCase((ushort)5, 5)]
-    [TestCase((ushort)196, 178)]
-    public void MapToPlayer_ShouldMapFaceId(ushort ppFaceId, int expectedFaceId)
+    [TestCase(5, 5)]
+    [TestCase(196, 178)]
+    public void MapToPlayer_ShouldMapFaceId(int ppFaceId, int expectedFaceId)
     {
-      gsPlayer.Face = ppFaceId;
+      gsPlayer.Face = (ushort)ppFaceId;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.FaceId.ShouldBe(expectedFaceId);
     }
 
     [Test]
-    [TestCase((ushort)5, null)]
-    [TestCase((ushort)179, EyebrowThickness.Thick)]
-    [TestCase((ushort)196, EyebrowThickness.Thin)]
-    [TestCase((ushort)232, null)]
-    public void MapToPlayer_ShouldMapEyebrowThickness(ushort ppFaceId, EyebrowThickness? expectedValue)
+    [TestCase(5, null)]
+    [TestCase(179, EyebrowThickness.Thick)]
+    [TestCase(196, EyebrowThickness.Thin)]
+    [TestCase(232, null)]
+    public void MapToPlayer_ShouldMapEyebrowThickness(int ppFaceId, EyebrowThickness? expectedValue)
     {
-      gsPlayer.Face = ppFaceId;
+      gsPlayer.Face = (ushort)ppFaceId;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EyebrowThickness.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort) 0, (ushort)0, null)]
-    [TestCase((ushort) 177, (ushort)0, SkinColor.One)]
-    [TestCase((ushort) 200, (ushort)3, SkinColor.Four)]
-    [TestCase((ushort) 232, (ushort)6, SkinColor.Two)]
-    public void MapToPlayer_ShouldMapSkinColor(ushort faceId, ushort skinAndEyesValue, SkinColor? expectedValue)
+    [TestCase( 0, 0, null)]
+    [TestCase( 177, 0, SkinColor.One)]
+    [TestCase( 200, 3, SkinColor.Four)]
+    [TestCase( 232, 6, SkinColor.Two)]
+    public void MapToPlayer_ShouldMapSkinColor(int faceId, int skinAndEyesValue, SkinColor? expectedValue)
     {
-      gsPlayer.Face = faceId;
-      gsPlayer.SkinAndEyes = skinAndEyesValue;
+      gsPlayer.Face = (ushort)faceId;
+      gsPlayer.SkinAndEyes = (ushort)skinAndEyesValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.SkinColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort)0, null)]
-    [TestCase((ushort)177, (ushort)0, EyeColor.Blue)]
-    [TestCase((ushort)193, (ushort)3, null)]
-    [TestCase((ushort)232, (ushort)6, EyeColor.Brown)]
-    public void MapToPlayer_ShouldMapEyeColor(ushort faceId, ushort skinAndEyesValue, EyeColor? expectedValue)
+    [TestCase(0, 0, null)]
+    [TestCase(177, 0, EyeColor.Blue)]
+    [TestCase(193, 3, null)]
+    [TestCase(232, 6, EyeColor.Brown)]
+    public void MapToPlayer_ShouldMapEyeColor(int faceId, int skinAndEyesValue, EyeColor? expectedValue)
     {
-      gsPlayer.Face = faceId;
-      gsPlayer.SkinAndEyes = skinAndEyesValue;
+      gsPlayer.Face = (ushort)faceId;
+      gsPlayer.SkinAndEyes = (ushort)skinAndEyesValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EyeColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort) 0, null)]
-    [TestCase((ushort) 3, HairStyle.FlatShort)]
-    public void MapToPlayer_ShouldMapHairStyle(ushort gsValue, HairStyle? expectedValue)
+    [TestCase( 0, null)]
+    [TestCase( 3, HairStyle.FlatShort)]
+    public void MapToPlayer_ShouldMapHairStyle(int gsValue, HairStyle? expectedValue)
     {
-      gsPlayer.Hair = gsValue;
+      gsPlayer.Hair = (ushort)gsValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.HairStyle.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort) 2, null)]
-    [TestCase((ushort)3, (ushort) 2, HairColor.DarkBlonde)]
-    public void MapToPlayer_ShouldMapHairColor(ushort gsHairValue, ushort gsHairColorValue, HairColor? expectedValue)
+    [TestCase(0,  2, null)]
+    [TestCase(3,  2, HairColor.DarkBlonde)]
+    public void MapToPlayer_ShouldMapHairColor(int gsHairValue, int gsHairColorValue, HairColor? expectedValue)
     {
-      gsPlayer.Hair = gsHairValue;
-      gsPlayer.HairColor = gsHairColorValue;
+      gsPlayer.Hair = (ushort)gsHairValue;
+      gsPlayer.HairColor = (ushort)gsHairColorValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.HairColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, null)]
-    [TestCase((ushort)3, FacialHairStyle.FuManchu)]
-    public void MapToPlayer_ShouldMapFacialHairStyle(ushort gsValue, FacialHairStyle? expectedValue)
+    [TestCase(0, null)]
+    [TestCase(3, FacialHairStyle.FuManchu)]
+    public void MapToPlayer_ShouldMapFacialHairStyle(int gsValue, FacialHairStyle? expectedValue)
     {
-      gsPlayer.FacialHair = gsValue;
+      gsPlayer.FacialHair = (ushort)gsValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.FacialHairStyle.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort)2, null)]
-    [TestCase((ushort)3, (ushort)2, HairColor.DarkBlonde)]
-    public void MapToPlayer_ShouldMapFacialHairColor(ushort gsHairValue, ushort gsHairColorValue, HairColor? expectedValue)
+    [TestCase(0, 2, null)]
+    [TestCase(3, 2, HairColor.DarkBlonde)]
+    public void MapToPlayer_ShouldMapFacialHairColor(int gsHairValue, int gsHairColorValue, HairColor? expectedValue)
     {
-      gsPlayer.FacialHair = gsHairValue;
-      gsPlayer.FacialHairColor = gsHairColorValue;
+      gsPlayer.FacialHair = (ushort)gsHairValue;
+      gsPlayer.FacialHairColor = (ushort)gsHairColorValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.FacialHairColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, null)]
-    [TestCase((ushort)3, EyewearType.RectangleRecSpecs)]
-    public void MapToPlayer_ShouldMapEyewearType(ushort gsValue, EyewearType? expectedValue)
+    [TestCase(0, null)]
+    [TestCase(3, EyewearType.RectangleRecSpecs)]
+    public void MapToPlayer_ShouldMapEyewearType(int gsValue, EyewearType? expectedValue)
     {
-      gsPlayer.EyewearType = gsValue;
+      gsPlayer.EyewearType = (ushort)gsValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EyewearType.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort)2, null)]
-    [TestCase((ushort)1, (ushort)2, null)]
-    [TestCase((ushort)3, (ushort)2, EyewearFrameColor.Black)]
-    [TestCase((ushort)3, (ushort)5, EyewearFrameColor.Gray)]
-    [TestCase((ushort)3, (ushort)7, EyewearFrameColor.Red)]
-    public void MapToPlayer_ShouldMapEyewearFrameColor(ushort gsEyewearValue, ushort gsEyewearColorValue, EyewearFrameColor? expectedValue)
+    [TestCase(0, 2, null)]
+    [TestCase(1, 2, null)]
+    [TestCase(3, 2, EyewearFrameColor.Black)]
+    [TestCase(3, 5, EyewearFrameColor.Gray)]
+    [TestCase(3, 7, EyewearFrameColor.Red)]
+    public void MapToPlayer_ShouldMapEyewearFrameColor(int gsEyewearValue, int gsEyewearColorValue, EyewearFrameColor? expectedValue)
     {
-      gsPlayer.EyewearType = gsEyewearValue;
-      gsPlayer.EyewearColor = gsEyewearColorValue;
+      gsPlayer.EyewearType = (ushort)gsEyewearValue;
+      gsPlayer.EyewearColor = (ushort)gsEyewearColorValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EyewearFrameColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort)2, null)]
-    [TestCase((ushort)1, (ushort)2, null)]
-    [TestCase((ushort)3, (ushort)2, EyewearLensColor.Black)]
-    [TestCase((ushort)3, (ushort)3, EyewearLensColor.Clear)]
-    [TestCase((ushort)3, (ushort)7, EyewearLensColor.Orange)]
-    public void MapToPlayer_ShouldMapEyewearLensColor(ushort gsEyewearValue, ushort gsEyewearColorValue, EyewearLensColor? expectedValue)
+    [TestCase(0, 2, null)]
+    [TestCase(1, 2, null)]
+    [TestCase(3, 2, EyewearLensColor.Black)]
+    [TestCase(3, 3, EyewearLensColor.Clear)]
+    [TestCase(3, 7, EyewearLensColor.Orange)]
+    public void MapToPlayer_ShouldMapEyewearLensColor(int gsEyewearValue, int gsEyewearColorValue, EyewearLensColor? expectedValue)
     {
-      gsPlayer.EyewearType = gsEyewearValue;
-      gsPlayer.EyewearColor = gsEyewearColorValue;
+      gsPlayer.EyewearType = (ushort)gsEyewearValue;
+      gsPlayer.EyewearColor = (ushort)gsEyewearColorValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EyewearLensColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, null)]
-    [TestCase((ushort)3, EarringSide.Both)]
-    public void MapToPlayer_ShouldMapEarringSide(ushort gsValue, EarringSide? expectedValue)
+    [TestCase(0, null)]
+    [TestCase(3, EarringSide.Both)]
+    public void MapToPlayer_ShouldMapEarringSide(int gsValue, EarringSide? expectedValue)
     {
-      gsPlayer.EarringSide = gsValue;
+      gsPlayer.EarringSide = (ushort)gsValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EarringSide.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, (ushort)2, null)]
-    [TestCase((ushort)3, (ushort)2, AccessoryColor.Red)]
-    public void MapToPlayer_ShouldMapEarringColor(ushort gsSideValue, ushort gsColorValue, AccessoryColor? expectedValue)
+    [TestCase(0, 2, null)]
+    [TestCase(3, 2, AccessoryColor.Red)]
+    public void MapToPlayer_ShouldMapEarringColor(int gsSideValue, int gsColorValue, AccessoryColor? expectedValue)
     {
-      gsPlayer.EarringSide = gsSideValue;
-      gsPlayer.EarringColor = gsColorValue;
+      gsPlayer.EarringSide = (ushort)gsSideValue;
+      gsPlayer.EarringColor = (ushort)gsColorValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.EarringColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, null)]
-    [TestCase((ushort)3, AccessoryColor.Red)]
-    public void MapToPlayer_ShouldMapRightWristband(ushort gsValue, AccessoryColor? expectedValue)
+    [TestCase(0, null)]
+    [TestCase(3, AccessoryColor.Red)]
+    public void MapToPlayer_ShouldMapRightWristband(int gsValue, AccessoryColor? expectedValue)
     {
-      gsPlayer.RightWristband = gsValue;
+      gsPlayer.RightWristband = (ushort)gsValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.RightWristbandColor.ShouldBe(expectedValue);
     }
 
     [Test]
-    [TestCase((ushort)0, null)]
-    [TestCase((ushort)1, AccessoryColor.Black)]
-    public void MapToPlayer_ShouldMapLeftWristband(ushort gsValue, AccessoryColor? expectedValue)
+    [TestCase(0, null)]
+    [TestCase(1, AccessoryColor.Black)]
+    public void MapToPlayer_ShouldMapLeftWristband(int gsValue, AccessoryColor? expectedValue)
     {
-      gsPlayer.LeftWristband = gsValue;
+      gsPlayer.LeftWristband = (ushort)gsValue;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       result.Appearance.LeftWristbandColor.ShouldBe(expectedValue);
     }
@@ -806,12 +806,12 @@ namespace PowerUp.Tests.Mappers.Players
     }
 
     [Test]
-    [TestCase((ushort)120, 74)]
-    [TestCase((ushort)141, 87)]
-    [TestCase((ushort)169, 105)]
-    public void MapToPlayer_ShouldMapTopSpeedMph(ushort kmh, int mph)
+    [TestCase(120, 74)]
+    [TestCase(141, 87)]
+    [TestCase(169, 105)]
+    public void MapToPlayer_ShouldMapTopSpeedMph(int kmh, int mph)
     {
-      gsPlayer.TopThrowingSpeedKMH = kmh;
+      gsPlayer.TopThrowingSpeedKMH = (ushort)kmh;
       var result = playerMapper.MapToPlayer(gsPlayer, mappingParameters);
       var roundedTopSpeed = Math.Floor(result.PitcherAbilities.TopSpeedMph);
       roundedTopSpeed.ShouldBe(mph);
