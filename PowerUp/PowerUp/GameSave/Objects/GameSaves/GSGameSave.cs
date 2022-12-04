@@ -12,8 +12,8 @@ namespace PowerUp.GameSave.Objects.GameSaves
     public static long PowerUpIdOffset = 0xB3FF8;
 
     public short? PowerUpId { get; set; }
-    public IEnumerable<GSPlayer> Players { get; set; } = Enumerable.Empty<GSPlayer>();
-    public IEnumerable<GSTeam> Teams { get; set; } = Enumerable.Empty<GSTeam>();
+    public IEnumerable<IGSPlayer> Players { get; set; } = Enumerable.Empty<IGSPlayer>();
+    public IEnumerable<IGSTeam> Teams { get; set; } = Enumerable.Empty<IGSTeam>();
     public IEnumerable<GSLineupDefinition> Lineups { get; set; } = Enumerable.Empty<GSLineupDefinition>();
     public GSFreeAgentList FreeAgents { get; set; } = new GSFreeAgentList();
   }

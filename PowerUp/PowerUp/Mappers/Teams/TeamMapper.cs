@@ -24,7 +24,7 @@ namespace PowerUp.Mappers
   public static class TeamMapper
   {
     public static Team MapToTeam(
-      this GSTeam gsTeam, 
+      IGSTeam gsTeam, 
       GSLineupDefinition lineupDefinition, 
       TeamMappingParameters parameters
     )
@@ -88,20 +88,20 @@ namespace PowerUp.Mappers
       };
     }
 
-    public static (GSTeam team, GSLineupDefinition lineupDef) MapToGSTeamAndLineup(
-      this Team team,
+    public static (IGSTeam team, GSLineupDefinition lineupDef) MapToGSTeamAndLineup(
+      Team team,
       MLBPPTeam mlbPPTeam,
       IDictionary<int, ushort> idsByKey
     )
     {
       return (
-        team: team.MapToGSTeam(mlbPPTeam, idsByKey),
+        team: MapToGSTeam(team, mlbPPTeam, idsByKey),
         lineupDef: new GSLineupDefinition()
       );
     }
 
-    public static GSTeam MapToGSTeam(
-      this Team team,
+    public static IGSTeam MapToGSTeam(
+      Team team,
       MLBPPTeam mlbPPTeam,
       IDictionary<int, ushort> ppIdsById
     )
@@ -115,13 +115,13 @@ namespace PowerUp.Mappers
           .OrderBy(p => p.IsAAA)
           .OrderBy(p => p.PitcherRole != PitcherRole.SwingMan)
           .OrderBy(p => p.PitcherRole)
-          .Select(p => p.MapToGSTeamPlayerEntry(mlbPPTeam, ppIdsById[p.PlayerId]))
+          .Select(p => MapToGSTeamPlayerEntry(p, mlbPPTeam, ppIdsById[p.PlayerId]))
           .Concat(emptyPlayerSlots)
       };
     }
 
     public static GSTeamPlayerEntry MapToGSTeamPlayerEntry(
-      this PlayerRoleDefinition roleDefinition,
+      PlayerRoleDefinition roleDefinition,
       MLBPPTeam mlbPPTeam,
       ushort powerProsId
     )
@@ -141,19 +141,19 @@ namespace PowerUp.Mappers
     }
 
     public static GSLineupDefinition MapToGSLineup(
-      this Team team,
+      Team team,
       IDictionary<int, ushort> ppIdsById
     )
     {
       return new GSLineupDefinition
       {
-        NoDHLineup = team.NoDHLineup.Select(e => e.MapToGSLineupPlayer(ppIdsById)),
-        DHLineup = team.DHLineup.Select(e => e.MapToGSLineupPlayer(ppIdsById))
+        NoDHLineup = team.NoDHLineup.Select(e => MapToGSLineupPlayer(e, ppIdsById)),
+        DHLineup = team.DHLineup.Select(e => MapToGSLineupPlayer(e, ppIdsById))
       };
     }
 
     public static GSLineupPlayer MapToGSLineupPlayer(
-      this LineupSlot lineupSlot,
+      LineupSlot lineupSlot,
       IDictionary<int, ushort> ppIdsById
     )
     {

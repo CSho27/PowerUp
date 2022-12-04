@@ -38,7 +38,7 @@ namespace PowerUp.GameSave.Objects.GameSaves
 
       var teamReader = new TeamReader(_reader);
       var lineupReader = new LineupReader(_reader);
-      var gsTeams = new List<GSTeam>();
+      var gsTeams = new List<IGSTeam>();
       var gsLineups = new List<GSLineupDefinition>();
       for (int i = 0; i < 32; i++)
       {

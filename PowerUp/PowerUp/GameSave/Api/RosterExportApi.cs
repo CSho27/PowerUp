@@ -112,8 +112,8 @@ namespace PowerUp.GameSave.Api
         {
           PowerUpId = (short)gameSaveId,
           Players = gsPlayers.OrderBy(p => p.PowerProsId).Cast<GSPlayer>(),
-          Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
-          Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),
+          Teams = teams.Select(t => TeamMapper.MapToGSTeam(t.Key, t.Value, ppIdsByTeamAndId[t.Value])),
+          Lineups = teams.Select(t => TeamMapper.MapToGSLineup(t.Key, ppIdsByTeamAndId[t.Value])),
           FreeAgents = new GSFreeAgentList 
           { 
             FreeAgents = mappedFAs

@@ -68,7 +68,7 @@ namespace PowerUp.GameSave.Api
           var gsLineup = gsLineups[i];
           var teamId = gsTeam.PlayerEntries!.First().PowerProsTeamId!.Value;
 
-          var team = gsTeam.MapToTeam(gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerIdsByPPId));
+          var team = TeamMapper.MapToTeam(gsTeam, gsLineup, TeamMappingParameters.FromImportParameters(parameters, playerIdsByPPId));
           DatabaseConfig.Database.Save(team);
           teamKeysByPPTeam.Add((MLBPPTeam)teamId, team.Id!.Value);
           teams.Add(team);

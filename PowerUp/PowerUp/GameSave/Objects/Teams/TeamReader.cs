@@ -27,10 +27,15 @@ namespace PowerUp.GameSave.Objects.Teams
       _reader = reader;
     }
 
-    public GSTeam Read(int powerProsTeamId)
+    public IGSTeam Read(int powerProsTeamId)
     {
-      var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId);
-      return _reader.Read<GSTeam>(teamOffset);
+      var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId, _format);
+      return _format switch
+      {
+        GameSaveFormat.Wii_2007 => _reader.Read<GSTeam>(teamOffset),
+        GameSaveFormat.Ps2_2007 => _reader.Read<Ps2GSTeam>(teamOffset),
+        _ => throw new NotImplementedException()
+      };
     }
 
     public void Dispose() => _reader.Dispose();

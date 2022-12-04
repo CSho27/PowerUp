@@ -26,9 +26,9 @@ namespace PowerUp.GameSave.Objects.Teams
     {
       _writer = writer;
     }
-    public void Write(int powerProsTeamId, GSTeam team)
+    public void Write(int powerProsTeamId, IGSTeam team)
     {
-      var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId);
+      var teamOffset = TeamOffsetUtils.GetTeamOffset(powerProsTeamId, _format);
       _writer.Write(teamOffset, team);
     }
 

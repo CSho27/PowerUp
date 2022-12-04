@@ -39,7 +39,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToGSTeam_MapsPlayerEntries()
     {
-      var result = team.MapToGSTeam(MLBPPTeam.Indians, ppIdsByPlayerId);
+      var result = TeamMapper.MapToGSTeam(team, MLBPPTeam.Indians, ppIdsByPlayerId);
       var keysById = ppIdsByPlayerId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
       result.PlayerEntries.Count().ShouldBe(40);
@@ -65,7 +65,7 @@ namespace PowerUp.Tests.Mappers.Teams
       { 
         IsAAA = value 
       };
-      var result = entry.MapToGSTeamPlayerEntry(MLBPPTeam.Phillies, 6);
+      var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
       result.IsAAA.ShouldBe(value);
       result.IsMLB.ShouldBe(!value);
@@ -80,7 +80,7 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         IsPinchHitter = value
       };
-      var result = entry.MapToGSTeamPlayerEntry(MLBPPTeam.Phillies, 6);
+      var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
       result.IsPinchHitter.ShouldBe(value);
     }
@@ -94,7 +94,7 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         IsPinchRunner = value
       };
-      var result = entry.MapToGSTeamPlayerEntry(MLBPPTeam.Phillies, 6);
+      var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
       result.IsPinchRunner.ShouldBe(value);
     }
@@ -108,7 +108,7 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         IsDefensiveReplacement = value
       };
-      var result = entry.MapToGSTeamPlayerEntry(MLBPPTeam.Phillies, 6);
+      var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
       result.IsDefensiveReplacement.ShouldBe(value);
     }
@@ -122,7 +122,7 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         IsDefensiveLiability = value
       };
-      var result = entry.MapToGSTeamPlayerEntry(MLBPPTeam.Phillies, 6);
+      var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
       result.IsDefensiveLiability.ShouldBe(value);
     }
@@ -142,7 +142,7 @@ namespace PowerUp.Tests.Mappers.Teams
       {
         PitcherRole = pitcherRole
       };
-      var result = entry.MapToGSTeamPlayerEntry(MLBPPTeam.Phillies, 6);
+      var result = TeamMapper.MapToGSTeamPlayerEntry(entry, MLBPPTeam.Phillies, 6);
 
       result.PitcherRole.ShouldBe(expectedValue);
     }

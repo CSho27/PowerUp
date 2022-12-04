@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace PowerUp.GameSave.Objects.Teams
 {
-  public class GSTeam
+  public class GSTeam : IGSTeam
   {
     [GSArray(offset: 0, itemLength: 0x8, arrayLength: 40)]
     public IEnumerable<GSTeamPlayerEntry>? PlayerEntries { get; set; }
   }
 
-  public class GSTeamPlayerEntry
+  public class GSTeamPlayerEntry : IGSTeamPlayerEntry
   {
     public static GSTeamPlayerEntry Empty = new GSTeamPlayerEntry
     {
@@ -36,10 +36,10 @@ namespace PowerUp.GameSave.Objects.Teams
     public bool? IsMLB { get; set; }
 
     [GSUInt(offset: 2, bits: 5, bitOffset: 5)]
-    public ushort? PowerProsTeamId { get; set;}
+    public ushort? PowerProsTeamId { get; set; }
 
     [GSBoolean(offset: 5, bitOffset: 4)]
-    public bool? IsPinchHitter { get; set;}
+    public bool? IsPinchHitter { get; set; }
 
     [GSBoolean(offset: 5, bitOffset: 5)]
     public bool? IsPinchRunner { get; set; }

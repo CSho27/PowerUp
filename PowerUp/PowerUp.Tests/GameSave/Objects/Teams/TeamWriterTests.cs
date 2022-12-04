@@ -88,7 +88,7 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
       using (var writer = new TeamWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testTeam);
 
-      GSTeam loadedTeam = null;
+      IGSTeam loadedTeam = null;
       using (var reader = new TeamReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedTeam = reader.Read(INDIANS_ID);
 
