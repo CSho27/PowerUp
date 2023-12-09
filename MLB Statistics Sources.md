@@ -72,3 +72,12 @@
 - However, historical players do not have FSRs, so that may only be useful for current players
 - Has pitch frequency data going back to 2002 and pitch specific velo/movement data 2005 (in json)
 <br/>
+
+8. <strong>Lahman's Baseball Database</strong>:
+- Seems to have very complete historical statistics
+- Doesn't look to have great Roster listings
+- Would be missing a lot of player info data that we currently have access to
+- Would not allow us to do mid-season rosters
+- It doesn't give us all of the same stats the other api does, but it looks like all of those stats should be calculable
+- The only major stat I can see that wouldn't be calculable would be Save Opportunities
+<br/>
