@@ -72,7 +72,7 @@ namespace PowerUp
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
-      MLBStatsApi.Main();
+      MLBStatsApi.Main().Wait();
     }
 
     static TimeSpan TimeAction(Action action)
