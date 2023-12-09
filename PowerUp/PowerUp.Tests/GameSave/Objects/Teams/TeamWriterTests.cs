@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.GameSave.Objects.Teams;
 using PowerUp.Libraries;
 using Shouldly;
@@ -83,11 +85,11 @@ namespace PowerUp.Tests.GameSave.Objects.Teams
     [Test]
     public void Writes_Team()
     {
-      using (var writer = new TeamWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new TeamWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testTeam);
 
-      GSTeam loadedTeam = null;
-      using (var reader = new TeamReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      IGSTeam loadedTeam = null;
+      using (var reader = new TeamReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedTeam = reader.Read(INDIANS_ID);
 
       var playerList = loadedTeam.PlayerEntries.ToList();

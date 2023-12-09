@@ -5,7 +5,7 @@ namespace PowerUp.Mappers.Players
 {
   public static class HitterAbilitiesMapper
   {
-    public static HitterAbilities GetHitterAbilities(this GSPlayer gsPlayer)
+    public static HitterAbilities GetHitterAbilities(IGSPlayer gsPlayer)
     {
       return new HitterAbilities
       {
@@ -16,11 +16,11 @@ namespace PowerUp.Mappers.Players
         ArmStrength = gsPlayer.ArmStrength!.Value,
         Fielding = gsPlayer.Fielding!.Value,
         ErrorResistance = gsPlayer.ErrorResistance!.Value,
-        HotZones = gsPlayer.GetHotZones()
+        HotZones = GetHotZones(gsPlayer)
       };
     }
 
-    public static HotZoneGrid GetHotZones(this GSPlayer gsPlayer)
+    public static HotZoneGrid GetHotZones(IGSPlayer gsPlayer)
     {
       return new HotZoneGrid
       {

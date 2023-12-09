@@ -16,12 +16,12 @@ namespace PowerUp.Tests.Mappers.Teams
     private TeamMappingParameters mappingParameters;
     private GSTeam gsTeam;
     private GSLineupDefinition gsLineupDef;
-    private Dictionary<ushort, int> idsByPPId;
+    private Dictionary<int, int> idsByPPId;
 
     [SetUp]
     public void SetUp()
     {
-      idsByPPId = new Dictionary<ushort, int>
+      idsByPPId = new Dictionary<int, int>
       {
         { 1, 1 },
         { 2, 2 },
@@ -98,7 +98,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToTeam_ShouldMapName()
     {
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       result.Name.ShouldBe("Cleveland Indians");
     }
 
@@ -108,14 +108,14 @@ namespace PowerUp.Tests.Mappers.Teams
     public void MapToTeam_ShouldMapSourceType(bool isBase, EntitySourceType sourceType)
     {
       mappingParameters.IsBase = isBase;
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       result.SourceType.ShouldBe(sourceType);
     }
 
     [Test]
     public void MapToTeam_ShouldMapPlayerKeys()
     {
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       var ppIdByKeys = mappingParameters.IdsByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
       
       foreach(var p in gsTeam.PlayerEntries)
@@ -130,7 +130,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToTeam_ShouldMapPlayerRoles()
     {
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       var ppIdByKeys = mappingParameters.IdsByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
       foreach (var p in gsTeam.PlayerEntries)
@@ -146,7 +146,7 @@ namespace PowerUp.Tests.Mappers.Teams
     public void MapToTeam_ShouldFilterOutZeroPlayerIds()
     {
       gsTeam.PlayerEntries = gsTeam.PlayerEntries.Append(new GSTeamPlayerEntry { PowerProsPlayerId = 0 });
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       var ppIdByKeys = mappingParameters.IdsByPPId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
       result.PlayerDefinitions.Count().ShouldBe(9);
@@ -155,7 +155,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToTeam_ShouldMapNoDHLineup()
     {
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       var noDH = result.NoDHLineup;
 
       noDH.ElementAt(0).PlayerId.ShouldBe(1);
@@ -196,7 +196,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToTeam_ShouldMapDHLineup()
     {
-      var result = gsTeam.MapToTeam(gsLineupDef, mappingParameters);
+      var result = TeamMapper.MapToTeam(gsTeam, gsLineupDef, mappingParameters);
       var dh = result.DHLineup;
 
       dh.ElementAt(0).PlayerId.ShouldBe(1);
@@ -295,18 +295,18 @@ namespace PowerUp.Tests.Mappers.Teams
     }
 
     [Test]
-    [TestCase((ushort)0, PitcherRole.Starter)]
-    [TestCase((ushort)1, PitcherRole.SwingMan)]
-    [TestCase((ushort)2, PitcherRole.LongReliever)]
-    [TestCase((ushort)3, PitcherRole.MiddleReliever)]
-    [TestCase((ushort)4, PitcherRole.SituationalLefty)]
-    [TestCase((ushort)5, PitcherRole.MopUpMan)]
-    [TestCase((ushort)6, PitcherRole.SetupMan)]
-    [TestCase((ushort)7, PitcherRole.Closer)]
-    public void MapToPlayerDefinition_ShouldMapPitcherRole(ushort pitcherRole, PitcherRole expectedValue)
+    [TestCase(0, PitcherRole.Starter)]
+    [TestCase(1, PitcherRole.SwingMan)]
+    [TestCase(2, PitcherRole.LongReliever)]
+    [TestCase(3, PitcherRole.MiddleReliever)]
+    [TestCase(4, PitcherRole.SituationalLefty)]
+    [TestCase(5, PitcherRole.MopUpMan)]
+    [TestCase(6, PitcherRole.SetupMan)]
+    [TestCase(7, PitcherRole.Closer)]
+    public void MapToPlayerDefinition_ShouldMapPitcherRole(int pitcherRole, PitcherRole expectedValue)
     {
       var gsPlayerEntry = ToPlayerEntry(1);
-      gsPlayerEntry.PitcherRole = pitcherRole;
+      gsPlayerEntry.PitcherRole = (ushort)pitcherRole;
       var result = gsPlayerEntry.MapToPlayerRoleDefinition(idsByPPId);
 
       result.PitcherRole.ShouldBe(expectedValue);

@@ -51,8 +51,8 @@ namespace PowerUp
       var teamGenerator = new TeamGenerator(mlbLookupServiceClient, playerGenerator);
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
-      DatabaseConfig.Initialize(DATA_DIRECTORY);
-      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      //DatabaseConfig.Initialize(DATA_DIRECTORY);
+      AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -70,7 +70,7 @@ namespace PowerUp
       //TestGenerateRoster(rosterGenerator, lsStatsAlgorithm);
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
-      CopyDir();
+      //CopyDir();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -88,19 +88,21 @@ namespace PowerUp
         int.TryParse(input, out var result);
         var playerId = result != 0
           ? result
-          : PLAYER_ID;
-        using var loader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
-        var player = loader.Read(playerId);
+          : 20;
+        using var loader = new PlayerReader(characterLibrary, "C:/dev/PowerUp/PowerUp/PowerUp.Tests/Assets/BASLUS-21671_TEST", GameSaveFormat.Ps2_2007);
+        var player = (Ps2GSPlayer)loader.Read(playerId);
+        /*
         var mappedPlayer = new PlayerMapper(specialSavedNameLibrary).MapToPlayer(player, PlayerMappingParameters.FromRosterImport(new RosterImportParameters()));
-        var bitString = player.UnknownByte_87!.ToBitString();
+        */
+        var bitString = player.BytesToCheck!.ToBitString();
         var currentTime = DateTime.Now;
-        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {player.FirstName} {player.LastName} {player.EarnedRunAverage} {mappedPlayer.EarnedRunAverage} {bitString}");
+        Console.WriteLine($"Update {currentTime.ToShortDateString()} {currentTime.ToShortTimeString()}: {bitString}");
       }
     }
 
     static void PrintAllPlayers(ICharacterLibrary characterLibrary, ISpecialSavedNameLibrary specialSavedNameLibrary)
     {
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, GameSaveFormat.Wii_2007);
       var playerMapper = new PlayerMapper(specialSavedNameLibrary);
 
       for (int id = 1; id < 1513; id++)
@@ -116,8 +118,8 @@ namespace PowerUp
 
     static void PrintAllTeams(ICharacterLibrary characterLibrary)
     {
-      var teamReader = new TeamReader(characterLibrary, GAME_SAVE_PATH);
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var teamReader = new TeamReader(characterLibrary, GAME_SAVE_PATH, GameSaveFormat.Wii_2007);
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, GameSaveFormat.Wii_2007);
 
       for (int teamNum = 1; teamNum <= 32; teamNum++)
       {
@@ -143,7 +145,7 @@ namespace PowerUp
 
     static void PrintAllLineups(ICharacterLibrary characterLibrary)
     {
-      var lineupReader = new LineupReader(characterLibrary, GAME_SAVE_PATH);
+      var lineupReader = new LineupReader(characterLibrary, GAME_SAVE_PATH, GameSaveFormat.Wii_2007);
 
       for (int teamNum = 1; teamNum <= 32; teamNum++)
       {
@@ -159,7 +161,7 @@ namespace PowerUp
 
     static void PrintLineup(ICharacterLibrary characterLibrary, IEnumerable<GSLineupPlayer> lineup)
     {
-      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH);
+      var playerReader = new PlayerReader(characterLibrary, GAME_SAVE_PATH, GameSaveFormat.Wii_2007);
       var lineupPlayers = lineup.ToArray();
       for (int playerNum = 0; playerNum < lineupPlayers.Length; playerNum++)
       {
@@ -185,7 +187,7 @@ namespace PowerUp
 
     static void BuildPlayerValueLibrary(ICharacterLibrary characterLibrary)
     {
-      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));
+      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), GameSaveFormat.Wii_2007);
       var playersAndValues = new Dictionary<string, int>();
       
       for (int id = 1; id < 1500; id++)
@@ -642,10 +644,10 @@ namespace PowerUp
     {
       var csvList = new CSVList("PlayerId", "First", "Last", "Salary", "Length");
 
-      using var reader = new GameSaveObjectReader(characterLibrary, "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2se1us.dat");
+      using var reader = new GameSaveObjectReader(characterLibrary, "C:/Users/short/OneDrive/Documents/Dolphin Emulator/Wii/title/00010000/524d5045/data/pm2se1us.dat", ByteOrder.BigEndian);
       var salaryDict = reader.Read<GSSalaryList>(0x20F4C).SalaryEntries!.ToDictionary(e => e.PowerProsPlayerId!.Value, e => e);
 
-      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"));
+      var playerReader = new PlayerReader(characterLibrary, Path.Combine(DATA_DIRECTORY, "./data/BASE.pm2maus.dat"), GameSaveFormat.Wii_2007);
       for (int id = 1; id < 971; id++)
       {
         var player = playerReader.Read(id);

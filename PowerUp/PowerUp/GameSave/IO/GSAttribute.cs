@@ -19,12 +19,21 @@ namespace PowerUp.GameSave.IO
   {
     public int Bits { get; }
     public int BitOffset { get; }
+    public bool TranslateToStartOfChunk { get; }
+    public bool TraverseBackwardsOnEvenOffset { get; }
 
-    public GSUIntAttribute(long offset, int bits, int bitOffset = 0)
-      : base(offset)
+    public GSUIntAttribute
+    ( long offset
+    , int bits
+    , int bitOffset = 0
+    , bool translateToStartOfChunk = false
+    , bool traverseBackwardsOnEvenOffset = false
+    ): base(offset)
     {
       Bits = bits;
       BitOffset = bitOffset;
+      TranslateToStartOfChunk = translateToStartOfChunk;
+      TraverseBackwardsOnEvenOffset = traverseBackwardsOnEvenOffset;
     }
   }
 
@@ -32,12 +41,21 @@ namespace PowerUp.GameSave.IO
   {
     public int Bits { get; }
     public int BitOffset { get; }
+    public bool TranslateToStartOfChunk { get; }
+    public bool TraverseBackwardsOnEvenOffset { get; }
 
-    public GSSIntAttribute(long offset, int bits, int bitOffset = 0)
-      : base(offset)
+    public GSSIntAttribute
+    ( long offset
+    , int bits
+    , int bitOffset = 0
+    , bool translateToStartOfChunk = false
+    , bool traverseBackwardsOnEvenOffset = false
+    ) : base(offset)
     {
       Bits = bits;
       BitOffset = bitOffset;
+      TranslateToStartOfChunk = translateToStartOfChunk;
+      TraverseBackwardsOnEvenOffset = traverseBackwardsOnEvenOffset;
     }
   }
 
@@ -64,11 +82,13 @@ namespace PowerUp.GameSave.IO
   public class GSBytesAttribute : GSAttribute
   {
     public int NumberOfBytes { get; }
+    public bool TraverseSequentially { get; }
 
-    public GSBytesAttribute(long offset, int numberOfBytes)
+    public GSBytesAttribute(long offset, int numberOfBytes, bool traverseSequentially = false)
       : base(offset)
     {
       NumberOfBytes = numberOfBytes;
+      TraverseSequentially = traverseSequentially;
     }
   }
 

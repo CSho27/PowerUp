@@ -11,15 +11,23 @@ namespace PowerUp.GameSave.IO
   {
     public GameSaveFileWriter _writer;
 
-    public GameSaveObjectWriter(ICharacterLibrary characterLibrary, string fileName)
+    public GameSaveObjectWriter(ICharacterLibrary characterLibrary, string fileName, ByteOrder byteOrder)
     {
-      _writer = new GameSaveFileWriter(characterLibrary, fileName);
+      _writer = new GameSaveFileWriter(characterLibrary, fileName, byteOrder);
     }
 
     public void Write<TGameSaveObject>(long offset, TGameSaveObject gsObject) where TGameSaveObject : class
       => Write(typeof(TGameSaveObject), offset, gsObject);
 
-    public void WriteInt(long offset, short @int) => _writer.WriteSInt(offset, 0, 16, @int);
+    public void WriteInt(long offset, short @int) 
+      => _writer.WriteSInt
+      ( offset
+      , bitOffset: 0
+      , numberOfBits: 16
+      , translateToStartOfTwoByteChunk: true
+      , twoByteCheckStartsAtEvenOffset: false
+      , sint: @int
+      );
 
     public void Write(Type type, long offset, object gsObject)
     {
@@ -33,9 +41,9 @@ namespace PowerUp.GameSave.IO
         if (gameSaveAttribute is GSBooleanAttribute boolAttr)
           _writer.WriteBool(offset + boolAttr.Offset, boolAttr.BitOffset, (bool)propertyValue);
         else if (gameSaveAttribute is GSUIntAttribute uintAttr)
-          _writer.WriteUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, (ushort)propertyValue);
+          _writer.WriteUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, uintAttr.TranslateToStartOfChunk, uintAttr.TraverseBackwardsOnEvenOffset, (ushort)propertyValue);
         else if (gameSaveAttribute is GSSIntAttribute sintAttr)
-          _writer.WriteSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, (short)propertyValue);
+          _writer.WriteSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, sintAttr.TranslateToStartOfChunk, sintAttr.TraverseBackwardsOnEvenOffset, (short)propertyValue);
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           _writer.WriteString(offset + stringAttr.Offset, stringAttr.StringLength, (string)propertyValue);
         else if (gameSaveAttribute is GSArrayAttribute arrayAttr)

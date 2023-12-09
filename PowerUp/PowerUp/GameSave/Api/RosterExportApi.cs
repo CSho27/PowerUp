@@ -1,6 +1,7 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Rosters;
 using PowerUp.GameSave.GameSaveManagement;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.FreeAgents;
 using PowerUp.GameSave.Objects.GameSaves;
 using PowerUp.GameSave.Objects.Players;
@@ -53,7 +54,8 @@ namespace PowerUp.GameSave.Api
       var roster = parameters.Roster!;
       var (rosterFilePath, gameSaveId) = _gameSaveManager.CreateNewGameSave(parameters.ExportDirectory, parameters.SourceGameSave, roster.Name);
 
-      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath))
+      // CHRISTODO: Don't hard code endian-ness
+      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath, ByteOrder.BigEndian))
       {
         var teams = roster.GetTeams()
           .OrderBy(t => t.Value.GetDivision())
@@ -74,7 +76,7 @@ namespace PowerUp.GameSave.Api
 
         var ppIdByExportId = _powerProsIdAssigner.AssignIds(allPlayerParameters, _playerSalariesLibrary.PlayerSalaries);
 
-        var gsPlayers = new List<GSPlayer>();
+        var gsPlayers = new List<IGSPlayer>();
         var ppIdsByTeamAndId = new Dictionary<MLBPPTeam, IDictionary<int, ushort>>();
         for(var i=0; i<playersOnTeams.Count; i++)
         {
@@ -105,12 +107,13 @@ namespace PowerUp.GameSave.Api
         for (var i = freeAgents.Count(); i < 15; i++)
           blankFreeAgentSpots.Add(new GSFreeAgent() { PowerProsPlayerId = 0 });
 
+        // CHRISTODO: Remove explicit cast
         var gameSave = new GSGameSave
         {
           PowerUpId = (short)gameSaveId,
-          Players = gsPlayers.OrderBy(p => p.PowerProsId),
-          Teams = teams.Select(t => t.Key.MapToGSTeam(t.Value, ppIdsByTeamAndId[t.Value])),
-          Lineups = teams.Select(t => t.Key.MapToGSLineup(ppIdsByTeamAndId[t.Value])),
+          Players = gsPlayers.OrderBy(p => p.PowerProsId).Cast<GSPlayer>(),
+          Teams = teams.Select(t => TeamMapper.MapToGSTeam(t.Key, t.Value, ppIdsByTeamAndId[t.Value])),
+          Lineups = teams.Select(t => TeamMapper.MapToGSLineup(t.Key, ppIdsByTeamAndId[t.Value])),
           FreeAgents = new GSFreeAgentList 
           { 
             FreeAgents = mappedFAs

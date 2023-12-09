@@ -71,7 +71,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToGSLineup_MapsNoDHLineup()
     {
-      var result = team.MapToGSLineup(ppIdsById);
+      var result = TeamMapper.MapToGSLineup(team, ppIdsById);
       var noDH = result.NoDHLineup;
 
       noDH.ElementAt(0).PowerProsPlayerId.ShouldBe((ushort)1);
@@ -112,7 +112,7 @@ namespace PowerUp.Tests.Mappers.Teams
     [Test]
     public void MapToGSLineup_MapsDHLineup()
     {
-      var result = team.MapToGSLineup(ppIdsById);
+      var result = TeamMapper.MapToGSLineup(team, ppIdsById);
       var dh = result.DHLineup;
 
       dh.ElementAt(0).PowerProsPlayerId.ShouldBe((ushort)1);

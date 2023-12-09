@@ -9,7 +9,7 @@ namespace PowerUp.Mappers.Players
     public const int EYE_COLOR_OFFSET = 5;
     public const int EYEWEAR_OFFSET = 3;
 
-    public static Appearance GetAppearance(GSPlayer player)
+    public static Appearance GetAppearance(IGSPlayer player)
     {
       var ppFaceId = player.Face!.Value;
       var faceHasThinEyebrows = ppFaceId >= 195 && ppFaceId < 213;

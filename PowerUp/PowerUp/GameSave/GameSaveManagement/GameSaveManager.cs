@@ -172,7 +172,8 @@ namespace PowerUp.GameSave.GameSaveManagement
 
     private int GetGameSaveIdForFile(string directoryPath)
     {
-      using var reader = new GameSaveObjectReader(_characterLibrary, new FileStream(directoryPath, FileMode.Open, FileAccess.Read));
+      // CHRISTODO: Don't hard code this
+      using var reader = new GameSaveObjectReader(_characterLibrary, new FileStream(directoryPath, FileMode.Open, FileAccess.Read), ByteOrder.BigEndian);
       return reader.ReadInt(GSGameSave.PowerUpIdOffset);
     }
 

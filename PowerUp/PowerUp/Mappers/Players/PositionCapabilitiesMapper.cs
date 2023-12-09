@@ -5,7 +5,7 @@ namespace PowerUp.Mappers.Players
 {
   public static class PositionCapabilitiesMapper
   {
-    public static PositionCapabilities GetPositionCapabilities(this GSPlayer gsPlayer)
+    public static PositionCapabilities GetPositionCapabilities(IGSPlayer gsPlayer)
     {
       return new PositionCapabilities
       {

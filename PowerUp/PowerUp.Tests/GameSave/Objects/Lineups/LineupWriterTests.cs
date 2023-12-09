@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
+using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
+using PowerUp.GameSave.Objects.Players;
 using PowerUp.Libraries;
 using Shouldly;
 using System.Collections.Generic;
@@ -71,11 +73,11 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [Test]
     public void Writes_NoDHLineup()
     {
-      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testLineups);
 
       GSLineupDefinition loadedLineup = null;
-      using (var reader = new LineupReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new LineupReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedLineup = reader.Read(INDIANS_ID);
 
       var noDH = loadedLineup.NoDHLineup.ToArray();
@@ -89,11 +91,11 @@ namespace PowerUp.Tests.GameSave.Objects.Lineups
     [Test]
     public void Writes_DHLineup()
     {
-      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var writer = new LineupWriter(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         writer.Write(INDIANS_ID, testLineups);
 
       GSLineupDefinition loadedLineup = null;
-      using (var reader = new LineupReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH))
+      using (var reader = new LineupReader(_characterLibrary, TEST_WRITE_GAME_SAVE_FILE_PATH, GameSaveFormat.Wii_2007))
         loadedLineup = reader.Read(INDIANS_ID);
 
       var dh = loadedLineup.DHLineup.ToArray();

@@ -16,7 +16,7 @@ namespace PowerUp.Mappers.Players
     /// </summary>
     public static ushort ToKMH(this double mph) => (ushort)Math.Ceiling(mph / MPH_KMH);
 
-    public static PitcherAbilities GetPitcherAbilities(this GSPlayer gsPlayer)
+    public static PitcherAbilities GetPitcherAbilities(IGSPlayer gsPlayer)
     {
       return new PitcherAbilities
       {

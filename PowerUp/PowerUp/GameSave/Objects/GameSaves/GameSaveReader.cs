@@ -14,14 +14,14 @@ namespace PowerUp.GameSave.Objects.GameSaves
   {
     private readonly GameSaveObjectReader _reader;
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, string filePath)
+    public GameSaveReader(ICharacterLibrary characterLibrary, string filePath, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, filePath);
+      _reader = new GameSaveObjectReader(characterLibrary, filePath, byteOrder);
     }
 
-    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveReader(ICharacterLibrary characterLibrary, Stream stream, ByteOrder byteOrder)
     {
-      _reader = new GameSaveObjectReader(characterLibrary, stream);
+      _reader = new GameSaveObjectReader(characterLibrary, stream, byteOrder);
     }
 
     /// <summary>
@@ -32,12 +32,13 @@ namespace PowerUp.GameSave.Objects.GameSaves
     {
       var playerReader = new PlayerReader(_reader);
       var gsPlayers = new List<GSPlayer>();
+      // CHRISTODO: Don't explicitly cast this
       for (int i = 1; i <= 1500; i++)
-        gsPlayers.Add(playerReader.Read(i));
+        gsPlayers.Add((GSPlayer)playerReader.Read(i));
 
       var teamReader = new TeamReader(_reader);
       var lineupReader = new LineupReader(_reader);
-      var gsTeams = new List<GSTeam>();
+      var gsTeams = new List<IGSTeam>();
       var gsLineups = new List<GSLineupDefinition>();
       for (int i = 0; i < 32; i++)
       {

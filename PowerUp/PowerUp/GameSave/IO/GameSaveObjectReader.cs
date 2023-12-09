@@ -1,7 +1,6 @@
 ﻿using PowerUp.Libraries;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace PowerUp.GameSave.IO
 {
@@ -9,20 +8,27 @@ namespace PowerUp.GameSave.IO
   {
     private readonly GameSaveFileReader _reader;
 
-    public GameSaveObjectReader(ICharacterLibrary characterLibrary, string fileName)
+    public GameSaveObjectReader(ICharacterLibrary characterLibrary, string fileName, ByteOrder byteOrder)
     {
-      _reader = new GameSaveFileReader(characterLibrary, fileName);
+      _reader = new GameSaveFileReader(characterLibrary, fileName, byteOrder);
     }
 
-    public GameSaveObjectReader(ICharacterLibrary characterLibrary, Stream stream)
+    public GameSaveObjectReader(ICharacterLibrary characterLibrary, Stream stream, ByteOrder byteOrder)
     {
-      _reader = new GameSaveFileReader(characterLibrary, stream);
+      _reader = new GameSaveFileReader(characterLibrary, stream, byteOrder);
     }
 
     public TGameSaveObject Read<TGameSaveObject>(long offset) where TGameSaveObject : class
       => (TGameSaveObject)Read(typeof(TGameSaveObject), offset);
 
-    public short ReadInt(long offset) => _reader.ReadSInt(offset, 0, 16);
+    public short ReadInt(long offset) 
+      => _reader.ReadSInt
+          ( offset
+          , bitOffset: 0
+          , numberOfBits: 16
+          , translateToStartOfTwoByteChunk: true
+          , twoByteChunkStartsAtEvenOffset: false
+          );
 
     public object Read(Type type, long offset)
     {
@@ -36,13 +42,13 @@ namespace PowerUp.GameSave.IO
         if (gameSaveAttribute is GSBooleanAttribute boolAttr)
           property.SetValue(gsObject, _reader.ReadBool(offset + boolAttr.Offset, boolAttr.BitOffset));
         else if (gameSaveAttribute is GSUIntAttribute uintAttr)
-          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits));
+          property.SetValue(gsObject, _reader.ReadUInt(offset + uintAttr.Offset, uintAttr.BitOffset, uintAttr.Bits, uintAttr.TranslateToStartOfChunk, uintAttr.TraverseBackwardsOnEvenOffset));
         else if (gameSaveAttribute is GSSIntAttribute sintAttr)
-          property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits));
+          property.SetValue(gsObject, _reader.ReadSInt(offset + sintAttr.Offset, sintAttr.BitOffset, sintAttr.Bits, sintAttr.TranslateToStartOfChunk, sintAttr.TraverseBackwardsOnEvenOffset));
         else if (gameSaveAttribute is GSStringAttribute stringAttr)
           property.SetValue(gsObject, _reader.ReadString(offset + stringAttr.Offset, stringAttr.StringLength));
         else if (gameSaveAttribute is GSBytesAttribute bytesAttr)
-          property.SetValue(gsObject, _reader.ReadBytes(offset + bytesAttr.Offset, bytesAttr.NumberOfBytes));
+          property.SetValue(gsObject, _reader.ReadBytes(offset + bytesAttr.Offset, bytesAttr.NumberOfBytes, bytesAttr.TraverseSequentially));
         else if (gameSaveAttribute is GSArrayAttribute arrayAttr)
         {
           var arrayType = property.PropertyType.GenericTypeArguments[0];
