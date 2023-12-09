@@ -1,4 +1,5 @@
-﻿using PowerUp.Databases;
+﻿using MLB_StatsAPI.NET;
+using PowerUp.Databases;
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
@@ -52,7 +53,7 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       //DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -71,6 +72,7 @@ namespace PowerUp
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
+      MLBStatsApi.Main();
     }
 
     static TimeSpan TimeAction(Action action)
