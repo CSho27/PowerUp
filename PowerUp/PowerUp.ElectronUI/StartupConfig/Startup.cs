@@ -27,8 +27,11 @@ namespace PowerUp.ElectronUI
       Console.WriteLine($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
       DatabaseConfig.Initialize(dataDirectory);
+      Console.WriteLine("RegisteringLibraries");
       services.RegisterLibraries(dataDirectory);
+      Console.WriteLine("RegisteringDependencies");
       services.RegisterDependencies();
+      Console.WriteLine("ConfigureServices finished successfully");
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,8 @@ namespace PowerUp.ElectronUI
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
+
+      Console.WriteLine("HttpsRedirection beginning...");
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 
