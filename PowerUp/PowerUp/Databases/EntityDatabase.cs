@@ -14,7 +14,16 @@ namespace PowerUp.Databases
 
     public EntityDatabase(string dataDirectory)
     {
-      DBConnection = new LiteDatabase(Path.Combine(dataDirectory, "Data.db"));
+      Console.WriteLine("Initializing Entity Database");
+      try
+      {
+        DBConnection = new LiteDatabase(Path.Combine(dataDirectory, "Data.db"));
+
+      } catch (Exception ex)
+      {
+        Console.WriteLine(ex.Message);
+        throw;
+      }
     }
 
     public ITransaction BeginTransaction()
