@@ -5,6 +5,7 @@ using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.Statcast;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
@@ -35,7 +36,8 @@ namespace PowerUp
       var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
       var battingStanceLibrary = new BattingStanceLibrary(Path.Combine(DATA_DIRECTORY, "./data/BattingForm_Library.csv"));
       var pitchingMechanicsLibrary = new PitchingMechanicsLibrary(Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv"));
-      var mlbLookupServiceClient = new MLBLookupServiceClient();
+      var statcastClient = new StatcastClient();
+      var mlbLookupServiceClient = new MLBLookupServiceClient(statcastClient);
       var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
       var playerApi = new PlayerApi();

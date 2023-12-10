@@ -1,4 +1,5 @@
 ﻿using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.Statcast;
 
 namespace PowerUp.ElectronUI.Api.Searching
 {

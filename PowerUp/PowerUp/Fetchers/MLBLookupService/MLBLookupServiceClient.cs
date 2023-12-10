@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PowerUp.Fetchers.Statcast;
 
 namespace PowerUp.Fetchers.MLBLookupService
 {
@@ -16,10 +19,16 @@ namespace PowerUp.Fetchers.MLBLookupService
     Task<TeamRosterResult> GetTeamRosterForYear(long lsTeamId, int year);
   }
 
-  public partial class MLBLookupServiceClient : IMLBLookupServiceClient
+  public class MLBLookupServiceClient : IMLBLookupServiceClient
   {
     private const string BASE_URL = "http://lookup-service-prod.mlb.com/json";
     private readonly ApiClient _apiClient = new ApiClient();
+    private readonly IStatcastClient _statcastClient;
+
+    public MLBLookupServiceClient(IStatcastClient statcastClient)
+    {
+      _statcastClient = statcastClient;
+    }
 
     public async Task<PlayerSearchResults> SearchPlayer(string name)
     {
@@ -28,11 +37,13 @@ namespace PowerUp.Fetchers.MLBLookupService
         new { sport_code = "\'mlb\'", name_part = $"\'{name}%\'" }
       );
 
-      var response = await _apiClient.Get<LSPlayerSearchResults>(url);
-      var results = response!.search_player_all!.queryResults!;
-      var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSPlayerSearchResult>(results.row);
-      return new PlayerSearchResults(totalResults, deserializedResults);
+      var searchResponse = await _statcastClient.SearchPlayer(name);
+      var searchResults = searchResponse.ToList();
+      var totalResults = searchResults.Count;
+
+      var first10Results = searchResults.Take(10);
+      var results = await Task.WhenAll(first10Results.Select(async r => await GetPlayerInfo(long.Parse(r.Id!))));
+      return new PlayerSearchResults(totalResults, results);
     }
 
     public async Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId)
