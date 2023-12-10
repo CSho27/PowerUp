@@ -3,6 +3,7 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
+using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.Fetchers.Statcast;
@@ -54,7 +55,7 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       //DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -73,6 +74,8 @@ namespace PowerUp
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
+
+      var results = new AlgoliaClient().SearchPlayer("Ted").GetAwaiter().GetResult();
     }
 
     static TimeSpan TimeAction(Action action)
