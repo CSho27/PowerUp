@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using PowerUp.Entities.Players;
+using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.MLBLookupService;
-using PowerUp.Fetchers.Statcast;
 using Shouldly;
 using System;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
 {
   public class MLBLookupServiceTests
   {
-    private readonly IMLBLookupServiceClient _client = new MLBLookupServiceClient(new StatcastClient());
+    private readonly IMLBLookupServiceClient _client = new MLBLookupServiceClient(new AlgoliaClient());
 
     [Test]
     public void SearchPlayer_SearchesSingle_CurrentPlayer()

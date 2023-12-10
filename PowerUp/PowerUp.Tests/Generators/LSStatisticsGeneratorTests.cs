@@ -2,9 +2,9 @@
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
+using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
-using PowerUp.Fetchers.Statcast;
 using PowerUp.Generators;
 using PowerUp.Libraries;
 using Shouldly;
@@ -23,7 +23,7 @@ namespace PowerUp.Tests.Generators
     [SetUp]
     public void SetUp()
     {
-      _mlbLookupApiClient = new MLBLookupServiceClient(new StatcastClient());
+      _mlbLookupApiClient = new MLBLookupServiceClient(new AlgoliaClient());
       _playerGenerator = new PlayerGenerator(new PlayerApi(), new LSPlayerStatisticsFetcher(_mlbLookupApiClient), new BaseballReferenceClient());
       _voiceLibrary = TestConfig.VoiceLibrary.Value;
       _skinColorGuesser = new SkinColorGuesser(TestConfig.CountryAndSkinColorLibrary.Value);

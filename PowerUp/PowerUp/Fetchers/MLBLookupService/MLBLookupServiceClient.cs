@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.Statcast;
 
 namespace PowerUp.Fetchers.MLBLookupService
@@ -23,11 +24,11 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     private const string BASE_URL = "http://lookup-service-prod.mlb.com/json";
     private readonly ApiClient _apiClient = new ApiClient();
-    private readonly IStatcastClient _statcastClient;
+    private readonly IAlgoliaClient _algoliaClient;
 
-    public MLBLookupServiceClient(IStatcastClient statcastClient)
+    public MLBLookupServiceClient(IAlgoliaClient algoliaClient)
     {
-      _statcastClient = statcastClient;
+      _algoliaClient = algoliaClient;
     }
 
     public async Task<PlayerSearchResults> SearchPlayer(string name)
@@ -37,12 +38,12 @@ namespace PowerUp.Fetchers.MLBLookupService
         new { sport_code = "\'mlb\'", name_part = $"\'{name}%\'" }
       );
 
-      var searchResponse = await _statcastClient.SearchPlayer(name);
+      var searchResponse = await _algoliaClient.SearchPlayer(name);
       var searchResults = searchResponse.ToList();
       var totalResults = searchResults.Count;
 
       var first10Results = searchResults.Take(10);
-      var results = await Task.WhenAll(first10Results.Select(async r => await GetPlayerInfo(long.Parse(r.Id!))));
+      var results = await Task.WhenAll(first10Results.Select(async r => await GetPlayerInfo(r.PlayerId)));
       return new PlayerSearchResults(totalResults, results);
     }
 

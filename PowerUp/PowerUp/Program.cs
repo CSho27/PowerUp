@@ -38,7 +38,8 @@ namespace PowerUp
       var battingStanceLibrary = new BattingStanceLibrary(Path.Combine(DATA_DIRECTORY, "./data/BattingForm_Library.csv"));
       var pitchingMechanicsLibrary = new PitchingMechanicsLibrary(Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv"));
       var statcastClient = new StatcastClient();
-      var mlbLookupServiceClient = new MLBLookupServiceClient(statcastClient);
+      var algoliaClient = new AlgoliaClient();
+      var mlbLookupServiceClient = new MLBLookupServiceClient(algoliaClient);
       var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
       var playerApi = new PlayerApi();
