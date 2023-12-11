@@ -16,9 +16,9 @@ namespace PowerUp.Fetchers.MLBLookupService
       Results = results.Select(r => new FieldingStatsResult(r));
     }
 
-    public FieldingStatsResults(StatElement stats)
+    public FieldingStatsResults(StatElement? stats)
     {
-      var validSplits = stats.Splits.Where(s => s.Team != null).ToList();
+      var validSplits = stats?.Splits.Where(s => s.Team != null).ToList() ?? [];
       validSplits.Reverse();
 
       TotalResults = validSplits.Count;
