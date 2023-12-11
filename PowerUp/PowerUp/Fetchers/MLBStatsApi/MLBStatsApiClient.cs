@@ -26,7 +26,7 @@ namespace PowerUp.Fetchers.MLBStatsApi
       );
 
       var response = await _client.Get<PeopleResults>(url);
-      var fieldingStats = response.People.Single().Stats.Single(s => s.Group?.DisplayName == "fielding"); 
+      var fieldingStats = response.People.SingleOrDefault()?.Stats.SingleOrDefault(s => s.Group?.DisplayName == "fielding"); 
       return new FieldingStatsResults(fieldingStats);
     }
   }
