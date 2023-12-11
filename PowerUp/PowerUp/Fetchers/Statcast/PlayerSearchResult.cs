@@ -11,7 +11,7 @@ namespace PowerUp.Fetchers.Statcast
     public long TotalResults { get; }
     public IEnumerable<PlayerSearchResult> Results { get; }
 
-    public PlayerSearchResults(int totalResults, IEnumerable<PlayerInfoResult> results)
+    public PlayerSearchResults(long totalResults, IEnumerable<PlayerInfoResult> results)
     {
       TotalResults = totalResults;
       Results = results.Select(r => new PlayerSearchResult(r));

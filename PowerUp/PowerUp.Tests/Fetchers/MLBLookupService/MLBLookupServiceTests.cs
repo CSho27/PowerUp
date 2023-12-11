@@ -51,25 +51,26 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
       {
         var result = await _client.SearchPlayer("Sandy Koufax");
         result.TotalResults.ShouldBe(1);
-        var stanton = result.Results.Single();
-        stanton.LSPlayerId.ShouldBe(117277);
-        stanton.FirstName.ShouldBe("Sandy");
-        stanton.LastName.ShouldBe("Koufax");
-        stanton.Position.ShouldBe(Position.Pitcher);
-        stanton.BattingSide.ShouldBe(BattingSide.Right);
-        stanton.ThrowingArm.ShouldBe(ThrowingArm.Left);
-        stanton.Weight.ShouldBe(210);
-        stanton.HeightFeet.ShouldBe(6);
-        stanton.HeightInches.ShouldBe(2);
-        stanton.BirthDate.ShouldBe(DateTime.Parse("1935-12-30T00:00:00"));
-        stanton.BirthCountry.ShouldBe("USA");
-        stanton.BirthState.ShouldBe("NY");
-        stanton.BirthCity.ShouldBe("Brooklyn");
-        stanton.HighSchool.ShouldBe("Lafayette, Brooklyn, NY");
-        stanton.College.ShouldBe("Cincinnati");
-        stanton.ProDebutDate.ShouldBe(DateTime.Parse("1955-06-24T00:00:00"));
-        stanton.ServiceYears.ShouldBe(null);
-        stanton.IsActive.ShouldBe(false);
+        var koufax = result.Results.Single();
+        koufax.LSPlayerId.ShouldBe(117277);
+        koufax.FirstName.ShouldBe("Sanford");
+        koufax.FirstNameUsed.ShouldBe("Sandy");
+        koufax.LastName.ShouldBe("Koufax");
+        koufax.Position.ShouldBe(Position.Pitcher);
+        koufax.BattingSide.ShouldBe(BattingSide.Right);
+        koufax.ThrowingArm.ShouldBe(ThrowingArm.Left);
+        koufax.Weight.ShouldBe(210);
+        koufax.HeightFeet.ShouldBe(6);
+        koufax.HeightInches.ShouldBe(2);
+        koufax.BirthDate.ShouldBe(DateTime.Parse("1935-12-30T00:00:00"));
+        koufax.BirthCountry.ShouldBe("USA");
+        koufax.BirthState.ShouldBe("NY");
+        koufax.BirthCity.ShouldBe("Brooklyn");
+        koufax.HighSchool.ShouldBe("Lafayette, Brooklyn, NY");
+        koufax.College.ShouldBe("Cincinnati");
+        koufax.ProDebutDate.ShouldBe(DateTime.Parse("1955-06-24T00:00:00"));
+        koufax.ServiceYears.ShouldBe(null);
+        koufax.IsActive.ShouldBe(false);
       }).GetAwaiter().GetResult();
     }
 

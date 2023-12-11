@@ -39,11 +39,9 @@ namespace PowerUp.Fetchers.MLBLookupService
       );
 
       var searchResponse = await _algoliaClient.SearchPlayer(name);
-      var searchResults = searchResponse.ToList();
-      var totalResults = searchResults.Count;
+      var totalResults = searchResponse.NbHits;
 
-      var first10Results = searchResults.Take(10);
-      var results = await Task.WhenAll(first10Results.Select(async r => await GetPlayerInfo(r.PlayerId)));
+      var results = await Task.WhenAll(searchResponse.Hits.Select(async r => await GetPlayerInfo(r.PlayerId)));
       return new PlayerSearchResults(totalResults, results);
     }
 

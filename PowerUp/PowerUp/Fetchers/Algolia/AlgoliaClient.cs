@@ -6,7 +6,7 @@ namespace PowerUp.Fetchers.Algolia
 {
   public interface IAlgoliaClient
   {
-    Task<IEnumerable<PlayerResult>> SearchPlayer(string name);
+    Task<AlgoliaSearchResult<PlayerResult>> SearchPlayer(string name);
   }
 
   public class AlgoliaClient : IAlgoliaClient
@@ -18,7 +18,7 @@ namespace PowerUp.Fetchers.Algolia
 
     private readonly ApiClient _client = new ApiClient();
 
-    public async Task<IEnumerable<PlayerResult>> SearchPlayer(string name)
+    public async Task<AlgoliaSearchResult<PlayerResult>> SearchPlayer(string name)
     {
       var url = UrlBuilder.Build(
         BASE_URL,
@@ -43,7 +43,7 @@ namespace PowerUp.Fetchers.Algolia
       };
 
       var response = await _client.Post<AlgoliaSearchResults<PlayerResult>>(url, request);
-      return response.Results.Single().Hits;
+      return response.Results.Single();
     }
   }
 }
