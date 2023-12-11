@@ -18,15 +18,16 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public FieldingStatsResults(StatElement stats)
     {
-      TotalResults = stats.Splits.Length;
-      var teams = new HashSet<long>();
-      Results = stats.Splits
-        .Where(s => s.Team != null)
-        .Select(r => 
-        {
-          teams.Add(r.Team!.Id);
-          return new FieldingStatsResult(r, teams.Count);
-        })
+      var validSplits = stats.Splits.Where(s => s.Team != null).ToList();
+      validSplits.Reverse();
+
+      TotalResults = validSplits.Count;
+      var teamSeqById = new Dictionary<long, int>();
+      foreach (var split in validSplits)
+        teamSeqById.TryAdd(split.Team!.Id, teamSeqById.Count + 1);
+
+      Results = validSplits
+        .Select(r => new FieldingStatsResult(r, teamSeqById[r.Team!.Id]))
         .ToList();
     }
   }
@@ -94,7 +95,7 @@ namespace PowerUp.Fetchers.MLBLookupService
       Assists = (int?)split.Stat?.Assists;
       PutOuts = (int?)split.Stat?.PutOuts;
       DoublePlays = (int?)split.Stat?.DoublePlays;
-      RangeFactor = split.Stat?.RangeFactorPer9Inn.TryParseDouble();
+      RangeFactor = split.Stat?.RangeFactorPerGame.TryParseDouble();
       FieldingPercentage = split.Stat?.Fielding.TryParseDouble();
       Catcher_RunnersThrownOut = (int?)split.Stat?.CaughtStealing;
       Catcher_StolenBasesAllowed = (int?)split.Stat?.StolenBases;

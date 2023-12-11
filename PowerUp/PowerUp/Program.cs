@@ -41,7 +41,7 @@ namespace PowerUp
       var statcastClient = new StatcastClient();
       var algoliaClient = new AlgoliaClient();
       var mlbStatsApiClient = new MLBStatsApiClient();
-      var mlbLookupServiceClient = new MLBLookupServiceClient(algoliaClient);
+      var mlbLookupServiceClient = new MLBLookupServiceClient(algoliaClient, mlbStatsApiClient);
       var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
       var playerApi = new PlayerApi();

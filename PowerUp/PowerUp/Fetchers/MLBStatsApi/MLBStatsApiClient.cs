@@ -4,7 +4,12 @@ using System.Threading.Tasks;
 
 namespace PowerUp.Fetchers.MLBStatsApi
 {
-  public class MLBStatsApiClient
+  public interface IMLBStatsApiClient
+  {
+    Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year);
+  }
+
+  public class MLBStatsApiClient : IMLBStatsApiClient
   {
     private const string BASE_URL = "https://statsapi.mlb.com/api/v1";
     private readonly ApiClient _client = new ApiClient();

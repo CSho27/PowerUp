@@ -4,6 +4,7 @@ using PowerUp.Entities.Teams.Api;
 using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.MLBStatsApi;
 using PowerUp.Fetchers.Statcast;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.GameSaveManagement;
@@ -27,6 +28,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IBaseRosterInitializer>(provider => new BaseRosterInitalizer(provider.GetRequiredService<IBaseGameSavePathProvider>(), provider.GetRequiredService<IRosterImportApi>()));
       services.AddTransient<IRosterApi>(provider => new RosterApi());
       services.AddTransient<IAlgoliaClient, AlgoliaClient>();
+      services.AddTransient<IMLBStatsApiClient, MLBStatsApiClient>();
       services.AddTransient<IStatcastClient, StatcastClient>();
       services.AddTransient<IMLBLookupServiceClient, MLBLookupServiceClient>();
       services.AddTransient<IPlayerStatisticsFetcher>(provider => new LSPlayerStatisticsFetcher(provider.GetRequiredService<IMLBLookupServiceClient>()));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PowerUp.Fetchers.Algolia;
+using PowerUp.Fetchers.MLBStatsApi;
 using PowerUp.Fetchers.Statcast;
 
 namespace PowerUp.Fetchers.MLBLookupService
@@ -25,10 +26,15 @@ namespace PowerUp.Fetchers.MLBLookupService
     private const string BASE_URL = "http://lookup-service-prod.mlb.com/json";
     private readonly ApiClient _apiClient = new ApiClient();
     private readonly IAlgoliaClient _algoliaClient;
+    private readonly IMLBStatsApiClient _mlbStatsApiClient;
 
-    public MLBLookupServiceClient(IAlgoliaClient algoliaClient)
+    public MLBLookupServiceClient(
+      IAlgoliaClient algoliaClient,
+      IMLBStatsApiClient mlbStatsApiClient
+    )
     {
       _algoliaClient = algoliaClient;
+      _mlbStatsApiClient = mlbStatsApiClient;
     }
 
     public async Task<PlayerSearchResults> SearchPlayer(string name)
@@ -77,16 +83,7 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.sport_fielding_tm.bam" },
-        new { league_list_id = "\'mlb\'", game_type = "\'R\'", player_id = $"\'{lsPlayerId}\'", season = $"\'{year}\'" }
-      );
-
-      var response = await _apiClient.Get<LSFieldingStatsResponse>(url);
-      var results = response!.sport_fielding_tm!.queryResults!;
-      var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSFieldingStatsResult>(results.row)!;
-      return new FieldingStatsResults(totalResults, deserializedResults);
+      return await _mlbStatsApiClient.GetFieldingStats(lsPlayerId, year);
     }
 
     public async Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year)
