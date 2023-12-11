@@ -6,6 +6,7 @@ using PowerUp.Entities.Teams;
 using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.MLBStatsApi;
 using PowerUp.Fetchers.Statcast;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
@@ -39,6 +40,7 @@ namespace PowerUp
       var pitchingMechanicsLibrary = new PitchingMechanicsLibrary(Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv"));
       var statcastClient = new StatcastClient();
       var algoliaClient = new AlgoliaClient();
+      var mlbStatsApiClient = new MLBStatsApiClient();
       var mlbLookupServiceClient = new MLBLookupServiceClient(algoliaClient);
       var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
@@ -76,7 +78,7 @@ namespace PowerUp
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
 
-      var results = new AlgoliaClient().SearchPlayer("Ted").GetAwaiter().GetResult();
+      var results = new MLBStatsApiClient().GetFieldingStats(621035, 2016).GetAwaiter().GetResult();
     }
 
     static TimeSpan TimeAction(Action action)
