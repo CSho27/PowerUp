@@ -1,4 +1,5 @@
 ﻿using PowerUp.Entities.Players;
+using PowerUp.Fetchers.MLBStatsApi;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,6 +14,21 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       TotalResults = totalResults;
       Results = results.Select(r => new FieldingStatsResult(r));
+    }
+
+    public FieldingStatsResults(StatElement? stats)
+    {
+      var validSplits = stats?.Splits.Where(s => s.Team != null).ToList() ?? [];
+      validSplits.Reverse();
+
+      TotalResults = validSplits.Count;
+      var teamSeqById = new Dictionary<long, int>();
+      foreach (var split in validSplits)
+        teamSeqById.TryAdd(split.Team!.Id, teamSeqById.Count + 1);
+
+      Results = validSplits
+        .Select(r => new FieldingStatsResult(r, teamSeqById[r.Team!.Id]))
+        .ToList();
     }
   }
 
@@ -58,6 +74,33 @@ namespace PowerUp.Fetchers.MLBLookupService
       Catcher_StolenBasesAllowed = result.sb.TryParseInt();
       Catcher_PastBalls = result.pb.TryParseInt();
       Catcher_WildPitches = result.cwp.TryParseInt();
+    }
+
+    public FieldingStatsResult(Split split, int teamSeq)
+    {
+      LSPlayerId = (int)split.Player!.Id;
+      Year = split.Season.TryParseInt()!.Value;
+      TeamSeq = teamSeq;
+
+      var positionCode = split.Position?.Code.TryParseInt();
+      Position = positionCode.HasValue
+        ? (Position)positionCode
+        : Position.DesignatedHitter;
+
+      GamesPlayed = (int?)split.Stat?.GamesPlayed;
+      GamesStarted = (int?)split.Stat?.GamesStarted;
+      Innings = split.Stat?.Innings.TryParseDouble();
+      TotalChances = (int?)split.Stat?.Chances;
+      Errors = (int?)split.Stat?.Errors;
+      Assists = (int?)split.Stat?.Assists;
+      PutOuts = (int?)split.Stat?.PutOuts;
+      DoublePlays = (int?)split.Stat?.DoublePlays;
+      RangeFactor = split.Stat?.RangeFactorPerGame.TryParseDouble();
+      FieldingPercentage = split.Stat?.Fielding.TryParseDouble();
+      Catcher_RunnersThrownOut = (int?)split.Stat?.CaughtStealing;
+      Catcher_StolenBasesAllowed = (int?)split.Stat?.StolenBases;
+      Catcher_PastBalls = (int?)split.Stat?.PassedBalls;
+      Catcher_WildPitches = (int?)split.Stat?.WildPitches;
     }
   }
 }

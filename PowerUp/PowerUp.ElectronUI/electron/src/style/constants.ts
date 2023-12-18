@@ -31,8 +31,10 @@ export const COLORS = {
     regular_5: 'hsl(196deg 60% 5%)'
   },
   secondaryRed: {
+    extraLight_96: 'hsl(6deg 71% 96%)', 
     light_69: 'hsl(6deg 71% 69%)',
-    regular_44: 'hsl(6deg 71% 44%)'
+    regular_44: 'hsl(6deg 71% 44%)',
+    dark_31: 'hsl(6deg 71% 31%)'
   },
   transparent: {
     regular_100: 'hsl(0deg 100% 100% / 0)'

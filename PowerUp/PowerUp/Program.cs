@@ -3,8 +3,11 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Teams;
+using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.MLBStatsApi;
+using PowerUp.Fetchers.Statcast;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.IO;
 using PowerUp.GameSave.Objects.Lineups;
@@ -35,7 +38,10 @@ namespace PowerUp
       var savedNameLibrary = new SpecialSavedNameLibrary(Path.Combine(DATA_DIRECTORY, "./data/SpecialSavedName_Library.csv"));
       var battingStanceLibrary = new BattingStanceLibrary(Path.Combine(DATA_DIRECTORY, "./data/BattingForm_Library.csv"));
       var pitchingMechanicsLibrary = new PitchingMechanicsLibrary(Path.Combine(DATA_DIRECTORY, "./data/PitchingForm_Library.csv"));
-      var mlbLookupServiceClient = new MLBLookupServiceClient();
+      var statcastClient = new StatcastClient();
+      var algoliaClient = new AlgoliaClient();
+      var mlbStatsApiClient = new MLBStatsApiClient();
+      var mlbLookupServiceClient = new MLBLookupServiceClient(algoliaClient, mlbStatsApiClient);
       var baseballReferenceClient = new BaseballReferenceClient();
       var statsFetcher = new LSPlayerStatisticsFetcher(mlbLookupServiceClient);
       var playerApi = new PlayerApi();
@@ -52,7 +58,7 @@ namespace PowerUp
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       //DatabaseConfig.Initialize(DATA_DIRECTORY);
-      AnalyzeGameSave(characterLibrary, savedNameLibrary);
+      //AnalyzeGameSave(characterLibrary, savedNameLibrary);
       //PrintAllPlayers(characterLibrary, savedNameLibrary);
       //PrintAllTeams(characterLibrary);
       //PrintAllLineups(characterLibrary);
@@ -71,6 +77,8 @@ namespace PowerUp
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
+
+      var results = new MLBStatsApiClient().GetFieldingStats(621035, 2016).GetAwaiter().GetResult();
     }
 
     static TimeSpan TimeAction(Action action)

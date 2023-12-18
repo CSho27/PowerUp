@@ -1,8 +1,11 @@
 ﻿using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams.Api;
+using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.BaseballReference;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.MLBStatsApi;
+using PowerUp.Fetchers.Statcast;
 using PowerUp.GameSave.Api;
 using PowerUp.GameSave.GameSaveManagement;
 using PowerUp.Generators;
@@ -24,7 +27,10 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<ITeamApi>(provider => new TeamApi(provider.GetRequiredService<IPlayerApi>()));
       services.AddTransient<IBaseRosterInitializer>(provider => new BaseRosterInitalizer(provider.GetRequiredService<IBaseGameSavePathProvider>(), provider.GetRequiredService<IRosterImportApi>()));
       services.AddTransient<IRosterApi>(provider => new RosterApi());
-      services.AddTransient<IMLBLookupServiceClient>(provider => new MLBLookupServiceClient());
+      services.AddTransient<IAlgoliaClient, AlgoliaClient>();
+      services.AddTransient<IMLBStatsApiClient, MLBStatsApiClient>();
+      services.AddTransient<IStatcastClient, StatcastClient>();
+      services.AddTransient<IMLBLookupServiceClient, MLBLookupServiceClient>();
       services.AddTransient<IPlayerStatisticsFetcher>(provider => new LSPlayerStatisticsFetcher(provider.GetRequiredService<IMLBLookupServiceClient>()));
       services.AddTransient<ISkinColorGuesser>(provider => new SkinColorGuesser(provider.GetRequiredService<ICountryAndSkinColorLibrary>()));
       services.AddTransient<IPlayerGenerator>(provider => new PlayerGenerator(provider.GetRequiredService<IPlayerApi>(), provider.GetRequiredService<IPlayerStatisticsFetcher>(), provider.GetRequiredService<IBaseballReferenceClient>()));

@@ -11,6 +11,7 @@ import { ActivateGameSaveApiClient } from "./activateGameSaveApiClient";
 import { openGameSaveManagerInitializationModal } from "./gameSaveManagerInitializationModal";
 import { GameSaveDto, OpenGameSaveManagerApiClient } from "./openGameSaveManagerApiClient";
 import { RenameGameSaveApiClient } from "./renameGameSaveApiClient";
+import { NoticeSection } from "../../components/noticeSection/noticeSection";
 
 export async function openGameSaveManagerModal(appContext: AppContext) {
   const managerStateResponse = await new OpenGameSaveManagerApiClient(appContext.commandFetcher).execute();
@@ -44,6 +45,8 @@ function GameSaveManagerModal(props: GameSaveManagerModalProps) {
     currentlyRenamingGameSaveId: undefined,
     currentlyRenamingGameSaveName: undefined
   });
+  const otherMatchingGameSaves = state.gameSaveOptions.filter(o => o.id === state.activeGameSaveId).slice(1);
+  const showNotice = otherMatchingGameSaves.length > 0;
   const activeGameSaveApiClientRef = useRef(new ActivateGameSaveApiClient(appContext.commandFetcher));
   const renameGameSaveApiClientRef = useRef(new RenameGameSaveApiClient(appContext.commandFetcher));
 
@@ -51,8 +54,16 @@ function GameSaveManagerModal(props: GameSaveManagerModalProps) {
     ariaLabel='Game Save Manager' 
     fullHeight
     width='800px'>
-      <Wrapper>
+      <Wrapper withNoticeSection={showNotice}>
       <Heading>Game Save Manager</Heading>
+      {showNotice && <>
+        <NoticeSection>
+          More than one game save exists with this id. Consider deleting and regenerating the following Game Saves:
+          <ul>
+            {otherMatchingGameSaves.map(o => <li key={o.name}>{o.name}</li>)}
+          </ul> 
+        </NoticeSection>
+      </>}
       <GridWrapper>
         {state.gameSaveOptions.map(toGridRow)}
       </GridWrapper>
@@ -63,8 +74,10 @@ function GameSaveManagerModal(props: GameSaveManagerModalProps) {
       </Wrapper>
   </Modal>
 
-  function toGridRow(gameSave: GameSaveDto) {
-    const isSelected = gameSave.id === state.activeGameSaveId;
+  function toGridRow(gameSave: GameSaveDto, index: number) {
+    // Only the first match should show as being selected
+    const isSelected = gameSave.id === state.activeGameSaveId 
+      && state.gameSaveOptions.findIndex(o => o.id === state.activeGameSaveId) === index;
     const isRenaming = gameSave.id == state.currentlyRenamingGameSaveId;
 
     return <GameSaveRow 
@@ -158,9 +171,9 @@ function GameSaveManagerModal(props: GameSaveManagerModalProps) {
   }
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ withNoticeSection: boolean; }>`
   display: grid;
-  grid-template-rows: min-content auto min-content;
+  grid-template-rows: min-content ${p => p.withNoticeSection ? 'auto' : ''} auto min-content;
   gap: 8px;
   height: 100%;
 `
