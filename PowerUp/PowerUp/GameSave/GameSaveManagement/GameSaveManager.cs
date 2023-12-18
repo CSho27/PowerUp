@@ -158,8 +158,10 @@ namespace PowerUp.GameSave.GameSaveManagement
     {
       var gameSaveFilePath = GameSavePathBuilder.GetGameSavePath(directoryPath);
       var gameSaveId = GetGameSaveIdForFile(gameSaveFilePath);
+      if (!gameSaveId.HasValue)
+        return null;
       var gameSaveName = Path.GetFileName(directoryPath)!;
-      return new GameSaveOption(gameSaveId, gameSaveName, directoryPath, gameSaveFilePath);
+      return new GameSaveOption(gameSaveId.Value, gameSaveName, directoryPath, gameSaveFilePath);
     }
 
     private int? GetActiveGameSaveId(string directoryPath)
@@ -170,17 +172,19 @@ namespace PowerUp.GameSave.GameSaveManagement
         : null;
     }
 
-    private int GetGameSaveIdForFile(string directoryPath)
+    private int? GetGameSaveIdForFile(string filePath)
     {
-      // CHRISTODO: Don't hard code this
-      using var reader = new GameSaveObjectReader(_characterLibrary, new FileStream(directoryPath, FileMode.Open, FileAccess.Read), ByteOrder.BigEndian);
+      if (!File.Exists(filePath))
+        return null;
+
+      using var reader = new GameSaveObjectReader(_characterLibrary, new FileStream(filePath, FileMode.Open, FileAccess.Read), ByteOrder.BigEndian);
       return reader.ReadInt(GSGameSave.PowerUpIdOffset);
     }
 
     private string? GetGameSavePathForId(string directoryPath, int gameSaveId)
     {
       var options = GetGameSaveOptions(directoryPath);
-      var activeGameSave = options.SingleOrDefault(o => o.GameSaveId == gameSaveId);
+      var activeGameSave = options.FirstOrDefault(o => o.GameSaveId == gameSaveId);
       return activeGameSave?.GameSaveFilePath;
     }
 
