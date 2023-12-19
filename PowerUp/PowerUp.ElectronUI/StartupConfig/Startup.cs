@@ -1,6 +1,4 @@
-﻿using ElectronNET.API;
-using ElectronNET.API.Entities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PowerUp.Databases;
 using PowerUp.ElectronUI.StartupConfig;
@@ -23,7 +21,7 @@ namespace PowerUp.ElectronUI
       services.AddControllersWithViews();
       services.RegisterCommandsForDI();
 
-      var dataDirectory = Configuration["DataDirectory"];
+      var dataDirectory = Configuration["DataDirectory"] ?? "";
       Console.WriteLine($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
       DatabaseConfig.Initialize(dataDirectory);
@@ -75,39 +73,11 @@ namespace PowerUp.ElectronUI
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
       JsonConvert.DefaultSettings = () => new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
 
-      if (HybridSupport.IsElectronActive)
-        ElectronBootstrap();
-
       var serviceProvider = app.ApplicationServices
         .CreateScope()
         .ServiceProvider;
 
       serviceProvider.AddCommandsToRegistry();
-    }
-
-    public async void ElectronBootstrap()
-    {
-      var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
-      {
-        Width = 1152,
-        Height = 940,
-        Show = false,
-      });
-
-      browserWindow.Maximize();
-
-      await browserWindow.WebContents.Session.ClearCacheAsync();
-
-      browserWindow.OnReadyToShow += () => browserWindow.Show();
-      browserWindow.SetTitle("PowerUp");
-
-      browserWindow.OnClosed += () =>
-      {
-        Electron.App.Exit(0);
-        Environment.Exit(0);
-        Electron.App.Quit();
-        browserWindow = null;
-      };
     }
   }
 }

@@ -1,7 +1,8 @@
-import { shell } from "electron";
+//import { shell } from "electron";
 
 export function openInBroswer(url: string): void {
-  shell.openExternal(url);
+  window.open(url, '_blank');
+  //shell.openExternal(url);
 }
 
 export function openInBrowserOnClick(url: string): () => void {

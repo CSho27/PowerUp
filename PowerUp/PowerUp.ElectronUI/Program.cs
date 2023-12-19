@@ -1,5 +1,3 @@
-using ElectronNET.API;
-
 namespace PowerUp.ElectronUI
 {
   public class Program
@@ -13,7 +11,6 @@ namespace PowerUp.ElectronUI
       Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(webBuilder =>
         {
-          webBuilder.UseElectron(args);
           webBuilder.UseStartup<Startup>();
         });
   }

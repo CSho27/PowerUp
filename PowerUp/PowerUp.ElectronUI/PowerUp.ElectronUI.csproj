@@ -14,7 +14,7 @@
     <None Remove="electron\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ElectronNET.API" Version="13.5.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PowerUp\PowerUp.csproj" />
