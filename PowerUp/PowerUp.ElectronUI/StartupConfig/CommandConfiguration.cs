@@ -39,6 +39,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<FindClosestVoiceCommand>();
       services.AddSingleton<PlayerLookupCommand>();
       services.AddSingleton<PlayerGenerationCommand>();
+      services.AddSingleton<DraftPoolGenerationCommand>();
       services.AddSingleton<GetPlayerInfoCommand>();
       services.AddSingleton<FranchiseLookupCommand>();
       services.AddSingleton<TeamGenerationCommand>();
@@ -82,6 +83,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(FindClosestVoiceCommand), "FindClosestVoice");
       commandRegistry.RegisterCommand(typeof(PlayerLookupCommand), "PlayerLookup");
       commandRegistry.RegisterCommand(typeof(PlayerGenerationCommand), "PlayerGeneration");
+      commandRegistry.RegisterCommand(typeof(DraftPoolGenerationCommand), "DraftPoolGeneration");
       commandRegistry.RegisterCommand(typeof(GetPlayerInfoCommand), "GetPlayerInfo");
       commandRegistry.RegisterCommand(typeof(FranchiseLookupCommand), "FranchiseLookup");
       commandRegistry.RegisterCommand(typeof(TeamGenerationCommand), "TeamGeneration");
