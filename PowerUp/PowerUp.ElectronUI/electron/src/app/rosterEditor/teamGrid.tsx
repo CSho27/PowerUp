@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import styled from "styled-components"
 import { Button } from "../../components/button/button";
 import { ContextMenuButton, ContextMenuItem } from "../../components/contextMenuButton/contextMenuButton";
@@ -15,6 +15,7 @@ import { ReplaceTeamWithExistingApiClient } from "./replaceTeamWithExistingApiCl
 import { ReplaceTeamWithNewTeamApiClient } from "./replaceTeamWithNewTeamApiClient";
 import { ReplaceWithExistingPlayerApiClient } from "./replaceWithExistingPlayerApiClient";
 import { TeamDetails } from "./rosterEditorDTOs";
+import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
 
 interface TeamGridProps {
   appContext: AppContext;
@@ -31,6 +32,7 @@ export function TeamGrid(props: TeamGridProps) {
   const replaceTeamWithExistingApiClientRef = useRef(new ReplaceTeamWithExistingApiClient(appContext.commandFetcher));
   const replaceTeamWithNewApiClientRef = useRef(new ReplaceTeamWithNewTeamApiClient(appContext.commandFetcher));
   const replacePlayerWithExistingApiClientRef = useRef(new ReplaceWithExistingPlayerApiClient(appContext.commandFetcher));
+  const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
   const teamIdentifier = toIdentifier('Team', team.teamId);
   const teamDisplayName = name === powerProsName
@@ -106,6 +108,11 @@ export function TeamGrid(props: TeamGridProps) {
               onClick={replaceWithNewTeam}>
                 Replace with new
             </ContextMenuItem>
+            <ContextMenuItem
+              icon='baseball'
+              onClick={draftTeams}>
+                Draft Teams
+            </ContextMenuItem>
           </>}/>
       </div>
     </TeamGridCaption>
@@ -133,6 +140,11 @@ export function TeamGrid(props: TeamGridProps) {
     const response = await replaceTeamWithNewApiClientRef.current.execute({ rosterId: rosterId, mlbPPTeam: team.powerProsTeam });
     if(response.success)
       appContext.reloadCurrentPage();
+  }
+
+  async function draftTeams() {
+    const response = await draftPoolApiClient.execute();
+    console.log(response);
   }
 
   function replaceTeamWithExisting(): void {
