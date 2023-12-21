@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
@@ -20,6 +20,7 @@ import { ReplaceFreeAgentApiClient } from "./replaceFreeAgentApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { openRosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
+import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;
@@ -33,6 +34,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   const rosterNameApiClientRef = useRef(new EditRosterNameApiClient(appContext.commandFetcher));
   const replaceFreeAgentApiClientRef = useRef(new ReplaceFreeAgentApiClient(appContext.commandFetcher));
+  const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
   const divisionOptions: KeyedCode[] = [...props.divisionOptions, { key: 'FreeAgents', name: 'Free Agents' }];
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
@@ -50,9 +52,9 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
         {!isEditingRosterName && <>
         <RosterHeader>{rosterName} - {toIdentifier('Roster', rosterId)}</RosterHeader>
         <SourceTypeStamp 
-        theme='Dark'
-        size='Medium'
-        sourceType={rosterDetails.sourceType}
+          theme='Dark'
+          size='Medium'
+          sourceType={rosterDetails.sourceType}
         /> 
         </>}
         {isEditingRosterName && 
@@ -69,14 +71,24 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
           icon={isEditingRosterName ? 'lock' : 'pen-to-square'}
           onClick={handleRosterNameToggle}
         />
+        
       </div>
-      <Button 
-        size='Medium' 
-        variant='Fill' 
-        squarePadding
-        icon='download'
-        onClick={() => openRosterExportModal(appContext, rosterId)} 
-      />
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <Button 
+          size='Medium' 
+          variant='Fill' 
+          squarePadding
+          icon='list-ol'
+          onClick={() => draftTeams()} 
+        />
+        <Button 
+          size='Medium' 
+          variant='Fill' 
+          squarePadding
+          icon='download'
+          onClick={() => openRosterExportModal(appContext, rosterId)} 
+        />
+      </div>
     </div>
     <TabButtonNav 
       selectedTab={selectedDivision.name}
@@ -105,6 +117,12 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
       </TeamsContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
+
+  async function draftTeams() {
+    const response = await draftPoolApiClient.execute();
+    console.log(response);
+  }
+
 
   function toTeamGrid(team: TeamDetails) {
     return <TeamWrapper key={`${team.teamId} - ${team.powerProsTeam}`}>

@@ -28,6 +28,7 @@ export type IconType =
 | 'floppy-disk'
 | 'folder'
 | 'folder-open'
+| 'list-ol'
 | 'lock'
 | 'pen-to-square'
 | 'person-arrow-down-to-line'
