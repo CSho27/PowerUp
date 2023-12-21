@@ -34,7 +34,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   const rosterNameApiClientRef = useRef(new EditRosterNameApiClient(appContext.commandFetcher));
   const replaceFreeAgentApiClientRef = useRef(new ReplaceFreeAgentApiClient(appContext.commandFetcher));
-  const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
   const divisionOptions: KeyedCode[] = [...props.divisionOptions, { key: 'FreeAgents', name: 'Free Agents' }];
   const [selectedDivision, setSelectedDivision] = useState(divisionOptions[0]);
@@ -79,7 +78,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
           variant='Fill' 
           squarePadding
           icon='list-ol'
-          onClick={() => draftTeams()} 
+          onClick={() => appContext.setPage({ page: 'DraftPage', rosterId: rosterId })} 
         />
         <Button 
           size='Medium' 
@@ -117,12 +116,6 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
       </TeamsContainer>
     </ContentWithHangingHeader>
   </PowerUpLayout>
-
-  async function draftTeams() {
-    const response = await draftPoolApiClient.execute();
-    console.log(response);
-  }
-
 
   function toTeamGrid(team: TeamDetails) {
     return <TeamWrapper key={`${team.teamId} - ${team.powerProsTeam}`}>
