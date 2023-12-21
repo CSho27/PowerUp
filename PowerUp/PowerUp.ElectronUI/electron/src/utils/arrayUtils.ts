@@ -11,7 +11,7 @@ export function remove<T>(items: T[], callback: (item: T) => boolean): T[] {
   ];
 }
 
-export function replace<T>(items: T[], callback: (item: T) => boolean, getReplacement: (item: T) => T): T[] {
+export function replace<T>(items: T[], callback: (item: T, index: number) => boolean, getReplacement: (item: T) => T): T[] {
   const itemToReplaceIndex = items.findIndex(callback);
   if(itemToReplaceIndex === -1)
     return items;
