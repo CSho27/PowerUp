@@ -25,12 +25,10 @@ interface DraftPageProps {
   rosterId: number;
 }
 
-const teams = 2;
-
 function DraftPage({ appContext, rosterId }: DraftPageProps) {
   const [state, update] = useReducer(
     DraftStateReducer, 
-    getInitialState(teams), 
+    getInitialState(2), 
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
@@ -69,6 +67,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
               <NumberField 
                 id='teams' 
                 type='Defined' 
+                min={2}
                 value={state.teams}
                 onChange={handlePlayersDraftingChange} 
               />
