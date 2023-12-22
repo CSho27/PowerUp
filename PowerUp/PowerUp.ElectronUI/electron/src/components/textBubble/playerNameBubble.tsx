@@ -17,24 +17,26 @@ export interface PlayerNameBubbleProps extends TextBubbleProps {
   playerId: number;
   sourceType: EntitySourceType;
   withoutInfoFlyout?: boolean;
+  withoutPID?: boolean;
+  withoutSourceType?: boolean;
   title?: string;
 }
 
 export function PlayerNameBubble(props: PropsWithChildren<PlayerNameBubbleProps>) {
-  const { appContext, size, sourceType, playerId, withoutInfoFlyout, positionType, children } = props;
+  const { appContext, size, sourceType, playerId, withoutInfoFlyout, children, withoutPID, withoutSourceType } = props;
   const isLarge = size === 'Large'
 
   const apiClientRef = useRef(new GetPlayerFlyoutDetailsApiClient(appContext.commandFetcher))
 
   return <NameBubble {...props}>
     <PlayerNameSection>{children}</PlayerNameSection>
-    <PlayerInfoSection isLarge={isLarge}>{toIdentifier('Player', playerId)}</PlayerInfoSection>
-    <SourceTypeStamp
+    {!withoutPID && <PlayerInfoSection isLarge={isLarge}>{toIdentifier('Player', playerId)}</PlayerInfoSection>}
+    {!withoutSourceType && <SourceTypeStamp
       theme='Light'
       size={isLarge
         ? 'Medium'
         : 'Small'}
-      sourceType={sourceType} />
+      sourceType={sourceType} />}
     {!withoutInfoFlyout && 
     <PlayerInfoSection isLarge={isLarge}>
       <FlyoutAnchor 

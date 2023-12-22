@@ -14,6 +14,10 @@ import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { ConfirmationModal } from "../../components/modal/confirmationModal";
 import { COLORS } from "../../style/constants";
+import { Spinner } from "../../components/spinner/spinner";
+import { PositionBubble } from "../../components/textBubble/positionBubble";
+import { getPositionType } from "../shared/positionCode";
+import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 
 interface DraftPageProps {
   appContext: AppContext;
@@ -28,6 +32,10 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
     getInitialState(teams), 
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
+
+  const allSelections = state.selections.flat();
+  const undraftedPlayers = state.draftPool.filter(p => !allSelections.some(s => s === p.playerId));
+  
   const header = <>
     <Breadcrumbs appContext={appContext}/>
   </>
@@ -46,18 +54,69 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
             }}
           >
             <div style={{ width: '96px' }}>
-                <FieldLabel htmlFor='teams'>Teams</FieldLabel>
-                <NumberField 
-                  id='teams' 
-                  type='Defined' 
-                  value={state.teams}
-                  onChange={handlePlayersDraftingChange} 
-                />
+              <FieldLabel htmlFor='teams'>Teams</FieldLabel>
+              <NumberField 
+                id='teams' 
+                type='Defined' 
+                value={state.teams}
+                onChange={handlePlayersDraftingChange} 
+              />
             </div>
-            <Button onClick={() => {}} size='Small' variant="Fill">
-              Generate Draft Pool
-            </Button>
+            {!state.isGenerating && 
+            <Button onClick={generateDraftPool} size='Small' variant="Fill">
+                Generate Draft Pool
+            </Button>}
+            {allSelections.length > 0 && <Button
+              size='Small'
+              variant='Ghost'
+              title='Undo Last Pick'
+              icon='rotate-left'
+              squarePadding
+              onClick={() => update({ type: 'undoSelection' })}
+            />}
+            {state.isGenerating && <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <Spinner />
+              <div>Generating draft pool. This generally takes about 2 minutes.</div>
+            </div>}
           </div>
+          <DraftPoolGrid>
+            {undraftedPlayers.map(p => 
+            <div 
+              key={p.playerId} 
+              style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+            >
+              <Button
+                size='Small'
+                variant='Outline'
+                title={'Draft Player'}
+                icon={'plus'}
+                squarePadding
+                onClick={() => update({ type: 'makeSelection', playerId: p.playerId })}
+              />
+              <div>{p.overall}</div>
+              <PositionBubble
+                positionType={getPositionType(p.position)}
+                size='Medium'
+                squarePadding
+              >
+                {p.positionAbbreviation}
+              </PositionBubble>
+              <div style={{ flex: 'auto' }}>
+                <PlayerNameBubble
+                  appContext={appContext}
+                  sourceType={p.sourceType}
+                  playerId={p.playerId}
+                  positionType={getPositionType(p.position)}
+                  size='Medium'
+                  fullWidth
+                  withoutPID
+                  withoutSourceType
+                >
+                  {p.savedName}
+                </PlayerNameBubble>
+              </div>
+            </div>)}
+          </DraftPoolGrid>
         </DraftPoolContainer>
         <TeamContainer></TeamContainer>
       </Wrapper>
@@ -77,6 +136,12 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
     if(shouldEdit)
         update({ type: 'updateTeams', teams: value });
   }
+
+  async function generateDraftPool() {
+    update({ type: 'startedGenerating' });
+    const draftPool = await draftPoolApiClient.execute();
+    update({ type: 'finishedGenerating', draftPool: draftPool.players })
+  }
 }
 
 export const loadDraftPage: PageLoadFunction = async (_, pageDef) => {
@@ -92,13 +157,21 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  padding: 16px 32px;
-
 `
 
 const DraftPoolContainer = styled.div`
+  min-width: 375px;
   flex: 2;
   padding: 0 16px;
+  height: 100%;
+  overflow: auto;
+`
+
+const DraftPoolGrid = styled.div`
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `
 
 const TeamContainer = styled.div`

@@ -4,13 +4,15 @@ import { PlayerDetails } from "../teamEditor/playerRoleState";
 
 export interface DraftState {
   teams: number;
+  isGenerating: boolean;
   draftPool: PlayerDetails[];
   selections: number[][]; 
 }
 
 export type DraftStateAction =
 | { type: 'updateTeams', teams: number }
-| { type: 'loadDraftPool', draftPool: PlayerDetailsResponse[] }
+| { type: 'startedGenerating' }
+| { type: 'finishedGenerating', draftPool: PlayerDetailsResponse[] }
 | { type: 'makeSelection', playerId: number }
 | { type: 'undoSelection' }
 | { type: 'reset' }
@@ -24,9 +26,16 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
         draftPool: [],
         selections: getInitialSelections(state.teams)
       }
-    case 'loadDraftPool':
+
+    case 'startedGenerating':
       return {
         ...state,
+        isGenerating: true,
+      }
+    case 'finishedGenerating':
+      return {
+        ...state,
+        isGenerating: false,
         draftPool: action.draftPool.map(toPlayerDetails)
       }
     case 'makeSelection':
@@ -44,12 +53,12 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
       const lastPickIndex = currentPickIndex > 0
         ? currentPickIndex - 1
         : state.selections.length - 1;
-      const allButLastSelection = state.selections.slice();
+      const allButLastSelection = state.selections[lastPickIndex].slice();
       allButLastSelection.pop();
         
       return {
         ...state,
-        selections: allButLastSelection 
+        selections: replace(state.selections, (_, i) => i === lastPickIndex, () => allButLastSelection) 
       }
     case 'reset':
       return {
@@ -62,6 +71,7 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
 export function getInitialState(teams: number): DraftState {
   return {
     teams: teams,
+    isGenerating: false,
     draftPool: [],
     selections: getInitialSelections(teams),
   }
