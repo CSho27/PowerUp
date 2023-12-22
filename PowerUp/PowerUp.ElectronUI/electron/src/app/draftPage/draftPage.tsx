@@ -3,7 +3,7 @@ import { AppContext } from "../app";
 import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
-import { DraftStateReducer, getInitialState, getLastPickingPlayerIndex, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getPickingPlayerIndex } from "./draftState";
+import { DraftStateReducer, getInitialState, getLastPickingPlayerIndex, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex } from "./draftState";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -32,7 +32,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
-  const draftingIndex = getPickingPlayerIndex(state.teams);
+  const draftingIndex = getDraftingIndex(state.teams);
   const nextDraftingIndex = getNextPickingPlayerIndex(state.teams);
   const allSelections = state.teams.flatMap(t => t.selections);
 
@@ -56,7 +56,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   return <PowerUpLayout appContext={appContext} headerText="Draft Teams">
     <ContentWithHangingHeader header={header} headerHeight="48px">
       <Wrapper>
-        <TeamContainer>
+        <TeamContainer isDrafting={leftTeamIndex === draftingIndex}>
           <PlayerGrid>
             <TextField 
               placeholder="Enter team name"
@@ -106,7 +106,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
             {undraftedPlayers.map(toUndradftedPlayer)}
           </PlayerGrid>
         </DraftPoolContainer>
-        <TeamContainer>
+        <TeamContainer isDrafting={rightTeamIndex === draftingIndex}>
           <PlayerGrid>
             <TextField 
               placeholder="Enter team name"
@@ -230,6 +230,7 @@ const DraftPoolContainer = styled.div`
   padding: 12px 8px;
   height: 100%;
   overflow: auto;
+  background-color: ${COLORS.jet.lighter_71};
 `
 
 const PlayerGrid = styled.div`
@@ -239,10 +240,15 @@ const PlayerGrid = styled.div`
   gap: 4px;
 `
 
-const TeamContainer = styled.div`
+const TeamContainer = styled.div<{ isDrafting: boolean }>`
   flex: 2;
   min-width: 0;
-  background-color: ${COLORS.jet.lighter_71};
+  background-color: ${p => p.isDrafting 
+    ? COLORS.primaryBlue.lighter_69_t40 
+    : undefined};
+  border: 3px solid ${p => p.isDrafting 
+    ? COLORS.primaryBlue.regular_45 
+    : 'transparent'}; 
   padding: 0 8px;
   height: 100%;
   overflow: auto;

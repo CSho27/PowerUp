@@ -45,7 +45,7 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
         draftPool: action.draftPool.map(toPlayerDetails)
       }
     case 'makeSelection':
-      const pickIndex = getPickingPlayerIndex(state.teams);
+      const pickIndex = getDraftingIndex(state.teams);
       return {
         ...state,
         teams: replace(
@@ -105,24 +105,24 @@ function getInitialSelections(teams: number): DraftedTeam[] {
   return initial;
 }
 
-export function getPickingPlayerIndex(teams: DraftedTeam[]): number {
-  let firstPlayerPicks = teams[0].selections.length
+export function getDraftingIndex(teams: DraftedTeam[]): number {
+  let firstTeamPicks = teams[0].selections.length
   for(let i=0; i<teams.length; i++) {
-    if(teams[i].selections.length < firstPlayerPicks)
+    if(teams[i].selections.length < firstTeamPicks)
       return i;
   }
   return 0;
 }
 
 export function getLastPickingPlayerIndex(teams: DraftedTeam[]): number {
-  const currentPickIndex = getPickingPlayerIndex(teams)
+  const currentPickIndex = getDraftingIndex(teams)
   return  currentPickIndex > 0
     ? currentPickIndex - 1
     : teams.length - 1;
 }
 
 export function getNextPickingPlayherIndex(teams: DraftedTeam[]): number {
-  const currentPickIndex = getPickingPlayerIndex(teams)
+  const currentPickIndex = getDraftingIndex(teams)
   return currentPickIndex < teams.length-1 
     ? currentPickIndex + 1
     : 0;
@@ -130,7 +130,7 @@ export function getNextPickingPlayherIndex(teams: DraftedTeam[]): number {
 
 export function getRound(teams: DraftedTeam[]) {
   let firstPlayerPicks = teams[0].selections.length;
-  return getPickingPlayerIndex(teams) === 0
+  return getDraftingIndex(teams) === 0
     ? firstPlayerPicks + 1
     : firstPlayerPicks;
 }
