@@ -3,22 +3,27 @@ import { PlayerDetailsResponse, toPlayerDetails } from "../teamEditor/playerDeta
 import { PlayerDetails } from "../teamEditor/playerRoleState";
 
 export interface DraftState {
+  teams: number;
   draftPool: PlayerDetails[];
   selections: number[][]; 
 }
 
-export interface DraftStateReducerContext {
-  playersDrafting: number;
-}
-
 export type DraftStateAction =
+| { type: 'updateTeams', teams: number }
 | { type: 'loadDraftPool', draftPool: PlayerDetailsResponse[] }
 | { type: 'makeSelection', playerId: number }
 | { type: 'undoSelection' }
 | { type: 'reset' }
 
-export function DraftStateReducer(state: DraftState, action: DraftStateAction, context: DraftStateReducerContext): DraftState {
+export function DraftStateReducer(state: DraftState, action: DraftStateAction): DraftState {
   switch(action.type) {
+    case 'updateTeams':
+      return {
+        ...state,
+        teams: action.teams,
+        draftPool: [],
+        selections: getInitialSelections(state.teams)
+      }
     case 'loadDraftPool':
       return {
         ...state,
@@ -49,21 +54,22 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction, c
     case 'reset':
       return {
         ...state,
-        selections: getInitialSelections(context.playersDrafting)
+        selections: getInitialSelections(state.teams)
       }
   }
 }
 
-export function getInitialState(playersDrafting: number): DraftState {
+export function getInitialState(teams: number): DraftState {
   return {
+    teams: teams,
     draftPool: [],
-    selections: getInitialSelections(playersDrafting),
+    selections: getInitialSelections(teams),
   }
 }
 
-function getInitialSelections(playersDrafting: number): number[][] {
+function getInitialSelections(teams: number): number[][] {
   const initial: number[][] = [];
-  for(let i=0; i<playersDrafting; i++)
+  for(let i=0; i<teams; i++)
     initial.push([]);
 
   return initial;
