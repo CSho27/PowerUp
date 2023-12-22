@@ -10,7 +10,6 @@ import { ContentWithHangingHeader } from "../../components/hangingHeader/hanging
 import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { NumberField } from "../../components/numberField/numberField";
-import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { ConfirmationModal } from "../../components/modal/confirmationModal";
 import { COLORS } from "../../style/constants";
@@ -19,6 +18,7 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { getPositionType } from "../shared/positionCode";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PlayerDetailsResponse } from "../teamEditor/playerDetailsResponse";
+import { TextField } from "../../components/textField/textField";
 
 interface DraftPageProps {
   appContext: AppContext;
@@ -32,11 +32,21 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
-  const draftingIndex = getPickingPlayerIndex(state.selections);
-  const nextDraftingIndex = getNextPickingPlayerIndex(state.selections);
-  const allSelections = state.selections.flat();
-  const draftingTeamPlayers = state.selections[draftingIndex].map(s => state.draftPool.find(p => p.playerId === s)!);
-  const nextUpPlayers = state.selections[nextDraftingIndex].map(s => state.draftPool.find(p => p.playerId === s)!);
+  const draftingIndex = getPickingPlayerIndex(state.teams);
+  const nextDraftingIndex = getNextPickingPlayerIndex(state.teams);
+  const allSelections = state.teams.flatMap(t => t.selections);
+
+  const leftTeamIndex = state.numberOfTeams === 2 && draftingIndex === 0
+    ? draftingIndex
+    : nextDraftingIndex;
+  const rightTeamIndex = state.numberOfTeams === 2 && draftingIndex === 0
+    ? nextDraftingIndex
+    : draftingIndex;
+  const leftTeam = state.teams[leftTeamIndex];
+  const rightTeam = state.teams[rightTeamIndex];
+
+  const leftTeamPlayers = leftTeam.selections.map(s => state.draftPool.find(p => p.playerId === s)!);
+  const rightTeamPlayers = rightTeam.selections.map(s => state.draftPool.find(p => p.playerId === s)!);
   const undraftedPlayers = state.draftPool.filter(p => !allSelections.some(s => s === p.playerId));
   
   const header = <>
@@ -48,9 +58,12 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
       <Wrapper>
         <TeamContainer>
           <PlayerGrid>
-            {state.teams === 2 && draftingIndex === 0
-              ? draftingTeamPlayers.map(toDraftedPlayer)
-              : nextUpPlayers.map(toDraftedPlayer)}
+            <TextField 
+              placeholder="Enter team name"
+              value={leftTeam.name}
+              onChange={name => update({ type: 'updateTeamName', teamIndex: leftTeamIndex, name: name })}
+            />
+            {leftTeamPlayers.map(toDraftedPlayer)}
           </PlayerGrid>
         </TeamContainer>
         <DraftPoolContainer>
@@ -68,7 +81,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
                 id='teams' 
                 type='Defined' 
                 min={2}
-                value={state.teams}
+                value={state.numberOfTeams}
                 onChange={handlePlayersDraftingChange} 
               />
             </div>
@@ -95,9 +108,12 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
         </DraftPoolContainer>
         <TeamContainer>
           <PlayerGrid>
-            {state.teams === 2 && draftingIndex === 0
-              ? nextUpPlayers.map(toDraftedPlayer)
-              : draftingTeamPlayers.map(toDraftedPlayer)}
+            <TextField 
+              placeholder="Enter team name"
+              value={rightTeam.name}
+              onChange={name => update({ type: 'updateTeamName', teamIndex: rightTeamIndex, name: name })}
+            />
+            {rightTeamPlayers.map(toDraftedPlayer)}
           </PlayerGrid>
         </TeamContainer>
       </Wrapper>

@@ -3,10 +3,15 @@ import { PlayerDetailsResponse, toPlayerDetails } from "../teamEditor/playerDeta
 import { PlayerDetails } from "../teamEditor/playerRoleState";
 
 export interface DraftState {
-  teams: number;
+  numberOfTeams: number;
   isGenerating: boolean;
   draftPool: PlayerDetails[];
-  selections: number[][]; 
+  teams: DraftedTeam[]; 
+}
+
+export interface DraftedTeam {
+  name: string;
+  selections: number[];
 }
 
 export type DraftStateAction =
@@ -14,6 +19,7 @@ export type DraftStateAction =
 | { type: 'startedGenerating' }
 | { type: 'finishedGenerating', draftPool: PlayerDetailsResponse[] }
 | { type: 'makeSelection', playerId: number }
+| { type: 'updateTeamName', teamIndex: number, name: string }
 | { type: 'undoSelection' }
 | { type: 'reset' }
 
@@ -22,9 +28,9 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
     case 'updateTeams':
       return {
         ...state,
-        teams: action.teams,
+        numberOfTeams: action.teams,
         draftPool: [],
-        selections: getInitialSelections(state.teams)
+        teams: getInitialSelections(state.numberOfTeams)
       }
 
     case 'startedGenerating':
@@ -39,75 +45,92 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
         draftPool: action.draftPool.map(toPlayerDetails)
       }
     case 'makeSelection':
-      const pickIndex = getPickingPlayerIndex(state.selections);
+      const pickIndex = getPickingPlayerIndex(state.teams);
       return {
         ...state,
-        selections: replace(
-          state.selections, 
+        teams: replace(
+          state.teams, 
           (_, i) => i === pickIndex, 
-          s => [...s, action.playerId]
+          s => ({ ...s, selections: [...s.selections, action.playerId] }) 
+        ) 
+      }
+    case 'updateTeamName':
+      return {
+        ...state,
+        teams: replace(
+          state.teams, 
+          (_, i) => i === action.teamIndex, 
+          s => ({ ...s, name: action.name }) 
         ) 
       }
     case 'undoSelection': 
-      const lastPickIndex = getLastPickingPlayerIndex(state.selections);
-      const allButLastSelection = state.selections[lastPickIndex].slice();
+      const lastPickIndex = getLastPickingPlayerIndex(state.teams);
+      const allButLastSelection = state.teams[lastPickIndex].selections.slice();
       allButLastSelection.pop();
         
       return {
         ...state,
-        selections: replace(state.selections, (_, i) => i === lastPickIndex, () => allButLastSelection) 
+        teams: replace(
+          state.teams, 
+          (_, i) => i === lastPickIndex, 
+          s => ({ ...s, selections: allButLastSelection })
+        ) 
       }
     case 'reset':
       return {
         ...state,
-        selections: getInitialSelections(state.teams)
+        teams: getInitialSelections(state.numberOfTeams)
       }
   }
 }
 
 export function getInitialState(teams: number): DraftState {
   return {
-    teams: teams,
+    numberOfTeams: teams,
     isGenerating: false,
     draftPool: [],
-    selections: getInitialSelections(teams),
+    teams: getInitialSelections(teams),
   }
 }
 
-function getInitialSelections(teams: number): number[][] {
-  const initial: number[][] = [];
-  for(let i=0; i<teams; i++)
-    initial.push([]);
+function getInitialSelections(teams: number): DraftedTeam[] {
+  const initial: DraftedTeam[] = [];
+  for(let i=0; i<teams; i++) {
+    initial.push({
+      name: '',
+      selections: []
+    });
+  }
 
   return initial;
 }
 
-export function getPickingPlayerIndex(selections: number[][]): number {
-  let firstPlayerPicks = selections[0].length
-  for(let i=0; i<selections.length; i++) {
-    if(selections[i].length < firstPlayerPicks)
+export function getPickingPlayerIndex(teams: DraftedTeam[]): number {
+  let firstPlayerPicks = teams[0].selections.length
+  for(let i=0; i<teams.length; i++) {
+    if(teams[i].selections.length < firstPlayerPicks)
       return i;
   }
   return 0;
 }
 
-export function getLastPickingPlayerIndex(selections: number[][]): number {
-  const currentPickIndex = getPickingPlayerIndex(selections)
+export function getLastPickingPlayerIndex(teams: DraftedTeam[]): number {
+  const currentPickIndex = getPickingPlayerIndex(teams)
   return  currentPickIndex > 0
     ? currentPickIndex - 1
-    : selections.length - 1;
+    : teams.length - 1;
 }
 
-export function getNextPickingPlayherIndex(selections: number[][]): number {
-  const currentPickIndex = getPickingPlayerIndex(selections)
-  return currentPickIndex < selections.length-1 
+export function getNextPickingPlayherIndex(teams: DraftedTeam[]): number {
+  const currentPickIndex = getPickingPlayerIndex(teams)
+  return currentPickIndex < teams.length-1 
     ? currentPickIndex + 1
     : 0;
 }
 
-export function getRound(selections: number[][]) {
-  let firstPlayerPicks = selections[0].length;
-  return getPickingPlayerIndex(selections) === 0
+export function getRound(teams: DraftedTeam[]) {
+  let firstPlayerPicks = teams[0].selections.length;
+  return getPickingPlayerIndex(teams) === 0
     ? firstPlayerPicks + 1
     : firstPlayerPicks;
 }
