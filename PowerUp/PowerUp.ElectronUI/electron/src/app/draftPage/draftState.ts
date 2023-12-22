@@ -49,10 +49,7 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
         ) 
       }
     case 'undoSelection': 
-      const currentPickIndex = getPickingPlayerIndex(state.selections)
-      const lastPickIndex = currentPickIndex > 0
-        ? currentPickIndex - 1
-        : state.selections.length - 1;
+      const lastPickIndex = getLastPickingPlayerIndex(state.selections);
       const allButLastSelection = state.selections[lastPickIndex].slice();
       allButLastSelection.pop();
         
@@ -92,6 +89,20 @@ export function getPickingPlayerIndex(selections: number[][]): number {
       return i;
   }
   return 0;
+}
+
+export function getLastPickingPlayerIndex(selections: number[][]): number {
+  const currentPickIndex = getPickingPlayerIndex(selections)
+  return  currentPickIndex > 0
+    ? currentPickIndex - 1
+    : selections.length - 1;
+}
+
+export function getNextPickingPlayherIndex(selections: number[][]): number {
+  const currentPickIndex = getPickingPlayerIndex(selections)
+  return currentPickIndex < selections.length-1 
+    ? currentPickIndex + 1
+    : 0;
 }
 
 export function getRound(selections: number[][]) {

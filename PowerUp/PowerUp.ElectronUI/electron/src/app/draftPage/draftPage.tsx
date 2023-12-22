@@ -3,7 +3,7 @@ import { AppContext } from "../app";
 import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
-import { DraftStateReducer, getInitialState } from "./draftState";
+import { DraftStateReducer, getInitialState, getLastPickingPlayerIndex, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getPickingPlayerIndex } from "./draftState";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -18,6 +18,7 @@ import { Spinner } from "../../components/spinner/spinner";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { getPositionType } from "../shared/positionCode";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
+import { PlayerDetailsResponse } from "../teamEditor/playerDetailsResponse";
 
 interface DraftPageProps {
   appContext: AppContext;
@@ -33,7 +34,11 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
+  const draftingIndex = getPickingPlayerIndex(state.selections);
+  const nextDraftingIndex = getNextPickingPlayerIndex(state.selections);
   const allSelections = state.selections.flat();
+  const draftingTeamPlayers = state.selections[draftingIndex].map(s => state.draftPool.find(p => p.playerId === s)!);
+  const nextUpPlayers = state.selections[nextDraftingIndex].map(s => state.draftPool.find(p => p.playerId === s)!);
   const undraftedPlayers = state.draftPool.filter(p => !allSelections.some(s => s === p.playerId));
   
   const header = <>
@@ -43,7 +48,13 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   return <PowerUpLayout appContext={appContext} headerText="Draft Teams">
     <ContentWithHangingHeader header={header} headerHeight="48px">
       <Wrapper>
-        <TeamContainer></TeamContainer>
+        <TeamContainer>
+          <PlayerGrid>
+            {state.teams === 2 && draftingIndex === 0
+              ? draftingTeamPlayers.map(toDraftedPlayer)
+              : nextUpPlayers.map(toDraftedPlayer)}
+          </PlayerGrid>
+        </TeamContainer>
         <DraftPoolContainer>
           <div 
             style={{ 
@@ -79,49 +90,88 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
               <div>Generating draft pool. This generally takes about 2 minutes.</div>
             </div>}
           </div>
-          <DraftPoolGrid>
-            {undraftedPlayers.map(p => 
-            <div 
-              key={p.playerId} 
-              style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-            >
-              <Button
-                size='Small'
-                variant='Outline'
-                title={'Draft Player'}
-                icon={'plus'}
-                squarePadding
-                onClick={() => update({ type: 'makeSelection', playerId: p.playerId })}
-              />
-              <div>{p.overall}</div>
-              <PositionBubble
-                positionType={getPositionType(p.position)}
-                size='Medium'
-                squarePadding
-              >
-                {p.positionAbbreviation}
-              </PositionBubble>
-              <div style={{ flex: 'auto' }}>
-                <PlayerNameBubble
-                  appContext={appContext}
-                  sourceType={p.sourceType}
-                  playerId={p.playerId}
-                  positionType={getPositionType(p.position)}
-                  size='Medium'
-                  fullWidth
-                  withoutPID
-                  withoutSourceType
-                >
-                  {p.savedName}
-                </PlayerNameBubble>
-              </div>
-            </div>)}
-          </DraftPoolGrid>
+          <PlayerGrid>
+            {undraftedPlayers.map(toUndradftedPlayer)}
+          </PlayerGrid>
         </DraftPoolContainer>
-        <TeamContainer></TeamContainer>
+        <TeamContainer>
+          <PlayerGrid>
+            {state.teams === 2 && draftingIndex === 0
+              ? nextUpPlayers.map(toDraftedPlayer)
+              : draftingTeamPlayers.map(toDraftedPlayer)}
+          </PlayerGrid>
+        </TeamContainer>
       </Wrapper>
     </ContentWithHangingHeader>
   </PowerUpLayout>
+
+  function toUndradftedPlayer(p: PlayerDetailsResponse) {
+    return <div 
+      key={p.playerId} 
+      style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+    >
+      <Button
+        size='Small'
+        variant='Outline'
+        title={'Draft Player'}
+        icon={'plus'}
+        squarePadding
+        onClick={() => update({ type: 'makeSelection', playerId: p.playerId })}
+      />
+      <div>{p.overall}</div>
+      <PositionBubble
+        positionType={getPositionType(p.position)}
+        size='Medium'
+        squarePadding
+      >
+        {p.positionAbbreviation}
+      </PositionBubble>
+      <div style={{ flex: 'auto' }}>
+        <PlayerNameBubble
+          appContext={appContext}
+          sourceType={p.sourceType}
+          playerId={p.playerId}
+          positionType={getPositionType(p.position)}
+          size='Medium'
+          fullWidth
+          withoutPID
+          withoutSourceType
+        >
+          {p.savedName}
+        </PlayerNameBubble>
+      </div>
+    </div>
+  }
+
+  function toDraftedPlayer(p: PlayerDetailsResponse) {
+    return <div 
+      key={p.playerId} 
+      style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+    >
+      <div>{p.overall}</div>
+      <PositionBubble
+        positionType={getPositionType(p.position)}
+        size='Medium'
+        squarePadding
+      >
+        {p.positionAbbreviation}
+      </PositionBubble>
+      <div style={{ flex: 'auto' }}>
+        <PlayerNameBubble
+          appContext={appContext}
+          sourceType={p.sourceType}
+          playerId={p.playerId}
+          positionType={getPositionType(p.position)}
+          size='Medium'
+          fullWidth
+          withoutPID
+          withoutSourceType
+        >
+          {p.savedName}
+        </PlayerNameBubble>
+      </div>
+    </div>
+  }
 
   function handlePlayersDraftingChange(value: number) {
     const shouldEdit = state.draftPool.length > 0
@@ -160,22 +210,25 @@ const Wrapper = styled.div`
 `
 
 const DraftPoolContainer = styled.div`
+  flex: 3;
   min-width: 375px;
-  flex: 2;
-  padding: 0 16px;
+  padding: 12px 8px;
   height: 100%;
   overflow: auto;
 `
 
-const DraftPoolGrid = styled.div`
-  padding: 16px;
+const PlayerGrid = styled.div`
+  padding: 16px 8px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 `
 
 const TeamContainer = styled.div`
-  flex: 1;
+  flex: 2;
+  min-width: 0;
   background-color: ${COLORS.jet.lighter_71};
-  padding: 0 16px;
+  padding: 0 8px;
+  height: 100%;
+  overflow: auto;
 `
