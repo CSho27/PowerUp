@@ -53,6 +53,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<GetGameSaveManagerDirectoryCommand>();
       services.AddSingleton<RenameGameSaveCommand>();
       services.AddSingleton<MigrateExistingDatabaseCommand>();
+      services.AddSingleton<ReplaceWithDraftedTeamsCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
