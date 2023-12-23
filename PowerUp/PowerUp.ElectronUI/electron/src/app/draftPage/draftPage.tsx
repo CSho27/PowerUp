@@ -3,7 +3,7 @@ import { AppContext } from "../app";
 import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
-import { DraftStateReducer, getInitialState, getLastPickingPlayerIndex, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex } from "./draftState";
+import { DraftStateReducer, getInitialState, getLastPickingPlayerIndex, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -32,6 +32,10 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
+  const draftPoolSize = (state.numberOfTeams + 2) * 25;
+  const generationEstimate = Math.round((1/50) * draftPoolSize); 
+  
+
   const draftingIndex = getDraftingIndex(state.teams);
   const nextDraftingIndex = getNextPickingPlayerIndex(state.teams);
   const allSelections = state.teams.flatMap(t => t.selections);
@@ -49,12 +53,8 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   const rightTeamPlayers = rightTeam.selections.map(s => state.draftPool.find(p => p.playerId === s)!);
   const undraftedPlayers = state.draftPool.filter(p => !allSelections.some(s => s === p.playerId));
   
-  const header = <>
-    <Breadcrumbs appContext={appContext}/>
-  </>
-
   return <PowerUpLayout appContext={appContext} headerText="Draft Teams">
-    <ContentWithHangingHeader header={header} headerHeight="48px">
+    <ContentWithHangingHeader header={<Breadcrumbs appContext={appContext}/>} headerHeight="48px">
       <Wrapper>
         <TeamContainer isDrafting={leftTeamIndex === draftingIndex}>
           <PlayerGrid>
@@ -82,12 +82,17 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
                 type='Defined' 
                 min={2}
                 value={state.numberOfTeams}
+                disabled={state.draftPool.length > 0}
                 onChange={handlePlayersDraftingChange} 
               />
             </div>
-            {!state.isGenerating && 
+            {!state.isGenerating && allSelections.length === 0 &&
             <Button onClick={generateDraftPool} size='Small' variant="Fill">
-                Generate Draft Pool
+                {state.draftPool.length > 0 ? 'Re-generate' : 'Generate'} Draft Pool
+            </Button>}
+            {allSelections.length > 0 &&
+            <Button onClick={handleStartOver} size='Small' variant="Fill">
+                Start Over
             </Button>}
             {allSelections.length > 0 && <Button
               size='Small'
@@ -99,7 +104,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
             />}
             {state.isGenerating && <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
               <Spinner />
-              <div>Generating draft pool. This generally takes about 2 minutes.</div>
+              <div>Generating draft pool. This should take about {generationEstimate} minutes.</div>
             </div>}
           </div>
           <PlayerGrid>
@@ -131,7 +136,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
         title={'Draft Player'}
         icon={'plus'}
         squarePadding
-        onClick={() => update({ type: 'makeSelection', playerId: p.playerId })}
+        onClick={() => handleSelection(p.playerId)}
       />
       <div>{p.overall}</div>
       <PositionBubble
@@ -188,24 +193,50 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
     </div>
   }
 
-  function handlePlayersDraftingChange(value: number) {
-    const shouldEdit = state.draftPool.length > 0
-      ? appContext.openModalAsync(closeAndResolve => <ConfirmationModal 
-          message='Are you sure you want to change the number of players drafting?'
-          secondaryMessage='This will clear both the draft pool and any picks made'
-          withDeny
-          confirmVerb='Reset Draft Pool'
-          closeDialog={closeAndResolve}
-        />)
-      : true;
-    if(shouldEdit)
-        update({ type: 'updateTeams', teams: value });
+  async function handlePlayersDraftingChange(value: number) {
+    update({ type: 'updateTeams', teams: value });
   }
 
   async function generateDraftPool() {
     update({ type: 'startedGenerating' });
     const draftPool = await draftPoolApiClient.execute();
     update({ type: 'finishedGenerating', draftPool: draftPool.players })
+  }
+
+  async function handleSelection(playerId: number) {
+    const round = getRound(state.teams);
+    const isFinalSelection = round === 25 && draftingIndex === state.teams.length-1;
+
+    update({ type: 'makeSelection', playerId: playerId })
+    
+    if(isFinalSelection)
+      confirmAndComplete();  
+  }
+
+  async function handleStartOver() {
+    const shouldStartOver = await appContext.openModalAsync(closeAndResolve => <ConfirmationModal 
+      message="Are you sure you'd like to start over?"
+      secondaryMessage='All current selections will be lost.'
+      withDeny
+      confirmVerb='Start Over'
+      closeDialog={closeAndResolve}
+    />)
+    if(shouldStartOver)
+      update({ type: 'resetPicks' });
+  }
+
+  async function confirmAndComplete() {
+    const shouldComplete = await appContext.openModalAsync(closeAndResolve => <ConfirmationModal 
+      message='Draft complete!'
+      secondaryMessage='Would you like to save these teams to the current roster?'
+      withDeny
+      denyVerb="Start Over"
+      confirmVerb='Add To Roster'
+      closeDialog={closeAndResolve}
+    />)
+    if(!shouldComplete)
+      update({ type: 'resetDraft' });
+      
   }
 }
 

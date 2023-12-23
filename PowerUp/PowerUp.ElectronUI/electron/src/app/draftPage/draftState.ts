@@ -21,7 +21,8 @@ export type DraftStateAction =
 | { type: 'makeSelection', playerId: number }
 | { type: 'updateTeamName', teamIndex: number, name: string }
 | { type: 'undoSelection' }
-| { type: 'reset' }
+| { type: 'resetPicks' }
+| { type: 'resetDraft' }
 
 export function DraftStateReducer(state: DraftState, action: DraftStateAction): DraftState {
   switch(action.type) {
@@ -76,10 +77,16 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
           s => ({ ...s, selections: allButLastSelection })
         ) 
       }
-    case 'reset':
+    case 'resetPicks':
       return {
         ...state,
-        teams: getInitialSelections(state.numberOfTeams)
+        teams: getInitialSelections(state.numberOfTeams),
+      }
+    case 'resetDraft':
+      return {
+        ...state,
+        draftPool: [],
+        teams: getInitialSelections(state.numberOfTeams),
       }
   }
 }
