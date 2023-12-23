@@ -20,7 +20,7 @@ import { ReplaceFreeAgentApiClient } from "./replaceFreeAgentApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { openRosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
-import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
+import { DraftPoolApiClient } from "../draftPage/draftPoolApiClient";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;

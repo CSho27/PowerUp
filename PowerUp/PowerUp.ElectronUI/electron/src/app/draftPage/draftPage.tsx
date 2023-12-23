@@ -1,6 +1,6 @@
 import { useMemo, useReducer } from "react";
 import { AppContext } from "../app";
-import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
+import { DraftPoolApiClient } from "./draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
 import { DraftStateReducer, getInitialState, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";
 import { PowerUpLayout } from "../shared/powerUpLayout";
