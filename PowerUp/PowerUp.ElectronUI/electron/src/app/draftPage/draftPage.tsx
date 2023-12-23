@@ -19,13 +19,19 @@ import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PlayerDetailsResponse } from "../teamEditor/playerDetailsResponse";
 import { TextField } from "../../components/textField/textField";
 import { SortHelpers } from "../../utils/sortUtils";
+import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
+import { SimpleCode } from "../shared/simpleCode";
+import { SelectField } from "../../components/SelectField/selectField";
+import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
+import { KeyedCode } from "../shared/keyedCode";
 
 interface DraftPageProps {
   appContext: AppContext;
   rosterId: number;
+  existingTeams: KeyedCode[];
 }
 
-function DraftPage({ appContext, rosterId }: DraftPageProps) {
+function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
   const [state, update] = useReducer(
     DraftStateReducer, 
     getInitialState(2), 
@@ -34,7 +40,6 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
 
   const draftPoolSize = (state.numberOfTeams + 2) * 25;
   const generationEstimate = Math.round((1/50) * draftPoolSize); 
-  
 
   const draftingIndex = getDraftingIndex(state.teams);
   const nextDraftingIndex = getNextPickingPlayerIndex(state.teams);
@@ -58,11 +63,23 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
       <Wrapper>
         <TeamContainer isDrafting={leftTeamIndex === draftingIndex}>
           <PlayerGrid>
-            <TextField 
-              placeholder="Enter team name"
-              value={leftTeam.name}
-              onChange={name => update({ type: 'updateTeamName', teamIndex: leftTeamIndex, name: name })}
-            />
+            <TeamField>
+              <FieldLabel>Team to Replace</FieldLabel>
+              <SelectField 
+                value={leftTeam.replaceTeam?.key} 
+                onChange={value => update({ type: 'updateReplaceTeam', teamIndex: leftTeamIndex, team: fromOptions(existingTeams, value) })} 
+                >
+                {toOptions(existingTeams, true)}
+              </SelectField>
+            </TeamField>
+            <TeamField>
+              <FieldLabel>Team Name</FieldLabel>
+              <TextField 
+                placeholder="Enter team name"
+                value={leftTeam.name}
+                onChange={name => update({ type: 'updateTeamName', teamIndex: leftTeamIndex, name: name })}
+                />
+            </TeamField>
             {leftTeamPlayers.map(toDraftedPlayer)}
           </PlayerGrid>
         </TeamContainer>
@@ -113,11 +130,23 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
         </DraftPoolContainer>
         <TeamContainer isDrafting={rightTeamIndex === draftingIndex}>
           <PlayerGrid>
-            <TextField 
-              placeholder="Enter team name"
-              value={rightTeam.name}
-              onChange={name => update({ type: 'updateTeamName', teamIndex: rightTeamIndex, name: name })}
-            />
+            <TeamField>
+              <FieldLabel>Team to Replace</FieldLabel>
+              <SelectField
+                value={rightTeam.replaceTeam?.key} 
+                onChange={value => update({ type: 'updateReplaceTeam', teamIndex: rightTeamIndex, team: fromOptions(existingTeams, value) })} 
+              >
+                {toOptions(existingTeams, true)}
+              </SelectField>
+            </TeamField>
+            <TeamField>
+              <FieldLabel>Team Name</FieldLabel>
+              <TextField 
+                placeholder="Enter team name"
+                value={rightTeam.name}
+                onChange={name => update({ type: 'updateTeamName', teamIndex: rightTeamIndex, name: name })}
+                />
+            </TeamField>
             {rightTeamPlayers.map(toDraftedPlayer)}
           </PlayerGrid>
         </TeamContainer>
@@ -241,12 +270,26 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
   }
 }
 
-export const loadDraftPage: PageLoadFunction = async (_, pageDef) => {
+export const loadDraftPage: PageLoadFunction = async (appContext, pageDef) => {
   if(pageDef.page !== 'DraftPage') throw '';
+  
+  const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
+  const response = await apiClient.execute({ rosterId: pageDef.rosterId });
+  const teamOptions = response.rosterDetails.teams
+    .map(t => ({
+      key: t.powerProsTeam, 
+      name: t.name === t.powerProsName
+        ? t.name
+        : `${t.name} (${t.powerProsName})`
+      })) 
 
   return {
     title: 'Draft Teams',
-    renderPage: appContext => <DraftPage appContext={appContext} rosterId={pageDef.rosterId} />
+    renderPage: appContext => <DraftPage 
+      appContext={appContext} 
+      rosterId={pageDef.rosterId} 
+      existingTeams={teamOptions}
+    />
   }
 }
 
@@ -284,4 +327,8 @@ const TeamContainer = styled.div<{ isDrafting: boolean }>`
   padding: 0 8px;
   height: 100%;
   overflow: auto;
+`
+
+const TeamField = styled.div`
+  padding-bottom: 12px;
 `

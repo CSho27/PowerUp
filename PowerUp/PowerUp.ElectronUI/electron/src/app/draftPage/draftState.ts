@@ -1,4 +1,5 @@
 import { replace } from "../../utils/arrayUtils";
+import { KeyedCode } from "../shared/keyedCode";
 import { PlayerDetailsResponse, toPlayerDetails } from "../teamEditor/playerDetailsResponse";
 import { PlayerDetails } from "../teamEditor/playerRoleState";
 
@@ -10,6 +11,7 @@ export interface DraftState {
 }
 
 export interface DraftedTeam {
+  replaceTeam: KeyedCode | undefined;
   name: string;
   selections: number[];
 }
@@ -19,6 +21,7 @@ export type DraftStateAction =
 | { type: 'startedGenerating' }
 | { type: 'finishedGenerating', draftPool: PlayerDetailsResponse[] }
 | { type: 'makeSelection', playerId: number }
+| { type: 'updateReplaceTeam', teamIndex: number, team: KeyedCode }
 | { type: 'updateTeamName', teamIndex: number, name: string }
 | { type: 'undoSelection' }
 | { type: 'resetPicks' }
@@ -53,6 +56,15 @@ export function DraftStateReducer(state: DraftState, action: DraftStateAction): 
           state.teams, 
           (_, i) => i === pickIndex, 
           s => ({ ...s, selections: [...s.selections, action.playerId] }) 
+        ) 
+      }
+    case 'updateReplaceTeam':
+      return {
+        ...state,
+        teams: replace(
+          state.teams, 
+          (_, i) => i === action.teamIndex, 
+          s => ({ ...s, replaceTeam: action.team }) 
         ) 
       }
     case 'updateTeamName':
@@ -104,6 +116,7 @@ function getInitialSelections(teams: number): DraftedTeam[] {
   const initial: DraftedTeam[] = [];
   for(let i=0; i<teams; i++) {
     initial.push({
+      replaceTeam: undefined,
       name: '',
       selections: []
     });
