@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { Modal } from "./modal";
 import { Button } from "../button/button";
+import styled from "styled-components";
+import { FONT_SIZES } from "../../style/constants";
 
 export interface ConfirmationModalProps {
   message: ReactNode;
@@ -20,19 +22,13 @@ export function ConfirmationModal({
   closeDialog
 }: ConfirmationModalProps) {
   return <Modal ariaLabel='confirm'>
-    <div>
+    <MainMessage>
       {message}
-    </div>
-    <div>
+    </MainMessage>
+    <SecondaryMessage>
       {secondaryMessage}
-    </div>
-    <div 
-      style={{ 
-        display: 'flex', 
-        gap: '4px', 
-        justifyContent: 'flex-end' 
-      }}
-    >
+    </SecondaryMessage>
+    <Actions>
       {withDeny && <Button
         size='Small'
         variant='Outline'
@@ -47,6 +43,22 @@ export function ConfirmationModal({
       >
         {confirmVerb}
       </Button>
-    </div>
+    </Actions>
   </Modal>
 }
+
+const MainMessage = styled.div`
+  font-weight: 500;
+  font-size: ${FONT_SIZES._24};
+`
+
+const SecondaryMessage = styled.div`
+  font-weight: 300;
+  font-size: ${FONT_SIZES._18};
+`
+
+const Actions = styled.div`
+  display: flex; 
+  gap: 4px; 
+  justify-content: flex-end; 
+`
