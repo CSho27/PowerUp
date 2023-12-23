@@ -97,6 +97,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(GetGameSaveManagerDirectoryCommand), "GetGameSaveManagerDirectory");
       commandRegistry.RegisterCommand(typeof(RenameGameSaveCommand), "RenameGameSave");
       commandRegistry.RegisterCommand(typeof(MigrateExistingDatabaseCommand), "MigrateExistingDatabase");
+      commandRegistry.RegisterCommand(typeof(ReplaceWithDraftedTeamsCommand), "ReplaceWithDraftedTeams");
     }
   }
 }
