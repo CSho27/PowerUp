@@ -24,6 +24,7 @@ import { SimpleCode } from "../shared/simpleCode";
 import { SelectField } from "../../components/SelectField/selectField";
 import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { KeyedCode } from "../shared/keyedCode";
+import { ReplaceWithDraftedTeamsApiClient } from "./replaceWithDraftedTeamsApiClient";
 
 interface DraftPageProps {
   appContext: AppContext;
@@ -37,6 +38,7 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
     getInitialState(2), 
   )
   const draftPoolApiClient = useMemo(() => new DraftPoolApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
+  const replacerApiClient = useMemo(() => new ReplaceWithDraftedTeamsApiClient(appContext.commandFetcher), [appContext.commandFetcher]);
 
   const draftPoolSize = (state.numberOfTeams + 2) * 25;
   const generationEstimate = Math.round((1/50) * draftPoolSize); 
@@ -264,9 +266,19 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
       confirmVerb='Add To Roster'
       closeDialog={closeAndResolve}
     />)
-    if(!shouldComplete)
+    if(shouldComplete) {
+      await replacerApiClient.execute({
+        rosterId: rosterId,
+        teams: state.teams.map(t => ({
+          teamToReplace: t.replaceTeam!.key,
+          teamName: t.name,
+          playerIds: t.selections
+        }))
+      })
+    } 
+    else {
       update({ type: 'resetDraft' });
-      
+    }
   }
 }
 
