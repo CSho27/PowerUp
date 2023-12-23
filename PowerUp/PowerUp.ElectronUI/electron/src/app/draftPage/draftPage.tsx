@@ -11,7 +11,7 @@ import { Button } from "../../components/button/button";
 import { NumberField } from "../../components/numberField/numberField";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { ConfirmationModal } from "../../components/modal/confirmationModal";
-import { COLORS } from "../../style/constants";
+import { COLORS, FONT_SIZES } from "../../style/constants";
 import { Spinner } from "../../components/spinner/spinner";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { getPositionType } from "../shared/positionCode";
@@ -43,6 +43,7 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
   const draftPoolSize = (state.numberOfTeams + 2) * 25;
   const generationEstimate = Math.round((1/50) * draftPoolSize); 
 
+  const round = getRound(state.teams);
   const draftingIndex = getDraftingIndex(state.teams);
   const nextDraftingIndex = getNextPickingPlayerIndex(state.teams);
   const allSelections = state.teams.flatMap(t => t.selections);
@@ -86,6 +87,9 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
           </PlayerGrid>
         </TeamContainer>
         <DraftPoolContainer>
+          <RoundHeader>
+            Round: {round}, Pick: {draftingIndex+1}
+          </RoundHeader>
           <div 
             style={{ 
               display: 'flex',
@@ -236,7 +240,6 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
   }
 
   async function handleSelection(playerId: number) {
-    const round = getRound(state.teams);
     const isFinalSelection = round === 25 && draftingIndex === state.teams.length-1;
 
     update({ type: 'makeSelection', playerId: playerId })
@@ -275,6 +278,7 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
           playerIds: t.selections
         }))
       })
+      appContext.popBreadcrumb(appContext.breadcrumbs[appContext.breadcrumbs.length-2].id);
     } 
     else {
       update({ type: 'resetDraft' });
@@ -342,5 +346,11 @@ const TeamContainer = styled.div<{ isDrafting: boolean }>`
 `
 
 const TeamField = styled.div`
+  padding-bottom: 12px;
+`
+
+const RoundHeader = styled.div`
+  font-weight: 500;
+  font-size: ${FONT_SIZES._24};
   padding-bottom: 12px;
 `

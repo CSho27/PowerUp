@@ -41,14 +41,14 @@ namespace PowerUp.ElectronUI.Api.Rosters
   public class ReplaceWithDraftedTeamsRequest
   {
     public int RosterId { get; set; }
-    public IEnumerable<DraftedTeam> Teams { get; set; } = Enumerable.Empty<DraftedTeam>();
+    public IEnumerable<DraftedTeam> Teams { get; set; }
   }
 
   public class DraftedTeam
   {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public MLBPPTeam TeamToReplace { get; set; }
-    public string TeamName { get; set; } = "";
+    public string TeamName { get; set; }
     public IEnumerable<int> PlayerIds { get; set; }
   }
 }
