@@ -2,8 +2,7 @@ import { useMemo, useReducer } from "react";
 import { AppContext } from "../app";
 import { DraftPoolApiClient } from "../shared/draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
-import { useReducerWithContext } from "../../utils/reducerWithContext";
-import { DraftStateReducer, getInitialState, getLastPickingPlayerIndex, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";
+import { DraftStateReducer, getInitialState, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { ContentWithHangingHeader } from "../../components/hangingHeader/hangingHeader";
@@ -19,6 +18,7 @@ import { getPositionType } from "../shared/positionCode";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PlayerDetailsResponse } from "../teamEditor/playerDetailsResponse";
 import { TextField } from "../../components/textField/textField";
+import { SortHelpers } from "../../utils/sortUtils";
 
 interface DraftPageProps {
   appContext: AppContext;
@@ -51,7 +51,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
 
   const leftTeamPlayers = leftTeam.selections.map(s => state.draftPool.find(p => p.playerId === s)!);
   const rightTeamPlayers = rightTeam.selections.map(s => state.draftPool.find(p => p.playerId === s)!);
-  const undraftedPlayers = state.draftPool.filter(p => !allSelections.some(s => s === p.playerId));
+  const undraftedPlayers = state.draftPool.sort(SortHelpers.numericallyByDesc(p => p.overall)).filter(p => !allSelections.some(s => s === p.playerId));
   
   return <PowerUpLayout appContext={appContext} headerText="Draft Teams">
     <ContentWithHangingHeader header={<Breadcrumbs appContext={appContext}/>} headerHeight="48px">
@@ -125,11 +125,12 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
     </ContentWithHangingHeader>
   </PowerUpLayout>
 
-  function toUndradftedPlayer(p: PlayerDetailsResponse) {
+  function toUndradftedPlayer(p: PlayerDetailsResponse, index: number) {
     return <div 
       key={p.playerId} 
       style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
     >
+      <div style={{ width: '3ch' }}>{index+1}.</div>
       <Button
         size='Small'
         variant='Outline'
@@ -138,7 +139,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
         squarePadding
         onClick={() => handleSelection(p.playerId)}
       />
-      <div>{p.overall}</div>
+      <div style={{ width: '2ch' }}>{p.overall}</div>
       <PositionBubble
         positionType={getPositionType(p.position)}
         size='Medium'
@@ -199,7 +200,7 @@ function DraftPage({ appContext, rosterId }: DraftPageProps) {
 
   async function generateDraftPool() {
     update({ type: 'startedGenerating' });
-    const draftPool = await draftPoolApiClient.execute();
+    const draftPool = await draftPoolApiClient.execute({ size: draftPoolSize });
     update({ type: 'finishedGenerating', draftPool: draftPool.players })
   }
 

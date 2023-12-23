@@ -9,7 +9,7 @@ namespace PowerUp.Generators
 {
   public interface IDraftPoolGenerator
   {
-    Task<IEnumerable<Player>> GenerateDraftPool(PlayerGenerationAlgorithm playerGenerationAlgorithm);
+    Task<IEnumerable<Player>> GenerateDraftPool(PlayerGenerationAlgorithm playerGenerationAlgorithm, int size);
     Task<Player?> GenerateRandomPlayer(PlayerGenerationAlgorithm playerGenerationAlgorithm);
   }
 
@@ -41,12 +41,10 @@ namespace PowerUp.Generators
       _playerGenerator = playerGenerator;
     }
 
-    public async Task<IEnumerable<Player>> GenerateDraftPool(PlayerGenerationAlgorithm playerGenerationAlgorithm)
+    public async Task<IEnumerable<Player>> GenerateDraftPool(PlayerGenerationAlgorithm playerGenerationAlgorithm, int size)
     {
       var draftPool = new List<Player>();
-      var teams = TeamsDrafting + 2;
-      var draftPoolSize = teams * 25;
-      while (draftPool.Count < draftPoolSize)
+      while (draftPool.Count < size)
       {
         var player = await GenerateRandomPlayer(playerGenerationAlgorithm);
         if (player == null)
@@ -56,7 +54,7 @@ namespace PowerUp.Generators
           .Where(m => 
           {
             var playersOfPosition = draftPool.Count(p => p.PrimaryPosition == m.Key);
-            var minForPoolSize = m.Value * teams;
+            var minForPoolSize = m.Value * (size / 4);
             return playersOfPosition < minForPoolSize;
           });
 

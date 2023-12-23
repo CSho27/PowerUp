@@ -36,7 +36,9 @@ namespace PowerUp.ElectronUI.Api.Generation
         _batttingStanceGuesser,
         _pitchingMechanicsGuesser
       );
-      var draftPool = _draftPoolGenerator.GenerateDraftPool(algorithm).GetAwaiter().GetResult();
+      var draftPool = _draftPoolGenerator.GenerateDraftPool(algorithm, request.Size)
+        .GetAwaiter()
+        .GetResult();
       DatabaseConfig.Database.SaveAll(draftPool);
       return new DraftPoolGenerationResponse
       {
@@ -45,7 +47,10 @@ namespace PowerUp.ElectronUI.Api.Generation
     }
   }
 
-  public class DraftPoolGenerationRequest { }
+  public class DraftPoolGenerationRequest 
+  {
+    public int Size { get; set; }
+  }
 
   public class DraftPoolGenerationResponse 
   {
