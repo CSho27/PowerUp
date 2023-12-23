@@ -21,6 +21,7 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
   {
     public int PlayerId { get; }
     public string SourceType { get; }
+    public int? Year { get; }
     public string PrimaryPosition { get; }
     public string SavedName { get; }
     public string InformalDisplayName { get; }
@@ -34,6 +35,7 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
     {
       PlayerId = player.Id!.Value;
       SourceType = player.SourceType.ToString();
+      Year = player.Year;
       PrimaryPosition = player.PrimaryPosition.ToString();
       SavedName = player.SavedName;
       InformalDisplayName = player.InformalDisplayName;

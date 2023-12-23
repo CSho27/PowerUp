@@ -23,6 +23,7 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
   const { 
     playerId, 
     sourceType,
+    year,
     primaryPosition,
     savedName, 
     informalDisplayName, 
@@ -30,7 +31,7 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
     overall,
     hitterDetails,
     pitcherDetails,
-    positionCapabilities
+    positionCapabilities,
   } = response;
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -55,6 +56,7 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
           <OutlineHeader style={{ flex: 'auto' }} fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.jet.superlight_90}>
             {uniformNumber}
           </OutlineHeader>
+          {`(${year})`}
         </PlayerName>
         <DetailWrapper>
           <PlayerDetailLabel>Ovr</PlayerDetailLabel>
