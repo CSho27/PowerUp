@@ -6,6 +6,7 @@ import { Icon, IconType } from "../icon/icon";
 
 interface BaseLinkProps {
   icon?: IconType;
+  fontSize?: string;
 }
 
 interface UrlLinkProps extends BaseLinkProps {
@@ -23,7 +24,7 @@ export function Link(props: PropsWithChildren<LinkProps>) {
     ? openInBrowserOnClick(props.url)
     : props.onClick; 
 
-  return <LinkWrapper onClick={onClick}>
+  return <LinkWrapper style={{ fontSize: props.fontSize }} onClick={onClick}>
     {props.icon && <Icon icon={props.icon} />}
     <LinkText>{props.children}</LinkText>
   </LinkWrapper>
