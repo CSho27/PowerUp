@@ -60,12 +60,28 @@ namespace PowerUp.Generators
 
         var allMinsFulfilled = !unfulfilledMins.Any();
         var playerFulfillsMin = unfulfilledMins.Any(m => m.Key == player.PrimaryPosition);
-        if (player.Overall > 60 && (allMinsFulfilled || playerFulfillsMin))
+        var isValidOverall = AverageTargetingUtils.IsValueValid(
+          targetMin: 75,
+          targetMax: 85,
+          minProbableValue: 70,
+          maxProbablevalue: 80,
+          valuesKnown: draftPool.Count,
+          totalValues: size,
+          currentSum: draftPool.Sum(p => p.Overall),
+          value: player.Overall
+        );
+        if (isValidOverall && (allMinsFulfilled || playerFulfillsMin))
         {
+          Console.WriteLine($"Adding: {player.InformalDisplayName}");
           draftPool.Add(player);
+        }
+        else
+        {
+          Console.WriteLine($"Rejecting: {player.InformalDisplayName}");
         }
       }
 
+      Console.WriteLine($"Draft Pool Average: {draftPool.Average(p => p.Overall)}");
       return draftPool;
     }
     
