@@ -12,6 +12,7 @@ import { HitterDetailsDto, PitcherDetailsDto, PlayerFlyoutDetailsResponse } from
 import { PitchArsenalDisplay } from "./pitchArsenalDisplay";
 import { PitchBreakMeter } from "./pitchBreakMeter";
 import { PositionCapabilityDisplay } from "./positionCapabilityDisplay";
+import { Link } from "../../components/link/link";
 
 export interface PlayerDetailsFlyoutProps {
   appContext: AppContext;
@@ -24,6 +25,7 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
     playerId, 
     sourceType,
     year,
+    baseballReferenceUrl,
     primaryPosition,
     savedName, 
     informalDisplayName, 
@@ -56,7 +58,8 @@ export function PlayerDetailsFlyout(props: PlayerDetailsFlyoutProps) {
           <OutlineHeader style={{ flex: 'auto' }} fontSize={FONT_SIZES._24} strokeWeight={1} textColor={COLORS.primaryBlue.regular_45} strokeColor={COLORS.jet.superlight_90}>
             {uniformNumber}
           </OutlineHeader>
-          {`(${year})`}
+          {year && `(${year})`}
+          {baseballReferenceUrl && <Link fontSize={FONT_SIZES._14} icon='up-right-from-square' url={baseballReferenceUrl}>BBRef</Link>}
         </PlayerName>
         <DetailWrapper>
           <PlayerDetailLabel>Ovr</PlayerDetailLabel>

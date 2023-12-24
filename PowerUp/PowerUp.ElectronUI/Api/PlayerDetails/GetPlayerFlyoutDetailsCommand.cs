@@ -1,14 +1,22 @@
 ﻿using PowerUp.Databases;
 using PowerUp.Entities.Players;
+using PowerUp.Providers;
 
 namespace PowerUp.ElectronUI.Api.PlayerDetails
 {
   public class GetPlayerFlyoutDetailsCommand : ICommand<PlayerFlyoutDetailsRequest, PlayerFlyoutDetailsResponse>
   {
+    private readonly IBaseballReferenceUrlProvider _urlProvider;
+
+    public GetPlayerFlyoutDetailsCommand(IBaseballReferenceUrlProvider urlProvider)
+    {
+      _urlProvider = urlProvider;
+    }
+
     public PlayerFlyoutDetailsResponse Execute(PlayerFlyoutDetailsRequest request)
     {
       var player = DatabaseConfig.Database.Load<Player>(request.PlayerId)!;
-      return new PlayerFlyoutDetailsResponse(player);
+      return new PlayerFlyoutDetailsResponse(_urlProvider, player);
     }
   }
 
@@ -22,6 +30,7 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
     public int PlayerId { get; }
     public string SourceType { get; }
     public int? Year { get; }
+    public string? BaseballReferenceUrl { get; }
     public string PrimaryPosition { get; }
     public string SavedName { get; }
     public string InformalDisplayName { get; }
@@ -31,11 +40,17 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
     public PitcherDetailsDto PitcherDetails { get; }
     public PositionCapabilitiesDto PositionCapabilities { get; }
 
-    public PlayerFlyoutDetailsResponse(Player player)
+    public PlayerFlyoutDetailsResponse(
+      IBaseballReferenceUrlProvider bbrefUrlProvider, 
+      Player player
+    )
     {
       PlayerId = player.Id!.Value;
       SourceType = player.SourceType.ToString();
       Year = player.Year;
+      BaseballReferenceUrl = player.GeneratedPlayer_LSPLayerId.HasValue
+        ? bbrefUrlProvider.GetPlayerPageForUrl(player.GeneratedPlayer_FullFirstName!, player.GeneratedPlayer_FullLastName!, player.GeneratedPlayer_ProDebutDate!.Value)
+        : bbrefUrlProvider.GetSearchPageForUrl(player.FirstName, player.LastName);
       PrimaryPosition = player.PrimaryPosition.ToString();
       SavedName = player.SavedName;
       InformalDisplayName = player.InformalDisplayName;
