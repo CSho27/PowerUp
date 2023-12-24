@@ -19,8 +19,8 @@ export class DraftPoolApiClient {
   }
 
   execute = (request: DraftPoolGenerationRequest): Promise<DraftPoolGenerationResponse> => {
-    return new Promise(r => r(testPage));
-    //return this.commandFetcher.execute(this.commandName, request, false);
+    //return new Promise(r => r(testPage));
+    return this.commandFetcher.execute(this.commandName, request, false);
   }
 }
 
