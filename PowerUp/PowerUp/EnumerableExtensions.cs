@@ -56,5 +56,13 @@ namespace PowerUp
       var averageToAdd = weight * averageSelector(source)!.Value;
       return average + averageToAdd;
     }
+
+    public static TSource Percentile<TSource, TOrder>(this IEnumerable<TSource> source, Func<TSource, TOrder> selector, double percentile)
+    {
+      var sortedData = source.OrderBy(selector).ToArray();
+      int index = (int)Math.Ceiling(percentile * sortedData.Length) - 1;
+      index = Math.Max(0, Math.Min(index, sortedData.Length - 1));
+      return sortedData[index];
+    }
   }
 }

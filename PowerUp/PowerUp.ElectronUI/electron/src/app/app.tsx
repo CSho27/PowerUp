@@ -20,10 +20,12 @@ export interface AppContext {
   reloadCurrentPage: () => void;
   popBreadcrumb: (breadcrumbId: number) => void;
   openModal: (renderModal: RenderModalCallback) => void;
+  openModalAsync: <T>(renderModal: AsyncRenderModalCallback<T>) => Promise<T>;
   performWithSpinner: PerformWithSpinnerCallback;
 }
 
 export type RenderModalCallback = (closeDialog: () => void) => ReactElement<ModalProps>;
+export type AsyncRenderModalCallback<T> = (closeDialog: (value: T) => void) => ReactElement<ModalProps>;
 export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
 
 export function App(props: ApplicationStartupData) {
@@ -45,6 +47,7 @@ export function App(props: ApplicationStartupData) {
     reloadCurrentPage: reloadCurrentPage,
     popBreadcrumb: popBreadcrumb,
     openModal: openModal,
+    openModalAsync: openModalAsync,
     performWithSpinner: performWithSpinner
   };
 
@@ -95,6 +98,19 @@ export function App(props: ApplicationStartupData) {
     })
 
     update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageDef: newPage });
+  }
+
+  function openModalAsync<T>(renderModal: AsyncRenderModalCallback<T>): Promise<T> {
+    return new Promise(resolve => 
+        openModal(closeDialog => {
+          return renderModal(closeAndResolve)
+          
+          function closeAndResolve(value: T) {
+            closeDialog();
+            resolve(value);
+          }
+        })
+    )
   }
 
 

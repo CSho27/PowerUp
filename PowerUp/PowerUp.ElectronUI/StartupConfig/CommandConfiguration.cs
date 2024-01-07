@@ -39,6 +39,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<FindClosestVoiceCommand>();
       services.AddSingleton<PlayerLookupCommand>();
       services.AddSingleton<PlayerGenerationCommand>();
+      services.AddSingleton<DraftPoolGenerationCommand>();
       services.AddSingleton<GetPlayerInfoCommand>();
       services.AddSingleton<FranchiseLookupCommand>();
       services.AddSingleton<TeamGenerationCommand>();
@@ -52,6 +53,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<GetGameSaveManagerDirectoryCommand>();
       services.AddSingleton<RenameGameSaveCommand>();
       services.AddSingleton<MigrateExistingDatabaseCommand>();
+      services.AddSingleton<ReplaceWithDraftedTeamsCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -82,6 +84,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(FindClosestVoiceCommand), "FindClosestVoice");
       commandRegistry.RegisterCommand(typeof(PlayerLookupCommand), "PlayerLookup");
       commandRegistry.RegisterCommand(typeof(PlayerGenerationCommand), "PlayerGeneration");
+      commandRegistry.RegisterCommand(typeof(DraftPoolGenerationCommand), "DraftPoolGeneration");
       commandRegistry.RegisterCommand(typeof(GetPlayerInfoCommand), "GetPlayerInfo");
       commandRegistry.RegisterCommand(typeof(FranchiseLookupCommand), "FranchiseLookup");
       commandRegistry.RegisterCommand(typeof(TeamGenerationCommand), "TeamGeneration");
@@ -95,6 +98,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(GetGameSaveManagerDirectoryCommand), "GetGameSaveManagerDirectory");
       commandRegistry.RegisterCommand(typeof(RenameGameSaveCommand), "RenameGameSave");
       commandRegistry.RegisterCommand(typeof(MigrateExistingDatabaseCommand), "MigrateExistingDatabase");
+      commandRegistry.RegisterCommand(typeof(ReplaceWithDraftedTeamsCommand), "ReplaceWithDraftedTeams");
     }
   }
 }
