@@ -5,6 +5,7 @@ import { loadPlayerEditorPage } from "./playerEditor/playerEditorPage";
 import { loadRosterEditorPage } from "./rosterEditor/rosterEditorPage";
 import { cleanupTeamEditorPage, loadTeamEditorPage } from "./teamEditor/teamEditorPage";
 import { loadTestPage } from "./testPage/testPage";
+import { loadDraftPage } from "./draftPage/draftPage";
 
 export type PageLoadDefinition =
 | { page: 'HomePage' }
@@ -12,6 +13,7 @@ export type PageLoadDefinition =
 | { page: 'PlayerEditorPage', playerId: number }
 | { page: 'TeamEditorPage', teamId: number, tempTeamId?: number }
 | { page: 'TestPage' }
+| { page: 'DraftPage', rosterId: number }
 
 export interface PageDefinition {
   title: string;
@@ -33,5 +35,6 @@ export const pageRegistry: { [page in PageLoadDefinition['page']]: PageRegistryE
   RosterEditorPage: { load: loadRosterEditorPage },
   PlayerEditorPage: { load: loadPlayerEditorPage },
   TeamEditorPage: { load: loadTeamEditorPage, cleanup: cleanupTeamEditorPage },
-  TestPage: { load: loadTestPage }
+  TestPage: { load: loadTestPage },
+  DraftPage: { load: loadDraftPage }
 }

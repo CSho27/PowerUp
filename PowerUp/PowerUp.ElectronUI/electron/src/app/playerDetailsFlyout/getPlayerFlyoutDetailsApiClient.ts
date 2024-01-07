@@ -11,6 +11,8 @@ export interface PlayerFlyoutDetailsRequest {
 export interface PlayerFlyoutDetailsResponse {
   playerId: number;
   sourceType: EntitySourceType;
+  year: number | null;
+  baseballReferenceUrl: string | null;
   primaryPosition: Position;
   savedName: string;
   informalDisplayName: string;

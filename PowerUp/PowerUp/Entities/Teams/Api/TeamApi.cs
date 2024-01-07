@@ -1,5 +1,7 @@
-﻿using PowerUp.Entities.Players;
+﻿using PowerUp.Databases;
+using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
+using PowerUp.Generators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace PowerUp.Entities.Teams.Api
   {
     Team CreateDefaultTeam(EntitySourceType sourceType, Action<Player> savePlayer);
     Team CreateCustomCopyOfTeam(Team team);
+    Team CreateFromPlayers(IEnumerable<int> playerIds, string name);
     void ReplacePlayer(Team team, Player playerToRemove, Player playerToInsert);
     void EditTeam(Team team, TeamParameters parameters);
   }
@@ -174,6 +177,43 @@ namespace PowerUp.Entities.Teams.Api
         .Where(p => p.OrderInDHLineup.HasValue)
         .OrderBy(p => p.OrderInDHLineup)
         .Select(p => new LineupSlot { PlayerId = p.PlayerId, Position = p.PositionInDHLineup!.Value });
+    }
+
+    public Team CreateFromPlayers(IEnumerable<int> playerIds, string name)
+    {
+      var players = playerIds.Select(DatabaseConfig.Database.Load<Player>).ToList();
+      var rosterParams = players.Select(p => new RosterParams(
+        playerId: p.Id!.Value,
+        hitterRating: p.HitterAbilities.GetHitterRating(),
+        pitcherRating: p.PitcherAbilities.GetPitcherRating(),
+        contact: p.HitterAbilities.Contact,
+        power: p.HitterAbilities.Power,
+        runSpeed: p.HitterAbilities.RunSpeed,
+        primaryPosition: p.PrimaryPosition,
+        pitcherType: p.PitcherType,
+        positionCapabilityDictionary: p.PositionCapabilities.GetDictionary()
+      ));
+      var rosterResults = RosterCreator.CreateRosters(rosterParams);
+      var playersOnTeam = players.Where(p => rosterResults.FortyManRoster.Any(id => id == p.Id));
+
+      var team = new Team
+      {
+        Name = name,
+        SourceType = EntitySourceType.Generated,
+        PlayerDefinitions = playersOnTeam.Select(p => new PlayerRoleDefinition(p.Id!.Value)
+        {
+          IsAAA = !rosterResults.TwentyFiveManRoster.Contains(p.Id!.Value),
+          PitcherRole = rosterResults.Starters.Any(id => id == p.Id)
+            ? PitcherRole.Starter
+            : rosterResults.Closer == p.Id
+              ? PitcherRole.Closer
+              : PitcherRole.MiddleReliever
+        }),
+        NoDHLineup = rosterResults.NoDHLineup.Select(s => new LineupSlot { PlayerId = playersOnTeam.SingleOrDefault(p => p.Id == s.PlayerId)?.Id, Position = s.Position }),
+        DHLineup = rosterResults.DHLineup.Select(s => new LineupSlot { PlayerId = playersOnTeam.Single(p => p.Id == s.PlayerId)?.Id, Position = s.Position })
+      };
+
+      return team;
     }
   }
 }
