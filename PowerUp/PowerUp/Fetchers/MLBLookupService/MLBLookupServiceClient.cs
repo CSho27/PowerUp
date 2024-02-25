@@ -53,18 +53,11 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.player_info.bam" },
-        new { sport_code = "\'mlb\'", player_id = $"\'{lsPlayerId}\'" }
-      );
-
-      var response = await _apiClient.Get<LSPlayerInfoResponse>(url);
-      var results = response!.player_info!.queryResults!;
-      if (!results.row.HasValue)
+      var result = await _mlbStatsApiClient.GetPlayerInfo(lsPlayerId);
+      if (result is null)
         throw new InvalidOperationException("No player info found for this id");
 
-      var deserializedResult = JsonSerializer.Deserialize<LSPlayerInfoResult>(results.row!.Value)!;
-      return new PlayerInfoResult(deserializedResult);
+      return result;
     }
 
     public async Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year)

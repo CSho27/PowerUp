@@ -125,14 +125,14 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.DeathCountry.ShouldBe("USA");
         result.DeathState.ShouldBe("TX");
         result.DeathCity.ShouldBe("Lake Whitney");
-        result.Age.Value.ShouldBeGreaterThanOrEqualTo(134);
-        result.HighSchool.ShouldBe("Hubbard, TX");
-        result.College.ShouldBe("Texas Wesleyan");
+        result.Age.Value.ShouldBeGreaterThanOrEqualTo(70);
+        result.HighSchool.ShouldBeNull();
+        result.College.ShouldBeNull();
         result.ProDebutDate.ShouldBe(DateTime.Parse("1907-09-12T00:00:00"));
-        result.StartDate.ShouldBe(DateTime.Parse("1928-01-01T00:00:00"));
-        result.EndDate.ShouldBe(DateTime.Parse("1929-01-01T00:00:00"));
+        result.StartDate.ShouldBe(DateTime.Parse("1907-09-12T00:00:00"));
+        result.EndDate.ShouldBe(DateTime.Parse("1928-08-30T00:00:00"));
         result.ServiceYears.ShouldBeNull();
-        result.TeamName.ShouldBe("Oakland Athletics");
+        result.TeamName.ShouldBe("Philadelphia Athletics");
       }).GetAwaiter().GetResult();
     }
 
@@ -152,7 +152,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.FormalDisplayName.ShouldBe("Trout, Mike");
         result.InformalDisplayName.ShouldBe("Mike Trout");
         result.NickName.ShouldBe("Kiiiiid");
-        result.UniformNumber.ShouldBe("27");
+        result.UniformNumber.ShouldBeNull();
         result.BattingSide.ShouldBe(BattingSide.Right);
         result.ThrowingArm.ShouldBe(ThrowingArm.Right);
         result.Weight.ShouldBe(235);
@@ -167,7 +167,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.DeathState.ShouldBeNull();
         result.DeathCity.ShouldBeNull();
         result.Age.Value.ShouldBeGreaterThanOrEqualTo(30);
-        result.HighSchool.ShouldBe("Millville, NJ");
+        result.HighSchool.ShouldBeNull();
         result.College.ShouldBeNull();
         result.ProDebutDate.ShouldBe(DateTime.Parse("2011-07-08T00:00:00"));
         result.StartDate.ShouldBe(DateTime.Parse("2011-07-08T00:00:00"));

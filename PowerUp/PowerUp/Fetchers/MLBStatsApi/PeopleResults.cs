@@ -36,7 +36,7 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public DateTime? BirthDate { get; set; }
 
     [JsonPropertyName("currentAge")]
-    public long CurrentAge { get; set; }
+    public int CurrentAge { get; set; }
 
     [JsonPropertyName("birthCity")]
     public string? BirthCity { get; set; }
@@ -47,11 +47,23 @@ namespace PowerUp.Fetchers.MLBStatsApi
     [JsonPropertyName("birthCountry")]
     public string? BirthCountry { get; set; }
 
+    [JsonPropertyName("deathDate")]
+    public DateTime? DeathDate { get; set; }
+
+    [JsonPropertyName("deathCity")]
+    public string? DeathCity { get; set; }
+
+    [JsonPropertyName("deathStateProvince")]
+    public string? DeathStateProvince { get; set; }
+
+    [JsonPropertyName("deathCountry")]
+    public string? DeathCountry { get; set; }
+
     [JsonPropertyName("height")]
     public string? Height { get; set; }
 
     [JsonPropertyName("weight")]
-    public long? Weight { get; set; }
+    public int? Weight { get; set; }
 
     [JsonPropertyName("active")]
     public bool Active { get; set; }
@@ -93,7 +105,10 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public StatElement[] Stats { get; set; } = [];
 
     [JsonPropertyName("mlbDebutDate")]
-    public DateTimeOffset MlbDebutDate { get; set; }
+    public DateTime? MlbDebutDate { get; set; }
+
+    [JsonPropertyName("lastPlayedDate")]
+    public DateTime? LastPlayedDate { get; set; }
 
     [JsonPropertyName("batSide")]
     public Laterality? BatSide { get; set; }
