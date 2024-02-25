@@ -122,7 +122,11 @@ export function App(props: ApplicationStartupData) {
 
   async function performWithSpinner<T>(action: () => Promise<T>): Promise<T> {
     update({ type: 'updateIsLoading', isLoading: true });
-    var returnValue = await action();
+    var returnValue = await action().catch(e => {
+      alert('Unexpected Error: If this error persists please create a GitHub issue and contact the creator.')
+      update({ type: 'updateIsLoading', isLoading: false });
+      throw e;
+    });
     update({ type: 'updateIsLoading', isLoading: false });
     return returnValue;
   }
