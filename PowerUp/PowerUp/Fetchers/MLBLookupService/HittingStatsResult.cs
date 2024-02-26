@@ -14,12 +14,8 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       var validSplits = stats?.Splits.Where(s => s.Team != null).ToList() ?? [];
       TotalResults = validSplits.Count;
-      var teamSeqById = new Dictionary<long, int>();
-      foreach (var split in validSplits)
-        teamSeqById.TryAdd(split.Team!.Id, teamSeqById.Count + 1);
-
       Results = validSplits
-        .Select(r => new HittingStatsResult(r, teamSeqById[r.Team!.Id]))
+        .Select(r => new HittingStatsResult(r))
         .ToList();
     }
   }
@@ -28,7 +24,6 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     public int LSPlayerId { get; }
     public int Year { get; }
-    public int TeamSeq { get; }
     public int LSTeamId { get; }
     
     public int GamesPlayed { get; }
@@ -66,12 +61,10 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int? StolenBases { get; }
     public int? CaughtStealing { get; }
 
-    public HittingStatsResult(Split split, int teamSeq)
+    public HittingStatsResult(Split split)
     {
       LSPlayerId = (int)split.Player!.Id;
       Year = split.Season.TryParseInt()!.Value;
-      TeamSeq = teamSeq;
-
       if (split.Stat is null)
         throw new InvalidOperationException("Stat is must have a value");
       

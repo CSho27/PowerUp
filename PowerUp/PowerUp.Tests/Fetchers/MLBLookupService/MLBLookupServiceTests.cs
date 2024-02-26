@@ -187,8 +187,8 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         results.TotalResults.ShouldBe(1);
         var result = results.Results.Single();
         result.LSPlayerId.ShouldBe(115096);
+        result.LSTeamId.ShouldBe((int)MLBPPTeam.Tigers.GetLSTeamId());
         result.Year.ShouldBe(1935);
-        result.TeamSeq.ShouldBe(1);
         result.GamesPlayed.ShouldBe(152);
         result.AtBats.ShouldBe(619);
         result.PlateAppearances.ShouldBe(710);
@@ -236,7 +236,6 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withOrioles.LSPlayerId.ShouldBe(592518);
         withOrioles.LSTeamId.ShouldBe(110);
         withOrioles.Year.ShouldBe(2018);
-        withOrioles.TeamSeq.ShouldBe(1);
         withOrioles.GamesPlayed.ShouldBe(96);
         withOrioles.AtBats.ShouldBe(365);
         withOrioles.PlateAppearances.ShouldBe(413);
@@ -276,7 +275,6 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withDodgers.LSPlayerId.ShouldBe(592518);
         withDodgers.LSTeamId.ShouldBe(119);
         withDodgers.Year.ShouldBe(2018);
-        withDodgers.TeamSeq.ShouldBe(2);
         withDodgers.GamesPlayed.ShouldBe(66);
         withDodgers.AtBats.ShouldBe(267);
         withDodgers.PlateAppearances.ShouldBe(296);
