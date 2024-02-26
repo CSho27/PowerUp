@@ -14,12 +14,8 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       var validSplits = stats?.Splits.Where(s => s.Team != null).ToList() ?? [];
       TotalResults = validSplits.Count;
-      var teamSeqById = new Dictionary<long, int>();
-      foreach (var split in validSplits)
-        teamSeqById.TryAdd(split.Team!.Id, teamSeqById.Count + 1);
-
       Results = validSplits
-        .Select(r => new FieldingStatsResult(r, teamSeqById[r.Team!.Id]))
+        .Select(r => new FieldingStatsResult(r))
         .ToList();
     }
   }
@@ -28,7 +24,7 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     public int LSPlayerId { get; }
     public int Year { get; }
-    public int TeamSeq { get; }
+    public int LSTeamId { get; }
 
     public Position Position { get; }
     public int? GamesPlayed { get; }
@@ -46,11 +42,11 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int? Catcher_PastBalls { get; }
     public int? Catcher_WildPitches { get; }
 
-    public FieldingStatsResult(Split split, int teamSeq)
+    public FieldingStatsResult(Split split)
     {
       LSPlayerId = (int)split.Player!.Id;
       Year = split.Season.TryParseInt()!.Value;
-      TeamSeq = teamSeq;
+      LSTeamId = (int)split.Team!.Id;
 
       var positionCode = split.Position?.Code.TryParseInt();
       Position = positionCode.HasValue

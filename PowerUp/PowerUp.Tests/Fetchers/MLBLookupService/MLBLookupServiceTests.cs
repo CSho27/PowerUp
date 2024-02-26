@@ -322,7 +322,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var result = results.Results.Single();
         result.LSPlayerId.ShouldBe(122439);
         result.Year.ShouldBe(1992);
-        result.TeamSeq.ShouldBe(1);
+        result.LSTeamId.ShouldBe((int)MLBPPTeam.Cardinals.GetLSTeamId());
         result.Position.ShouldBe(Position.Shortstop);
         result.GamesPlayed.ShouldBe(132);
         result.GamesStarted.ShouldBe(128);
@@ -349,11 +349,10 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var results = await _client.GetFieldingStats(621035, 2016);
         results.TotalResults.ShouldBe(5);
 
-        var asMarinersDH = results.Results.ElementAt(0);
+        var asMarinersDH = results.Results
+          .First(r => r.LSTeamId == (int)MLBPPTeam.Mariners.GetLSTeamId() && r.Position == Position.DesignatedHitter);
         asMarinersDH.LSPlayerId.ShouldBe(621035);
         asMarinersDH.Year.ShouldBe(2016);
-        asMarinersDH.TeamSeq.ShouldBe(1);
-        asMarinersDH.Position.ShouldBe(Position.DesignatedHitter);
         asMarinersDH.GamesPlayed.ShouldBe(1);
         asMarinersDH.GamesStarted.ShouldBe(0);
         asMarinersDH.Innings.ShouldBe(0);
@@ -369,11 +368,10 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         asMarinersDH.Catcher_PastBalls.ShouldBeNull();
         asMarinersDH.Catcher_WildPitches.ShouldBeNull();
 
-        var asMarinersShortstop = results.Results.ElementAt(1);
+        var asMarinersShortstop = results.Results
+          .First(r => r.LSTeamId == (int)MLBPPTeam.Mariners.GetLSTeamId() && r.Position == Position.Shortstop);
         asMarinersShortstop.LSPlayerId.ShouldBe(621035);
         asMarinersShortstop.Year.ShouldBe(2016);
-        asMarinersShortstop.TeamSeq.ShouldBe(1);
-        asMarinersShortstop.Position.ShouldBe(Position.Shortstop);
         asMarinersShortstop.GamesPlayed.ShouldBe(1);
         asMarinersShortstop.GamesStarted.ShouldBe(1);
         asMarinersShortstop.Innings.ShouldBe(9);
@@ -389,11 +387,10 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         asMarinersShortstop.Catcher_PastBalls.ShouldBeNull();
         asMarinersShortstop.Catcher_WildPitches.ShouldBeNull();
 
-        var asDodgersShortstop = results.Results.ElementAt(2);
+        var asDodgersShortstop = results.Results
+          .First(r => r.LSTeamId == (int)MLBPPTeam.Dodgers.GetLSTeamId() && r.Position == Position.Shortstop);
         asDodgersShortstop.LSPlayerId.ShouldBe(621035);
         asDodgersShortstop.Year.ShouldBe(2016);
-        asDodgersShortstop.TeamSeq.ShouldBe(2);
-        asDodgersShortstop.Position.ShouldBe(Position.Shortstop);
         asDodgersShortstop.GamesPlayed.ShouldBe(5);
         asDodgersShortstop.GamesStarted.ShouldBe(4);
         asDodgersShortstop.Innings.ShouldBe(37);
@@ -409,11 +406,10 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         asDodgersShortstop.Catcher_PastBalls.ShouldBeNull();
         asDodgersShortstop.Catcher_WildPitches.ShouldBeNull();
 
-        var asDodgersThirdBaseman = results.Results.ElementAt(3);
+        var asDodgersThirdBaseman = results.Results
+          .First(r => r.LSTeamId == (int)MLBPPTeam.Dodgers.GetLSTeamId() && r.Position == Position.ThirdBase);
         asDodgersThirdBaseman.LSPlayerId.ShouldBe(621035);
         asDodgersThirdBaseman.Year.ShouldBe(2016);
-        asDodgersThirdBaseman.TeamSeq.ShouldBe(2);
-        asDodgersThirdBaseman.Position.ShouldBe(Position.ThirdBase);
         asDodgersThirdBaseman.GamesPlayed.ShouldBe(10);
         asDodgersThirdBaseman.GamesStarted.ShouldBe(2);
         asDodgersThirdBaseman.Innings.ShouldBe(28);
@@ -429,11 +425,10 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         asDodgersThirdBaseman.Catcher_PastBalls.ShouldBeNull();
         asDodgersThirdBaseman.Catcher_WildPitches.ShouldBeNull();
 
-        var asDodgersSecondBaseman = results.Results.ElementAt(4);
+        var asDodgersSecondBaseman = results.Results
+          .First(r => r.LSTeamId == (int)MLBPPTeam.Dodgers.GetLSTeamId() && r.Position == Position.SecondBase);
         asDodgersSecondBaseman.LSPlayerId.ShouldBe(621035);
         asDodgersSecondBaseman.Year.ShouldBe(2016);
-        asDodgersSecondBaseman.TeamSeq.ShouldBe(2);
-        asDodgersSecondBaseman.Position.ShouldBe(Position.SecondBase);
         asDodgersSecondBaseman.GamesPlayed.ShouldBe(7);
         asDodgersSecondBaseman.GamesStarted.ShouldBe(5);
         asDodgersSecondBaseman.Innings.ShouldBe(39.1);
