@@ -59,16 +59,9 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.sport_hitting_tm.bam" },
-        new { league_list_id = "\'mlb\'", game_type="\'R\'", player_id = $"\'{lsPlayerId}\'", season = $"\'{year}\'" }
-      );
-
-      var response = await _apiClient.Get<LSHittingStatsResponse>(url);
-      var results = response!.sport_hitting_tm!.queryResults!;
-      var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSHittingStatsResult>(results.row)!;
-      return new HittingStatsResults(totalResults, deserializedResults);
+      var data = await _mlbStatsApiClient.GetPlayerStatistics(lsPlayerId, year);
+      var hittingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "hitting");
+      return new HittingStatsResults(hittingStats);
     }
 
     public async Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year)
