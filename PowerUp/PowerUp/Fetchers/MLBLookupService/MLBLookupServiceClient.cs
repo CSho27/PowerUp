@@ -53,11 +53,8 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId)
     {
-      var result = await _mlbStatsApiClient.GetPlayerInfo(lsPlayerId);
-      if (result is null)
-        throw new InvalidOperationException("No player info found for this id");
-
-      return result;
+      var data = await _mlbStatsApiClient.GetPlayerInfo(lsPlayerId);
+      return new PlayerInfoResult(data);
     }
 
     public async Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year)
@@ -76,7 +73,9 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year)
     {
-      return await _mlbStatsApiClient.GetFieldingStats(lsPlayerId, year);
+      var data = await _mlbStatsApiClient.GetPlayerStatistics(lsPlayerId, year);
+      var fieldingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "fielding");
+      return new FieldingStatsResults(fieldingStats);
     }
 
     public async Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year)

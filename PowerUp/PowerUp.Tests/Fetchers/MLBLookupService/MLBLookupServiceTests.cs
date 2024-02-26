@@ -37,8 +37,8 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         stanton.BirthCountry.ShouldBe("USA");
         stanton.BirthState.ShouldBe("CA");
         stanton.BirthCity.ShouldBe("Panorama");
-        stanton.HighSchool.ShouldBe("Notre Dame, Sherman Oaks, CA");
-        stanton.College.ShouldBe(null);
+        stanton.HighSchool.ShouldBeNull();
+        stanton.College.ShouldBeNull();
         stanton.ProDebutDate.ShouldBe(DateTime.Parse("2010-06-08T00:00:00"));
         stanton.ServiceYears.ShouldBe(null);
         stanton.IsActive.ShouldBe(true);
@@ -67,8 +67,8 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         koufax.BirthCountry.ShouldBe("USA");
         koufax.BirthState.ShouldBe("NY");
         koufax.BirthCity.ShouldBe("Brooklyn");
-        koufax.HighSchool.ShouldBe("Lafayette, Brooklyn, NY");
-        koufax.College.ShouldBe("Cincinnati");
+        koufax.HighSchool.ShouldBeNull();
+        koufax.College.ShouldBeNull();
         koufax.ProDebutDate.ShouldBe(DateTime.Parse("1955-06-24T00:00:00"));
         koufax.ServiceYears.ShouldBe(null);
         koufax.IsActive.ShouldBe(false);

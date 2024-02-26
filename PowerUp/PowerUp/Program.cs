@@ -77,8 +77,6 @@ namespace PowerUp
       //TestBuildBBRefDictionary();
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
-
-      var results = new MLBStatsApiClient().GetFieldingStats(621035, 2016).GetAwaiter().GetResult();
     }
 
     static TimeSpan TimeAction(Action action)
