@@ -456,7 +456,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         var result = results.Results.Single();
         result.LSPlayerId.ShouldBe(120181);
         result.Year.ShouldBe(1952);
-        result.TeamSeq.ShouldBe(1);
+        // result.TeamSeq.ShouldBe(1);
         result.GamesPlayed.ShouldBe(46);
         result.GamesStarted.ShouldBe(6);
         result.GamesFinished.ShouldBe(35);
@@ -479,7 +479,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.Doubles.ShouldBeNull();
         result.Triples.ShouldBeNull();
         result.HomeRuns.ShouldBe(5);
-        result.TotalBasesAllowed.ShouldBe(582);
+        result.TotalBasesAllowed.ShouldBeNull();
         result.WildPitches.ShouldBe(2);
         result.Balks.ShouldBe(0);
         result.RunnersPickedOff.ShouldBeNull();
@@ -492,7 +492,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.WHIP.ShouldBe(1.25);
         result.HitsPer9.ShouldBe(7.57);
         result.HomeRunsPer9.ShouldBe(.33);
-        result.RunScoredPer9.ShouldBe(0);
+        result.RunScoredPer9.ShouldBe(3.33);
         result.WalksPer9.ShouldBe(3.72);
         result.StrikeoutsPer9.ShouldBe(5.93);
         result.BattingAverageAgainst.ShouldBe(.226);
@@ -501,7 +501,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         result.OnBasePlusSluggingAgainst.ShouldBeNull();
         result.WinningPercentage.ShouldBe(.545);
         result.EarnedRunAverage.ShouldBe(3.07);
-        result.PitchesPerPlateAppearance.ShouldBe(0);
+        result.PitchesPerPlateAppearance.ShouldBeNull();
         result.StrikePercentage.ShouldBeNull();
       }).GetAwaiter().GetResult();
     }
@@ -513,10 +513,10 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
       {
         var results = await _client.GetPitchingStats(453286, 2021);
         results.TotalResults.ShouldBe(2);
-        var withNationals = results.Results.First();
+        var withNationals = results.Results.Single(r => r.LSTeamId == MLBPPTeam.Nationals.GetLSTeamId());
         withNationals.LSPlayerId.ShouldBe(453286);
         withNationals.Year.ShouldBe(2021);
-        withNationals.TeamSeq.ShouldBe(1);
+        // withNationals.TeamSeq.ShouldBe(1);
         withNationals.GamesPlayed.ShouldBe(19);
         withNationals.GamesStarted.ShouldBe(19);
         withNationals.GamesFinished.ShouldBe(0);
@@ -524,7 +524,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withNationals.ShutOuts.ShouldBe(0);
         withNationals.Wins.ShouldBe(8);
         withNationals.Losses.ShouldBe(4);
-        withNationals.QualityStarts.ShouldBe(11);
+        withNationals.QualityStarts.ShouldBeNull();
         withNationals.Saves.ShouldBe(0);
         withNationals.InningsPitched.ShouldBe(111);
         withNationals.SaveOpportunities.ShouldBe(0);
@@ -539,7 +539,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withNationals.Doubles.ShouldBe(11);
         withNationals.Triples.ShouldBe(1);
         withNationals.HomeRuns.ShouldBe(18);
-        withNationals.TotalBasesAllowed.ShouldBe(428);
+        withNationals.TotalBasesAllowed.ShouldBe(138);
         withNationals.WildPitches.ShouldBe(0);
         withNationals.Balks.ShouldBe(0);
         withNationals.RunnersPickedOff.ShouldBe(0);
@@ -547,27 +547,27 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withNationals.Strikes.ShouldBe(1166);
         withNationals.GroundOuts.ShouldBe(62);
         withNationals.AirOuts.ShouldBe(112);
-        withNationals.DoublePlays.ShouldBe(42);
+        withNationals.DoublePlays.ShouldBeNull();
         withNationals.StrikeoutToWalkRatio.ShouldBe(5.25);
         withNationals.WHIP.ShouldBe(0.89);
         withNationals.HitsPer9.ShouldBe(5.76);
         withNationals.HomeRunsPer9.ShouldBe(1.46);
-        withNationals.RunScoredPer9.ShouldBe(4.54);
+        withNationals.RunScoredPer9.ShouldBe(2.92);
         withNationals.WalksPer9.ShouldBe(2.27);
         withNationals.StrikeoutsPer9.ShouldBe(11.92);
         withNationals.BattingAverageAgainst.ShouldBe(.182);
         withNationals.SluggingAgainst.ShouldBe(.354);
         withNationals.OnBasePercentageAgainst.ShouldBe(.251);
-        withNationals.OnBasePlusSluggingAgainst.ShouldBe(.604);
+        withNationals.OnBasePlusSluggingAgainst.ShouldBe(.605);
         withNationals.WinningPercentage.ShouldBe(.667);
         withNationals.EarnedRunAverage.ShouldBe(2.76);
-        withNationals.PitchesPerPlateAppearance.ShouldBe(4.18);
-        withNationals.StrikePercentage.ShouldBe(65.2);
+        withNationals.PitchesPerPlateAppearance.ShouldBeNull();
+        withNationals.StrikePercentage.ShouldBe(.65);
 
-        var withDodgers = results.Results.ElementAt(1);
+        var withDodgers = results.Results.Single(r => r.LSTeamId == MLBPPTeam.Dodgers.GetLSTeamId()); ;
         withDodgers.LSPlayerId.ShouldBe(453286);
         withDodgers.Year.ShouldBe(2021);
-        withDodgers.TeamSeq.ShouldBe(2);
+        // withDodgers.TeamSeq.ShouldBe(2);
         withDodgers.GamesPlayed.ShouldBe(11);
         withDodgers.GamesStarted.ShouldBe(11);
         withDodgers.GamesFinished.ShouldBe(0);
@@ -575,7 +575,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withDodgers.ShutOuts.ShouldBe(0);
         withDodgers.Wins.ShouldBe(7);
         withDodgers.Losses.ShouldBe(0);
-        withDodgers.QualityStarts.ShouldBe(7);
+        withDodgers.QualityStarts.ShouldBeNull();
         withDodgers.Saves.ShouldBe(0);
         withDodgers.InningsPitched.ShouldBe(68.1);
         withDodgers.SaveOpportunities.ShouldBe(0);
@@ -590,7 +590,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withDodgers.Doubles.ShouldBe(10);
         withDodgers.Triples.ShouldBe(1);
         withDodgers.HomeRuns.ShouldBe(5);
-        withDodgers.TotalBasesAllowed.ShouldBe(265);
+        withDodgers.TotalBasesAllowed.ShouldBe(75);
         withDodgers.WildPitches.ShouldBe(2);
         withDodgers.Balks.ShouldBe(0);
         withDodgers.RunnersPickedOff.ShouldBe(0);
@@ -598,12 +598,12 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withDodgers.Strikes.ShouldBe(705);
         withDodgers.GroundOuts.ShouldBe(46);
         withDodgers.AirOuts.ShouldBe(72);
-        withDodgers.DoublePlays.ShouldBe(26);
+        withDodgers.DoublePlays.ShouldBeNull();
         withDodgers.StrikeoutToWalkRatio.ShouldBe(11.13);
         withDodgers.WHIP.ShouldBe(0.82);
         withDodgers.HitsPer9.ShouldBe(6.32);
         withDodgers.HomeRunsPer9.ShouldBe(.66);
-        withDodgers.RunScoredPer9.ShouldBe(6.59);
+        withDodgers.RunScoredPer9.ShouldBe(2.24);
         withDodgers.WalksPer9.ShouldBe(1.05);
         withDodgers.StrikeoutsPer9.ShouldBe(11.72);
         withDodgers.BattingAverageAgainst.ShouldBe(.189);
@@ -612,8 +612,8 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         withDodgers.OnBasePlusSluggingAgainst.ShouldBe(.515);
         withDodgers.WinningPercentage.ShouldBe(1);
         withDodgers.EarnedRunAverage.ShouldBe(1.98);
-        withDodgers.PitchesPerPlateAppearance.ShouldBe(3.9);
-        withDodgers.StrikePercentage.ShouldBe(68.2);
+        withDodgers.PitchesPerPlateAppearance.ShouldBeNull();
+        withDodgers.StrikePercentage.ShouldBe(.68);
       }).GetAwaiter().GetResult();
     }
 
