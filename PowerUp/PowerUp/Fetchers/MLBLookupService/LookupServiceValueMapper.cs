@@ -1,12 +1,15 @@
 ﻿using PowerUp.Entities.Players;
 using System;
+using System.Text.RegularExpressions;
 
 namespace PowerUp.Fetchers.MLBLookupService
 {
   public static class LookupServiceValueMapper
   {
-    public static Position MapPosition(string positionId)
+    public static Position MapPosition(string? positionId)
     {
+      if (positionId is null) return Position.DesignatedHitter;
+
       switch(positionId)
       {
         case "D":
@@ -33,12 +36,13 @@ namespace PowerUp.Fetchers.MLBLookupService
       }
     }
 
-    public static BattingSide MapBatingSide(string bats)
+    public static BattingSide MapBatingSide(string? bats)
     {
       switch (bats)
       {
         case "R":
         case "":
+        case null:
           return BattingSide.Right;
         case "L":
           return BattingSide.Left;
@@ -49,12 +53,13 @@ namespace PowerUp.Fetchers.MLBLookupService
       }
     }
 
-    public static ThrowingArm MapThrowingArm(string throws)
+    public static ThrowingArm MapThrowingArm(string? throws)
     {
       switch (throws)
       {
         case "":
         case "R":
+        case null:
           return ThrowingArm.Right;
         // The game doesn't support switch pitchers, so we'll choose to make them lefties
         case "S":
@@ -64,7 +69,21 @@ namespace PowerUp.Fetchers.MLBLookupService
           throw new ArgumentException(throws);
       }
     }
-    
+
+    public static (int? heightFeet, int? heightInches)? ParseHeight(string? heightString)
+    {
+      if (heightString is null) return null;
+
+      var heightRegex = new Regex("(?<heightFeet>\\d+)'\\s*(?<heightInches>\\d+)");
+      var result = heightRegex.Match(heightString);
+      if (!result.Success)
+        return null;
+
+      var heightFeet = result.Groups["heightFeet"]?.Value.TryParseInt();
+      var heightInches = result.Groups["heightInches"]?.Value.TryParseInt();
+      return (heightFeet, heightInches);
+    }
+
     public static PlayerRosterStatus MapRosterStatus(string status)
     {
       if (status.Contains("IL"))

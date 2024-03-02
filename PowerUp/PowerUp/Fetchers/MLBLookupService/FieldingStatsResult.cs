@@ -10,24 +10,12 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int TotalResults { get; }
     public IEnumerable<FieldingStatsResult> Results { get; }
 
-    public FieldingStatsResults(int totalResults, IEnumerable<LSFieldingStatsResult> results)
-    {
-      TotalResults = totalResults;
-      Results = results.Select(r => new FieldingStatsResult(r));
-    }
-
     public FieldingStatsResults(StatElement? stats)
     {
       var validSplits = stats?.Splits.Where(s => s.Team != null).ToList() ?? [];
-      validSplits.Reverse();
-
       TotalResults = validSplits.Count;
-      var teamSeqById = new Dictionary<long, int>();
-      foreach (var split in validSplits)
-        teamSeqById.TryAdd(split.Team!.Id, teamSeqById.Count + 1);
-
       Results = validSplits
-        .Select(r => new FieldingStatsResult(r, teamSeqById[r.Team!.Id]))
+        .Select(r => new FieldingStatsResult(r))
         .ToList();
     }
   }
@@ -36,7 +24,7 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     public int LSPlayerId { get; }
     public int Year { get; }
-    public int TeamSeq { get; }
+    public int LSTeamId { get; }
 
     public Position Position { get; }
     public int? GamesPlayed { get; }
@@ -54,33 +42,11 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int? Catcher_PastBalls { get; }
     public int? Catcher_WildPitches { get; }
 
-    public FieldingStatsResult(LSFieldingStatsResult result)
-    {
-      LSPlayerId = int.Parse(result.player_id!);
-      Year = int.Parse(result.season!);
-      TeamSeq = int.Parse(result.team_seq!);
-      Position = LookupServiceValueMapper.MapPosition(result.position!);
-      GamesPlayed = result.g.TryParseInt();
-      GamesStarted = result.gs.TryParseInt();
-      Innings = result.inn.TryParseDouble();
-      TotalChances = result.tc.TryParseInt();
-      Errors = result.e.TryParseInt();
-      Assists = result.a.TryParseInt();
-      PutOuts = result.po.TryParseInt();
-      DoublePlays = result.dp.TryParseInt();
-      RangeFactor = result.rf.TryParseDouble();
-      FieldingPercentage = result.fpct.TryParseDouble();
-      Catcher_RunnersThrownOut = result.cs.TryParseInt();
-      Catcher_StolenBasesAllowed = result.sb.TryParseInt();
-      Catcher_PastBalls = result.pb.TryParseInt();
-      Catcher_WildPitches = result.cwp.TryParseInt();
-    }
-
-    public FieldingStatsResult(Split split, int teamSeq)
+    public FieldingStatsResult(Split split)
     {
       LSPlayerId = (int)split.Player!.Id;
       Year = split.Season.TryParseInt()!.Value;
-      TeamSeq = teamSeq;
+      LSTeamId = (int)split.Team!.Id;
 
       var positionCode = split.Position?.Code.TryParseInt();
       Position = positionCode.HasValue

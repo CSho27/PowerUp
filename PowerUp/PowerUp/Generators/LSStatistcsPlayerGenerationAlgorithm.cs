@@ -1,4 +1,6 @@
-﻿using PowerUp.Entities.Players;
+﻿using PowerUp;
+using PowerUp.Entities.Players;
+using PowerUp.Generators;
 using PowerUp.Libraries;
 using System;
 using System.Collections.Generic;
@@ -259,7 +261,8 @@ namespace PowerUp.Generators
       {
         if (datasetCollection.HittingStats == null)
         {
-          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          if (datasetCollection.PrimaryPosition != Position.Pitcher)
+            player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
           return false;
         }
 
@@ -276,7 +279,8 @@ namespace PowerUp.Generators
       {
         if (datasetCollection.HittingStats == null)
         {
-          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          if (datasetCollection.PrimaryPosition != Position.Pitcher)
+            player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
           return false;
         }
 
@@ -293,7 +297,8 @@ namespace PowerUp.Generators
       {
         if (datasetCollection.HittingStats == null)
         {
-          player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
+          if (datasetCollection.PrimaryPosition != Position.Pitcher)
+            player.GeneratorWarnings.Add(GeneratorWarning.NoHittingStats(PropertyKey));
           return false;
         }
 
@@ -310,7 +315,8 @@ namespace PowerUp.Generators
       {
         if (datasetCollection.PitchingStats == null)
         {
-          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+          if (datasetCollection.PrimaryPosition == Position.Pitcher)
+            player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
           return false;
         }
 
@@ -959,8 +965,9 @@ namespace PowerUp.Generators
         return false;
 
       if (datasetCollection.PitchingStats == null)
-      {
-        player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
+      { 
+        if (datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.NoPitchingStats(PropertyKey));
         return false;
       }
 
@@ -970,7 +977,8 @@ namespace PowerUp.Generators
         datasetCollection.PitchingStats.MathematicalInnings < 15
       )
       {
-        player.GeneratorWarnings.Add(GeneratorWarning.InsufficientPitchingStats(PropertyKey));
+        if (datasetCollection.PrimaryPosition == Position.Pitcher)
+          player.GeneratorWarnings.Add(GeneratorWarning.InsufficientPitchingStats(PropertyKey));
         return false;
       }
 

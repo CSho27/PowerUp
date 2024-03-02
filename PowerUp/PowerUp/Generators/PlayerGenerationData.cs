@@ -76,7 +76,8 @@ namespace PowerUp.Generators
       StolenBases = results.SumOrNull(r => r.StolenBases) + supplementaryResults.SumOrNullProrated(r => r.StolenBases, proratedSupplementaryBy);
       Runs = results.SumOrNull(r => r.Runs) + supplementaryResults.SumOrNullProrated(r => r.Runs, proratedSupplementaryBy);
       RunsBattedIn = results.SumOrNull(r => r.RunsBattedIn) + supplementaryResults.SumOrNullProrated(r => r.RunsBattedIn, proratedSupplementaryBy);
-      var lastResult = results.MaxBy(r => r.TeamSeq) ?? results.Last();
+      // TODO: fix figuring out which team the player should end up on
+      var lastResult = results.Last();
       LastTeamForYear_LSTeamId = lastResult.LSTeamId;
     }
 
