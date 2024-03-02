@@ -69,7 +69,7 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public bool Active { get; set; }
 
     [JsonPropertyName("currentTeam")]
-    public CurrentTeam? CurrentTeam { get; set; }
+    public TeamInfo? CurrentTeam { get; set; }
 
     [JsonPropertyName("primaryPosition")]
     public PositionInfo? PrimaryPosition { get; set; }
@@ -147,42 +147,6 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public double StrikeZoneBottom { get; set; }
   }
 
-  public class Laterality
-  {
-    [JsonPropertyName("code")]
-    public string Code { get; set; } = "";
-
-    [JsonPropertyName("description")]
-    public string Description { get; set; } = "";
-  }
-
-  public class CurrentTeam
-  {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = "";
-
-    [JsonPropertyName("link")]
-    public string Link { get; set; } = "";
-  }
-
-  public class PositionInfo
-  {
-    [JsonPropertyName("code")]
-    public string Code { get; set; } = "";
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = "";
-
-    [JsonPropertyName("type")]
-    public string Type { get; set; } = "";
-
-    [JsonPropertyName("abbreviation")]
-    public string Abbreviation { get; set; } = "";
-  }
-
   public class StatElement
   {
     [JsonPropertyName("type")]
@@ -213,13 +177,13 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public SplitStat? Stat { get; set; }
 
     [JsonPropertyName("team")]
-    public CurrentTeam? Team { get; set; }
+    public TeamInfo? Team { get; set; }
 
     [JsonPropertyName("player")]
-    public PlayerDetails? Player { get; set; }
+    public PlayerInfo? Player { get; set; }
 
     [JsonPropertyName("league")]
-    public CurrentTeam? League { get; set; }
+    public TeamInfo? League { get; set; }
 
     [JsonPropertyName("sport")]
     public Sport? Sport { get; set; }
@@ -230,30 +194,6 @@ namespace PowerUp.Fetchers.MLBStatsApi
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("position")]
     public PositionInfo? Position { get; set; }
-  }
-
-  public class PlayerDetails
-  {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("fullName")]
-    public string FullName { get; set; } = "";
-
-    [JsonPropertyName("link")]
-    public string Link { get; set; } = "";
-  }
-
-  public class Sport
-  {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("link")]
-    public string Link { get; set; } = "";
-
-    [JsonPropertyName("abbreviation")]
-    public string Abbreviation { get; set; } = "";
   }
 
   public class SplitStat

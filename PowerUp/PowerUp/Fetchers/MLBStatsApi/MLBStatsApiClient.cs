@@ -6,8 +6,9 @@ namespace PowerUp.Fetchers.MLBStatsApi
 {
   public interface IMLBStatsApiClient
   {
-    public Task<Person> GetPlayerInfo(long lsPlayerId);
-    public Task<Person> GetPlayerStatistics(long lsPlayerId, int year);
+    Task<RosterResult> GetTeamRoster(long mlbTeamId, int year);
+    public Task<Person> GetPlayerInfo(long mlbPlayerId);
+    public Task<Person> GetPlayerStatistics(long mlbPlayerId, int year);
   }
 
   public class MLBStatsApiClient : IMLBStatsApiClient
@@ -15,17 +16,28 @@ namespace PowerUp.Fetchers.MLBStatsApi
     private const string BASE_URL = "https://statsapi.mlb.com/api/v1";
     private readonly ApiClient _client = new ApiClient();
 
-    public Task<Person> GetPlayerInfo(long lsPlayerId)
+    public async Task<RosterResult> GetTeamRoster(long mlbTeamId, int year)
     {
-      return GetPlayerData(lsPlayerId, null);
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "teams", mlbTeamId.ToString(), "roster" },
+        // What are the types of rosterType
+        // What is the 'date' parameter for?
+        new { rosterType = "active", season = year.ToString() }
+      );
+      return await _client.Get<RosterResult>(url);
     }
 
-    public Task<Person> GetPlayerStatistics(long lsPlayerId, int year)
+    public Task<Person> GetPlayerInfo(long mlbPlayerId)
     {
-      return GetPlayerData(lsPlayerId, year);
+      return GetPlayerData(mlbPlayerId, null);
     }
 
-    private async Task<Person> GetPlayerData(long lsPlayerId, int? year)
+    public Task<Person> GetPlayerStatistics(long mlbPlayerId, int year)
+    {
+      return GetPlayerData(mlbPlayerId, year);
+    }
+
+    private async Task<Person> GetPlayerData(long mlbPlayerId, int? year)
     {
       var group = "[hitting,pitching,fielding]";
       var type = "season";
@@ -36,7 +48,7 @@ namespace PowerUp.Fetchers.MLBStatsApi
 
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "people" },
-        new { personIds = lsPlayerId, hydrate = hydration }
+        new { personIds = mlbPlayerId, hydrate = hydration }
       );
 
       var response = await _client.Get<PeopleResults>(url);
