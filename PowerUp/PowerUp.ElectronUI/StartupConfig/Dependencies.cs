@@ -36,6 +36,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IPlayerGenerator>(provider => new PlayerGenerator(provider.GetRequiredService<IPlayerApi>(), provider.GetRequiredService<IPlayerStatisticsFetcher>(), provider.GetRequiredService<IBaseballReferenceClient>()));
       services.AddTransient<ITeamGenerator, TeamGenerator>();
       services.AddTransient<IRosterGenerator>(provider => new RosterGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<ITeamGenerator>()));
+      services.AddTransient<IDraftPoolGenerator, DraftPoolGenerator>(); 
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
       services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IBaseGameSavePathProvider>()));
