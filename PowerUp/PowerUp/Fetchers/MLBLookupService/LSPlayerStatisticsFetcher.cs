@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,55 +37,23 @@ namespace PowerUp.Fetchers.MLBLookupService
       var result = new PlayerStatisticsResult();
       var fetchTasks = new List<Task>();
 
-      if (!excludePlayerInfo)
+      if(!excludePlayerInfo || !excludeHittingStats || !excludeFieldingStats || !excludePitchingStats)
       {
-        var fetchPlayerInfo = Task.Run(async () =>
+        var fetchPlayerData = Task.Run(async () =>
         {
-          var response = await _mlbLookupServiceClient.GetPlayerInfo(lsPlayerId);
-
-          if (response == null)
-            throw new InvalidOperationException("No Player Info Found for Id");
-
-          result.PlayerInfo = response;
+          var response = await _mlbLookupServiceClient.GetPlayerData(lsPlayerId, year);
+          result.PlayerInfo = response.Info;
+          if (response.Hitting is not null && response.Hitting.Results.Any())
+            result.HittingStats = response.Hitting;
+          if (response.Pitching is not null && response.Pitching.Results.Any())
+            result.PitchingStats = response.Pitching;
+          if (response.Fielding is not null && response.Fielding.Results.Any())
+            result.FieldingStats = response.Fielding;
         });
-        fetchTasks.Add(fetchPlayerInfo);
-      }
-
-      if (!excludeHittingStats)
-      {
-        var fetchHittingStats = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetHittingStats(lsPlayerId, year);
-          if (response.Results.Any())
-            result.HittingStats = response;
-        });
-        fetchTasks.Add(fetchHittingStats);
-      }
-
-      if (!excludeFieldingStats)
-      {
-        var fetchFieldingStats = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetFieldingStats(lsPlayerId, year);
-          if (response.Results.Any())
-            result.FieldingStats = response;
-        });
-        fetchTasks.Add(fetchFieldingStats);
-      }
-
-      if (!excludePitchingStats)
-      {
-        var fetchPitchingStats = Task.Run(async () =>
-        {
-          var response = await _mlbLookupServiceClient.GetPitchingStats(lsPlayerId, year);
-          if (response.Results.Any())
-            result.PitchingStats = response;
-        });
-        fetchTasks.Add(fetchPitchingStats);
+        fetchTasks.Add(fetchPlayerData);
       }
 
       Task.WaitAll(fetchTasks.ToArray(), 5000);
-
       return result;
     }
   }

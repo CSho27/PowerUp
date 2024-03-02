@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.MLBStatsApi;
@@ -12,13 +9,16 @@ namespace PowerUp.Fetchers.MLBLookupService
   public interface IMLBLookupServiceClient
   {
     Task<PlayerSearchResults> SearchPlayer(string name);
+    Task<PlayerResult> GetPlayerData(long lsPlayerId, int year);
     Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId);
-    Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year);
-    Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year);
-    Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year);
+    Task<HittingStatsResults?> GetHittingStats(long lsPlayerId, int year);
+    Task<FieldingStatsResults?> GetFieldingStats(long lsPlayerId, int year);
+    Task<PitchingStatsResults?> GetPitchingStats(long lsPlayerId, int year);
     Task<TeamsForYearResults> GetTeamsForYear(int year);
     Task<TeamsForYearResults> GetAllStarTeamsForYear(int year);
   }
+
+  public record PlayerResult(PlayerInfoResult? Info, HittingStatsResults? Hitting, FieldingStatsResults? Fielding, PitchingStatsResults? Pitching);
 
   public class MLBLookupServiceClient : IMLBLookupServiceClient
   {
@@ -50,31 +50,43 @@ namespace PowerUp.Fetchers.MLBLookupService
       return new PlayerSearchResults(totalResults, results);
     }
 
+    public async Task<PlayerResult> GetPlayerData(long lsPlayerId, int year)
+    {
+      var data = await _mlbStatsApiClient.GetPlayerStatistics(lsPlayerId, year);
+      var hittingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "hitting");
+      var fieldingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "fielding");
+      var pitchingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "pitching");
+
+      return new PlayerResult(
+        new PlayerInfoResult(data),
+        new HittingStatsResults(hittingStats),
+        new FieldingStatsResults(fieldingStats),
+        new PitchingStatsResults(pitchingStats)
+      );
+
+    }
     public async Task<PlayerInfoResult> GetPlayerInfo(long lsPlayerId)
     {
       var data = await _mlbStatsApiClient.GetPlayerInfo(lsPlayerId);
       return new PlayerInfoResult(data);
     }
 
-    public async Task<HittingStatsResults> GetHittingStats(long lsPlayerId, int year)
+    public async Task<HittingStatsResults?> GetHittingStats(long lsPlayerId, int year)
     {
-      var data = await _mlbStatsApiClient.GetPlayerStatistics(lsPlayerId, year);
-      var hittingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "hitting");
-      return new HittingStatsResults(hittingStats);
+      var data = await GetPlayerData(lsPlayerId, year);
+      return data.Hitting;
     }
 
-    public async Task<FieldingStatsResults> GetFieldingStats(long lsPlayerId, int year)
+    public async Task<FieldingStatsResults?> GetFieldingStats(long lsPlayerId, int year)
     {
-      var data = await _mlbStatsApiClient.GetPlayerStatistics(lsPlayerId, year);
-      var fieldingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "fielding");
-      return new FieldingStatsResults(fieldingStats);
+      var data = await GetPlayerData(lsPlayerId, year);
+      return data.Fielding;
     }
 
-    public async Task<PitchingStatsResults> GetPitchingStats(long lsPlayerId, int year)
+    public async Task<PitchingStatsResults?> GetPitchingStats(long lsPlayerId, int year)
     {
-      var data = await _mlbStatsApiClient.GetPlayerStatistics(lsPlayerId, year);
-      var pitchingStats = data.Stats.SingleOrDefault(s => s.Group?.DisplayName == "pitching");
-      return new PitchingStatsResults(pitchingStats);
+      var data = await GetPlayerData(lsPlayerId, year);
+      return data.Pitching;
     }
 
     public async Task<TeamsForYearResults> GetTeamsForYear(int year)
