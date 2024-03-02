@@ -37,7 +37,7 @@ jobs:
         
     - name: Install Powershell
       run: dotnet tool install --global PowerShell --version 7.2.0
-
+ 
     - name: Build    
       run: cd ./PowerUp/PowerUp.ElectronUI; 
            pwsh ./winPack.ps1;
