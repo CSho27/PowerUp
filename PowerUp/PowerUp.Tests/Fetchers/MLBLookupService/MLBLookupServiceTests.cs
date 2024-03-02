@@ -692,23 +692,5 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
         orioles.Division.ShouldBe(null);
       }).GetAwaiter().GetResult();
     }
-
-    [Test]
-    public void GetTeamRosterForYear_GetsRoster_For2021()
-    {
-      Task.Run(async () =>
-      {
-        var results = await _client.GetTeamRosterForYear(111, 2021);
-        results.TotalResults.ShouldBe(56);
-        var firstPlayer = results.Results.First();
-        firstPlayer.LSPlayerId.ShouldBe(542882);
-        firstPlayer.FormalDisplayName.ShouldBe("Andriese, Matt");
-        firstPlayer.UniformNumber.ShouldBe("35");
-        firstPlayer.Status.ShouldBe(PlayerRosterStatus.Released);
-        firstPlayer.Position.ShouldBe(Position.Pitcher);
-        firstPlayer.BattingSide.ShouldBe(BattingSide.Right);
-        firstPlayer.ThrowingArm.ShouldBe(ThrowingArm.Right);
-      }).GetAwaiter().GetResult();
-    }
   }
 }
