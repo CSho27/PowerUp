@@ -54,7 +54,7 @@ namespace PowerUp
         , new BattingStanceGuesser(battingStanceLibrary)
         , new PitchingMechanicsGuesser(pitchingMechanicsLibrary)
         );
-      var teamGenerator = new TeamGenerator(mlbLookupServiceClient, playerGenerator);
+      var teamGenerator = new TeamGenerator(mlbStatsApiClient, playerGenerator);
       var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       //DatabaseConfig.Initialize(DATA_DIRECTORY);
@@ -252,19 +252,19 @@ namespace PowerUp
       File.WriteAllLines(Path.Combine(DATA_DIRECTORY, "./data/teams.csv"), csvLines);
     }
 
-    static void CreateStatusesList(MLBLookupServiceClient client)
+    static void CreateStatusesList(IMLBLookupServiceClient lsClient, IMLBStatsApiClient apiClient)
     {
       Task.Run(async () =>
       {
         for (int year = 2018; year < 2022; year++)
         {
-          var hashset = new HashSet<PlayerRosterStatus>();
+          var hashset = new HashSet<string>();
           Console.WriteLine($"{year}:");
-          var teams = await client.GetTeamsForYear(year);
+          var teams = await lsClient.GetTeamsForYear(year);
           foreach (var team in teams.Results)
           {
-            var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
-            var statuses = players.Results.Select(r => r.Status);
+            var players = await apiClient.GetTeamRoster(team.LSTeamId, year);
+            var statuses = players.Roster.Select(r => r.Status!.Code);
 
             foreach (var status in statuses)
               hashset.Add(status);
@@ -279,7 +279,7 @@ namespace PowerUp
       }).GetAwaiter().GetResult();
     }
 
-    static void CreatePlayerOutputCsv(IMLBLookupServiceClient client, IPlayerGenerator playerGenerator, PlayerGenerationAlgorithm algorithm, IVoiceLibrary voiceLibrary)
+    static void CreatePlayerOutputCsv(IMLBLookupServiceClient client, IMLBStatsApiClient apiClient, IPlayerGenerator playerGenerator, PlayerGenerationAlgorithm algorithm, IVoiceLibrary voiceLibrary)
     {
       var csvLines = new CSVList(
         "LSPlayerId",
@@ -321,17 +321,17 @@ namespace PowerUp
         foreach (var team in teams.Results)
         {
           Console.WriteLine($"Generating {team.FullName}");
-          var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
-          foreach(var player in players.Results)
+          var players = await apiClient.GetTeamRoster(team.LSTeamId, year);
+          foreach(var player in players.Roster)
           {
-            Console.WriteLine($"Generating {player.FormalDisplayName}");
-            var generatedPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm).Player;
+            Console.WriteLine($"Generating {player.Person.FullName}");
+            var generatedPlayer = playerGenerator.GeneratePlayer(player.Person.Id, year, algorithm).Player;
             var genPlayerPosCapabilities = generatedPlayer.PositionCapabilities;
             var genPlayerHitterAbilities = generatedPlayer.HitterAbilities;
 
             csvLines.AddLine(
-              player.LSPlayerId,
-              player.FormalDisplayName,
+              player.Person.Id,
+              player.Person.FullName,
               player.Status,
               generatedPlayer.FirstName,
               generatedPlayer.LastName,
@@ -369,7 +369,7 @@ namespace PowerUp
       csvLines.WriteToFile(Path.Combine(DATA_DIRECTORY, "./data/PlayerOutput.csv"));
     }
 
-    static void CreatePlayerDataComparisonCsv(IMLBLookupServiceClient client, IPlayerStatisticsFetcher statsFetcher, IPlayerGenerator playerGenerator, PlayerGenerationAlgorithm algorithm, IVoiceLibrary voiceLibrary)
+    static void CreatePlayerDataComparisonCsv(IMLBLookupServiceClient client, IMLBStatsApiClient apiClient, IPlayerStatisticsFetcher statsFetcher, IPlayerGenerator playerGenerator, PlayerGenerationAlgorithm algorithm, IVoiceLibrary voiceLibrary)
     {
       var csvLines = new CSVList(
         "PlayerId",
@@ -429,19 +429,19 @@ namespace PowerUp
           */
 
           Console.WriteLine($"Fetching Stats for {team.FullName}");
-          var players = await client.GetTeamRosterForYear(team.LSTeamId, year);
-          foreach (var player in players.Results)
+          var players = await apiClient.GetTeamRoster(team.LSTeamId, year);
+          foreach (var player in players.Roster)
           {
-            var loadedPlayer = DatabaseConfig.Database.Query<Player>().Where(p => p.FormalDisplayName == player.FormalDisplayName && p.PrimaryPosition == player.Position).SingleOrDefault();
+            var loadedPlayer = DatabaseConfig.Database.Query<Player>().Where(p => p.InformalDisplayName == player.Person.FullName && ((int)p.PrimaryPosition).ToString() == player.Position.Code).SingleOrDefault();
             if (loadedPlayer == null)
               continue;
 
-            Console.WriteLine($"Fetching Stats for {player.FormalDisplayName}");
-            var playerStats = statsFetcher.GetStatistics(player.LSPlayerId, year);
+            Console.WriteLine($"Fetching Stats for {player.Person.FullName}");
+            var playerStats = statsFetcher.GetStatistics(player.Person.Id, year);
             var data = new PlayerGenerationData
             {
               PlayerInfo = playerStats.PlayerInfo != null
-                ? new LSPlayerInfoDataset(playerStats.PlayerInfo, player.UniformNumber)
+                ? new LSPlayerInfoDataset(playerStats.PlayerInfo, player.JerseyNumber)
                 : null,
               HittingStats = playerStats.HittingStats != null
                 ? new LSHittingStatsDataset(playerStats.HittingStats.Results)
@@ -454,17 +454,16 @@ namespace PowerUp
                 : null
             };
 
-            var genPlayer = playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm).Player;
+            var genPlayer = playerGenerator.GeneratePlayer(player.Person.Id, year, algorithm).Player;
 
-            var nameParts = player.FormalDisplayName.Split(",");
-            var informalName = $"{nameParts[1].Trim()} {nameParts[0].Trim()}";
+            var informalName = player.Person.FullName;
 
             var validPositionStats = data.FieldingStats?.FieldingByPosition.Where(kvp => kvp.Key.GetPositionType() == data.PrimaryPosition.GetPositionType());
             var relevantAssists = validPositionStats?.SumOrNull(r => r.Value.Assists) ?? 0;
             var sortedArsenal = loadedPlayer.PitcherAbilities.GetSortedArsenal();
 
             csvLines.AddLine(
-              player.LSPlayerId,
+              player.Person.Id,
               informalName,
               loadedPlayer.SourcePowerProsId,
               loadedPlayer.HitterAbilities.Trajectory,

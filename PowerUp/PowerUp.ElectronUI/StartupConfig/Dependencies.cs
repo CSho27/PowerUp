@@ -34,7 +34,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IPlayerStatisticsFetcher>(provider => new LSPlayerStatisticsFetcher(provider.GetRequiredService<IMLBLookupServiceClient>()));
       services.AddTransient<ISkinColorGuesser>(provider => new SkinColorGuesser(provider.GetRequiredService<ICountryAndSkinColorLibrary>()));
       services.AddTransient<IPlayerGenerator>(provider => new PlayerGenerator(provider.GetRequiredService<IPlayerApi>(), provider.GetRequiredService<IPlayerStatisticsFetcher>(), provider.GetRequiredService<IBaseballReferenceClient>()));
-      services.AddTransient<ITeamGenerator>(provider => new TeamGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<IPlayerGenerator>()));
+      services.AddTransient<ITeamGenerator, TeamGenerator>();
       services.AddTransient<IRosterGenerator>(provider => new RosterGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<ITeamGenerator>()));
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
