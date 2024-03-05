@@ -27,8 +27,8 @@ namespace PowerUp.Generators
     ) 
     {
       // Player Info
-      SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed.ShortenNameToLength(14));
-      SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName.ShortenNameToLength(14));
+      SetProperty("FirstName", (player, data) => player.FirstName = data.PlayerInfo!.FirstNameUsed.RemoveAccents().ShortenNameToLength(14));
+      SetProperty("LastName", (player, data) => player.LastName = data.PlayerInfo!.LastName.RemoveAccents().ShortenNameToLength(14));
       SetProperty(new SavedName());
       SetProperty(new UniformNumber());
       SetProperty("PrimaryPosition", (player, data) => player.PrimaryPosition = data.PrimaryPosition);
@@ -96,11 +96,11 @@ namespace PowerUp.Generators
         var firstDotLast = $"{firstLetterOfFirstName}.{lastName}";
         if(firstDotLast.Length <= 10)
         {
-          player.SavedName = firstDotLast;
+          player.SavedName = firstDotLast.RemoveAccents();
           return true;
         }
         
-        player.SavedName = lastName.ShortenNameToLength(10);
+        player.SavedName = lastName.RemoveAccents().ShortenNameToLength(10);
         return true;
       }
     }
