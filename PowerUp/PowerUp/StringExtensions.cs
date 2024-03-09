@@ -14,5 +14,10 @@ namespace PowerUp
 
       return index;
     }
+
+    public static bool IsNullOrEmpty(string? value) => string.IsNullOrEmpty(value);
+    public static bool IsNullOrWhiteSpace(string? value) => string.IsNullOrWhiteSpace(value);
+    public static bool IsNotNullOrEmpty(string? value) => !string.IsNullOrEmpty(value);
+    public static bool IsNotNullOrWhiteSpace(string? value) => !string.IsNullOrWhiteSpace(value);
   }
 }
