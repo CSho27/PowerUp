@@ -68,7 +68,9 @@ namespace PowerUp.CSV
         ERA = player.EarnedRunAverage,
         FaceId = appearance.FaceId,
         EyebrowThickness = (int?)appearance.EyebrowThickness,
-        SkinColor = (int?)appearance.SkinColor,
+        SkinColor = appearance.SkinColor.HasValue
+          ? ((int)appearance.SkinColor.Value) + 1
+          : null,
         EyeColor = (int?)appearance.EyeColor,
         HairStyle = (int?)appearance.HairStyle,
         HairColor = (int?)appearance.HairColor,
