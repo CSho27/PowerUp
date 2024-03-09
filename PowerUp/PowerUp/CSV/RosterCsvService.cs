@@ -96,10 +96,14 @@ namespace PowerUp.CSV
         BattingStanceId = player.BattingStanceId,
         ThrowingArm = player.ThrowingArm.GetAbbrev(),
         PitchingMechanicsId = player.PitchingMechanicsId,
-        Avg = player.BattingAverage,
+        Avg = player.BattingAverage.HasValue && !double.IsNaN(player.BattingAverage.Value)
+          ? player.BattingAverage
+          : null,
         RBI = player.RunsBattedIn,
         HR = player.HomeRuns,
-        ERA = player.EarnedRunAverage,
+        ERA = player.EarnedRunAverage.HasValue && !double.IsNaN(player.EarnedRunAverage.Value)
+          ? player.EarnedRunAverage
+          : null,
         FaceId = appearance.FaceId,
         EyebrowThickness = (int?)appearance.EyebrowThickness,
         SkinColor = appearance.SkinColor.HasValue

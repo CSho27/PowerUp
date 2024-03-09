@@ -263,7 +263,11 @@ namespace PowerUp.Generators
           return false;
         }
 
-        player.BattingAverage = datasetCollection.HittingStats.BattingAverage;
+        var battingAverage = datasetCollection.HittingStats.BattingAverage;
+        if (!battingAverage.HasValue || double.IsNaN(battingAverage.Value))
+          return false;
+
+        player.BattingAverage = battingAverage;
         return true;
       }
     }
@@ -314,7 +318,11 @@ namespace PowerUp.Generators
           return false;
         }
 
-        player.EarnedRunAverage = datasetCollection.PitchingStats.EarnedRunAverage;
+        var era = datasetCollection.PitchingStats.EarnedRunAverage;
+        if (!era.HasValue || double.IsNaN(era.Value))
+          return false;
+
+        player.EarnedRunAverage = era;
         return true;
       }
     }
