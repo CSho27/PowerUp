@@ -136,7 +136,7 @@
     public int? SP_GoodBlocker { get; set; }
     public int? SP_Catching { get; set; }
     public int? SP_Throwing { get; set; }
-    public int? SP_Cannon { get; set; }
+    public int? SP_CannonArm { get; set; }
     public int? SP_TrashTalker { get; set; }
     public int? SP_PConsistency { get; set; }
     public int? SP_PVsLefty { get; set; }

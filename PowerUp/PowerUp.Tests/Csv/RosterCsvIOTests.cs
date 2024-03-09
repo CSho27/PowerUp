@@ -170,7 +170,7 @@ namespace PowerUp.Tests.Csv
       joseRamirez.SP_GoodBlocker.ShouldBe(null);
       joseRamirez.SP_Catching.ShouldBe(null);
       joseRamirez.SP_Throwing.ShouldBe(null);
-      joseRamirez.SP_Cannon.ShouldBe(null);
+      joseRamirez.SP_CannonArm.ShouldBe(null);
       joseRamirez.SP_TrashTalker.ShouldBe(null);
       joseRamirez.SP_PConsistency.ShouldBe(null);
       joseRamirez.SP_PVsLefty.ShouldBe(null);
@@ -341,7 +341,7 @@ namespace PowerUp.Tests.Csv
         SP_GoodBlocker = null,
         SP_Catching = null,
         SP_Throwing = null,
-        SP_Cannon = null,
+        SP_CannonArm = null,
         SP_TrashTalker = null,
         SP_PConsistency = null,
         SP_PVsLefty = null,
