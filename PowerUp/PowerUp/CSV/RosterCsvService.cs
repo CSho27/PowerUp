@@ -46,17 +46,17 @@ namespace PowerUp.CSV
       return playersAndRoles.Select(playerAndRole =>
       {
         var (player, role) = playerAndRole;
-        playersByPitcherRole[role.PitcherRole].FirstOrDefault(p => p.p.Id == player.Id, out var orderInPitcherRole);
-        var noDHLineupSlot = team.NoDHLineup.FirstOrDefault(p => p.PlayerId == player.Id, out var noDHLineupSlotIndex);
-        var dhLineupSlot = team.DHLineup.FirstOrDefault(p => p.PlayerId == player.Id, out var dhLineupSlotIndex);
+        playersByPitcherRole[role.PitcherRole].FirstOrDefault(p => p.p.Id == player.Id, out var indexWithinPitcherRole);
+        var noDHLineupSlot = team.NoDHLineup.FirstOrDefault(p => p.PlayerId == player.Id, out var noDHLineupIndex);
+        var dhLineupSlot = team.DHLineup.FirstOrDefault(p => p.PlayerId == player.Id, out var dhLineupIndex);
         return GetCsvPlayer(
           player,
           mlbTeamId,
           role,
-          orderInPitcherRole,
-          noDHLineupSlotIndex,
+          indexWithinPitcherRole,
+          noDHLineupIndex,
           noDHLineupSlot?.Position,
-          dhLineupSlotIndex,
+          dhLineupIndex,
           dhLineupSlot?.Position
         );
       });
@@ -66,10 +66,10 @@ namespace PowerUp.CSV
       Player player, 
       long? mlbTeamId = null,
       PlayerRoleDefinition? playerRole = null,
-      int? orderInPitcherRole = null,
-      int? noDHLineupSlot = null,
+      int? indexWithinPitcherRole = null,
+      int? noDHLineupIndex = null,
       Position? noDHLineupPosition = null,
-      int? dhLineupSlot = null,
+      int? dhLineupIndex = null,
       Position? dhLineupPosition = null
     )
     {
@@ -254,10 +254,10 @@ namespace PowerUp.CSV
         TM_DefensiveReplacement = playerRole?.IsDefensiveReplacement.ToInt(),
         TM_DefensiveLiability = playerRole?.IsDefensiveLiability.ToInt(),
         TM_PitcherRole = (int?)playerRole?.PitcherRole,
-        TM_RoleSlot = orderInPitcherRole,
-        TM_NoDHLineupSlot = noDHLineupSlot,
+        TM_PitcherRoleSlot = indexWithinPitcherRole + 1,
+        TM_NoDHLineupSlot = noDHLineupIndex + 1,
         TM_NoDHLineupPosition = (int?)noDHLineupPosition,
-        TM_DHLineupSlot = dhLineupSlot,
+        TM_DHLineupSlot = dhLineupIndex + 1,
         TM_DHLineupPosition = (int?)dhLineupPosition
       };
     }
