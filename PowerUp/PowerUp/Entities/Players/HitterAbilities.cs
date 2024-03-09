@@ -39,8 +39,11 @@
 
   public enum HotZonePreference
   {
+    [Abbrev("N")]
     Neutral,
+    [Abbrev("H")]
     Hot,
+    [Abbrev("C")]
     Cold = 3
   }
 }
