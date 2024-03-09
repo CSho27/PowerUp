@@ -295,11 +295,15 @@ namespace PowerUp.CSV
       {
         PersonalDetails = new PlayerPersonalDetailsParameters
         {
-          FirstName = entry.FirstName ?? defaultPlayer.FirstName,
-          LastName = entry.LastName ?? defaultPlayer.LastName,
-          SavedName = !string.IsNullOrEmpty(entry.SavedName)
+          FirstName = entry.FirstName.IsNotNullOrWhiteSpace()
+            ? entry.FirstName
+            : defaultPlayer.FirstName,
+          LastName = entry.LastName.IsNotNullOrWhiteSpace()
+            ? entry.LastName
+            : defaultPlayer.LastName,
+          SavedName = entry.SavedName.IsNotNullOrWhiteSpace()
             ? entry.SavedName 
-            : !string.IsNullOrEmpty(entry.FirstName) && !string.IsNullOrEmpty(entry.LastName)
+            : entry.FirstName.IsNotNullOrWhiteSpace() && entry.LastName.IsNotNullOrWhiteSpace()
               ? NameUtils.GetSavedName(entry.FirstName, entry.LastName)
               : defaultPlayer.SavedName,
         }
