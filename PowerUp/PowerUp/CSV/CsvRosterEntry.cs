@@ -1,10 +1,11 @@
 ﻿namespace PowerUp.CSV
 {
-  public record CsvPlayer
+  public record CsvRosterEntry
   {
-    public long? TeamId { get; set; }
+    // Player Properties
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? SavedName { get; set; }
     public int? BirthMonth { get; set; }
     public int? BirthDay { get; set; }
     public int? Age { get; set; }
@@ -166,5 +167,19 @@
     public int? SP_GoodLowPitch { get; set; }
     public int? SP_Gyroball { get; set; }
     public int? SP_ShuttoSpin { get; set; }
+
+    // Team Properties
+    public long? TM_MLBId { get; set; }
+    public int? TM_AAA { get; set; }
+    public int? TM_PinchHitter { get; set; }
+    public int? TM_PinchRunner { get; set; }
+    public int? TM_DefensiveReplacement { get; set; }
+    public int? TM_DefensiveLiability { get; set; }
+    public int? TM_PitcherRole { get; set; }
+    public int? TM_RotationSlot { get; set; }
+    public int? TM_NoDHLineupSlot { get; set; }
+    public int? TM_NoDHLineupPosition { get; set; }
+    public int? TM_DHLineupSlot { get; set; }
+    public int? TM_DHLineupPosition { get; set; }
   }
 }

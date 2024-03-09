@@ -9,16 +9,16 @@ namespace PowerUp.CSV
 {
   public interface IPlayerCsvReader
   {
-    Task<IEnumerable<CsvPlayer>> ReadAllPlayers(Stream stream);
+    Task<IEnumerable<CsvRosterEntry>> ReadAllPlayers(Stream stream);
   }
 
-  public class PlayerCsvReader : IPlayerCsvReader
+  public class RosterCsvReader : IPlayerCsvReader
   {
-    public async Task<IEnumerable<CsvPlayer>> ReadAllPlayers(Stream stream)
+    public async Task<IEnumerable<CsvRosterEntry>> ReadAllPlayers(Stream stream)
     {
       using var reader = new StreamReader(stream);
       using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-      return await csv.GetRecordsAsync<CsvPlayer>().ToListAsync();
+      return await csv.GetRecordsAsync<CsvRosterEntry>().ToListAsync();
     }
   }
 }

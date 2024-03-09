@@ -19,8 +19,8 @@ namespace PowerUp.Tests.Csv
     [SetUp]
     public void Setup()
     {
-      _writer = new PlayerCsvWriter();
-      _reader = new PlayerCsvReader();
+      _writer = new RosterCsvWriter();
+      _reader = new RosterCsvReader();
       File.Delete(TEST_WRITE_PATH);
     }
 
@@ -39,9 +39,9 @@ namespace PowerUp.Tests.Csv
       var players = await _reader.ReadAllPlayers(readStream);
 
       var joseRamirez = players.ElementAt(0);
-      joseRamirez.TeamId.ShouldBe(114);
       joseRamirez.FirstName.ShouldBe("Jose");
       joseRamirez.LastName.ShouldBe("Ramirez");
+      joseRamirez.SavedName.ShouldBe("J.Ramirez");
       joseRamirez.BirthMonth.ShouldBe(9);
       joseRamirez.BirthDay.ShouldBe(17);
       joseRamirez.Age.ShouldBe(31);
@@ -203,15 +203,16 @@ namespace PowerUp.Tests.Csv
       joseRamirez.SP_GoodLowPitch.ShouldBe(null);
       joseRamirez.SP_Gyroball.ShouldBe(null);
       joseRamirez.SP_ShuttoSpin.ShouldBe(null);
+      joseRamirez.TM_MLBId.ShouldBe(114);
     }
 
-    private IEnumerable<CsvPlayer> GetCsvPlayers()
+    private IEnumerable<CsvRosterEntry> GetCsvPlayers()
     {
-      yield return new CsvPlayer
+      yield return new CsvRosterEntry
       {
-        TeamId = 114,
         FirstName = "Jose",
         LastName = "Ramirez",
+        SavedName = "J.Ramirez",
         BirthMonth = 9,
         BirthDay = 17,
         Age = 31,
@@ -373,6 +374,7 @@ namespace PowerUp.Tests.Csv
         SP_GoodLowPitch = null,
         SP_Gyroball = null,
         SP_ShuttoSpin = null,
+        TM_MLBId = 114,
       };
     }
   }

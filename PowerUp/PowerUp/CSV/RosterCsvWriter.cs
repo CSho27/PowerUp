@@ -8,12 +8,12 @@ namespace PowerUp.CSV
 {
   public interface IPlayerCsvWriter
   {
-    public Task WriteAllPlayers(Stream stream, IEnumerable<CsvPlayer> players);
+    public Task WriteAllPlayers(Stream stream, IEnumerable<CsvRosterEntry> players);
   }
 
-  public class PlayerCsvWriter : IPlayerCsvWriter
+  public class RosterCsvWriter : IPlayerCsvWriter
   {
-    public async Task WriteAllPlayers(Stream stream, IEnumerable<CsvPlayer> players)
+    public async Task WriteAllPlayers(Stream stream, IEnumerable<CsvRosterEntry> players)
     {
       var writer = new StreamWriter(stream);
       var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);

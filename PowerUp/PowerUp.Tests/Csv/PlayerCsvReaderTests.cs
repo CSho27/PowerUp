@@ -15,7 +15,7 @@ namespace PowerUp.Tests.Csv
     [SetUp]
     public void Setup()
     {
-      _reader = new PlayerCsvReader();          
+      _reader = new RosterCsvReader();          
     }
 
     [Test]
@@ -29,9 +29,9 @@ namespace PowerUp.Tests.Csv
 
       // Assert
       var joseRamirez = players.ElementAt(0); 
-      joseRamirez.TeamId.ShouldBe(114);
       joseRamirez.FirstName.ShouldBe("Jose");
       joseRamirez.LastName.ShouldBe("Ramirez");
+      joseRamirez.SavedName.ShouldBe("J.Ramirez");
       joseRamirez.BirthMonth.ShouldBe(9);
       joseRamirez.BirthDay.ShouldBe(17);
       joseRamirez.Age.ShouldBe(31);
@@ -193,6 +193,7 @@ namespace PowerUp.Tests.Csv
       joseRamirez.SP_GoodLowPitch.ShouldBe(null);
       joseRamirez.SP_Gyroball.ShouldBe(null);
       joseRamirez.SP_ShuttoSpin.ShouldBe(null);
+      joseRamirez.TM_MLBId.ShouldBe(114);
     }
   }
 }

@@ -13,12 +13,12 @@ namespace PowerUp.CSV
     public Task<Roster> ImportRoster(Stream stream);
   }
 
-  public class PlayerCsvService : IPlayerCsvService
+  public class RosterCsvService : IPlayerCsvService
   {
     private readonly IPlayerCsvReader _reader;
     private readonly IPlayerCsvWriter _writer;
 
-    public PlayerCsvService(IPlayerCsvReader reader, IPlayerCsvWriter writer)
+    public RosterCsvService(IPlayerCsvReader reader, IPlayerCsvWriter writer)
     {
       _reader = reader;
       _writer = writer;
@@ -37,7 +37,7 @@ namespace PowerUp.CSV
       throw new System.NotImplementedException();
     }
 
-    private static CsvPlayer ToCsvPlayer(long teamId, Player player)
+    private static CsvRosterEntry ToCsvPlayer(long teamId, Player player)
     {
       var appearance = player.Appearance;
       var capabilities = player.PositionCapabilities;
@@ -45,11 +45,11 @@ namespace PowerUp.CSV
       var pitcherAbilities = player.PitcherAbilities;
       var specialAbilities = player.SpecialAbilities;
 
-      return new CsvPlayer
+      return new CsvRosterEntry
       {
-        TeamId = teamId,
         FirstName = player.FirstName,
         LastName = player.LastName,
+        SavedName = player.SavedName,
         BirthMonth = player.BirthMonth,
         BirthDay = player.BirthDay,
         Age = player.Age,
@@ -156,7 +156,7 @@ namespace PowerUp.CSV
         SP_PushHitter = specialAbilities.Hitter.HittingApproach.IsPushHitter.ToInt(),
         SP_PullHitter = specialAbilities.Hitter.HittingApproach.IsPullHitter.ToInt(),
         SP_SprayHitter = specialAbilities.Hitter.HittingApproach.IsSprayHitter.ToInt(),
-        SP_FirstballHitter =  specialAbilities.Hitter.HittingApproach.IsFirstballHitter.ToInt(),
+        SP_FirstballHitter = specialAbilities.Hitter.HittingApproach.IsFirstballHitter.ToInt(),
         SP_AggressiveOrPatientHitter = (int)(specialAbilities.Hitter.HittingApproach.AggressiveOrPatientHitter ?? 0),
         SP_RefinedHitter = specialAbilities.Hitter.HittingApproach.IsRefinedHitter.ToInt(),
         SP_FreeSwinger = specialAbilities.Hitter.HittingApproach.IsFreeSwinger.ToInt(),
@@ -213,6 +213,7 @@ namespace PowerUp.CSV
         SP_GoodLowPitch = specialAbilities.Pitcher.PitchQuailities.GoodLowPitch.ToInt(),
         SP_Gyroball = specialAbilities.Pitcher.PitchQuailities.Gyroball.ToInt(),
         SP_ShuttoSpin = specialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ToInt(),
+        TM_MLBId = teamId
       };
     }
   }
