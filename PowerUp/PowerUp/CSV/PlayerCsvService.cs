@@ -10,7 +10,7 @@ namespace PowerUp.CSV
   public interface IPlayerCsvService
   {
     public Task ExportRoster(Stream stream, Roster roster);
-    public Task<Roster> ImportRoster(Stream stream, Roster roster);
+    public Task<Roster> ImportRoster(Stream stream);
   }
 
   public class PlayerCsvService : IPlayerCsvService
@@ -32,7 +32,7 @@ namespace PowerUp.CSV
       await _writer.WriteAllPlayers(stream, csvPlayers);
     }
 
-    public Task<Roster> ImportRoster(Stream stream, Roster roster)
+    public Task<Roster> ImportRoster(Stream stream)
     {
       throw new System.NotImplementedException();
     }

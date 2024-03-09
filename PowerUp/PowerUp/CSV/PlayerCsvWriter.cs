@@ -15,9 +15,11 @@ namespace PowerUp.CSV
   {
     public async Task WriteAllPlayers(Stream stream, IEnumerable<CsvPlayer> players)
     {
-      using var writer = new StreamWriter(stream);
-      using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+      var writer = new StreamWriter(stream);
+      var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
       await csv.WriteRecordsAsync(players);
+      await writer.FlushAsync();
+      stream.Seek(0, SeekOrigin.Begin);
     }
   }
 }
