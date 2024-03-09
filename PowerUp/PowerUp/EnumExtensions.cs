@@ -10,11 +10,16 @@ namespace PowerUp
     public static string GetAbbrev(this Enum value) => value.GetEnumAttribute<AbbrevAttribute>()?.Abbreviation ?? value.ToString();
     public static int? GetOrder(this Enum value) => value.GetEnumAttribute<OrderAttribute>()?.Order; 
 
-    public static TEnum? ToEnum<TEnum>(this string value) where TEnum : struct, Enum
+    public static TEnum? ToEnum<TEnum>(this string? value) where TEnum : struct, Enum
     {
       Enum.TryParse<TEnum>(value, out var enumValue);
       return enumValue;
-    } 
+    }
+
+    public static TEnum? FromAbbrev<TEnum>(this string? abbrev) where TEnum : struct, Enum
+    {
+      return Enum.GetValues<TEnum>().FirstOrDefault(e => e.GetAbbrev() == abbrev);
+    }
 
     public static TAttribute? GetEnumAttribute<TAttribute>(this Enum value) where TAttribute : Attribute
     {

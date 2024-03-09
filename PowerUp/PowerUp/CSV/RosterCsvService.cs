@@ -290,22 +290,58 @@ namespace PowerUp.CSV
     private Player CreatePlayerForEntry(CsvRosterEntry entry)
     {
       var isPitcher = entry.PrimaryPosition == (int)Position.Pitcher;
-      var defaultPlayer = _playerApi.CreateDefaultPlayer(EntitySourceType.Custom, isPitcher);
+      var @default = _playerApi.CreateDefaultPlayer(EntitySourceType.Custom, isPitcher);
+
       var parameters = new PlayerParameters
       {
         PersonalDetails = new PlayerPersonalDetailsParameters
         {
           FirstName = entry.FirstName.IsNotNullOrWhiteSpace()
             ? entry.FirstName
-            : defaultPlayer.FirstName,
+            : @default.FirstName,
           LastName = entry.LastName.IsNotNullOrWhiteSpace()
             ? entry.LastName
-            : defaultPlayer.LastName,
+            : @default.LastName,
           SavedName = entry.SavedName.IsNotNullOrWhiteSpace()
-            ? entry.SavedName 
+            ? entry.SavedName
             : entry.FirstName.IsNotNullOrWhiteSpace() && entry.LastName.IsNotNullOrWhiteSpace()
               ? NameUtils.GetSavedName(entry.FirstName, entry.LastName)
-              : defaultPlayer.SavedName,
+              : @default.SavedName,
+          BirthMonth = entry.BirthMonth ?? @default.BirthMonth,
+          BirthDay = entry.BirthDay ?? @default.BirthDay,
+          Age = entry.Age ?? @default.Age,
+          YearsInMajors = entry.YearsInMajors ?? @default.YearsInMajors,
+          UniformNumber = entry.UniformNumber ?? @default.UniformNumber,
+          Position = ((Position?)entry.PrimaryPosition) ?? @default.PrimaryPosition,
+          PitcherType = ((PitcherType?)entry.PitcherType) ?? @default.PitcherType,
+          VoiceId = entry.VoiceId ?? @default.VoiceId,
+          BattingSide = EnumExtensions.FromAbbrev<BattingSide>(entry.BattingSide) ?? @default.BattingSide,
+          ThrowingArm = EnumExtensions.FromAbbrev<ThrowingArm>(entry.ThrowingArm) ?? @default.ThrowingArm,
+          PitchingMechanicsId = entry.PitchingMechanicsId ?? @default.PitchingMechanicsId,
+          BattingAverage = entry.Avg ?? @default.BattingAverage,
+          RunsBattedIn = entry.RBI ?? @default.RunsBattedIn,
+          HomeRuns = entry.HR ?? @default.HomeRuns,
+          EarnedRunAverage = entry.ERA ?? @default.EarnedRunAverage,
+        },
+        Appearance = new PlayerAppearanceParameters
+        {
+          FaceId = entry.FaceId ?? @default.Appearance.FaceId,
+          EyebrowThickness = ((EyebrowThickness?)entry.EyebrowThickness) ?? @default.Appearance.EyebrowThickness,
+          SkinColor = ((SkinColor?)entry.SkinColor - 1) ?? @default.Appearance.SkinColor,
+          EyeColor = ((EyeColor?)entry.EyeColor) ?? @default.Appearance.EyeColor,
+          HairStyle = ((HairStyle?)entry.HairStyle) ?? @default.Appearance.HairStyle,
+          HairColor = ((HairColor?)entry.HairColor) ?? @default.Appearance.HairColor,
+          FacialHairStyle = ((FacialHairStyle?)entry.FacialHairStyle) ?? @default.Appearance.FacialHairStyle,
+          FacialHairColor = ((HairColor?)entry.FacialHairColor) ?? @default.Appearance.FacialHairColor,
+          BatColor = ((BatColor?)entry.BatColor) ?? @default.Appearance.BatColor,
+          GloveColor = ((GloveColor?)entry.GloveColor) ?? @default.Appearance.GloveColor,
+          EyewearType = ((EyewearType?)entry.EyewearType) ?? @default.Appearance.EyewearType,
+          EyewearFrameColor = ((EyewearFrameColor?)entry.EyewearFrameColor) ?? @default.Appearance.EyewearFrameColor,
+          EyewearLensColor = ((EyewearLensColor?)entry.EyewearLensColor) ?? @default.Appearance.EyewearLensColor,
+          EarringSide = ((EarringSide?)entry.EarringSide) ?? @default.Appearance.EarringSide,
+          EarringColor = ((AccessoryColor?)entry.EarringColor) ?? @default.Appearance.EarringColor,
+          RightWristbandColor = ((AccessoryColor?)entry.RightWristbandColor) ?? @default.Appearance.RightWristbandColor,
+          LeftWristbandColor = ((AccessoryColor?)entry.LeftWristbandColor) ?? @default.Appearance.LeftWristbandColor,
         }
       };
       return _playerApi.CreatePlayer(EntitySourceType.Custom, parameters);
