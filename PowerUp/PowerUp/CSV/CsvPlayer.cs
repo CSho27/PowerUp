@@ -2,7 +2,7 @@
 {
   public record CsvPlayer
   {
-    public int? TeamId { get; set; }
+    public long? TeamId { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public int? BirthMonth { get; set; }
