@@ -25,7 +25,7 @@ namespace PowerUp.ElectronUI.Controllers
       using var stream = formData.Files[0].OpenReadStream();
       var roster = await _csvService.ImportRoster(stream);
       DatabaseConfig.Database.Save(roster);
-      return Ok();
+      return new JsonResult(new { RosterId = roster!.Id!.Value });
     }
 
     [Route(ExportUrl), HttpGet]

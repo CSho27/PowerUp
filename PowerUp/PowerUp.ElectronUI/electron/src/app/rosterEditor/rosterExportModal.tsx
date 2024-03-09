@@ -65,7 +65,7 @@ function RosterExportModal(props: RosterExportModalProps) {
   return <Modal ariaLabel='Export Roster'>
     <div style={{ paddingBottom: '16px' }}>
       <div>
-      <FieldLabel htmlFor='exportType'>Export Type</FieldLabel>
+        <FieldLabel htmlFor='exportType'>Export Type</FieldLabel>
         <RadioButtons>
           <RadioButtonWrapper>
             <span>Game Save</span>
@@ -144,7 +144,7 @@ function RosterExportModal(props: RosterExportModalProps) {
 const RadioButtons = styled.div`
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: 1.5rem;
   padding-bottom: .75rem;
 `
 

@@ -1,7 +1,10 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
+using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters;
+using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams;
+using PowerUp.Entities.Teams.Api;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,11 +22,23 @@ namespace PowerUp.CSV
   {
     private readonly IPlayerCsvReader _reader;
     private readonly IPlayerCsvWriter _writer;
+    private readonly IPlayerApi _playerApi;
+    private readonly ITeamApi _teamApi;
+    private readonly IRosterApi _rosterApi;
 
-    public RosterCsvService(IPlayerCsvReader reader, IPlayerCsvWriter writer)
+    public RosterCsvService(
+      IPlayerCsvReader reader,
+      IPlayerCsvWriter writer,
+      IPlayerApi playerApi,
+      ITeamApi teamApi,
+      IRosterApi rosterApi
+    )
     {
       _reader = reader;
       _writer = writer;
+      _playerApi = playerApi;
+      _teamApi = teamApi;
+      _rosterApi = rosterApi;
     }
 
     public async Task ExportRoster(Stream stream, Roster roster)
@@ -34,9 +49,15 @@ namespace PowerUp.CSV
       await _writer.WriteAllPlayers(stream, csvPlayers);
     }
 
-    public Task<Roster> ImportRoster(Stream stream)
+    public async Task<Roster> ImportRoster(Stream stream)
     {
-      throw new System.NotImplementedException();
+      var entries = await _reader.ReadAllPlayers(stream);
+      foreach(var entry in entries)
+      {
+        var player = CreatePlayerForEntry(entry);
+      }
+
+      return null;
     }
 
     private static IEnumerable<CsvRosterEntry> GetCsvPlayers(Team team, long mlbTeamId)
@@ -264,6 +285,26 @@ namespace PowerUp.CSV
         TM_DHLineupSlot = dhLineupIndex + 1,
         TM_DHLineupPosition = (int?)dhLineupPosition
       };
+    }
+
+    private Player CreatePlayerForEntry(CsvRosterEntry entry)
+    {
+      var isPitcher = entry.PrimaryPosition == (int)Position.Pitcher;
+      var defaultPlayer = _playerApi.CreateDefaultPlayer(EntitySourceType.Custom, isPitcher);
+      var parameters = new PlayerParameters
+      {
+        PersonalDetails = new PlayerPersonalDetailsParameters
+        {
+          FirstName = entry.FirstName ?? defaultPlayer.FirstName,
+          LastName = entry.LastName ?? defaultPlayer.LastName,
+          SavedName = !string.IsNullOrEmpty(entry.SavedName)
+            ? entry.SavedName 
+            : !string.IsNullOrEmpty(entry.FirstName) && !string.IsNullOrEmpty(entry.LastName)
+              ? NameUtils.GetSavedName(entry.FirstName, entry.LastName)
+              : defaultPlayer.SavedName,
+        }
+      };
+      return _playerApi.CreatePlayer(EntitySourceType.Custom, parameters);
     }
   }
 }

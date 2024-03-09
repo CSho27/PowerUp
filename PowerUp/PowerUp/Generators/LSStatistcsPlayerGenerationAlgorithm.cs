@@ -88,17 +88,10 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        var firstLetterOfFirstName = datasetCollection.PlayerInfo!.FirstNameUsed.FirstCharacter();
-        var lastName = datasetCollection.PlayerInfo!.LastName;
-
-        var firstDotLast = $"{firstLetterOfFirstName}.{lastName}";
-        if(firstDotLast.Length <= 10)
-        {
-          player.SavedName = firstDotLast;
-          return true;
-        }
-        
-        player.SavedName = lastName.ShortenNameToLength(10);
+        player.SavedName = NameUtils.GetSavedName(
+          datasetCollection.PlayerInfo!.FirstNameUsed, 
+          datasetCollection.PlayerInfo!.LastName
+        );
         return true;
       }
     }

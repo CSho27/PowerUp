@@ -21,5 +21,15 @@ namespace PowerUp
     }
 
     public static string GetInformalDisplayName(this string formalDisplayName) => $"{formalDisplayName.GetFirstName()} {formalDisplayName.GetLastName()}";
+
+    public static string GetSavedName(string firstName, string lastName)
+    {
+      var firstLetterOfFirstName = firstName.FirstCharacter();
+      var firstDotLast = $"{firstLetterOfFirstName}.{lastName}";
+      if (firstDotLast.Length <= 10)
+        return firstDotLast;
+
+      return lastName.ShortenNameToLength(10);
+    }
   }
 }
