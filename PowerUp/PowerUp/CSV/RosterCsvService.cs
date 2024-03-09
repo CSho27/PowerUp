@@ -1,6 +1,8 @@
 ﻿using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Rosters;
+using PowerUp.Entities.Teams;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,9 +28,9 @@ namespace PowerUp.CSV
 
     public async Task ExportRoster(Stream stream, Roster roster)
     {
-      var teamPlayers = roster.GetTeams().SelectMany(t => t.Key.GetPlayers().Select(p => (t.Value.GetLSTeamId(), p)));
-      var freeAgents = roster.GetFreeAgentPlayers().Select(p => ((long)0, p));
-      var csvPlayers = teamPlayers.Concat(freeAgents).Select(p => ToCsvPlayer(p.Item1, p.Item2));
+      var teamPlayers = roster.GetTeams().SelectMany(t => GetCsvPlayers(t.Key, t.Value.GetLSTeamId()));
+      var freeAgents = roster.GetFreeAgentPlayers().Select(p => GetCsvPlayer(p));
+      var csvPlayers = teamPlayers.Concat(freeAgents);
       await _writer.WriteAllPlayers(stream, csvPlayers);
     }
 
@@ -37,7 +39,39 @@ namespace PowerUp.CSV
       throw new System.NotImplementedException();
     }
 
-    private static CsvRosterEntry ToCsvPlayer(long teamId, Player player)
+    private static IEnumerable<CsvRosterEntry> GetCsvPlayers(Team team, long mlbTeamId)
+    {
+      var playersAndRoles = team.GetPlayers().Select(p => (p, team.PlayerDefinitions.Single(d => d.PlayerId == p.Id))).ToList();
+      var playersByPitcherRole = playersAndRoles.GroupBy(p => p.Item2.PitcherRole).ToDictionary(g => g.Key);
+      return playersAndRoles.Select(playerAndRole =>
+      {
+        var (player, role) = playerAndRole;
+        playersByPitcherRole[role.PitcherRole].FirstOrDefault(p => p.p.Id == player.Id, out var orderInPitcherRole);
+        var noDHLineupSlot = team.NoDHLineup.FirstOrDefault(p => p.PlayerId == player.Id, out var noDHLineupSlotIndex);
+        var dhLineupSlot = team.DHLineup.FirstOrDefault(p => p.PlayerId == player.Id, out var dhLineupSlotIndex);
+        return GetCsvPlayer(
+          player,
+          mlbTeamId,
+          role,
+          orderInPitcherRole,
+          noDHLineupSlotIndex,
+          noDHLineupSlot?.Position,
+          dhLineupSlotIndex,
+          dhLineupSlot?.Position
+        );
+      });
+    }
+
+    private static CsvRosterEntry GetCsvPlayer(
+      Player player, 
+      long? mlbTeamId = null,
+      PlayerRoleDefinition? playerRole = null,
+      int? orderInPitcherRole = null,
+      int? noDHLineupSlot = null,
+      Position? noDHLineupPosition = null,
+      int? dhLineupSlot = null,
+      Position? dhLineupPosition = null
+    )
     {
       var appearance = player.Appearance;
       var capabilities = player.PositionCapabilities;
@@ -113,7 +147,7 @@ namespace PowerUp.CSV
         TopSpeedMph = pitcherAbilities.TopSpeedMph.RoundDown(),
         Control = pitcherAbilities.Control,
         Stamina = pitcherAbilities.Stamina,
-        TwoSeam = pitcherAbilities.HasTwoSeam ? 1 : 0,
+        TwoSeam = pitcherAbilities.HasTwoSeam.ToInt(),
         TwoSeamMovement = pitcherAbilities.TwoSeamMovement,
         Slider1 = (int?)pitcherAbilities.Slider1Type,
         Slider1Movement = pitcherAbilities.Slider1Movement,
@@ -213,7 +247,18 @@ namespace PowerUp.CSV
         SP_GoodLowPitch = specialAbilities.Pitcher.PitchQuailities.GoodLowPitch.ToInt(),
         SP_Gyroball = specialAbilities.Pitcher.PitchQuailities.Gyroball.ToInt(),
         SP_ShuttoSpin = specialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ToInt(),
-        TM_MLBId = teamId
+        TM_MLBId = mlbTeamId,
+        TM_AAA = playerRole?.IsAAA.ToInt(),
+        TM_PinchHitter = playerRole?.IsDefensiveLiability.ToInt(),
+        TM_PinchRunner = playerRole?.IsPinchRunner.ToInt(),
+        TM_DefensiveReplacement = playerRole?.IsDefensiveReplacement.ToInt(),
+        TM_DefensiveLiability = playerRole?.IsDefensiveLiability.ToInt(),
+        TM_PitcherRole = (int?)playerRole?.PitcherRole,
+        TM_RoleSlot = orderInPitcherRole,
+        TM_NoDHLineupSlot = noDHLineupSlot,
+        TM_NoDHLineupPosition = (int?)noDHLineupPosition,
+        TM_DHLineupSlot = dhLineupSlot,
+        TM_DHLineupPosition = (int?)dhLineupPosition
       };
     }
   }

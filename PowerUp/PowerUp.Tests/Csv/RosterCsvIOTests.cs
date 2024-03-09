@@ -1,34 +1,42 @@
 ﻿using NUnit.Framework;
 using PowerUp.CSV;
 using Shouldly;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PowerUp.Tests.Csv
 {
-  public class PlayerCsvReaderTests
+  public class RosterCsvIOTests
   {
-    private readonly static string TEST_READ_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "TestImport.csv");
+    private readonly static string TEST_WRITE_PATH = Path.Combine(TestConfig.AssetDirectoryPath, "TestExport.csv");
+    private IPlayerCsvWriter _writer;
     private IPlayerCsvReader _reader;
 
     [SetUp]
     public void Setup()
     {
-      _reader = new RosterCsvReader();          
+      _writer = new RosterCsvWriter();
+      _reader = new RosterCsvReader();
+      File.Delete(TEST_WRITE_PATH);
     }
 
     [Test]
-    public async Task ReadAllPlayers_ReadsPlayers()
+    public async Task ReadsAndWritesPlayers()
     {
       // Arrange
-      using var fileStream = File.OpenRead(TEST_READ_PATH);
-
-      // Act
-      var players = await _reader.ReadAllPlayers(fileStream);
+      using (var writeStream = File.OpenWrite(TEST_WRITE_PATH))
+      {
+        // Act
+        await _writer.WriteAllPlayers(writeStream, GetCsvPlayers());
+      }
 
       // Assert
-      var joseRamirez = players.ElementAt(0); 
+      using var readStream = File.OpenRead(TEST_WRITE_PATH);
+      var players = await _reader.ReadAllPlayers(readStream);
+
+      var joseRamirez = players.ElementAt(0);
       joseRamirez.FirstName.ShouldBe("Jose");
       joseRamirez.LastName.ShouldBe("Ramirez");
       joseRamirez.SavedName.ShouldBe("J.Ramirez");
@@ -195,5 +203,178 @@ namespace PowerUp.Tests.Csv
       joseRamirez.SP_ShuttoSpin.ShouldBe(null);
       joseRamirez.TM_MLBId.ShouldBe(114);
     }
+
+    private IEnumerable<CsvRosterEntry> GetCsvPlayers()
+    {
+      yield return new CsvRosterEntry
+      {
+        FirstName = "Jose",
+        LastName = "Ramirez",
+        SavedName = "J.Ramirez",
+        BirthMonth = 9,
+        BirthDay = 17,
+        Age = 31,
+        YearsInMajors = 9,
+        UniformNumber = "11",
+        PrimaryPosition = 5,
+        PitcherType = 0,
+        VoiceId = 2702,
+        BattingSide = "S",
+        BattingStanceId = 11,
+        ThrowingArm = "R",
+        PitchingMechanicsId = 0,
+        Avg = 0.282,
+        RBI = 80,
+        HR = 24,
+        ERA = null,
+        FaceId = 95,
+        EyebrowThickness = 1,
+        SkinColor = 4,
+        EyeColor = 0,
+        HairStyle = 16,
+        HairColor = 3,
+        FacialHairStyle = 7,
+        FacialHairColor = 3,
+        BatColor = 2,
+        GloveColor = 5,
+        EyewearType = 0,
+        EyewearFrameColor = 0,
+        EyewearLensColor = 0,
+        EarringSide = 0,
+        EarringColor = 0,
+        RightWristbandColor = 0,
+        LeftWristbandColor = 0,
+        Capabilities_P = "G",
+        Capabilities_C = "G",
+        Capabilities_1B = "F",
+        Capabilities_2B = "E",
+        Capabilities_3B = "A",
+        Capabilities_SS = "E",
+        Capabilities_LF = "G",
+        Capabilities_CF = "G",
+        Capabilities_RF = "G",
+        Trajectory = 3,
+        Contact = 9,
+        Power = 174,
+        RunSpeed = 10,
+        ArmStrength = 8,
+        Fielding = 10,
+        ErrorResistance = 11,
+        HZ_UpAndIn = "H",
+        HZ_Up = "C",
+        HZ_UpAndAway = "N",
+        HZ_MiddleIn = "H",
+        HZ_Middle = "C",
+        HZ_MiddleAway = "N",
+        HZ_DownAndIn = "N",
+        HZ_Down = "C",
+        HZ_DownAndAway = "H",
+        TopSpeedMph = 74,
+        Control = 0,
+        Stamina = 0,
+        TwoSeam = 0,
+        TwoSeamMovement = 0,
+        Slider1 = 0,
+        Slider1Movement = 0,
+        Slider2 = 0,
+        Slider2Movement = 0,
+        Curve1 = 0,
+        Curve1Movement = 0,
+        Curve2 = 0,
+        Curve2Movement = 0,
+        Fork1 = 0,
+        Fork1Movement = 0,
+        Fork2 = 0,
+        Fork2Movement = 0,
+        Sinker1 = 0,
+        Sinker1Movement = 0,
+        Sinker2 = 0,
+        Sinker2Movement = 0,
+        SinkFb1 = 0,
+        SinkFb1Movement = 0,
+        SinkFb2 = 0,
+        SinkFb2Movement = 0,
+        SP_Star = 0,
+        SP_Durability = 3,
+        SP_Morale = 0,
+        SP_Rain = null,
+        SP_DayGame = null,
+        SP_HConsistency = null,
+        SP_HVsLefty = null,
+        SP_TableSetter = null,
+        SP_B2BHitter = null,
+        SP_HotHitter = null,
+        SP_RallyHitter = null,
+        SP_PinchHitter = null,
+        SP_BasesLoadedHitter = null,
+        SP_WalkOffHitter = null,
+        SP_ClutchHitter = null,
+        SP_ContactHitter = null,
+        SP_PowerHitter = null,
+        SP_SluggerOrSlapHitter = null,
+        SP_PushHitter = null,
+        SP_PullHitter = null,
+        SP_SprayHitter = null,
+        SP_FirstballHitter = null,
+        SP_AggressiveOrPatientHitter = null,
+        SP_RefinedHitter = null,
+        SP_FreeSwinger = null,
+        SP_ToughOut = null,
+        SP_HIntimidator = null,
+        SP_Sparkplug = null,
+        SP_SmallBall = null,
+        SP_Bunting = null,
+        SP_InfieldHitting = null,
+        SP_BaseRunning = null,
+        SP_Stealing = null,
+        SP_AggressiveRunner = null,
+        SP_AggressiveBaseStealer = null,
+        SP_ToughRunner = null,
+        SP_BreakupDp = null,
+        SP_HeadFirstSlide = null,
+        SP_GoldGlover = null,
+        SP_SpiderCatch = null,
+        SP_BarehandCatch = null,
+        SP_AggressiveFielder = null,
+        SP_PivotMan = null,
+        SP_ErrorProne = null,
+        SP_GoodBlocker = null,
+        SP_Catching = null,
+        SP_Throwing = null,
+        SP_Cannon = null,
+        SP_TrashTalker = null,
+        SP_PConsistency = null,
+        SP_PVsLefty = null,
+        SP_Poise = null,
+        SP_VsRunner = null,
+        SP_WRisp = null,
+        SP_SlowStarter = null,
+        SP_StarterFinisher = null,
+        SP_ChokeArtist = null,
+        SP_Sandbag = null,
+        SP_DrK = null,
+        SP_WalkProne = null,
+        SP_Luck = null,
+        SP_Recovery = null,
+        SP_PIntimidator = null,
+        SP_Battler = null,
+        SP_HotHead = null,
+        SP_GoodDelivery = null,
+        SP_Release = null,
+        SP_GoodPace = null,
+        SP_GoodReflexes = null,
+        SP_GoodPickoff = null,
+        SP_PowerOrBreakingBall = null,
+        SP_FastballLife = null,
+        SP_Spin = null,
+        SP_SafeOrFatPitch = null,
+        SP_GroundBallOrFlyBall = null,
+        SP_GoodLowPitch = null,
+        SP_Gyroball = null,
+        SP_ShuttoSpin = null,
+        TM_MLBId = 114,
+      };
+    }
   }
+
 }

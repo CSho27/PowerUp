@@ -176,7 +176,7 @@
     public int? TM_DefensiveReplacement { get; set; }
     public int? TM_DefensiveLiability { get; set; }
     public int? TM_PitcherRole { get; set; }
-    public int? TM_RotationSlot { get; set; }
+    public int? TM_RoleSlot { get; set; }
     public int? TM_NoDHLineupSlot { get; set; }
     public int? TM_NoDHLineupPosition { get; set; }
     public int? TM_DHLineupSlot { get; set; }
