@@ -29,6 +29,7 @@
     [DisplayName("Flow (Long)")]
     FlowLong,
     Bob,
+    [DisplayName("Dreadlocks")]
     Drealocks,
     Afro,
     [DisplayName("Curly (Medium)")]
