@@ -257,7 +257,7 @@ namespace PowerUp.CSV
         SP_Luck = (int)specialAbilities.Pitcher.SituationalPitching.Luck,
         SP_Recovery = specialAbilities.Pitcher.SituationalPitching.Recovery.GetAbbrevInt(),
         SP_PIntimidator = specialAbilities.Pitcher.Demeanor.IsIntimidator.ToInt(),
-        SP_Battler = (int)(specialAbilities.Pitcher.Demeanor.BattlerPokerFace ?? 0),
+        SP_BattlerPokerFace = (int)(specialAbilities.Pitcher.Demeanor.BattlerPokerFace ?? 0),
         SP_HotHead = specialAbilities.Pitcher.Demeanor.IsHotHead.ToInt(),
         SP_GoodDelivery = specialAbilities.Pitcher.PitchingMechanics.GoodDelivery.ToInt(),
         SP_Release = specialAbilities.Pitcher.PitchingMechanics.Release.GetAbbrevInt(),
@@ -271,7 +271,7 @@ namespace PowerUp.CSV
         SP_GroundBallOrFlyBall = (int)specialAbilities.Pitcher.PitchQuailities.GroundBallOrFlyBallPitcher,
         SP_GoodLowPitch = specialAbilities.Pitcher.PitchQuailities.GoodLowPitch.ToInt(),
         SP_Gyroball = specialAbilities.Pitcher.PitchQuailities.Gyroball.ToInt(),
-        SP_ShuttoSpin = specialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ToInt(),
+        SP_ShuutoSpin = specialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ToInt(),
         TM_MLBId = mlbTeamId,
         TM_AAA = playerRole?.IsAAA.ToInt(),
         TM_PinchHitter = playerRole?.IsDefensiveLiability.ToInt(),
@@ -514,8 +514,8 @@ namespace PowerUp.CSV
             Demeanor = new PitchingDemeanorSpecialAbilitiesParameters
             {
               IsIntimidator = entry.SP_PIntimidator.ToNullableBool() ?? @default.SpecialAbilities.Pitcher.Demeanor.IsIntimidator,
-              BattlerPokerFace = entry.SP_Battler.HasValue && entry.SP_Battler != 0
-                ? (BattlerPokerFace)entry.SP_Battler
+              BattlerPokerFace = entry.SP_BattlerPokerFace.HasValue && entry.SP_BattlerPokerFace != 0
+                ? (BattlerPokerFace)entry.SP_BattlerPokerFace
                 : @default.SpecialAbilities.Pitcher.Demeanor.BattlerPokerFace,
               IsHotHead = entry.SP_HotHead.ToNullableBool() ?? @default.SpecialAbilities.Pitcher.Demeanor.IsHotHead,
             },
@@ -538,7 +538,7 @@ namespace PowerUp.CSV
               GroundBallOrFlyBallPitcher = ((SpecialPositive_Negative?)entry.SP_GroundBallOrFlyBall) ?? @default.SpecialAbilities.Pitcher.PitchQuailities.GroundBallOrFlyBallPitcher,
               GoodLowPitch = entry.SP_GoodLowPitch.ToNullableBool() ?? @default.SpecialAbilities.Pitcher.PitchQuailities.GoodLowPitch,
               Gyroball = entry.SP_Gyroball.ToNullableBool() ?? @default.SpecialAbilities.Pitcher.PitchQuailities.Gyroball,
-              ShuttoSpin = entry.SP_ShuttoSpin.ToNullableBool() ?? @default.SpecialAbilities.Pitcher.PitchQuailities.ShuttoSpin,
+              ShuttoSpin = entry.SP_ShuutoSpin.ToNullableBool() ?? @default.SpecialAbilities.Pitcher.PitchQuailities.ShuttoSpin,
             }
           }
         }

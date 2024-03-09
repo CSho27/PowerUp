@@ -152,7 +152,7 @@
     public int? SP_Luck { get; set; }
     public int? SP_Recovery { get; set; }
     public int? SP_PIntimidator { get; set; }
-    public int? SP_Battler { get; set; }
+    public int? SP_BattlerPokerFace { get; set; }
     public int? SP_HotHead { get; set; }
     public int? SP_GoodDelivery { get; set; }
     public int? SP_Release { get; set; }
@@ -166,7 +166,7 @@
     public int? SP_GroundBallOrFlyBall { get; set; }
     public int? SP_GoodLowPitch { get; set; }
     public int? SP_Gyroball { get; set; }
-    public int? SP_ShuttoSpin { get; set; }
+    public int? SP_ShuutoSpin { get; set; }
 
     // Team Properties
     public long? TM_MLBId { get; set; }

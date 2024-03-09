@@ -186,7 +186,7 @@ namespace PowerUp.Tests.Csv
       joseRamirez.SP_Luck.ShouldBe(null);
       joseRamirez.SP_Recovery.ShouldBe(null);
       joseRamirez.SP_PIntimidator.ShouldBe(null);
-      joseRamirez.SP_Battler.ShouldBe(null);
+      joseRamirez.SP_BattlerPokerFace.ShouldBe(null);
       joseRamirez.SP_HotHead.ShouldBe(null);
       joseRamirez.SP_GoodDelivery.ShouldBe(null);
       joseRamirez.SP_Release.ShouldBe(null);
@@ -200,7 +200,7 @@ namespace PowerUp.Tests.Csv
       joseRamirez.SP_GroundBallOrFlyBall.ShouldBe(null);
       joseRamirez.SP_GoodLowPitch.ShouldBe(null);
       joseRamirez.SP_Gyroball.ShouldBe(null);
-      joseRamirez.SP_ShuttoSpin.ShouldBe(null);
+      joseRamirez.SP_ShuutoSpin.ShouldBe(null);
       joseRamirez.TM_MLBId.ShouldBe(114);
     }
 
@@ -357,7 +357,7 @@ namespace PowerUp.Tests.Csv
         SP_Luck = null,
         SP_Recovery = null,
         SP_PIntimidator = null,
-        SP_Battler = null,
+        SP_BattlerPokerFace = null,
         SP_HotHead = null,
         SP_GoodDelivery = null,
         SP_Release = null,
@@ -371,7 +371,7 @@ namespace PowerUp.Tests.Csv
         SP_GroundBallOrFlyBall = null,
         SP_GoodLowPitch = null,
         SP_Gyroball = null,
-        SP_ShuttoSpin = null,
+        SP_ShuutoSpin = null,
         TM_MLBId = 114,
       };
     }
