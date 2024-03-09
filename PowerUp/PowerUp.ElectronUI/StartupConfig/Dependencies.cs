@@ -1,4 +1,5 @@
-﻿using PowerUp.Entities.Players.Api;
+﻿using PowerUp.CSV;
+using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams.Api;
 using PowerUp.Fetchers.Algolia;
@@ -44,6 +45,9 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IPowerProsIdAssigner>(provider => new PowerProsIdAssigner());
       services.AddTransient<IBattingStanceGuesser>(provider => new BattingStanceGuesser(provider.GetRequiredService<IBattingStanceLibrary>()));
       services.AddTransient<IPitchingMechanicsGuesser>(provider => new PitchingMechanicsGuesser(provider.GetRequiredService<IPitchingMechanicsLibrary>()));
+      services.AddTransient<IPlayerCsvReader, PlayerCsvReader>();
+      services.AddTransient<IPlayerCsvWriter, PlayerCsvWriter>();
+      services.AddTransient<IPlayerCsvService, PlayerCsvService>();
     }
   }
 }
