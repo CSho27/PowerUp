@@ -12,8 +12,10 @@ namespace PowerUp
 
     public static TEnum? ToEnum<TEnum>(this string? value) where TEnum : struct, Enum
     {
-      Enum.TryParse<TEnum>(value, out var enumValue);
-      return enumValue;
+      if (Enum.TryParse<TEnum>(value, out var enumValue))
+        return enumValue;
+      else
+        return null;
     }
 
     public static TEnum? FromAbbrev<TEnum>(this string? abbrev) where TEnum : struct, Enum
