@@ -5,6 +5,7 @@ using PowerUp.Entities.Rosters;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams;
 using PowerUp.Entities.Teams.Api;
+using PowerUp.Libraries;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace PowerUp.CSV
   {
     private readonly IPlayerCsvReader _reader;
     private readonly IPlayerCsvWriter _writer;
+    private readonly ISpecialSavedNameLibrary _specialSavedNameLibrary;
     private readonly IPlayerApi _playerApi;
     private readonly ITeamApi _teamApi;
     private readonly IRosterApi _rosterApi;
@@ -29,6 +31,7 @@ namespace PowerUp.CSV
     public RosterCsvService(
       IPlayerCsvReader reader,
       IPlayerCsvWriter writer,
+      ISpecialSavedNameLibrary specialSavedNameLibrary,
       IPlayerApi playerApi,
       ITeamApi teamApi,
       IRosterApi rosterApi
@@ -36,6 +39,7 @@ namespace PowerUp.CSV
     {
       _reader = reader;
       _writer = writer;
+      _specialSavedNameLibrary = specialSavedNameLibrary;
       _playerApi = playerApi;
       _teamApi = teamApi;
       _rosterApi = rosterApi;
@@ -291,6 +295,7 @@ namespace PowerUp.CSV
     {
       var isPitcher = entry.PrimaryPosition == (int)Position.Pitcher;
       var @default = _playerApi.CreateDefaultPlayer(EntitySourceType.Custom, isPitcher);
+      var isSpecialSavedName = entry.SavedName.IsNotNullOrWhiteSpace() && _specialSavedNameLibrary.ContainsName(entry.SavedName);
 
       var parameters = new PlayerParameters
       {
@@ -302,8 +307,13 @@ namespace PowerUp.CSV
           LastName = entry.LastName.IsNotNullOrWhiteSpace()
             ? entry.LastName
             : @default.LastName,
+          SpecialSavedNameId = isSpecialSavedName
+            ? _specialSavedNameLibrary[entry.SavedName!]
+            : null,
           SavedName = entry.SavedName.IsNotNullOrWhiteSpace()
-            ? entry.SavedName
+            ? isSpecialSavedName
+              ? entry.SavedName
+              : entry.SavedName.ShortenNameToLength(10)
             : entry.FirstName.IsNotNullOrWhiteSpace() && entry.LastName.IsNotNullOrWhiteSpace()
               ? NameUtils.GetSavedName(entry.FirstName, entry.LastName)
               : @default.SavedName,
@@ -317,6 +327,7 @@ namespace PowerUp.CSV
           VoiceId = entry.VoiceId ?? @default.VoiceId,
           BattingSide = EnumExtensions.FromAbbrev<BattingSide>(entry.BattingSide) ?? @default.BattingSide,
           ThrowingArm = EnumExtensions.FromAbbrev<ThrowingArm>(entry.ThrowingArm) ?? @default.ThrowingArm,
+          BattingStanceId = entry.BattingStanceId ?? @default.BattingStanceId,
           PitchingMechanicsId = entry.PitchingMechanicsId ?? @default.PitchingMechanicsId,
           BattingAverage = entry.Avg ?? @default.BattingAverage,
           RunsBattedIn = entry.RBI ?? @default.RunsBattedIn,
