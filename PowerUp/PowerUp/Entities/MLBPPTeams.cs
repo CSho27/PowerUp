@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PowerUp.Entities
 {
@@ -106,6 +107,8 @@ namespace PowerUp.Entities
     }
     public static long GetLSTeamId(this MLBPPTeam value)
       => value.GetEnumAttribute<LSTeamIdAttribute>()!.LSTeamId;
+    public static MLBPPTeam FromTeamId(long mlbTeamId)
+      => Enum.GetValues<MLBPPTeam>().First(t => t.GetLSTeamId() == mlbTeamId);
 
   }
 

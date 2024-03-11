@@ -23,9 +23,11 @@ namespace PowerUp.ElectronUI.Controllers
     public async Task<ActionResult> Import(IFormCollection formData) 
     {
       using var stream = formData.Files[0].OpenReadStream();
-      var roster = await _csvService.ImportRoster(stream);
-      DatabaseConfig.Database.Save(roster);
-      return new JsonResult(new { RosterId = roster!.Id!.Value });
+      var importSource = formData["importSource"];
+      var roster = await _csvService.ImportRoster(stream, importSource!);
+      if(roster is not null)
+        DatabaseConfig.Database.Save(roster);
+      return new JsonResult(new { RosterId = roster?.Id });
     }
 
     [Route(ExportUrl), HttpGet]

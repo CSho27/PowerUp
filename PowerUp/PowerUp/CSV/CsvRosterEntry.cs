@@ -170,6 +170,7 @@
 
     // Team Properties
     public long? TM_MLBId { get; set; }
+    public string? TM_Name { get; set; }
     public int? TM_AAA { get; set; }
     public int? TM_PinchHitter { get; set; }
     public int? TM_PinchRunner { get; set; }

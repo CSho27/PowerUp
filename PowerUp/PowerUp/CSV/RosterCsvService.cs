@@ -1,4 +1,5 @@
-﻿using PowerUp.Entities;
+﻿using PowerUp.Databases;
+using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters;
@@ -16,7 +17,7 @@ namespace PowerUp.CSV
   public interface IPlayerCsvService
   {
     public Task ExportRoster(Stream stream, Roster roster);
-    public Task<Roster> ImportRoster(Stream stream);
+    public Task<Roster?> ImportRoster(Stream stream, string rosterName);
   }
 
   public class RosterCsvService : IPlayerCsvService
@@ -53,16 +54,53 @@ namespace PowerUp.CSV
       await _writer.WriteAllPlayers(stream, csvPlayers);
     }
 
-    public async Task<Roster> ImportRoster(Stream stream)
+    public async Task<Roster?> ImportRoster(Stream stream, string rosterName)
     {
       var entries = await _reader.ReadAllPlayers(stream);
+      var teamPlayers = new Dictionary<long, IList<CreatedPlayerEntry>>();
+      var nonTeamPlayers = new List<CreatedPlayerEntry>();
       foreach(var entry in entries)
       {
         var player = CreatePlayerForEntry(entry);
+        var savedPlayerEntry = new CreatedPlayerEntry(player, entry);
+        if (entry.TM_MLBId.HasValue)
+        {
+          teamPlayers.TryGetValue(entry.TM_MLBId.Value, out var existingList);
+          if (existingList is not null)
+            existingList.Add(savedPlayerEntry);
+          else
+            teamPlayers.Add(entry.TM_MLBId.Value, new List<CreatedPlayerEntry> { savedPlayerEntry });
+        }
+        else
+        {
+          nonTeamPlayers.Add(savedPlayerEntry);
+        }
       }
 
-      return null;
+      DatabaseConfig.Database.SaveAll(teamPlayers.SelectMany(t => t.Value).Select(p => p.Player));
+      DatabaseConfig.Database.SaveAll(nonTeamPlayers.Select(p => p.Player));
+
+      var teams = new List<CreatedTeamEntry>();
+      foreach(var teamPlayerList in teamPlayers)
+      {
+        var team = CreateTeamFromEntries(teamPlayerList.Value);
+        teams.Add(new CreatedTeamEntry(team, teamPlayerList.Key));
+      }
+      if (teams.Count > 0)
+        DatabaseConfig.Database.SaveAll(teams.Select(t => t.Team));
+      else
+        return null;
+
+
+      return _rosterApi.CreateRosterFromTeams(
+        rosterName, 
+        teams.ToDictionary(t => MLBPPTeamExtensions.FromTeamId(t.MLBTeamId), t => t.Team.Id!.Value),
+        nonTeamPlayers.Take(15).Select(p => p.Player.Id!.Value)
+      );
     }
+
+    private record CreatedPlayerEntry(Player Player, CsvRosterEntry Entry);
+    private record CreatedTeamEntry(Team Team, long MLBTeamId);
 
     private static IEnumerable<CsvRosterEntry> GetCsvPlayers(Team team, long mlbTeamId)
     {
@@ -77,6 +115,7 @@ namespace PowerUp.CSV
         return GetCsvPlayer(
           player,
           mlbTeamId,
+          team.Name,
           role,
           indexWithinPitcherRole,
           noDHLineupIndex,
@@ -90,6 +129,7 @@ namespace PowerUp.CSV
     private static CsvRosterEntry GetCsvPlayer(
       Player player, 
       long? mlbTeamId = null,
+      string? teamName = null,
       PlayerRoleDefinition? playerRole = null,
       int? indexWithinPitcherRole = null,
       int? noDHLineupIndex = null,
@@ -277,6 +317,7 @@ namespace PowerUp.CSV
         SP_Gyroball = specialAbilities.Pitcher.PitchQuailities.Gyroball.ToInt(),
         SP_ShuutoSpin = specialAbilities.Pitcher.PitchQuailities.ShuttoSpin.ToInt(),
         TM_MLBId = mlbTeamId,
+        TM_Name = teamName, 
         TM_AAA = playerRole?.IsAAA.ToInt(),
         TM_PinchHitter = playerRole?.IsDefensiveLiability.ToInt(),
         TM_PinchRunner = playerRole?.IsPinchRunner.ToInt(),
@@ -294,7 +335,7 @@ namespace PowerUp.CSV
     private Player CreatePlayerForEntry(CsvRosterEntry entry)
     {
       var isPitcher = entry.PrimaryPosition == (int)Position.Pitcher;
-      var @default = _playerApi.CreateDefaultPlayer(EntitySourceType.Custom, isPitcher);
+      var @default = _playerApi.CreateDefaultPlayer(EntitySourceType.Imported, isPitcher);
       var isSpecialSavedName = entry.SavedName.IsNotNullOrWhiteSpace() && _specialSavedNameLibrary.ContainsName(entry.SavedName);
 
       var parameters = new PlayerParameters
@@ -554,7 +595,72 @@ namespace PowerUp.CSV
           }
         }
       };
-      return _playerApi.CreatePlayer(EntitySourceType.Custom, parameters);
+      return _playerApi.CreatePlayer(EntitySourceType.Imported, parameters);
+    }
+    
+    private Team CreateTeamFromEntries(IEnumerable<CreatedPlayerEntry> playerEntries)
+    {
+      var firstPlayer = playerEntries.First();
+      var teamName = firstPlayer.Entry.TM_Name ?? MLBPPTeamExtensions.FromTeamId(firstPlayer.Entry.TM_MLBId!.Value).GetFullDisplayName();
+      var team = _teamApi.CreateFromPlayers(playerEntries.Select(p => p.Player.Id!.Value), teamName, EntitySourceType.Imported);
+      var mlbPlayers = playerEntries.Where(p => p.Entry.TM_AAA != 1).Take(25);
+      var aaaPlayers = playerEntries.Where(p => !mlbPlayers.Contains(p)).Take(15);
+
+      var hasNoDHLineup = playerEntries.Any(p => p.Entry.TM_NoDHLineupSlot.HasValue || p.Entry.TM_NoDHLineupPosition.HasValue);
+      var hasDHLineup = playerEntries.Any(p => p.Entry.TM_NoDHLineupSlot.HasValue || p.Entry.TM_DHLineupPosition.HasValue);
+
+      var updateParams = new TeamParameters
+      {
+        Name = teamName,
+        MLBPlayers = mlbPlayers.Select(p => CreatePlayerRoleEntry(team, p, hasNoDHLineup, hasDHLineup)).ToList(),
+        AAAPlayers = aaaPlayers.Select(p => CreatePlayerRoleEntry(team, p, hasNoDHLineup, hasDHLineup)).ToList()
+      };
+      _teamApi.EditTeam(team, updateParams);
+      return team;
+    }
+
+    private PlayerRoleParameters CreatePlayerRoleEntry(
+      Team team,
+      CreatedPlayerEntry entry,
+      bool teamEntryHasNoDHLineup,
+      bool teamEntryHasDHLineup
+    )
+    {
+      var csvEntry = entry.Entry;
+      var defaultRole = team.PlayerDefinitions.Single(p => p.PlayerId == entry.Player.Id);
+      var playersByPitcherRole = team.PlayerDefinitions.Where(p => p.PitcherRole == defaultRole.PitcherRole);
+      playersByPitcherRole.FirstOrDefault(p => p.PlayerId == entry.Player.Id, out var defaultRoleIndex);
+      var defaultNoDHLineupSlot = team.NoDHLineup.FirstOrDefault(p => p.PlayerId == entry.Player.Id, out var defaultNoDHLineupIndex);
+      var defaultDHLineupSlot = team.DHLineup.FirstOrDefault(p => p.PlayerId == entry.Player.Id, out var defaultDHLineupIndex);
+
+      var entryHasPitcherRole = csvEntry.TM_PitcherRole.HasValue && csvEntry.TM_PitcherRoleSlot.HasValue;
+
+      return new PlayerRoleParameters
+      {
+        PlayerId = entry.Player.Id!.Value,
+        PitcherRole = entryHasPitcherRole
+          ? (PitcherRole)csvEntry.TM_PitcherRole!.Value
+          : defaultRole.PitcherRole,
+        OrderInPitcherRole = entryHasPitcherRole
+          ? csvEntry.TM_PitcherRoleSlot!.Value - 1
+          : defaultRoleIndex ?? 0,
+        OrderInNoDHLineup = teamEntryHasNoDHLineup
+          ? csvEntry.TM_NoDHLineupSlot
+          : defaultNoDHLineupIndex,
+        PositionInNoDHLineup = teamEntryHasNoDHLineup
+          ? (Position?)csvEntry.TM_NoDHLineupPosition
+          : defaultNoDHLineupSlot?.Position,
+        OrderInDHLineup = teamEntryHasDHLineup
+          ? csvEntry.TM_DHLineupSlot
+          : defaultDHLineupIndex,
+        PositionInDHLineup = teamEntryHasDHLineup
+          ? (Position?)csvEntry.TM_DHLineupPosition
+          : defaultDHLineupSlot?.Position,
+        IsPinchHitter = csvEntry.TM_PinchHitter.ToNullableBool() ?? defaultRole.IsPinchHitter,
+        IsPinchRunner = csvEntry.TM_PinchRunner.ToNullableBool() ?? defaultRole.IsPinchRunner,
+        IsDefensiveReplacement = csvEntry.TM_DefensiveReplacement.ToNullableBool() ?? defaultRole.IsDefensiveReplacement,
+        IsDefensiveLiability = csvEntry.TM_DefensiveLiability.ToNullableBool() ?? defaultRole.IsDefensiveLiability,
+      };
     }
   }
 }
