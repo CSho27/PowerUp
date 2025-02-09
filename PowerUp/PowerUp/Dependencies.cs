@@ -1,4 +1,5 @@
-﻿using PowerUp.Entities.Players.Api;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams.Api;
 using PowerUp.Fetchers.Algolia;
@@ -14,7 +15,7 @@ using PowerUp.Mappers.Players;
 using PowerUp.Migrations;
 using PowerUp.Providers;
 
-namespace PowerUp.ElectronUI.StartupConfig
+namespace PowerUp
 {
   public static class Dependencies
   {
@@ -36,7 +37,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IPlayerGenerator>(provider => new PlayerGenerator(provider.GetRequiredService<IPlayerApi>(), provider.GetRequiredService<IPlayerStatisticsFetcher>(), provider.GetRequiredService<IBaseballReferenceClient>()));
       services.AddTransient<ITeamGenerator, TeamGenerator>();
       services.AddTransient<IRosterGenerator>(provider => new RosterGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<ITeamGenerator>()));
-      services.AddTransient<IDraftPoolGenerator, DraftPoolGenerator>(); 
+      services.AddTransient<IDraftPoolGenerator, DraftPoolGenerator>();
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
       services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IBaseGameSavePathProvider>()));

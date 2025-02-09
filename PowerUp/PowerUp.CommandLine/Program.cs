@@ -1,8 +1,10 @@
-﻿using System.CommandLine;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PowerUp;
+using PowerUp.CommandLine.Commands;
 using Serilog;
+using System.CommandLine;
 
 
 var appHost = StartUp();
@@ -13,7 +15,7 @@ async Task Run(IHost host)
   var quit = false;
 
   await using var scope = host.Services.CreateAsyncScope();
-  //var commands = CommandRegistry.BuildRootCommand(scope.ServiceProvider, () => { quit = true; });
+  var commands = CommandRegistry.BuildRootCommand(scope.ServiceProvider, () => { quit = true; });
 
   while (!quit)
   {
@@ -24,7 +26,7 @@ async Task Run(IHost host)
 
     if (!string.IsNullOrEmpty(command))
     {
-      //await commands.InvokeAsync(command);
+      await commands.InvokeAsync(command);
     }
   }
 }
@@ -32,24 +34,26 @@ async Task Run(IHost host)
 static IHost StartUp()
 {
   var builder = Host.CreateDefaultBuilder();
-  /*
-  var projectRoot = FileSystemUtilities.GetProjectRootDirectory()!;
   var configuration = new ConfigurationBuilder()
-      .SetBasePath(projectRoot)
       .AddJsonFile("appsettings.json")
       .Build();
-  var appSettingsProvider = new AppSettingsProvider(configuration);
-  */
+
   var timestamp = DateTime.UtcNow.ToString("yyyyMMdd_HHmmss_ffffff");
   Log.Logger = new LoggerConfiguration()
       .MinimumLevel.Debug()
       .WriteTo.Console(Serilog.Events.LogEventLevel.Information)
-      .WriteTo.File(Path.Combine(Directory.GetDirectoryRoot(Directory.GetCurrentDirectory()), "logs", $"log-{timestamp}.txt"), rollingInterval: RollingInterval.Infinite)
+      .WriteTo.File(Path.Combine(Directory.GetDirectoryRoot(Directory.GetCurrentDirectory()), "PowerUp", "logs", $"log-{timestamp}.txt"), rollingInterval: RollingInterval.Infinite)
       .CreateLogger();
 
   builder.UseSerilog();
+
+  var dataDirectory = configuration["DataDirectory"];
+  Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory ?? "null")}");
+
   builder.ConfigureServices(services =>
   {
+    services.RegisterCommands();
+    services.RegisterDependencies();
     services.AddLogging();
   });
 
