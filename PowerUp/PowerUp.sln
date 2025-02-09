@@ -10,7 +10,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUp.Tests", "PowerUp.Te
 		{DAA78496-700F-442D-A734-2C0B0A8CEE02} = {DAA78496-700F-442D-A734-2C0B0A8CEE02}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerUp.ElectronUI", "PowerUp.ElectronUI\PowerUp.ElectronUI.csproj", "{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUp.ElectronUI", "PowerUp.ElectronUI\PowerUp.ElectronUI.csproj", "{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerUp.CommandLine", "PowerUp.CommandLine\PowerUp.CommandLine.csproj", "{6D0814D5-D421-4E81-9367-1EBE5513CAB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,10 @@ Global
 		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AEC0450-A6FA-42CB-8D87-5D1A8373643C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0814D5-D421-4E81-9367-1EBE5513CAB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0814D5-D421-4E81-9367-1EBE5513CAB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0814D5-D421-4E81-9367-1EBE5513CAB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0814D5-D421-4E81-9367-1EBE5513CAB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
