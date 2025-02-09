@@ -27,9 +27,9 @@ namespace PowerUp
       var firstLetterOfFirstName = firstName.FirstCharacter();
       var firstDotLast = $"{firstLetterOfFirstName}.{lastName}";
       if (firstDotLast.Length <= 10)
-        return firstDotLast;
+        return firstDotLast.RemoveAccents();
 
-      return lastName.ShortenNameToLength(10);
+      return lastName.RemoveAccents().ShortenNameToLength(10);
     }
   }
 }

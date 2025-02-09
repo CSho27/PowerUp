@@ -3,6 +3,7 @@ using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.MLBStatsApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,38 +36,38 @@ namespace PowerUp.Generators
 
   public class TeamGenerator : ITeamGenerator
   {
-    private readonly IMLBLookupServiceClient _mlbLookupServiceClient;
+    private readonly IMLBStatsApiClient _mlbStatsApiClient;
     private readonly IPlayerGenerator _playerGenerator;
 
     public TeamGenerator(
-      IMLBLookupServiceClient mlbLookupServiceClient,
+      IMLBStatsApiClient mlbStatsApiClient,
       IPlayerGenerator playerGenerator
     )
     {
-      _mlbLookupServiceClient = mlbLookupServiceClient;
+      _mlbStatsApiClient = mlbStatsApiClient;
       _playerGenerator = playerGenerator;
     }
 
     public TeamGenerationResult GenerateTeam(long lsTeamId, int year, string name, PlayerGenerationAlgorithm algorithm, Action<ProgressUpdate>? onProgressUpdate = null)
     {
-      var playerResults = Task.Run(() => _mlbLookupServiceClient.GetTeamRosterForYear(lsTeamId, year)).WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
-      var teamPlayers = playerResults.Results.ToList();
+      var playerResults = Task.Run(() => _mlbStatsApiClient.GetTeamRoster(lsTeamId, year)).WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
+      var teamPlayers = playerResults.Roster.ToList();
       var warnings = new List<GeneratorWarning>();
 
       var generatedPlayers = new List<PlayerGenerationResult>();
       for(var i=0; i<teamPlayers.Count; i++)
       {
         var player = teamPlayers[i];
-        var playerInformalDisplayName = player.FormalDisplayName.GetInformalDisplayName();
+        if (player.Person == null) continue;
+
+        var playerInformalDisplayName = player.Person.FullName;
         if (onProgressUpdate != null)
           onProgressUpdate(new ProgressUpdate($"Generating {playerInformalDisplayName}", i, teamPlayers.Count + 1));
 
         try
         {
-          var generatedPlayer = _playerGenerator.GeneratePlayer(player.LSPlayerId, year, algorithm, player.UniformNumber);
-
-          if (!generatedPlayer.LastTeamForYear_LSTeamId.HasValue || generatedPlayer.LastTeamForYear_LSTeamId == lsTeamId)
-            generatedPlayers.Add(generatedPlayer);
+          var generatedPlayer = _playerGenerator.GeneratePlayer(player.Person.Id, year, algorithm, player.JerseyNumber);
+          generatedPlayers.Add(generatedPlayer);
         } catch (Exception ex)
         {
           warnings.Add(new GeneratorWarning("Player", "GenerationFailed", $"Failed to generaete {playerInformalDisplayName}"));

@@ -19,11 +19,12 @@ namespace PowerUp.GameSave.IO
 
     public void WriteString(long offset, int stringLength, string @string)
     {
-      if (@string.Length > stringLength)
-        throw new ArgumentException("String longer than specified length", nameof(@string));
+      var sanitizedString = @string.RemoveAccents();
+      if (sanitizedString.Length > stringLength)
+        throw new ArgumentException("String longer than specified length", nameof(sanitizedString));
 
       for (int i = 0; i < stringLength; i++)
-        WriteChar(offset + 2 * i, i < @string.Length ? @string[i] : ' ');
+        WriteChar(offset + 2 * i, i < sanitizedString.Length ? sanitizedString[i] : ' ');
     }
 
     public void WriteUInt(

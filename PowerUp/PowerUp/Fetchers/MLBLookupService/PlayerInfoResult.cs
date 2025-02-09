@@ -1,4 +1,5 @@
 ﻿using PowerUp.Entities.Players;
+using PowerUp.Fetchers.MLBStatsApi;
 using System;
 
 namespace PowerUp.Fetchers.MLBLookupService
@@ -74,6 +75,43 @@ namespace PowerUp.Fetchers.MLBLookupService
       EndDate = result.end_date.TryParseDateTime();
       ServiceYears = result.service_years.TryParseInt();
       TeamName = result.team_name.StringIfNotEmpty();
+    }
+
+    public PlayerInfoResult(Person person)
+    {
+      LSPlayerId = person.Id;
+      // NamePrefix
+      FirstName = person.FirstName;
+      FirstNameUsed = person.UseName;
+      MiddleName = person.MiddleName;
+      LastName = LastName ?? person.UseLastName;
+      FormalDisplayName = person.LastFirstName;
+      InformalDisplayName = person.FirstLastName;
+      NickName = person.NickName;
+      // UniformNumber
+      Position = LookupServiceValueMapper.MapPosition(person.PrimaryPosition?.Code);
+      BattingSide = LookupServiceValueMapper.MapBatingSide(person.BatSide?.Code);
+      ThrowingArm = LookupServiceValueMapper.MapThrowingArm(person.PitchHand?.Code);
+      Weight = person.Weight;
+      var parsedHeight = LookupServiceValueMapper.ParseHeight(person.Height);
+      HeightFeet = parsedHeight?.heightFeet;
+      HeightInches = parsedHeight?.heightInches;
+      BirthDate = person.BirthDate;
+      BirthCountry = person.BirthCountry;
+      BirthState = person.BirthStateProvince;
+      BirthCity = person.BirthCity;
+      DeathDate = person.DeathDate;
+      DeathCountry = person.DeathCountry;
+      DeathState = person.DeathStateProvince;
+      DeathCity = person.DeathCity;
+      Age = person.CurrentAge;
+      // HighSchool
+      // College
+      ProDebutDate = person.MlbDebutDate;
+      StartDate = person.MlbDebutDate;
+      EndDate = person.LastPlayedDate;
+      // ServiceYears
+      TeamName = person.CurrentTeam?.Name;
     }
   }
 }

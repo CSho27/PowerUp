@@ -1,8 +1,7 @@
-﻿using System;
+﻿using PowerUp.Fetchers.MLBStatsApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerUp.Fetchers.MLBLookupService
 {
@@ -11,10 +10,13 @@ namespace PowerUp.Fetchers.MLBLookupService
     public long TotalResults { get; }
     public IEnumerable<HittingStatsResult> Results { get; }
 
-    public HittingStatsResults(int totalResults, IEnumerable<LSHittingStatsResult> results)
+    public HittingStatsResults(StatElement? stats)
     {
-      TotalResults = totalResults;
-      Results = results.Select(r => new HittingStatsResult(r));
+      var validSplits = stats?.Splits.Where(s => s.Team != null).ToList() ?? [];
+      TotalResults = validSplits.Count;
+      Results = validSplits
+        .Select(r => new HittingStatsResult(r))
+        .ToList();
     }
   }
 
@@ -22,7 +24,6 @@ namespace PowerUp.Fetchers.MLBLookupService
   {
     public int LSPlayerId { get; }
     public int Year { get; }
-    public int TeamSeq { get; }
     public int LSTeamId { get; }
     
     public int GamesPlayed { get; }
@@ -60,46 +61,52 @@ namespace PowerUp.Fetchers.MLBLookupService
     public int? StolenBases { get; }
     public int? CaughtStealing { get; }
 
-    public HittingStatsResult(LSHittingStatsResult result)
+    public HittingStatsResult(Split split)
     {
-      LSPlayerId = int.Parse(result.player_id!);
-      Year = int.Parse(result.season!);
-      TeamSeq = (int)double.Parse(result.team_seq!);
-      LSTeamId = int.Parse(result.team_id!);
-      GamesPlayed = int.Parse(result.g!);
-      AtBats = int.Parse(result.ab!);
-      PlateAppearances = int.Parse(result.tpa!);
-      Hits = int.Parse(result.h!);
-      Doubles = int.Parse(result.d!);
-      Triples = int.Parse(result.t!);
-      HomeRuns = int.Parse(result.hr!);
-      ExtraBaseHits = int.Parse(result.xbh!);
-      TotalBases = int.Parse(result.tb!);
-      Walks = int.Parse(result.bb!);
-      IntentionalWalks = result.ibb.TryParseInt();
-      HitByPitches = result.hbp!.TryParseInt();
-      RunsBattedIn = int.Parse(result.rbi!);
-      RunnersLeftOnBase = result.lob.TryParseInt();
-      Runs = result.r.TryParseInt();
-      Strikeouts = result.so.TryParseInt();
-      GroundOuts = result.go.TryParseInt();
-      AirOuts = result.ao.TryParseInt();
-      HardGrounders = result.hgnd.TryParseInt();
-      HardLineDrives = result.hldr.TryParseInt();
-      HardFlyBalls = result.hfly.TryParseInt();
-      HardPopUps = result.hpop.TryParseInt();
-      GroundedIntoDoublePlay = result.gidp.TryParseInt();
-      SacrificeFlies = result.sf.TryParseInt();
-      SacrificeBunts = result.sac.TryParseInt();
-      ReachedOnErrors = result.roe.TryParseInt();
-      BattingAverage = result.avg.TryParseDouble();
-      SluggingPercentage = result.slg.TryParseDouble();
-      OnBasePercentage = result.obp.TryParseDouble();
-      OnBasePlusSluggingPercentage = result.ops.TryParseDouble();
-      BattingAverageOnBallsInPlay = result.babip.TryParseDouble();
-      PitchesPerPlateAppearance = result.ppa.TryParseDouble();
-      StolenBases = result.sb.TryParseInt();
-      CaughtStealing = result.cs.TryParseInt();
+      LSPlayerId = (int)split.Player!.Id;
+      Year = split.Season.TryParseInt()!.Value;
+      if (split.Stat is null)
+        throw new InvalidOperationException("Stat is must have a value");
+      
+      LSTeamId = (int)split.Team!.Id;
+      GamesPlayed = (int)split.Stat.GamesPlayed;
+      AtBats = (int)split.Stat.AtBats!;
+      var plateAppearances = (int)split.Stat.PlateAppearances!;
+      PlateAppearances = plateAppearances;
+      Hits = (int)split.Stat.Hits!;
+
+      var doubles = (int)split.Stat.Doubles!;
+      var triples = (int)split.Stat.Triples!;
+      var homeRuns = (int)split.Stat.HomeRuns!;
+      Doubles = doubles;
+      Triples = triples;
+      HomeRuns = homeRuns;
+      ExtraBaseHits = doubles + triples + homeRuns;
+      TotalBases = (int)split.Stat.TotalBases!;
+      Walks = (int)split.Stat.BaseOnBalls!;
+      IntentionalWalks = (int?)split.Stat.IntentionalWalks;
+      HitByPitches = (int?)split.Stat.HitByPitch;
+      RunsBattedIn = (int)split.Stat.Rbi!;
+      RunnersLeftOnBase = (int?)split.Stat.LeftOnBase;
+      Runs = (int?)split.Stat.Runs;
+      Strikeouts = (int?)split.Stat.StrikeOuts;
+      GroundOuts = (int?)split.Stat.GroundOuts;
+      AirOuts = (int?)split.Stat.AirOuts;
+      GroundedIntoDoublePlay = (int?)split.Stat.GroundIntoDoublePlay;
+      SacrificeFlies = (int?)split.Stat.SacFlies;
+      SacrificeBunts = (int?)split.Stat.SacBunts;
+      ReachedOnErrors = (int?)split.Stat.Errors;
+      BattingAverage = split.Stat.Avg.TryParseDouble();
+      SluggingPercentage = split.Stat.Slg.TryParseDouble();
+      OnBasePercentage = split.Stat.Obp.TryParseDouble();
+      OnBasePlusSluggingPercentage = split.Stat.Ops.TryParseDouble();
+      BattingAverageOnBallsInPlay = split.Stat.Babip.TryParseDouble();
+      var numberOfPitches = (int)(split.Stat.NumberOfPitches ?? 0);
+      PitchesPerPlateAppearance = numberOfPitches > 0 && plateAppearances > 0
+        ? numberOfPitches / (double)plateAppearances
+        : null;
+      StolenBases = (int?)split.Stat.StolenBases;
+      CaughtStealing = (int?)split.Stat.CaughtStealing;
     }
   }
 }
