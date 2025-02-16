@@ -83,5 +83,10 @@ namespace PowerUp
       index = null;
       return default;
     }
+
+    public static string StringJoin<TSource>(this IEnumerable<TSource> source, string separator = "")
+    {
+      return string.Join(separator, source);
+    }
   }
 }
