@@ -53,6 +53,7 @@ namespace PowerUp.CommandLine.Commands.Csv
         var filePath = outFile ?? $"{roster.Name}.csv";
         using var file = File.OpenWrite(filePath);
         await _csvService.ExportRoster(file, roster);
+        _logger.LogInformation($"Writing output to {file.Name}");
         file.Close();
       });
     }
