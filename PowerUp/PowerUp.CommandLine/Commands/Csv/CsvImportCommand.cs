@@ -41,6 +41,8 @@ namespace PowerUp.CommandLine.Commands.Csv
         var roster = await csvService.ImportRoster(file, rosterName);
         if (roster is not null)
           DatabaseConfig.Database.Save(roster);
+
+        logger.LogInformation($"Successfully imported roster as {rosterName}");
       });
     }
   }
