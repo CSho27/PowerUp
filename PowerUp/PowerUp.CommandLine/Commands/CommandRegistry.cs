@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine.NamingConventionBinder;
 using System.CommandLine;
+using PowerUp.CommandLine.Commands.Rosters;
+using PowerUp.CommandLine.Commands.Csv;
 
 namespace PowerUp.CommandLine.Commands
 {
@@ -8,7 +10,8 @@ namespace PowerUp.CommandLine.Commands
   {
     public static IServiceCollection RegisterCommands(this IServiceCollection services)
     {
-      // Register commands here
+      services.AddTransient<ICommand, ListRostersCommand>();
+      services.AddTransient<ICommand, CsvExportCommand>();
       return services;
     }
 
