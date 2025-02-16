@@ -1,14 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using PowerUp.CSV;
+using PowerUp.CommandLine.Rendering;
 using PowerUp.Databases;
 using PowerUp.Entities.Rosters;
-using PowerUp.Libraries;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
-using System.CommandLine.Rendering;
-using System.CommandLine.Rendering.Views;
 
 namespace PowerUp.CommandLine.Commands.Rosters
 {
@@ -18,8 +14,10 @@ namespace PowerUp.CommandLine.Commands.Rosters
   {
     public Command Build()
     {
-      var command = new Command("list-rosters");
-      command.Handler = GetHandler();
+      var command = new Command("list-rosters")
+      {
+        Handler = GetHandler()
+      };
       return command;
     }
 
@@ -28,13 +26,12 @@ namespace PowerUp.CommandLine.Commands.Rosters
       return CommandHandler.Create(() =>
       {
         var rosters = DatabaseConfig.Database.LoadAll<Roster>();
-        var table = new TableView<Roster>() { Items = rosters.ToList() };
-        table.AddColumn(r => r.Id, "Id");
-        table.AddColumn(t => t.Name, "Roster");
-        table.AddColumn(t => t.SourceType, "Type");
-        var console = new SystemConsole();
-        var renderer = new ConsoleRenderer(console);
-        table.Render(renderer, Region.Scrolling);
+        var table = new Table<Roster>([
+          new Column<Roster>("Id", r => r.Id),
+          new Column<Roster>("Roster", r => r.Name),
+          new Column<Roster>("Type", r => r.SourceType), 
+        ]);
+        Console.WriteLine(table.Render(rosters));
       });
     }
   }
