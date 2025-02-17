@@ -13,6 +13,7 @@ namespace PowerUp.CommandLine.Commands
       services.AddTransient<ICommand, ListRostersCommand>();
       services.AddTransient<ICommand, CsvExportCommand>();
       services.AddTransient<ICommand, CsvImportCommand>();
+      services.AddTransient<ICommand, WriteGameSaveCommand>();
       return services;
     }
 
