@@ -11,7 +11,6 @@ using PowerUp.Mappers.Players;
 using PowerUp.Providers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace PowerUp.GameSave.Api
@@ -19,6 +18,7 @@ namespace PowerUp.GameSave.Api
   public interface IRosterExportApi
   {
     void ExportRoster(RosterExportParameters parameters);
+    void WriteRosterToFile(Roster roster, string filePath);
   }
 
   public class RosterExportApi : IRosterExportApi
@@ -53,9 +53,18 @@ namespace PowerUp.GameSave.Api
 
       var roster = parameters.Roster!;
       var (rosterFilePath, gameSaveId) = _gameSaveManager.CreateNewGameSave(parameters.ExportDirectory, parameters.SourceGameSave, roster.Name);
+      WriteRosterToFile(roster, rosterFilePath, gameSaveId);
+    }
 
+    public void WriteRosterToFile(Roster roster, string filePath)
+    {
+      WriteRosterToFile(roster, filePath, 0);
+    }
+
+    private void WriteRosterToFile(Roster roster, string filePath, int gameSaveId)
+    {
       // CHRISTODO: Don't hard code endian-ness
-      using (var writer = new GameSaveWriter(_characterLibrary, rosterFilePath, ByteOrder.BigEndian))
+      using (var writer = new GameSaveWriter(_characterLibrary, filePath, ByteOrder.BigEndian))
       {
         var teams = roster.GetTeams()
           .OrderBy(t => t.Value.GetDivision())
@@ -78,7 +87,7 @@ namespace PowerUp.GameSave.Api
 
         var gsPlayers = new List<IGSPlayer>();
         var ppIdsByTeamAndId = new Dictionary<MLBPPTeam, IDictionary<int, ushort>>();
-        for(var i=0; i<playersOnTeams.Count; i++)
+        for (var i = 0; i < playersOnTeams.Count; i++)
         {
           var player = playersOnTeams[i];
           var ppId = (ushort)ppIdByExportId[player.playerExportId];
@@ -114,12 +123,12 @@ namespace PowerUp.GameSave.Api
           Players = gsPlayers.OrderBy(p => p.PowerProsId).Cast<GSPlayer>(),
           Teams = teams.Select(t => TeamMapper.MapToGSTeam(t.Key, t.Value, ppIdsByTeamAndId[t.Value])),
           Lineups = teams.Select(t => TeamMapper.MapToGSLineup(t.Key, ppIdsByTeamAndId[t.Value])),
-          FreeAgents = new GSFreeAgentList 
-          { 
+          FreeAgents = new GSFreeAgentList
+          {
             FreeAgents = mappedFAs
               .Select(fa => new GSFreeAgent { PowerProsPlayerId = fa.PowerProsId })
               .Concat(blankFreeAgentSpots)
-          } 
+          }
         };
 
         writer.Write(gameSave);

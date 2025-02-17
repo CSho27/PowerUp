@@ -44,6 +44,21 @@ namespace PowerUp.Entities.Teams.Api
       var distinctCount = parameters.MLBPlayers.Concat(parameters.AAAPlayers).DistinctBy(p => p.PlayerId).Count();
       if (distinctCount != overallPlayerCount)
         throw new InvalidOperationException("Player cannot exist more than once on a team");
+
+      var noDhLineupCount = parameters.MLBPlayers.Count(p => p.OrderInNoDHLineup.HasValue);
+      if (noDhLineupCount != 8)
+        throw new InvalidOperationException("Incorrect number of players in noDhLineup");
+      var hasMissingPositionsNoDh = parameters.MLBPlayers.Any(p => p.OrderInNoDHLineup.HasValue && !p.PositionInNoDHLineup.HasValue);
+      if (hasMissingPositionsNoDh)
+        throw new InvalidOperationException("Some players in noDhLineup missing positions");
+
+      var dhLineupCount = parameters.MLBPlayers.Count(p => p.OrderInDHLineup.HasValue);
+      if(dhLineupCount != 9)
+        throw new InvalidOperationException("Incorrect number of players in dhLineup");
+
+      var hasMissingPositionsDh = parameters.MLBPlayers.Any(p => p.OrderInDHLineup.HasValue && !p.PositionInDHLineup.HasValue);
+      if (hasMissingPositionsDh)
+        throw new InvalidOperationException("Some players in noDhLineup missing positions");
     }
   }
 }

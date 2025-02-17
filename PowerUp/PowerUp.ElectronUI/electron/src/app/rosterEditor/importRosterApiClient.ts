@@ -35,4 +35,24 @@ export class ImportRosterApiClient {
       }
     })
   }
+
+  executeCsv = (request: ImportRosterRequest): Promise<ImportRosterResponse> => {
+    return this.performWithSpinner(async () => {
+      try {
+        const formData = new FormData();
+        formData.append("data", request.file);
+        formData.append("importSource", request.importSource);
+        const response = await fetch('./csv/import', {
+          method: 'POST',
+          mode: 'same-origin',
+          body: formData
+        });
+        const responseJson = await response.json(); 
+        return responseJson;
+      } catch (error) {
+        console.error(error);
+        return new Promise((_, reject) => reject(error));
+      }
+    })
+  }
 }

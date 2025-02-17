@@ -55,7 +55,6 @@ namespace PowerUp.ElectronUI
       app.UseStaticFiles();
 
       app.UseRouting();
-
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllerRoute(
@@ -70,6 +69,7 @@ namespace PowerUp.ElectronUI
           name: "default",
           pattern: "{controller=DirectorySelection}/{action=SelectDirectory}"
         );
+        endpoints.MapControllers();
       });
 
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };

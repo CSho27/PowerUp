@@ -12,7 +12,7 @@ namespace PowerUp.Entities.Teams.Api
   {
     Team CreateDefaultTeam(EntitySourceType sourceType, Action<Player> savePlayer);
     Team CreateCustomCopyOfTeam(Team team);
-    Team CreateFromPlayers(IEnumerable<int> playerIds, string name);
+    Team CreateFromPlayers(IEnumerable<int> playerIds, string name, EntitySourceType sourceType = EntitySourceType.Custom);
     void ReplacePlayer(Team team, Player playerToRemove, Player playerToInsert);
     void EditTeam(Team team, TeamParameters parameters);
   }
@@ -179,7 +179,7 @@ namespace PowerUp.Entities.Teams.Api
         .Select(p => new LineupSlot { PlayerId = p.PlayerId, Position = p.PositionInDHLineup!.Value });
     }
 
-    public Team CreateFromPlayers(IEnumerable<int> playerIds, string name)
+    public Team CreateFromPlayers(IEnumerable<int> playerIds, string name, EntitySourceType sourceType = EntitySourceType.Generated)
     {
       var players = playerIds.Select(DatabaseConfig.Database.Load<Player>).ToList();
       var rosterParams = players.Select(p => new RosterParams(
@@ -199,7 +199,7 @@ namespace PowerUp.Entities.Teams.Api
       var team = new Team
       {
         Name = name,
-        SourceType = EntitySourceType.Generated,
+        SourceType = sourceType,
         PlayerDefinitions = playersOnTeam.Select(p => new PlayerRoleDefinition(p.Id!.Value)
         {
           IsAAA = !rosterResults.TwentyFiveManRoster.Contains(p.Id!.Value),

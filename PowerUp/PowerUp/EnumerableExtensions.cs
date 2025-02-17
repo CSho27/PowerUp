@@ -64,5 +64,29 @@ namespace PowerUp
       index = Math.Max(0, Math.Min(index, sortedData.Length - 1));
       return sortedData[index];
     }
+
+    public static TSource? FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> elementMatches, out int? index)
+    {
+      var enumerator = source.GetEnumerator();
+      var i = 0;
+      while (enumerator.MoveNext())
+      {
+        if (elementMatches(enumerator.Current))
+        {
+          index = i;
+          return enumerator.Current;
+        }
+
+        i++;
+      }
+
+      index = null;
+      return default;
+    }
+
+    public static string StringJoin<TSource>(this IEnumerable<TSource> source, string separator = "")
+    {
+      return string.Join(separator, source);
+    }
   }
 }

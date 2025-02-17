@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PowerUp;
 using PowerUp.CommandLine.Commands;
+using PowerUp.GameSave.Api;
+using PowerUp.Libraries;
 using Serilog;
 using System.CommandLine;
 
@@ -16,9 +18,12 @@ async Task Run(IHost host)
 
   await using var scope = host.Services.CreateAsyncScope();
   var commands = CommandRegistry.BuildRootCommand(scope.ServiceProvider, () => { quit = true; });
+  var baseRosterInitializer = host.Services.GetRequiredService<IBaseRosterInitializer>();
+  baseRosterInitializer.Initialize();
 
   while (!quit)
   {
+    Console.WriteLine();
     Console.WriteLine();
     Console.WriteLine("Enter command:");
     Console.Write(">");
@@ -47,13 +52,14 @@ static IHost StartUp()
 
   builder.UseSerilog();
 
-  var dataDirectory = configuration["DataDirectory"];
-  Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory ?? "null")}");
+  var dataDirectory = configuration["DataDirectory"] ?? "null";
+  Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
   builder.ConfigureServices(services =>
   {
     services.RegisterCommands();
     services.RegisterDependencies();
+    services.RegisterLibraries(dataDirectory);
     services.AddLogging();
   });
 

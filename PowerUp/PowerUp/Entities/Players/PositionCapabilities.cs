@@ -16,16 +16,18 @@ namespace PowerUp.Entities.Players
 
     public IDictionary<Position, Grade> GetDictionary()
     {
-      var dict = new Dictionary<Position, Grade>();
-      dict.Add(Position.Pitcher, Pitcher);
-      dict.Add(Position.Catcher, Catcher);
-      dict.Add(Position.FirstBase, FirstBase);
-      dict.Add(Position.SecondBase, SecondBase);
-      dict.Add(Position.ThirdBase, ThirdBase);
-      dict.Add(Position.Shortstop, Shortstop);
-      dict.Add(Position.LeftField, LeftField);
-      dict.Add(Position.CenterField, CenterField);
-      dict.Add(Position.RightField, RightField);
+      var dict = new Dictionary<Position, Grade>
+      {
+        { Position.Pitcher, Pitcher },
+        { Position.Catcher, Catcher },
+        { Position.FirstBase, FirstBase },
+        { Position.SecondBase, SecondBase },
+        { Position.ThirdBase, ThirdBase },
+        { Position.Shortstop, Shortstop },
+        { Position.LeftField, LeftField },
+        { Position.CenterField, CenterField },
+        { Position.RightField, RightField }
+      };
       return dict;
     }
   }

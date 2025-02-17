@@ -1,6 +1,5 @@
 ﻿using PowerUp;
 using PowerUp.Entities.Players;
-using PowerUp.Generators;
 using PowerUp.Libraries;
 using System;
 using System.Collections.Generic;
@@ -90,17 +89,10 @@ namespace PowerUp.Generators
 
       public override bool SetProperty(Player player, PlayerGenerationData datasetCollection)
       {
-        var firstLetterOfFirstName = datasetCollection.PlayerInfo!.FirstNameUsed.FirstCharacter();
-        var lastName = datasetCollection.PlayerInfo!.LastName;
-
-        var firstDotLast = $"{firstLetterOfFirstName}.{lastName}";
-        if(firstDotLast.Length <= 10)
-        {
-          player.SavedName = firstDotLast.RemoveAccents();
-          return true;
-        }
-        
-        player.SavedName = lastName.RemoveAccents().ShortenNameToLength(10);
+        player.SavedName = NameUtils.GetSavedName(
+          datasetCollection.PlayerInfo!.FirstNameUsed, 
+          datasetCollection.PlayerInfo!.LastName
+        );
         return true;
       }
     }
@@ -266,7 +258,11 @@ namespace PowerUp.Generators
           return false;
         }
 
-        player.BattingAverage = datasetCollection.HittingStats.BattingAverage;
+        var battingAverage = datasetCollection.HittingStats.BattingAverage;
+        if (!battingAverage.HasValue || double.IsNaN(battingAverage.Value))
+          return false;
+
+        player.BattingAverage = battingAverage;
         return true;
       }
     }
@@ -320,7 +316,11 @@ namespace PowerUp.Generators
           return false;
         }
 
-        player.EarnedRunAverage = datasetCollection.PitchingStats.EarnedRunAverage;
+        var era = datasetCollection.PitchingStats.EarnedRunAverage;
+        if (!era.HasValue || double.IsNaN(era.Value))
+          return false;
+
+        player.EarnedRunAverage = era;
         return true;
       }
     }

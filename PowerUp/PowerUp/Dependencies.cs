@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using PowerUp.CSV;
+using Microsoft.Extensions.DependencyInjection;
 using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams.Api;
@@ -45,6 +46,9 @@ namespace PowerUp
       services.AddTransient<IPowerProsIdAssigner>(provider => new PowerProsIdAssigner());
       services.AddTransient<IBattingStanceGuesser>(provider => new BattingStanceGuesser(provider.GetRequiredService<IBattingStanceLibrary>()));
       services.AddTransient<IPitchingMechanicsGuesser>(provider => new PitchingMechanicsGuesser(provider.GetRequiredService<IPitchingMechanicsLibrary>()));
+      services.AddTransient<IPlayerCsvReader, RosterCsvReader>();
+      services.AddTransient<IPlayerCsvWriter, RosterCsvWriter>();
+      services.AddTransient<IPlayerCsvService, RosterCsvService>();
     }
   }
 }
