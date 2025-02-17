@@ -3,6 +3,7 @@ using System.CommandLine.NamingConventionBinder;
 using System.CommandLine;
 using PowerUp.CommandLine.Commands.Rosters;
 using PowerUp.CommandLine.Commands.Csv;
+using PowerUp.CommandLine.Commands.GameSave;
 
 namespace PowerUp.CommandLine.Commands
 {
@@ -14,6 +15,7 @@ namespace PowerUp.CommandLine.Commands
       services.AddTransient<ICommand, CsvExportCommand>();
       services.AddTransient<ICommand, CsvImportCommand>();
       services.AddTransient<ICommand, WriteGameSaveCommand>();
+      services.AddTransient<ICommand, ReadGameSaveCommand>();
       return services;
     }
 
