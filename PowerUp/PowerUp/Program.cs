@@ -520,7 +520,7 @@ namespace PowerUp
 
     static void GetAllTeamsAndIds(IMLBLookupServiceClient client)
     {
-      var teamResults = new List<TeamResult>();
+      var teamResults = new List<Fetchers.MLBLookupService.TeamResult>();
       Task.Run(async () =>
       {
         for (int year = 1876; year <= 2022; year++)

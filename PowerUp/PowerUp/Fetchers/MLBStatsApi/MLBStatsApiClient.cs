@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -6,9 +7,11 @@ namespace PowerUp.Fetchers.MLBStatsApi
 {
   public interface IMLBStatsApiClient
   {
+    Task<TeamListResult> GetTeams(int year);
     Task<RosterResult> GetTeamRoster(long mlbTeamId, int year);
-    public Task<Person> GetPlayerInfo(long mlbPlayerId);
-    public Task<Person> GetPlayerStatistics(long mlbPlayerId, int year);
+    Task<VenueResult> GetVenues(IEnumerable<long> venueIds);
+    Task<Person> GetPlayerInfo(long mlbPlayerId);
+    Task<Person> GetPlayerStatistics(long mlbPlayerId, int year);
   }
 
   public class MLBStatsApiClient : IMLBStatsApiClient
@@ -25,6 +28,15 @@ namespace PowerUp.Fetchers.MLBStatsApi
         new { rosterType = "active", season = year.ToString() }
       );
       return await _client.Get<RosterResult>(url);
+    }
+
+    public async Task<TeamListResult> GetTeams(int year)
+    {
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "teams" },
+        new { sportId = 1, season = year.ToString(), leagueIds = "103,104,106" }
+      );
+      return await _client.Get<TeamListResult>(url);
     }
 
     public Task<Person> GetPlayerInfo(long mlbPlayerId)
@@ -57,6 +69,17 @@ namespace PowerUp.Fetchers.MLBStatsApi
         throw new InvalidOperationException("No player info found for this id");
 
       return person;
+    }
+
+    public async Task<VenueResult> GetVenues(IEnumerable<long> venueIds)
+    {
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "venues" },
+        new { venueIds = venueIds.StringJoin(","), hydrate = "location" }
+      );
+
+
+      return await _client.Get<VenueResult>(url);
     }
   }
 }
