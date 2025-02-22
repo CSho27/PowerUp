@@ -14,7 +14,7 @@ namespace PowerUp.ElectronUI.Api.Logging
 
     public ResultResponse Execute(WriteLogRequest request)
     {
-      _logger.Log(request.LogLevel, request.Message);
+      _logger.Log(request.LogLevel, $"(UI): {request.Message}");
       return ResultResponse.Succeeded();
     }
   }

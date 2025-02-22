@@ -101,6 +101,7 @@ function RosterExportModal(props: RosterExportModalProps) {
         </FlexRow>
       </FlexRow>
       <FileSystemSelector
+        appContext={appContext}
         id='gameSaveToCopyFromSelector'
         type='File'
         selectedPath={state.useBaseGameSave ? undefined : state.selectedGameSaveFile}

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
@@ -22,7 +22,10 @@ interface State {
 export function ImportRosterModal(props: ImportRosterModalProps) {
   const { appContext, closeDialog } = props;
 
-  const importApiClientRef = useRef(new ImportRosterApiClient(appContext.performWithSpinner));
+  const importApiClient = useMemo(() => new ImportRosterApiClient(
+    appContext.commandFetcher,
+    appContext.performWithSpinner
+  ), []);
 
   const [state, setState] = useState<State>({
     rosterName: undefined,
@@ -85,8 +88,8 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
   async function importRoster() {
     const request: ImportRosterRequest = { file: state.selectedFile!, importSource: state.rosterName! };
     const response = state.importType === 'game-save'
-      ? await importApiClientRef.current.execute(request)
-      : await importApiClientRef.current.executeCsv(request)
+      ? await importApiClient.execute(request)
+      : await importApiClient.executeCsv(request)
     appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 }

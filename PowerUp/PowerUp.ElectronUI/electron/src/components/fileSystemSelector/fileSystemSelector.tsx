@@ -1,9 +1,11 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import styled from "styled-components";
 import { Button } from "../button/button";
 import { FileSystemSelectionApiClient, FileSystemSelectionType } from "./fileSystemSelectionApiClient";
+import { AppContext } from "../../app/app";
 
 export interface FileSystemSelectorProps {
+  appContext: AppContext;
   type: FileSystemSelectionType;
   selectedPath: string | undefined;
   onSelection: (path: string | undefined) => void;
@@ -21,8 +23,8 @@ export type FileExtension =
 | 'dat'
 
 export function FileSystemSelector(props: FileSystemSelectorProps) {
-  const { type, selectedPath, onSelection, id, fileFilter, disabled } = props;
-  const directorySelectionApiClientRef = useRef(new FileSystemSelectionApiClient());
+  const { appContext, type, selectedPath, onSelection, id, fileFilter, disabled } = props;
+  const directorySelectionApiClient = useMemo(() => new FileSystemSelectionApiClient(appContext.commandFetcher), []);
   const splitPath = selectedPath?.split(/\\|\//);
   const selectedItem = splitPath
     ? `/${splitPath.pop()}`
@@ -49,7 +51,7 @@ export function FileSystemSelector(props: FileSystemSelectorProps) {
   </FileSystemSelectorWrapper>
 
   async function selectDirectory() {
-    const response = await directorySelectionApiClientRef.current.execute({ 
+    const response = await directorySelectionApiClient.execute({ 
       selectionType: type,
       fileFilter: !!fileFilter
         ? { name: fileFilter.name, allowedExtensions: fileFilter.allowedExtensions }

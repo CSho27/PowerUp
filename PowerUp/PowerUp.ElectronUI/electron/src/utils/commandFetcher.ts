@@ -11,6 +11,7 @@ export class CommandFetcher {
 
   readonly execute = async (commandName: string, request: any, useSpinner?: boolean): Promise<any> => {
     const shouldUseSpinner = useSpinner ?? true; 
+    if(commandName !== 'WriteLog') this.log('Debug', `Executing command: ${commandName} with request: ${JSON.stringify(request)}`);
     return shouldUseSpinner
       ? this.performWithSpinner(() => this.performFetch(commandName, request))
       : this.performFetch(commandName, request);
