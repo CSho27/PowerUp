@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using PowerUp.Fetchers.Algolia;
 using PowerUp.Fetchers.MLBStatsApi;
@@ -22,7 +24,6 @@ namespace PowerUp.Fetchers.MLBLookupService
 
   public class MLBLookupServiceClient : IMLBLookupServiceClient
   {
-    private const string BASE_URL = "http://lookup-service-prod.mlb.com/json";
     private readonly ApiClient _apiClient = new ApiClient();
     private readonly IAlgoliaClient _algoliaClient;
     private readonly IMLBStatsApiClient _mlbStatsApiClient;
@@ -38,11 +39,6 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<PlayerSearchResults> SearchPlayer(string name)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.search_player_all.bam" },
-        new { sport_code = "\'mlb\'", name_part = $"\'{name}%\'" }
-      );
-
       var searchResponse = await _algoliaClient.SearchPlayer(name);
       var totalResults = searchResponse.NbHits;
 
@@ -91,30 +87,24 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<TeamsForYearResults> GetTeamsForYear(int year)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.team_all_season.bam" },
-        new { sport_code = "\'mlb\'", all_star_sw = "\'N\'", season = $"\'{year}\'" }
-      );
-
-      var response = await _apiClient.Get<LSTeamsResponse>(url);
-      var results = response!.team_all_season!.queryResults!;
-      var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamResult>(results.row)!;
-      return new TeamsForYearResults(totalResults, deserializedResults);
+      var teamsResponse = await _mlbStatsApiClient.GetTeams(year);
+      return await GetResultsForTeams(teamsResponse.Teams, year);
     }
 
     public async Task<TeamsForYearResults> GetAllStarTeamsForYear(int year)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.team_all_season.bam" },
-        new { sport_code = "\'mlb\'", all_star_sw = "\'Y\'", season = $"\'{year}\'" }
-      );
+      var alAllStars = await _mlbStatsApiClient.GetTeam(159, year);
+      var nlAllStars = await _mlbStatsApiClient.GetTeam(160, year);
+      var allStarTeams = alAllStars.Teams.Concat(nlAllStars.Teams).ToList();
+      return await GetResultsForTeams(allStarTeams, year);
+    }
 
-      var response = await _apiClient.Get<LSTeamsResponse>(url);
-      var results = response!.team_all_season!.queryResults!;
-      var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamResult>(results.row)!;
-      return new TeamsForYearResults(totalResults, deserializedResults);
+    private async Task<TeamsForYearResults> GetResultsForTeams(IEnumerable<TeamEntry> teams, int year)
+    {
+      var venueIds = teams.Select(t => t.Venue?.Id).Where(id => id is not null).Distinct().Cast<long>();
+      var venuesResponse = await _mlbStatsApiClient.GetVenues(venueIds, year);
+      var teamAndVenues = teams.Select(t => (t, venuesResponse.Venues.FirstOrDefault(v => v.Id == t.Venue?.Id)));
+      return new TeamsForYearResults(teamAndVenues);
     }
   }
 }

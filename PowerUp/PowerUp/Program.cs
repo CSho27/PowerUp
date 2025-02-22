@@ -54,8 +54,8 @@ namespace PowerUp
         , new BattingStanceGuesser(battingStanceLibrary)
         , new PitchingMechanicsGuesser(pitchingMechanicsLibrary)
         );
-      var teamGenerator = new TeamGenerator(mlbStatsApiClient, playerGenerator);
-      var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
+      //var teamGenerator = new TeamGenerator(mlbStatsApiClient, playerGenerator);
+      //var rosterGenerator = new RosterGenerator(mlbLookupServiceClient, teamGenerator);
 
       //DatabaseConfig.Initialize(DATA_DIRECTORY);
       //AnalyzeGameSave(characterLibrary, savedNameLibrary);
@@ -78,8 +78,8 @@ namespace PowerUp
       //ReadSalaryInfo(characterLibrary);
       //CopyDir();
       //var results = new MLBStatsApiClient().GetFieldingStats(621035, 2016).GetAwaiter().GetResult();
-      var draftPoolGenerator = new DraftPoolGenerator(mlbLookupServiceClient, mlbStatsApiClient, playerGenerator);
-      draftPoolGenerator.GenerateDraftPool(lsStatsAlgorithm, 100).GetAwaiter().GetResult();
+      //var draftPoolGenerator = new DraftPoolGenerator(mlbLookupServiceClient, mlbStatsApiClient, playerGenerator);
+      //draftPoolGenerator.GenerateDraftPool(lsStatsAlgorithm, 100).GetAwaiter().GetResult();
     }
 
     static TimeSpan TimeAction(Action action)
@@ -520,7 +520,7 @@ namespace PowerUp
 
     static void GetAllTeamsAndIds(IMLBLookupServiceClient client)
     {
-      var teamResults = new List<TeamResult>();
+      var teamResults = new List<Fetchers.MLBLookupService.TeamResult>();
       Task.Run(async () =>
       {
         for (int year = 1876; year <= 2022; year++)

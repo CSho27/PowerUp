@@ -1,8 +1,8 @@
-﻿using PowerUp.Databases;
+﻿using Microsoft.Extensions.Logging;
+using PowerUp.Databases;
 using PowerUp.Entities;
 using PowerUp.Entities.Players;
 using PowerUp.Entities.Teams;
-using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.Fetchers.MLBStatsApi;
 using System;
 using System.Collections.Generic;
@@ -36,14 +36,17 @@ namespace PowerUp.Generators
 
   public class TeamGenerator : ITeamGenerator
   {
+    private readonly ILogger<TeamGenerator> _logger;
     private readonly IMLBStatsApiClient _mlbStatsApiClient;
     private readonly IPlayerGenerator _playerGenerator;
 
     public TeamGenerator(
+      ILogger<TeamGenerator> logger,
       IMLBStatsApiClient mlbStatsApiClient,
       IPlayerGenerator playerGenerator
     )
     {
+      _logger = logger;
       _mlbStatsApiClient = mlbStatsApiClient;
       _playerGenerator = playerGenerator;
     }
@@ -71,7 +74,7 @@ namespace PowerUp.Generators
         } catch (Exception ex)
         {
           warnings.Add(new GeneratorWarning("Player", "GenerationFailed", $"Failed to generaete {playerInformalDisplayName}"));
-          Console.WriteLine($"Failed to generate {year} {playerInformalDisplayName} {ex}");
+          _logger.LogError($"Failed to generate {year} {playerInformalDisplayName} {ex}");
         }
 
       }

@@ -1,4 +1,5 @@
-﻿using PowerUp.Entities.Players;
+﻿using Microsoft.Extensions.Logging;
+using PowerUp.Entities.Players;
 using System;
 using System.Text.RegularExpressions;
 
@@ -28,7 +29,7 @@ namespace PowerUp.Fetchers.MLBLookupService
           var success = int.TryParse(positionId, out var pos);
           if (!success)
           {
-            Console.WriteLine($"{positionId} is not a valid integer");
+            Logging.Logger.LogWarning($"{positionId} is not a valid integer");
             return Position.DesignatedHitter;
           }
 
@@ -100,7 +101,7 @@ namespace PowerUp.Fetchers.MLBLookupService
         default:
           var success = Enum.TryParse<PlayerRosterStatus>(status, out var value);
           if(!success)
-            Console.WriteLine($"Unhandled PlayerRosterStatus {status}");
+            Logging.Logger.LogError($"Unhandled PlayerRosterStatus {status}");
           return success
             ? value
             : PlayerRosterStatus.Unhandled;

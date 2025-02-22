@@ -10,6 +10,7 @@ export interface RosterGenerationStatusResponse {
   percentCompletion: number;
   estimatedTimeToCompletion: string;
   isComplete: boolean;
+  isFailed: boolean;
   completedRosterId: number | null;
 }
 

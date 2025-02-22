@@ -5,6 +5,7 @@ using Newtonsoft.Json.Serialization;
 using PowerUp.Databases;
 using PowerUp.ElectronUI.StartupConfig;
 using PowerUp.Libraries;
+using Serilog;
 
 namespace PowerUp.ElectronUI
 {
@@ -23,20 +24,24 @@ namespace PowerUp.ElectronUI
       services.AddControllersWithViews();
       services.RegisterCommandsForDI();
 
-      var dataDirectory = Configuration["DataDirectory"];
-      Console.WriteLine($"Data Directory: {Path.GetFullPath(dataDirectory)}");
+      var dataDirectory = Configuration["DataDirectory"] ?? "";
+      Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
-      DatabaseConfig.Initialize(dataDirectory);
-      Console.WriteLine("RegisteringLibraries");
+      var loggerFactory = LoggerFactory.Create(builder => builder.AddSerilog());
+      Logging.Initialize(loggerFactory.CreateLogger("Static"));
+      DatabaseConfig.Initialize(loggerFactory.CreateLogger<EntityDatabase>(), dataDirectory);
+
+      Log.Debug("RegisteringLibraries");
       services.RegisterLibraries(dataDirectory);
-      Console.WriteLine("RegisteringDependencies");
+      Log.Debug("RegisteringDependencies");
       services.RegisterDependencies();
-      Console.WriteLine("ConfigureServices finished successfully");
+      Log.Debug("ConfigureServices finished successfully");
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+      Log.Debug($"Entered {nameof(Configure)}");
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
@@ -50,7 +55,7 @@ namespace PowerUp.ElectronUI
         app.UseHsts();
       }
 
-      Console.WriteLine("HttpsRedirection beginning...");
+      Log.Debug("HttpsRedirection beginning...");
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 

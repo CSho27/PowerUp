@@ -1,3 +1,4 @@
+import { CommandFetcher } from "../../utils/commandFetcher";
 import { PerformWithSpinnerCallback } from "../app";
 
 export interface ImportRosterRequest {
@@ -10,9 +11,14 @@ export interface ImportRosterResponse {
 }
 
 export class ImportRosterApiClient {
+  private readonly commandFetcher: CommandFetcher;
   private readonly performWithSpinner: PerformWithSpinnerCallback;
 
-  constructor(performWithSpinner: PerformWithSpinnerCallback) {
+  constructor(
+    commandFetcher: CommandFetcher,
+    performWithSpinner: PerformWithSpinnerCallback
+  ) {
+    this.commandFetcher = commandFetcher;
     this.performWithSpinner = performWithSpinner;
   }
 
@@ -30,7 +36,7 @@ export class ImportRosterApiClient {
         const responseJson = await response.json(); 
         return responseJson;
       } catch (error) {
-        console.error(error);
+        this.commandFetcher.log('Error', error);
         return new Promise((_, reject) => reject(error));
       }
     })
@@ -50,7 +56,7 @@ export class ImportRosterApiClient {
         const responseJson = await response.json(); 
         return responseJson;
       } catch (error) {
-        console.error(error);
+        this.commandFetcher.log('Error', error);
         return new Promise((_, reject) => reject(error));
       }
     })

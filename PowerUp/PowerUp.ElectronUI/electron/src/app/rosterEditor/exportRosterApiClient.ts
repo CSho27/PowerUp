@@ -4,7 +4,6 @@ import { PerformWithSpinnerCallback } from "../app";
 import { ResultResponse } from "../shared/resultResponse";
 import { ContentDisposition } from "../../utils/ContentDisposition";
 
-
 export interface ExportRosterRequest {
   rosterId: number;
   sourceGameSavePath?: string;
@@ -47,7 +46,7 @@ export class ExportRosterApiClient {
         const fileBytes = await response.blob();
         return new File([fileBytes], fileName ?? "Untitled");
       } catch (error) {
-        console.error(error);
+        this.commandFetcher.log('Error', error);
         return new Promise((_, reject) => reject(error));
       }
     })

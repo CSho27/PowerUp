@@ -1,4 +1,5 @@
-﻿using PowerUp.Entities.Players;
+﻿using Microsoft.Extensions.Logging;
+using PowerUp.Entities.Players;
 using PowerUp.Fetchers.MLBLookupService;
 using PowerUp.Fetchers.MLBStatsApi;
 using System;
@@ -30,16 +31,19 @@ namespace PowerUp.Generators
       { Position.CenterField, 1 },
     };
 
+    private readonly ILogger<DraftPoolGenerator> _logger;
     private readonly IMLBLookupServiceClient _mlbLookupServiceClient;
     private readonly IMLBStatsApiClient _mlbStatsApiClient;
     private readonly IPlayerGenerator _playerGenerator;
 
     public DraftPoolGenerator(
+      ILogger<DraftPoolGenerator> logger,
       IMLBLookupServiceClient mlbLookupServiceClient,
       IMLBStatsApiClient mlbStatsApiClient,
       IPlayerGenerator playerGenerator
     )
     {
+      _logger = logger;
       _mlbLookupServiceClient = mlbLookupServiceClient;
       _mlbStatsApiClient = mlbStatsApiClient;
       _playerGenerator = playerGenerator;
@@ -76,16 +80,16 @@ namespace PowerUp.Generators
         );
         if (isValidOverall && (allMinsFulfilled || playerFulfillsMin))
         {
-          Console.WriteLine($"Adding: {player.InformalDisplayName}");
+          _logger.LogInformation($"Adding: {player.InformalDisplayName}");
           draftPool.Add(player);
         }
         else
         {
-          Console.WriteLine($"Rejecting: {player.InformalDisplayName}");
+          _logger.LogInformation($"Rejecting: {player.InformalDisplayName}");
         }
       }
 
-      Console.WriteLine($"Draft Pool Average: {draftPool.Average(p => p.Overall)}");
+      _logger.LogInformation($"Draft Pool Average: {draftPool.Average(p => p.Overall)}");
       return draftPool;
     }
     

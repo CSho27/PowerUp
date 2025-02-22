@@ -13,7 +13,13 @@ namespace PowerUp.Generators
 {
   public interface IRosterGenerator
   {
-    RosterGenerationResult GenerateRoster(int year, PlayerGenerationAlgorithm playerGenerationAlgorithm, Action<ProgressUpdate>? onTeamProgressUpdate = null, Action<ProgressUpdate>? onPlayerProgressUpdate = null);
+    RosterGenerationResult GenerateRoster(
+      int year,
+      PlayerGenerationAlgorithm playerGenerationAlgorithm,
+      Action<ProgressUpdate>? onTeamProgressUpdate = null,
+      Action<ProgressUpdate>? onPlayerProgressUpdate = null,
+      Action? onFatalError = null
+    );
   }
 
   public class RosterGenerationResult
@@ -42,9 +48,27 @@ namespace PowerUp.Generators
       _teamGenerator = teamGenerator;
     }
 
-    public RosterGenerationResult GenerateRoster(int year, PlayerGenerationAlgorithm playerGenerationAlgorithm, Action<ProgressUpdate>? onTeamProgressUpdate = null, Action<ProgressUpdate>? onPlayerProgressUpdate = null)
+    public RosterGenerationResult GenerateRoster(
+      int year, 
+      PlayerGenerationAlgorithm playerGenerationAlgorithm, 
+      Action<ProgressUpdate>? onTeamProgressUpdate = null, 
+      Action<ProgressUpdate>? onPlayerProgressUpdate = null,
+      Action? onFatalError = null
+    )
     {
-      var teamResults = Task.Run(() => _mlbLookupServiceClient.GetTeamsForYear(year)).GetAwaiter().GetResult();
+      var teamResults = Task.Run(async () => {
+        try
+        {
+          return await _mlbLookupServiceClient.GetTeamsForYear(year);
+        }
+        catch (Exception)
+        {
+          if (onFatalError is not null) onFatalError();
+          return null;
+        }
+      }).GetAwaiter().GetResult();
+      if (teamResults is null) throw new Exception($"Failed to fetch teams for {year}");
+
       var teams = teamResults.Results.ToList();
       var playerIdsByLSPlayerId = new Dictionary<long, int>();
       var freeAgents = new List<Player>();
