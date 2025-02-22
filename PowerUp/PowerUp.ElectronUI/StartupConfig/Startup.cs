@@ -24,11 +24,13 @@ namespace PowerUp.ElectronUI
       services.AddControllersWithViews();
       services.RegisterCommandsForDI();
 
-      var dataDirectory = Configuration["DataDirectory"];
+      var dataDirectory = Configuration["DataDirectory"] ?? "";
       Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
       var loggerFactory = LoggerFactory.Create(builder => builder.AddSerilog());
+      Logging.Initialize(loggerFactory.CreateLogger("Static"));
       DatabaseConfig.Initialize(loggerFactory.CreateLogger<EntityDatabase>(), dataDirectory);
+
       Log.Debug("RegisteringLibraries");
       services.RegisterLibraries(dataDirectory);
       Log.Debug("RegisteringDependencies");
