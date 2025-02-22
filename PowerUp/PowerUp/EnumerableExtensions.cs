@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PowerUp
 {
@@ -87,6 +88,15 @@ namespace PowerUp
     public static string StringJoin<TSource>(this IEnumerable<TSource> source, string separator = "")
     {
       return string.Join(separator, source);
+    }
+
+    public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, Task<TResult>> fn)
+    {
+      var results = new List<TResult>();
+      var tasks = source.Select(fn);
+      foreach (var task in tasks)
+        results.Add(await task);
+      return results;
     }
   }
 }
