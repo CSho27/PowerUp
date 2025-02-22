@@ -26,11 +26,13 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 8.0.x
+        architecture: x64
         
     - name: Install .NET Core 5.0.0
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 5.0.x
+        architecture: x64
         
     - name: Install ElectronNET CLI
       run: dotnet tool install --global ElectronNET.CLI --version 13.5.1
