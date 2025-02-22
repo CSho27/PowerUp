@@ -18,6 +18,7 @@ namespace PowerUp.Entities.GenerationResults
     public int TotalTeamActions { get; set; }
     public int TotalPlayerActions { get; set; }
     public bool IsComplete => TotalTeamActions > 0 && CurrentTeamActionIndex >= TotalTeamActions;
+    public bool IsFailed { get; set; }
     public ProgressUpdate? Progress => CurrentTeamAction != null
       ? new ProgressUpdate(
          currentAction: CurrentTeamAction, 

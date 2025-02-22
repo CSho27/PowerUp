@@ -9,6 +9,7 @@ import { ProgressBar } from "../../components/progressBar/progressBar";
 import { AppContext } from "../app";
 import { RosterGenerationApiClient } from "./rosterGenerationApiClient";
 import { RosterGenerationStatusApiClient } from "./rosterGenerationStatusApiClient";
+import { ConfirmationModal } from "../../components/modal/confirmationModal";
 
 interface RosterGenerationModalProps {
   appContext: AppContext;
@@ -96,10 +97,20 @@ export function RosterGenerationModal(props: RosterGenerationModalProps) {
         estimatedTimeRemaining: status.estimatedTimeToCompletion
       }));
       
-      if(!!status.completedRosterId)
+      if(!!status.completedRosterId) {
         closeDialog(status.completedRosterId);
-      else
+      }
+      else if(status.isFailed) {
+        closeDialog(undefined);
+        await appContext.openModalAsync(closeAndResolve => <ConfirmationModal 
+          message="Failed to generate roster"
+          secondaryMessage='Please try again later'
+          closeDialog={closeAndResolve}
+        />)
+      }
+      else {
         setTimeout(pollProgress, 20);
+      }
     }
   }
 }

@@ -34,24 +34,35 @@ namespace PowerUp.ElectronUI.Api.Generation
       DatabaseConfig.Database.Save(generationStatus);
 
       Task.Run(() => {
-        var result = _rosterGenerator.GenerateRoster
-        ( year: request.Year
-        , playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm
-          ( _voiceLibrary
-          , _skinColorGuesser
-          , _battingStanceGuesser
-          , _pitchingMechanicsGuesser
-          )
-        , onTeamProgressUpdate: update => UpdateTeamProgressAndSave(update, generationStatus)
-        , onPlayerProgressUpdate: update => UpdatePlayerProgressAndSave(update, generationStatus)
-        );
+        try
+        {
+          var result = _rosterGenerator.GenerateRoster
+          (year: request.Year
+          , playerGenerationAlgorithm: new LSStatistcsPlayerGenerationAlgorithm
+            (_voiceLibrary
+            , _skinColorGuesser
+            , _battingStanceGuesser
+            , _pitchingMechanicsGuesser
+            )
+          , onTeamProgressUpdate: update => UpdateTeamProgressAndSave(update, generationStatus)
+          , onPlayerProgressUpdate: update => UpdatePlayerProgressAndSave(update, generationStatus)
+          , onFatalError: () => MarkFailedAndSave(generationStatus)
+          );
 
-        DatabaseConfig.Database.Save(result.Roster);
-        generationStatus.Complete(result.Roster.Id!.Value);
-        DatabaseConfig.Database.Save(generationStatus);
+          DatabaseConfig.Database.Save(result.Roster);
+          generationStatus.Complete(result.Roster.Id!.Value);
+          DatabaseConfig.Database.Save(generationStatus);
+        }
+        catch (Exception) { }
       });
 
       return new RosterGeneratioResponse { GenerationStatusId = generationStatus.Id!.Value };
+    }
+
+    private void MarkFailedAndSave(RosterGenerationStatus status)
+    {
+      status.IsFailed = true;
+      DatabaseConfig.Database.Save(status);
     }
 
     private void UpdateTeamProgressAndSave(ProgressUpdate update, RosterGenerationStatus status)
