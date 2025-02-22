@@ -1,5 +1,6 @@
 ﻿using PowerUp.ElectronUI.Api.GameSaveManagement;
 using PowerUp.ElectronUI.Api.Generation;
+using PowerUp.ElectronUI.Api.Logging;
 using PowerUp.ElectronUI.Api.Migration;
 using PowerUp.ElectronUI.Api.PlayerDetails;
 using PowerUp.ElectronUI.Api.PlayerEditor;
@@ -15,6 +16,7 @@ namespace PowerUp.ElectronUI.StartupConfig
     {
       services.AddSingleton(serviceProvider => new CommandRegistry(type => serviceProvider.GetRequiredService(type)));
 
+      services.AddSingleton<WriteLogCommand>();
       services.AddSingleton<ExportRosterCommand>();
       services.AddSingleton<InitializeBaseGameSaveCommand>();
       services.AddSingleton<LoadExistingRosterCommand>();
@@ -60,6 +62,7 @@ namespace PowerUp.ElectronUI.StartupConfig
     {
       var commandRegistry = serviceProvider.GetRequiredService<CommandRegistry>();
 
+      commandRegistry.RegisterCommand(typeof(WriteLogCommand), "WriteLog");
       commandRegistry.RegisterCommand(typeof(ExportRosterCommand), "ExportRoster");
       commandRegistry.RegisterCommand(typeof(InitializeBaseGameSaveCommand), "InitializeBaseGameSave");
       commandRegistry.RegisterCommand(typeof(LoadExistingRosterCommand), "LoadExistingRoster");
