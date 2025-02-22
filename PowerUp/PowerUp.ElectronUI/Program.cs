@@ -13,7 +13,15 @@ namespace PowerUp.ElectronUI
         .WriteTo.Console(Serilog.Events.LogEventLevel.Information)
         .WriteTo.File(Path.Combine("logs", $"log-{timestamp}.txt"), rollingInterval: RollingInterval.Day)
         .CreateLogger();
-      CreateHostBuilder(args).Build().Run();
+
+      Log.Debug("Creating Host Builder");
+      var hostBuilder = CreateHostBuilder(args);
+      
+      Log.Debug("Building Host");
+      var host = hostBuilder.Build();
+
+      Log.Debug("Running Host");
+      host.Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>

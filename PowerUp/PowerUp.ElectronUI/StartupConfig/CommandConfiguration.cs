@@ -16,7 +16,7 @@ namespace PowerUp.ElectronUI.StartupConfig
     {
       services.AddSingleton(serviceProvider => new CommandRegistry(type => serviceProvider.GetRequiredService(type)));
 
-      services.AddSingleton<WriteLogCommand>();
+      services.AddTransient<WriteLogCommand>();
       services.AddSingleton<ExportRosterCommand>();
       services.AddSingleton<InitializeBaseGameSaveCommand>();
       services.AddSingleton<LoadExistingRosterCommand>();
