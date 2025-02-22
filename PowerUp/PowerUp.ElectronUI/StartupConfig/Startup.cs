@@ -5,6 +5,7 @@ using Newtonsoft.Json.Serialization;
 using PowerUp.Databases;
 using PowerUp.ElectronUI.StartupConfig;
 using PowerUp.Libraries;
+using Serilog;
 
 namespace PowerUp.ElectronUI
 {
@@ -24,14 +25,14 @@ namespace PowerUp.ElectronUI
       services.RegisterCommandsForDI();
 
       var dataDirectory = Configuration["DataDirectory"];
-      Console.WriteLine($"Data Directory: {Path.GetFullPath(dataDirectory)}");
+      Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
       DatabaseConfig.Initialize(dataDirectory);
-      Console.WriteLine("RegisteringLibraries");
+      Log.Debug("RegisteringLibraries");
       services.RegisterLibraries(dataDirectory);
-      Console.WriteLine("RegisteringDependencies");
+      Log.Debug("RegisteringDependencies");
       services.RegisterDependencies();
-      Console.WriteLine("ConfigureServices finished successfully");
+      Log.Debug("ConfigureServices finished successfully");
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +51,7 @@ namespace PowerUp.ElectronUI
         app.UseHsts();
       }
 
-      Console.WriteLine("HttpsRedirection beginning...");
+      Log.Debug("HttpsRedirection beginning...");
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 
