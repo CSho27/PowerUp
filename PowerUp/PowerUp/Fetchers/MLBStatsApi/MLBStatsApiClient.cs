@@ -8,8 +8,9 @@ namespace PowerUp.Fetchers.MLBStatsApi
   public interface IMLBStatsApiClient
   {
     Task<TeamListResult> GetTeams(int year);
+    Task<TeamListResult> GetTeam(int teamId, int? year = null);
     Task<RosterResult> GetTeamRoster(long mlbTeamId, int year);
-    Task<VenueResult> GetVenues(IEnumerable<long> venueIds);
+    Task<VenueResult> GetVenues(IEnumerable<long> venueIds, int? year = null);
     Task<Person> GetPlayerInfo(long mlbPlayerId);
     Task<Person> GetPlayerStatistics(long mlbPlayerId, int year);
   }
@@ -35,6 +36,17 @@ namespace PowerUp.Fetchers.MLBStatsApi
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "teams" },
         new { sportId = 1, season = year.ToString(), leagueIds = "103,104,106" }
+      );
+      return await _client.Get<TeamListResult>(url);
+    }
+
+    public async Task<TeamListResult> GetTeam(int teamId, int? year = null)
+    {
+      var parameters = new Dictionary<string, string>();
+      if (year.HasValue) parameters.Add("season", year.Value.ToString());
+      var url = UrlBuilder.Build(
+        new[] { BASE_URL, "teams", teamId.ToString() },
+        parameters
       );
       return await _client.Get<TeamListResult>(url);
     }
@@ -71,13 +83,18 @@ namespace PowerUp.Fetchers.MLBStatsApi
       return person;
     }
 
-    public async Task<VenueResult> GetVenues(IEnumerable<long> venueIds)
+    public async Task<VenueResult> GetVenues(IEnumerable<long> venueIds, int? year = null)
     {
+      var parameters = new Dictionary<string, string>
+      {
+        { "venueIds", venueIds.StringJoin(",") },
+        { "hydrate", "location" }
+      };
+      if (year.HasValue) parameters.Add("season", year.Value.ToString());
       var url = UrlBuilder.Build(
         new[] { BASE_URL, "venues" },
-        new { venueIds = venueIds.StringJoin(","), hydrate = "location" }
+        parameters
       );
-
 
       return await _client.Get<VenueResult>(url);
     }

@@ -659,7 +659,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
       orioles.State.ShouldBe("DC");
       orioles.City.ShouldBe("Washington");
       orioles.Venue.ShouldBe("Nationals Park");
-      orioles.League.ShouldBe("AL");
+      orioles.League.ShouldBe("American League");
       orioles.Division.ShouldBe(null);
     }
 
@@ -675,7 +675,7 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
       orioles.State.ShouldBe("MI");
       orioles.City.ShouldBe("Detroit");
       orioles.Venue.ShouldBe("Briggs Stadium");
-      orioles.League.ShouldBe("AL");
+      orioles.League.ShouldBe("American League");
       orioles.Division.ShouldBe(null);
     }
   }
