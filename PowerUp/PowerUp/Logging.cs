@@ -4,7 +4,7 @@ namespace PowerUp
 {
   public static class Logging
   {
-    public static ILogger Logger { get; } = null!;
+    public static ILogger Logger { get; private set; } = null!;
 
     public static void Initialize(ILogger logger)
     {
