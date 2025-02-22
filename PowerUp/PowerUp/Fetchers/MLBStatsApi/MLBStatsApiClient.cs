@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace PowerUp.Fetchers.MLBStatsApi
@@ -96,7 +97,15 @@ namespace PowerUp.Fetchers.MLBStatsApi
         parameters
       );
 
-      return await _client.Get<VenueResult>(url);
+      try
+      {
+        return await _client.Get<VenueResult>(url);
+      }
+      catch(HttpStatusException exception)
+      {
+        if (exception.StatusCode != HttpStatusCode.NotFound) throw;
+        return new VenueResult { Venues = [] };
+      }
     }
   }
 }

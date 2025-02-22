@@ -101,7 +101,7 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     private async Task<TeamsForYearResults> GetResultsForTeams(IEnumerable<TeamEntry> teams, int year)
     {
-      var venueIds = teams.Select(t => t.Venue?.Id).Where(id => id is not null).Cast<long>();
+      var venueIds = teams.Select(t => t.Venue?.Id).Where(id => id is not null).Distinct().Cast<long>();
       var venuesResponse = await _mlbStatsApiClient.GetVenues(venueIds, year);
       var teamAndVenues = teams.Select(t => (t, venuesResponse.Venues.FirstOrDefault(v => v.Id == t.Venue?.Id)));
       return new TeamsForYearResults(teamAndVenues);
