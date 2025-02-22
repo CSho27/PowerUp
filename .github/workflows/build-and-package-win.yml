@@ -43,7 +43,7 @@ jobs:
            pwsh ./winPack.ps1;
       
     - name: Publish
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.time.outputs.time }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked
