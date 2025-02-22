@@ -1,6 +1,6 @@
-﻿using PowerUp.Databases;
+﻿using Microsoft.Extensions.Logging;
+using PowerUp.Databases;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -13,10 +13,17 @@ namespace PowerUp.Migrations
 
   public class MigrationApi : IMigrationApi
   {
+    private readonly ILogger<EntityDatabase> _entityDbLogger;
+
+    public MigrationApi(ILogger<EntityDatabase> entityDbLogger)
+    {
+      _entityDbLogger = entityDbLogger;
+    }
+
     public void MigrateDataFrom(string dataDirectory)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
-      using var existingDatabase = new EntityDatabase(dataDirectory);
+      using var existingDatabase = new EntityDatabase(_entityDbLogger, dataDirectory);
       var entityTypes = MigrationHelpers.GetAllEntityTypes();
       var importIdDictionary = new MigrationIdDictionary();
 

@@ -27,7 +27,8 @@ namespace PowerUp.ElectronUI
       var dataDirectory = Configuration["DataDirectory"];
       Log.Information($"Data Directory: {Path.GetFullPath(dataDirectory)}");
 
-      DatabaseConfig.Initialize(dataDirectory);
+      var loggerFactory = LoggerFactory.Create(builder => builder.AddSerilog());
+      DatabaseConfig.Initialize(loggerFactory.CreateLogger<EntityDatabase>(), dataDirectory);
       Log.Debug("RegisteringLibraries");
       services.RegisterLibraries(dataDirectory);
       Log.Debug("RegisteringDependencies");
