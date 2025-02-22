@@ -618,79 +618,65 @@ namespace PowerUp.Tests.Fetchers.MLBLookupService
     }
 
     [Test]
-    public void GetTeamsForYear_GetsTeams_For2021()
+    public async Task GetTeamsForYear_GetsTeams_For2021()
     {
-      Task.Run(async () =>
-      {
-        var results = await _client.GetTeamsForYear(2021);
-        results.TotalResults.ShouldBe(30);
-        var orioles = results.Results.First();
-        orioles.LSTeamId.ShouldBe(110);
-        orioles.Year.ShouldBe(2021);
-        orioles.FullName.ShouldBe("Baltimore Orioles");
-        orioles.State.ShouldBe("MD");
-        orioles.City.ShouldBe("Baltimore");
-        orioles.Venue.ShouldBe("Oriole Park at Camden Yards");
-        orioles.League.ShouldBe("AL");
-        orioles.Division.ShouldBe("E");
-      }).GetAwaiter().GetResult();
+      var results = await _client.GetTeamsForYear(2021);
+      results.TotalResults.ShouldBe(30);
+      var orioles = results.Results.First(r => r.LSTeamId == 110);
+      orioles.Year.ShouldBe(2021);
+      orioles.FullName.ShouldBe("Baltimore Orioles");
+      orioles.State.ShouldBe("MD");
+      orioles.City.ShouldBe("Baltimore");
+      orioles.Venue.ShouldBe("Oriole Park at Camden Yards");
+      orioles.League.ShouldBe("American League");
+      orioles.Division.ShouldBe("American League East");
     }
 
     [Test]
-    public void GetTeamsForYear_GetsTeams_For1915()
+    public async Task GetTeamsForYear_GetsTeams_For1915()
     {
-      Task.Run(async () =>
-      {
-        var results = await _client.GetTeamsForYear(1915);
-        results.TotalResults.ShouldBe(24);
-        var orioles = results.Results.First();
-        orioles.LSTeamId.ShouldBe(111);
-        orioles.Year.ShouldBe(1915);
-        orioles.FullName.ShouldBe("Boston Red Sox");
-        orioles.State.ShouldBe("MA");
-        orioles.City.ShouldBe("Boston");
-        orioles.Venue.ShouldBe("Fenway Park");
-        orioles.League.ShouldBe("AL");
-        orioles.Division.ShouldBe(null);
-      }).GetAwaiter().GetResult();
+      var results = await _client.GetTeamsForYear(1915);
+      results.TotalResults.ShouldBe(24);
+      var redSox = results.Results.First(r => r.LSTeamId == 111);
+      redSox.Year.ShouldBe(1915);
+      redSox.FullName.ShouldBe("Boston Red Sox");
+      redSox.State.ShouldBe("MA");
+      redSox.City.ShouldBe("Boston");
+      redSox.Venue.ShouldBe("Fenway Park");
+      redSox.League.ShouldBe("American League");
+      redSox.Division.ShouldBe(null);
     }
 
     [Test]
-    public void GetAllStarTeamsForYear_GetsTeams_For2021()
+    public async Task GetAllStarTeamsForYear_GetsTeams_For2021()
     {
-      Task.Run(async () =>
-      {
-        var results = await _client.GetAllStarTeamsForYear(2021);
-        results.TotalResults.ShouldBe(2);
-        var orioles = results.Results.First();
-        orioles.LSTeamId.ShouldBe(159);
-        orioles.Year.ShouldBe(2021);
-        orioles.FullName.ShouldBe("American League All-Stars");
-        orioles.State.ShouldBe("DC");
-        orioles.City.ShouldBe("Washington");
-        orioles.Venue.ShouldBe("Nationals Park");
-        orioles.League.ShouldBe("AL");
-        orioles.Division.ShouldBe(null);
-      }).GetAwaiter().GetResult();
+      var results = await _client.GetAllStarTeamsForYear(2021);
+      results.TotalResults.ShouldBe(2);
+      var orioles = results.Results.First();
+      orioles.LSTeamId.ShouldBe(159);
+      orioles.Year.ShouldBe(2021);
+      orioles.FullName.ShouldBe("American League All-Stars");
+      orioles.State.ShouldBe("DC");
+      orioles.City.ShouldBe("Washington");
+      orioles.Venue.ShouldBe("Nationals Park");
+      orioles.League.ShouldBe("AL");
+      orioles.Division.ShouldBe(null);
     }
 
     [Test]
-    public void GetAllStarTeamsForYear_GetsTeams_For1951()
+    public async Task GetAllStarTeamsForYear_GetsTeams_For1951()
     {
-      Task.Run(async () =>
-      {
-        var results = await _client.GetAllStarTeamsForYear(1951);
-        results.TotalResults.ShouldBe(2);
-        var orioles = results.Results.First();
-        orioles.LSTeamId.ShouldBe(159);
-        orioles.Year.ShouldBe(1951);
-        orioles.FullName.ShouldBe("American League All-Stars");
-        orioles.State.ShouldBe("MI");
-        orioles.City.ShouldBe("Detroit");
-        orioles.Venue.ShouldBe("Briggs Stadium");
-        orioles.League.ShouldBe("AL");
-        orioles.Division.ShouldBe(null);
-      }).GetAwaiter().GetResult();
+      var results = await _client.GetAllStarTeamsForYear(1951);
+      results.TotalResults.ShouldBe(2);
+      var orioles = results.Results.First();
+      orioles.LSTeamId.ShouldBe(159);
+      orioles.Year.ShouldBe(1951);
+      orioles.FullName.ShouldBe("American League All-Stars");
+      orioles.State.ShouldBe("MI");
+      orioles.City.ShouldBe("Detroit");
+      orioles.Venue.ShouldBe("Briggs Stadium");
+      orioles.League.ShouldBe("AL");
+      orioles.Division.ShouldBe(null);
     }
   }
 }

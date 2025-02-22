@@ -38,11 +38,6 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<PlayerSearchResults> SearchPlayer(string name)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.search_player_all.bam" },
-        new { sport_code = "\'mlb\'", name_part = $"\'{name}%\'" }
-      );
-
       var searchResponse = await _algoliaClient.SearchPlayer(name);
       var totalResults = searchResponse.NbHits;
 
@@ -91,16 +86,11 @@ namespace PowerUp.Fetchers.MLBLookupService
 
     public async Task<TeamsForYearResults> GetTeamsForYear(int year)
     {
-      var url = UrlBuilder.Build(
-        new[] { BASE_URL, "named.team_all_season.bam" },
-        new { sport_code = "\'mlb\'", all_star_sw = "\'N\'", season = $"\'{year}\'" }
-      );
-
-      var response = await _apiClient.Get<LSTeamsResponse>(url);
-      var results = response!.team_all_season!.queryResults!;
-      var totalResults = int.Parse(results.totalSize!);
-      var deserializedResults = Deserialization.SingleArrayOrNullToEnumerable<LSTeamResult>(results.row)!;
-      return new TeamsForYearResults(totalResults, deserializedResults);
+      var teamsResponse = await _mlbStatsApiClient.GetTeams(year);
+      var venueIds = teamsResponse.Teams.Select(t => t.Venue?.Id).Where(id => id is not null).Cast<long>();
+      var venuesResponse = await _mlbStatsApiClient.GetVenues(venueIds);
+      var teamAndVenues = teamsResponse.Teams.Select(t => (t, venuesResponse.Venues.FirstOrDefault(v => v.Id == t.Venue?.Id)));
+      return new TeamsForYearResults(teamAndVenues);
     }
 
     public async Task<TeamsForYearResults> GetAllStarTeamsForYear(int year)
