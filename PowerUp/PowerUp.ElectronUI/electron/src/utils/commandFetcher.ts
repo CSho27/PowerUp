@@ -33,11 +33,12 @@ export class CommandFetcher {
     try {
       const response = await fetch(this.commandUrl, this.createRequest(commandName, request, file));
       const responseType = response.headers.get('Content-Type');
-      if(!responseType || !responseType.includes('application/json'))
+      if(responseType?.includes('application/json'))
+        return await response.json();
+      if(responseType?.includes('multipart/form-data'))
+        return await response.blob();
+      else
         throw await response.text();
-
-      const responseJson = await response.json(); 
-      return responseJson;
     } catch (error) {
       this.log('Error', JSON.stringify(error));
       return new Promise((_, reject) => reject(error));
