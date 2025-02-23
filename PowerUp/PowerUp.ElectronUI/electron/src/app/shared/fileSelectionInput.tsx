@@ -2,7 +2,7 @@ import { FileFilter, FileSelector,  } from "../../components/fileSelector/fileSe
 import { useAppContext } from "../appContext";
 
 export interface FileSelectionInputProps {
-  file: File | undefined;
+  file: File | null;
   onSelection: (path: File | null) => void;
   id?: string;
   fileFilter?: FileFilter;

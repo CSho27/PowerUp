@@ -25,7 +25,7 @@ namespace PowerUp
     {
       services.AddTransient(p => p.GetRequiredService<ILoggerFactory>().CreateLogger(""));
       services.AddTransient<IRosterImportApi>(provider => new RosterImportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>()));
-      services.AddTransient<IRosterExportApi>(provider => new RosterExportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>(), provider.GetRequiredService<IGameSaveManager>(), provider.GetRequiredService<IPlayerSalariesLibrary>(), provider.GetRequiredService<IPowerProsIdAssigner>()));
+      services.AddTransient<IRosterExportApi, RosterExportApi>();
       services.AddTransient<IPlayerMapper>(provider => new PlayerMapper(provider.GetRequiredService<ISpecialSavedNameLibrary>()));
       services.AddTransient<IPlayerApi>(provider => new PlayerApi());
       services.AddTransient<ITeamApi>(provider => new TeamApi(provider.GetRequiredService<IPlayerApi>()));

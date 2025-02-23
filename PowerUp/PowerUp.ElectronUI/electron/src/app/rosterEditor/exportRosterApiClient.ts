@@ -6,8 +6,6 @@ import { ContentDisposition } from "../../utils/ContentDisposition";
 
 export interface ExportRosterRequest {
   rosterId: number;
-  sourceGameSavePath?: string;
-  directoryPath: string;
 }
 
 export class ExportRosterApiClient {
@@ -20,8 +18,8 @@ export class ExportRosterApiClient {
     this.performWithSpinner = performWithSpinner;
   }
 
-  execute = (request: ExportRosterRequest): Promise<ResultResponse> => {
-    return this.commandFetcher.execute(this.commandName, request);
+  execute = (request: ExportRosterRequest, file: File | null): Promise<File | null> => {
+    return this.commandFetcher.executeWithFile(this.commandName, request, file);
   }
 
   executeCsv = (rosterId: number): Promise<File> => {

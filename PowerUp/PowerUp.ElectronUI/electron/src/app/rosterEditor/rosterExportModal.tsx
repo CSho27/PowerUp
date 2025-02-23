@@ -13,6 +13,7 @@ import { GetGameSaveManagerDirectoryApiClient } from "../gameSaveManager/getGame
 import { RadioButton } from "../../components/radioButton/radioButton";
 import styled from "styled-components";
 import { downloadFile } from "../../utils/downloadFile";
+import { FileSelectionInput } from "../shared/fileSelectionInput";
 
 export async function openRosterExportModal(appContext: AppContext, rosterId: number) {
   const apiClient = new GetGameSaveManagerDirectoryApiClient(appContext.commandFetcher);
@@ -42,7 +43,7 @@ interface RosterExportModalProps {
 interface State {
   exportType: ExportType;
   useBaseGameSave: boolean;
-  selectedGameSaveFile: string | undefined; 
+  selectedGameSaveFile: File | null; 
 }
 
 type ExportType = 'game-save' | 'csv';
@@ -59,7 +60,7 @@ function RosterExportModal(props: RosterExportModalProps) {
   const [state, setState] = useState<State>({
     exportType: 'game-save',
     useBaseGameSave: true,
-    selectedGameSaveFile: undefined,
+    selectedGameSaveFile: null,
   });
 
   return <Modal ariaLabel='Export Roster'>
@@ -100,11 +101,9 @@ function RosterExportModal(props: RosterExportModalProps) {
           <label htmlFor='useBaseGameSave' style={{ fontSize: FONT_SIZES._14 }}>Use Base Game Save</label>
         </FlexRow>
       </FlexRow>
-      <FileSystemSelector
-        appContext={appContext}
+      <FileSelectionInput
         id='gameSaveToCopyFromSelector'
-        type='File'
-        selectedPath={state.useBaseGameSave ? undefined : state.selectedGameSaveFile}
+        file={state.useBaseGameSave ? null : state.selectedGameSaveFile}
         fileFilter={{ name: 'PowerPros Game Save', allowedExtensions: ['dat'] }}
         disabled={state.useBaseGameSave}
         onSelection={file => setState(p => ({ ...p, selectedGameSaveFile: file }))}
@@ -127,12 +126,11 @@ function RosterExportModal(props: RosterExportModalProps) {
   async function exportRosterAsGameSave() {
     const response = await exportApiClientRef.current.execute({
       rosterId: rosterId,
-      sourceGameSavePath: state.selectedGameSaveFile,
-      directoryPath: gameSaveManagerDirectory
-    });
-  
-    if(response.success)
-      closeDialog();
+    }, state.selectedGameSaveFile);
+    if(!response) return;
+
+    downloadFile(response);
+    closeDialog();
   }
 
   async function exportRosterAsCsv() {

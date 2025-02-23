@@ -11,13 +11,14 @@ using PowerUp.Mappers.Players;
 using PowerUp.Providers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PowerUp.GameSave.Api
 {
   public interface IRosterExportApi
   {
-    void ExportRoster(RosterExportParameters parameters);
+    Stream ExportRoster(RosterExportParameters parameters);
     void WriteRosterToFile(Roster roster, string filePath);
   }
 
@@ -28,13 +29,15 @@ namespace PowerUp.GameSave.Api
     private readonly IGameSaveManager _gameSaveManager;
     private readonly IPlayerSalariesLibrary _playerSalariesLibrary;
     private readonly IPowerProsIdAssigner _powerProsIdAssigner;
+    private readonly IBaseGameSavePathProvider _baseGameSavePathProvider;
 
     public RosterExportApi(
       ICharacterLibrary characterLibrary,
       IPlayerMapper playerMapper,
       IGameSaveManager gameSaveManager,
       IPlayerSalariesLibrary playerSalariesLibrary,
-      IPowerProsIdAssigner powerProsIdAssigner
+      IPowerProsIdAssigner powerProsIdAssigner,
+      IBaseGameSavePathProvider baseGameSavePathProvider
     )
     {
       _characterLibrary = characterLibrary;
@@ -42,18 +45,26 @@ namespace PowerUp.GameSave.Api
       _gameSaveManager = gameSaveManager;
       _playerSalariesLibrary = playerSalariesLibrary;
       _powerProsIdAssigner = powerProsIdAssigner;
+      _baseGameSavePathProvider = baseGameSavePathProvider;
     }
 
-    public void ExportRoster(RosterExportParameters parameters)
+    public Stream ExportRoster(RosterExportParameters parameters)
     {
-      if(parameters.ExportDirectory == null)
-        throw new ArgumentNullException(nameof(parameters.ExportDirectory));
       if (parameters.Roster == null)
         throw new ArgumentNullException(nameof(parameters.Roster));
 
+      using var sourceGameSave = parameters.SourceGameSave is null
+        ? File.OpenRead(_baseGameSavePathProvider.GetPath())
+        : parameters.SourceGameSave;
+      var tempFilePath = Guid.NewGuid().ToString();
+      var gameSaveFileStream = File.OpenWrite(tempFilePath);
+      sourceGameSave.CopyTo(gameSaveFileStream);
+      gameSaveFileStream.Close();
+
       var roster = parameters.Roster!;
-      var (rosterFilePath, gameSaveId) = _gameSaveManager.CreateNewGameSave(parameters.ExportDirectory, parameters.SourceGameSave, roster.Name);
-      WriteRosterToFile(roster, rosterFilePath, gameSaveId);
+      WriteRosterToFile(roster, tempFilePath, 0);
+
+      return File.OpenRead(tempFilePath);
     }
 
     public void WriteRosterToFile(Roster roster, string filePath)
@@ -139,7 +150,6 @@ namespace PowerUp.GameSave.Api
   public class RosterExportParameters
   {
     public Roster? Roster { get; set; }
-    public string? SourceGameSave { get; set; }
-    public string? ExportDirectory { get; set; }
+    public Stream? SourceGameSave { get; set; }
   }
 }

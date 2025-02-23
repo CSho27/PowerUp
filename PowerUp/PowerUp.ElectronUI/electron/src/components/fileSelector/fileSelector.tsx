@@ -4,7 +4,7 @@ import { Button } from "../button/button";
 export type FileSelectionFn = (filter?: FileFilter) => Promise<File | null>;
 
 export interface FileSelectorProps {
-  file: File | undefined;
+  file: File | null;
   onOpen: FileSelectionFn;
   onSelection: (path: File | null) => void;
   id?: string;

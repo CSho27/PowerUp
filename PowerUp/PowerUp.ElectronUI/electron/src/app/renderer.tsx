@@ -39,7 +39,7 @@ function openFileSelector(filter?: FileFilter): Promise<File|null> {
     fileInput.type = 'file';
     fileInput.style.display = 'none';
 
-    const allowedExtensions = filter?.allowedExtensions.join(',');
+    const allowedExtensions = filter?.allowedExtensions.map(e => `.${e}`).join(',');
     if(allowedExtensions) fileInput.accept = allowedExtensions;
   
     fileInput.addEventListener('change', (event) => {
