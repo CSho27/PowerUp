@@ -35,7 +35,7 @@ namespace PowerUp.ElectronUI.Controllers
       var result = _commandRegistry.ExecuteCommand(commandRequest);
       var fileResult = result as FileResponse;
       return fileResult is not null
-        ? File(fileResult.Stream, fileResult.ContentType)
+        ? File(fileResult.Stream, fileResult.ContentType, fileResult.Name)
         : Json(result);
     }
   }

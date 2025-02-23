@@ -1,4 +1,6 @@
 import { PerformWithSpinnerCallback } from "../app/appContext";
+import { ContentDisposition } from "./ContentDisposition";
+import { trim } from "./stringUtils";
 
 export class CommandFetcher {
   private readonly commandUrl: string;
@@ -33,12 +35,21 @@ export class CommandFetcher {
     try {
       const response = await fetch(this.commandUrl, this.createRequest(commandName, request, file));
       const responseType = response.headers.get('Content-Type');
-      if(responseType?.includes('application/json'))
+      if(responseType?.includes('application/json')) {
         return await response.json();
-      if(responseType?.includes('multipart/form-data'))
-        return await response.blob();
-      else
+      }
+      if(responseType?.includes('multipart/form-data')) {
+        const disposition = new ContentDisposition(response.headers.get('content-disposition'));
+        const rawFileName = disposition['filename'] as string | undefined;
+        const fileName = !!rawFileName
+          ? trim(rawFileName, '"')
+          : 'Untitled';
+        const blob = await response.blob();
+        return new File([blob], fileName);
+      }
+      else {
         throw await response.text();
+      }
     } catch (error) {
       this.log('Error', JSON.stringify(error));
       return new Promise((_, reject) => reject(error));
