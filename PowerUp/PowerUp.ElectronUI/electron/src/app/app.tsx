@@ -8,8 +8,10 @@ import { AppState, AppStateReducer, BreadcrumbDefinition, ModalDefinition } from
 import { GlobalStyles } from './globalStyles';
 import { PageLoadDefinition, pageRegistry } from './pages';
 import { InitializeBaseRosterApiClient } from './rosterEditor/importBaseRosterApiClient';
+import { AppConfig, FileSelectionFn, OpenInNewTabFn } from './appConfig';
 
-export interface ApplicationStartupData {
+export interface AppStartupProps {
+  appConfig: AppConfig;
   commandUrl: string;
 }
 
@@ -21,6 +23,8 @@ export interface AppContext {
   popBreadcrumb: (breadcrumbId: number) => void;
   openModal: (renderModal: RenderModalCallback) => void;
   openModalAsync: <T>(renderModal: AsyncRenderModalCallback<T>) => Promise<T>;
+  openFileSelector: FileSelectionFn;
+  openInNewTab: OpenInNewTabFn;
   performWithSpinner: PerformWithSpinnerCallback;
 }
 
@@ -28,8 +32,8 @@ export type RenderModalCallback = (closeDialog: () => void) => ReactElement<Moda
 export type AsyncRenderModalCallback<T> = (closeDialog: (value: T) => void) => ReactElement<ModalProps>;
 export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
 
-export function App(props: ApplicationStartupData) {
-  const { commandUrl } = props;
+export function App(props: AppStartupProps) {
+  const { commandUrl, appConfig } = props;
   
   const initialState: AppState = {
     breadcrumbs: [],
@@ -48,6 +52,8 @@ export function App(props: ApplicationStartupData) {
     popBreadcrumb: popBreadcrumb,
     openModal: openModal,
     openModalAsync: openModalAsync,
+    openFileSelector: appConfig.openFileSelector,
+    openInNewTab: appConfig.openInNewTab,
     performWithSpinner: performWithSpinner
   };
 
@@ -68,8 +74,7 @@ export function App(props: ApplicationStartupData) {
 
   return <>
     {state.currentPage.renderPage(appContext)}
-    {state.modals.length > 0 && 
-    state.modals.map(toRenderedModal)}
+    {state.modals.length > 0 && state.modals.map(toRenderedModal)}
     {state.isLoading && <FullPageSpinner/>}
     <GlobalStyles />
   </>
