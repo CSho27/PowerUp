@@ -1,9 +1,10 @@
 import { createContext, PropsWithChildren, ReactElement, useContext } from "react";
 import { CommandFetcher } from "../utils/commandFetcher";
-import { FileSelectionFn, OpenInNewTabFn } from "./appConfig";
+import { OpenInNewTabFn } from "./appConfig";
 import { BreadcrumbDefinition } from "./appState";
 import { PageLoadDefinition } from "./pages";
 import { ModalProps } from "../components/modal/modal";
+import { FileSelectionFn } from "../components/fileSelector/fileSelector";
 
 export interface AppContext {
   commandFetcher: CommandFetcher;

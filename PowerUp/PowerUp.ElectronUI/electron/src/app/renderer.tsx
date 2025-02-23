@@ -2,6 +2,8 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react'; // DO NOT REMOVE. THIS IMPORT IS REQUIRED FOR REACT TO BE ON PAGE IN TIME!
 import { App } from "./app";
+import { FileFilter } from '../components/fileSelector/fileSelector';
+import { getFileExtension } from '../utils/getFileExtension';
 
 interface ApplicationStartupData {
   commandUrl: string;
@@ -31,16 +33,20 @@ function openInNewTab(url: string) {
   window.open(url, '_blank');
 }
 
-function openFileSelector(): Promise<File|null> {
+function openFileSelector(filter?: FileFilter): Promise<File|null> {
   return new Promise(resolve => {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.style.display = 'none';
+
+    const allowedExtensions = filter?.allowedExtensions.join(',');
+    if(allowedExtensions) fileInput.accept = allowedExtensions;
   
     fileInput.addEventListener('change', (event) => {
       const typedTarget = event.target as HTMLInputElement | undefined;
       const files = typedTarget?.files ?? [];
-      if (files.length > 0) resolve(files[0])
+      const file = files[0];
+      if (!!file) resolve(file)
       else resolve(null)
       document.body.removeChild(fileInput);
     });

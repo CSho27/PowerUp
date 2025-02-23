@@ -18,6 +18,7 @@ export interface FileSystemSelectionResponse {
   path: string | null;
 }
 
+/** @deprecated This api client is no longer wired up to anything */
 export class FileSystemSelectionApiClient {
   private readonly commandFetcher: CommandFetcher;
 
