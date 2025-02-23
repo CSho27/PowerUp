@@ -6,6 +6,7 @@ namespace PowerUp.Libraries
   {
     int this[string key] { get; }
     string this[int key] { get; }
+    bool ContainsName(string savedName);
   }
 
   public class SpecialSavedNameLibrary : CsvKeyValueLibrary<string, int>, ISpecialSavedNameLibrary
@@ -17,5 +18,7 @@ namespace PowerUp.Libraries
 
     protected override string ParseKey(string keyString) => keyString;
     protected override int ParseValue(string valueString) => int.Parse(valueString);
+
+    public bool ContainsName(string savedName) => _valuesByKey.ContainsKey(savedName);
   }
 }

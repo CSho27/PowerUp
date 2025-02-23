@@ -13,6 +13,9 @@ namespace PowerUp.Fetchers
         : url;
     }
 
+    public static string Build(IEnumerable<string> urlParts, IDictionary<string, string> parameters)
+      => Build(string.Join("/", urlParts), parameters);
+
     public static string Build(string url, object? parameters = null)
     {
       return parameters != null

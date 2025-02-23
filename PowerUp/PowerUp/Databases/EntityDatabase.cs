@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,19 +10,22 @@ namespace PowerUp.Databases
 {
   public class EntityDatabase : IDisposable
   {
+    private ILogger<EntityDatabase> _logger;
+
     public LiteDatabase DBConnection { get; }
     public ITransaction? CurrentTransaction { get; }
 
-    public EntityDatabase(string dataDirectory)
+    public EntityDatabase(ILogger<EntityDatabase> logger, string dataDirectory)
     {
-      Console.WriteLine("Initializing Entity Database");
+      _logger = logger;
+      _logger.LogDebug("Initializing Entity Database");
       try
       {
         DBConnection = new LiteDatabase(Path.Combine(dataDirectory, "Data.db"));
 
       } catch (Exception ex)
       {
-        Console.WriteLine(ex.Message);
+        _logger.LogError(ex, "Failed to initialize Entity Database");
         throw;
       }
     }

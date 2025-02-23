@@ -1,5 +1,7 @@
-﻿using PowerUp.Entities.Players;
+﻿using Microsoft.Extensions.Logging;
+using PowerUp.Entities.Players;
 using PowerUp.Fetchers.MLBLookupService;
+using PowerUp.Fetchers.MLBStatsApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,15 +31,21 @@ namespace PowerUp.Generators
       { Position.CenterField, 1 },
     };
 
+    private readonly ILogger<DraftPoolGenerator> _logger;
     private readonly IMLBLookupServiceClient _mlbLookupServiceClient;
+    private readonly IMLBStatsApiClient _mlbStatsApiClient;
     private readonly IPlayerGenerator _playerGenerator;
 
     public DraftPoolGenerator(
+      ILogger<DraftPoolGenerator> logger,
       IMLBLookupServiceClient mlbLookupServiceClient,
+      IMLBStatsApiClient mlbStatsApiClient,
       IPlayerGenerator playerGenerator
     )
     {
+      _logger = logger;
       _mlbLookupServiceClient = mlbLookupServiceClient;
+      _mlbStatsApiClient = mlbStatsApiClient;
       _playerGenerator = playerGenerator;
     }
 
@@ -72,16 +80,16 @@ namespace PowerUp.Generators
         );
         if (isValidOverall && (allMinsFulfilled || playerFulfillsMin))
         {
-          Console.WriteLine($"Adding: {player.InformalDisplayName}");
+          _logger.LogInformation($"Adding: {player.InformalDisplayName}");
           draftPool.Add(player);
         }
         else
         {
-          Console.WriteLine($"Rejecting: {player.InformalDisplayName}");
+          _logger.LogInformation($"Rejecting: {player.InformalDisplayName}");
         }
       }
 
-      Console.WriteLine($"Draft Pool Average: {draftPool.Average(p => p.Overall)}");
+      _logger.LogInformation($"Draft Pool Average: {draftPool.Average(p => p.Overall)}");
       return draftPool;
     }
     
@@ -93,11 +101,13 @@ namespace PowerUp.Generators
       if(!teams.Results.Any())
         return null;
       var randomTeam = random.GetRandomElement(teams.Results);
-      var roster = await _mlbLookupServiceClient.GetTeamRosterForYear(randomTeam.LSTeamId, randomYear);
-      if (!roster.Results.Any())
+      var roster = await _mlbStatsApiClient.GetTeamRoster(randomTeam.LSTeamId, randomYear);
+      if (!roster.Roster.Any())
         return null;
-      var randomPlayer = random.GetRandomElement(roster.Results);
-      var generatedPlayer = _playerGenerator.GeneratePlayer(randomPlayer.LSPlayerId, randomYear, playerGenerationAlgorithm, randomPlayer.UniformNumber);
+      var randomPlayer = random.GetRandomElement(roster.Roster);
+      if (randomPlayer.Person is null) 
+        return null;
+      var generatedPlayer = _playerGenerator.GeneratePlayer(randomPlayer.Person.Id, randomYear, playerGenerationAlgorithm, randomPlayer.JerseyNumber);
       return generatedPlayer.Player;
     }
   }

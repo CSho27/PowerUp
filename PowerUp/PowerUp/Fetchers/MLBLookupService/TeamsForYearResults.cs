@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PowerUp.Fetchers.MLBStatsApi;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PowerUp.Fetchers.MLBLookupService
@@ -12,6 +13,13 @@ namespace PowerUp.Fetchers.MLBLookupService
     {
       TotalResults = totalResults;
       Results = results.Select(r => new TeamResult(r));
+    }
+
+    public TeamsForYearResults(IEnumerable<(TeamEntry Team, VenueEntry? Venue)> teams)
+    {
+      var teamList = teams.ToList();
+      TotalResults = teamList.Count;
+      Results = teamList.Select(t => new TeamResult(t.Team, t.Venue)).ToList();
     }
   }
 
@@ -40,6 +48,20 @@ namespace PowerUp.Fetchers.MLBLookupService
       Venue = result.venue_name!;
       League = result.league!;
       Division = result.division.StringIfNotEmpty();
+    }
+
+    public TeamResult(TeamEntry team, VenueEntry? venue)
+    {
+      LSTeamId = (int)team.Id;
+      Year = (int)team.Season;
+      LocationName = team.LocationName;
+      TeamName = team.TeamName;
+      FullName = team.Name;
+      State = venue?.Location?.StateAbbrev ?? "";
+      City = venue?.Location?.City ?? "";
+      Venue = venue?.Name ?? team.Venue?.Name ?? "";
+      League = team.League?.Abbreviation ?? team.League?.Name ?? "";
+      Division = team.Division?.Name;
     }
   }
 }

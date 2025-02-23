@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PowerUp
 {
@@ -63,6 +64,39 @@ namespace PowerUp
       int index = (int)Math.Ceiling(percentile * sortedData.Length) - 1;
       index = Math.Max(0, Math.Min(index, sortedData.Length - 1));
       return sortedData[index];
+    }
+
+    public static TSource? FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> elementMatches, out int? index)
+    {
+      var enumerator = source.GetEnumerator();
+      var i = 0;
+      while (enumerator.MoveNext())
+      {
+        if (elementMatches(enumerator.Current))
+        {
+          index = i;
+          return enumerator.Current;
+        }
+
+        i++;
+      }
+
+      index = null;
+      return default;
+    }
+
+    public static string StringJoin<TSource>(this IEnumerable<TSource> source, string separator = "")
+    {
+      return string.Join(separator, source);
+    }
+
+    public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, Task<TResult>> fn)
+    {
+      var results = new List<TResult>();
+      var tasks = source.Select(fn);
+      foreach (var task in tasks)
+        results.Add(await task);
+      return results;
     }
   }
 }

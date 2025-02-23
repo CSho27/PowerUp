@@ -45,17 +45,22 @@ namespace PowerUp.Generators
 
     public PlayerGenerationResult GeneratePlayer(long lsPlayerId, int year, PlayerGenerationAlgorithm generationAlgorithm, string? uniformNumber = null)
     {
-      var playerStats = _playerStatsFetcher.GetStatistics(
-        lsPlayerId, 
-        year,
-        excludePlayerInfo: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo),
-        excludeHittingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats),
-        excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
-        excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
-      );
+      var fracYearPlayed = MLBSeasonUtils.GetFractionOfSeasonPlayed(year);
+      PlayerStatisticsResult? currentYearStats = null;
+      if(fracYearPlayed > 0)
+      {
+        currentYearStats = _playerStatsFetcher.GetStatistics(
+          lsPlayerId, 
+          year,
+          excludePlayerInfo: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPlayerInfo),
+          excludeHittingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSHittingStats),
+          excludeFieldingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSFieldingStats),
+          excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
+        );
+      }
 
       PlayerStatisticsResult? previousYearStats = null;
-      if(MLBSeasonUtils.GetFractionOfSeasonPlayed(year) < 1)
+      if(fracYearPlayed < 1)
         previousYearStats = _playerStatsFetcher.GetStatistics(
           lsPlayerId,
           year-1,
@@ -65,15 +70,16 @@ namespace PowerUp.Generators
           excludePitchingStats: !generationAlgorithm.DatasetDependencies.Contains(PlayerGenerationDataset.LSPitchingStats)
       );
 
+      var mostRecentInfo = currentYearStats?.PlayerInfo ?? previousYearStats?.PlayerInfo;
       var data = new PlayerGenerationData
       {
         Year = year,
-        PlayerInfo = playerStats.PlayerInfo != null
-          ? new LSPlayerInfoDataset(playerStats.PlayerInfo, uniformNumber)
+        PlayerInfo = mostRecentInfo != null
+          ? new LSPlayerInfoDataset(mostRecentInfo, uniformNumber)
           : null,
-        HittingStats = LSHittingStatsDataset.BuildFor(playerStats.HittingStats?.Results, previousYearStats?.HittingStats?.Results),
-        FieldingStats = LSFieldingStatDataset.BuildFor(playerStats.FieldingStats?.Results, previousYearStats?.FieldingStats?.Results),
-        PitchingStats = LSPitchingStatsDataset.BuildFor(playerStats.PitchingStats?.Results, previousYearStats?.PitchingStats?.Results)
+        HittingStats = LSHittingStatsDataset.BuildFor(currentYearStats?.HittingStats?.Results, previousYearStats?.HittingStats?.Results),
+        FieldingStats = LSFieldingStatDataset.BuildFor(currentYearStats?.FieldingStats?.Results, previousYearStats?.FieldingStats?.Results),
+        PitchingStats = LSPitchingStatsDataset.BuildFor(currentYearStats?.PitchingStats?.Results, previousYearStats?.PitchingStats?.Results)
       };
 
       var player = _playerApi.CreateDefaultPlayer(EntitySourceType.Generated, isPitcher: data!.PrimaryPosition == Position.Pitcher);

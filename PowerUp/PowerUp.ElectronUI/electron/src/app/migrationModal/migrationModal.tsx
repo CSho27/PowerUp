@@ -29,6 +29,7 @@ export function MigrationModal(props: MigrationModalProps) {
       <div>Select another version of the PowerUp app to import its data.</div>
       <FieldLabel htmlFor='powerup-file-selector'>PowerUp Path to import</FieldLabel>
       <FileSystemSelector
+        appContext={appContext}
         id='powerup-file-selector'
         type='File'
         selectedPath={selectedFile}
@@ -46,6 +47,6 @@ export function MigrationModal(props: MigrationModalProps) {
     if(response.success)
       closeDialog();
     else
-      console.log('Fail');
+      await appContext.commandFetcher.log('Error', 'Failed to migrate data');
   }
 }

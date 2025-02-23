@@ -119,4 +119,10 @@
     [Order(2), DisplayName("Power Pitcher")]
     Power = 1
   }
+
+  public static class SpecialAbilityValueExtensions
+  {
+    public static int GetAbbrevInt(this Special1_5 value) => int.Parse(value.GetAbbrev());
+    public static int GetAbbrevInt(this Special2_4 value) => int.Parse(value.GetAbbrev());
+  }
 }

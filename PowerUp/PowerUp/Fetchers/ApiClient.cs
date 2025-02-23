@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -13,8 +13,8 @@ namespace PowerUp.Fetchers
     public async Task<string> GetContent(string url)
     {
       var response = await _client.GetAsync(url);
-      if(response.StatusCode != System.Net.HttpStatusCode.OK)
-        throw new Exception(response.StatusCode.ToString());
+      if (response.StatusCode != HttpStatusCode.OK)
+        throw new HttpStatusException(response.StatusCode);
 
       return await response.Content.ReadAsStringAsync();
     }
@@ -29,8 +29,8 @@ namespace PowerUp.Fetchers
     {
       var requestContent = JsonContent.Create(request);
       var response = await _client.PostAsync(url, requestContent);
-      if (response.StatusCode != System.Net.HttpStatusCode.OK)
-        throw new Exception(response.StatusCode.ToString());
+      if (response.StatusCode != HttpStatusCode.OK)
+        throw new HttpStatusException(response.StatusCode);
 
       return await response.Content.ReadAsStringAsync();
     }

@@ -1,4 +1,6 @@
-﻿using PowerUp.Entities.Players.Api;
+﻿using PowerUp.CSV;
+using Microsoft.Extensions.DependencyInjection;
+using PowerUp.Entities.Players.Api;
 using PowerUp.Entities.Rosters.Api;
 using PowerUp.Entities.Teams.Api;
 using PowerUp.Fetchers.Algolia;
@@ -13,13 +15,15 @@ using PowerUp.Libraries;
 using PowerUp.Mappers.Players;
 using PowerUp.Migrations;
 using PowerUp.Providers;
+using Microsoft.Extensions.Logging;
 
-namespace PowerUp.ElectronUI.StartupConfig
+namespace PowerUp
 {
   public static class Dependencies
   {
     public static void RegisterDependencies(this IServiceCollection services)
     {
+      services.AddTransient(p => p.GetRequiredService<ILoggerFactory>().CreateLogger(""));
       services.AddTransient<IRosterImportApi>(provider => new RosterImportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>()));
       services.AddTransient<IRosterExportApi>(provider => new RosterExportApi(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IPlayerMapper>(), provider.GetRequiredService<IGameSaveManager>(), provider.GetRequiredService<IPlayerSalariesLibrary>(), provider.GetRequiredService<IPowerProsIdAssigner>()));
       services.AddTransient<IPlayerMapper>(provider => new PlayerMapper(provider.GetRequiredService<ISpecialSavedNameLibrary>()));
@@ -34,16 +38,19 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<IPlayerStatisticsFetcher>(provider => new LSPlayerStatisticsFetcher(provider.GetRequiredService<IMLBLookupServiceClient>()));
       services.AddTransient<ISkinColorGuesser>(provider => new SkinColorGuesser(provider.GetRequiredService<ICountryAndSkinColorLibrary>()));
       services.AddTransient<IPlayerGenerator>(provider => new PlayerGenerator(provider.GetRequiredService<IPlayerApi>(), provider.GetRequiredService<IPlayerStatisticsFetcher>(), provider.GetRequiredService<IBaseballReferenceClient>()));
-      services.AddTransient<ITeamGenerator>(provider => new TeamGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<IPlayerGenerator>()));
+      services.AddTransient<ITeamGenerator, TeamGenerator>();
       services.AddTransient<IRosterGenerator>(provider => new RosterGenerator(provider.GetRequiredService<IMLBLookupServiceClient>(), provider.GetRequiredService<ITeamGenerator>()));
-      services.AddTransient<IDraftPoolGenerator, DraftPoolGenerator>(); 
+      services.AddTransient<IDraftPoolGenerator, DraftPoolGenerator>();
       services.AddSingleton<IBaseballReferenceClient>(provider => new BaseballReferenceClient());
       services.AddTransient<IBaseballReferenceUrlProvider>(provider => new BaseballReferenceUrlProvider(provider.GetRequiredService<IBaseballReferenceClient>()));
       services.AddTransient<IGameSaveManager>(provider => new GameSaveManager(provider.GetRequiredService<ICharacterLibrary>(), provider.GetRequiredService<IBaseGameSavePathProvider>()));
-      services.AddTransient<IMigrationApi>(provider => new MigrationApi());
+      services.AddTransient<IMigrationApi, MigrationApi>();
       services.AddTransient<IPowerProsIdAssigner>(provider => new PowerProsIdAssigner());
       services.AddTransient<IBattingStanceGuesser>(provider => new BattingStanceGuesser(provider.GetRequiredService<IBattingStanceLibrary>()));
       services.AddTransient<IPitchingMechanicsGuesser>(provider => new PitchingMechanicsGuesser(provider.GetRequiredService<IPitchingMechanicsLibrary>()));
+      services.AddTransient<IPlayerCsvReader, RosterCsvReader>();
+      services.AddTransient<IPlayerCsvWriter, RosterCsvWriter>();
+      services.AddTransient<IPlayerCsvService, RosterCsvService>();
     }
   }
 }

@@ -38,6 +38,7 @@ function GameSaveManagerInitializationModal(props: GameSaveManagerInitialization
       <FieldLabel htmlFor='gameSaveManagerFolder'>Game Save Management Folder</FieldLabel>
       <div>Select the Dolphin PowerPros data folder if you plan to use Dolphin</div>
       <FileSystemSelector
+        appContext={appContext}
         id='gameSaveManagerFolder'
         type='Directory'
         selectedPath={selectedDirectory}

@@ -36,7 +36,7 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public DateTime? BirthDate { get; set; }
 
     [JsonPropertyName("currentAge")]
-    public long CurrentAge { get; set; }
+    public int CurrentAge { get; set; }
 
     [JsonPropertyName("birthCity")]
     public string? BirthCity { get; set; }
@@ -47,17 +47,29 @@ namespace PowerUp.Fetchers.MLBStatsApi
     [JsonPropertyName("birthCountry")]
     public string? BirthCountry { get; set; }
 
+    [JsonPropertyName("deathDate")]
+    public DateTime? DeathDate { get; set; }
+
+    [JsonPropertyName("deathCity")]
+    public string? DeathCity { get; set; }
+
+    [JsonPropertyName("deathStateProvince")]
+    public string? DeathStateProvince { get; set; }
+
+    [JsonPropertyName("deathCountry")]
+    public string? DeathCountry { get; set; }
+
     [JsonPropertyName("height")]
     public string? Height { get; set; }
 
     [JsonPropertyName("weight")]
-    public long? Weight { get; set; }
+    public int? Weight { get; set; }
 
     [JsonPropertyName("active")]
     public bool Active { get; set; }
 
     [JsonPropertyName("currentTeam")]
-    public CurrentTeam? CurrentTeam { get; set; }
+    public TeamInfo? CurrentTeam { get; set; }
 
     [JsonPropertyName("primaryPosition")]
     public PositionInfo? PrimaryPosition { get; set; }
@@ -93,7 +105,10 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public StatElement[] Stats { get; set; } = [];
 
     [JsonPropertyName("mlbDebutDate")]
-    public DateTimeOffset MlbDebutDate { get; set; }
+    public DateTime? MlbDebutDate { get; set; }
+
+    [JsonPropertyName("lastPlayedDate")]
+    public DateTime? LastPlayedDate { get; set; }
 
     [JsonPropertyName("batSide")]
     public Laterality? BatSide { get; set; }
@@ -132,42 +147,6 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public double StrikeZoneBottom { get; set; }
   }
 
-  public class Laterality
-  {
-    [JsonPropertyName("code")]
-    public string Code { get; set; } = "";
-
-    [JsonPropertyName("description")]
-    public string Description { get; set; } = "";
-  }
-
-  public class CurrentTeam
-  {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = "";
-
-    [JsonPropertyName("link")]
-    public string Link { get; set; } = "";
-  }
-
-  public class PositionInfo
-  {
-    [JsonPropertyName("code")]
-    public string Code { get; set; } = "";
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = "";
-
-    [JsonPropertyName("type")]
-    public string Type { get; set; } = "";
-
-    [JsonPropertyName("abbreviation")]
-    public string Abbreviation { get; set; } = "";
-  }
-
   public class StatElement
   {
     [JsonPropertyName("type")]
@@ -198,13 +177,13 @@ namespace PowerUp.Fetchers.MLBStatsApi
     public SplitStat? Stat { get; set; }
 
     [JsonPropertyName("team")]
-    public CurrentTeam? Team { get; set; }
+    public TeamInfo? Team { get; set; }
 
     [JsonPropertyName("player")]
-    public PlayerDetails? Player { get; set; }
+    public PlayerInfo? Player { get; set; }
 
     [JsonPropertyName("league")]
-    public CurrentTeam? League { get; set; }
+    public TeamInfo? League { get; set; }
 
     [JsonPropertyName("sport")]
     public Sport? Sport { get; set; }
@@ -215,30 +194,6 @@ namespace PowerUp.Fetchers.MLBStatsApi
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("position")]
     public PositionInfo? Position { get; set; }
-  }
-
-  public class PlayerDetails
-  {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("fullName")]
-    public string FullName { get; set; } = "";
-
-    [JsonPropertyName("link")]
-    public string Link { get; set; } = "";
-  }
-
-  public class Sport
-  {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("link")]
-    public string Link { get; set; } = "";
-
-    [JsonPropertyName("abbreviation")]
-    public string Abbreviation { get; set; } = "";
   }
 
   public class SplitStat
@@ -433,5 +388,101 @@ namespace PowerUp.Fetchers.MLBStatsApi
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("wildPitches")]
     public long? WildPitches { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("era")]
+    public string? Era { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("inningsPitched")]
+    public string? InningsPitched { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("wins")]
+    public long? Wins { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("losses")]
+    public long? Losses { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("saves")]
+    public long? Saves { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("saveOpportunities")]
+    public long? SaveOpportunities { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("earnedRuns")]
+    public long? EarnedRuns { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("whip")]
+    public string? Whip { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("battersFaced")]
+    public long? BattersFaced { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("completeGames")]
+    public long? CompleteGames { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("shutouts")]
+    public long? Shutouts { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("hitBatsmen")]
+    public long? HitBatsmen { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("balks")]
+    public long? Balks { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("strikes")]
+    public long? Strikes { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("pickoffs")]
+    public long? Pickoffs { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("winPercentage")]
+    public string? WinPercentage { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("gamesFinished")]
+    public long? GamesFinished { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("strikeoutWalkRatio")]
+    public string? StrikeoutWalkRatio { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("strikeoutsPer9Inn")]
+    public string? StrikeoutsPer9Inn { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("walksPer9Inn")]
+    public string? WalksPer9Inn { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("hitsPer9Inn")]
+    public string? HitsPer9Inn { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("runsScoredPer9")]
+    public string? RunsScoredPer9 { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("homeRunsPer9")]
+    public string? HomeRunsPer9 { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("strikePercentage")]
+    public string? StrikePercentage { get; set; }
   }
 }

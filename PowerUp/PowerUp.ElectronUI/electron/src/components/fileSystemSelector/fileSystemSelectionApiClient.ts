@@ -1,3 +1,5 @@
+import { CommandFetcher } from "../../utils/commandFetcher";
+
 export type FileSystemSelectionType =
 | 'File'
 | 'Directory'
@@ -17,6 +19,12 @@ export interface FileSystemSelectionResponse {
 }
 
 export class FileSystemSelectionApiClient {
+  private readonly commandFetcher: CommandFetcher;
+
+  constructor(commandFetcher: CommandFetcher) {
+    this.commandFetcher = commandFetcher;
+  }
+
   execute = async (request: FileSystemSelectionRequest): Promise<FileSystemSelectionResponse> => {
     try {
       const response = await fetch('./file-system-selection', {
@@ -29,7 +37,7 @@ export class FileSystemSelectionApiClient {
       });
       return await response.json(); 
     } catch (error) {
-      console.error(error);
+      this.commandFetcher.log('Error', error);
       return new Promise((_, reject) => reject(error));
     }
   }

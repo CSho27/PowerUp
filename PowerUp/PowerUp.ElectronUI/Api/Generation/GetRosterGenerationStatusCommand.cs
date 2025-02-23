@@ -24,6 +24,7 @@ namespace PowerUp.ElectronUI.Api.Generation
     public int PercentCompletion { get; }
     public string EstimatedTimeToCompletion { get; }
     public bool IsComplete => CompletedRosterId.HasValue;
+    public bool IsFailed { get; }
     public int? CompletedRosterId { get; }
 
     public GetRosterGenerationStatusResponse(RosterGenerationStatus status)
@@ -33,6 +34,7 @@ namespace PowerUp.ElectronUI.Api.Generation
       PercentCompletion = status.Progress?.PercentCompletion.ToPercent() ?? 0;
       EstimatedTimeToCompletion = status.Progress?.GetEstimatedTimeRemaining(DateTime.Now - status.StartedOn).ToDisplayString() ?? "";
       CompletedRosterId = status.RosterId;
+      IsFailed = status.IsFailed;
     }
   }
 }

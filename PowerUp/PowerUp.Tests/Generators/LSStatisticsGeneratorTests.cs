@@ -102,7 +102,8 @@ namespace PowerUp.Tests.Generators
         , _skinColorGuesser
         , _battingStanceGuesser
         , _pitchingMechanicsGuesser
-        )
+        ),
+        "8"
       );
       result.LastTeamForYear_LSTeamId.ShouldBe(110);
 
@@ -163,7 +164,8 @@ namespace PowerUp.Tests.Generators
         , _skinColorGuesser
         , _battingStanceGuesser
         , _pitchingMechanicsGuesser
-        )
+        ),
+        "22"
       );
       result.LastTeamForYear_LSTeamId.ShouldBe(120);
 

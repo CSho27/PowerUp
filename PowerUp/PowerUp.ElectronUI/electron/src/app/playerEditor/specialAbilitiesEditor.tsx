@@ -593,7 +593,7 @@ export function SpecialAbilitiesEditor(props: SpecialAbilitiesEditorProps) {
         onChange={value => updatePitchQualities({ type: 'updateGyroball', gyroball: value })}
       />
       <SpecialBooleanRow
-        label='Shutto Spin'
+        label='Shuuto Spin'
         value={pitchQualities.shuttoSpin}
         effectIsNegative
         disabled={editorDisabled}

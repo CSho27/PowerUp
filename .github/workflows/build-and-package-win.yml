@@ -22,10 +22,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install .NET Core 6.0.0
+    - name: Install .NET Core 8.0.0
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
         
     - name: Install .NET Core 5.0.0
       uses: actions/setup-dotnet@v2
@@ -37,13 +37,13 @@ jobs:
         
     - name: Install Powershell
       run: dotnet tool install --global PowerShell --version 7.2.0
-
+ 
     - name: Build    
       run: cd ./PowerUp/PowerUp.ElectronUI; 
            pwsh ./winPack.ps1;
       
     - name: Publish
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.time.outputs.time }}-win
         path: ./PowerUp/PowerUp.ElectronUI/bin/Desktop/win-unpacked

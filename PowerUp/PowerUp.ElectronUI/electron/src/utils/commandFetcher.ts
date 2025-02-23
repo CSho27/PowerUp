@@ -11,9 +11,14 @@ export class CommandFetcher {
 
   readonly execute = async (commandName: string, request: any, useSpinner?: boolean): Promise<any> => {
     const shouldUseSpinner = useSpinner ?? true; 
+    if(commandName !== 'WriteLog') this.log('Debug', `Executing command: ${commandName} with request: ${JSON.stringify(request)}`);
     return shouldUseSpinner
       ? this.performWithSpinner(() => this.performFetch(commandName, request))
       : this.performFetch(commandName, request);
+  }
+
+  readonly log = async (level: LogLevel, message: unknown) => {
+    return this.execute("WriteLog", { logLevel: level, message: message });
   }
 
   private readonly performFetch = async (commandName: string, request: any) => {
@@ -34,8 +39,22 @@ export class CommandFetcher {
       const responseJson = await response.json(); 
       return responseJson;
     } catch (error) {
-      console.error(error);
+      this.log('Error', JSON.stringify(error));
       return new Promise((_, reject) => reject(error));
     }
   }
+}
+
+export type LogLevel = 
+| 'Trace' 
+| 'Debug' 
+| 'Information' 
+| 'Warning' 
+| 'Error' 
+| 'Critical' 
+| 'None';
+
+export interface WriteLogRequest {
+  logLevel: LogLevel;
+  message: string;
 }
