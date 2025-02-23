@@ -29,9 +29,9 @@ namespace PowerUp.ElectronUI.Controllers
     }
 
     [Route(COMMAND_URL), HttpPost]
-    public JsonResult ExecuteCommand([FromBody]CommandRequest request)
+    public JsonResult ExecuteCommand([FromForm]CommandRequest commandRequest)
     {
-      return new JsonResult(_commandRegistry.ExecuteCommand(request));
+      return new JsonResult(_commandRegistry.ExecuteCommand(commandRequest));
     }
   }
 }
