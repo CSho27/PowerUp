@@ -6,6 +6,3 @@ export interface AppConfig {
   openFileSelector: FileSelectionFn;
   openInNewTab: OpenInNewTabFn;
 }
-
-export let openFileSelector: FileSelectionFn = () => new Promise(r => r(null));
-export let openInNewTab: OpenInNewTabFn = () => {};

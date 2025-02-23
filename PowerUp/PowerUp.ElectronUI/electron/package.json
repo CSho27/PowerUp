@@ -2,10 +2,11 @@
   "name": "powerup",
   "version": "1.0.0",
   "description": "A Game Save Reader and Writer for the Wii version of MLB Power Pros",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "webpack --mode development",
-    "watch": "webpack watch --mode development "
+    "build": "webpack --mode development --progress",
+    "watch": "webpack watch --mode development",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "@types/react-dom": "^17.0.11",
     "@types/regenerator-runtime": "^0.13.1",
     "@types/styled-components": "^5.1.22",
+    "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.7.1",
     "electron": "^34.2.0",
     "html-webpack-plugin": "^5.5.0",

@@ -31,6 +31,7 @@ PowerUp/PowerUp.ElectronUI/wwwroot/*
 
 # production
 /build
+dist
 
 # misc
 .DS_Store
