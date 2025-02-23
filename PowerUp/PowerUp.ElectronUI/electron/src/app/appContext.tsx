@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, ReactElement, useContext } from "react";
+import { createContext, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
 import { CommandFetcher } from "../utils/commandFetcher";
 import { OpenInNewTabFn } from "./appConfig";
 import { BreadcrumbDefinition } from "./appState";
@@ -9,6 +9,7 @@ import { FileSelectionFn } from "../components/fileSelector/fileSelector";
 export interface AppContext {
   commandFetcher: CommandFetcher;
   breadcrumbs: BreadcrumbDefinition[];
+  toolbarActions?: ReactNode;
   setPage: (pageDef: PageLoadDefinition) => void;
   reloadCurrentPage: () => void;
   popBreadcrumb: (breadcrumbId: number) => void;
