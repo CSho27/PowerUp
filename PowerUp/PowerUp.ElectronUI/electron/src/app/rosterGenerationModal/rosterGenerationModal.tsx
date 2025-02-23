@@ -6,7 +6,7 @@ import { FlexFracItem, FlexRow } from "../../components/flexRow/flexRow";
 import { Modal } from "../../components/modal/modal";
 import { NumberField } from "../../components/numberField/numberField";
 import { ProgressBar } from "../../components/progressBar/progressBar";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { RosterGenerationApiClient } from "./rosterGenerationApiClient";
 import { RosterGenerationStatusApiClient } from "./rosterGenerationStatusApiClient";
 import { ConfirmationModal } from "../../components/modal/confirmationModal";

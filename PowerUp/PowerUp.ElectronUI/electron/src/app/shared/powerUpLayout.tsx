@@ -4,7 +4,7 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { openInBrowserOnClick } from "../../utils/openInBroswer";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { useRef } from "react";
 import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
 import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";

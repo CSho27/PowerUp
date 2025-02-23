@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Button } from "../../components/button/button";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { FileSystemSelector } from "../../components/fileSystemSelector/fileSystemSelector";
 import { Modal } from "../../components/modal/modal";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";

@@ -1,5 +1,5 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
-import { PerformWithSpinnerCallback } from "../app";
+import { PerformWithSpinnerCallback } from "../appContext";
 
 export interface ImportRosterRequest {
   file: File;

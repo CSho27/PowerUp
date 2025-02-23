@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { TeamEditorDetailsAction } from "./teamEditorState";
 import { PlayerRoleState } from "./playerRoleState";
 import { TeamManagementGrid } from "./teamManagementGrid";

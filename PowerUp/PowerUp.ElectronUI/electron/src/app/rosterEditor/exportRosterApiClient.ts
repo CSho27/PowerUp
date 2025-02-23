@@ -1,6 +1,6 @@
 import { CommandFetcher } from "../../utils/commandFetcher";
 import { trim } from "../../utils/stringUtils";
-import { PerformWithSpinnerCallback } from "../app";
+import { PerformWithSpinnerCallback } from "../appContext";
 import { ResultResponse } from "../shared/resultResponse";
 import { ContentDisposition } from "../../utils/ContentDisposition";
 

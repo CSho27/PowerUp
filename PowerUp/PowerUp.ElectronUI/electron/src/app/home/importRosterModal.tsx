@@ -3,7 +3,7 @@ import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { ImportRosterApiClient, ImportRosterRequest } from "../rosterEditor/importRosterApiClient";
 import styled from "styled-components";
 import { RadioButton } from "../../components/radioButton/radioButton";

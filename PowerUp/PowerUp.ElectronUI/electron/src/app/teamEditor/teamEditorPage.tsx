@@ -7,7 +7,7 @@ import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStam
 import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { PageCleanupFunction, PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { deepEquals } from "../shared/deepEquals";

@@ -9,7 +9,7 @@ import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";

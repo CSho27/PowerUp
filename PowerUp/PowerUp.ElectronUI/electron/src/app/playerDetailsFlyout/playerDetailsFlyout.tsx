@@ -6,7 +6,7 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { TrajectoryArrow, TrajectoryValue } from "../../components/trajcetoryArrow/trajectoryArrow";
 import { COLORS, FONT_SIZES } from "../../style/constants";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { getPositionType } from "../shared/positionCode";
 import { HitterDetailsDto, PitcherDetailsDto, PlayerFlyoutDetailsResponse } from "./getPlayerFlyoutDetailsApiClient";
 import { PitchArsenalDisplay } from "./pitchArsenalDisplay";

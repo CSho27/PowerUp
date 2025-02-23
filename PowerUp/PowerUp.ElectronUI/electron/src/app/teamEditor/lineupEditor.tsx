@@ -9,7 +9,7 @@ import { COLORS } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { insert } from "../../utils/arrayUtils";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { getPositionAbbreviation, getPositionType, isPosition, Position, positionCompare } from "../shared/positionCode";
 

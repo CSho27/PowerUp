@@ -1,6 +1,6 @@
 import { PropsWithChildren, useRef } from "react";
 import styled from "styled-components";
-import { AppContext } from "../../app/app";
+import { AppContext } from "../../app/appContext";
 import { GetPlayerFlyoutDetailsApiClient } from "../../app/playerDetailsFlyout/getPlayerFlyoutDetailsApiClient";
 import { PlayerDetailsFlyout } from "../../app/playerDetailsFlyout/playerDetailsFlyout";
 import { EntitySourceType } from "../../app/shared/entitySourceType";

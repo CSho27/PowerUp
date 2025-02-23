@@ -11,7 +11,7 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { distinctBy } from "../../utils/arrayUtils";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { PlayerGenerationModal } from "../playerGenerationModal/playerGenerationModal";
 import { PlayerSearchResultDto } from "../playerSelectionModal/playerSearchApiClient";
 import { PlayerSelectionModal } from "../playerSelectionModal/playerSelectionModal";

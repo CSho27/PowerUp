@@ -1,5 +1,5 @@
 import { useMemo, useReducer } from "react";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { DraftPoolApiClient } from "./draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
 import { DraftStateReducer, getInitialState, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";

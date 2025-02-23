@@ -1,4 +1,4 @@
-import { PerformWithSpinnerCallback } from "../app/app";
+import { PerformWithSpinnerCallback } from "../app/appContext";
 
 export class CommandFetcher {
   private readonly commandUrl: string;
