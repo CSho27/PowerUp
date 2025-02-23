@@ -6,12 +6,12 @@ import { Modal } from "../../components/modal/modal";
 import { fileSystemCharacters, TextField } from "../../components/textField/textField";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { replace } from "../../utils/arrayUtils";
-import { AppContext } from "../appContext";
 import { ActivateGameSaveApiClient } from "./activateGameSaveApiClient";
 import { openGameSaveManagerInitializationModal } from "./gameSaveManagerInitializationModal";
 import { GameSaveDto, OpenGameSaveManagerApiClient } from "./openGameSaveManagerApiClient";
 import { RenameGameSaveApiClient } from "./renameGameSaveApiClient";
 import { NoticeSection } from "../../components/noticeSection/noticeSection";
+import { AppContext } from "../../app/appContext";
 
 export async function openGameSaveManagerModal(appContext: AppContext) {
   const managerStateResponse = await new OpenGameSaveManagerApiClient(appContext.commandFetcher).execute();

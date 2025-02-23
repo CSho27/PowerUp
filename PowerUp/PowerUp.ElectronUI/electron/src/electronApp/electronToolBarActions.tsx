@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { useAppContext } from "../app/appContext";
-import { InitializeGameSaveManagerApiClient } from "../app/gameSaveManager/initializeGameSaveManagerApiClient";
 import styled from "styled-components";
 import { FONT_SIZES } from "../style/constants";
 import { Icon } from "../components/icon/icon";
-import { openGameSaveManagerInitializationModal } from "../app/gameSaveManager/gameSaveManagerInitializationModal";
-import { openGameSaveManagerModal } from "../app/gameSaveManager/gameSaveManagementModal";
 import { openMigrationModal } from "../app/migrationModal/migrationModal";
+import { InitializeGameSaveManagerApiClient } from "./gameSaveManager/initializeGameSaveManagerApiClient";
+import { openGameSaveManagerInitializationModal } from "./gameSaveManager/gameSaveManagerInitializationModal";
+import { openGameSaveManagerModal } from "./gameSaveManager/gameSaveManagementModal";
 
 export 
 

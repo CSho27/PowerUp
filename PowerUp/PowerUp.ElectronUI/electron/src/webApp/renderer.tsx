@@ -1,7 +1,7 @@
 
 import * as ReactDOM from 'react-dom';
 import * as React from 'react'; // DO NOT REMOVE. THIS IMPORT IS REQUIRED FOR REACT TO BE ON PAGE IN TIME!
-import { App } from "./app";
+import { App } from "../app/app";
 import { FileFilter } from '../components/fileSelector/fileSelector';
 
 interface ApplicationStartupData {
