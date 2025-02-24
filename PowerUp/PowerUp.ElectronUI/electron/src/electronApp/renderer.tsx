@@ -15,9 +15,13 @@ export interface Env {
 }
 
 const electronApi: ElectronApi = (window as any).electronApi;
+const base = document.createElement('base');
+base.href = electronApi.env.BASE_URL;
+document.head.append(base);
+
 ReactDOM.render(
   <App
-    commandUrl={`${electronApi.env.BASE_URL}/command`}
+    commandUrl={'/command'}
     appConfig={{
       openFileSelector: electronApi.openFileSelector,
       openInNewTab: electronApi.openInNewTab,

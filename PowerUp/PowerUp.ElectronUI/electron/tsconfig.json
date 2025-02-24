@@ -23,7 +23,8 @@
     "jsx": "react-jsx"
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
   "compileOnSave": false,
   "buildOnSave": false

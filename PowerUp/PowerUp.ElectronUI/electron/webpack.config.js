@@ -34,6 +34,9 @@ function getConfig(env, argv) {
       filename: '[name].js',
       clean: true,
     },
+    watchOptions: {
+      ignored: ['**/node_modules/', '**/dist']
+    },
     module: {
       rules: [
         {
