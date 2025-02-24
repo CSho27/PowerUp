@@ -25,10 +25,14 @@ async function createWindow() {
   const win = new BrowserWindow({
     height: 600,
     width: 800,
+    show: false,
+    icon: './public/favicon.ico',
     webPreferences: {
       preload: path.resolve('dist/preload.js')
     }
   });
+  win.maximize();
+  win.show();
   win.loadFile('dist/renderer.html');
 }
 
