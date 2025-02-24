@@ -51,7 +51,7 @@ export class CommandFetcher {
         throw await response.text();
       }
     } catch (error) {
-      this.log('Error', JSON.stringify(error));
+      if(commandName !== 'WriteLog') this.log('Error', JSON.stringify(error));
       return new Promise((_, reject) => reject(error));
     }
   }

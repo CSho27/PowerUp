@@ -26,6 +26,7 @@ function getConfig(env, argv) {
   if(argv.mode === 'development') copyPatterns.push({ from: 'dist/index.js.map', to: '../../wwwroot/index.js.map' },)
 
   return {
+    mode: argv.mode,
     target: "electron-renderer",
     devtool: "source-map",
     entry: Object.fromEntries(Object.entries(entries).map(([name, { entry }]) => [name, entry])),
@@ -53,7 +54,7 @@ function getConfig(env, argv) {
     },
     plugins: [
       ...htmlPlugins,
-      new CopyWebpackPlugin({ patterns: copyPatterns })
+      new CopyWebpackPlugin({ patterns: copyPatterns }),
     ]
   };
 }

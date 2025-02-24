@@ -3,6 +3,8 @@ import path, { basename } from 'path';
 import { FileFilter } from '../components/fileSelector/fileSelector';
 import { readFileSync } from 'fs';
 
+process.loadEnvFile();
+
 app.whenReady().then(() => {
   createWindow();
 });
@@ -13,6 +15,9 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
+ipcMain.on('get-env', event => {
+  event.returnValue = JSON.stringify(process.env)
+})
 ipcMain.handle('openFileSelector', async (_, filter) => await openFileSelector(filter));
 ipcMain.handle('openInNewTab', async (_, url) => shell.openExternal(url));
 
@@ -24,7 +29,7 @@ async function createWindow() {
       preload: path.resolve('dist/preload.js')
     }
   });
-  win.loadFile('dist/renderer.html');  
+  win.loadFile('dist/renderer.html');
 }
 
 async function openFileSelector(filter?: FileFilter): Promise<File|null> {
