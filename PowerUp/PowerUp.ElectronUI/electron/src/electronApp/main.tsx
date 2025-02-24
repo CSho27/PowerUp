@@ -3,8 +3,6 @@ import path, { basename } from 'path';
 import { FileFilter } from '../components/fileSelector/fileSelector';
 import { readFileSync } from 'fs';
 
-process.loadEnvFile();
-
 app.whenReady().then(() => {
   createWindow();
 });
@@ -28,12 +26,12 @@ async function createWindow() {
     show: false,
     icon: './public/favicon.ico',
     webPreferences: {
-      preload: path.resolve('dist/preload.js')
+      preload: path.resolve('dist/renderer/preload.js')
     }
   });
   win.maximize();
   win.show();
-  win.loadFile('dist/renderer.html');
+  win.loadFile('dist/renderer/renderer.html');
 }
 
 async function openFileSelector(filter?: FileFilter): Promise<File|null> {

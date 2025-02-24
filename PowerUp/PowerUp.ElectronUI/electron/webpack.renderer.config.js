@@ -1,11 +1,11 @@
-import HtmlWebPackPlugin from "html-webpack-plugin";
-import CopyWebpackPlugin from "copy-webpack-plugin";
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require('path');
 
-export default getConfig;
+module.exports = getConfig;
 
 function getConfig(env, argv) {
   const entries = {
-    main: { entry: './src/electronApp/main.tsx' },
     preload: { entry: './src/electronApp/preload.tsx' },
     renderer: { entry: './src/electronApp/renderer.tsx', html: true },
     index: { entry: './src/webApp/renderer.tsx', html: true },
@@ -20,10 +20,10 @@ function getConfig(env, argv) {
   });
 
   const copyPatterns = [
-    { from: 'dist/index.js', to: '../../wwwroot/index.js' },
-    { from: 'dist/index.html', to: '../../wwwroot/index.html' }
+    { from: 'dist/renderer/index.js', to: '../../../wwwroot/index.js' },
+    { from: 'dist/renderer/index.html', to: '../../../wwwroot/index.html' }
   ];
-  if(argv.mode === 'development') copyPatterns.push({ from: 'dist/index.js.map', to: '../../wwwroot/index.js.map' },)
+  if(argv.mode === 'development') copyPatterns.push({ from: 'dist/renderer/index.js.map', to: '../../../wwwroot/index.js.map' },)
 
   return {
     mode: argv.mode,
@@ -32,6 +32,7 @@ function getConfig(env, argv) {
     entry: Object.fromEntries(Object.entries(entries).map(([name, { entry }]) => [name, entry])),
     output: { 
       filename: '[name].js',
+      path: path.resolve(__dirname, 'dist/renderer'),
       clean: true,
     },
     watchOptions: {
@@ -58,6 +59,6 @@ function getConfig(env, argv) {
     plugins: [
       ...htmlPlugins,
       new CopyWebpackPlugin({ patterns: copyPatterns }),
-    ]
+    ],
   };
 }
