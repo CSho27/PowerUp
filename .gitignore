@@ -33,6 +33,7 @@ PowerUp/PowerUp.ElectronUI/wwwroot/*
 /build
 dist
 .env
+out
 
 # misc
 .DS_Store
