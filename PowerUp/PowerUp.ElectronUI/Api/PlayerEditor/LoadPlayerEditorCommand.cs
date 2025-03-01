@@ -28,10 +28,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       _baseballReferenceUrlProvider = baseballReferenceUrlProvider;
     }
 
-    public PlayerEditorResponse Execute(LoadPlayerEditorRequest request)
+    public Task<PlayerEditorResponse> Execute(LoadPlayerEditorRequest request)
     {
       var player = DatabaseConfig.Database.Load<Player>(request.PlayerId!.Value);
-      return new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, _faceLibrary, _baseballReferenceUrlProvider, player!);
+      return Task.FromResult(new PlayerEditorResponse(_voiceLibrary, _batttingStanceLibrary, _pitchingMechanicsLibrary, _faceLibrary, _baseballReferenceUrlProvider, player!));
     }
   }
 

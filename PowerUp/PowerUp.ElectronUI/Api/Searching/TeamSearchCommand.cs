@@ -7,13 +7,13 @@ namespace PowerUp.ElectronUI.Api.Searching
 {
   public class TeamSearchCommand : ICommand<TeamSearchRequest, TeamSearchResponse>
   {
-    public TeamSearchResponse Execute(TeamSearchRequest request)
+    public Task<TeamSearchResponse> Execute(TeamSearchRequest request)
     {
       if (request.SearchText == null)
-        return TeamSearchResponse.Empty();
+        return Task.FromResult(TeamSearchResponse.Empty());
 
       var results = new TeamSearchQuery(request.SearchText).Execute();
-      return new TeamSearchResponse(results);
+      return Task.FromResult(new TeamSearchResponse(results));
     }
   }
 

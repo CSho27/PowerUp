@@ -14,7 +14,7 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
       _gameSaveManager = gameSaveManager;
     }
 
-    public InitializeGameSaveResponse Execute(InitializeGameSaveManagerRequest request)
+    public Task<InitializeGameSaveResponse> Execute(InitializeGameSaveManagerRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
       var settings = DatabaseConfig.Database.LoadOnly<AppSettings>();
@@ -35,10 +35,10 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
       
       var dirExists = _gameSaveManager.Initialize(settings.GameSaveManagerDirectoryPath);
       if (!dirExists)
-        return new InitializeGameSaveResponse { Success = false };
+        return Task.FromResult(new InitializeGameSaveResponse { Success = false });
       
       tx.Commit();
-      return new InitializeGameSaveResponse { Success = true };
+      return Task.FromResult(new InitializeGameSaveResponse { Success = true });
     }
   }
 

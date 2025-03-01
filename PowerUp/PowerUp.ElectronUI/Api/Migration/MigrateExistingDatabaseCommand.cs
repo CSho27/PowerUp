@@ -12,14 +12,14 @@ namespace PowerUp.ElectronUI.Api.Migration
       _migrationApi = migrationApi;
     }
 
-    public ResultResponse Execute(MigrateExistingDatabaseRequest request)
+    public Task<ResultResponse> Execute(MigrateExistingDatabaseRequest request)
     {
       var dataDirectoryPath = Path.Combine(Path.GetDirectoryName(request.PowerUpDirectory)!, "./resources/bin/Data");
       if (!Directory.Exists(dataDirectoryPath))
-        return ResultResponse.Failed();
+        return Task.FromResult(ResultResponse.Failed());
 
       _migrationApi.MigrateDataFrom(dataDirectoryPath);
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 

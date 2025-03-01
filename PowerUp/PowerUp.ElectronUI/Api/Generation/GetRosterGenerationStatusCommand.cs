@@ -5,10 +5,10 @@ namespace PowerUp.ElectronUI.Api.Generation
 {
   public class GetRosterGenerationStatusCommand : ICommand<GetRosterGenerationStatusRequest, GetRosterGenerationStatusResponse>
   {
-    public GetRosterGenerationStatusResponse Execute(GetRosterGenerationStatusRequest request)
+    public Task<GetRosterGenerationStatusResponse> Execute(GetRosterGenerationStatusRequest request)
     {
       var status = DatabaseConfig.Database.Load<RosterGenerationStatus>(request.GenerationStatusId)!;
-      return new GetRosterGenerationStatusResponse(status);
+      return Task.FromResult(new GetRosterGenerationStatusResponse(status));
     }
   }
 

@@ -11,10 +11,10 @@ namespace PowerUp.ElectronUI.Api.Searching
       _library = library;
     }
 
-    public FranchiseLookupResponse Execute(FranchiseLookupRequest request)
+    public Task<FranchiseLookupResponse> Execute(FranchiseLookupRequest request)
     {
       var results = _library.Search(request.SearchText!);
-      return new FranchiseLookupResponse(results); 
+      return Task.FromResult(new FranchiseLookupResponse(results)); 
     }
   }
 

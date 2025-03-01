@@ -12,9 +12,9 @@ namespace PowerUp.ElectronUI.Api.Searching
       _mlbLookupServiceClient = mlbLookupServiceClient;
     }
 
-    public PlayerLookupResponse Execute(PlayerLookupRequest request)
+    public async Task<PlayerLookupResponse> Execute(PlayerLookupRequest request)
     {
-      var response = Task.Run(() => _mlbLookupServiceClient.SearchPlayer(request.SearchText!)).GetAwaiter().GetResult();
+      var response = await _mlbLookupServiceClient.SearchPlayer(request.SearchText!);
       return new PlayerLookupResponse(response.Results);
     }
   }

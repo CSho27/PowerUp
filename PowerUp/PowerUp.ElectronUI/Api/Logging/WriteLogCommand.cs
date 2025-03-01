@@ -13,10 +13,10 @@ namespace PowerUp.ElectronUI.Api.Logging
       _logger = logger;
     }
 
-    public ResultResponse Execute(WriteLogRequest request)
+    public Task<ResultResponse> Execute(WriteLogRequest request)
     {
       _logger.Log(request.LogLevel, $"(UI): {request.Message}");
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 

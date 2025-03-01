@@ -28,7 +28,7 @@ namespace PowerUp.ElectronUI.Api.Generation
       _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
-    public DraftPoolGenerationResponse Execute(DraftPoolGenerationRequest request)
+    public Task<DraftPoolGenerationResponse> Execute(DraftPoolGenerationRequest request)
     {
       var algorithm = new LSStatistcsPlayerGenerationAlgorithm(
         _voiceLibrary,
@@ -40,10 +40,10 @@ namespace PowerUp.ElectronUI.Api.Generation
         .GetAwaiter()
         .GetResult();
       DatabaseConfig.Database.SaveAll(draftPool);
-      return new DraftPoolGenerationResponse
+      return Task.FromResult(new DraftPoolGenerationResponse
       {
         Players = draftPool.Select(p => new PlayerDetailsResponse(p))
-      };
+      });
     }
   }
 

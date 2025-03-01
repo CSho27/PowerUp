@@ -12,10 +12,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       _voiceLibrary = voiceLibrary;
     }
 
-    public SimpleCode Execute(FindClosestVoiceRequest request)
+    public Task<SimpleCode> Execute(FindClosestVoiceRequest request)
     {
       var closest = _voiceLibrary.FindClosestTo(request.FirstName!, request.LastName!);
-      return new SimpleCode(closest.Key, closest.Value);
+      return Task.FromResult(new SimpleCode(closest.Key, closest.Value));
     }
   }
 

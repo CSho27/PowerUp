@@ -5,10 +5,10 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
 {
   public class GetGameSaveManagerDirectoryCommand : ICommand<GetCurrentGameSaveManagerDirectoryRequest, GetCurrentGameSaveManagerDirectoryResponse>
   {
-    public GetCurrentGameSaveManagerDirectoryResponse Execute(GetCurrentGameSaveManagerDirectoryRequest request)
+    public Task<GetCurrentGameSaveManagerDirectoryResponse> Execute(GetCurrentGameSaveManagerDirectoryRequest request)
     {
       var appSettings = DatabaseConfig.Database.LoadOnly<AppSettings>();
-      return new GetCurrentGameSaveManagerDirectoryResponse { GameSaveManagerDirectoryPath = appSettings?.GameSaveManagerDirectoryPath };
+      return Task.FromResult(new GetCurrentGameSaveManagerDirectoryResponse { GameSaveManagerDirectoryPath = appSettings?.GameSaveManagerDirectoryPath });
     }
   }
 

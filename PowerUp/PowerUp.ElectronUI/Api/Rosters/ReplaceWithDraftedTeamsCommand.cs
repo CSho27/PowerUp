@@ -20,7 +20,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       _teamApi = teamApi;
     }
 
-    public ResultResponse Execute(ReplaceWithDraftedTeamsRequest request)
+    public Task<ResultResponse> Execute(ReplaceWithDraftedTeamsRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
       var roster = DatabaseConfig.Database.Load<Roster>(request.RosterId)!;
@@ -34,7 +34,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       DatabaseConfig.Database.Save(roster);
       tx.Commit();
 
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 

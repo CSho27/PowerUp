@@ -14,14 +14,14 @@ namespace PowerUp.ElectronUI.Api.GameSaveManagement
       _gameSaveManager = gameSaveManager;
     }
 
-    public ResultResponse Execute(RenameGameSaveRequest request)
+    public Task<ResultResponse> Execute(RenameGameSaveRequest request)
     {
       var settings = DatabaseConfig.Database.LoadOnly<AppSettings>();
       if (settings == null || settings.GameSaveManagerDirectoryPath == null)
         throw new InvalidOperationException("Game Save Manager has not been initlialized");
 
       var success = _gameSaveManager.RenameGameSave(settings.GameSaveManagerDirectoryPath, request.GameSaveId, request.Name);
-      return new ResultResponse(success);
+      return Task.FromResult(new ResultResponse(success));
     }
   }
 

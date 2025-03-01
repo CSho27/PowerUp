@@ -7,13 +7,13 @@ namespace PowerUp.ElectronUI.Api.Searching
 {
   public class PlayerSearchCommand : ICommand<PlayerSearchRequest, PlayerSearchResponse>
   {
-    public PlayerSearchResponse Execute(PlayerSearchRequest request)
+    public Task<PlayerSearchResponse> Execute(PlayerSearchRequest request)
     {
       if(request.SearchText == null)
-        return PlayerSearchResponse.Empty();
+        return Task.FromResult(PlayerSearchResponse.Empty());
 
       var results = new PlayerSearchQuery(request.SearchText).Execute();
-      return new PlayerSearchResponse(results);
+      return Task.FromResult(new PlayerSearchResponse(results));
     }
   }
 

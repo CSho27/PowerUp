@@ -6,7 +6,7 @@ namespace PowerUp.ElectronUI.Api.Teams
 {
   public class DiscardTempTeamCommand : ICommand<DiscardTempTeamRequest, ResultResponse>
   {
-    public ResultResponse Execute(DiscardTempTeamRequest request)
+    public Task<ResultResponse> Execute(DiscardTempTeamRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
 
@@ -16,7 +16,7 @@ namespace PowerUp.ElectronUI.Api.Teams
       );
 
       tx.Commit();
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 

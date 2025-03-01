@@ -30,9 +30,9 @@ namespace PowerUp.ElectronUI.Controllers
     }
 
     [Route(COMMAND_URL), HttpPost]
-    public ActionResult ExecuteCommand([FromForm]CommandRequest commandRequest)
+    public async Task<ActionResult> ExecuteCommand([FromForm]CommandRequest commandRequest)
     {
-      var result = _commandRegistry.ExecuteCommand(commandRequest);
+      var result = await _commandRegistry.ExecuteCommand(commandRequest);
       var fileResult = result as FileResponse;
       return fileResult is not null
         ? File(fileResult.Stream, fileResult.ContentType, fileResult.Name)

@@ -5,7 +5,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
 {
   public class ImportGameSaveCommand(IRosterImportApi rosterImportApi) : IFileRequestCommand<ImportGameSaveRequest, ImportGameSaveResponse>
   {
-    public ImportGameSaveResponse Execute(ImportGameSaveRequest request, IFormFile? file)
+    public Task<ImportGameSaveResponse> Execute(ImportGameSaveRequest request, IFormFile? file)
     {
       var parameters = new RosterImportParameters
       {
@@ -13,7 +13,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
         ImportSource = request.ImportSource,
       };
       var result = rosterImportApi.ImportRoster(parameters);
-      return new ImportGameSaveResponse(result.Roster!.Id!.Value);
+      return Task.FromResult(new ImportGameSaveResponse(result.Roster!.Id!.Value));
     }
   }
 

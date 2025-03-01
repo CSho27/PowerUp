@@ -15,7 +15,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       _rosterExportApi = rosterExportApi;
     }
 
-    public FileResponse Execute(ExportRosterRequest request, IFormFile? file)
+    public Task<FileResponse> Execute(ExportRosterRequest request, IFormFile? file)
     {
       var roster = DatabaseConfig.Database.Load<Roster>(request.RosterId);
       using var fileStream = file?.OpenReadStream();
@@ -26,7 +26,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       };
 
       var rosterFile = _rosterExportApi.ExportRoster(parameters);
-      return new FileResponse($"{roster!.Name}.dat", rosterFile, MediaTypeNames.Multipart.FormData);
+      return Task.FromResult(new FileResponse($"{roster!.Name}.dat", rosterFile, MediaTypeNames.Multipart.FormData));
     }
   }
 

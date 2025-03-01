@@ -25,7 +25,7 @@ namespace PowerUp.ElectronUI
       _commands.Add(commandName, commandInfo);
     }
 
-    public object ExecuteCommand(CommandRequest commandRequest)
+    public async Task<object> ExecuteCommand(CommandRequest commandRequest)
     {
       if(commandRequest == null)
         throw new ArgumentNullException(nameof(commandRequest));
@@ -49,10 +49,10 @@ namespace PowerUp.ElectronUI
       var deserializedRequest = JsonSerializer.Deserialize(request, commandInfo.RequestType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
       var isFileRequest = commandInfo.CommandInterfaceType.Name == typeof(IFileRequestCommand<,>).Name;
-      if(isFileRequest)
-        return commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, [deserializedRequest, commandRequest.File])!;
-      else
-        return commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, [deserializedRequest])!;
+      var result = isFileRequest
+        ? commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, [deserializedRequest, commandRequest.File])!
+        : commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, [deserializedRequest])!;
+      return await (dynamic)result;
     }
 
     private Type GetCommandInterfaceType(Type commandType)
@@ -78,12 +78,12 @@ namespace PowerUp.ElectronUI
   public interface ICommand { }
   public interface ICommand<TRequest, TResponse> : ICommand
   {
-    TResponse Execute(TRequest request);
+    Task<TResponse> Execute(TRequest request);
   }
 
   public interface IFileRequestCommand<TRequest, TResponse> : ICommand
   {
-    TResponse Execute(TRequest request, IFormFile? file);
+    Task<TResponse> Execute(TRequest request, IFormFile? file);
   }
 
   public class CommandRequest
