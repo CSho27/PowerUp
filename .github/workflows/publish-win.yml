@@ -1,0 +1,37 @@
+name: Publish Electron Forge App (Windows)
+
+on:
+  release:
+    types: [created]  # Runs when a new GitHub release is created
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use Windows runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Ensure this matches your project's Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Make Windows Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run make  # Runs Electron Forge 'make' command
+
+      - name: Upload Windows Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-build
+          path: out/make/  # Path where Electron Forge saves the installer
+
+      - name: Publish Release to GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run publish  # Runs Electron Forge 'publish' command

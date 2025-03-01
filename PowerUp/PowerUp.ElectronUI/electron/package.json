@@ -11,6 +11,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CSho27/PowerUp.git"
@@ -22,6 +23,13 @@
     "url": "https://github.com/CSho27/PowerUp/issues"
   },
   "homepage": "https://github.com/CSho27/PowerUp#readme",
+  "electronPackagerConfig": {
+    "win32metadata": {
+      "CompanyName": "CSho27",
+      "FileDescription": "PowerUp",
+      "ProductName": "PowerUp"
+    }
+  },
   "devDependencies": {
     "@electron-forge/cli": "^7.7.0",
     "@electron-forge/maker-deb": "^7.7.0",
