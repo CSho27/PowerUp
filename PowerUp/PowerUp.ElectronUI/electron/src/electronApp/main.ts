@@ -77,8 +77,9 @@ async function openFileSelector(filter?: FileFilter): Promise<File|null> {
 
 const csp = `
   default-src 'self'; 
-  script-src 'self' 'unsafe-inline'; 
-  style-src 'self' 'unsafe-inline';
+  script-src 'self' 'unsafe-inline' *.fontawesome.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' 'unsafe-inline' *.fontawesome.com https://fonts.googleapis.com fonts.gstatic.com;
   img-src 'self' data: https://localhost:44388;
-  connect-src 'self' https://localhost:44388;
+  connect-src 'self' https://localhost:44388 *.fontawesome.com;
 `

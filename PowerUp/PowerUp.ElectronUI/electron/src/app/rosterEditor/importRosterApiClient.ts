@@ -30,8 +30,8 @@ export class ImportRosterApiClient {
         formData.append("importSource", request.importSource);
         const response = await fetch('./Import', {
           method: 'POST',
-          mode: 'same-origin',
-          body: formData
+          body: formData,
+          ...getDefaultRequestOptions()
         });
         const responseJson = await response.json(); 
         return responseJson;
