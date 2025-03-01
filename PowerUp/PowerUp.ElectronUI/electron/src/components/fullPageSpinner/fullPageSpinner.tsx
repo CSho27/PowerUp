@@ -1,7 +1,7 @@
-import Portal from "@reach/portal"
 import styled from "styled-components"
 import { COLORS } from "../../style/constants"
 import { Spinner } from "../spinner/spinner"
+import { Portal } from "@reach/portal"
 
 export function FullPageSpinner() {
   return <Portal>
