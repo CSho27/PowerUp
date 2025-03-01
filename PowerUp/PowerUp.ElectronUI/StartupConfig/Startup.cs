@@ -4,6 +4,7 @@ using PowerUp.Databases;
 using PowerUp.ElectronUI.StartupConfig;
 using PowerUp.Libraries;
 using Serilog;
+using System.Net;
 
 namespace PowerUp.ElectronUI
 {
@@ -19,7 +20,7 @@ namespace PowerUp.ElectronUI
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      var isDevelopment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") == "Development";
+      var isDevelopment = Configuration["Environment"] == "Development";
       services.AddCors(options =>
       {
         options.AddPolicy("AllowElectronApp",
@@ -70,6 +71,7 @@ namespace PowerUp.ElectronUI
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 
+      app.Use(PowerUpFilter);
       app.UseCors("AllowElectronApp");
       app.UseRouting();
       app.UseEndpoints(endpoints =>
@@ -93,6 +95,30 @@ namespace PowerUp.ElectronUI
         .ServiceProvider;
 
       serviceProvider.AddCommandsToRegistry();
+    }
+
+    private async Task PowerUpFilter(HttpContext context, Func<Task> next)
+    {
+      var request = context.Request;
+      var originHeader = request.Headers.Origin.ToString();
+      var refererHeader = request.Headers.Referer.ToString();
+      var host = request.Host.ToString();
+
+      var isSameOrigin =
+          (string.IsNullOrEmpty(originHeader) || originHeader.Contains(host)) &&
+          (string.IsNullOrEmpty(refererHeader) || refererHeader.Contains(host));
+      var hasElectronAppAccessHeader = context.Request.Headers.TryGetValue("Access-Control-Request-Headers", out var accessHeader) 
+        && accessHeader.Any(v => v.Equals("X-Electron-App", StringComparison.OrdinalIgnoreCase));
+      var isPowerUpApp = context.Request.Headers.Any(h => h.Key.Equals("X-Electron-App", StringComparison.OrdinalIgnoreCase) 
+        && h.Value.ToString().Equals("PowerUp", StringComparison.OrdinalIgnoreCase));
+      if (!isSameOrigin && !hasElectronAppAccessHeader && !isPowerUpApp)
+      {
+        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        await context.Response.WriteAsync("Unauthorized Electron App");
+        return;
+      }
+
+      await next();
     }
   }
 }

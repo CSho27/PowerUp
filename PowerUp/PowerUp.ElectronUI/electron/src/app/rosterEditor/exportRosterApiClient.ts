@@ -1,4 +1,4 @@
-import { CommandFetcher } from "../../utils/commandFetcher";
+import { CommandFetcher, getDefaultRequestOptions } from "../../utils/commandFetcher";
 import { trim } from "../../utils/stringUtils";
 import { PerformWithSpinnerCallback } from "../appContext";
 import { ResultResponse } from "../shared/resultResponse";
@@ -27,10 +27,7 @@ export class ExportRosterApiClient {
       try {
         const response = await fetch(`./csv/export?rosterId=${rosterId}`, {
           method: 'GET',
-          mode: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          ...getDefaultRequestOptions({ 'Content-Type': 'application/json' })
         });
         
         const responseType = response.headers.get('Content-Type');

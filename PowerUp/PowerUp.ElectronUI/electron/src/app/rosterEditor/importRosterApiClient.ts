@@ -1,4 +1,4 @@
-import { CommandFetcher } from "../../utils/commandFetcher";
+import { CommandFetcher, getDefaultRequestOptions } from "../../utils/commandFetcher";
 import { PerformWithSpinnerCallback } from "../appContext";
 
 export interface ImportRosterRequest {
@@ -50,8 +50,8 @@ export class ImportRosterApiClient {
         formData.append("importSource", request.importSource);
         const response = await fetch('./csv/import', {
           method: 'POST',
-          mode: 'same-origin',
-          body: formData
+          body: formData,
+          ...getDefaultRequestOptions()
         });
         const responseJson = await response.json(); 
         return responseJson;

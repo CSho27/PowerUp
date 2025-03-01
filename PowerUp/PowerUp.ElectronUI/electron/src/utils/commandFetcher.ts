@@ -63,8 +63,8 @@ export class CommandFetcher {
     if(!!file) formData.append('File', file);
     return {
       method: 'POST',
-      mode: 'cors',
-      body: formData
+      body: formData,
+      ...getDefaultRequestOptions()
     }
   }
 }
@@ -81,4 +81,14 @@ export type LogLevel =
 export interface WriteLogRequest {
   logLevel: LogLevel;
   message: string;
+}
+
+export function getDefaultRequestOptions(headers?: HeadersInit): RequestInit {
+  return {
+    mode: 'cors',
+    headers: {
+      ...(headers ?? {}),
+      'X-Electron-App': 'PowerUp',
+    }
+  }
 }
