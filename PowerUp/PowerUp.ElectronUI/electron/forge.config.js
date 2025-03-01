@@ -20,10 +20,12 @@ module.exports = {
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
       mainConfig,
+      packageSourceMaps: true,
       renderer: {
         config: rendererConfig,
         entryPoints: [
           {
+            html: './src/index.html',
             js: './src/electronApp/renderer.tsx',
             name: 'main_window',
             preload: {

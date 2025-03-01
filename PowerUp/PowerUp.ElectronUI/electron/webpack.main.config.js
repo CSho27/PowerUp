@@ -1,18 +1,15 @@
 const webpack = require('webpack');
-const path = require('path');
 const rules = require('./webpack.rules');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 process.loadEnvFile();
 
 module.exports = {
-  target: "electron-renderer",
+  target: "electron-main",
   devtool: "source-map",
   entry: './src/electronApp/main.tsx',
   output: { 
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist/main'),
-    clean: true,
   },
   watchOptions: {
     ignored: ['**/node_modules/', '**/dist']
@@ -27,8 +24,10 @@ module.exports = {
     new ForkTsCheckerWebpackPlugin({
       logger: 'webpack-infrastructure',
     }),
+    /*
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
     })
+      */
   ],
 };

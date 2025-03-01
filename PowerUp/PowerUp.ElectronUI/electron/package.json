@@ -4,8 +4,10 @@
   "description": "A Game Save Reader and Writer for the Wii version of MLB Power Pros",
   "main": "dist/main/main.js",
   "scripts": {
-    "build": "webpack --config webpack.renderer.config.js --mode development --progress",
-    "watch": "webpack watch --config webpack.renderer.config.js --mode development --progress",
+    "build": "webpack --config webpack.web.config.js --mode development --progress",
+    "watch": "webpack watch --config webpack.web.config.js --mode development --progress",
+    "build:renderer": "webpack --config webpack.renderer.config.js --mode development --progress",
+    "watch:renderer": "webpack --config webpack.renderer.config.js --mode development --progress",
     "build:main": "webpack --config webpack.main.config.js --mode development --progress",
     "start": "electron .",
     "start-forge": "electron-forge start",
