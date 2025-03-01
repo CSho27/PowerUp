@@ -11,10 +11,10 @@ namespace PowerUp.ElectronUI.Api.Rosters
       _baseRosterInitializer = baseRosterInitializer;
     }
 
-    public InitializeBaseResponse Execute(InitializeBaseRequest request)
+    public Task<InitializeBaseResponse> Execute(InitializeBaseRequest request)
     {
       _baseRosterInitializer.Initialize();
-      return new InitializeBaseResponse();
+      return Task.FromResult(new InitializeBaseResponse());
     }
   }
 

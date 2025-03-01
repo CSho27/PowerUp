@@ -1,4 +1,5 @@
 ﻿using PowerUp.ElectronUI.Api.Shared;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Logging
@@ -12,10 +13,10 @@ namespace PowerUp.ElectronUI.Api.Logging
       _logger = logger;
     }
 
-    public ResultResponse Execute(WriteLogRequest request)
+    public Task<ResultResponse> Execute(WriteLogRequest request)
     {
       _logger.Log(request.LogLevel, $"(UI): {request.Message}");
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 
@@ -23,6 +24,6 @@ namespace PowerUp.ElectronUI.Api.Logging
   {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public LogLevel LogLevel { get; set; }
-    public string Message { get; set; } = "";
+    public JsonElement? Message { get; set; }
   }
 }

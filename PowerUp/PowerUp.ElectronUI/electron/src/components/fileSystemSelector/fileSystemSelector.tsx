@@ -2,7 +2,7 @@ import { useMemo, useRef } from "react";
 import styled from "styled-components";
 import { Button } from "../button/button";
 import { FileSystemSelectionApiClient, FileSystemSelectionType } from "./fileSystemSelectionApiClient";
-import { AppContext } from "../../app/app";
+import { AppContext } from "../../app/appContext";
 
 export interface FileSystemSelectorProps {
   appContext: AppContext;

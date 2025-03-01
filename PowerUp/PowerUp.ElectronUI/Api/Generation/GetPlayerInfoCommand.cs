@@ -11,9 +11,9 @@ namespace PowerUp.ElectronUI.Api.Generation
       _mlbLookupServiceClient = mlbLookupServiceClient;
     }
 
-    public PlayerInfoResponse Execute(PlayerInfoRequest request)
+    public async Task<PlayerInfoResponse> Execute(PlayerInfoRequest request)
     {
-      var result = Task.Run(() => _mlbLookupServiceClient.GetPlayerInfo(request.LSPlayerId)).GetAwaiter().GetResult();
+      var result = await _mlbLookupServiceClient.GetPlayerInfo(request.LSPlayerId);
       return new PlayerInfoResponse(result);
     }
   } 

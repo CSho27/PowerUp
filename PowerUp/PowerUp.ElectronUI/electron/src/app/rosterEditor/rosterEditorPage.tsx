@@ -9,7 +9,7 @@ import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
@@ -98,7 +98,7 @@ export function RosterEditorPage(props: RosterEditorPageProps) {
 
   const teamsRef = useRef<HTMLElement | null>(null);
 
-  return <PowerUpLayout appContext={appContext} headerText='Edit Roster'>
+  return <PowerUpLayout headerText='Edit Roster'>
     <ContentWithHangingHeader header={header} headerHeight='128px' contentRef={teamsRef}>
       <TeamsContainer>
         {teams.filter(t => t.division === selectedDivision.key).map(toTeamGrid)}

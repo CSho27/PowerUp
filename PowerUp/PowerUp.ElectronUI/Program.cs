@@ -1,4 +1,3 @@
-using ElectronNET.API;
 using Serilog;
 
 namespace PowerUp.ElectronUI
@@ -29,7 +28,6 @@ namespace PowerUp.ElectronUI
         .UseSerilog()
         .ConfigureWebHostDefaults(webBuilder =>
         {
-          webBuilder.UseElectron(args);
           webBuilder.UseStartup<Startup>();
         });
   }

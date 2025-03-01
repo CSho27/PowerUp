@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "../../components/button/button";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { DisableResult } from "../shared/disableResult";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { PlayerSearchApiClient, PlayerSearchResultDto } from "./playerSearchApiClient";

@@ -9,7 +9,7 @@ import { fromOptions, toOptions } from "../../components/SelectField/selectField
 import { digits, powerProsCharacters, TextField } from "../../components/textField/textField"
 import { ToggleSwitch } from "../../components/toggleSwitch/toggleSwitch";
 import { FONT_SIZES } from "../../style/constants";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { FindClosestVoiceApiClient } from "./findClosestVoiceApiClient";
 import { PersonalDetailsOptions } from "./loadPlayerEditorApiClient";
 import { PlayerPersonalDetails, PlayerPersonalDetailsAction } from "./playerEditorState";

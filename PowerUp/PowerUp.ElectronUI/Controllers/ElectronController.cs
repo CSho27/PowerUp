@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PowerUp.ElectronUI.Api.Shared;
 using PowerUp.ElectronUI.Shared;
 
 namespace PowerUp.ElectronUI.Controllers
@@ -29,9 +30,13 @@ namespace PowerUp.ElectronUI.Controllers
     }
 
     [Route(COMMAND_URL), HttpPost]
-    public JsonResult ExecuteCommand([FromBody]CommandRequest request)
+    public async Task<ActionResult> ExecuteCommand([FromForm]CommandRequest commandRequest)
     {
-      return new JsonResult(_commandRegistry.ExecuteCommand(request));
+      var result = await _commandRegistry.ExecuteCommand(commandRequest);
+      var fileResult = result as FileResponse;
+      return fileResult is not null
+        ? File(fileResult.Stream, fileResult.ContentType, fileResult.Name)
+        : Json(result);
     }
   }
 }

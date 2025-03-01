@@ -3,7 +3,7 @@ import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { ImportRosterApiClient, ImportRosterRequest } from "../rosterEditor/importRosterApiClient";
 import styled from "styled-components";
 import { RadioButton } from "../../components/radioButton/radioButton";
@@ -24,7 +24,6 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
 
   const importApiClient = useMemo(() => new ImportRosterApiClient(
     appContext.commandFetcher,
-    appContext.performWithSpinner
   ), []);
 
   const [state, setState] = useState<State>({
@@ -86,10 +85,10 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
   </Modal>
 
   async function importRoster() {
-    const request: ImportRosterRequest = { file: state.selectedFile!, importSource: state.rosterName! };
+    const request: ImportRosterRequest = { importSource: state.rosterName! };
     const response = state.importType === 'game-save'
-      ? await importApiClient.execute(request)
-      : await importApiClient.executeCsv(request)
+      ? await importApiClient.execute(request, state.selectedFile!)
+      : await importApiClient.executeCsv(request, state.selectedFile!)
     appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 }

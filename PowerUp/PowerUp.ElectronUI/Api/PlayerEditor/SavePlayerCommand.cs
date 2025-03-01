@@ -14,7 +14,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       _playerApi = playerApi;
     }
 
-    public ResultResponse Execute(SavePlayerRequest request)
+    public Task<ResultResponse> Execute(SavePlayerRequest request)
     {
       if (!request.PlayerId.HasValue)
         throw new ArgumentNullException(nameof(request.PlayerId));
@@ -23,7 +23,7 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
       _playerApi.UpdatePlayer(player, request.GetParameters(player));
       DatabaseConfig.Database.Save(player);
 
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 

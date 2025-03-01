@@ -2,32 +2,20 @@ import { useRef, useState } from "react";
 import { Button } from "../../components/button/button";
 import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { ExportRosterApiClient } from "./exportRosterApiClient";
-import { FileSystemSelector } from "../../components/fileSystemSelector/fileSystemSelector";
 import { FlexRow } from "../../components/flexRow/flexRow";
 import { CheckboxField } from "../../components/checkboxField/checkboxField";
 import { FONT_SIZES } from "../../style/constants";
-import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
-import { GetGameSaveManagerDirectoryApiClient } from "../gameSaveManager/getGameSaveManagerDirectoryApiClient";
 import { RadioButton } from "../../components/radioButton/radioButton";
 import styled from "styled-components";
 import { downloadFile } from "../../utils/downloadFile";
+import { FileSelectionInput } from "../shared/fileSelectionInput";
 
 export async function openRosterExportModal(appContext: AppContext, rosterId: number) {
-  const apiClient = new GetGameSaveManagerDirectoryApiClient(appContext.commandFetcher);
-  const response = await apiClient.execute();
-  if(!response.gameSaveManagerDirectoryPath) {
-    const shouldOpenExporetModal = await openGameSaveManagerInitializationModal(appContext);
-    if(!shouldOpenExporetModal)
-      return;
-  }
-
-  const newResponse = await apiClient.execute();
   appContext.openModal(closeDialog => <RosterExportModal
     appContext={appContext}
     rosterId={rosterId}
-    gameSaveManagerDirectory={newResponse.gameSaveManagerDirectoryPath!}
     closeDialog={closeDialog}
   />);
 }
@@ -35,31 +23,29 @@ export async function openRosterExportModal(appContext: AppContext, rosterId: nu
 interface RosterExportModalProps {
   appContext: AppContext;
   rosterId: number;
-  gameSaveManagerDirectory: string;
   closeDialog: () => void;
 }
 
 interface State {
   exportType: ExportType;
   useBaseGameSave: boolean;
-  selectedGameSaveFile: string | undefined; 
+  selectedGameSaveFile: File | null; 
 }
 
 type ExportType = 'game-save' | 'csv';
 
 function RosterExportModal(props: RosterExportModalProps) {
-  const { appContext, rosterId, gameSaveManagerDirectory, closeDialog } = props;
+  const { appContext, rosterId, closeDialog } = props;
   
   const exportApiClientRef = useRef(
     new ExportRosterApiClient(
       appContext.commandFetcher, 
-      appContext.performWithSpinner
     )
   );
   const [state, setState] = useState<State>({
     exportType: 'game-save',
     useBaseGameSave: true,
-    selectedGameSaveFile: undefined,
+    selectedGameSaveFile: null,
   });
 
   return <Modal ariaLabel='Export Roster'>
@@ -100,11 +86,9 @@ function RosterExportModal(props: RosterExportModalProps) {
           <label htmlFor='useBaseGameSave' style={{ fontSize: FONT_SIZES._14 }}>Use Base Game Save</label>
         </FlexRow>
       </FlexRow>
-      <FileSystemSelector
-        appContext={appContext}
+      <FileSelectionInput
         id='gameSaveToCopyFromSelector'
-        type='File'
-        selectedPath={state.useBaseGameSave ? undefined : state.selectedGameSaveFile}
+        file={state.useBaseGameSave ? null : state.selectedGameSaveFile}
         fileFilter={{ name: 'PowerPros Game Save', allowedExtensions: ['dat'] }}
         disabled={state.useBaseGameSave}
         onSelection={file => setState(p => ({ ...p, selectedGameSaveFile: file }))}
@@ -127,16 +111,17 @@ function RosterExportModal(props: RosterExportModalProps) {
   async function exportRosterAsGameSave() {
     const response = await exportApiClientRef.current.execute({
       rosterId: rosterId,
-      sourceGameSavePath: state.selectedGameSaveFile,
-      directoryPath: gameSaveManagerDirectory
-    });
-  
-    if(response.success)
-      closeDialog();
+    }, state.selectedGameSaveFile);
+    if(!response) return;
+
+    downloadFile(response);
+    closeDialog();
   }
 
   async function exportRosterAsCsv() {
-    const csvFile = await exportApiClientRef.current.executeCsv(rosterId);
+    const csvFile = await exportApiClientRef.current.executeCsv({
+      rosterId: rosterId,
+    });
     downloadFile(csvFile);
     closeDialog();
   }

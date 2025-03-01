@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AppContext } from "../../app/app";
+import { AppContext } from "../../app/appContext";
 import { BreadcrumbDefinition } from "../../app/appState";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { Link } from "../link/link";

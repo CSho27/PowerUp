@@ -1,9 +1,9 @@
-import Portal from "@reach/portal";
 import { PropsWithChildren, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../style/constants";
 import { GenerateId } from "../../utils/generateId";
 import { isPromise } from "../../utils/isPromise";
+import { Portal } from "@reach/portal";
 
 export interface FlyoutStateManagementProps {
   isOpen: boolean;

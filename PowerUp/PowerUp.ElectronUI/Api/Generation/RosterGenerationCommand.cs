@@ -28,7 +28,7 @@ namespace PowerUp.ElectronUI.Api.Generation
       _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
-    public RosterGeneratioResponse Execute(RosterGenerationRequest request)
+    public Task<RosterGeneratioResponse> Execute(RosterGenerationRequest request)
     {
       var generationStatus = new RosterGenerationStatus(request.Year, DateTime.Now);
       DatabaseConfig.Database.Save(generationStatus);
@@ -56,7 +56,7 @@ namespace PowerUp.ElectronUI.Api.Generation
         catch (Exception) { }
       });
 
-      return new RosterGeneratioResponse { GenerationStatusId = generationStatus.Id!.Value };
+      return Task.FromResult(new RosterGeneratioResponse { GenerationStatusId = generationStatus.Id!.Value });
     }
 
     private void MarkFailedAndSave(RosterGenerationStatus status)

@@ -1,11 +1,10 @@
-﻿using ElectronNET.API;
-using ElectronNET.API.Entities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PowerUp.Databases;
 using PowerUp.ElectronUI.StartupConfig;
 using PowerUp.Libraries;
 using Serilog;
+using System.Net;
 
 namespace PowerUp.ElectronUI
 {
@@ -21,6 +20,20 @@ namespace PowerUp.ElectronUI
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      var isDevelopment = Configuration["Environment"] == "Development";
+      services.AddCors(options =>
+      {
+        options.AddPolicy("AllowElectronApp",
+            builder =>
+            {
+              builder
+                .SetIsOriginAllowed(origin => new Uri(origin).Scheme == "file" || (isDevelopment && origin == "http://localhost:3000"))
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("Content-Disposition");
+            });
+      });
       services.AddControllersWithViews();
       services.RegisterCommandsForDI();
 
@@ -59,6 +72,8 @@ namespace PowerUp.ElectronUI
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 
+      app.Use(PowerUpFilter);
+      app.UseCors("AllowElectronApp");
       app.UseRouting();
       app.UseEndpoints(endpoints =>
       {
@@ -66,22 +81,11 @@ namespace PowerUp.ElectronUI
           name: "default",
           pattern: "{controller=Electron}/{action=Index}"
         );
-        endpoints.MapControllerRoute(
-          name: "default",
-          pattern: "{controller=GameSaveImport}/{action=Import}"
-        );
-        endpoints.MapControllerRoute(
-          name: "default",
-          pattern: "{controller=DirectorySelection}/{action=SelectDirectory}"
-        );
         endpoints.MapControllers();
       });
 
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
       JsonConvert.DefaultSettings = () => new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml, ContractResolver = contractResolver };
-
-      if (HybridSupport.IsElectronActive)
-        ElectronBootstrap();
 
       var serviceProvider = app.ApplicationServices
         .CreateScope()
@@ -90,29 +94,28 @@ namespace PowerUp.ElectronUI
       serviceProvider.AddCommandsToRegistry();
     }
 
-    public async void ElectronBootstrap()
+    private async Task PowerUpFilter(HttpContext context, Func<Task> next)
     {
-      var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+      var request = context.Request;
+      var originHeader = request.Headers.Origin.ToString();
+      var refererHeader = request.Headers.Referer.ToString();
+      var host = request.Host.ToString();
+
+      var isSameOrigin =
+          (string.IsNullOrEmpty(originHeader) || originHeader.Contains(host)) &&
+          (string.IsNullOrEmpty(refererHeader) || refererHeader.Contains(host));
+      var hasElectronAppAccessHeader = context.Request.Headers.TryGetValue("Access-Control-Request-Headers", out var accessHeader) 
+        && accessHeader.Any(v => v.Equals("X-Electron-App", StringComparison.OrdinalIgnoreCase));
+      var isPowerUpApp = context.Request.Headers.Any(h => h.Key.Equals("X-Electron-App", StringComparison.OrdinalIgnoreCase) 
+        && h.Value.ToString().Equals("PowerUp", StringComparison.OrdinalIgnoreCase));
+      if (!isSameOrigin && !hasElectronAppAccessHeader && !isPowerUpApp)
       {
-        Width = 1152,
-        Height = 940,
-        Show = false,
-      });
+        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        await context.Response.WriteAsync("Unauthorized Electron App");
+        return;
+      }
 
-      browserWindow.Maximize();
-
-      await browserWindow.WebContents.Session.ClearCacheAsync();
-
-      browserWindow.OnReadyToShow += () => browserWindow.Show();
-      browserWindow.SetTitle("PowerUp");
-
-      browserWindow.OnClosed += () =>
-      {
-        Electron.App.Exit(0);
-        Environment.Exit(0);
-        Electron.App.Quit();
-        browserWindow = null;
-      };
+      await next();
     }
   }
 }

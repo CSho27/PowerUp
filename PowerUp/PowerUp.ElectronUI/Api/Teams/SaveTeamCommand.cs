@@ -15,7 +15,7 @@ namespace PowerUp.ElectronUI.Api.Teams
       _teamApi = teamApi;
     }
 
-    public ResultResponse Execute(SaveTeamRequest request)
+    public Task<ResultResponse> Execute(SaveTeamRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
 
@@ -33,7 +33,7 @@ namespace PowerUp.ElectronUI.Api.Teams
         DatabaseConfig.Database.Save(tempTeam.Team);
 
       tx.Commit();
-      return ResultResponse.Succeeded();      
+      return Task.FromResult(ResultResponse.Succeeded());      
     }
   }
 

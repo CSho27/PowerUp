@@ -28,7 +28,7 @@ namespace PowerUp.ElectronUI.Api.Generation
       _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
-    public TeamGenerationResponse Execute(TeamGenerationRequest request)
+    public Task<TeamGenerationResponse> Execute(TeamGenerationRequest request)
     {
       var teamGenerationProgress = new TeamGenerationStatus(request.LSTeamId, request.Year, DateTime.Now);
       DatabaseConfig.Database.Save(teamGenerationProgress);
@@ -52,7 +52,7 @@ namespace PowerUp.ElectronUI.Api.Generation
         DatabaseConfig.Database.Save(teamGenerationProgress);
       });
 
-      return new TeamGenerationResponse { GenerationStatusId = teamGenerationProgress.Id!.Value };
+      return Task.FromResult(new TeamGenerationResponse { GenerationStatusId = teamGenerationProgress.Id!.Value });
     }
 
     private void UpdateProgressAndSave(ProgressUpdate update, TeamGenerationStatus status)

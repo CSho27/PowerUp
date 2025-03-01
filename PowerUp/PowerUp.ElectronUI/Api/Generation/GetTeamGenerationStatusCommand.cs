@@ -6,10 +6,10 @@ namespace PowerUp.ElectronUI.Api.Generation
 {
   public class GetTeamGenerationStatusCommand : ICommand<GetTeamGenerationStatusRequest, GetTeamGenerationStatusResponse>
   {
-    public GetTeamGenerationStatusResponse Execute(GetTeamGenerationStatusRequest request)
+    public Task<GetTeamGenerationStatusResponse> Execute(GetTeamGenerationStatusRequest request)
     {
       var status = DatabaseConfig.Database.Load<TeamGenerationStatus>(request.GenerationStatusId)!;
-      return new GetTeamGenerationStatusResponse(status);
+      return Task.FromResult(new GetTeamGenerationStatusResponse(status));
     }
   }
 

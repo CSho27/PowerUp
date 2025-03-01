@@ -1,4 +1,6 @@
-import { PerformWithSpinnerCallback } from "../app/app";
+import { PerformWithSpinnerCallback } from "../app/appContext";
+import { ContentDisposition } from "./ContentDisposition";
+import { trim } from "./stringUtils";
 
 export class CommandFetcher {
   private readonly commandUrl: string;
@@ -10,37 +12,58 @@ export class CommandFetcher {
   }
 
   readonly execute = async (commandName: string, request: any, useSpinner?: boolean): Promise<any> => {
-    const shouldUseSpinner = useSpinner ?? true; 
-    if(commandName !== 'WriteLog') this.log('Debug', `Executing command: ${commandName} with request: ${JSON.stringify(request)}`);
-    return shouldUseSpinner
-      ? this.performWithSpinner(() => this.performFetch(commandName, request))
-      : this.performFetch(commandName, request);
+    return this.executeRequest(commandName, request, null, useSpinner);
+  }
+
+  readonly executeWithFile = async (commandName: string, request: any, file: File | null, useSpinner?: boolean): Promise<any> => {
+    return this.executeRequest(commandName, request, file, useSpinner);
   }
 
   readonly log = async (level: LogLevel, message: unknown) => {
     return this.execute("WriteLog", { logLevel: level, message: message });
   }
 
-  private readonly performFetch = async (commandName: string, request: any) => {
-    try {
-      const response = await fetch(this.commandUrl, {
-        method: 'POST',
-        mode: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ commandName: commandName, request: request })
-      });
-      
-      const responseType = response.headers.get('Content-Type');
-      if(!responseType || !responseType.includes('application/json'))
-        throw await response.text();
+  private readonly executeRequest = async (commandName: string, request: any, file: File | null, useSpinner?: boolean): Promise<any> => {
+    const shouldUseSpinner = useSpinner ?? true; 
+    if(commandName !== 'WriteLog') this.log('Debug', `Executing command: ${commandName} with request: ${JSON.stringify(request)}`);
+    return shouldUseSpinner
+      ? this.performWithSpinner(() => this.performFetch(commandName, request, file))
+      : this.performFetch(commandName, request, file);
+  }
 
-      const responseJson = await response.json(); 
-      return responseJson;
+  private readonly performFetch = async (commandName: string, request: any, file: File | null) => {
+    try {
+      const response = await fetch(this.commandUrl, this.createRequest(commandName, request, file));
+      if(!response.ok) throw await response.text();
+
+      const responseType = response.headers.get('Content-Type');
+      if(responseType?.includes('application/json')) {
+        return await response.json();
+      }
+      else {
+        const disposition = new ContentDisposition(response.headers.get('content-disposition'));
+        const rawFileName = disposition['filename'] as string | undefined;
+        const fileName = !!rawFileName
+          ? trim(rawFileName, '"')
+          : 'Untitled';
+        const blob = await response.blob();
+        return new File([blob], fileName);
+      }
     } catch (error) {
-      this.log('Error', JSON.stringify(error));
+      if(commandName !== 'WriteLog') this.log('Error', JSON.stringify(error));
       return new Promise((_, reject) => reject(error));
+    }
+  }
+
+  private readonly createRequest = (commandName: string, request: any, file: File | null): RequestInit => {
+    const formData = new FormData();
+    formData.append('CommandName', commandName);
+    formData.append('Request', JSON.stringify(request));
+    if(!!file) formData.append('File', file);
+    return {
+      method: 'POST',
+      body: formData,
+      ...getDefaultRequestOptions()
     }
   }
 }
@@ -57,4 +80,14 @@ export type LogLevel =
 export interface WriteLogRequest {
   logLevel: LogLevel;
   message: string;
+}
+
+export function getDefaultRequestOptions(headers?: HeadersInit): RequestInit {
+  return {
+    mode: 'cors',
+    headers: {
+      ...(headers ?? {}),
+      'X-Electron-App': 'PowerUp',
+    }
+  }
 }

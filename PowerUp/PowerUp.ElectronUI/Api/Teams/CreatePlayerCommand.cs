@@ -14,7 +14,7 @@ namespace PowerUp.ElectronUI.Api.Teams
       _playerApi = playerApi;
     }
 
-    public PlayerDetailsResponse Execute(CreatePlayerRequest request)
+    public Task<PlayerDetailsResponse> Execute(CreatePlayerRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
 
@@ -23,7 +23,7 @@ namespace PowerUp.ElectronUI.Api.Teams
       DatabaseConfig.Database.Save(newPlayer);
       tx.Commit();
 
-      return new PlayerDetailsResponse(newPlayer);
+      return Task.FromResult(new PlayerDetailsResponse(newPlayer));
     }
   }
 

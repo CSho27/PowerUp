@@ -1,5 +1,5 @@
 import { useMemo, useReducer } from "react";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { DraftPoolApiClient } from "./draftPoolApiClient";
 import { PageLoadFunction } from "../pages";
 import { DraftStateReducer, getInitialState, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";
@@ -61,7 +61,7 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
   const rightTeamPlayers = rightTeam.selections.map(s => state.draftPool.find(p => p.playerId === s)!);
   const undraftedPlayers = state.draftPool.sort(SortHelpers.numericallyByDesc(p => p.overall)).filter(p => !allSelections.some(s => s === p.playerId));
   
-  return <PowerUpLayout appContext={appContext} headerText="Draft Teams">
+  return <PowerUpLayout headerText="Draft Teams">
     <ContentWithHangingHeader header={<Breadcrumbs appContext={appContext}/>} headerHeight="48px">
       <Wrapper>
         <TeamContainer isDrafting={leftTeamIndex === draftingIndex}>

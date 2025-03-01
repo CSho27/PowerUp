@@ -4,7 +4,7 @@ import { Button } from "../../components/button/button";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { CopyExistingRosterApiClient } from "../rosterEditor/copyExistingRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
@@ -22,7 +22,7 @@ export function HomePage(props: HomePageProps) {
   const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
   const copyExistingRosterApiClientRef = useRef(new CopyExistingRosterApiClient(appContext.commandFetcher));
 
-  return <PowerUpLayout appContext={appContext}>
+  return <PowerUpLayout>
     <ContentWrapper maxWidth='800px'>
       <AppTitle/>
       <ButtonSectionWrapper>

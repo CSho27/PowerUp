@@ -27,7 +27,7 @@ namespace PowerUp.ElectronUI.Api.Generation
       _pitchingMechanicsGuesser = pitchingMechanicsGuesser;
     }
 
-    public PlayerGenerationResponse Execute(PlayerGenerationRequest request)
+    public Task<PlayerGenerationResponse> Execute(PlayerGenerationRequest request)
     {
       var result = _playerGenerator.GeneratePlayer(
         lsPlayerId: request.LSPlayerId,
@@ -41,7 +41,7 @@ namespace PowerUp.ElectronUI.Api.Generation
       );
 
       DatabaseConfig.Database.Save(result.Player);
-      return new PlayerGenerationResponse { PlayerId = result.Player.Id!.Value };
+      return Task.FromResult(new PlayerGenerationResponse { PlayerId = result.Player.Id!.Value });
     }
   }
 

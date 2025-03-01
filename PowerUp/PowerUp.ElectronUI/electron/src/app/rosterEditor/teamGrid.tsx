@@ -6,7 +6,7 @@ import { SourceTypeStamp } from "../../components/sourceTypeStamp/sourceTypeStam
 import { COLORS, FONT_SIZES } from "../../style/constants"
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
-import { AppContext } from "../app"
+import { AppContext } from "../appContext"
 import { TeamGenerationModal } from "../teamGenerationModal/teamGenerationModal";
 import { TeamSelectionModal } from "../teamSelectionModal/teamSelectionModal";
 import { PlayerGrid } from "./playerGrid";

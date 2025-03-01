@@ -15,7 +15,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       _rosterApi = rosterApi;
     }
 
-    public ResultResponse Execute(ReplaceFreeAgentRequest request)
+    public Task<ResultResponse> Execute(ReplaceFreeAgentRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
 
@@ -27,7 +27,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       DatabaseConfig.Database.Save(team!);
       tx.Commit();
 
-      return ResultResponse.Succeeded();
+      return Task.FromResult(ResultResponse.Succeeded());
     }
   }
 

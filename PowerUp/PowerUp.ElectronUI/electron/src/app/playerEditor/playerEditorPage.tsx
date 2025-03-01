@@ -10,7 +10,7 @@ import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { PageLoadDefinition, PageLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { deepEquals } from "../shared/deepEquals";
@@ -130,7 +130,7 @@ function PlayerEditorPage(props: PlayerEditorPageProps) {
     />
   </> 
 
-  return <PowerUpLayout appContext={appContext} headerText='Edit Player'>
+  return <PowerUpLayout headerText='Edit Player'>
     <ContentWithHangingHeader header={header} headerHeight='128px'>
       <EditorContainer>
         {state.selectedTab === 'Personal' && 

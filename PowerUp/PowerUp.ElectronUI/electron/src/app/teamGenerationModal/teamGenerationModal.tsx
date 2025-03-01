@@ -7,7 +7,7 @@ import { Modal } from "../../components/modal/modal";
 import { NumberField } from "../../components/numberField/numberField";
 import { ProgressBar } from "../../components/progressBar/progressBar";
 import { TextField } from "../../components/textField/textField";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { useDebounceEffect } from "../shared/useDebounceEffect";
 import { FranchiseLookupApiClient, FranchiseLookupResultDto } from "./franchiseLookupApiClient";
 import { FranchiseLookupGrid } from "./franchiseLookupGrid";

@@ -4,7 +4,7 @@ import { FieldLabel } from "../../components/fieldLabel/fieldLabel";
 import { Modal } from "../../components/modal/modal";
 import { SelectField } from "../../components/SelectField/selectField";
 import { toOptions, tryFromOptions } from "../../components/SelectField/selectFieldHelpers";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { SimpleCode } from "../shared/simpleCode";
 
 export interface ExistingRostersModalProps {

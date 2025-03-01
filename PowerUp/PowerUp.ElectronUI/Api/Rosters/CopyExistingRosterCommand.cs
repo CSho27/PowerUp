@@ -13,7 +13,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       _rosterApi = rosterApi;
     }
 
-    public CopyExistingRosterResponse Execute(CopyExistingRosterRequest request)
+    public Task<CopyExistingRosterResponse> Execute(CopyExistingRosterRequest request)
     {
       using var tx = DatabaseConfig.Database.BeginTransaction();
 
@@ -23,7 +23,7 @@ namespace PowerUp.ElectronUI.Api.Rosters
       DatabaseConfig.Database.Save(rosterCopy);
       tx.Commit();
 
-      return new CopyExistingRosterResponse { RosterId = rosterCopy.Id!.Value };
+      return Task.FromResult(new CopyExistingRosterResponse { RosterId = rosterCopy.Id!.Value });
     }
   }
 

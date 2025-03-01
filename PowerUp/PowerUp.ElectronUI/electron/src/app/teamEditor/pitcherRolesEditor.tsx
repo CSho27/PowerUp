@@ -4,7 +4,7 @@ import { Icon } from "../../components/icon/icon";
 import { PlayerNameBubble } from "../../components/textBubble/playerNameBubble";
 import { COLORS } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
-import { AppContext } from "../app";
+import { AppContext } from "../appContext";
 import { EntitySourceType } from "../shared/entitySourceType";
 import { PitcherRole } from "./playerRoleState";
 

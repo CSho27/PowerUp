@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { AppContext } from "./app";
+import { AppContext } from "./appContext";
 import { loadHomePage } from "./home/homePage";
 import { loadPlayerEditorPage } from "./playerEditor/playerEditorPage";
 import { loadRosterEditorPage } from "./rosterEditor/rosterEditorPage";

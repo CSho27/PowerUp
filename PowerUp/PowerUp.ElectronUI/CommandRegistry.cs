@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 
 namespace PowerUp.ElectronUI
@@ -16,15 +15,17 @@ namespace PowerUp.ElectronUI
 
     public void RegisterCommand(Type commandType, string commandName)
     {
-      var commandInterfaceType = commandType.GetInterface("ICommand`2");
-      if (commandInterfaceType == null)
-        throw new Exception($"{commandType.FullName} does not implement the ICommand interface");
-
-      Type requestType = commandInterfaceType.GetGenericArguments()[0];
-      _commands.Add(commandName, new CommandInfo(commandType, requestType));
+      var interfaceType = GetCommandInterfaceType(commandType);
+      var requestType = GetRequestType(interfaceType);
+      var commandInfo = new CommandInfo(
+        commandType,
+        interfaceType,
+        requestType
+      );
+      _commands.Add(commandName, commandInfo);
     }
 
-    public object ExecuteCommand(CommandRequest commandRequest)
+    public async Task<object> ExecuteCommand(CommandRequest commandRequest)
     {
       if(commandRequest == null)
         throw new ArgumentNullException(nameof(commandRequest));
@@ -33,9 +34,9 @@ namespace PowerUp.ElectronUI
       if (commandName == null)
         throw new ArgumentNullException(nameof(commandRequest.CommandName));
 
-      if (!commandRequest.Request.HasValue)
+      if (commandRequest.Request is null)
         throw new ArgumentNullException(nameof(commandRequest.Request));
-      var request = commandRequest.Request.Value;
+      var request = commandRequest.Request;
 
       _commands.TryGetValue(commandName, out var commandInfo);
       if (commandInfo == null)
@@ -45,31 +46,50 @@ namespace PowerUp.ElectronUI
       if (command == null)
         throw new Exception("Command must have a parameterless constructor");
 
-      var deserializedRequest = JsonConvert.DeserializeObject(request.GetRawText(), commandInfo.RequestType);
-      return commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, new[] { deserializedRequest })!;
+      var deserializedRequest = JsonSerializer.Deserialize(request, commandInfo.RequestType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+      var isFileRequest = commandInfo.CommandInterfaceType.Name == typeof(IFileRequestCommand<,>).Name;
+      var result = isFileRequest
+        ? commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, [deserializedRequest, commandRequest.File])!
+        : commandInfo.CommandType.InvokeMember("Execute", BindingFlags.InvokeMethod, null, command, [deserializedRequest])!;
+      return await (dynamic)result;
     }
 
-    private class CommandInfo
+    private Type GetCommandInterfaceType(Type commandType)
     {
-      public Type CommandType { get; }
-      public Type RequestType { get; }
-
-      public CommandInfo(Type commandType, Type requestType)
-      {
-        CommandType = commandType;
-        RequestType = requestType;
-      }
+      var interfaces = commandType.GetInterfaces().Where(i => i != typeof(ICommand));
+      if (interfaces.Count() != 1)
+        throw new Exception($"{commandType.FullName} cannot must implement exactly one ICommand interface");
+      return interfaces.Single();
     }
+
+    private Type GetRequestType(Type commandInterfaceType)
+    {
+      return commandInterfaceType.GenericTypeArguments[0];
+    }
+
+    private record CommandInfo(
+      Type CommandType,
+      Type CommandInterfaceType,
+      Type RequestType
+    );
   }
 
-  public interface ICommand<TRequest, TResponse>
+  public interface ICommand { }
+  public interface ICommand<TRequest, TResponse> : ICommand
   {
-    TResponse Execute(TRequest request);
+    Task<TResponse> Execute(TRequest request);
+  }
+
+  public interface IFileRequestCommand<TRequest, TResponse> : ICommand
+  {
+    Task<TResponse> Execute(TRequest request, IFormFile? file);
   }
 
   public class CommandRequest
   {
     public string? CommandName { get; set; }
-    public JsonElement? Request { get; set; }
+    public string? Request { get; set; }
+    public IFormFile? File { get; set; }
   }
 }

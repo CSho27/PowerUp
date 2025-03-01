@@ -4,23 +4,16 @@ import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { textOutline } from "../../style/outlineHelper";
 import { openInBrowserOnClick } from "../../utils/openInBroswer";
-import { AppContext } from "../app";
-import { useRef } from "react";
-import { InitializeGameSaveManagerApiClient } from "../gameSaveManager/initializeGameSaveManagerApiClient";
-import { openGameSaveManagerInitializationModal } from "../gameSaveManager/gameSaveManagerInitializationModal";
-import { openGameSaveManagerModal } from "../gameSaveManager/gameSaveManagementModal";
-import { openMigrationModal } from "../migrationModal/migrationModal";
+import { useAppContext } from "../appContext";
 
 export interface PowerUpLayoutProps {
-  appContext: AppContext;
   headerText?: string;
   sidebar?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-export function PowerUpLayout(props: PowerUpLayoutProps) {
-  const { appContext, headerText, sidebar, children } = props;
-  const initializeGSManagerRef = useRef(new InitializeGameSaveManagerApiClient(appContext.commandFetcher));
+export function PowerUpLayout({ headerText, sidebar, children }: PowerUpLayoutProps) {
+  const appContext = useAppContext();
 
   return <LayoutWrapper>
     <HeaderWrapper>
@@ -31,14 +24,7 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       <HeaderTextWrapper>
         <OutlineHeader textColor={COLORS.secondaryRed.regular_44} strokeColor={COLORS.white.regular_100} fontSize={FONT_SIZES._80} slanted>{headerText}</OutlineHeader>
         <HeaderLinkSectionWrapper>
-          <HeaderLinkWrapper onClick={openGameSaveManagementModal} title='Open Game Save Manager'>
-            Game Saves
-            <Icon icon='sd-card' />
-          </HeaderLinkWrapper>
-          <HeaderLinkWrapper onClick={importOldData} title='Import data from an older version of the PowerUp app'>
-            Import PowerUp Data
-            <Icon icon='upload' />
-          </HeaderLinkWrapper>
+          {appContext.toolbarActions}
           <HeaderLinkWrapper onClick={openInBrowserOnClick('https://github.com/CSho27/PowerUp#use-guide')} title='View Use Guide'>
             Help
             <Icon icon='circle-question' />
@@ -51,20 +37,6 @@ export function PowerUpLayout(props: PowerUpLayoutProps) {
       <MainContent>{children}</MainContent>
     </PageContent>
   </LayoutWrapper>
-
-  async function openGameSaveManagementModal() {
-    const initializationResponse = await initializeGSManagerRef.current.execute({});
-    if(!initializationResponse.success) {
-      const shouldOpenManager = await openGameSaveManagerInitializationModal(appContext);
-      if(!shouldOpenManager)
-        return;
-    }
-    openGameSaveManagerModal(appContext);
-  }
-
-  function importOldData() {
-    openMigrationModal(appContext);
-  }
 }
 
 const LayoutWrapper = styled.div`

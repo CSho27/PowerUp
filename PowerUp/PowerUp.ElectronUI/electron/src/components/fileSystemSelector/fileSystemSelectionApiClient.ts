@@ -1,4 +1,4 @@
-import { CommandFetcher } from "../../utils/commandFetcher";
+import { CommandFetcher, getDefaultRequestOptions } from "../../utils/commandFetcher";
 
 export type FileSystemSelectionType =
 | 'File'
@@ -18,6 +18,7 @@ export interface FileSystemSelectionResponse {
   path: string | null;
 }
 
+/** @deprecated This api client is no longer wired up to anything */
 export class FileSystemSelectionApiClient {
   private readonly commandFetcher: CommandFetcher;
 
@@ -29,11 +30,8 @@ export class FileSystemSelectionApiClient {
     try {
       const response = await fetch('./file-system-selection', {
         method: 'POST',
-        mode: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
+        body: JSON.stringify(request),
+        ...getDefaultRequestOptions({ 'Content-Type': 'application/json' })
       });
       return await response.json(); 
     } catch (error) {

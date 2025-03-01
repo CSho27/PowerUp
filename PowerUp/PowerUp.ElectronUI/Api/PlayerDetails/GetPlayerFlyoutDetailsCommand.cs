@@ -13,10 +13,10 @@ namespace PowerUp.ElectronUI.Api.PlayerDetails
       _urlProvider = urlProvider;
     }
 
-    public PlayerFlyoutDetailsResponse Execute(PlayerFlyoutDetailsRequest request)
+    public Task<PlayerFlyoutDetailsResponse> Execute(PlayerFlyoutDetailsRequest request)
     {
       var player = DatabaseConfig.Database.Load<Player>(request.PlayerId)!;
-      return new PlayerFlyoutDetailsResponse(_urlProvider, player);
+      return Task.FromResult(new PlayerFlyoutDetailsResponse(_urlProvider, player));
     }
   }
 

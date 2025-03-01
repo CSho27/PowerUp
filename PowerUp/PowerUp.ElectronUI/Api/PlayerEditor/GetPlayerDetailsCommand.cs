@@ -6,10 +6,10 @@ namespace PowerUp.ElectronUI.Api.PlayerEditor
 {
   public class GetPlayerDetailsCommand : ICommand<GetPlayerDetilsRequest, PlayerDetailsResponse>
   {
-    public PlayerDetailsResponse Execute(GetPlayerDetilsRequest request)
+    public Task<PlayerDetailsResponse> Execute(GetPlayerDetilsRequest request)
     {
       var player = DatabaseConfig.Database.Load<Player>(request.PlayerId)!;
-      return new PlayerDetailsResponse(player);
+      return Task.FromResult(new PlayerDetailsResponse(player));
     }
   }
 

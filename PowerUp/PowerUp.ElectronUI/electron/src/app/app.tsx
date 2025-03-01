@@ -1,35 +1,23 @@
-import { ReactElement, useEffect, useReducer } from 'react';
-import { ModalPageCover, ModalProps } from '../components/modal/modal';
+import { useEffect, useReducer } from 'react';
+import { ModalPageCover } from '../components/modal/modal';
 import { FullPageSpinner } from '../components/fullPageSpinner/fullPageSpinner';
 import { useGlobalBindings } from '../nimbleKey/globalBinding';
 import { CommandFetcher } from '../utils/commandFetcher';
 import { GenerateId } from '../utils/generateId';
-import { AppState, AppStateReducer, BreadcrumbDefinition, ModalDefinition } from './appState';
+import { AppState, AppStateReducer, ModalDefinition } from './appState';
 import { GlobalStyles } from './globalStyles';
 import { PageLoadDefinition, pageRegistry } from './pages';
 import { InitializeBaseRosterApiClient } from './rosterEditor/importBaseRosterApiClient';
+import { AppConfig } from './appConfig';
+import { AppContext, AppContextProvider, AsyncRenderModalCallback, RenderModalCallback } from './appContext';
 
-export interface ApplicationStartupData {
+export interface AppStartupProps {
+  appConfig: AppConfig;
   commandUrl: string;
 }
 
-export interface AppContext {
-  commandFetcher: CommandFetcher;
-  breadcrumbs: BreadcrumbDefinition[];
-  setPage: (pageDef: PageLoadDefinition) => void;
-  reloadCurrentPage: () => void;
-  popBreadcrumb: (breadcrumbId: number) => void;
-  openModal: (renderModal: RenderModalCallback) => void;
-  openModalAsync: <T>(renderModal: AsyncRenderModalCallback<T>) => Promise<T>;
-  performWithSpinner: PerformWithSpinnerCallback;
-}
-
-export type RenderModalCallback = (closeDialog: () => void) => ReactElement<ModalProps>;
-export type AsyncRenderModalCallback<T> = (closeDialog: (value: T) => void) => ReactElement<ModalProps>;
-export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
-
-export function App(props: ApplicationStartupData) {
-  const { commandUrl } = props;
+export function App(props: AppStartupProps) {
+  const { commandUrl, appConfig } = props;
   
   const initialState: AppState = {
     breadcrumbs: [],
@@ -48,6 +36,8 @@ export function App(props: ApplicationStartupData) {
     popBreadcrumb: popBreadcrumb,
     openModal: openModal,
     openModalAsync: openModalAsync,
+    openFileSelector: appConfig.openFileSelector,
+    openInNewTab: appConfig.openInNewTab,
     performWithSpinner: performWithSpinner
   };
 
@@ -66,13 +56,12 @@ export function App(props: ApplicationStartupData) {
   // Initializes Base Roster
   useEffect(() => { new InitializeBaseRosterApiClient(appContext.commandFetcher).execute() }, []);
 
-  return <>
+  return <AppContextProvider appContext={appContext}>
     {state.currentPage.renderPage(appContext)}
-    {state.modals.length > 0 && 
-    state.modals.map(toRenderedModal)}
+    {state.modals.length > 0 && state.modals.map(toRenderedModal)}
     {state.isLoading && <FullPageSpinner/>}
     <GlobalStyles />
-  </>
+  </AppContextProvider>
 
   async function setPage(pageDef: PageLoadDefinition) {
     const pageEntry = pageRegistry[pageDef.page];
@@ -112,7 +101,6 @@ export function App(props: ApplicationStartupData) {
         })
     )
   }
-
 
   function openModal(renderModal: RenderModalCallback) {
     var key = GenerateId().toString();
