@@ -24,7 +24,6 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
 
   const importApiClient = useMemo(() => new ImportRosterApiClient(
     appContext.commandFetcher,
-    appContext.performWithSpinner
   ), []);
 
   const [state, setState] = useState<State>({

@@ -9,7 +9,6 @@ namespace PowerUp.ElectronUI.Controllers
   [Route("csv")]
   public class RosterCsvController : Controller
   {
-    private const string ImportUrl = "import";
     private const string ExportUrl = "export";
 
     private readonly IPlayerCsvService _csvService;
@@ -17,17 +16,6 @@ namespace PowerUp.ElectronUI.Controllers
     public RosterCsvController(IPlayerCsvService csvService)
     {
       _csvService = csvService;
-    }
-
-    [Route(ImportUrl), HttpPost]
-    public async Task<ActionResult> Import(IFormCollection formData) 
-    {
-      using var stream = formData.Files[0].OpenReadStream();
-      var importSource = formData["importSource"];
-      var roster = await _csvService.ImportRoster(stream, importSource!);
-      if(roster is not null)
-        DatabaseConfig.Database.Save(roster);
-      return new JsonResult(new { RosterId = roster?.Id });
     }
 
     [Route(ExportUrl), HttpGet]
