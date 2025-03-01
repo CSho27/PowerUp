@@ -3,7 +3,7 @@ name: Publish Electron Forge App (Windows)
 on:
   release:
     types: [created]  # Runs when a new GitHub release is created
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
