@@ -34,6 +34,7 @@ PowerUp/PowerUp.ElectronUI/wwwroot/*
 dist
 .env
 out
+.webpack
 
 # misc
 .DS_Store
