@@ -1,4 +1,5 @@
 ﻿using PowerUp.ElectronUI.Api.Shared;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PowerUp.ElectronUI.Api.Logging
@@ -23,6 +24,6 @@ namespace PowerUp.ElectronUI.Api.Logging
   {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public LogLevel LogLevel { get; set; }
-    public string Message { get; set; } = "";
+    public JsonElement? Message { get; set; }
   }
 }
