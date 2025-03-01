@@ -19,22 +19,21 @@ jobs:
         with:
           node-version: 18  # Ensure this matches your project's Node.js version
 
-      - name: Go to electron app directory
-        run: cd ./PowerUp/PowerUp.ElectronUI/electron
-
       - name: Install dependencies
         run: npm install
+        working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
       - name: Make Windows Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make  # Runs Electron Forge 'make' command
+        working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
       - name: Upload Windows Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: out/make/  # Path where Electron Forge saves the installer
+          path: ./PowerUp/PowerUp.ElectronUI/electron/out/make/  # Path where Electron Forge saves the installer
 
   build-and-package-osx:
     runs-on: macos-latest  # Use macOS runner
@@ -48,19 +47,18 @@ jobs:
         with:
           node-version: 18  # Ensure this matches your project's Node.js version
 
-      - name: Go to electron app directory
-        run: cd ./PowerUp/PowerUp.ElectronUI/electron
-
       - name: Install dependencies
         run: npm install
+        working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
       - name: Make macOS Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make  # Runs Electron Forge 'make' command
+        working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
       - name: Upload macOS Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: mac-build
-          path: out/make/  # Path where Electron Forge saves the DMG file
+          path: ./PowerUp/PowerUp.ElectronUI/electron/out/make/  # Path where Electron Forge saves the DMG file
