@@ -56,6 +56,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddSingleton<RenameGameSaveCommand>();
       services.AddSingleton<MigrateExistingDatabaseCommand>();
       services.AddSingleton<ReplaceWithDraftedTeamsCommand>();
+      services.AddTransient<ImportGameSaveCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -102,6 +103,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(RenameGameSaveCommand), "RenameGameSave");
       commandRegistry.RegisterCommand(typeof(MigrateExistingDatabaseCommand), "MigrateExistingDatabase");
       commandRegistry.RegisterCommand(typeof(ReplaceWithDraftedTeamsCommand), "ReplaceWithDraftedTeams");
+      commandRegistry.RegisterCommand(typeof(ImportGameSaveCommand), "ImportGameSave");
     }
   }
 }

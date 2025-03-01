@@ -86,10 +86,10 @@ export function ImportRosterModal(props: ImportRosterModalProps) {
   </Modal>
 
   async function importRoster() {
-    const request: ImportRosterRequest = { file: state.selectedFile!, importSource: state.rosterName! };
+    const request: ImportRosterRequest = { importSource: state.rosterName! };
     const response = state.importType === 'game-save'
-      ? await importApiClient.execute(request)
-      : await importApiClient.executeCsv(request)
+      ? await importApiClient.execute(request, state.selectedFile!)
+      : await importApiClient.executeCsv(request, state.selectedFile!)
     appContext.setPage({ page: 'RosterEditorPage', rosterId: response.rosterId });
   }
 }

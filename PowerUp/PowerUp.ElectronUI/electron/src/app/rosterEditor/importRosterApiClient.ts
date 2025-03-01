@@ -2,7 +2,6 @@ import { CommandFetcher, getDefaultRequestOptions } from "../../utils/commandFet
 import { PerformWithSpinnerCallback } from "../appContext";
 
 export interface ImportRosterRequest {
-  file: File;
   importSource: string;
 }
 
@@ -22,31 +21,15 @@ export class ImportRosterApiClient {
     this.performWithSpinner = performWithSpinner;
   }
 
-  execute = async (request: ImportRosterRequest): Promise<ImportRosterResponse> => {
-    return this.performWithSpinner(async () => {
-      try {
-        const formData = new FormData();
-        formData.append("data", request.file);
-        formData.append("importSource", request.importSource);
-        const response = await fetch('./Import', {
-          method: 'POST',
-          body: formData,
-          ...getDefaultRequestOptions()
-        });
-        const responseJson = await response.json(); 
-        return responseJson;
-      } catch (error) {
-        this.commandFetcher.log('Error', error);
-        return new Promise((_, reject) => reject(error));
-      }
-    })
+  execute = async (request: ImportRosterRequest, file: File): Promise<ImportRosterResponse> => {
+    return await this.commandFetcher.executeWithFile('ImportGameSave', request, file);
   }
 
-  executeCsv = (request: ImportRosterRequest): Promise<ImportRosterResponse> => {
+  executeCsv = (request: ImportRosterRequest, file: File): Promise<ImportRosterResponse> => {
     return this.performWithSpinner(async () => {
       try {
         const formData = new FormData();
-        formData.append("data", request.file);
+        formData.append("data", file);
         formData.append("importSource", request.importSource);
         const response = await fetch('./csv/import', {
           method: 'POST',
