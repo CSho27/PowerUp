@@ -14,10 +14,26 @@ import { rendererConfig } from './webpack.renderer.config';
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    extraResource: 'config.json'
+    extraResource: 'config.json',
+    icon: 'public/PowerUpIcon'
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [
+    new MakerSquirrel({
+      setupIcon: 'public/PowerUpIcon.ico'
+    }), 
+    new MakerZIP({}, ['darwin']),
+    new MakerRpm({
+      options: {
+        icon: '/path/to/icon.png'
+      }
+    }), 
+    new MakerDeb({
+      options: {
+        icon: 'public/PowerUpIcon.png'
+      }
+    })
+  ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
