@@ -63,7 +63,7 @@ export class CommandFetcher {
     if(!!file) formData.append('File', file);
     return {
       method: 'POST',
-      mode: 'same-origin',
+      mode: 'cors',
       body: formData
     }
   }

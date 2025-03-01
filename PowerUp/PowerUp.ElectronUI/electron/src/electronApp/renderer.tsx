@@ -7,21 +7,18 @@ import { OpenInNewTabFn } from '../app/appConfig';
 export interface ElectronApi {
   openFileSelector: FileSelectionFn;
   openInNewTab: OpenInNewTabFn;
-  env: Env;
+  config: Config;
 }
 
-export interface Env {
-  BASE_URL: string;
+export interface Config {
+  apiBaseUrl: string;
 }
 
 const electronApi: ElectronApi = (window as any).electronApi;
-const base = document.createElement('base');
-base.href = electronApi.env.BASE_URL;
-document.head.append(base);
 
 ReactDOM.render(
   <App
-    commandUrl={'/command'}
+    commandUrl={`${electronApi.config.apiBaseUrl}/command`}
     appConfig={{
       openFileSelector: electronApi.openFileSelector,
       openInNewTab: electronApi.openInNewTab,
