@@ -8,9 +8,12 @@ import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-nati
 import { WebpackPlugin } from '@electron-forge/plugin-webpack';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
-
+import { PublisherGithub } from '@electron-forge/publisher-github';
+import dotenv from 'dotenv';
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
+
+dotenv.config();
 
 const config: ForgeConfig = {
   packagerConfig: {
@@ -36,6 +39,13 @@ const config: ForgeConfig = {
       options: {
         icon: 'public/PowerUpIcon.png'
       }
+    })
+  ],
+  publishers: [
+    new PublisherGithub({
+      repository: { owner: 'CSho27', name: 'PowerUp' },
+      authToken: process.env.GITHUB_TOKEN,
+      force: true
     })
   ],
   plugins: [
