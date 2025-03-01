@@ -19,6 +19,19 @@ namespace PowerUp.ElectronUI
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      var isDevelopment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") == "Development";
+      services.AddCors(options =>
+      {
+        options.AddPolicy("AllowElectronApp",
+            builder =>
+            {
+              builder
+                .SetIsOriginAllowed(origin => new Uri(origin).Scheme == "file" || (isDevelopment && origin == "http://localhost:3000"))
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+            });
+      });
       services.AddControllersWithViews();
       services.RegisterCommandsForDI();
 
@@ -57,6 +70,7 @@ namespace PowerUp.ElectronUI
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 
+      app.UseCors("AllowElectronApp");
       app.UseRouting();
       app.UseEndpoints(endpoints =>
       {
