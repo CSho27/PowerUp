@@ -1,31 +1,31 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "listEmittedFiles": true,
-    "sourceMap": true,
     "target": "ES6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "allowJs": true,
+    "module": "commonjs",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "outDir": "dist",
+    "listEmittedFiles": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+    ],
+    "paths": {
+      "*": ["node_modules/*"]
+    },
     "jsx": "react-jsx"
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
+  "include": ["src/**/*"],
   "compileOnSave": false,
   "buildOnSave": false
 }
