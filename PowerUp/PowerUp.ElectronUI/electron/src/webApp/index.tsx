@@ -23,9 +23,8 @@ ReactDOM.render(
 
 function getPageJsonData(): ApplicationStartupData {
   const dataString = document.getElementById('index-response-json-data')?.getAttribute('data')?.replaceAll("'", '"');
-  return !!dataString
-    ? JSON.parse(dataString)
-    : undefined;
+  if(!dataString) throw 'No json data on page';
+  return JSON.parse(dataString);
 }
 
 function openInNewTab(url: string) {
