@@ -1,11 +1,10 @@
 import path from 'path';
-import { baseRules } from "./webpack.rules";
+import { baseRules, renderingRules } from "./webpack.rules";
 import { plugins } from "./webpack.plugins";
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import type { Configuration } from "webpack";
 
 const config: Configuration = {
-  target: 'web',
   devtool: 'source-map',
   entry: './src/webApp/index.tsx',
   output: {
@@ -13,7 +12,10 @@ const config: Configuration = {
     path: path.resolve('../wwwroot')
   },
   module: {
-    rules: baseRules,
+    rules: [
+      ...baseRules,
+      ...renderingRules,
+    ]
   },
   plugins: [
     ...plugins,

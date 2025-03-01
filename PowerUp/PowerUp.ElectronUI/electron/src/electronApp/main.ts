@@ -1,5 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain, OpenDialogOptions, shell } from 'electron';
-import path, { basename } from 'path';
+import { basename } from 'path';
 import { FileFilter } from '../components/fileSelector/fileSelector';
 import { readFileSync } from 'fs';
 
@@ -40,7 +40,7 @@ async function createWindow() {
   });
   win.maximize();
   win.show();
-  win.loadFile(MAIN_WINDOW_WEBPACK_ENTRY);
+  win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 }
 
 async function openFileSelector(filter?: FileFilter): Promise<File|null> {

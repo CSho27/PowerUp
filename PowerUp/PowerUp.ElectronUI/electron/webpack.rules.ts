@@ -10,12 +10,7 @@ export const baseRules: Required<ModuleOptions>['rules'] = [
         transpileOnly: true,
       },
     },
-    
   },
-  {
-    test: /\.css$/,
-    use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-  }
 ]
 
 export const electronRules: Required<ModuleOptions>['rules'] = [
@@ -36,5 +31,11 @@ export const electronRules: Required<ModuleOptions>['rules'] = [
       },
     },
   },
-  ...baseRules,
 ]
+
+export const renderingRules: Required<ModuleOptions>['rules'] = [
+  {
+    test: /\.css$/,
+    use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+  }
+];
