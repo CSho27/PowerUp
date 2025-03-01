@@ -40,7 +40,6 @@ function RosterExportModal(props: RosterExportModalProps) {
   const exportApiClientRef = useRef(
     new ExportRosterApiClient(
       appContext.commandFetcher, 
-      appContext.performWithSpinner
     )
   );
   const [state, setState] = useState<State>({
@@ -120,7 +119,9 @@ function RosterExportModal(props: RosterExportModalProps) {
   }
 
   async function exportRosterAsCsv() {
-    const csvFile = await exportApiClientRef.current.executeCsv(rosterId);
+    const csvFile = await exportApiClientRef.current.executeCsv({
+      rosterId: rosterId,
+    });
     downloadFile(csvFile);
     closeDialog();
   }

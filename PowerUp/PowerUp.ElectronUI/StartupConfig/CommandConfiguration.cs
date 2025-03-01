@@ -59,6 +59,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       services.AddTransient<WriteLogCommand>();
       services.AddTransient<ImportGameSaveCommand>();
       services.AddTransient<ImportCsvCommand>();
+      services.AddTransient<ExportCsvCommand>();
     }
      
     public static void AddCommandsToRegistry(this IServiceProvider serviceProvider)
@@ -107,6 +108,7 @@ namespace PowerUp.ElectronUI.StartupConfig
       commandRegistry.RegisterCommand(typeof(ReplaceWithDraftedTeamsCommand), "ReplaceWithDraftedTeams");
       commandRegistry.RegisterCommand(typeof(ImportGameSaveCommand), "ImportGameSave");
       commandRegistry.RegisterCommand(typeof(ImportCsvCommand), "ImportCsv");
+      commandRegistry.RegisterCommand(typeof(ExportCsvCommand), "ExportCsv");
     }
   }
 }

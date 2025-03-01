@@ -30,7 +30,8 @@ namespace PowerUp.ElectronUI
                 .SetIsOriginAllowed(origin => new Uri(origin).Scheme == "file" || (isDevelopment && origin == "http://localhost:3000"))
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowCredentials();
+                .AllowCredentials()
+                .WithExposedHeaders("Content-Disposition");
             });
       });
       services.AddControllersWithViews();

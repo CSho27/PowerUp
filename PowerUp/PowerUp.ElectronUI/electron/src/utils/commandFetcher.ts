@@ -34,11 +34,13 @@ export class CommandFetcher {
   private readonly performFetch = async (commandName: string, request: any, file: File | null) => {
     try {
       const response = await fetch(this.commandUrl, this.createRequest(commandName, request, file));
+      if(!response.ok) throw await response.text();
+
       const responseType = response.headers.get('Content-Type');
       if(responseType?.includes('application/json')) {
         return await response.json();
       }
-      if(responseType?.includes('multipart/form-data')) {
+      else {
         const disposition = new ContentDisposition(response.headers.get('content-disposition'));
         const rawFileName = disposition['filename'] as string | undefined;
         const fileName = !!rawFileName
@@ -46,9 +48,6 @@ export class CommandFetcher {
           : 'Untitled';
         const blob = await response.blob();
         return new File([blob], fileName);
-      }
-      else {
-        throw await response.text();
       }
     } catch (error) {
       if(commandName !== 'WriteLog') this.log('Error', JSON.stringify(error));
