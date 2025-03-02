@@ -23,9 +23,10 @@
     "paths": {
       "*": ["node_modules/*"]
     },
+    "rootDirs": [".", "./.react-router/types"],
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", ".react-router/types/**/*"],
   "compileOnSave": false,
   "buildOnSave": false
 }
