@@ -28,6 +28,7 @@ jobs:
           echo '{
             "apiBaseUrl": "${{ variables.API_BASE_URL }}",
           }' > config.json
+        working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
       - name: Make Windows Build
         env:
