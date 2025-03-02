@@ -29,7 +29,7 @@ interface TeamEditorPageProps {
   editorResponse: LoadTeamEditorResponse
 }
 
-function TeamEditorPage(props: TeamEditorPageProps) {
+export function TeamEditorPage(props: TeamEditorPageProps) {
   const { appContext, teamId, editorResponse } = props;
   const { sourceType, canEdit, tempTeamId } = editorResponse;
 

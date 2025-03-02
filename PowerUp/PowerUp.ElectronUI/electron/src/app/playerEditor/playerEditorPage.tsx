@@ -34,7 +34,7 @@ interface PlayerEditorPageProps {
   editorResponse: PlayerEditorResponse 
 }
 
-function PlayerEditorPage(props: PlayerEditorPageProps) {
+export function PlayerEditorPage(props: PlayerEditorPageProps) {
   const { appContext, playerId, editorResponse } = props;
   const { sourceType, canEdit, options } = editorResponse;
 

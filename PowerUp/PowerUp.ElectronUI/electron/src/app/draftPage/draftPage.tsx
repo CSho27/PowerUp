@@ -32,7 +32,7 @@ interface DraftPageProps {
   existingTeams: KeyedCode[];
 }
 
-function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
+export function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
   const [state, update] = useReducer(
     DraftStateReducer, 
     getInitialState(2), 
