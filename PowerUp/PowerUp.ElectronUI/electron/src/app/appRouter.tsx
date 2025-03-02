@@ -1,22 +1,24 @@
-import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Outlet, Params, Route, RouterProvider, Routes, useNavigate, useNavigation, useParams } from "react-router-dom";
+import { BrowserRouter, Outlet, Params, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "./appContext";
 import { HomePage, loadHomePageProps } from "./home/homePage";
-import { PropsWithChildren, ReactNode } from "react";
+import { ReactNode } from "react";
 import { useQuery } from "../components/hooks/useQuery";
 import { loadRosterEditorPageProps, RosterEditorPage } from "./rosterEditor/rosterEditorPage";
-import { PageLoadDefinition, PageProps, PagePropsLoadFunction } from "./pages";
+import { PageLoadDefinition, PagePropsLoadFunction } from "./pages";
 import { loadPlayerEditorPageProps, PlayerEditorPage } from "./playerEditor/playerEditorPage";
 import { loadTeamEditorPageProps, TeamEditorPage } from "./teamEditor/teamEditorPage";
 import { DraftPage, loadDraftPageProps } from "./draftPage/draftPage";
+import { Page } from "./app";
 
-export interface AppRouterProps {
-  renderPage: (page: ReactNode) => ReactNode;
-}
-
-export function AppRouter({ renderPage }: AppRouterProps) {
+export function AppRouter() {
   return <BrowserRouter>
     <Routes>
-      <Route path='' element={<>{renderPage(<Outlet />)}</>}>
+      <Route 
+        path='' 
+        element={<Page>
+          <Outlet />
+        </Page>}
+      >
         <Route 
           index
           element={<PageLoader 
