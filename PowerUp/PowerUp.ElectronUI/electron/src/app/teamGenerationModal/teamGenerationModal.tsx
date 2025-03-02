@@ -8,7 +8,7 @@ import { NumberField } from "../../components/numberField/numberField";
 import { ProgressBar } from "../../components/progressBar/progressBar";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../appContext";
-import { useDebounceEffect } from "../shared/useDebounceEffect";
+import { useDebounceEffect } from "../../components/hooks/useDebounceEffect";
 import { FranchiseLookupApiClient, FranchiseLookupResultDto } from "./franchiseLookupApiClient";
 import { FranchiseLookupGrid } from "./franchiseLookupGrid";
 import { TeamGenerationApiClient } from "./teamGenerationApiClient";

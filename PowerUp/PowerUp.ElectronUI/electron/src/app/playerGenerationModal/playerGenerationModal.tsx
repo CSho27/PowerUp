@@ -7,7 +7,7 @@ import { Modal } from "../../components/modal/modal";
 import { NumberField } from "../../components/numberField/numberField";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../appContext";
-import { useDebounceEffect } from "../shared/useDebounceEffect";
+import { useDebounceEffect } from "../../components/hooks/useDebounceEffect";
 import { PlayerGenerationApiClient } from "./playerGenerationApiClient";
 import { PlayerInfoApiClient } from "./playerInfoApiClient";
 import { PlayerLookupApiClient, PlayerLookupResultDto } from "./playerLookupApiClient";

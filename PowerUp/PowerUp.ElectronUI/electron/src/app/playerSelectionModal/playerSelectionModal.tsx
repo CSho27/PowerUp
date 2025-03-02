@@ -5,7 +5,7 @@ import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../appContext";
 import { DisableResult } from "../shared/disableResult";
-import { useDebounceEffect } from "../shared/useDebounceEffect";
+import { useDebounceEffect } from "../../components/hooks/useDebounceEffect";
 import { PlayerSearchApiClient, PlayerSearchResultDto } from "./playerSearchApiClient";
 import { PlayerSelectionGrid } from "./playerSelectionGrid";
 

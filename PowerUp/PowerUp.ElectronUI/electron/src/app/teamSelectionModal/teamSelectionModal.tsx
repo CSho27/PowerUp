@@ -4,7 +4,7 @@ import { Button } from "../../components/button/button";
 import { Modal } from "../../components/modal/modal";
 import { TextField } from "../../components/textField/textField";
 import { AppContext } from "../appContext";
-import { useDebounceEffect } from "../shared/useDebounceEffect";
+import { useDebounceEffect } from "../../components/hooks/useDebounceEffect";
 import { TeamSearchApiClient, TeamSearchResultDto } from "./teamSearchApiClient";
 import { TeamSelectionGrid } from "./teamSelectionGrid";
 
