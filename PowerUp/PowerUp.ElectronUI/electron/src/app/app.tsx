@@ -1,8 +1,7 @@
 import { GlobalStyles } from './globalStyles';
 import { AppConfig } from './appConfig';
-import { BrowserRouter } from 'react-router-dom';
 import { AppBehavior } from './appBehavior';
-import { AppRoutes } from './appRoutes';
+import { AppRouter } from './appRouter';
 
 export interface AppStartupProps {
   appConfig: AppConfig;
@@ -12,12 +11,11 @@ export interface AppStartupProps {
 export function App(props: AppStartupProps) {
   const { commandUrl, appConfig } = props;
 
-  return <BrowserRouter>
-    <AppBehavior appConfig={appConfig} commandUrl={commandUrl}>
-      <AppRoutes />
-    </AppBehavior>
-    <GlobalStyles />
-  </BrowserRouter>
-
-  
+  return <AppRouter renderPage={page => 
+      <AppBehavior appConfig={appConfig} commandUrl={commandUrl}>
+        {page}
+        <GlobalStyles />
+      </AppBehavior>
+    }>
+  </AppRouter> 
 };
