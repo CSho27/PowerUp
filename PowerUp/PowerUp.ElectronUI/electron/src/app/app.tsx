@@ -1,7 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { ModalPageCover } from '../components/modal/modal';
 import { FullPageSpinner } from '../components/fullPageSpinner/fullPageSpinner';
-import { useGlobalBindings } from '../nimbleKey/globalBinding';
 import { CommandFetcher } from '../utils/commandFetcher';
 import { GenerateId } from '../utils/generateId';
 import { AppState, AppStateReducer, ModalDefinition } from './appState';
@@ -46,14 +45,6 @@ export function App(props: AppStartupProps) {
   useEffect(() => {
     setPage({ page: 'HomePage' });
   }, [])
-
-  useGlobalBindings(
-    { keys: ['Control', 'Alt', 'Shift', 'R'], callbackFn: () => setPage({ page: 'RosterEditorPage', rosterId: 1 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'H'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 1 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'P'], callbackFn: () => setPage({ page: 'PlayerEditorPage', playerId: 16 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'T'], callbackFn: () => setPage({ page: 'TeamEditorPage', teamId: 8 }) },
-    { keys: ['Control', 'Alt', 'Shift', 'Q'], callbackFn: () => setPage({ page: 'TestPage' }) },
-  )
 
   // Initializes Base Roster
   useEffect(() => { new InitializeBaseRosterApiClient(appContext.commandFetcher).execute() }, []);
