@@ -10,6 +10,7 @@ import { PageLoadDefinition, pageRegistry } from './pages';
 import { InitializeBaseRosterApiClient } from './rosterEditor/importBaseRosterApiClient';
 import { AppConfig } from './appConfig';
 import { AppContext, AppContextProvider, AsyncRenderModalCallback, RenderModalCallback } from './appContext';
+import { useDelayedActivation } from '../components/hooks/useDelayedActivation';
 
 export interface AppStartupProps {
   appConfig: AppConfig;
@@ -27,6 +28,7 @@ export function App(props: AppStartupProps) {
   }
 
   const [state, update] = useReducer(AppStateReducer, initialState);
+  const showSpinner = useDelayedActivation(state.isLoading, 500);
 
   const appContext: AppContext = {
     commandFetcher: new CommandFetcher(commandUrl, performWithSpinner),
@@ -59,7 +61,7 @@ export function App(props: AppStartupProps) {
   return <AppContextProvider appContext={appContext}>
     {state.currentPage.renderPage(appContext)}
     {state.modals.length > 0 && state.modals.map(toRenderedModal)}
-    {state.isLoading && <FullPageSpinner/>}
+    {showSpinner && <FullPageSpinner/>}
     <GlobalStyles />
   </AppContextProvider>
 
