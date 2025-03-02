@@ -5,7 +5,7 @@ import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrappe
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../appContext";
-import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { PageLoadDefinition, PageLoadFunction, PageProps, PagePropsLoadFunction } from "../pages";
 import { CopyExistingRosterApiClient } from "../rosterEditor/copyExistingRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
 import { RosterGenerationModal } from "../rosterGenerationModal/rosterGenerationModal";
@@ -154,13 +154,16 @@ const AppTitleWrapper = styled.div`
 const Subheader = styled.h1`
   color: ${COLORS.secondaryRed.regular_44};
 `
-
-export const loadHomePage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+export const loadHomePageProps: PagePropsLoadFunction<HomePageProps> = async (appContext, pageDef) => {
   if(pageDef.page !== 'HomePage')
     throw 'Wrong page def';
+  return { title: 'Home' }
+}
 
+export const loadHomePage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  const props = await loadHomePageProps(appContext, pageDef);
   return {
-    title: 'Home',
+    title: props.title,
     renderPage: (appContext) => <HomePage appContext={appContext} />
   }
 }

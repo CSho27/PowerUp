@@ -11,7 +11,7 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
 import { AppContext } from "../appContext";
-import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { PageLoadDefinition, PageLoadFunction, PagePropsLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { deepEquals } from "../shared/deepEquals";
 import { KeyedCode } from "../shared/keyedCode";
@@ -216,14 +216,22 @@ const EditorContainer = styled.div`
   padding: 16px;
 `
 
-export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+export const loadPlayerEditorPageProps: PagePropsLoadFunction<PlayerEditorPageProps> = async (appContext, pageDef) => {
   if(pageDef.page !== 'PlayerEditorPage') throw '';
   
   const apiClient = new LoadPlayerEditorApiClient(appContext.commandFetcher);
   const response = await apiClient.execute({ playerId: pageDef.playerId });
-
   return {
     title: `${response.personalDetails.firstName} ${response.personalDetails.lastName}`,
-    renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={pageDef.playerId} editorResponse={response} />
+    playerId: pageDef.playerId,
+    editorResponse: response
+  }
+}
+
+export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  const props = await loadPlayerEditorPageProps(appContext, pageDef);
+  return {
+    title: props.title,
+    renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={props.playerId} editorResponse={props.editorResponse} />
   }
 }

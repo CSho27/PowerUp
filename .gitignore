@@ -29,6 +29,9 @@ PowerUp/PowerUp.ElectronUI/wwwroot/*
 # testing
 /coverage
 
+# React-Router
+.react-router
+
 # production
 /build
 dist

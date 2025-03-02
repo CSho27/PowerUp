@@ -8,7 +8,7 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../appContext";
-import { PageCleanupFunction, PageLoadDefinition, PageLoadFunction } from "../pages";
+import { PageCleanupFunction, PageLoadDefinition, PageLoadFunction, PagePropsLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { deepEquals } from "../shared/deepEquals";
 import { PowerUpLayout } from "../shared/powerUpLayout";
@@ -260,7 +260,7 @@ const EditorContainer = styled.div`
   padding: 16px;
 `
 
-export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+export const loadTeamEditorPageProps: PagePropsLoadFunction<TeamEditorPageProps> = async (appContext, pageDef) => {
   if(pageDef.page !== 'TeamEditorPage') throw '';
   
   const apiClient = new LoadTeamEditorApiClient(appContext.commandFetcher);
@@ -268,15 +268,26 @@ export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContex
 
   return {
     title: response.lastSavedDetails.name,
-    renderPage: appContext => <TeamEditorPage 
-      appContext={appContext}
-      teamId={pageDef.teamId}
-      editorResponse={response}
-    />,
+    teamId: pageDef.teamId,
+    editorResponse: response,
     updatedPageLoadDef: {
       ...pageDef,
       tempTeamId: response.tempTeamId
     }
+  }
+}
+
+
+export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  const props = await loadTeamEditorPageProps(appContext, pageDef);
+  return {
+    title: props.title,
+    renderPage: appContext => <TeamEditorPage 
+      appContext={appContext}
+      teamId={props.teamId}
+      editorResponse={props.editorResponse}
+    />,
+    updatedPageLoadDef: props.updatedPageLoadDef
   }
 }
 

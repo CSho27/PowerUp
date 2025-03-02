@@ -1,7 +1,7 @@
 import { useMemo, useReducer } from "react";
 import { AppContext } from "../appContext";
 import { DraftPoolApiClient } from "./draftPoolApiClient";
-import { PageLoadFunction } from "../pages";
+import { PageLoadFunction, PagePropsLoadFunction } from "../pages";
 import { DraftStateReducer, getInitialState, getNextPickingPlayherIndex as getNextPickingPlayerIndex, getDraftingIndex, getRound } from "./draftState";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
@@ -286,7 +286,7 @@ function DraftPage({ appContext, rosterId, existingTeams }: DraftPageProps) {
   }
 }
 
-export const loadDraftPage: PageLoadFunction = async (appContext, pageDef) => {
+export const loadDraftPageProps: PagePropsLoadFunction<DraftPageProps> = async (appContext, pageDef) => {
   if(pageDef.page !== 'DraftPage') throw '';
   
   const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
@@ -297,14 +297,23 @@ export const loadDraftPage: PageLoadFunction = async (appContext, pageDef) => {
       name: t.name === t.powerProsName
         ? t.name
         : `${t.name} (${t.powerProsName})`
-      })) 
-
+      }));
+  
   return {
     title: 'Draft Teams',
+    rosterId: pageDef.rosterId, 
+    existingTeams: teamOptions
+  }
+}
+
+export const loadDraftPage: PageLoadFunction = async (appContext, pageDef) => {
+  const props = await loadDraftPageProps(appContext, pageDef);
+  return {
+    title: props.title,
     renderPage: appContext => <DraftPage 
       appContext={appContext} 
-      rosterId={pageDef.rosterId} 
-      existingTeams={teamOptions}
+      rosterId={props.rosterId} 
+      existingTeams={props.existingTeams}
     />
   }
 }

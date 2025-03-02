@@ -10,7 +10,7 @@ import { FONT_SIZES } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../appContext";
-import { PageLoadDefinition, PageLoadFunction } from "../pages";
+import { PageLoadDefinition, PageLoadFunction, PageProps, PagePropsLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { EditRosterNameApiClient } from "./editRosterNameApiClient";
@@ -170,18 +170,29 @@ const FreeAgentTable = styled.table`
   isolation: isolate;
 `
 
-
-export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+export const loadRosterEditorPageProps: PagePropsLoadFunction<RosterEditorPageProps> = async (
+  appContext: AppContext, 
+  pageDef: PageLoadDefinition
+): Promise<PageProps<RosterEditorPageProps>> => {
   if(pageDef.page !== 'RosterEditorPage') throw '';
 
   const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
   const response = await apiClient.execute({ rosterId: pageDef.rosterId });
   return {
     title: response.rosterDetails.name,
+    divisionOptions: response.divisionOptions,
+    rosterDetails: response.rosterDetails,
+  }
+}
+
+export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
+  const props = await loadRosterEditorPageProps(appContext, pageDef);
+  return {
+    title: props.title,
     renderPage: (appContext) => <RosterEditorPage 
       appContext={appContext} 
-      divisionOptions={response.divisionOptions}
-      rosterDetails={response.rosterDetails} 
+      divisionOptions={props.divisionOptions}
+      rosterDetails={props.rosterDetails} 
     />
   }
 }
