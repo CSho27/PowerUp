@@ -8,7 +8,7 @@ import { TabButtonNav } from "../../components/tabButton/tabButton";
 import { TextField } from "../../components/textField/textField";
 import { FONT_SIZES } from "../../style/constants";
 import { AppContext } from "../appContext";
-import { PageCleanupFunction, PageLoadDefinition, PageLoadFunction, PagePropsLoadFunction } from "../pages";
+import { PageCleanupFunction, PageLoadDefinition, PagePropsLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { deepEquals } from "../shared/deepEquals";
 import { PowerUpLayout } from "../shared/powerUpLayout";
@@ -274,20 +274,6 @@ export const loadTeamEditorPageProps: PagePropsLoadFunction<TeamEditorPageProps>
       ...pageDef,
       tempTeamId: response.tempTeamId
     }
-  }
-}
-
-
-export const loadTeamEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
-  const props = await loadTeamEditorPageProps(appContext, pageDef);
-  return {
-    title: props.title,
-    renderPage: appContext => <TeamEditorPage 
-      appContext={appContext}
-      teamId={props.teamId}
-      editorResponse={props.editorResponse}
-    />,
-    updatedPageLoadDef: props.updatedPageLoadDef
   }
 }
 

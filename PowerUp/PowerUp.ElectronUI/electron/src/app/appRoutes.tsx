@@ -17,7 +17,7 @@ export function AppRoutes() {
       element={<PageLoader 
         pageDef={{ page: 'HomePage' }} 
         loadProps={loadHomePageProps} 
-        renderPage={HomePage}
+        renderPage={props => <HomePage {...props} />}
       />} 
     />
     <Route 
@@ -25,7 +25,7 @@ export function AppRoutes() {
       element={<PageLoader 
         pageDef={{ page: 'RosterEditorPage', rosterId: Number.parseInt(params.rosterId ?? '') }} 
         loadProps={loadRosterEditorPageProps} 
-        renderPage={RosterEditorPage}
+        renderPage={props => <RosterEditorPage {...props} />}
       />} 
     />
     <Route 
@@ -39,7 +39,7 @@ export function AppRoutes() {
             : undefined  
         }} 
         loadProps={loadTeamEditorPageProps} 
-        renderPage={TeamEditorPage}
+        renderPage={props => <TeamEditorPage {...props} />}
       />} 
     />
     <Route 
@@ -47,7 +47,7 @@ export function AppRoutes() {
       element={<PageLoader 
         pageDef={{ page: 'PlayerEditorPage', playerId: Number.parseInt(params.playerId ?? '') }} 
         loadProps={loadPlayerEditorPageProps} 
-        renderPage={PlayerEditorPage}
+        renderPage={props => <PlayerEditorPage {...props} />}
       />}
     />
     <Route 
@@ -55,7 +55,7 @@ export function AppRoutes() {
       element={<PageLoader 
         pageDef={{ page: 'DraftPage', rosterId: Number.parseInt(params.rosterId ?? '') }} 
         loadProps={loadDraftPageProps} 
-        renderPage={DraftPage}
+        renderPage={props => <DraftPage {...props} />}
       />}
     />
   </Routes>
@@ -69,7 +69,6 @@ interface PageLoaderProps<TPageProps> {
 
 function PageLoader<TPageProps>({ pageDef, loadProps, renderPage }: PageLoaderProps<TPageProps>) {
   const appContext = useAppContext();
-  const { location } = useNavigation();
   const navigate = useNavigate()
   const { data } = useQuery({ 
     queryFn: () => {

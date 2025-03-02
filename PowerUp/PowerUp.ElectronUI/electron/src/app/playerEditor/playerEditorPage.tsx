@@ -11,7 +11,7 @@ import { PositionBubble } from "../../components/textBubble/positionBubble";
 import { COLORS, FONT_SIZES } from "../../style/constants";
 import { useReducerWithContext } from "../../utils/reducerWithContext";
 import { AppContext } from "../appContext";
-import { PageLoadDefinition, PageLoadFunction, PagePropsLoadFunction } from "../pages";
+import { PagePropsLoadFunction } from "../pages";
 import { toShortDateTimeString } from "../shared/dateUtils";
 import { deepEquals } from "../shared/deepEquals";
 import { KeyedCode } from "../shared/keyedCode";
@@ -225,13 +225,5 @@ export const loadPlayerEditorPageProps: PagePropsLoadFunction<PlayerEditorPagePr
     title: `${response.personalDetails.firstName} ${response.personalDetails.lastName}`,
     playerId: pageDef.playerId,
     editorResponse: response
-  }
-}
-
-export const loadPlayerEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
-  const props = await loadPlayerEditorPageProps(appContext, pageDef);
-  return {
-    title: props.title,
-    renderPage: (appContext) => <PlayerEditorPage appContext={appContext} playerId={props.playerId} editorResponse={props.editorResponse} />
   }
 }

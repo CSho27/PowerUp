@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Breadcrumbs } from "../../components/breadcrumbs/breadcrumbs";
 import { Button } from "../../components/button/button";
@@ -10,7 +10,7 @@ import { FONT_SIZES } from "../../style/constants";
 import { DisabledCriteria, toDisabledProps } from "../../utils/disabledProps";
 import { toIdentifier } from "../../utils/getIdentifier";
 import { AppContext } from "../appContext";
-import { PageLoadDefinition, PageLoadFunction, PageProps, PagePropsLoadFunction } from "../pages";
+import { PagePropsLoadFunction } from "../pages";
 import { KeyedCode } from "../shared/keyedCode";
 import { PowerUpLayout } from "../shared/powerUpLayout";
 import { EditRosterNameApiClient } from "./editRosterNameApiClient";
@@ -20,7 +20,6 @@ import { ReplaceFreeAgentApiClient } from "./replaceFreeAgentApiClient";
 import { RosterDetails, TeamDetails } from "./rosterEditorDTOs";
 import { openRosterExportModal } from "./rosterExportModal";
 import { TeamGrid } from "./teamGrid";
-import { DraftPoolApiClient } from "../draftPage/draftPoolApiClient";
 
 export interface RosterEditorPageProps {
   appContext: AppContext;
@@ -171,9 +170,9 @@ const FreeAgentTable = styled.table`
 `
 
 export const loadRosterEditorPageProps: PagePropsLoadFunction<RosterEditorPageProps> = async (
-  appContext: AppContext, 
-  pageDef: PageLoadDefinition
-): Promise<PageProps<RosterEditorPageProps>> => {
+  appContext, 
+  pageDef
+) => {
   if(pageDef.page !== 'RosterEditorPage') throw '';
 
   const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
@@ -182,18 +181,6 @@ export const loadRosterEditorPageProps: PagePropsLoadFunction<RosterEditorPagePr
     title: response.rosterDetails.name,
     divisionOptions: response.divisionOptions,
     rosterDetails: response.rosterDetails,
-  }
-}
-
-export const loadRosterEditorPage: PageLoadFunction = async (appContext: AppContext, pageDef: PageLoadDefinition) => {
-  const props = await loadRosterEditorPageProps(appContext, pageDef);
-  return {
-    title: props.title,
-    renderPage: (appContext) => <RosterEditorPage 
-      appContext={appContext} 
-      divisionOptions={props.divisionOptions}
-      rosterDetails={props.rosterDetails} 
-    />
   }
 }
 

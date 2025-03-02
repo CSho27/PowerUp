@@ -1,11 +1,11 @@
 import { ReactElement } from "react";
 import { ModalProps } from "../components/modal/modal";
 import { GenerateId } from "../utils/generateId";
-import { PageDefinition, PageLoadDefinition } from "./pages";
+import { PageLoadDefinition } from "./pages";
 
 export interface AppState {
   breadcrumbs: BreadcrumbDefinition[];
-  currentPage: PageDefinition;
+  currentPage: PageLoadDefinition;
   modals: ModalDefinition[];
   isLoading: boolean;
 }
@@ -22,8 +22,8 @@ export interface BreadcrumbDefinition {
 }
 
 export type AppStateAction =
-| { type: 'updatePage', pageLoadDef: PageLoadDefinition, pageDef: PageDefinition }
-| { type: 'updatePageFromBreadcrumb', breadcrumbId: number, pageDef: PageDefinition }
+| { type: 'updatePage', pageLoadDef: PageLoadDefinition }
+| { type: 'updatePageFromBreadcrumb', breadcrumbId: number, pageLoadDef: PageLoadDefinition }
 | { type: 'openModal', modal: ModalDefinition }
 | { type: 'closeModal', modalKey: string }
 | { type: 'updateIsLoading', isLoading: boolean }
@@ -33,8 +33,8 @@ export function AppStateReducer(state: AppState, action: AppStateAction): AppSta
     case 'updatePage':
       return {
         ...state,
-        breadcrumbs: [...state.breadcrumbs, { id: GenerateId(), title: action.pageDef.title, pageLoadDef: action.pageLoadDef }],
-        currentPage: action.pageDef,
+        breadcrumbs: [...state.breadcrumbs, { id: GenerateId(), title: action.pageLoadDef.page, pageLoadDef: action.pageLoadDef }],
+        currentPage: action.pageLoadDef,
         modals: []
       }
     case 'updatePageFromBreadcrumb':
@@ -42,7 +42,7 @@ export function AppStateReducer(state: AppState, action: AppStateAction): AppSta
       return {
         ...state,
         breadcrumbs: state.breadcrumbs.slice(0, targetPageIndex + 1),
-        currentPage: action.pageDef,
+        currentPage: action.pageLoadDef,
         modals: []
       }
     case 'openModal':

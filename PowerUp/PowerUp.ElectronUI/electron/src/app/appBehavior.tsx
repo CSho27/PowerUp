@@ -8,13 +8,16 @@ import { FullPageSpinner } from "../components/fullPageSpinner/fullPageSpinner";
 import { GenerateId } from "../utils/generateId";
 import { ModalPageCover } from "../components/modal/modal";
 import { InitializeBaseRosterApiClient } from "./rosterEditor/importBaseRosterApiClient";
-import { PageLoadDefinition, pageRegistry } from "./pages";
+import { PageLoadDefinition } from "./pages";
 import { useNavigate } from "react-router-dom/dist";
+import { cleanupTeamEditorPage } from "./teamEditor/teamEditorPage";
 
 export function AppBehavior({ appConfig, commandUrl, children }: PropsWithChildren<AppStartupProps>) {
+  const navigate = useNavigate();
+  
   const initialState: AppState = {
     breadcrumbs: [],
-    currentPage: { title: '', renderPage: () => <></> },
+    currentPage: { page: 'HomePage' },
     modals: [],
     isLoading: false
   }
@@ -39,15 +42,31 @@ export function AppBehavior({ appConfig, commandUrl, children }: PropsWithChildr
   
   return <AppContextProvider appContext={appContext}>
     {children}
-    {state.currentPage.renderPage(appContext)}
     {state.modals.length > 0 && state.modals.map(toRenderedModal)}
     {showSpinner && <FullPageSpinner/>}
   </AppContextProvider>
   
   async function setPage(pageDef: PageLoadDefinition) {
-    const pageEntry = pageRegistry[pageDef.page];
-    const loadedPage = await pageEntry.load(appContext, pageDef);
-    update({ type: 'updatePage', pageLoadDef: loadedPage.updatedPageLoadDef ?? pageDef, pageDef: loadedPage });
+    update({ type: 'updatePage', pageLoadDef: pageDef });
+    setTimeout(() => {
+      switch(pageDef.page) {
+        case 'HomePage':
+          navigate({ pathname: '/' });
+          break;
+        case 'RosterEditorPage':
+          navigate({ pathname: `/roster/${pageDef.rosterId}` });
+          break;
+        case 'TeamEditorPage':
+          navigate({ pathname: `/team/${pageDef.teamId}`, search: pageDef.tempTeamId ? `tempTeamId=${pageDef.tempTeamId}` : '' });
+          break;
+        case 'PlayerEditorPage':
+          navigate({ pathname: `/player/${pageDef.playerId}` });
+          break;
+        case 'DraftPage':
+          navigate({ pathname: `draft/${pageDef.rosterId}` });
+          break;
+      }
+    }, 500);
   }
 
   async function reloadCurrentPage() {
@@ -57,17 +76,14 @@ export function AppBehavior({ appConfig, commandUrl, children }: PropsWithChildr
   async function popBreadcrumb(breadcrumbId: number) {
     const pageIndex = state.breadcrumbs.findIndex(c => c.id === breadcrumbId);
     const pageLoadDef = state.breadcrumbs[pageIndex].pageLoadDef!;
-    const pageEntry = pageRegistry[pageLoadDef.page];
-    const newPage = await pageEntry.load(appContext, pageLoadDef);
 
     const pagesToCleanUp = state.breadcrumbs.slice(pageIndex+1);
     pagesToCleanUp.forEach(p => {
-      const entry = pageRegistry[p.pageLoadDef.page];
-      if(!!entry.cleanup)
-        entry.cleanup(appContext, p.pageLoadDef);
+      if(p.pageLoadDef.page === "TeamEditorPage")
+        cleanupTeamEditorPage(appContext, p.pageLoadDef);
     })
 
-    update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageDef: newPage });
+    update({ type: 'updatePageFromBreadcrumb', breadcrumbId: breadcrumbId, pageLoadDef: pageLoadDef });
   }
 
   function openModalAsync<T>(renderModal: AsyncRenderModalCallback<T>): Promise<T> {
