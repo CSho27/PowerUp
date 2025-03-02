@@ -20,7 +20,6 @@ import { PlayerDetailsResponse } from "../teamEditor/playerDetailsResponse";
 import { TextField } from "../../components/textField/textField";
 import { SortHelpers } from "../../utils/sortUtils";
 import { LoadExistingRosterApiClient } from "../rosterEditor/loadExistingRosterApiClient";
-import { SimpleCode } from "../shared/simpleCode";
 import { SelectField } from "../../components/SelectField/selectField";
 import { fromOptions, toOptions } from "../../components/SelectField/selectFieldHelpers";
 import { KeyedCode } from "../shared/keyedCode";

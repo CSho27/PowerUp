@@ -54,13 +54,13 @@ export function AppBehavior({ appConfig, commandUrl, children }: PropsWithChildr
           navigate({ pathname: '/' });
           break;
         case 'RosterEditorPage':
-          navigate({ pathname: `/roster/${pageDef.rosterId}` });
+          navigate({ pathname: `roster/${pageDef.rosterId}` });
           break;
         case 'TeamEditorPage':
-          navigate({ pathname: `/team/${pageDef.teamId}`, search: pageDef.tempTeamId ? `tempTeamId=${pageDef.tempTeamId}` : '' });
+          navigate({ pathname: `team/${pageDef.teamId}`, search: pageDef.tempTeamId ? `tempTeamId=${pageDef.tempTeamId}` : '' });
           break;
         case 'PlayerEditorPage':
-          navigate({ pathname: `/player/${pageDef.playerId}` });
+          navigate({ pathname: `player/${pageDef.playerId}` });
           break;
         case 'DraftPage':
           navigate({ pathname: `draft/${pageDef.rosterId}` });
