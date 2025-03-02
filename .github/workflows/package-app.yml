@@ -23,6 +23,12 @@ jobs:
         run: npm install
         working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
+      - name: Create `config.json`
+        run: |
+          echo '{
+            "apiBaseUrl": "${{ variables.API_BASE_URL }}",
+          }' > config.json
+
       - name: Make Windows Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,6 +56,12 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./PowerUp/PowerUp.ElectronUI/electron
+      
+      - name: Create `config.json`
+        run: |
+          echo '{
+            "apiBaseUrl": "${{ variables.API_BASE_URL }}",
+          }' > config.json
 
       - name: Make macOS Build
         env:
