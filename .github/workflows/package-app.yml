@@ -26,7 +26,7 @@ jobs:
       - name: Create `config.json`
         run: |
           echo '{
-            "apiBaseUrl": "${{ vars.API_BASE_URL }}",
+            "apiBaseUrl": "${{ vars.API_BASE_URL }}"
           }' > config.json
         working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
@@ -61,7 +61,7 @@ jobs:
       - name: Create `config.json`
         run: |
           echo '{
-            "apiBaseUrl": "${{ vars.API_BASE_URL }}",
+            "apiBaseUrl": "${{ vars.API_BASE_URL }}"
           }' > config.json
         working-directory: ./PowerUp/PowerUp.ElectronUI/electron
 
