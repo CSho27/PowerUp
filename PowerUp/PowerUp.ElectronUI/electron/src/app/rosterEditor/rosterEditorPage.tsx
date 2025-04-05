@@ -10,7 +10,6 @@ import { FONT_SIZES } from '../../style/constants';
 import { DisabledCriteria, toDisabledProps } from '../../utils/disabledProps';
 import { toIdentifier } from '../../utils/getIdentifier';
 import { AppContext, useAppContext } from '../appContext';
-import { PagePropsLoadFunction } from '../pages';
 import { KeyedCode } from '../shared/keyedCode';
 import { PowerUpLayout } from '../shared/powerUpLayout';
 import { EditRosterNameApiClient } from './editRosterNameApiClient';
@@ -20,42 +19,25 @@ import { ReplaceFreeAgentApiClient } from './replaceFreeAgentApiClient';
 import { RosterDetails, TeamDetails } from './rosterEditorDTOs';
 import { openRosterExportModal } from './rosterExportModal';
 import { TeamGrid } from './teamGrid';
-import { useParams } from 'react-router-dom/dist';
-import { useQuery } from '../../components/hooks/useQuery';
+import { PageLoader, RouteParams } from '../appRouter';
 
 export interface RosterEditorPageProps {
-  appContext: AppContext;
   divisionOptions: KeyedCode[];
   rosterDetails: RosterDetails;
 }
 
 export function RosterEditorPage() {
-  const appContext = useAppContext();
-  const params = useParams();
-  const { data } = useQuery(
-    {
-      queryFn: () =>
-        loadRosterEditorPageProps(
-          appContext,
-          Number.parseInt(params.rosterId ?? '')
-        ),
-    },
-    [params]
-  );
-
-  if (!data) return <></>;
-
   return (
-    <InternalRosterEditorPage
-      appContext={appContext}
-      rosterDetails={data.rosterDetails}
-      divisionOptions={data.divisionOptions}
+    <PageLoader
+      loadProps={loadRosterEditorPageProps}
+      renderPage={p => <InternalRosterEditorPage {...p} />}
     />
   );
 }
 
 function InternalRosterEditorPage(props: RosterEditorPageProps) {
-  const { appContext, rosterDetails } = props;
+  const appContext = useAppContext();
+  const { rosterDetails } = props;
   const { rosterId, name, teams, freeAgentHitters, freeAgentPitchers } =
     rosterDetails;
 
@@ -252,8 +234,9 @@ const FreeAgentTable = styled.table`
 
 export async function loadRosterEditorPageProps(
   appContext: AppContext,
-  rosterId: number
+  params: RouteParams
 ) {
+  const rosterId = Number.parseInt(params.rosterId ?? '');
   const apiClient = new LoadExistingRosterApiClient(appContext.commandFetcher);
   const response = await apiClient.execute({ rosterId: rosterId });
   return {
