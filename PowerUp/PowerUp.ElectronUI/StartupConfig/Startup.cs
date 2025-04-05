@@ -86,6 +86,12 @@ namespace PowerUp.ElectronUI
             await context.Response.SendFileAsync(Path.Combine("wwwroot", "index.js"));
             return;
           }
+          if (context.Request.Path.Value?.EndsWith("index.js.map") ?? false)
+          {
+            context.Response.ContentType = "application/json";
+            await context.Response.SendFileAsync(Path.Combine("wwwroot", "index.js.map"));
+            return;
+          }
 
           await next();
         });
