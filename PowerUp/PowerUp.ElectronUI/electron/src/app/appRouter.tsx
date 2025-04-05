@@ -1,12 +1,10 @@
 import {
-  BrowserRouter,
   createBrowserRouter,
   createRoutesFromChildren,
   Outlet,
   Params,
   Route,
   RouterProvider,
-  Routes,
   useNavigate,
   useParams,
 } from 'react-router-dom';
@@ -14,10 +12,7 @@ import { useAppContext } from './appContext';
 import { HomePage } from './home/homePage';
 import { ReactNode } from 'react';
 import { useQuery } from '../components/hooks/useQuery';
-import {
-  loadRosterEditorPageProps,
-  RosterEditorPage,
-} from './rosterEditor/rosterEditorPage';
+import { RosterEditorPage } from './rosterEditor/rosterEditorPage';
 import { PageLoadDefinition, PagePropsLoadFunction } from './pages';
 import {
   loadPlayerEditorPageProps,
@@ -42,19 +37,7 @@ const router = createBrowserRouter(
         }
       >
         <Route index element={<HomePage />} />
-        <Route
-          path='/roster/:rosterId'
-          element={
-            <PageLoader
-              pageDef={p => ({
-                page: 'RosterEditorPage',
-                rosterId: Number.parseInt(p.rosterId ?? ''),
-              })}
-              loadProps={loadRosterEditorPageProps}
-              renderPage={props => <RosterEditorPage {...props} />}
-            />
-          }
-        />
+        <Route path='/roster/:rosterId' element={<RosterEditorPage />} />
         <Route
           path='/team/:teamId'
           element={
