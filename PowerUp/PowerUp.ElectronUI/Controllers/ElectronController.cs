@@ -12,7 +12,7 @@ namespace PowerUp.ElectronUI.Controllers
     private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ElectronController(
-      CommandRegistry commandRegistry, 
+      CommandRegistry commandRegistry,
       IWebHostEnvironment webHostEnvironment
     )
     {
@@ -20,6 +20,7 @@ namespace PowerUp.ElectronUI.Controllers
       _webHostEnvironment = webHostEnvironment;
     }
 
+    [Route("/{**path}")]
     public IActionResult Index()
     {
       return new ApplicationStartupResult(

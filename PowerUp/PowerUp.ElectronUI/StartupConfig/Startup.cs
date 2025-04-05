@@ -70,18 +70,25 @@ namespace PowerUp.ElectronUI
 
       Log.Debug("HttpsRedirection beginning...");
       app.UseHttpsRedirection();
-      app.UseStaticFiles();
-
       app.Use(PowerUpFilter);
       app.UseCors("AllowElectronApp");
+
+      app.UseStaticFiles();
       app.UseRouting();
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapControllerRoute(
-          name: "default",
-          pattern: "{controller=Electron}/{action=Index}"
-        );
         endpoints.MapControllers();
+        app.Use(async (context, next) =>
+        {
+          if (context.Request.Path.Value?.EndsWith("index.js") ?? false)
+          {
+            context.Response.ContentType = "application/javascript";
+            await context.Response.SendFileAsync(Path.Combine("wwwroot", "index.js"));
+            return;
+          }
+
+          await next();
+        });
       });
 
       DefaultContractResolver contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
