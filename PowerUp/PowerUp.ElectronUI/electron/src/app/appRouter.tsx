@@ -26,7 +26,7 @@ const router = createBrowserRouter(createRoutesFromChildren(<>
       />} 
     />
     <Route 
-      path='roster/:rosterId' 
+      path='/roster/:rosterId' 
       element={<PageLoader 
         pageDef={p => ({ page: 'RosterEditorPage', rosterId: Number.parseInt(p.rosterId ?? '') })} 
         loadProps={loadRosterEditorPageProps} 
@@ -34,7 +34,7 @@ const router = createBrowserRouter(createRoutesFromChildren(<>
       />} 
     />
     <Route 
-      path='team/:teamId' 
+      path='/team/:teamId' 
       element={<PageLoader 
         pageDef={p => ({ 
           page: 'TeamEditorPage', 
@@ -48,7 +48,7 @@ const router = createBrowserRouter(createRoutesFromChildren(<>
       />} 
     />
     <Route 
-      path='player/:playerId' 
+      path='/player/:playerId' 
       element={<PageLoader 
         pageDef={p => ({ page: 'PlayerEditorPage', playerId: Number.parseInt(p.playerId ?? '') })} 
         loadProps={loadPlayerEditorPageProps} 
@@ -56,7 +56,7 @@ const router = createBrowserRouter(createRoutesFromChildren(<>
       />}
     />
     <Route 
-      path='draft/:rosterId' 
+      path='/draft/:rosterId' 
       element={<PageLoader 
         pageDef={p => ({ page: 'DraftPage', rosterId: Number.parseInt(p.rosterId ?? '') })} 
         loadProps={loadDraftPageProps} 

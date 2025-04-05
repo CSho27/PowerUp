@@ -17,7 +17,6 @@ export function AppBehavior({ appConfig, commandUrl, children }: PropsWithChildr
   
   const initialState: AppState = {
     breadcrumbs: [],
-    currentPage: { page: 'HomePage' },
     modals: [],
     isLoading: false
   }
@@ -48,25 +47,23 @@ export function AppBehavior({ appConfig, commandUrl, children }: PropsWithChildr
   
   async function setPage(pageDef: PageLoadDefinition) {
     update({ type: 'updatePage', pageLoadDef: pageDef });
-    setTimeout(() => {
-      switch(pageDef.page) {
-        case 'HomePage':
-          navigate({ pathname: '/' });
-          break;
-        case 'RosterEditorPage':
-          navigate({ pathname: `roster/${pageDef.rosterId}` });
-          break;
-        case 'TeamEditorPage':
-          navigate({ pathname: `team/${pageDef.teamId}`, search: pageDef.tempTeamId ? `tempTeamId=${pageDef.tempTeamId}` : '' });
-          break;
-        case 'PlayerEditorPage':
-          navigate({ pathname: `player/${pageDef.playerId}` });
-          break;
-        case 'DraftPage':
-          navigate({ pathname: `draft/${pageDef.rosterId}` });
-          break;
-      }
-    }, 500);
+    switch(pageDef.page) {
+      case 'HomePage':
+        navigate({ pathname: '/' });
+        break;
+      case 'RosterEditorPage':
+        navigate({ pathname: `roster/${pageDef.rosterId}` });
+        break;
+      case 'TeamEditorPage':
+        navigate({ pathname: `team/${pageDef.teamId}`, search: pageDef.tempTeamId ? `tempTeamId=${pageDef.tempTeamId}` : '' });
+        break;
+      case 'PlayerEditorPage':
+        navigate({ pathname: `player/${pageDef.playerId}` });
+        break;
+      case 'DraftPage':
+        navigate({ pathname: `draft/${pageDef.rosterId}` });
+        break;
+    }
   }
 
   async function reloadCurrentPage() {

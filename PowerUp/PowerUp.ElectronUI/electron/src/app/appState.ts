@@ -5,7 +5,6 @@ import { PageLoadDefinition } from "./pages";
 
 export interface AppState {
   breadcrumbs: BreadcrumbDefinition[];
-  currentPage: PageLoadDefinition;
   modals: ModalDefinition[];
   isLoading: boolean;
 }
@@ -34,7 +33,6 @@ export function AppStateReducer(state: AppState, action: AppStateAction): AppSta
       return {
         ...state,
         breadcrumbs: [...state.breadcrumbs, { id: GenerateId(), title: action.pageLoadDef.page, pageLoadDef: action.pageLoadDef }],
-        currentPage: action.pageLoadDef,
         modals: []
       }
     case 'updatePageFromBreadcrumb':
@@ -42,7 +40,6 @@ export function AppStateReducer(state: AppState, action: AppStateAction): AppSta
       return {
         ...state,
         breadcrumbs: state.breadcrumbs.slice(0, targetPageIndex + 1),
-        currentPage: action.pageLoadDef,
         modals: []
       }
     case 'openModal':
