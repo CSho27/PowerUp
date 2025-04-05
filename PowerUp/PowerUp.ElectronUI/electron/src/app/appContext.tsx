@@ -1,10 +1,19 @@
-import { createContext, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
-import { CommandFetcher } from "../utils/commandFetcher";
-import { OpenInNewTabFn } from "./appConfig";
-import { BreadcrumbDefinition } from "./appState";
-import { PageLoadDefinition } from "./pages";
-import { ModalProps } from "../components/modal/modal";
-import { FileSelectionFn } from "../components/fileSelector/fileSelector";
+import {
+  createContext,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { CommandFetcher } from '../utils/commandFetcher';
+import { OpenInNewTabFn } from './appConfig';
+import { BreadcrumbDefinition } from './appState';
+import { PageLoadDefinition } from './pages';
+import { ModalProps } from '../components/modal/modal';
+import { FileSelectionFn } from '../components/fileSelector/fileSelector';
+import { NavigateFunction } from 'react-router-dom';
 
 export interface AppContext {
   commandFetcher: CommandFetcher;
@@ -20,24 +29,57 @@ export interface AppContext {
   performWithSpinner: PerformWithSpinnerCallback;
 }
 
-export type RenderModalCallback = (closeDialog: () => void) => ReactElement<ModalProps>;
-export type AsyncRenderModalCallback<T> = (closeDialog: (value: T) => void) => ReactElement<ModalProps>;
-export type PerformWithSpinnerCallback = <T>(action: () => Promise<T>) => Promise<T>;
+export type RenderModalCallback = (
+  closeDialog: () => void
+) => ReactElement<ModalProps>;
+export type AsyncRenderModalCallback<T> = (
+  closeDialog: (value: T) => void
+) => ReactElement<ModalProps>;
+export type PerformWithSpinnerCallback = <T>(
+  action: () => Promise<T>
+) => Promise<T>;
 
-const AppContext = createContext<AppContext|null>(null);
+export type ConfigSetter = (config: AppContextConfig) => void;
+export interface AppContextConfig {
+  navigate: NavigateFunction;
+}
+
+const AppContext = createContext<AppContext | null>(null);
+const AppContextConfigContext = createContext<ConfigSetter | null>(null);
 
 export interface AppContextProviderProps {
   appContext: AppContext;
+  setConfig: ConfigSetter;
 }
 
-export function AppContextProvider(props: PropsWithChildren<AppContextProviderProps>) {
-  return <AppContext.Provider value={props.appContext}>
-    {props.children}
-  </AppContext.Provider>
+export function AppContextProvider(
+  props: PropsWithChildren<AppContextProviderProps>
+) {
+  return (
+    <AppContextConfigContext.Provider value={props.setConfig}>
+      <AppContext.Provider value={props.appContext}>
+        {props.children}
+      </AppContext.Provider>
+    </AppContextConfigContext.Provider>
+  );
 }
 
 export function useAppContext(): AppContext {
   const appContext = useContext(AppContext);
-  if(!appContext) throw new Error('AppContext can only be accessed from children of an AppContextProvider');
+  if (!appContext)
+    throw new Error(
+      'AppContext can only be accessed from children of an AppContextProvider'
+    );
   return appContext;
+}
+
+export function useConfigureAppContext(config: AppContextConfig) {
+  const configContext = useContext(AppContextConfigContext);
+  if (!configContext)
+    throw new Error(
+      'AppContextConfigContext can only be accessed from children of an AppContextProvider'
+    );
+  useEffect(() => {
+    configContext(config);
+  }, [config]);
 }
