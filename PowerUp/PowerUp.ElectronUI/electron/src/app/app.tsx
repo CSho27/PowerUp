@@ -2,7 +2,7 @@ import { GlobalStyles } from './globalStyles';
 import { AppConfig } from './appConfig';
 import { AppBehavior } from './appBehavior';
 import { AppRouter } from './appRouter';
-import { PropsWithChildren, useContext } from 'react';
+import { PropsWithChildren } from 'react';
 
 export interface AppStartupProps {
   appConfig: AppConfig;

@@ -4,7 +4,7 @@ import { Button } from "../../components/button/button";
 import { MaxWidthWrapper } from "../../components/maxWidthWrapper/maxWidthWrapper";
 import { OutlineHeader } from "../../components/outlineHeader/outlineHeader";
 import { COLORS, FONT_SIZES } from "../../style/constants";
-import { AppContext } from "../appContext";
+import { AppContext, useAppContext } from "../appContext";
 import { PagePropsLoadFunction } from "../pages";
 import { CopyExistingRosterApiClient } from "../rosterEditor/copyExistingRosterApiClient";
 import { LoadExistingRosterOptionsApiClient } from "../rosterEditor/loadExistingRosterOptionsApiClient";
@@ -13,12 +13,8 @@ import { PowerUpLayout } from "../shared/powerUpLayout";
 import { ExistingRostersModal } from "./existingRostersModal";
 import { ImportRosterModal } from "./importRosterModal";
 
-export interface HomePageProps {
-  appContext: AppContext;
-}
-
-export function HomePage(props: HomePageProps) {
-  const { appContext } = props;
+export function HomePage() {
+  const appContext = useAppContext();
   const existingOptionsApiClientRef = useRef(new LoadExistingRosterOptionsApiClient(appContext.commandFetcher));
   const copyExistingRosterApiClientRef = useRef(new CopyExistingRosterApiClient(appContext.commandFetcher));
 
@@ -154,8 +150,3 @@ const AppTitleWrapper = styled.div`
 const Subheader = styled.h1`
   color: ${COLORS.secondaryRed.regular_44};
 `
-export const loadHomePageProps: PagePropsLoadFunction<HomePageProps> = async (appContext, pageDef) => {
-  if(pageDef.page !== 'HomePage')
-    throw 'Wrong page def';
-  return { title: 'Home' }
-}
