@@ -23,7 +23,7 @@ export function AppBehavior({
   children,
 }: PropsWithChildren<AppStartupProps>) {
   const initialState: AppState = {
-    breadcrumbs: [],
+    breadcrumbs: [{ id: -1, title: 'Home', pageLoadDef: { page: 'HomePage' } }],
     modals: [],
     isLoading: false,
   };
@@ -59,32 +59,34 @@ export function AppBehavior({
   );
 
   async function setPage(pageDef: PageLoadDefinition) {
-    if (!config) {
-      console.warn('NOT CONFIGURED');
-      return;
-    }
+    const didNav = navToPage(pageDef);
+    if (!didNav) return;
+    update({ type: 'updatePage', pageLoadDef: pageDef });
+  }
+
+  function navToPage(pageDef: PageLoadDefinition): boolean {
+    if (!config) return false;
 
     const navigate = config.navigate;
-    update({ type: 'updatePage', pageLoadDef: pageDef });
     switch (pageDef.page) {
       case 'HomePage':
         navigate({ pathname: '/' });
-        break;
+        return true;
       case 'RosterEditorPage':
         navigate({ pathname: `roster/${pageDef.rosterId}` });
-        break;
+        return true;
       case 'TeamEditorPage':
         navigate({
           pathname: `team/${pageDef.teamId}`,
           search: pageDef.tempTeamId ? `tempTeamId=${pageDef.tempTeamId}` : '',
         });
-        break;
+        return true;
       case 'PlayerEditorPage':
         navigate({ pathname: `player/${pageDef.playerId}` });
-        break;
+        return true;
       case 'DraftPage':
         navigate({ pathname: `draft/${pageDef.rosterId}` });
-        break;
+        return true;
     }
   }
 
@@ -95,6 +97,9 @@ export function AppBehavior({
   async function popBreadcrumb(breadcrumbId: number) {
     const pageIndex = state.breadcrumbs.findIndex(c => c.id === breadcrumbId);
     const pageLoadDef = state.breadcrumbs[pageIndex].pageLoadDef!;
+
+    const didNav = navToPage(pageLoadDef);
+    if (!didNav) return;
 
     const pagesToCleanUp = state.breadcrumbs.slice(pageIndex + 1);
     pagesToCleanUp.forEach(p => {
